@@ -38,7 +38,7 @@ const GT_SKILL = {
   'GT-MKTOFF-01': 'event-plan', 'GT-MKTOFF-02': 'material-compliance', 'GT-MKTOFF-03': 'roi-review',
   'GT-MKTON-01': 'content-gen', 'GT-MKTON-02': 'ad-analysis', 'GT-MKTON-03': 'seo-audit',
   'GT-PRF-01': 'kpi-track', 'GT-PRF-02': 'calibration-analysis', 'GT-PRF-03': 'goal-cascade',
-  'GT-REC-01': 'funnel-analysis', 'GT-REC-02': 'jd-gen', 'GT-REC-03': 'interview-summary',
+  'GT-REC-01': 'funnel-analysis', 'GT-REC-02': 'jd-gen', 'GT-REC-03': 'resume-screening',
   'GT-SALES-01': 'quote-calc', 'GT-SALES-02': 'win-review', 'GT-SALES-03': 'quota-dashboard',
   'GT-STRAT-01': 'strategy-decode', 'GT-STRAT-02': 'biz-analysis', 'GT-STRAT-03': 'competitor-watch',
   'GT-TRN-01': 'course-schedule', 'GT-TRN-02': 'hour-stats', 'GT-TRN-03': 'cert-expiry',

@@ -1,0 +1,50 @@
+{
+  "schema": "pids-nexus/shell-write-verification/v1",
+  "generated_at": "2026-09-30T06:05:50.137Z",
+  "url": "http://127.0.0.1:3091/?token=***",
+  "pass": false,
+  "passed": 7,
+  "total": 8,
+  "records": [
+    {
+      "id": "task-board.state.read",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.create",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.create.persisted",
+      "pass": true,
+      "note": "revision=6"
+    },
+    {
+      "id": "task-board.move",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.archive",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.restore",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.delete",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "shell.writes.exception",
+      "pass": false,
+      "note": "apiRequestContext.post: read ECONNRESET\nCall log:\n\u001b[2m  - → POST http://127.0.0.1:3091/api/dsh-skill-explorer/create\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\u001b[2m    - Origin: http://127.0.0.1:3091\u001b[22m\n\u001b[2m    - sec-fetch-site: same-origin\u001b[22m\n\u001b[2m    - content-type: application/json\u001b[22m\n\u001b[2m    - content-length: 300\u001b[22m\n\u001b[2m    - cookie: dsh-auth-yAUzTKJL90h9WF4Vacqpc8dYu5dTzrcgoJ5QR6ogE8s=v1.eyJ2ZXJzaW9uIjoxLCJhdXRob3JpdHkiOiIxMjcuMC4wLjE6MzA5MSIsImlzc3VlZEF0IjoxNzkwNzQ4MzQxMzQ4LCJleHBpcmVzQXQiOjE3OTMzNDAzNDEzNDh9.YdLrFmuDY9xkTEBQlhS1rMi_gt06-fwwXYT33eN1uMY\u001b[22m\n\n    at skillCenterWriteGate (F:\\Pi_DSH_workplace\\universal-workbench-3.0\\scripts\\verify-shell-writes.mjs:111:37)\n    at async file:///F:/Pi_DSH_workplace/universal-workbench-3.0/scripts/verify-shell-writes.mjs:170:3"
+    }
+  ]
+}

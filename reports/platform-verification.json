@@ -1,0 +1,730 @@
+{
+  "generated_at": "2026-09-30T06:04:54.945Z",
+  "workspace_root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\qa-platform-1790748141400",
+  "total": 19,
+  "passed": 19,
+  "failed": 0,
+  "records": [
+    {
+      "id": "definitions.count",
+      "pass": true,
+      "note": "count=78"
+    },
+    {
+      "id": "definitions.stages",
+      "pass": true,
+      "note": "minStages=7"
+    },
+    {
+      "id": "strategy.domains",
+      "pass": true,
+      "note": "domains=13"
+    },
+    {
+      "id": "strategy.keyResults",
+      "pass": true,
+      "note": "krs=5"
+    },
+    {
+      "id": "strategy.lineage",
+      "pass": true,
+      "note": "version=d0bee6c7abdc3773455a68f1b198354f8d6a36403f0b75d68a6b002c6129b8b6"
+    },
+    {
+      "id": "workflow.normal.complete",
+      "pass": true,
+      "note": "strat.weekly-report@1.0.0 status=completed"
+    },
+    {
+      "id": "workflow.normal.artifacts",
+      "pass": true,
+      "note": "artifacts=3"
+    },
+    {
+      "id": "workflow.normal.strategy",
+      "pass": true,
+      "note": "metrics=1"
+    },
+    {
+      "id": "workflow.approval.awaiting",
+      "pass": true,
+      "note": "status=awaiting_approval"
+    },
+    {
+      "id": "workflow.approval.duplicate-blocked",
+      "pass": true,
+      "note": "workflow=strat.quarterly-review@1.0.0"
+    },
+    {
+      "id": "workflow.approval.complete",
+      "pass": true,
+      "note": "status=completed"
+    },
+    {
+      "id": "workflow.model.blocked",
+      "pass": true,
+      "note": "status=blocked_model error=MODEL_UNAVAILABLE: 未配置模型执行器"
+    },
+    {
+      "id": "workflow.model.resume",
+      "pass": true,
+      "note": "status=completed"
+    },
+    {
+      "id": "workflow.sensitive-output.blocked",
+      "pass": true,
+      "note": "status=blocked_model error=LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "id": "backups.created",
+      "pass": true,
+      "note": "count=15"
+    },
+    {
+      "id": "workspace.override",
+      "pass": true,
+      "note": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\qa-platform-1790748141400"
+    },
+    {
+      "id": "data.import.backup",
+      "pass": true,
+      "note": "backup=20260930-060230603-import-1790748150603"
+    },
+    {
+      "id": "data.import.version",
+      "pass": true,
+      "note": "before=d0bee6c7abdc after=00f1b533cc42"
+    },
+    {
+      "id": "workflow.matrix.78",
+      "pass": true,
+      "note": "pass=78 fail=0"
+    }
+  ],
+  "workflow_matrix": [
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7P06-1A33FE",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7Q36-9B2942",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7QFX-4898CE",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7R1U-6E6B34",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7RGD-161690",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7RUB-9DEFB2",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7SWJ-375B83",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7TYH-1BC633",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7UL2-FF6BBE",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7VSD-FA8BC0",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7X6M-A9724A",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7XQK-1B12AE",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP7Z6Q-58BAC5",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP80P6-67A176",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP82SV-C9829D",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP84VA-821152",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP85ZF-858828",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP886V-CA488A",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP89N1-4A3B3A",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8CSM-CD0744",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8DYE-096243",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8F24-17B09B",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8FXN-D3AAA4",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8HEF-E10A1C",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8I51-EF1DA5",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8JBJ-BAF830",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8JUY-D86AA2",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8LS2-9F9DF4",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8MG8-9A05D8",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8NCS-404D5E",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8ORZ-B93C87",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8RDB-A3A656",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8SQW-760B25",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8T7H-2C2C05",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8TZN-3D0BD2",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8XH5-A06E73",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP8YHG-42EC3F",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP90KU-D8D6FC",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP91KP-D8CBD3",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP92AB-5747CD",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP92UB-90B274",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP93UA-3299A3",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP94HE-5ED4F0",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP95J7-E767E3",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP96VO-88BEA1",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP984R-557BED",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP98XU-FAF0F8",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP99SW-250949",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9AVV-B844CA",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9CR2-BE14CB",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9DTE-10AEFD",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9EVN-56B279",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9FQZ-A07186",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9GQY-187C27",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9H5R-DAF62C",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9I9V-3D950E",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9IXN-10A89A",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9JXM-EE63B6",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9MYI-450EAE",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9OAY-F60BC3",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9PA6-E0780D",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9RSM-D8D8DB",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9UI6-77B763",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9VY6-E4D798",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9X99-EAC7FC",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNP9YO2-1DED89",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPA1FS-B12E63",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPA2N9-382109",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPA533-410B54",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPA84Z-4833B8",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPA9WO-8D6867",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPAB15-CB5581",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPACJK-C2FD27",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPAFP6-801EC3",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPAK37-EDAFF8",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPAMCC-90F72D",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPAO05-BCE85A",
+      "stages_passed": true,
+      "artifacts": 3
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "pass": true,
+      "status": "completed",
+      "instance_id": "WI-MUNPAPRU-70C6EE",
+      "stages_passed": true,
+      "artifacts": 3
+    }
+  ]
+}

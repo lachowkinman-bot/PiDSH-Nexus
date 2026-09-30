@@ -5,6 +5,11 @@
     "verify:deliveries": "node scripts/verify-delivery-matrix.mjs",
     "verify:delivery-ui": "node scripts/verify-delivery-ui.mjs",
     "verify:app": "node scripts/verify-app.mjs",
+    "verify:platform": "node scripts/verify-workflow-platform.mjs",
+    "verify:shell": "node scripts/verify-shell-modules.mjs",
+    "verify:shell-writes": "node scripts/verify-shell-writes.mjs",
+    "verify:workbench-ui": "node scripts/verify-workbench-ui-v4.mjs",
+    "skills:enrich": "node scripts/enrich-domain-skills.mjs",
     "build:app": "node scripts/build-app.mjs"
   },
   "dependencies": {

@@ -14,7 +14,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-29T09:49:54.409Z",
+ "generated_at": "2026-09-30T05:10:13.563Z",
  "sources": {
   "scenes": [
    "manifests/scenes/cmp.policy-review.yaml"

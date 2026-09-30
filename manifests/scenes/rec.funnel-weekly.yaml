@@ -13,7 +13,7 @@ data_assets:
   - name: interviews.xlsx
     level: L3
     pii_fields: []
-skills: [funnel-analysis, jd-gen, interview-summary]
+skills: [funnel-analysis, jd-gen, resume-screening, interview-design, offer-evaluation, onboarding-plan]
 workflows: [workflows/rec.resume-forward.yaml, workflows/rec.funnel-report.yaml]
 policies:
   permission:

@@ -15,7 +15,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-29T09:49:54.404Z",
+ "generated_at": "2026-09-30T05:10:13.554Z",
  "sources": {
   "scenes": [
    "manifests/scenes/admin.procurement.yaml"

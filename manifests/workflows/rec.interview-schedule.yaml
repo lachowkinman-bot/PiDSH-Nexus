@@ -1,20 +1,20 @@
 apiVersion: workbench.pi-dsh/v1
 workflow_id: rec.interview-schedule@1.0.0
 domain: rec
-description: "面试安排（ interviewer 冲突检测）"
+description: "面试安排、针对性题库与评分卡"
 trigger:
   type: command
   expr: interview-schedule
 nodes:
   - id: n1
     type: skill
-    ref: interview-summary
+    ref: interview-design
   - id: n2
     type: tool
     ref: cap.excel.panel.write
   - id: n3
     type: audit
-    record: "面试安排（ interviewer 冲突检测）：输入参数 + 结果快照"
+    record: "面试安排、针对性题库与评分卡：输入参数 + 结果快照"
 deliverable:
   file: interview-schedule-<ts>.json
   format: json
@@ -23,7 +23,10 @@ deliverable:
     - slot
     - interviewers
     - mode
-  acceptance: "同一面试官同时段冲突须标红"
+    - question_bank_id
+    - scorecard_id
+    - conflicts
+  acceptance: "面试官冲突须标红；题库覆盖全部能力项"
 hitl_nodes:
 rollback:
   method: savepoint

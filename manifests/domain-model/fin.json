@@ -15,7 +15,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-29T09:49:54.414Z",
+ "generated_at": "2026-09-30T05:10:13.574Z",
  "sources": {
   "scenes": [
    "manifests/scenes/fin.expense-approve.yaml"

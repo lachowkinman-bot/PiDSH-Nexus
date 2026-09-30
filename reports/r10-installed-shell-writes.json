@@ -1,0 +1,85 @@
+{
+  "schema": "pids-nexus/shell-write-verification/v1",
+  "generated_at": "2026-09-30T06:49:56.280Z",
+  "url": "http://127.0.0.1:3093/?token=***",
+  "pass": true,
+  "passed": 15,
+  "total": 15,
+  "records": [
+    {
+      "id": "task-board.state.read",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.create",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.create.persisted",
+      "pass": true,
+      "note": "revision=1"
+    },
+    {
+      "id": "task-board.move",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.archive",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.restore",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "task-board.delete",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "skills.create",
+      "pass": true,
+      "note": "http=200 path=F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r10-installed\\.dsh-home\\skills\\qa-shell-1790750985133\\SKILL.md"
+    },
+    {
+      "id": "skills.disable",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "skills.update",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "skills.trash",
+      "pass": true,
+      "note": "http=200"
+    },
+    {
+      "id": "skills.file.removed",
+      "pass": true,
+      "note": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r10-installed\\.dsh-home\\skills\\qa-shell-1790750985133\\SKILL.md"
+    },
+    {
+      "id": "usage.export.daily",
+      "pass": true,
+      "note": "http=200 bytes=145 safe=true"
+    },
+    {
+      "id": "usage.export.sessions",
+      "pass": true,
+      "note": "http=200 bytes=95 safe=true"
+    },
+    {
+      "id": "usage.export.json",
+      "pass": true,
+      "note": "http=200 bytes=2273 safe=true"
+    }
+  ]
+}

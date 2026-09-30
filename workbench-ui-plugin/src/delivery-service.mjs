@@ -226,8 +226,8 @@ function loadWorkflow(root, workflowId) {
   return workflow;
 }
 
-function readSourceTables(root, domain, profile) {
-  const dir = path.join(root, 'templates', 'workspace', 'data', domain);
+function readSourceTables(dataRoot, domain, profile) {
+  const dir = path.join(dataRoot, domain);
   const names = [profile.primary_table, profile.secondary_table].filter(Boolean);
   const tables = [];
   for (const name of names) {
@@ -537,9 +537,9 @@ function artifactRecord(root, file, format) {
   };
 }
 
-function validatePackage(root, runDir, expectedFormats) {
+function validatePackage(deliverablesDir, runDir, expectedFormats) {
   const absolute = path.resolve(runDir);
-  if (!absolute.startsWith(path.resolve(root, 'deliverables') + path.sep)) {
+  if (!absolute.startsWith(path.resolve(deliverablesDir) + path.sep)) {
     throw new DeliveryError('INVALID_DELIVERY_PATH', '交付目录越界');
   }
   const manifestFile = path.join(absolute, 'manifest.json');
@@ -556,13 +556,20 @@ function validatePackage(root, runDir, expectedFormats) {
   return manifest;
 }
 
-export function createDeliveryService({ root, audit = () => {} }) {
-  const rootDir = path.resolve(root);
-  const deliverablesDir = path.join(rootDir, 'deliverables');
-  const fontFile = path.join(rootDir, 'assets', 'fonts', 'NotoSansCJKsc-Regular.otf');
+export function createDeliveryService({ root, workspaceRoot, audit = () => {} }) {
+  const bundleDir = path.resolve(root);
+  const explicitWorkspace = workspaceRoot ? path.resolve(workspaceRoot) : null;
+  const workspaceDir = explicitWorkspace || bundleDir;
+  const deliverablesDir = explicitWorkspace
+    ? path.join(explicitWorkspace, 'deliverables')
+    : path.join(bundleDir, 'deliverables');
+  const dataDir = explicitWorkspace
+    ? path.join(explicitWorkspace, 'data')
+    : path.join(bundleDir, 'templates', 'workspace', 'data');
+  const fontFile = path.join(bundleDir, 'assets', 'fonts', 'NotoSansCJKsc-Regular.otf');
 
   function profiles() {
-    return loadProfiles(rootDir);
+    return loadProfiles(bundleDir);
   }
 
   function normalizeFormats(formats) {
@@ -582,9 +589,9 @@ export function createDeliveryService({ root, audit = () => {} }) {
     const requestedFormats = normalizeFormats(options.formats);
     if (requestedFormats.length === 0) throw new DeliveryError('FORMAT_REQUIRED', '至少选择一种格式', 400);
     const workflowId = options.workflowId || profile.workflow_id;
-    const model = loadDomainModel(rootDir, domain);
-    const workflow = loadWorkflow(rootDir, workflowId);
-    const tables = readSourceTables(rootDir, domain, profile);
+    const model = loadDomainModel(bundleDir, domain);
+    const workflow = loadWorkflow(bundleDir, workflowId);
+    const tables = readSourceTables(dataDir, domain, profile);
     const generatedAt = new Date().toISOString();
     const stamp = generatedAt.replace(/[-:.]/g, '').replace('T', '-').replace('Z', '');
     const runId = `${stamp}-${crypto.randomBytes(4).toString('hex')}`;
@@ -598,40 +605,40 @@ export function createDeliveryService({ root, audit = () => {} }) {
       if (requestedFormats.includes('md')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.md);
         fs.writeFileSync(file, report.markdown, 'utf8');
-        artifacts.push(artifactRecord(rootDir, file, 'md'));
+        artifacts.push(artifactRecord(workspaceDir, file, 'md'));
       }
       if (requestedFormats.includes('csv')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.csv);
         fs.writeFileSync(file, stringifyCsv(tables[0].headers, tables[0].rows), 'utf8');
-        artifacts.push(artifactRecord(rootDir, file, 'csv'));
+        artifacts.push(artifactRecord(workspaceDir, file, 'csv'));
       }
       if (requestedFormats.includes('html')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.html);
         fs.writeFileSync(file, renderHtml(profile.title, report.markdown), 'utf8');
-        artifacts.push(artifactRecord(rootDir, file, 'html'));
+        artifacts.push(artifactRecord(workspaceDir, file, 'html'));
       }
       if (requestedFormats.includes('xlsx')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.xlsx);
         await writeXlsx(file, tables[0], tables, report.metrics);
-        artifacts.push(artifactRecord(rootDir, file, 'xlsx'));
+        artifacts.push(artifactRecord(workspaceDir, file, 'xlsx'));
       }
       if (requestedFormats.includes('docx')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.docx);
         await writeDocx(file, profile, report, tables);
-        artifacts.push(artifactRecord(rootDir, file, 'docx'));
+        artifacts.push(artifactRecord(workspaceDir, file, 'docx'));
       }
       if (requestedFormats.includes('pptx')) {
-        await writePptx(rootDir, tempDir, profile, report, tables);
-        artifacts.push(artifactRecord(rootDir, path.join(tempDir, FILE_BY_FORMAT.pptx), 'pptx'));
+        await writePptx(bundleDir, tempDir, profile, report, tables);
+        artifacts.push(artifactRecord(workspaceDir, path.join(tempDir, FILE_BY_FORMAT.pptx), 'pptx'));
       }
       if (requestedFormats.includes('pdf')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.pdf);
         await writePdf(file, profile, report, tables, fontFile);
-        artifacts.push(artifactRecord(rootDir, file, 'pdf'));
+        artifacts.push(artifactRecord(workspaceDir, file, 'pdf'));
       }
       const publishedArtifacts = artifacts.map((item) => {
         const finalFile = path.join(finalDir, path.basename(item.path));
-        const relative = toPosix(path.relative(rootDir, finalFile));
+        const relative = toPosix(path.relative(workspaceDir, finalFile));
         return {
           ...item,
           id: relative,
@@ -651,7 +658,7 @@ export function createDeliveryService({ root, audit = () => {} }) {
         formats: requestedFormats,
         data_note: profileDoc.data_note,
         source_tables: tables.map((table) => ({
-          file: toPosix(path.relative(rootDir, table.file)),
+          file: toPosix(path.relative(workspaceDir, table.file)),
           rows: table.rows.length,
           columns: table.headers.length,
           bytes: table.bytes,
@@ -661,12 +668,12 @@ export function createDeliveryService({ root, audit = () => {} }) {
         artifacts: publishedArtifacts,
       };
       fs.writeFileSync(path.join(tempDir, 'manifest.json'), JSON.stringify(manifest, null, 2), 'utf8');
-      validatePackage(rootDir, tempDir, requestedFormats);
+      validatePackage(deliverablesDir, tempDir, requestedFormats);
       fs.renameSync(tempDir, finalDir);
       const published = {
         ...manifest,
-        path: toPosix(path.relative(rootDir, finalDir)),
-        manifestPath: toPosix(path.relative(rootDir, path.join(finalDir, 'manifest.json'))),
+        path: toPosix(path.relative(workspaceDir, finalDir)),
+        manifestPath: toPosix(path.relative(workspaceDir, path.join(finalDir, 'manifest.json'))),
         artifacts: publishedArtifacts,
       };
       audit('deliverable.package.create', {
@@ -703,12 +710,12 @@ export function createDeliveryService({ root, audit = () => {} }) {
         output.push({
           domain: name,
           runId: entry,
-          path: toPosix(path.relative(rootDir, path.join(dir, entry))),
+          path: toPosix(path.relative(workspaceDir, path.join(dir, entry))),
           generatedAt: manifest.generated_at,
           title: manifest.title,
           formats: manifest.formats,
           artifactCount: (manifest.artifacts || []).length,
-          manifest: toPosix(path.relative(rootDir, manifestFile)),
+          manifest: toPosix(path.relative(workspaceDir, manifestFile)),
           artifacts: (manifest.artifacts || []).map((artifact) => {
             const normalized = artifact.file && artifact.file.includes('/.tmp-')
               ? `deliverables/${name}/${entry}/${path.basename(artifact.file)}`
@@ -731,7 +738,7 @@ export function createDeliveryService({ root, audit = () => {} }) {
   function resolveArtifact(id) {
     const relative = String(id || '').replace(/\\/g, '/');
     if (!relative || relative.includes('..') || path.isAbsolute(relative)) throw new DeliveryError('INVALID_ARTIFACT_ID', '非法交付物标识', 400);
-    const file = path.resolve(rootDir, relative);
+    const file = path.resolve(workspaceDir, relative);
     const prefix = `${deliverablesDir}${path.sep}`;
     if (!file.startsWith(prefix)) throw new DeliveryError('ARTIFACT_OUTSIDE_ROOT', '交付物路径越界', 400);
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) throw new DeliveryError('ARTIFACT_NOT_FOUND', '交付物不存在', 404);
@@ -753,7 +760,9 @@ export function createDeliveryService({ root, audit = () => {} }) {
   }
 
   return {
-    root: rootDir,
+    root: bundleDir,
+    workspaceDir,
+    dataDir,
     deliverablesDir,
     profiles,
     deliverDomain,

@@ -1,0 +1,212 @@
+{
+  "schema": "pids-nexus/strategy-model/v1",
+  "period": "2026-Q4",
+  "objective": {
+    "id": "OBJ-2026Q4-GROWTH",
+    "title": "华南区高质量增长与组织韧性",
+    "owner": "总经理办公室",
+    "baseline": 0,
+    "target": 100,
+    "unit": "%",
+    "description": "以战略目标为顶层，通过营销获客、销售转化、财务约束、人才供给、能力建设、绩效激励、薪酬福利、行政保障、合规控制和员工关系形成经营闭环。"
+  },
+  "key_results": [
+    {
+      "id": "KR-REV",
+      "title": "季度确认收入达到 3,600 万元",
+      "metric": "revenue_wan",
+      "baseline": 0,
+      "target": 3600,
+      "unit": "万元",
+      "owner": "财务负责人",
+      "domain": "fin",
+      "metric_definition": { "kind": "sum", "table": "budget.csv", "column": "revenue_wan" }
+    },
+    {
+      "id": "KR-PIPE",
+      "title": "有效销售管道达到 25,000 千元",
+      "metric": "active_pipeline_k",
+      "baseline": 0,
+      "target": 25000,
+      "unit": "千元",
+      "owner": "销售负责人",
+      "domain": "sales",
+      "metric_definition": { "kind": "sum", "table": "pipeline.csv", "column": "amount_k", "exclude": { "stage": ["输单"] } }
+    },
+    {
+      "id": "KR-TALENT",
+      "title": "季度成功入职不少于 60 人",
+      "metric": "hired_count",
+      "baseline": 0,
+      "target": 60,
+      "unit": "人",
+      "owner": "招聘负责人",
+      "domain": "rec",
+      "metric_definition": { "kind": "sum", "table": "funnel.csv", "column": "count", "where": { "stage": ["入职"] } }
+    },
+    {
+      "id": "KR-CAPABILITY",
+      "title": "培训平均通过率达到 85%",
+      "metric": "training_pass_rate",
+      "baseline": 0,
+      "target": 85,
+      "unit": "%",
+      "owner": "人力资源负责人",
+      "domain": "trn",
+      "metric_definition": { "kind": "avg", "table": "courses.csv", "column": "pass_rate" }
+    },
+    {
+      "id": "KR-CONTROL",
+      "title": "合规与风险事项闭环率达到 85%",
+      "metric": "control_closure_rate",
+      "baseline": 0,
+      "target": 85,
+      "unit": "%",
+      "owner": "合规负责人",
+      "domain": "cmp",
+      "metric_definition": {
+        "kind": "ratio",
+        "table": "policy_checklist.csv",
+        "numerator": { "kind": "count", "exclude": { "status": ["待整改", "不合规"] } },
+        "denominator": { "kind": "count" },
+        "multiply": 100
+      }
+    }
+  ],
+  "domains": {
+    "strat": {
+      "label": "战略 STRAT",
+      "north_star": "战略目标达成率",
+      "metric": { "kind": "avg", "table": "okr.csv", "column": "progress_pct" },
+      "unit": "%",
+      "contributes_to": ["KR-REV", "KR-PIPE", "KR-TALENT", "KR-CAPABILITY", "KR-CONTROL"],
+      "weight": 0.1
+    },
+    "mkt-on": {
+      "label": "营销（线上）MKT-ON",
+      "north_star": "合格线索与预计商机价值",
+      "metric": { "kind": "sum", "table": "leads.csv", "column": "est_value_wan", "exclude": { "stage": ["无效", "已关闭"] } },
+      "unit": "万元",
+      "contributes_to": ["KR-PIPE", "KR-REV"],
+      "weight": 0.08
+    },
+    "mkt-off": {
+      "label": "营销（线下）MKT-OFF",
+      "north_star": "活动投入产出比",
+      "metric": { "kind": "avg", "table": "events.csv", "column": "roi" },
+      "unit": "倍",
+      "contributes_to": ["KR-PIPE", "KR-REV"],
+      "weight": 0.07
+    },
+    "sales": {
+      "label": "销售 SALES",
+      "north_star": "有效管道与赢单收入",
+      "metric": { "kind": "sum", "table": "pipeline.csv", "column": "amount_k", "exclude": { "stage": ["输单"] } },
+      "unit": "千元",
+      "contributes_to": ["KR-PIPE", "KR-REV"],
+      "weight": 0.14
+    },
+    "fin": {
+      "label": "财务 FIN",
+      "north_star": "确认收入与预算执行质量",
+      "metric": { "kind": "sum", "table": "budget.csv", "column": "revenue_wan" },
+      "unit": "万元",
+      "contributes_to": ["KR-REV"],
+      "weight": 0.14
+    },
+    "rec": {
+      "label": "招聘 REC",
+      "north_star": "招聘质量、速度与 90 天留存",
+      "metric": {
+        "kind": "ratio",
+        "table": "funnel.csv",
+        "numerator": { "kind": "sum", "column": "count", "where": { "stage": ["入职"] } },
+        "denominator": { "kind": "sum", "column": "count", "where": { "stage": ["简历投递"] } },
+        "multiply": 100
+      },
+      "unit": "%",
+      "contributes_to": ["KR-TALENT", "KR-CAPABILITY"],
+      "weight": 0.08
+    },
+    "trn": {
+      "label": "培训 TRN",
+      "north_star": "能力缺口闭合与证书合规",
+      "metric": { "kind": "avg", "table": "courses.csv", "column": "pass_rate" },
+      "unit": "%",
+      "contributes_to": ["KR-CAPABILITY", "KR-CONTROL"],
+      "weight": 0.06
+    },
+    "prf": {
+      "label": "绩效 PRF",
+      "north_star": "目标达成率与校准质量",
+      "metric": { "kind": "avg", "table": "kpi.csv", "column": "rate" },
+      "unit": "%",
+      "contributes_to": ["KR-REV", "KR-CAPABILITY"],
+      "weight": 0.08
+    },
+    "comp": {
+      "label": "薪酬 COMP",
+      "north_star": "薪酬带宽、成本与保留风险",
+      "metric": {
+        "kind": "ratio",
+        "table": "adjust_queue.csv",
+        "numerator": { "kind": "count", "exclude": { "status": ["草稿", "待审批", "双审批中"] } },
+        "denominator": { "kind": "count" },
+        "multiply": 100
+      },
+      "unit": "%",
+      "contributes_to": ["KR-TALENT", "KR-CAPABILITY", "KR-CONTROL"],
+      "weight": 0.05
+    },
+    "ben": {
+      "label": "福利 BEN",
+      "north_star": "员工满意度、使用率与人均成本",
+      "metric": { "kind": "avg", "table": "plans.csv", "column": "satisfaction_score" },
+      "unit": "分",
+      "contributes_to": ["KR-TALENT", "KR-CAPABILITY"],
+      "weight": 0.04
+    },
+    "admin": {
+      "label": "行政 ADMIN",
+      "north_star": "资产利用、采购节约与服务 SLA",
+      "metric": {
+        "kind": "ratio",
+        "table": "assets.csv",
+        "numerator": { "kind": "count", "where": { "status": ["在用"] } },
+        "denominator": { "kind": "count" },
+        "multiply": 100
+      },
+      "unit": "%",
+      "contributes_to": ["KR-REV", "KR-CONTROL"],
+      "weight": 0.04
+    },
+    "cmp": {
+      "label": "合规 CMP",
+      "north_star": "合规率、风险闭环与审计发现",
+      "metric": {
+        "kind": "ratio",
+        "table": "policy_checklist.csv",
+        "numerator": { "kind": "count", "exclude": { "status": ["待整改", "不合规"] } },
+        "denominator": { "kind": "count" },
+        "multiply": 100
+      },
+      "unit": "%",
+      "contributes_to": ["KR-CONTROL"],
+      "weight": 0.08
+    },
+    "er-eap": {
+      "label": "员工关系/EAP",
+      "north_star": "案件闭环、留存与组织健康",
+      "metric": {
+        "kind": "ratio",
+        "table": "eap_referrals.csv",
+        "numerator": { "kind": "count", "where": { "status": ["已结案"] } },
+        "denominator": { "kind": "count" },
+        "multiply": 100
+      },
+      "unit": "%",
+      "contributes_to": ["KR-TALENT", "KR-CAPABILITY", "KR-CONTROL"],
+      "weight": 0.04
+    }
+  }
+}

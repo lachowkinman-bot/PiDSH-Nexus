@@ -1,0 +1,867 @@
+{
+  "schema": "pids-nexus/shell-module-actions/v1",
+  "generated_at": "2026-09-30T00:00:00.000Z",
+  "scope": "DSH main shell modules visible in the PiDSH Nexus desktop application",
+  "policy": {
+    "t1_brand_renaming": "paused",
+    "local_acceptance": "all registered local actions must respond, persist where applicable, expose an artifact or durable state, and emit evidence",
+    "external_acceptance": "configured actions must work; unconfigured actions must show a setup path, explicit error, and safe disabled/degraded state",
+    "unregistered_interactive_control": "fail",
+    "destructive_actions": "use isolated QA workspace and restore the pre-action snapshot before recording final evidence",
+    "sensitive_data": "never record raw credentials, cookies, tokens, PII, or full sensitive payloads in evidence"
+  },
+  "global_control_patterns": [
+    "^(新会话|新建会话)$",
+    "^(收起|展开)侧边栏$",
+    "^(插件|通知与控制|任务看板|技能中心|记忆系统|用量/余额|上下文洞察|设置)$",
+    "^⟡ 工作台$",
+    "^搜索会话(名称)?$",
+    "^视图选项$",
+    "^添加工作区$",
+    "^选择工作区$",
+    "^打开右侧边栏$",
+    "^(标准模式|计划模式|自动模式)$",
+    "^(添加文件或调用指令|选择技能|选择模型.*|发送消息|访问模式.*)$",
+    "^(余额 .+|打开 DeepSeek 充值页.*|查看后台 agent)$",
+    "^PR Board$",
+    "^(项目|筛选任务…)$",
+    "^(1 min poll|2 min poll|5 min poll|10 min poll|30 min poll|Settings|Refresh|Close|→ Issues)$",
+    "^1 min poll 2 min poll 5 min poll 10 min poll 30 min poll$",
+    "^(上个月|下个月|\\d{4}-\\d{2}-\\d{2} · .+ tokens)$",
+    "^(近 24 小时|近 7 天|近 30 天|最近更新|Token 总用量|步数|充值余额: .+)$",
+    "^(打开高级管理台|检查版本|设置 打开插件设置|搜索标题 / 目录 / 最后消息…)$",
+    "^(主驾驶舱|13 域工作台|工作流 \\(78\\)|交付物|审计|F7 离线|F8 升级回退|F11 自检|打开 13 域驾驶舱 ↗)$",
+    "^(选/用（apply）|存（save）|切（switch）|新建（派生自所选 Scene）|编辑保存|查看 13 域工作台|打开域工作台 ↗)$",
+    "^(— 选择 preset —|新建 preset 名称.*|先“新建”一个派生 preset)$",
+    "^(调用|运行|查看|启用|禁用) .+$",
+    "^(通用|模型|插件|Agent|网络|网页搜索|记忆).*$",
+    "^(手机访问|费用|快照|团队房间|备份与迁移|侧边卡片|打开配置文件|工作区内修改|中文|浅色|深色|跟随系统|增大字号|减小字号|标准|详细|代码工作工具|编辑快捷键|排队发送|撤销快捷键)$",
+    "^— 选择 preset — .+$",
+    "^📎$",
+    "^(知道了|跳过|稍后|下一步|关闭提示|保留当前显示|开启简化显示|加载中)$",
+    "^(审批中心|运行与回退|运行季度战略复盘)$",
+    "^(战略 STRAT|营销（线上）MKT-ON|营销（线下）MKT-OFF|销售 SALES|财务 FIN|招聘 REC|培训 TRN|绩效 PRF|薪酬 COMP|福利 BEN|行政 ADMIN|合规 CMP|员工关系/EAP).+$"
+  ],
+  "modules": [
+    {
+      "id": "session",
+      "label": "会话界面",
+      "sidebar_label": "新会话",
+      "tier": "mixed",
+      "external_dependencies": ["model_api"],
+      "entry": { "kind": "click_text", "text": "新会话" },
+      "actions": [
+        {
+          "id": "session.create",
+          "label": "新建会话",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["新会话"],
+          "persistence": ["session_history"],
+          "evidence": ["screenshot", "dom_state"]
+        },
+        {
+          "id": "session.send",
+          "label": "发送一轮消息",
+          "kind": "compose_submit",
+          "tier": "external",
+          "selectors": ["描述你想要构建的内容", "textarea", "[contenteditable=true]"],
+          "output": ["assistant_response", "session_transcript"],
+          "security_gate": ["model_credentials", "prompt_redaction"],
+          "evidence": ["screenshot", "network", "session_delta"]
+        },
+        {
+          "id": "session.stop",
+          "label": "停止运行中的回复",
+          "kind": "click",
+          "tier": "external",
+          "precondition": "active_turn",
+          "selectors": ["停止", "Stop", "stop"],
+          "security_gate": ["active_turn"],
+          "evidence": ["screenshot", "turn_state"]
+        },
+        {
+          "id": "session.resume",
+          "label": "重新打开历史会话",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["会话", "历史"],
+          "persistence": ["session_history"],
+          "evidence": ["screenshot", "session_id"]
+        },
+        {
+          "id": "session.attachment",
+          "label": "添加附件",
+          "kind": "file_upload",
+          "tier": "local",
+          "selectors": ["添加附件", "附件", "添加文件或调用指令", "📎"],
+          "read": ["upload_fixture"],
+          "output": ["attachment_binding"],
+          "backup": ["qa_workspace_snapshot"],
+          "security_gate": ["file_type", "size_limit", "sensitive_path"],
+          "evidence": ["screenshot", "file_hash", "session_delta"]
+        },
+        {
+          "id": "session.export",
+          "label": "导出会话",
+          "kind": "download",
+          "tier": "local",
+          "precondition": "non_empty_transcript",
+          "selectors": ["导出"],
+          "output": ["session_export"],
+          "security_gate": ["redaction"],
+          "evidence": ["download_path", "file_hash"]
+        }
+      ]
+    },
+    {
+      "id": "plugins",
+      "label": "插件",
+      "sidebar_label": "插件",
+      "tier": "mixed",
+      "external_dependencies": ["plugin_market", "component_network"],
+      "entry": { "kind": "click_text", "text": "插件" },
+      "actions": [
+        {
+          "id": "plugins.list",
+          "label": "打开插件列表",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["插件"],
+          "read": ["installed_plugins"],
+          "evidence": ["screenshot", "dom_state"]
+        },
+        {
+          "id": "plugins.search",
+          "label": "搜索插件",
+          "kind": "fill",
+          "tier": "local",
+          "selectors": ["搜索插件", "搜索组件", "搜索"],
+          "input": ["fixture_query"],
+          "evidence": ["screenshot", "result_count"]
+        },
+        {
+          "id": "plugins.toggle.enable",
+          "label": "启用本地测试插件",
+          "kind": "toggle",
+          "tier": "local",
+          "selectors": ["测试插件"],
+          "read": ["plugin_manifest"],
+          "write": ["plugin_enable_state"],
+          "backup": ["profile_state"],
+          "security_gate": ["fixture_only", "rollback_required"],
+          "evidence": ["screenshot", "plugin_state", "restart_check"]
+        },
+        {
+          "id": "plugins.toggle.disable",
+          "label": "禁用本地测试插件",
+          "kind": "toggle",
+          "tier": "local",
+          "selectors": ["测试插件"],
+          "write": ["plugin_enable_state"],
+          "backup": ["profile_state"],
+          "security_gate": ["fixture_only", "rollback_required"],
+          "evidence": ["screenshot", "plugin_state", "restart_check"]
+        },
+        {
+          "id": "plugins.configure",
+          "label": "保存插件配置",
+          "kind": "form_submit",
+          "tier": "local",
+          "selectors": ["配置", "插件配置"],
+          "write": ["plugin_config"],
+          "backup": ["profile_state"],
+          "security_gate": ["schema_validation", "secret_masking"],
+          "evidence": ["screenshot", "config_diff"]
+        },
+        {
+          "id": "plugins.add",
+          "label": "打开添加插件流程",
+          "kind": "click",
+          "tier": "external",
+          "selectors": ["添加插件"],
+          "read": ["market_catalog"],
+          "write": ["plugin_install"],
+          "backup": ["profile_state"],
+          "security_gate": ["source_allowlist", "version_pin", "manifest_review"],
+          "evidence": ["screenshot", "setup_hint", "error_or_success"]
+        }
+      ]
+    },
+    {
+      "id": "notifications",
+      "label": "通知与控制",
+      "sidebar_label": "通知与控制",
+      "tier": "mixed",
+      "external_dependencies": ["notification_provider"],
+      "entry": { "kind": "click_text", "text": "通知与控制" },
+      "actions": [
+        {
+          "id": "notifications.status",
+          "label": "查看通知运行状态",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["通知与控制"],
+          "read": ["notification_status", "active_jobs"],
+          "evidence": ["screenshot", "status_snapshot"]
+        },
+        {
+          "id": "notifications.refresh",
+          "label": "刷新通知状态",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["刷新"],
+          "read": ["notification_status"],
+          "evidence": ["screenshot", "request_trace"]
+        },
+        {
+          "id": "notifications.channel.configure",
+          "label": "配置本地桌面通知渠道",
+          "kind": "form_submit",
+          "tier": "local",
+          "selectors": ["设置通知渠道", "管理渠道", "桌面"],
+          "write": ["notification_channel_config"],
+          "backup": ["config_snapshot"],
+          "security_gate": ["secret_masking", "provider_allowlist"],
+          "evidence": ["screenshot", "config_diff", "test_receipt"]
+        },
+        {
+          "id": "notifications.channel.test",
+          "label": "测试通知渠道",
+          "kind": "click",
+          "tier": "mixed",
+          "selectors": ["保存并测试", "测试通知", "测试"],
+          "output": ["test_notification"],
+          "security_gate": ["credential_present", "receipt_required"],
+          "evidence": ["screenshot", "provider_result"]
+        },
+        {
+          "id": "notifications.activity",
+          "label": "查看通知活动",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["最近活动", "查看全部"],
+          "read": ["notification_activity"],
+          "evidence": ["screenshot", "activity_count"]
+        }
+      ]
+    },
+    {
+      "id": "task-board",
+      "label": "任务看板",
+      "sidebar_label": "任务看板",
+      "tier": "mixed",
+      "external_dependencies": ["model_api", "session_roster"],
+      "entry": { "kind": "click_text", "text": "任务看板" },
+      "actions": [
+        {
+          "id": "task-board.open",
+          "label": "打开任务看板",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["任务看板"],
+          "read": ["task_ledger"],
+          "evidence": ["screenshot", "revision"]
+        },
+        {
+          "id": "task-board.create",
+          "label": "新建测试任务",
+          "kind": "form_submit",
+          "tier": "local",
+          "selectors": ["新建任务", "创建任务"],
+          "write": ["task_ledger"],
+          "backup": ["ledger_snapshot"],
+          "security_gate": ["fixture_only", "permission_confirmation"],
+          "evidence": ["screenshot", "task_id", "revision_delta"]
+        },
+        {
+          "id": "task-board.move",
+          "label": "移动任务状态",
+          "kind": "drag_or_menu",
+          "tier": "local",
+          "precondition": "qa_task_exists",
+          "selectors": ["待规划", "待办", "进行中", "已完成"],
+          "write": ["task_ledger"],
+          "backup": ["ledger_snapshot"],
+          "evidence": ["screenshot", "revision_delta"]
+        },
+        {
+          "id": "task-board.schedule",
+          "label": "配置任务调度",
+          "kind": "form_submit",
+          "tier": "local",
+          "precondition": "qa_task_exists",
+          "selectors": ["计划", "调度", "cron"],
+          "write": ["task_schedule"],
+          "backup": ["ledger_snapshot"],
+          "security_gate": ["schedule_syntax", "disabled_by_default"],
+          "evidence": ["screenshot", "next_run_at"]
+        },
+        {
+          "id": "task-board.permission-confirm",
+          "label": "确认高权限绑定",
+          "kind": "click",
+          "tier": "local",
+          "precondition": "high_permission_task_exists",
+          "selectors": ["确认权限", "确认"],
+          "write": ["permission_confirmation"],
+          "security_gate": ["human_only", "binding_hash"],
+          "evidence": ["screenshot", "binding_hash"]
+        },
+        {
+          "id": "task-board.archive",
+          "label": "归档任务",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["归档"],
+          "write": ["task_ledger"],
+          "backup": ["ledger_snapshot"],
+          "evidence": ["screenshot", "revision_delta"]
+        },
+        {
+          "id": "task-board.restore",
+          "label": "恢复归档任务",
+          "kind": "click",
+          "tier": "local",
+          "precondition": "archived_qa_task_exists",
+          "selectors": ["恢复"],
+          "write": ["task_ledger"],
+          "backup": ["ledger_snapshot"],
+          "evidence": ["screenshot", "revision_delta"]
+        },
+        {
+          "id": "task-board.run",
+          "label": "执行测试任务",
+          "kind": "click",
+          "tier": "external",
+          "precondition": "qa_task_exists",
+          "selectors": ["运行", "执行"],
+          "output": ["execution_record", "session"],
+          "security_gate": ["model_credentials", "permission_confirmation"],
+          "evidence": ["screenshot", "execution_id", "session_id"]
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "label": "技能中心",
+      "sidebar_label": "技能中心",
+      "tier": "local",
+      "external_dependencies": [],
+      "entry": { "kind": "click_text", "text": "技能中心" },
+      "actions": [
+        {
+          "id": "skills.list",
+          "label": "打开技能列表",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["技能中心"],
+          "read": ["skill_catalog"],
+          "evidence": ["screenshot", "skill_count"]
+        },
+        {
+          "id": "skills.search",
+          "label": "搜索技能",
+          "kind": "fill",
+          "tier": "local",
+          "selectors": ["按名称或描述筛选"],
+          "input": ["fixture_query"],
+          "evidence": ["screenshot", "result_count"]
+        },
+        {
+          "id": "skills.create",
+          "label": "创建 QA 技能",
+          "kind": "form_submit",
+          "tier": "local",
+          "selectors": ["创建", "新建技能"],
+          "write": ["skill_file"],
+          "backup": ["skill_root_snapshot"],
+          "security_gate": ["fixture_prefix", "size_limit", "path_validation"],
+          "evidence": ["screenshot", "skill_path", "file_hash"]
+        },
+        {
+          "id": "skills.edit",
+          "label": "编辑 QA 技能",
+          "kind": "form_submit",
+          "tier": "local",
+          "selectors": ["编辑"],
+          "write": ["skill_file"],
+          "backup": ["skill_root_snapshot"],
+          "security_gate": ["fixture_prefix", "path_validation"],
+          "evidence": ["screenshot", "file_hash"]
+        },
+        {
+          "id": "skills.disable",
+          "label": "禁用 QA 技能模型调用",
+          "kind": "toggle",
+          "tier": "local",
+          "selectors": ["启用", "禁用", "可调用"],
+          "write": ["skill_frontmatter"],
+          "backup": ["skill_root_snapshot"],
+          "security_gate": ["fixture_prefix"],
+          "evidence": ["screenshot", "frontmatter"]
+        },
+        {
+          "id": "skills.enable",
+          "label": "启用 QA 技能模型调用",
+          "kind": "toggle",
+          "tier": "local",
+          "selectors": ["启用", "禁用", "可调用"],
+          "write": ["skill_frontmatter"],
+          "backup": ["skill_root_snapshot"],
+          "security_gate": ["fixture_prefix"],
+          "evidence": ["screenshot", "frontmatter"]
+        },
+        {
+          "id": "skills.trash",
+          "label": "删除 QA 技能到回收站",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["删除"],
+          "write": ["skill_trash"],
+          "backup": ["skill_root_snapshot"],
+          "security_gate": ["fixture_prefix", "recoverable_delete"],
+          "evidence": ["screenshot", "trash_path"]
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "label": "记忆系统",
+      "sidebar_label": "记忆系统",
+      "tier": "mixed",
+      "external_dependencies": ["mnemon_cli", "memory_provider"],
+      "entry": { "kind": "click_text", "text": "记忆系统" },
+      "actions": [
+        {
+          "id": "memory.status",
+          "label": "查看记忆状态",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["记忆系统", "状态"],
+          "read": ["memory_status"],
+          "evidence": ["screenshot", "status_snapshot"]
+        },
+        {
+          "id": "memory.recheck",
+          "label": "重新检查记忆系统",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["重新检查"],
+          "read": ["memory_status"],
+          "evidence": ["screenshot", "request_trace"]
+        },
+        {
+          "id": "memory.runtime.create",
+          "label": "创建运行时记忆",
+          "kind": "form_submit",
+          "tier": "local",
+          "selectors": ["运行时", "新增", "添加"],
+          "write": ["runtime_memory"],
+          "backup": ["memory_snapshot"],
+          "security_gate": ["fixture_only", "no_pii"],
+          "evidence": ["screenshot", "memory_id"]
+        },
+        {
+          "id": "memory.archive",
+          "label": "查看档案记忆",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["档案"],
+          "read": ["archive_memory"],
+          "evidence": ["screenshot", "memory_count"]
+        },
+        {
+          "id": "memory.space",
+          "label": "查看记忆空间",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["记忆空间"],
+          "read": ["memory_spaces"],
+          "evidence": ["screenshot", "provider_state"]
+        },
+        {
+          "id": "memory.provider.configure",
+          "label": "打开 Provider 配置",
+          "kind": "click",
+          "tier": "external",
+          "precondition": "provider_surface_available",
+          "selectors": ["Provider", "配置", "启用"],
+          "write": ["provider_config"],
+          "backup": ["config_snapshot"],
+          "security_gate": ["credential_present", "provider_allowlist"],
+          "evidence": ["screenshot", "setup_hint", "error_or_success"]
+        }
+      ]
+    },
+    {
+      "id": "workbench",
+      "label": "工作台",
+      "sidebar_label": "⟡ 工作台",
+      "tier": "mixed",
+      "external_dependencies": ["model_api"],
+      "entry": { "kind": "click_text", "text": "工作台" },
+      "actions": [
+        {
+          "id": "workbench.open",
+          "label": "打开壳内工作台",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["⟡ 工作台", "工作台"],
+          "read": ["strategy_dashboard"],
+          "evidence": ["screenshot", "dom_state"]
+        },
+        {
+          "id": "workbench.strategy",
+          "label": "查看战略总看板",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["战略总看板", "主驾驶舱"],
+          "read": ["strategy_model", "metric_snapshots"],
+          "evidence": ["screenshot", "metric_lineage"]
+        },
+        {
+          "id": "workbench.domains",
+          "label": "浏览 13 域工作台",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["13 域工作台"],
+          "read": ["domain_catalog"],
+          "evidence": ["screenshot", "domain_count"]
+        },
+        {
+          "id": "workbench.flows",
+          "label": "查看 78 条工作流",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["工作流", "13 域工作台"],
+          "read": ["workflow_definitions_v2"],
+          "evidence": ["screenshot", "workflow_count"]
+        },
+        {
+          "id": "workbench.instances",
+          "label": "启动、推进、审批、驳回和恢复工作流",
+          "kind": "managed_journey",
+          "tier": "mixed",
+          "precondition": "workbench_v2_installed",
+          "selectors": ["发起", "下一步", "通过", "驳回", "恢复", "重试"],
+          "write": ["workflow_instance", "stage_run", "approval_record"],
+          "backup": ["pre_write_snapshot"],
+          "security_gate": ["schema_validation", "llm_contract", "dual_approval", "redact_gate"],
+          "evidence": ["screenshot", "instance_id", "audit_tail", "artifact_manifest"]
+        },
+        {
+          "id": "workbench.deliverables",
+          "label": "生成并下载 7 格式交付包",
+          "kind": "download",
+          "tier": "local",
+          "selectors": ["交付物", "生成全部格式", "保存"],
+          "output": ["md", "csv", "html", "xlsx", "docx", "pptx", "pdf", "manifest"],
+          "backup": ["pre_write_snapshot"],
+          "security_gate": ["format_validation", "hash_validation", "redact_gate"],
+          "evidence": ["downloads", "file_hash", "artifact_manifest"]
+        },
+        {
+          "id": "workbench.approvals",
+          "label": "打开审批中心",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["审批中心"],
+          "read": ["approval_queue"],
+          "evidence": ["screenshot"]
+        },
+        {
+          "id": "workbench.system",
+          "label": "打开运行与回退",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["运行与回退"],
+          "read": ["tools_versions", "backup_index"],
+          "evidence": ["screenshot"]
+        },
+        {
+          "id": "workbench.audit",
+          "label": "查看审计事件流",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["审计", "审计与备份"],
+          "read": ["audit_jsonl"],
+          "evidence": ["screenshot", "audit_count"]
+        },
+        {
+          "id": "workbench.offline",
+          "label": "查看 F7 离线模式",
+          "kind": "click",
+          "tier": "local",
+          "precondition": "system_view_open",
+          "selectors": ["F7 离线", "F7 离线检查"],
+          "read": ["network_policy"],
+          "evidence": ["screenshot", "network_state"]
+        },
+        {
+          "id": "workbench.upgrade",
+          "label": "查看 F8 升级与回退",
+          "kind": "click",
+          "tier": "local",
+          "precondition": "system_view_open",
+          "selectors": ["F8 升级回退", "F8 回退演练"],
+          "read": ["tools_versions"],
+          "evidence": ["screenshot", "rollback_dryrun"]
+        },
+        {
+          "id": "workbench.selfcheck",
+          "label": "查看 F11 自检报告",
+          "kind": "click",
+          "tier": "local",
+          "precondition": "system_view_open",
+          "selectors": ["F11 自检"],
+          "read": ["selfcheck_report"],
+          "evidence": ["screenshot", "report_path"]
+        }
+      ]
+    },
+    {
+      "id": "pr-board",
+      "label": "PR Board",
+      "sidebar_label": "PR Board",
+      "tier": "external",
+      "external_dependencies": ["github_cli", "github_auth", "repository_access"],
+      "entry": { "kind": "click_text", "text": "PR Board" },
+      "actions": [
+        {
+          "id": "pr-board.open",
+          "label": "打开 PR Board",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["PR Board"],
+          "read": ["pr_board_config"],
+          "evidence": ["screenshot", "setup_hint"]
+        },
+        {
+          "id": "pr-board.repo.add",
+          "label": "添加监控仓库",
+          "kind": "form_submit",
+          "tier": "external",
+          "selectors": ["添加仓库", "+", "owner/name"],
+          "write": ["pr_board_config"],
+          "backup": ["config_snapshot"],
+          "security_gate": ["repo_allowlist", "gh_auth"],
+          "evidence": ["screenshot", "config_diff", "provider_error_or_board"]
+        },
+        {
+          "id": "pr-board.pr",
+          "label": "查看并打开 PR 卡片",
+          "kind": "click",
+          "tier": "external",
+          "selectors": ["等我行动", "等作者行动", "可合并"],
+          "read": ["github_pr_state"],
+          "security_gate": ["gh_auth"],
+          "evidence": ["screenshot", "card_count"]
+        },
+        {
+          "id": "pr-board.issue",
+          "label": "查看 Issue 看板",
+          "kind": "click",
+          "tier": "external",
+          "selectors": ["Issue", "iss"],
+          "read": ["github_issue_state"],
+          "security_gate": ["gh_auth"],
+          "evidence": ["screenshot", "card_count"]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "label": "用量/余额",
+      "sidebar_label": "用量/余额",
+      "tier": "mixed",
+      "external_dependencies": ["provider_balance_api"],
+      "entry": { "kind": "click_text", "text": "用量/余额" },
+      "actions": [
+        {
+          "id": "usage.open",
+          "label": "打开用量与余额面板",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["用量/余额"],
+          "read": ["local_usage_ledger"],
+          "evidence": ["screenshot", "usage_snapshot"]
+        },
+        {
+          "id": "usage.refresh",
+          "label": "刷新本地用量",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["刷新"],
+          "read": ["local_usage_ledger"],
+          "evidence": ["screenshot", "request_trace"]
+        },
+        {
+          "id": "usage.provider",
+          "label": "切换供应商",
+          "kind": "select",
+          "tier": "external",
+          "selectors": ["当前供应商", "供应商"],
+          "read": ["provider_registry"],
+          "write": ["selected_provider"],
+          "security_gate": ["credential_masking"],
+          "evidence": ["screenshot", "provider_state"]
+        },
+        {
+          "id": "usage.balance",
+          "label": "查询余额或额度",
+          "kind": "click",
+          "tier": "external",
+          "selectors": ["余额", "刷新"],
+          "read": ["provider_balance"],
+          "security_gate": ["credential_present", "official_host_only"],
+          "evidence": ["screenshot", "provider_result"]
+        },
+        {
+          "id": "usage.export",
+          "label": "导出安全聚合数据",
+          "kind": "download",
+          "tier": "local",
+          "selectors": ["导出", "CSV", "JSON"],
+          "output": ["daily_csv", "sessions_csv", "aggregate_json"],
+          "security_gate": ["aggregate_only", "secret_free", "csv_formula_escape"],
+          "evidence": ["downloads", "file_hash", "secret_scan"]
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "label": "上下文洞察",
+      "sidebar_label": "上下文洞察",
+      "tier": "local",
+      "external_dependencies": [],
+      "entry": { "kind": "click_text", "text": "上下文洞察" },
+      "actions": [
+        {
+          "id": "context.dashboard",
+          "label": "打开上下文仪表盘",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["上下文洞察", "上下文仪表盘"],
+          "read": ["session_context_projection"],
+          "evidence": ["screenshot", "kpi_snapshot"]
+        },
+        {
+          "id": "context.range",
+          "label": "切换时间范围",
+          "kind": "select",
+          "tier": "local",
+          "selectors": ["7d", "30d", "全部"],
+          "read": ["session_context_projection"],
+          "evidence": ["screenshot", "selection_state"]
+        },
+        {
+          "id": "context.session",
+          "label": "打开会话上下文详情",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["会话", "Context", "上下文"],
+          "read": ["context_breakdown"],
+          "evidence": ["screenshot", "session_id"]
+        },
+        {
+          "id": "context.browser",
+          "label": "展开上下文浏览器",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["Context Browser", "上下文浏览器"],
+          "read": ["context_elements"],
+          "evidence": ["screenshot", "element_count"]
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "label": "设置",
+      "sidebar_label": "设置",
+      "tier": "mixed",
+      "external_dependencies": ["model_provider", "update_service"],
+      "entry": { "kind": "click_text", "text": "设置" },
+      "actions": [
+        {
+          "id": "settings.open",
+          "label": "打开设置",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["设置"],
+          "read": ["settings_snapshot"],
+          "evidence": ["screenshot", "settings_hash"]
+        },
+        {
+          "id": "settings.tab.general",
+          "label": "查看通用设置",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["通用", "General"],
+          "read": ["general_settings"],
+          "evidence": ["screenshot", "dom_state"]
+        },
+        {
+          "id": "settings.tab.models",
+          "label": "查看模型设置",
+          "kind": "click",
+          "tier": "external",
+          "selectors": ["模型", "Models"],
+          "read": ["model_provider_config"],
+          "security_gate": ["credential_masking"],
+          "evidence": ["screenshot", "provider_state"]
+        },
+        {
+          "id": "settings.tab.plugins",
+          "label": "查看插件设置",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["插件", "Plugins"],
+          "read": ["plugin_inventory"],
+          "evidence": ["screenshot", "plugin_count"]
+        },
+        {
+          "id": "settings.tab.agent",
+          "label": "查看 Agent/权限设置",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["Agent", "权限", "Agent Loop"],
+          "read": ["agent_loop_settings", "permission_settings"],
+          "evidence": ["screenshot", "settings_hash"]
+        },
+        {
+          "id": "settings.tab.network",
+          "label": "查看网络与网页搜索设置",
+          "kind": "click",
+          "tier": "external",
+          "selectors": ["网络", "网页搜索", "Web Search", "搜索"],
+          "read": ["network_settings"],
+          "security_gate": ["loopback_only", "provider_allowlist"],
+          "evidence": ["screenshot", "network_policy"]
+        },
+        {
+          "id": "settings.save",
+          "label": "切换非敏感设置并重启恢复",
+          "kind": "select",
+          "tier": "local",
+          "selectors": ["保存", "应用", "浅色", "深色", "跟随系统", "标准", "详细", "中文"],
+          "write": ["settings_file"],
+          "backup": ["settings_snapshot"],
+          "security_gate": ["fixture_value", "schema_validation", "rollback_required"],
+          "evidence": ["screenshot", "config_diff", "restart_check"]
+        },
+        {
+          "id": "settings.restore",
+          "label": "恢复 QA 设置快照",
+          "kind": "restore",
+          "tier": "local",
+          "selectors": ["恢复", "重置"],
+          "write": ["settings_file"],
+          "backup": ["settings_snapshot"],
+          "security_gate": ["qa_snapshot_only"],
+          "evidence": ["config_diff", "restart_check"]
+        }
+      ]
+    }
+  ]
+}

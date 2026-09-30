@@ -1,0 +1,1252 @@
+{
+  "schema": "pids-nexus/shell-verification/v1",
+  "generated_at": "2026-09-30T04:42:30.461Z",
+  "url": "http://127.0.0.1:3080/?token=***",
+  "mode": "safe-read",
+  "strict": false,
+  "browser": "C:/Users/Kinman/AppData/Local/ms-playwright/chromium-1234/chrome-win64/chrome.exe",
+  "manifest": "manifests/shell-module-actions.json",
+  "modules": [
+    {
+      "id": "session",
+      "label": "会话界面",
+      "opened": true,
+      "actions": [
+        {
+          "id": "session.create",
+          "label": "新建会话",
+          "tier": "local",
+          "matched": 1,
+          "passed": true,
+          "execution": {
+            "attempted": false,
+            "reason": "not-attempted"
+          }
+        },
+        {
+          "id": "session.send",
+          "label": "发送一轮消息",
+          "tier": "external",
+          "matched": 1,
+          "passed": true,
+          "execution": {
+            "attempted": false,
+            "reason": "not-attempted"
+          }
+        },
+        {
+          "id": "session.stop",
+          "label": "停止运行中的回复",
+          "tier": "external",
+          "matched": 0,
+          "passed": false,
+          "execution": {
+            "attempted": false,
+            "reason": "not-attempted"
+          }
+        },
+        {
+          "id": "session.resume",
+          "label": "重新打开历史会话",
+          "tier": "local",
+          "matched": 4,
+          "passed": true,
+          "execution": {
+            "attempted": false,
+            "reason": "not-attempted"
+          }
+        },
+        {
+          "id": "session.attachment",
+          "label": "添加附件",
+          "tier": "local",
+          "matched": 0,
+          "passed": false,
+          "execution": {
+            "attempted": false,
+            "reason": "not-attempted"
+          }
+        },
+        {
+          "id": "session.export",
+          "label": "导出会话",
+          "tier": "local",
+          "matched": 0,
+          "passed": false,
+          "execution": {
+            "attempted": false,
+            "reason": "not-attempted"
+          }
+        }
+      ],
+      "controls": [
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "新建会话",
+          "text": "",
+          "ariaLabel": "新建会话",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "收起侧边栏",
+          "text": "",
+          "ariaLabel": "收起侧边栏",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "新建会话",
+          "text": "新会话 Ctrl + Alt + N",
+          "ariaLabel": "新建会话",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "插件",
+          "text": "插件",
+          "ariaLabel": "插件",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "通知与控制",
+          "text": "通知与控制",
+          "ariaLabel": "通知与控制",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "任务看板",
+          "text": "任务看板",
+          "ariaLabel": "任务看板",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "技能中心",
+          "text": "技能中心",
+          "ariaLabel": "技能中心",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "记忆系统",
+          "text": "记忆系统",
+          "ariaLabel": "记忆系统",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "⟡ 工作台",
+          "text": "⟡ ⟡ 工作台",
+          "ariaLabel": "⟡ 工作台",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "搜索会话",
+          "text": "",
+          "ariaLabel": "搜索会话",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "input",
+          "role": "",
+          "type": "text",
+          "label": "搜索会话名称",
+          "text": "",
+          "ariaLabel": "",
+          "placeholder": "搜索会话名称",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": false,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "视图选项",
+          "text": "",
+          "ariaLabel": "视图选项",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "添加工作区",
+          "text": "",
+          "ariaLabel": "添加工作区",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "+",
+          "text": "+",
+          "ariaLabel": "",
+          "placeholder": "",
+          "title": "Add a repository",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": "[id=\"pbw-add\"]"
+        },
+        {
+          "tag": "div",
+          "role": "button",
+          "type": "div",
+          "label": "余额 ¥320.4 ⚠",
+          "text": "余额 ¥320.4 ⚠",
+          "ariaLabel": "",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "a",
+          "role": "",
+          "type": "a",
+          "label": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+          "text": "",
+          "ariaLabel": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+          "placeholder": "",
+          "title": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+          "href": "https://platform.deepseek.com/usage",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "查看后台 agent",
+          "text": "后台 agent",
+          "ariaLabel": "查看后台 agent",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "用量/余额",
+          "text": "用量/余额",
+          "ariaLabel": "用量/余额",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "上下文洞察",
+          "text": "上下文洞察",
+          "ariaLabel": "上下文洞察",
+          "placeholder": "",
+          "title": "上下文洞察",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "设置",
+          "text": "设置",
+          "ariaLabel": "设置",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "打开右侧边栏",
+          "text": "",
+          "ariaLabel": "打开右侧边栏",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "选择工作区",
+          "text": "默认工作区",
+          "ariaLabel": "选择工作区",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "标准模式",
+          "text": "标准模式",
+          "ariaLabel": "",
+          "placeholder": "",
+          "title": "选择新任务使用的 Agent 预设",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "添加文件或调用指令",
+          "text": "",
+          "ariaLabel": "添加文件或调用指令",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "访问模式，当前：工作区内修改",
+          "text": "工作区内修改",
+          "ariaLabel": "访问模式，当前：工作区内修改",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "📎",
+          "text": "📎",
+          "ariaLabel": "",
+          "placeholder": "",
+          "title": "上传文件（支持拖拽目录）",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "选择技能",
+          "text": "",
+          "ariaLabel": "选择技能",
+          "placeholder": "",
+          "title": "选择技能（插入 /技能名 到发送框）",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "选择模型，当前 DeepSeek-V41-Flash，推理等级 High",
+          "text": "DeepSeek-V41-Flash High",
+          "ariaLabel": "选择模型，当前 DeepSeek-V41-Flash，推理等级 High",
+          "placeholder": "",
+          "title": "DeepSeek-V41-Flash · High",
+          "href": "",
+          "disabled": false,
+          "checked": null,
+          "selectorHint": ""
+        },
+        {
+          "tag": "button",
+          "role": "",
+          "type": "button",
+          "label": "发送消息",
+          "text": "",
+          "ariaLabel": "发送消息",
+          "placeholder": "",
+          "title": "",
+          "href": "",
+          "disabled": true,
+          "checked": null,
+          "selectorHint": ""
+        }
+      ],
+      "text_sample": "新会话 Ctrl + Alt + N 插件 通知与控制 任务看板 技能中心 记忆系统 ⟡ ⟡ 工作台 工作区 默认工作区 新会话 PR Board + No repositories · + to add one 余额 ¥320.4 ⚠ 今日 ¥0 平价 · 1小时18分后进入高峰 后台 agent 用量/余额 上下文洞察 设置 探索未至之境 预览版 默认工作区 标准模式 描述你想要构建的内容, / 调用指令, @ 文件或对话 工作区内修改 📎 DeepSeek-V41-Flash High",
+      "screenshot": "reports/shell-audit/shots/session.png"
+    }
+  ],
+  "controls": [
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "新建会话",
+      "text": "",
+      "ariaLabel": "新建会话",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "收起侧边栏",
+      "text": "",
+      "ariaLabel": "收起侧边栏",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "新建会话",
+      "text": "新会话 Ctrl + Alt + N",
+      "ariaLabel": "新建会话",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "插件",
+      "text": "插件",
+      "ariaLabel": "插件",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "通知与控制",
+      "text": "通知与控制",
+      "ariaLabel": "通知与控制",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "任务看板",
+      "text": "任务看板",
+      "ariaLabel": "任务看板",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "技能中心",
+      "text": "技能中心",
+      "ariaLabel": "技能中心",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "记忆系统",
+      "text": "记忆系统",
+      "ariaLabel": "记忆系统",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "⟡ 工作台",
+      "text": "⟡ ⟡ 工作台",
+      "ariaLabel": "⟡ 工作台",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "搜索会话",
+      "text": "",
+      "ariaLabel": "搜索会话",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "input",
+      "role": "",
+      "type": "text",
+      "label": "搜索会话名称",
+      "text": "",
+      "ariaLabel": "",
+      "placeholder": "搜索会话名称",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": false,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "视图选项",
+      "text": "",
+      "ariaLabel": "视图选项",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "添加工作区",
+      "text": "",
+      "ariaLabel": "添加工作区",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "+",
+      "text": "+",
+      "ariaLabel": "",
+      "placeholder": "",
+      "title": "Add a repository",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "[id=\"pbw-add\"]",
+      "module": "session"
+    },
+    {
+      "tag": "div",
+      "role": "button",
+      "type": "div",
+      "label": "余额 ¥320.4 ⚠",
+      "text": "余额 ¥320.4 ⚠",
+      "ariaLabel": "",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "a",
+      "role": "",
+      "type": "a",
+      "label": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+      "text": "",
+      "ariaLabel": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+      "placeholder": "",
+      "title": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+      "href": "https://platform.deepseek.com/usage",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "查看后台 agent",
+      "text": "后台 agent",
+      "ariaLabel": "查看后台 agent",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "用量/余额",
+      "text": "用量/余额",
+      "ariaLabel": "用量/余额",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "上下文洞察",
+      "text": "上下文洞察",
+      "ariaLabel": "上下文洞察",
+      "placeholder": "",
+      "title": "上下文洞察",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "设置",
+      "text": "设置",
+      "ariaLabel": "设置",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "打开右侧边栏",
+      "text": "",
+      "ariaLabel": "打开右侧边栏",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "选择工作区",
+      "text": "默认工作区",
+      "ariaLabel": "选择工作区",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "标准模式",
+      "text": "标准模式",
+      "ariaLabel": "",
+      "placeholder": "",
+      "title": "选择新任务使用的 Agent 预设",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "添加文件或调用指令",
+      "text": "",
+      "ariaLabel": "添加文件或调用指令",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "访问模式，当前：工作区内修改",
+      "text": "工作区内修改",
+      "ariaLabel": "访问模式，当前：工作区内修改",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "📎",
+      "text": "📎",
+      "ariaLabel": "",
+      "placeholder": "",
+      "title": "上传文件（支持拖拽目录）",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "选择技能",
+      "text": "",
+      "ariaLabel": "选择技能",
+      "placeholder": "",
+      "title": "选择技能（插入 /技能名 到发送框）",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "选择模型，当前 DeepSeek-V41-Flash，推理等级 High",
+      "text": "DeepSeek-V41-Flash High",
+      "ariaLabel": "选择模型，当前 DeepSeek-V41-Flash，推理等级 High",
+      "placeholder": "",
+      "title": "DeepSeek-V41-Flash · High",
+      "href": "",
+      "disabled": false,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    },
+    {
+      "tag": "button",
+      "role": "",
+      "type": "button",
+      "label": "发送消息",
+      "text": "",
+      "ariaLabel": "发送消息",
+      "placeholder": "",
+      "title": "",
+      "href": "",
+      "disabled": true,
+      "checked": null,
+      "selectorHint": "",
+      "module": "session"
+    }
+  ],
+  "console_errors": [
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)"
+  ],
+  "page_errors": [
+    "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by cf) — register at a different priority to shadow it (lowest renders)"
+  ],
+  "network_failures": [
+    {
+      "url": "http://127.0.0.1:3080/smooth-stream/settings.read",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "checks": [
+    {
+      "id": "shell.load",
+      "pass": true,
+      "tier": "local",
+      "note": "main shell loaded"
+    },
+    {
+      "id": "shell.welcome-modal",
+      "pass": true,
+      "tier": "local",
+      "note": "welcome notice must not block the shell"
+    },
+    {
+      "id": "module.session.open",
+      "pass": true,
+      "tier": "mixed",
+      "note": "entry clicked"
+    },
+    {
+      "id": "action.session.create",
+      "pass": true,
+      "tier": "local",
+      "note": "controls=1 attempt={\"attempted\":false,\"reason\":\"not-attempted\"}"
+    },
+    {
+      "id": "action.session.send",
+      "pass": true,
+      "tier": "external",
+      "note": "controls=1 attempt={\"attempted\":false,\"reason\":\"not-attempted\"}"
+    },
+    {
+      "id": "action.session.stop",
+      "pass": false,
+      "tier": "external",
+      "note": "no visible control; external setup state allowed only for external actions"
+    },
+    {
+      "id": "action.session.resume",
+      "pass": true,
+      "tier": "local",
+      "note": "controls=4 attempt={\"attempted\":false,\"reason\":\"not-attempted\"}"
+    },
+    {
+      "id": "action.session.attachment",
+      "pass": false,
+      "tier": "local",
+      "note": "no visible control; external setup state allowed only for external actions"
+    },
+    {
+      "id": "action.session.export",
+      "pass": false,
+      "tier": "local",
+      "note": "no visible control; external setup state allowed only for external actions"
+    },
+    {
+      "id": "shell.unregistered-controls",
+      "pass": true,
+      "tier": "local",
+      "note": "unknown=24"
+    },
+    {
+      "id": "workbench.api/workbench/api/scenes",
+      "pass": true,
+      "tier": "local",
+      "note": "http=200"
+    },
+    {
+      "id": "workbench.api/workbench/api/domains",
+      "pass": true,
+      "tier": "local",
+      "note": "http=200"
+    },
+    {
+      "id": "workbench.api/workbench/api/workflows",
+      "pass": true,
+      "tier": "local",
+      "note": "http=200"
+    },
+    {
+      "id": "workbench.api/workbench/api/deliverables",
+      "pass": true,
+      "tier": "local",
+      "note": "http=200"
+    },
+    {
+      "id": "workbench.api/workbench/api/audit",
+      "pass": true,
+      "tier": "local",
+      "note": "http=200"
+    },
+    {
+      "id": "workbench.api/workbench/api/tools-versions",
+      "pass": true,
+      "tier": "local",
+      "note": "http=200"
+    }
+  ],
+  "conditional": [],
+  "unknown_controls": [
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "收起侧边栏",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "插件",
+      "text": "插件",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "通知与控制",
+      "text": "通知与控制",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "任务看板",
+      "text": "任务看板",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "技能中心",
+      "text": "技能中心",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "记忆系统",
+      "text": "记忆系统",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "⟡ 工作台",
+      "text": "⟡ ⟡ 工作台",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "视图选项",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "添加工作区",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "div",
+      "type": "div",
+      "label": "余额 ¥320.4 ⚠",
+      "text": "余额 ¥320.4 ⚠",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "a",
+      "type": "a",
+      "label": "打开 DeepSeek 充值页(platform.deepseek.com/usage)",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "查看后台 agent",
+      "text": "后台 agent",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "用量/余额",
+      "text": "用量/余额",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "上下文洞察",
+      "text": "上下文洞察",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "设置",
+      "text": "设置",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "打开右侧边栏",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "选择工作区",
+      "text": "默认工作区",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "标准模式",
+      "text": "标准模式",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "添加文件或调用指令",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "访问模式，当前：工作区内修改",
+      "text": "工作区内修改",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "📎",
+      "text": "📎",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "选择技能",
+      "text": "",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "选择模型，当前 DeepSeek-V41-Flash，推理等级 High",
+      "text": "DeepSeek-V41-Flash High",
+      "disabled": false
+    },
+    {
+      "module": "session",
+      "tag": "button",
+      "type": "button",
+      "label": "发送消息",
+      "text": "",
+      "disabled": true
+    }
+  ],
+  "summary": {
+    "total": 16,
+    "passed": 13,
+    "failed": 3,
+    "local_failed": 2,
+    "external_conditional": 1,
+    "modules": 1,
+    "expected_modules": 1,
+    "observed_controls": 29,
+    "unknown_controls": 24
+  },
+  "pass": false,
+  "artifact": {
+    "path": "reports/shell-audit/session-baseline.json",
+    "sha256": "023678337c53ef57231876708c653624a27ec3142d2a0e4e18f8c4939fe554c8"
+  }
+}

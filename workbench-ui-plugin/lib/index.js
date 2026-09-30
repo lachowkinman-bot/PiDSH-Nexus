@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { createWorkbenchPlatform, ensureWorkspace, resolveWorkspaceRoot } from './platform.mjs';
 
 const PLUGIN_ROOT = path.dirname(fileURLToPath(import.meta.url));
 function resolveBundleRoot() {
@@ -25,21 +26,41 @@ function resolveBundleRoot() {
   return path.resolve(PLUGIN_ROOT, '../..');
 }
 const BUNDLE_ROOT = resolveBundleRoot();
+const WORKSPACE_ROOT = ensureWorkspace({ bundleRoot: BUNDLE_ROOT });
 const SCENES = path.join(BUNDLE_ROOT, 'manifests/scenes');
-const STATE = path.join(BUNDLE_ROOT, 'templates/workspace/system/preset-state');
-const AUDIT = path.join(BUNDLE_ROOT, 'templates/workspace/audit');
-const DATA = path.join(BUNDLE_ROOT, 'templates/workspace/data');
-const DELIV = path.join(BUNDLE_ROOT, 'templates/workspace/deliverables');
+const STATE = path.join(WORKSPACE_ROOT, 'config/system/preset-state');
+const AUDIT = path.join(WORKSPACE_ROOT, 'audit');
+const DATA = path.join(WORKSPACE_ROOT, 'data');
+const DELIV = path.join(WORKSPACE_ROOT, 'deliverables');
 const WF_INDEX = path.join(BUNDLE_ROOT, 'manifests/workflows/index.json');
 const TOOLS_VERSIONS = path.join(BUNDLE_ROOT, 'tools-versions.txt');
 export const DOMAINS = ['strat', 'mkt-on', 'mkt-off', 'sales', 'fin', 'rec', 'trn', 'prf', 'comp', 'ben', 'admin', 'cmp', 'er-eap'];
 const DELIVERY_FORMATS = ['md', 'csv', 'html', 'xlsx', 'docx', 'pptx', 'pdf'];
 let DELIVERY_SERVICE = null;
 let DELIVERY_MODULE = null;
+let PLATFORM_SERVICE = null;
 async function deliveryService() {
   if (!DELIVERY_MODULE) DELIVERY_MODULE = await import('./delivery-service.cjs');
-  if (!DELIVERY_SERVICE) DELIVERY_SERVICE = DELIVERY_MODULE.createDeliveryService({ root: BUNDLE_ROOT, audit });
+  if (!DELIVERY_SERVICE) {
+    DELIVERY_SERVICE = DELIVERY_MODULE.createDeliveryService({
+      root: BUNDLE_ROOT,
+      workspaceRoot: WORKSPACE_ROOT,
+      audit,
+    });
+  }
   return DELIVERY_SERVICE;
+}
+async function platformService() {
+  if (!PLATFORM_SERVICE) {
+    PLATFORM_SERVICE = createWorkbenchPlatform({
+      root: BUNDLE_ROOT,
+      workspaceRoot: WORKSPACE_ROOT,
+      audit,
+      runEngine: engineRun,
+      deliverDomain: async (options) => (await deliveryService()).deliverDomain(options),
+    });
+  }
+  return PLATFORM_SERVICE;
 }
 
 // —— Scene 解析（与 scripts/scene-loader.mjs 同一子集语义）——
@@ -440,9 +461,42 @@ export function makeRoutes() {
       json(res, 200, submitDeliverable(b.domain || 'admin', b.kind || 'form-submit', b.payload || {}));
     }),
     exact('/workbench/api/workflows', (req, res) => json(res, 200, workflowsIndex())),
+    exact('/workbench/api/workflow-definitions', async (req, res) => json(res, 200, (await platformService()).definitions())),
     exact('/workbench/api/workflow-run', async (req, res) => {
       const b = await readBody(req);
       json(res, 200, runWorkflow(b.id || '', b.payload || {}));
+    }),
+    exact('/workbench/api/strategy/overview', async (req, res) => json(res, 200, (await platformService()).strategy({
+      includeDeliveries: query(req, 'deliveries') !== '0',
+    }))),
+    exact('/workbench/api/workflow-instances', async (req, res) => {
+      const service = await platformService();
+      const id = query(req, 'id');
+      if (id) return json(res, 200, service.getInstance(id));
+      return json(res, 200, service.listInstances({
+        workflowId: query(req, 'workflowId'),
+        domain: query(req, 'domain'),
+        status: query(req, 'status'),
+      }));
+    }),
+    exact('/workbench/api/workflow-instances/start', async (req, res) => json(res, 200, (await platformService()).start(await readBody(req)))),
+    exact('/workbench/api/workflow-instances/actions', async (req, res) => json(res, 200, await (await platformService()).act(await readBody(req)))),
+    exact('/workbench/api/imports', async (req, res) => json(res, 200, (await platformService()).importTable(await readBody(req)))),
+    exact('/workbench/api/metrics', async (req, res) => json(res, 200, (await platformService()).metrics({
+      domain: query(req, 'domain'),
+      limit: query(req, 'limit') || 500,
+    }))),
+    exact('/workbench/api/backups', async (req, res) => json(res, 200, (await platformService()).backups())),
+    exact('/workbench/api/instance-artifact', async (req, res) => {
+      const artifact = (await platformService()).resolveInstanceArtifact(query(req, 'id'), query(req, 'file'));
+      const encoded = encodeURIComponent(artifact.filename);
+      res.writeHead(200, {
+        'content-type': artifact.mime,
+        'content-length': fs.statSync(artifact.file).size,
+        'cache-control': 'private, max-age=60',
+        'content-disposition': `attachment; filename="artifact.${artifact.format}"; filename*=UTF-8''${encoded}`,
+      });
+      fs.createReadStream(artifact.file).pipe(res);
     }),
     exact('/workbench/api/deliverables', (req, res) => json(res, 200, listDeliverables())),
     exact('/workbench/api/tools-versions', (req, res) => json(res, 200, toolsVersions())),
@@ -507,4 +561,4 @@ export function apply(ctx, config) {
   }
 }
 export const inject = [];
-export default { apply, inject, makeRoutes, listScenes, applyScene, switchScene, savePreset, engineRun, domainChecklist, auditStats, domainData, submitDeliverable, listDeliverables, workflowsIndex, runWorkflow, toolsVersions, rollbackDryRun, presetNew, presetEdit, buttonManifest, deliveryService };
+export default { apply, inject, makeRoutes, listScenes, applyScene, switchScene, savePreset, engineRun, domainChecklist, auditStats, domainData, submitDeliverable, listDeliverables, workflowsIndex, runWorkflow, toolsVersions, rollbackDryRun, presetNew, presetEdit, buttonManifest, deliveryService, platformService, resolveWorkspaceRoot };

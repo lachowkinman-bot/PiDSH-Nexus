@@ -15,7 +15,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-29T09:49:54.421Z",
+ "generated_at": "2026-09-30T05:10:13.590Z",
  "sources": {
   "scenes": [
    "manifests/scenes/rec.funnel-weekly.yaml"
@@ -91,15 +91,27 @@
    "file": "templates/skills-domain/rec/SKILL-jd-gen.md"
   },
   {
-   "name": "interview-summary",
-   "file": "templates/skills-domain/rec/SKILL-interview-summary.md"
+   "name": "resume-screening",
+   "file": "templates/skills-domain/rec/SKILL-resume-screening.md"
+  },
+  {
+   "name": "interview-design",
+   "file": "templates/skills-domain/rec/SKILL-interview-design.md"
+  },
+  {
+   "name": "offer-evaluation",
+   "file": "templates/skills-domain/rec/SKILL-offer-evaluation.md"
+  },
+  {
+   "name": "onboarding-plan",
+   "file": "templates/skills-domain/rec/SKILL-onboarding-plan.md"
   }
  ],
  "workflows": [
   {
    "id": "rec.funnel-weekly@1.0.0",
    "kind": "report",
-   "description": "漏斗周报（阶段转化）",
+   "description": "渠道与留存漏斗复盘（投递→90 天）",
    "skill": "funnel-analysis",
    "approval": null,
    "hitl_nodes": [],
@@ -117,26 +129,27 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "漏斗周报（阶段转化）：数据版本 + 产物哈希"
+     "record": "渠道与留存漏斗复盘（投递→90 天）：数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
     "file": "funnel-weekly-<ts>.json",
     "format": "json",
     "fields": [
+     "week",
      "stage",
      "count",
      "conversion_pct",
-     "week"
+     "source"
     ],
-    "acceptance": "候选人 PII 仅掩码"
+    "acceptance": "阶段人数守恒；候选人 PII 仅掩码"
    }
   },
   {
    "id": "rec.resume-forward@1.0.0",
    "kind": "approve",
-   "description": "简历外发（强制脱敏 + 审批）",
-   "skill": "jd-gen",
+   "description": "简历解析、筛选评价与外发审批",
+   "skill": "resume-screening",
    "approval": {
     "node": "n3",
     "level": "L4",
@@ -149,12 +162,12 @@
     {
      "id": "n1",
      "type": "skill",
-     "ref": "jd-gen"
+     "ref": "resume-screening"
     },
     {
      "id": "n2",
      "type": "condition",
-     "expr": "简历外发（强制脱敏 + 审批） 触发对外/生效动作"
+     "expr": "简历解析、筛选评价与外发审批 触发对外/生效动作"
     },
     {
      "id": "n3",
@@ -170,7 +183,7 @@
     {
      "id": "n5",
      "type": "audit",
-     "record": "简历外发（强制脱敏 + 审批）：审批人 + 依据数据版本 + 产物哈希"
+     "record": "简历解析、筛选评价与外发审批：审批人 + 依据数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
@@ -178,17 +191,21 @@
     "format": "json",
     "fields": [
      "candidate_masked",
+     "position",
      "target",
+     "resume_evidence",
+     "criteria_results",
+     "match_score",
      "redact_fields",
      "approver"
     ],
-    "acceptance": "未脱敏外发 = 一票否决"
+    "acceptance": "未脱敏外发 = 一票否决；每项评价必须有证据"
    }
   },
   {
    "id": "rec.jd-draft@1.0.0",
    "kind": "calc",
-   "description": "JD 起草（岗位/要求/薪酬带）",
+   "description": "JD 与岗位能力模型（薪酬带引用）",
    "skill": "jd-gen",
    "approval": null,
    "hitl_nodes": [],
@@ -206,7 +223,7 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "JD 起草（岗位/要求/薪酬带）：输入参数 + 结果快照"
+     "record": "JD 与岗位能力模型（薪酬带引用）：输入参数 + 结果快照"
     }
    ],
    "deliverable": {
@@ -214,25 +231,27 @@
     "format": "json",
     "fields": [
      "position",
+     "mission",
      "requirements",
+     "competencies",
      "band",
      "locale"
     ],
-    "acceptance": "薪酬带引用 comp.bands 区间口径"
+    "acceptance": "薪酬带引用 comp.bands；能力项与岗位 KR 对应"
    }
   },
   {
    "id": "rec.interview-schedule@1.0.0",
    "kind": "calc",
-   "description": "面试安排（ interviewer 冲突检测）",
-   "skill": "interview-summary",
+   "description": "面试安排、针对性题库与评分卡",
+   "skill": "interview-design",
    "approval": null,
    "hitl_nodes": [],
    "nodes": [
     {
      "id": "n1",
      "type": "skill",
-     "ref": "interview-summary"
+     "ref": "interview-design"
     },
     {
      "id": "n2",
@@ -242,7 +261,7 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "面试安排（ interviewer 冲突检测）：输入参数 + 结果快照"
+     "record": "面试安排、针对性题库与评分卡：输入参数 + 结果快照"
     }
    ],
    "deliverable": {
@@ -252,16 +271,19 @@
      "candidate_masked",
      "slot",
      "interviewers",
-     "mode"
+     "mode",
+     "question_bank_id",
+     "scorecard_id",
+     "conflicts"
     ],
-    "acceptance": "同一面试官同时段冲突须标红"
+    "acceptance": "面试官冲突须标红；题库覆盖全部能力项"
    }
   },
   {
    "id": "rec.offer-approve@1.0.0",
    "kind": "approve",
-   "description": "offer 审批（薪酬带核对）",
-   "skill": "funnel-analysis",
+   "description": "面试反馈综合、Offer 建议与双审批",
+   "skill": "offer-evaluation",
    "approval": {
     "node": "n3",
     "level": "L4",
@@ -274,12 +296,12 @@
     {
      "id": "n1",
      "type": "skill",
-     "ref": "funnel-analysis"
+     "ref": "offer-evaluation"
     },
     {
      "id": "n2",
      "type": "condition",
-     "expr": "offer 审批（薪酬带核对） 触发对外/生效动作"
+     "expr": "面试反馈综合、Offer 建议与双审批 触发对外/生效动作"
     },
     {
      "id": "n3",
@@ -295,7 +317,7 @@
     {
      "id": "n5",
      "type": "audit",
-     "record": "offer 审批（薪酬带核对）：审批人 + 依据数据版本 + 产物哈希"
+     "record": "面试反馈综合、Offer 建议与双审批：审批人 + 依据数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
@@ -304,24 +326,28 @@
     "fields": [
      "candidate_masked",
      "position",
+     "feedback_summary",
+     "interview_scores",
+     "risk_flags",
      "offer_band",
+     "proposed_range",
      "approvals"
     ],
-    "acceptance": "offer 超出 P75 必须双审批"
+    "acceptance": "缺少用户面试反馈不得终审；超 P75 必须双审批"
    }
   },
   {
    "id": "rec.onboarding-check@1.0.0",
    "kind": "report",
-   "description": "入职准备清单（账号/设备/导师）",
-   "skill": "interview-summary",
+   "description": "入职任务、30/60/90 天成效与招聘质量",
+   "skill": "onboarding-plan",
    "approval": null,
    "hitl_nodes": [],
    "nodes": [
     {
      "id": "n1",
      "type": "skill",
-     "ref": "interview-summary"
+     "ref": "onboarding-plan"
     },
     {
      "id": "n2",
@@ -331,19 +357,23 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "入职准备清单（账号/设备/导师）：数据版本 + 产物哈希"
+     "record": "入职任务、30/60/90 天成效与招聘质量：数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
     "file": "onboarding-check-<ts>.json",
     "format": "json",
     "fields": [
+     "candidate_masked",
+     "start_date",
      "item",
      "owner",
      "due",
-     "status"
+     "status",
+     "goals_30_60_90",
+     "retention_90d"
     ],
-    "acceptance": "入职日前 3 天必须全绿"
+    "acceptance": "阻断项完成；未到 90 天不得伪造留存结果"
    }
   }
  ],
@@ -400,37 +430,37 @@
   {
    "route": "#/rec/w/funnel-weekly",
    "type": "workflow",
-   "title": "漏斗周报（阶段转化）",
+   "title": "渠道与留存漏斗复盘（投递→90 天）",
    "workflow": "rec.funnel-weekly@1.0.0"
   },
   {
    "route": "#/rec/w/resume-forward",
    "type": "workflow",
-   "title": "简历外发（强制脱敏 + 审批）",
+   "title": "简历解析、筛选评价与外发审批",
    "workflow": "rec.resume-forward@1.0.0"
   },
   {
    "route": "#/rec/w/jd-draft",
    "type": "workflow",
-   "title": "JD 起草（岗位/要求/薪酬带）",
+   "title": "JD 与岗位能力模型（薪酬带引用）",
    "workflow": "rec.jd-draft@1.0.0"
   },
   {
    "route": "#/rec/w/interview-schedule",
    "type": "workflow",
-   "title": "面试安排（ interviewer 冲突检测）",
+   "title": "面试安排、针对性题库与评分卡",
    "workflow": "rec.interview-schedule@1.0.0"
   },
   {
    "route": "#/rec/w/offer-approve",
    "type": "workflow",
-   "title": "offer 审批（薪酬带核对）",
+   "title": "面试反馈综合、Offer 建议与双审批",
    "workflow": "rec.offer-approve@1.0.0"
   },
   {
    "route": "#/rec/w/onboarding-check",
    "type": "workflow",
-   "title": "入职准备清单（账号/设备/导师）",
+   "title": "入职任务、30/60/90 天成效与招聘质量",
    "workflow": "rec.onboarding-check@1.0.0"
   },
   {

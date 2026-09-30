@@ -1,17 +1,17 @@
 apiVersion: workbench.pi-dsh/v1
 workflow_id: rec.resume-forward@1.0.0
 domain: rec
-description: "简历外发（强制脱敏 + 审批）"
+description: "简历解析、筛选评价与外发审批"
 trigger:
   type: command
   expr: resume-forward
 nodes:
   - id: n1
     type: skill
-    ref: jd-gen
+    ref: resume-screening
   - id: n2
     type: condition
-    expr: "简历外发（强制脱敏 + 审批） 触发对外/生效动作"
+    expr: "简历解析、筛选评价与外发审批 触发对外/生效动作"
   - id: n3
     type: approval
     level: L4
@@ -21,16 +21,20 @@ nodes:
     ref: cap.excel.panel.write
   - id: n5
     type: audit
-    record: "简历外发（强制脱敏 + 审批）：审批人 + 依据数据版本 + 产物哈希"
+    record: "简历解析、筛选评价与外发审批：审批人 + 依据数据版本 + 产物哈希"
 deliverable:
   file: resume-forward-<ts>.json
   format: json
   fields:
     - candidate_masked
+    - position
     - target
+    - resume_evidence
+    - criteria_results
+    - match_score
     - redact_fields
     - approver
-  acceptance: "未脱敏外发 = 一票否决"
+  acceptance: "未脱敏外发 = 一票否决；每项评价必须有证据"
 hitl_nodes:
   - n3
 rollback:

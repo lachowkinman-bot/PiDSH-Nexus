@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-29T04:48:05.020Z",
+ "generated_at": "2026-09-30T05:10:13.440Z",
  "count": 78,
  "by_domain": {
   "strat": [
@@ -1596,7 +1596,7 @@
    "workflow_id": "rec.funnel-weekly@1.0.0",
    "domain": "rec",
    "kind": "report",
-   "description": "漏斗周报（阶段转化）",
+   "description": "渠道与留存漏斗复盘（投递→90 天）",
    "skill": "funnel-analysis",
    "trigger": {
     "type": "command",
@@ -1616,19 +1616,20 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "漏斗周报（阶段转化）：数据版本 + 产物哈希"
+     "record": "渠道与留存漏斗复盘（投递→90 天）：数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
     "file": "funnel-weekly-<ts>.json",
     "format": "json",
     "fields": [
+     "week",
      "stage",
      "count",
      "conversion_pct",
-     "week"
+     "source"
     ],
-    "acceptance": "候选人 PII 仅掩码"
+    "acceptance": "阶段人数守恒；候选人 PII 仅掩码"
    },
    "hitl_nodes": [],
    "dual": false,
@@ -1641,8 +1642,8 @@
    "workflow_id": "rec.resume-forward@1.0.0",
    "domain": "rec",
    "kind": "approve",
-   "description": "简历外发（强制脱敏 + 审批）",
-   "skill": "jd-gen",
+   "description": "简历解析、筛选评价与外发审批",
+   "skill": "resume-screening",
    "trigger": {
     "type": "command",
     "expr": "resume-forward"
@@ -1651,12 +1652,12 @@
     {
      "id": "n1",
      "type": "skill",
-     "ref": "jd-gen"
+     "ref": "resume-screening"
     },
     {
      "id": "n2",
      "type": "condition",
-     "expr": "简历外发（强制脱敏 + 审批） 触发对外/生效动作"
+     "expr": "简历解析、筛选评价与外发审批 触发对外/生效动作"
     },
     {
      "id": "n3",
@@ -1672,7 +1673,7 @@
     {
      "id": "n5",
      "type": "audit",
-     "record": "简历外发（强制脱敏 + 审批）：审批人 + 依据数据版本 + 产物哈希"
+     "record": "简历解析、筛选评价与外发审批：审批人 + 依据数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
@@ -1680,11 +1681,15 @@
     "format": "json",
     "fields": [
      "candidate_masked",
+     "position",
      "target",
+     "resume_evidence",
+     "criteria_results",
+     "match_score",
      "redact_fields",
      "approver"
     ],
-    "acceptance": "未脱敏外发 = 一票否决"
+    "acceptance": "未脱敏外发 = 一票否决；每项评价必须有证据"
    },
    "hitl_nodes": [
     "n3"
@@ -1699,7 +1704,7 @@
    "workflow_id": "rec.jd-draft@1.0.0",
    "domain": "rec",
    "kind": "calc",
-   "description": "JD 起草（岗位/要求/薪酬带）",
+   "description": "JD 与岗位能力模型（薪酬带引用）",
    "skill": "jd-gen",
    "trigger": {
     "type": "command",
@@ -1719,7 +1724,7 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "JD 起草（岗位/要求/薪酬带）：输入参数 + 结果快照"
+     "record": "JD 与岗位能力模型（薪酬带引用）：输入参数 + 结果快照"
     }
    ],
    "deliverable": {
@@ -1727,11 +1732,13 @@
     "format": "json",
     "fields": [
      "position",
+     "mission",
      "requirements",
+     "competencies",
      "band",
      "locale"
     ],
-    "acceptance": "薪酬带引用 comp.bands 区间口径"
+    "acceptance": "薪酬带引用 comp.bands；能力项与岗位 KR 对应"
    },
    "hitl_nodes": [],
    "dual": false,
@@ -1744,8 +1751,8 @@
    "workflow_id": "rec.interview-schedule@1.0.0",
    "domain": "rec",
    "kind": "calc",
-   "description": "面试安排（ interviewer 冲突检测）",
-   "skill": "interview-summary",
+   "description": "面试安排、针对性题库与评分卡",
+   "skill": "interview-design",
    "trigger": {
     "type": "command",
     "expr": "interview-schedule"
@@ -1754,7 +1761,7 @@
     {
      "id": "n1",
      "type": "skill",
-     "ref": "interview-summary"
+     "ref": "interview-design"
     },
     {
      "id": "n2",
@@ -1764,7 +1771,7 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "面试安排（ interviewer 冲突检测）：输入参数 + 结果快照"
+     "record": "面试安排、针对性题库与评分卡：输入参数 + 结果快照"
     }
    ],
    "deliverable": {
@@ -1774,9 +1781,12 @@
      "candidate_masked",
      "slot",
      "interviewers",
-     "mode"
+     "mode",
+     "question_bank_id",
+     "scorecard_id",
+     "conflicts"
     ],
-    "acceptance": "同一面试官同时段冲突须标红"
+    "acceptance": "面试官冲突须标红；题库覆盖全部能力项"
    },
    "hitl_nodes": [],
    "dual": false,
@@ -1789,8 +1799,8 @@
    "workflow_id": "rec.offer-approve@1.0.0",
    "domain": "rec",
    "kind": "approve",
-   "description": "offer 审批（薪酬带核对）",
-   "skill": "funnel-analysis",
+   "description": "面试反馈综合、Offer 建议与双审批",
+   "skill": "offer-evaluation",
    "trigger": {
     "type": "command",
     "expr": "offer-approve"
@@ -1799,12 +1809,12 @@
     {
      "id": "n1",
      "type": "skill",
-     "ref": "funnel-analysis"
+     "ref": "offer-evaluation"
     },
     {
      "id": "n2",
      "type": "condition",
-     "expr": "offer 审批（薪酬带核对） 触发对外/生效动作"
+     "expr": "面试反馈综合、Offer 建议与双审批 触发对外/生效动作"
     },
     {
      "id": "n3",
@@ -1820,7 +1830,7 @@
     {
      "id": "n5",
      "type": "audit",
-     "record": "offer 审批（薪酬带核对）：审批人 + 依据数据版本 + 产物哈希"
+     "record": "面试反馈综合、Offer 建议与双审批：审批人 + 依据数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
@@ -1829,10 +1839,14 @@
     "fields": [
      "candidate_masked",
      "position",
+     "feedback_summary",
+     "interview_scores",
+     "risk_flags",
      "offer_band",
+     "proposed_range",
      "approvals"
     ],
-    "acceptance": "offer 超出 P75 必须双审批"
+    "acceptance": "缺少用户面试反馈不得终审；超 P75 必须双审批"
    },
    "hitl_nodes": [
     "n3"
@@ -1847,8 +1861,8 @@
    "workflow_id": "rec.onboarding-check@1.0.0",
    "domain": "rec",
    "kind": "report",
-   "description": "入职准备清单（账号/设备/导师）",
-   "skill": "interview-summary",
+   "description": "入职任务、30/60/90 天成效与招聘质量",
+   "skill": "onboarding-plan",
    "trigger": {
     "type": "command",
     "expr": "onboarding-check"
@@ -1857,7 +1871,7 @@
     {
      "id": "n1",
      "type": "skill",
-     "ref": "interview-summary"
+     "ref": "onboarding-plan"
     },
     {
      "id": "n2",
@@ -1867,19 +1881,23 @@
     {
      "id": "n3",
      "type": "audit",
-     "record": "入职准备清单（账号/设备/导师）：数据版本 + 产物哈希"
+     "record": "入职任务、30/60/90 天成效与招聘质量：数据版本 + 产物哈希"
     }
    ],
    "deliverable": {
     "file": "onboarding-check-<ts>.json",
     "format": "json",
     "fields": [
+     "candidate_masked",
+     "start_date",
      "item",
      "owner",
      "due",
-     "status"
+     "status",
+     "goals_30_60_90",
+     "retention_90d"
     ],
-    "acceptance": "入职日前 3 天必须全绿"
+    "acceptance": "阻断项完成；未到 90 天不得伪造留存结果"
    },
    "hitl_nodes": [],
    "dual": false,

@@ -1,12 +1,12 @@
 {
   "name": "@workbench/client-ui",
-  "description": "Universal Workbench 工作台插件：12 业务域工作界面 + preset 生命周期（选/用/存/切）+ 审批/审计/记忆面板，挂载于 dsh web 壳内（F2-F14）。结构逐字镜像 @linxin666/dsh-client-ui-task-board@0.4.3（Apache-2.0，范本见 exemplar-reference/）。",
-  "version": "3.0.0",
+  "description": "PiDSH Nexus 工作台插件：战略总看板、13 业务域、78 条 V2 工作流、LLM/审批/交付/复盘闭环，挂载于 DSH web 壳内。",
+  "version": "4.0.0",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
-    "./client": "./lib/client.js"
+    "./client": "./lib/client-v4.js"
   },
   "dsh": {
     "engines": { "dsh": ">=0.1.7-rc.2" },

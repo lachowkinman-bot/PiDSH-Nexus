@@ -1,17 +1,17 @@
 apiVersion: workbench.pi-dsh/v1
 workflow_id: rec.offer-approve@1.0.0
 domain: rec
-description: "offer 审批（薪酬带核对）"
+description: "面试反馈综合、Offer 建议与双审批"
 trigger:
   type: command
   expr: offer-approve
 nodes:
   - id: n1
     type: skill
-    ref: funnel-analysis
+    ref: offer-evaluation
   - id: n2
     type: condition
-    expr: "offer 审批（薪酬带核对） 触发对外/生效动作"
+    expr: "面试反馈综合、Offer 建议与双审批 触发对外/生效动作"
   - id: n3
     type: approval
     level: L4
@@ -21,16 +21,20 @@ nodes:
     ref: cap.excel.panel.write
   - id: n5
     type: audit
-    record: "offer 审批（薪酬带核对）：审批人 + 依据数据版本 + 产物哈希"
+    record: "面试反馈综合、Offer 建议与双审批：审批人 + 依据数据版本 + 产物哈希"
 deliverable:
   file: offer-approve-<ts>.json
   format: json
   fields:
     - candidate_masked
     - position
+    - feedback_summary
+    - interview_scores
+    - risk_flags
     - offer_band
+    - proposed_range
     - approvals
-  acceptance: "offer 超出 P75 必须双审批"
+  acceptance: "缺少用户面试反馈不得终审；超 P75 必须双审批"
 hitl_nodes:
   - n3
 rollback:

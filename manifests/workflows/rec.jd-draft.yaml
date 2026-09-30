@@ -1,7 +1,7 @@
 apiVersion: workbench.pi-dsh/v1
 workflow_id: rec.jd-draft@1.0.0
 domain: rec
-description: "JD 起草（岗位/要求/薪酬带）"
+description: "JD 与岗位能力模型（薪酬带引用）"
 trigger:
   type: command
   expr: jd-draft
@@ -14,16 +14,18 @@ nodes:
     ref: cap.excel.panel.write
   - id: n3
     type: audit
-    record: "JD 起草（岗位/要求/薪酬带）：输入参数 + 结果快照"
+    record: "JD 与岗位能力模型（薪酬带引用）：输入参数 + 结果快照"
 deliverable:
   file: jd-draft-<ts>.json
   format: json
   fields:
     - position
+    - mission
     - requirements
+    - competencies
     - band
     - locale
-  acceptance: "薪酬带引用 comp.bands 区间口径"
+  acceptance: "薪酬带引用 comp.bands；能力项与岗位 KR 对应"
 hitl_nodes:
 rollback:
   method: savepoint

@@ -1,7 +1,7 @@
 apiVersion: workbench.pi-dsh/v1
 workflow_id: rec.funnel-weekly@1.0.0
 domain: rec
-description: "漏斗周报（阶段转化）"
+description: "渠道与留存漏斗复盘（投递→90 天）"
 trigger:
   type: command
   expr: funnel-weekly
@@ -14,16 +14,17 @@ nodes:
     ref: cap.excel.panel.write
   - id: n3
     type: audit
-    record: "漏斗周报（阶段转化）：数据版本 + 产物哈希"
+    record: "渠道与留存漏斗复盘（投递→90 天）：数据版本 + 产物哈希"
 deliverable:
   file: funnel-weekly-<ts>.json
   format: json
   fields:
+    - week
     - stage
     - count
     - conversion_pct
-    - week
-  acceptance: "候选人 PII 仅掩码"
+    - source
+  acceptance: "阶段人数守恒；候选人 PII 仅掩码"
 hitl_nodes:
 rollback:
   method: savepoint

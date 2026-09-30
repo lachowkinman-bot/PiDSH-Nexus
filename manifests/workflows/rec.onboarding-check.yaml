@@ -1,29 +1,33 @@
 apiVersion: workbench.pi-dsh/v1
 workflow_id: rec.onboarding-check@1.0.0
 domain: rec
-description: "入职准备清单（账号/设备/导师）"
+description: "入职任务、30/60/90 天成效与招聘质量"
 trigger:
   type: command
   expr: onboarding-check
 nodes:
   - id: n1
     type: skill
-    ref: interview-summary
+    ref: onboarding-plan
   - id: n2
     type: tool
     ref: cap.excel.panel.write
   - id: n3
     type: audit
-    record: "入职准备清单（账号/设备/导师）：数据版本 + 产物哈希"
+    record: "入职任务、30/60/90 天成效与招聘质量：数据版本 + 产物哈希"
 deliverable:
   file: onboarding-check-<ts>.json
   format: json
   fields:
+    - candidate_masked
+    - start_date
     - item
     - owner
     - due
     - status
-  acceptance: "入职日前 3 天必须全绿"
+    - goals_30_60_90
+    - retention_90d
+  acceptance: "阻断项完成；未到 90 天不得伪造留存结果"
 hitl_nodes:
 rollback:
   method: savepoint

@@ -209,3 +209,64 @@ screening → first → second → final → offer → hired
 - **回滚**：6 条工作流各带 savepoint 标签（pre-funnel-weekly / pre-resume-forward / pre-jd-draft / pre-interview-schedule / pre-offer-approve / pre-onboarding-check），失败即回滚。
 - **规则命中样例**：IV008/IV019 为面试官同时段冲突样例，属刻意埋点（用于回归测试 `rec.interview-schedule` 标红规则），非数据缺陷。
 - **命名差异**：scene.workflows 列出 `rec.funnel-report`，落地为 `rec.funnel-weekly.yaml`；两者为同一能力的命名差异，以工作流索引与落地文件为准。
+
+## 11 LLM 全流程接入标准（2026-09-30 增补）
+
+招聘工作流从“生成一段建议”升级为可审计的 LLM 阶段编排。所有模型输出必须是结构化 JSON，并满足：
+
+1. 每个结论带 `evidence_refs`，能指向简历页、候选人行、面试记录、薪酬带或用户提交字段；没有证据只能输出 `unknown` 或 `manual_review`。
+2. 输出包含 `confidence`、`redactions`、`model`、`prompt_version`，模型失败时保留草稿且状态为 `blocked_model`。
+3. 模型不得自行批准、发送 Offer、淘汰候选人、外发简历或写入正式业务结论。
+4. 受保护属性（性别、年龄、婚育、民族、宗教、健康等）不得作为筛选、评价或定价维度。
+5. 用户提交的面试过程、评分和反馈是 Offer 评价的必要输入；缺失时只能生成“待面试数据”的任务包。
+
+| 工作流 | LLM 责任 | 人工责任 | 终态门禁 |
+|---|---|---|---|
+| rec.jd-draft | 岗位能力模型、关键结果、JD 草稿、合规检查 | 确认职责、能力和薪酬带 | 合规项全通过；薪酬带来自 comp |
+| rec.resume-forward | 简历解析、真实性/完整性校验、岗位匹配、短名单与追问 | 复核证据，批准是否外发 | 脱敏通过 + 两个不同角色/操作者签字 |
+| rec.interview-schedule | 针对性题库、追问、评分锚点、冲突检测 | 确认面试官与时间 | 无时间冲突；题库覆盖所有能力项 |
+| rec.offer-approve | 汇总面试反馈、一致性/冲突判断、Offer 建议和草稿 | 提交面试数据并完成双审批 | 反馈完整；超 P75/预算不足/证据冲突必须双审批 |
+| rec.onboarding-check | 入职清单、30/60/90 天目标和质量评价 | 确认任务责任人与实际状态 | 合同/账号/设备/培训等阻断项完成 |
+| rec.funnel-weekly | 渠道与留存漏斗、招聘周期、Offer 接受率、招聘质量 | 复核数据口径和改进行动 | 阶段人数守恒；结论可下钻到源行 |
+
+## 12 招聘闭环与用户提交数据
+
+完整闭环为：
+
+`岗位需求/JD -> 简历上传与解析 -> 格式/真实性/PII 校验 -> 岗位匹配和筛选评价 -> 邀约信 -> 针对性面试题库 -> 面试过程与反馈提交 -> 综合评价/风险项 -> 人工角色签名审批 -> Offer 生成与发送 -> 入职任务链 -> 30/60/90 天成效 -> 交付质量评估 -> 渠道留存漏斗 -> 战略 KR 回写`
+
+其中面试过程与反馈必须由用户通过界面提交，至少包含：
+
+- `candidate_masked`、`round`、`interviewer_role`、`interview_at`。
+- 每个能力项的 `score`、`evidence`、`risk_note`。
+- `result`（pending/pass/fail/hold）与人工确认意见。
+- 关联的题库、评分卡和上一轮证据引用。
+
+系统不得把“没有反馈”推导成“未通过”；缺失数据应进入 `awaiting_user_data` 或 `manual_review`。
+
+## 13 成效、质量与战略贡献
+
+招聘域的北极星是“招聘质量、速度与 90 天留存”，同时向 `KR-TALENT`（入职人数）和 `KR-CAPABILITY`（能力供给）贡献指标：
+
+| 指标 | 口径 | 用途 |
+|---|---|---|
+| time_to_fill_days | 从需求批准到 Offer 接受 | 招聘速度与流程瓶颈 |
+| offer_acceptance_pct | 接受 Offer / 发放 Offer | 定薪与雇主竞争力 |
+| quality_of_hire | 30/60/90 天业务达标、经理评价和试用期结果的加权分 | 招聘质量 |
+| retention_90d_pct | 入职 90 天仍在职人数 / 入职人数 | 渠道与筛选有效性 |
+| source_quality | 各来源的“入职且 90 天留存”转化与质量分 | 渠道投入决策 |
+| cost_per_hire_wan | 招聘相关总成本 / 入职人数 | 预算效率 |
+
+所有指标必须回传 `metrics/snapshots-YYYY-MM.jsonl`，并带有 `instance_id`、`workflow_id`、`data_version` 和贡献 KR。战略总看板只消费这些有来源的证据，不允许人工直接填写汇总数。
+
+## 14 UI 交付规范（壳内工作台）
+
+招聘域在壳内工作台提供：
+
+- 经营路径与贡献 KR、当前指标、待审批和最近实例。
+- 六个流程卡片，每张显示业务目的、交付物、格式和验收标准。
+- 输入阶段提供“填入示例”和逐字段说明，支持 JSON/CSV 导入与用户上传材料引用。
+- 阶段链实时显示输入、校验、LLM、质量门、审批、发布、成效和战略回写状态。
+- 双审批使用“角色 + 操作者签名 + 意见”，同一角色或同一操作者不能重复完成双审批。
+- 交付页可下载实例 JSON、Markdown、正式交付包及 manifest；失败状态显示恢复动作。
+- 招聘质量与留存复盘可从总看板下钻到实例、源数据行和产物哈希。
