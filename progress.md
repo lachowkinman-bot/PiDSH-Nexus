@@ -235,3 +235,15 @@
 2. `dsh-context-doctor` / `dsh-secure-audit` 的功能级验证（工具实调 + 面板截图），以及联网重打 runtime。
 3. runtime 体积裁剪（目标回到 ≤260 MB 级别，且不丢已验证能力）。
 4. 上下文交接：本轮结束时按 `AGENTS.md` 规则生成 handoff（写入系统临时目录，剔除凭据）。
+
+### J. 交付 runtime 自检（10:33，隔离实例）
+
+- 用「由本轮 runtime zip 解压出的干净 profile」（19 bundles，已剔除两个候选插件）冷启动 `--port 3096`，直接 HTTP 探针：`/workbench/api/workflows` **200**、`/workbench/api/app-page` **200**、`/` 401（无 token，符合设计）。
+- `node scripts/verify-app.mjs --base 3096`：沙箱内 16/45 → 提权后 **18/45**；其中 2 项 EPERM 已由提权消除，其余 27 项全部为 `http=0`。
+- 判据澄清：`http=0` = fetch 被**DSH 壳请求护栏掐断**（同一端点用 curl 单独请求返回 200；R7 轮已记录同现象），非产品缺陷；`verify-app 45/45` 的历史证据来自**有浏览器会话的安装实例**，本轮隔离实例不具备该条件。
+- 结论：本轮**不**更新 `app-verification-installed-r7.json` 的 45/45 结论，改登记为「安装级复验待做」。
+
+### K. 交接（按 AGENTS.md 强制规则）
+
+- 交接文档（临时目录，不入库、无凭据）：`%TEMP%\handoff-pids-nexus-r8-2026-09-30.md`。
+- 内容：当前目标、已提交基线、取证结论表、下一轮 4 项按序任务、5 类坑（离线 pnpm / 壳护栏 / Pi_DSH_support 不入库但有 file: 依赖 / 沙箱限制 / 本轮事故）、运行中进程、建议 skills、关键文件索引。
