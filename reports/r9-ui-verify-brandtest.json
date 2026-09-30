@@ -1,0 +1,44 @@
+{
+  "url": "http://127.0.0.1:3080/?token=***",
+  "startedAt": "2026-09-30T03:52:04.551Z",
+  "welcomeModalVisible": false,
+  "brandFound": true,
+  "brandSample": "新会话 Ctrl + Alt + N 插件 通知与控制 任务看板 技能中心 记忆系统 ⟡ ⟡ 工作台 工作区 默认工作区 新会话 PR Board + No repositories · + to add one 余额 ¥322.89 今日 ¥0 峰时 · 8分钟后进入平价 后台 agent 用量/余额 上下文洞察 设置 | 新会话 Ctrl + Alt + N 插件 通知与控制 任务看板 技能中心 记忆系统 ⟡ ⟡ 工作台 工作区 默认工作区 新会话 PR Board + No repositories · + to add one 余额 ¥322.89 今日 ¥0 峰时 · 8分钟后进入平",
+  "brandLegacyFound": false,
+  "modulesFirstPass": {
+    "插件": true,
+    "通知与控制": true,
+    "任务看板": true,
+    "技能中心": true,
+    "记忆系统": true,
+    "工作台": true,
+    "PR Board": true,
+    "用量余额": true
+  },
+  "modulesSecondPass": {
+    "插件": true,
+    "通知与控制": true,
+    "任务看板": true,
+    "技能中心": true,
+    "记忆系统": true,
+    "工作台": true,
+    "PR Board": true,
+    "用量余额": true
+  },
+  "modules": {
+    "插件": true,
+    "通知与控制": true,
+    "任务看板": true,
+    "技能中心": true,
+    "记忆系统": true,
+    "工作台": true,
+    "PR Board": true,
+    "用量余额": true
+  },
+  "textSample": "新会话 Ctrl + Alt + N 插件 通知与控制 任务看板 技能中心 记忆系统 ⟡ ⟡ 工作台 工作区 默认工作区 新会话 PR Board + No repositories · + to add one 余额 ¥322.89 今日 ¥0 峰时 · 8分钟后进入平价 后台 agent 用量/余额 上下文洞察 设置 ⟡ PiDSH Nexus · 全能工作台 打开 13 域驾驶舱 ↗ 主驾驶舱 13 域工作台 工作流 (78) 交付物 审计 F7 离线 F8 升级回退 F11 自检 preset 生命周期（F14：选 / 用 / 存 / 切 / 新建 / 编辑 → 各产生审计事件） — 选择 preset — admin.procurement@1.0.0（L3） ben.plan-compare@1.0.0（L4） cmp.policy-review@1.0.0（L4） comp.salary-review@1.0.0（L4·双审批） eap.referral@1.0.0（L4·双审批） er.offboarding@1.0.0（L4·双审批） fin.expense-approve@1.0.0（L4） mkt-off.event-roi@1.0.0（L3） mkt-on.content-publish@1.0.0（L4） prf.calibration@1.0.0（L4·双审批） rec.funnel-weekly@1.0.0（L3） sales.quote-approval@1.0.0（L3） strat.quarterly-review@1.0.0（L4·双审批） trn.plan-approve@1.0.0（L3） 选/用（apply） 存（save） 切（switch） 当前：admin.procurement@1.0.0 新建（派生自所选 Scene） 编辑保存 审计计数：preset.apply=0 ｜ preset.save=0 ｜ preset.switch=0 ｜ preset.new=0 ｜ preset.edit=0 ｜ engine.run=0 ｜ workflow.run=0 ｜ deliverable.create=0 主驾驶舱 打开 13 域驾驶舱 ↗ 查看 13 域工作台 13 业务域 78 工作流 34 审计事件 127 交付文件 当前 preset：admin.procurement@1.0.0 主入口：主驾驶舱 → 13 个域工作台 → 交付中心；也可在下方直接进入任一域。 业务域快捷入口 战略 STRAT 工作流 6 条 打开域工作台 ↗ 营销（线上）MKT-ON 工作流 6 条 打开域工作台 ↗ 营销（线下）MKT-OFF 工作流 6 条 打开域工作台 ↗ 销售 SALES 工作流 6 条 打开域工作台 ↗ 财务 FIN 工作流 6 条 打开域工作台 ↗ 招聘 REC 工作流 6 条 打开域工作台 ↗ 培训 TRN 工作流 6 条 打开域工作台 ↗ 绩效 PRF 工作流 6 条 打开域工作台 ↗ 薪酬 COMP 工作流 6 条 打开域工作台 ↗ 福利 BEN 工作流 6 条 打开域工作台 ↗ 行政 ADMIN 工作流 6 条 打开域工作台 ↗ 合规 CMP 工作流 6 条 打开域工作台 ↗ 员工关系/EAP 工作流 6 条 打开域工作台 ↗",
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)"
+  ],
+  "finishedAt": "2026-09-30T03:52:20.222Z",
+  "pass": true
+}

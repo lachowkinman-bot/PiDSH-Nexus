@@ -1,0 +1,44 @@
+{
+  "url": "http://127.0.0.1:3096/?token=***",
+  "startedAt": "2026-09-30T03:40:42.333Z",
+  "welcomeModalVisible": false,
+  "brandFound": false,
+  "brandLegacyFound": true,
+  "modulesFirstPass": {
+    "插件": true,
+    "通知与控制": true,
+    "任务看板": true,
+    "技能中心": true,
+    "记忆系统": true,
+    "工作台": true,
+    "PR Board": true,
+    "用量余额": false
+  },
+  "workbenchClickError": "TimeoutError: locator.click: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('工作台').first()\u001b[22m\n\u001b[2m    - locator resolved to <span class=\"hHd",
+  "modulesSecondPass": {
+    "插件": true,
+    "通知与控制": true,
+    "任务看板": true,
+    "技能中心": true,
+    "记忆系统": true,
+    "工作台": true,
+    "PR Board": true,
+    "用量余额": false
+  },
+  "modules": {
+    "插件": true,
+    "通知与控制": true,
+    "任务看板": true,
+    "技能中心": true,
+    "记忆系统": true,
+    "工作台": true,
+    "PR Board": true,
+    "用量余额": false
+  },
+  "textSample": "新会话 Ctrl + Alt + N 插件 通知与控制 任务看板 技能中心 记忆系统 ⟡ ⟡ 工作台 工作区 暂无会话 PR Board + No repositories · + to add one 余额 查询失败 今日 ¥0 峰时 · 20分钟后进入平价 后台 agent 试试更轻巧的侧栏 × 简化显示可以为会话列表留出更多空间。要现在开启吗？之后可在「设置 → 费用 → 显示」中切换。 保留当前显示 开启简化显示 记忆 用量/余额 上下文洞察 设置 探索未至之境 预览版 选择工作区 标准模式 选择一个工作区开始 ✕ WELCOME 欢迎使用 dsh-auto-memory 这是 DeepSeek Harness 的个人联想记忆插件。接下来把所有功能向你解释清楚——每个功能都有开关，当场决定开不开；最后会告诉你在哪里随时改。 跳过向导 ‹ 上一步 下一步 ›",
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)"
+  ],
+  "finishedAt": "2026-09-30T03:41:00.276Z",
+  "pass": false
+}

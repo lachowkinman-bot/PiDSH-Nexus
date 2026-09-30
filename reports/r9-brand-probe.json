@@ -1,0 +1,162 @@
+{
+  "hasPids": false,
+  "hasLegacy": true,
+  "probe": [
+    {
+      "tag": "HTML",
+      "cls": "",
+      "aria": "",
+      "text": ":root{color-scheme:light}body{background-color:#fff;--dsh-boot-bg:#fff}@media(pr",
+      "html": "<html lang=\"zh-CN\" data-ds-theme-source=\"system\" style=\"color-scheme: light; --dsh-sidebar-height: 0px;\"><head><base href=\"./\"><style data-plugin=\"@deepseek-ai/dsh-client-ui-renderer\">:root{color-sche",
+      "rect": [
+        0,
+        0,
+        1560,
+        950
+      ]
+    },
+    {
+      "tag": "BODY",
+      "cls": "",
+      "aria": "",
+      "text": "window[\"__DSH_SMOOTH_STREAM_CONFIG__\"]={\"mode\":\"typewriter\",\"preset\":\"balanced\",",
+      "html": "<body style=\"--dsh-content-font-size: 14px;\" data-dsh-pocket-layout=\"desktop\"><script>window[\"__DSH_SMOOTH_STREAM_CONFIG__\"]={\"mode\":\"typewriter\",\"preset\":\"balanced\",\"revealCharsPerSec\":80,\"scrollSpee",
+      "rect": [
+        0,
+        0,
+        1560,
+        950
+      ]
+    },
+    {
+      "tag": "DIV",
+      "cls": "",
+      "aria": "",
+      "text": "新会话Ctrl+Alt+N插件通知与控制任务看板技能中心记忆系统⟡⟡ 工作台工作区默认工作区新会话PR Board+No repositories · + to",
+      "html": "<div id=\"root\"><div data-slot=\"root\" style=\"display: contents;\"><div class=\"pI_x6G_frame\" data-rightbar-collapsed=\"true\" style=\"grid-template-columns: 280px minmax(0px, 1fr) minmax(0px, 0px);\"><div cl",
+      "rect": [
+        0,
+        0,
+        1560,
+        950
+      ]
+    },
+    {
+      "tag": "DIV",
+      "cls": "pI_x6G_frame",
+      "aria": "",
+      "text": "新会话Ctrl+Alt+N插件通知与控制任务看板技能中心记忆系统⟡⟡ 工作台工作区默认工作区新会话PR Board+No repositories · + to",
+      "html": "<div class=\"pI_x6G_frame\" data-rightbar-collapsed=\"true\" style=\"grid-template-columns: 280px minmax(0px, 1fr) minmax(0px, 0px);\"><div class=\"pI_x6G_sidebarCol\"><div data-slot=\"sidebar\" style=\"display:",
+      "rect": [
+        0,
+        0,
+        1560,
+        950
+      ]
+    },
+    {
+      "tag": "DIV",
+      "cls": "pI_x6G_sidebarCol",
+      "aria": "",
+      "text": "新会话Ctrl+Alt+N插件通知与控制任务看板技能中心记忆系统⟡⟡ 工作台工作区默认工作区新会话PR Board+No repositories · + to",
+      "html": "<div class=\"pI_x6G_sidebarCol\"><div data-slot=\"sidebar\" style=\"display: contents;\"><div class=\"hHd-Xa_root hHd-Xa_quietBars\" style=\"width: 280px;\"><div class=\"hHd-Xa_logoRow\" data-window-drag=\"true\"><",
+      "rect": [
+        0,
+        0,
+        280,
+        950
+      ]
+    },
+    {
+      "tag": "DIV",
+      "cls": "hHd-Xa_root hHd-Xa_quietBars",
+      "aria": "",
+      "text": "新会话Ctrl+Alt+N插件通知与控制任务看板技能中心记忆系统⟡⟡ 工作台工作区默认工作区新会话PR Board+No repositories · + to",
+      "html": "<div class=\"hHd-Xa_root hHd-Xa_quietBars\" style=\"width: 280px;\"><div class=\"hHd-Xa_logoRow\" data-window-drag=\"true\"><button type=\"button\" class=\"hHd-Xa_brand hHd-Xa_wide\" aria-label=\"新建会话\" aria-keysho",
+      "rect": [
+        0,
+        0,
+        280,
+        950
+      ]
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "hHd-Xa_brand hHd-Xa_wide",
+      "aria": "新建会话",
+      "text": "",
+      "html": "<button type=\"button\" class=\"hHd-Xa_brand hHd-Xa_wide\" aria-label=\"新建会话\" aria-keyshortcuts=\"Control+Alt+N\"><span class=\"hHd-Xa_brandIdentity\" aria-hidden=\"true\"><span class=\"hHd-Xa_brandMark\"><div dat",
+      "rect": [
+        16,
+        24,
+        216,
+        24
+      ]
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "hHd-Xa_newSession",
+      "aria": "新建会话",
+      "text": "新会话Ctrl+Alt+N",
+      "html": "<button type=\"button\" class=\"hHd-Xa_newSession\" aria-label=\"新建会话\" aria-keyshortcuts=\"Control+Alt+N\"><span class=\"hHd-Xa_newSessionLabelMask\"><span class=\"hHd-Xa_newSessionContent\"><svg width=\"14\" heig",
+      "rect": [
+        14,
+        70,
+        252,
+        38
+      ]
+    },
+    {
+      "tag": "SPAN",
+      "cls": "hHd-Xa_newSessionLabelMask",
+      "aria": "",
+      "text": "新会话",
+      "html": "<span class=\"hHd-Xa_newSessionLabelMask\"><span class=\"hHd-Xa_newSessionContent\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\" stroke",
+      "rect": [
+        27,
+        78,
+        155,
+        22
+      ]
+    },
+    {
+      "tag": "SPAN",
+      "cls": "hHd-Xa_newSessionContent",
+      "aria": "",
+      "text": "新会话",
+      "html": "<span class=\"hHd-Xa_newSessionContent\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\" stroke-width=\"1.3\"><path d=\"M2.37091 11.2501C1.",
+      "rect": [
+        27,
+        78,
+        226,
+        22
+      ]
+    },
+    {
+      "tag": "SPAN",
+      "cls": "hHd-Xa_newSessionLabel hHd-Xa_wide",
+      "aria": "",
+      "text": "新会话",
+      "html": "<span class=\"hHd-Xa_newSessionLabel hHd-Xa_wide\">新会话</span>",
+      "rect": [
+        129,
+        78,
+        42,
+        22
+      ]
+    },
+    {
+      "tag": "SPAN",
+      "cls": "hHd-Xa_newSessionShortcut",
+      "aria": "",
+      "text": "Ctrl+Alt+N",
+      "html": "<span class=\"hHd-Xa_newSessionShortcut\" aria-hidden=\"true\"><span class=\"_keys_38b9q_1\"><kbd class=\"_key_38b9q_1\">Ctrl</kbd><kbd class=\"_separator_38b9q_30\">+</kbd><kbd class=\"_key_38b9q_1\">Alt</kbd><k",
+      "rect": [
+        182,
+        81,
+        71,
+        16
+      ]
+    }
+  ]
+}

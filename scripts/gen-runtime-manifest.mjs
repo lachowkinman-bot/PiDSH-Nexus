@@ -23,6 +23,13 @@ const DUPLICATE_PAIRS = [
   ['@steven-wu/dsh-cost-meter', 'dsh-cost-meter'],
   ['dsh-git-graph', '@linxin666/dsh-client-ui-git-graph'],
 ];
+// 默认不加载（仍随包分发，可在插件中心手动启用）：首启阻塞或启动期外网探测的插件
+const DISABLED_BY_DEFAULT = new Map([
+  [
+    '@a9i5k4/dsh-auto-memory',
+    '首启强制向导弹窗（localStorage.tourDismissed 无法随包预置）+ 启动期访问 raw.githubusercontent/npm registry；记忆系统由 dsh-mnemon 提供',
+  ],
+]);
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -38,11 +45,22 @@ function tarballs() {
   return out;
 }
 
-function resolveSource(name, pool) {
+function resolveSource(name, pool, version) {
   if (BUILTIN.includes(name)) return 'builtin';
   const slug = name.replace(/^@/, '').replace(/\//g, '-');
-  const hit = pool.find((t) => t.file.startsWith(`${slug}-`));
-  return hit ? `${hit.dir}/${hit.file}` : null;
+  // 必须精确匹配「包名-版本」前缀：`dsh-plugin` 曾被错配成 `dsh-plugin-manager-0.1.0.tgz`（2026-09-30 实测，
+  // 导致客户端 dsh-plugin-manager 激活失败、整壳白屏）。
+  const candidates = pool.filter((t) => t.file.startsWith(`${slug}-`));
+  if (!candidates.length) return null;
+  const exact = version ? candidates.find((t) => t.file.startsWith(`${slug}-${version}`)) : null;
+  const hit = exact || candidates.find((t) => /-\d/.test(t.file.slice(slug.length)));
+  if (!hit) return null;
+  if (version && hit.file.startsWith(`${slug}-${version}`) === false) {
+    throw new Error(
+      `tar 包与清单版本不一致：${name}@${version} 仅找到 ${hit.file}（存在同名不同版本/同前缀包）`,
+    );
+  }
+  return `${hit.dir}/${hit.file}`;
 }
 
 function versionOf(name) {
@@ -77,10 +95,14 @@ function syncFromProfile() {
     dropped.set(drop, { replaces: keep, reason: `${keep}@${keep === oldName ? va : vb} 较新` });
   }
   const entries = names.map((name) => {
-    const source = resolveSource(name, pool);
+    const version = versionOf(name);
+    if (!version && !BUILTIN.includes(name)) throw new Error(`无法读取版本：${name}`);
+    const source = resolveSource(name, pool, version);
     if (!source) throw new Error(`清单内包缺离线 tar 包：${name}`);
-    const entry = { name, source, load: !dropped.has(name) };
+    const disabled = DISABLED_BY_DEFAULT.get(name);
+    const entry = { name, version, source, load: !dropped.has(name) && !disabled };
     if (dropped.has(name)) entry.droppedBecause = dropped.get(name).reason;
+    if (disabled) entry.droppedBecause = disabled;
     return entry;
   });
   const payload = {

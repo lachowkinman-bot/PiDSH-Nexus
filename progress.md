@@ -247,3 +247,33 @@
 
 - 交接文档（临时目录，不入库、无凭据）：`%TEMP%\handoff-pids-nexus-r8-2026-09-30.md`。
 - 内容：当前目标、已提交基线、取证结论表、下一轮 4 项按序任务、5 类坑（离线 pnpm / 壳护栏 / Pi_DSH_support 不入库但有 file: 依赖 / 沙箱限制 / 本轮事故）、运行中进程、建议 skills、关键文件索引。
+
+## 第九轮（2026-09-30 11:00-12:10）：桌面端换新落地（安装态验收）
+
+> 用户反馈：桌面旧 logo / 卡内测声明 / 左上角品牌未改 / 模块（插件、通知与控制、任务看板、技能中心、记忆系统、工作台、PR Board、用量余额）全缺。
+
+### A. 根因（同一根因链，已逐条取证）
+
+- 桌面跑的是 **09:49 旧安装版**：exe 早于图标重做；旧 runtime zip 的 `profiles/web/package.json` **只有 3 个 bundle**（证实模块全缺的构造性原因）。
+- **升级链路缺陷（核心）**：`ensure_runtime` 在缺 `offline-3.0/runtime-web.build-id` 时把"无期望值"判为已就绪直接返回，而安装器从未随包该文件 → 旧 profile 永不刷新；"重装也没变化"由此解释。
+- 内测声明：官方 welcome notice 需把 `ui-settings-general.welcomeNoticeVersion` 写进 `profiles/web/cordis.patch.yml`；极简/半损 profile 下写入链路不成立 → 弹窗卡住。
+
+### B. 改动（详见 `reports/r9-desktop-refresh.md`）
+
+- 新增 `manifests/runtime-bundles.json`（R6 64 → **59 加载** + 5 随包不加载）与 `scripts/gen-runtime-manifest.mjs`（**包名-精确版本**解析离线 tar，缺包即失败）。
+- 出厂预置：`templates/runtime/cordis.patch.yml`（内测声明已确认）、`templates/runtime/compatibility.json`（`@shaoshi/dshscan` 版本豁免）。
+- `ensure_runtime` 三态 + 备份/暂存/原子换入/合并/回滚；`workbench.ps1` 同构实现（含 DSH_HOME 路径断言）。
+- 安装器：补 build-id、`[InstallDelete]` 清旧快捷方式、`ie4uinit` 刷图标缓存；脚本转 UTF-8 BOM（修 PS 5.1 中文注释吞行）。
+- 关键 bug 修复：生成器曾把 `dsh-plugin` 错配成 `dsh-plugin-manager-0.1.0.tgz` → 客户端 `dsh-plugin-manager` 激活失败白屏；改为精确版本匹配后修复。
+
+### C. 安装级验收（本机原地升级）
+
+- 最终安装包 `installer-output/UniversalWorkbench-Setup.exe` **589,253,195 B** / SHA256 `1B208009…B414F26`；runtime zip 546,149,331 B / build-id `db5eb8a0…0c78`。
+- profile 3 → **59 bundle**；marker == build-id；两次刷新各留备份（`.dsh-home.pre-r9-…`），sessions/credentials/storages 全保留；快捷方式只剩 `PiDSH Nexus`。
+- UI 取证（`scripts/verify-r9-ui.mjs`）：**R9_UI PASS** brand(面板标题)=true、`modal=false`、**模块 8/8**；截图 `reports/ui-walkthrough/r9-01-shell-home.png` / `r9-02-workbench-panel.png`；工作台 API 三端点 200。
+
+### D. 未达标（如实登记）
+
+1. **主壳左上角字标仍是 `deepseek HARNESS`**：官方品牌在**预构建客户端 bundle** 内且槽位"声明即独占"；已试 `disabled` 行 / bundle 顺序 / DOM 替换三条路径均不生效，实验已全部撤回（repo 与出货 runtime 的 `client.js` sha 一致 `12F7CABC…`）。下一轮需构建期替换官方客户端产物或找到客户端插件构建缓存失效点。
+2. `dsh-task-board` 网关降级（`session/list` 定义被收回 → 名册自动发现关闭，面板本身可用）。
+3. 首启仍存两条可关闭的一次性提示（better-sidebar 简化建议、usage-stats 额度横条建议），非阻塞。

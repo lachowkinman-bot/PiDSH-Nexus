@@ -108,6 +108,25 @@ fn merge_preset_patch(live: &Path, preset_text: &str) -> Result<(), String> {
     fs::write(live, merged).map_err(|e| format!("无法写入 profile patch：{e}"))
 }
 
+/// 合并出厂版本豁免表（compatibility.json）：并集，保留用户已有条目。
+fn merge_compatibility(live: &Path, preset_text: &str) -> Result<(), String> {
+    let mut merged: serde_json::Map<String, serde_json::Value> = fs::read_to_string(live)
+        .ok()
+        .and_then(|text| serde_json::from_str::<serde_json::Value>(&text).ok())
+        .and_then(|value| value.as_object().cloned())
+        .unwrap_or_default();
+    let preset: serde_json::Value = serde_json::from_str(preset_text)
+        .map_err(|e| format!("出厂豁免表非法：{e}"))?;
+    if let Some(entries) = preset.as_object() {
+        for (key, value) in entries {
+            merged.entry(key.clone()).or_insert_with(|| value.clone());
+        }
+    }
+    let text = serde_json::to_string_pretty(&serde_json::Value::Object(merged))
+        .map_err(|e| format!("序列化豁免表失败：{e}"))?;
+    fs::write(live, text).map_err(|e| format!("无法写入豁免表：{e}"))
+}
+
 /// 用随包 runtime 刷新 profile：备份旧 profile → 解压到暂存 → 原子换入 → 合并 patch。
 /// 任一步失败都会把旧 profile 还原回去，绝不留下半损状态。
 fn refresh_runtime(root: &Path, archive: &Path, expected: &str) -> Result<(), String> {
@@ -141,6 +160,8 @@ fn refresh_runtime(root: &Path, archive: &Path, expected: &str) -> Result<(), St
 
     let backup = root.join(format!(".dsh-home.pre-r9-{}", utc_stamp()));
     let preset_text = fs::read_to_string(staged_profile.join("cordis.patch.yml")).unwrap_or_default();
+    let compat_text =
+        fs::read_to_string(staged_profile.join("compatibility.json")).unwrap_or_default();
     let had_profile = profile.is_dir();
     if had_profile {
         fs::rename(&profile, &backup).map_err(|e| format!("无法备份旧 profile：{e}"))?;
@@ -159,6 +180,9 @@ fn refresh_runtime(root: &Path, archive: &Path, expected: &str) -> Result<(), St
             }
         }
         merge_preset_patch(&live_patch, &preset_text)?;
+        if !compat_text.trim().is_empty() {
+            merge_compatibility(&profile.join("compatibility.json"), &compat_text)?;
+        }
         let marker = serde_json::json!({ "build_id": expected, "refreshed_at": utc_stamp() });
         fs::write(profile.join("runtime-build.json"), marker.to_string())
             .map_err(|e| format!("无法写入 runtime 标记：{e}"))?;

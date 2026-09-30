@@ -47,7 +47,7 @@ function Write-Gap([string]$pkg,[string]$tier,[string]$reason,[string]$elem,[str
   Set-Content -Encoding UTF8 -Path $p -Value $line
 }
 
-# —— 安全断言：递归删除/移动前必须确认目标在 DSH_HOME 内（2026-09-30 事故后纪律）——
+# --- Guard: recursive delete/move must stay inside DSH_HOME (discipline after 2026-09-30 incident) ---
 function Assert-UnderDshHome([string]$Path,[string]$DshHome){
   $p = [IO.Path]::GetFullPath($Path)
   $h = [IO.Path]::GetFullPath($DshHome)
@@ -55,7 +55,7 @@ function Assert-UnderDshHome([string]$Path,[string]$DshHome){
   return $p
 }
 
-# —— runtime 刷新：备份旧 profile → 解压到暂存 → 原子换入 → 合并出厂 patch（R9）——
+# --- Runtime refresh: backup old profile -> extract to stage -> atomic swap -> merge preset patch (R9) ---
 function Invoke-RuntimeRefresh([string]$Archive,[string]$BuildId,[string]$DshHome,[string]$Root){
   $ErrorActionPreference = 'Continue'
   $profile = Assert-UnderDshHome (Join-Path $DshHome 'profiles/web') $DshHome
@@ -85,6 +85,18 @@ function Invoke-RuntimeRefresh([string]$Archive,[string]$BuildId,[string]$DshHom
     if ($existing -notmatch 'welcomeNoticeVersion') {
       $merged = if ([string]::IsNullOrWhiteSpace($existing)) { $presetText } else { $existing.TrimEnd() + "`n" + $presetText }
       Set-Content -LiteralPath $live -Value $merged -Encoding UTF8
+    }
+    # Version exemption table (compatibility.json): union of factory preset and user entries.
+    $compatLive = Join-Path $profile 'compatibility.json'
+    $presetCompat = if (Test-Path -LiteralPath $compatLive) { Get-Content -Raw $compatLive | ConvertFrom-Json } else { $null }
+    $userCompat = if ($hadProfile -and (Test-Path -LiteralPath (Join-Path $backup 'compatibility.json'))) { Get-Content -Raw (Join-Path $backup 'compatibility.json') | ConvertFrom-Json } else { $null }
+    if ($null -ne $presetCompat -or $null -ne $userCompat) {
+      $map = @{}
+      foreach ($src in @($userCompat, $presetCompat)) {
+        if ($null -eq $src) { continue }
+        foreach ($prop in $src.PSObject.Properties) { if (-not $map.ContainsKey($prop.Name)) { $map[$prop.Name] = $prop.Value } }
+      }
+      ($map | ConvertTo-Json -Depth 8) | Set-Content -LiteralPath $compatLive -Encoding UTF8
     }
     $marker = @{ build_id = $BuildId; refreshed_at = (Get-Date).ToUniversalTime().ToString('o') } | ConvertTo-Json
     Set-Content -LiteralPath (Join-Path $profile 'runtime-build.json') -Value $marker -Encoding UTF8
@@ -160,7 +172,7 @@ switch ($Cmd) {
   $runtimeNeedsExtract = (-not (Test-Path $runtimeEntry)) -or ($expectedBuild -and $expectedBuild -ne $installedBuild)
   if ($runtimeNeedsExtract -and (Test-Path $runtimeArchive)) {
     New-Item -ItemType Directory -Force -Path $env:DSH_HOME | Out-Null
-    # R9：不再直接覆盖解压——改为「备份旧 profile → 暂存解压 → 原子换入 → 合并出厂 patch」，失败自动回滚
+    # R9: no longer extract over the live profile; backup + stage + atomic swap + merge, with rollback on failure
     $runtimeExtractExit = Invoke-RuntimeRefresh $runtimeArchive $expectedBuild $env:DSH_HOME $Root
   } else { $runtimeExtractExit = 0 }
   $installedBuild = if (Test-Path $runtimeMarker) {

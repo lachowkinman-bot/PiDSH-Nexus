@@ -1,6 +1,10 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 $root = (Get-Item $PSScriptRoot).Parent.FullName
 Set-Location $root
+
+# Use bundled portable Node (elevated/minimal PATH sessions may lack node; measured 2026-09-30)
+$portable = Join-Path $root 'offline/node/node-v24.21.0-win-x64'
+if (Test-Path (Join-Path $portable 'node.exe')) { $env:PATH = "$portable;$env:PATH" }
 
 # 0) 由固定清单生成 package.json（缺离线 tar 包即失败，不静默降级）
 node scripts/gen-runtime-manifest.mjs
@@ -62,6 +66,8 @@ if (Test-Path (Join-Path $runtime 'package-lock.json')) {
 }
 # 出厂 profile patch：预置「内测声明已确认」（升级时由 ensure_runtime 合并保留）
 Copy-Item -LiteralPath (Join-Path $root 'templates/runtime/cordis.patch.yml') -Destination (Join-Path $profileStage 'cordis.patch.yml') -Force
+# 出厂版本豁免：@shaoshi/dshscan 在 0.1.7-rc.2 上按 R6 实测结论放行（否则启动时被版本护栏跳过）
+Copy-Item -LiteralPath (Join-Path $root 'templates/runtime/compatibility.json') -Destination (Join-Path $profileStage 'compatibility.json') -Force
 & robocopy (Join-Path $runtime 'node_modules') (Join-Path $profileStage 'node_modules') /E /NFL /NDL /NJH /NJS /NP | Out-Null
 $copyExit = $LASTEXITCODE
 if ($copyExit -ge 8) { throw "复制 runtime node_modules 失败 robocopy=$copyExit" }
@@ -73,7 +79,8 @@ $buildFiles = @(
   (Join-Path $root 'workbench-ui-plugin/lib/delivery-service.cjs'),
   (Join-Path $root 'manifests/runtime-web.package.json'),
   (Join-Path $root 'manifests/runtime-bundles.json'),
-  (Join-Path $root 'templates/runtime/cordis.patch.yml')
+  (Join-Path $root 'templates/runtime/cordis.patch.yml'),
+  (Join-Path $root 'templates/runtime/compatibility.json')
 )
 $fingerprint = ($buildFiles | ForEach-Object {
   "$_`n$((Get-FileHash -Algorithm SHA256 -LiteralPath $_).Hash)"

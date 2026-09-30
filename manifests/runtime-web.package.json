@@ -66,7 +66,7 @@
     "@shaoshi/dshscan": "file:../../offline/catalog/shaoshi-dshscan-0.5.0.tgz",
     "pi2dsh": "file:../../offline/npm/pi2dsh-0.25.2.tgz",
     "dsh-better-sidebar": "file:../../offline/catalog/dsh-better-sidebar-0.21.1.tgz",
-    "dsh-plugin": "file:../../offline/catalog/dsh-plugin-manager-0.1.0.tgz"
+    "dsh-plugin": "file:../../offline/npm/dsh-plugin-1.4.8.tgz"
   },
   "overrides": {
     "@deepseek-ai/dsh-attachment": "0.1.7-rc.2",
@@ -85,7 +85,6 @@
         "@changfenhuang/dsh-annotation",
         "dsh-network-settings",
         "@changfenhuang/dsh-genui",
-        "@a9i5k4/dsh-auto-memory",
         "@linxin666/dsh-client-ui-git-graph",
         "@linxin666/dsh-client-ui-skill-explorer",
         "@linxin666/dsh-client-ui-task-board",
