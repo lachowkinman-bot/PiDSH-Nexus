@@ -16,6 +16,10 @@ if ($PSVersionTable.PSVersion.Major -ge 7) { $PSNativeCommandUseErrorActionPrefe
 # 而 reports/ offline/ manifests/ 都是相对路径 → 此前安装器路径上日志会写错位置甚至直接抛错终止。
 $Root = (Get-Item $PSScriptRoot).Parent.FullName
 Set-Location $Root
+function Write-Utf8NoBom([string]$Path, [string]$Text) {
+  $encoding = New-Object System.Text.UTF8Encoding($false)
+  [IO.File]::WriteAllText($Path, $Text, $encoding)
+}
 $REG = @{ official='https://registry.npmjs.org'; npmmirror='https://registry.npmmirror.com'; tencent='https://mirrors.tencent.com/npm' }
 $ALLOWED = @('registry.npmjs.org','registry.npmmirror.com','mirrors.tencent.com','github.com','codeload.github.com','objects.githubusercontent.com','nodejs.org')
 
@@ -96,10 +100,10 @@ function Invoke-RuntimeRefresh([string]$Archive,[string]$BuildId,[string]$DshHom
         if ($null -eq $src) { continue }
         foreach ($prop in $src.PSObject.Properties) { if (-not $map.ContainsKey($prop.Name)) { $map[$prop.Name] = $prop.Value } }
       }
-      ($map | ConvertTo-Json -Depth 8) | Set-Content -LiteralPath $compatLive -Encoding UTF8
+      Write-Utf8NoBom $compatLive ($map | ConvertTo-Json -Depth 8)
     }
     $marker = @{ build_id = $BuildId; refreshed_at = (Get-Date).ToUniversalTime().ToString('o') } | ConvertTo-Json
-    Set-Content -LiteralPath (Join-Path $profile 'runtime-build.json') -Value $marker -Encoding UTF8
+    Write-Utf8NoBom (Join-Path $profile 'runtime-build.json') $marker
   } catch {
     if (Test-Path -LiteralPath $profile) { Remove-Item -LiteralPath $profile -Recurse -Force -ErrorAction SilentlyContinue }
     if ($hadProfile) { Move-Item -LiteralPath $backup -Destination $profile }

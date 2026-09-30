@@ -305,8 +305,8 @@
 
 ### D. 最终构建与安装态证据
 
-- runtime：546,177,316 B / build-id `3ef425eba252b32f4b2077a1a6ac7b62880679f2e0f9357259ba52f0ec548f58`。
-- 安装器：589,396,576 B / SHA256 `F547DBAFFD4FDA9D984C05A66CF60D49778266DCE554D0C02111CBBE7FCBC1FE`。
+- runtime：546,177,307 B / SHA256 `D273C53ED1FB42FC42BB1592E3EEF6600B85E8CC0EF132F8BAF62DA5A85B4C6A` / build-id `3ef425eba252b32f4b2077a1a6ac7b62880679f2e0f9357259ba52f0ec548f58`。
+- 安装器：589,395,656 B / SHA256 `80F979BB9C7CEB59C1FB8C9858B66707889C1075805D012884F8778C064B6F6B`。
 - 隔离安装在 `.work/r10-installed`；`workbench.ps1 -Cmd install` 成功，profile marker 与 runtime build-id 一致，插件版本 `4.0.0`。
 - 原地升级保留：session 哨兵与工作区哨兵均在安装器 `/FORCECLOSEAPPLICATIONS` 静默重装后保留，安装器退出码 0。
 - 安装态：`APP_VERIFY 45/45`；严格主壳 `101/102`（唯一未完成项为 PR Board 外部 GitHub 未配置，本地项全绿、未知控件 0）；工作台 UI `6/6`；安全写 `15/15`；交付 UI `23/23`。
@@ -325,3 +325,4 @@
 - 解压隔离 runtime 时误用 PowerShell 保留变量 `$home`，tar 目标被解析为 `C:\Users\Kinman`。系统 ACL 拒绝全部写入，实测 `C:\Users\Kinman\profiles` 不存在，无文件创建/覆盖。立即改用 `$qaHome`，并在解压前增加 `.work` 前缀断言。
 - 首轮主壳盘点把第三方教程弹窗和模块异步加载当成业务控件，产生假失败/假成功。已改为模块专属就绪信号轮询，并把“关闭提示/保留当前显示/开启简化显示”登记为壳级提示控件。
 - `verify-shell-modules.mjs` 首次运行时在第三方面板中串行点击过多只读动作，耗时不可控。已拆分为默认快速盘点与 `--exercise-reads` 显式点击。
+- 真实安装升级后原生壳未拉服务，根因是 PowerShell 5.1 `Set-Content -Encoding UTF8` 给 `compatibility.json` / `runtime-build.json` 写了 BOM，dsh 严格 JSON 解析失败。已改为 .NET `UTF8Encoding(false)` 写入；重建最终 runtime/安装器后，真实 Tauri 壳恢复并在约 50 秒内拉起 3080 服务。

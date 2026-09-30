@@ -1,6 +1,10 @@
 ﻿$ErrorActionPreference = 'Stop'
 $root = (Get-Item $PSScriptRoot).Parent.FullName
 Set-Location $root
+function Write-Utf8NoBom([string]$Path, [string]$Text) {
+  $encoding = New-Object System.Text.UTF8Encoding($false)
+  [IO.File]::WriteAllText($Path, $Text, $encoding)
+}
 
 # Use bundled portable Node (elevated/minimal PATH sessions may lack node; measured 2026-09-30)
 $portable = Join-Path $root 'offline/node/node-v24.21.0-win-x64'
@@ -97,7 +101,7 @@ $marker = [ordered]@{
   plugin_version = ([IO.File]::ReadAllText((Join-Path $root 'workbench-ui-plugin/package.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json).version
   dsh_version = ([IO.File]::ReadAllText((Join-Path $runtime 'node_modules/@deepseek-ai/dsh/package.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json).version
 }
-$marker | ConvertTo-Json | Set-Content -Encoding UTF8 (Join-Path $profileStage 'runtime-build.json')
+Write-Utf8NoBom (Join-Path $profileStage 'runtime-build.json') ($marker | ConvertTo-Json)
 Set-Content -Encoding ASCII (Join-Path $root 'offline-3.0/runtime-web.build-id') $buildId
 
 New-Item -ItemType Directory -Force -Path (Split-Path $archive) | Out-Null
