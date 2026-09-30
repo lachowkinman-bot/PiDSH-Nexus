@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: cmp.evidence-pack@1.0.0
+domain: cmp
+description: "证据打包（append-only 对齐）"
+trigger:
+  type: command
+  expr: evidence-pack
+nodes:
+  - id: n1
+    type: skill
+    ref: evidence-pack
+  - id: n2
+    type: condition
+    expr: "证据打包（append-only 对齐） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "证据打包（append-only 对齐）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: evidence-pack-<ts>.json
+  format: json
+  fields:
+    - case
+    - evidence_items
+    - hashes
+    - packaged_at
+  acceptance: "打包后不可增删（append-only）"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-evidence-pack

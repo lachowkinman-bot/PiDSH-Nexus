@@ -1,0 +1,52 @@
+{
+  "name": "universal-workbench-runtime-web",
+  "private": true,
+  "version": "3.0.0",
+  "type": "module",
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.1.7-rc.2",
+    "@deepseek-ai/cordis-plugin-group": "1.0.4",
+    "@workbench/client-ui": "file:../../workbench-ui-plugin",
+    "@linxin666/dsh-client-ui-task-board": "file:../../offline/catalog/linxin666-dsh-client-ui-task-board-0.4.3.tgz",
+    "@linxin666/dsh-client-ui-skill-explorer": "file:../../offline/catalog/linxin666-dsh-client-ui-skill-explorer-0.4.3.tgz",
+    "@changfenhuang/dsh-genui": "file:../../offline/catalog/changfenhuang-dsh-genui-0.11.1.tgz",
+    "dsh-plugin": "file:../../offline/npm/dsh-plugin-1.4.8.tgz",
+    "dsh-better-sidebar": "file:../../offline/npm/dsh-better-sidebar-0.21.1.tgz",
+    "dsh-notifier": "file:../../offline/catalog/dsh-notifier-0.13.1.tgz",
+    "dsh-network-settings": "file:../../offline/npm/dsh-network-settings-0.3.3.tgz",
+    "dsh-undo-savepoint": "file:../../offline/npm/dsh-undo-savepoint-0.4.9.tgz",
+    "dsh-excel-panel": "file:../../offline/npm/dsh-excel-panel-0.6.1.tgz",
+    "dsh-docs-panel": "file:../../offline/npm/dsh-docs-panel-0.1.0.tgz",
+    "dsh-pr-board": "file:../../offline/catalog/dsh-pr-board-0.11.14.tgz",
+    "dsh-mnemon": "file:../../offline/catalog/dsh-mnemon-0.5.16.tgz",
+    "@a9i5k4/dsh-auto-memory": "file:../../Pi_DSH_support/dsh-plugins/dsh-auto-memory",
+    "@weibaohui/skills-management": "file:../../Pi_DSH_support/dsh-plugins/skills-management",
+    "@omdsh-dev/dsh-plugin-check": "file:../../Pi_DSH_support/dsh-plugins/dsh-plugin-check",
+    "@weibaohui/dsh-kb": "file:../../Pi_DSH_support/dsh-plugins/dsh-kb"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "dsh-better-sidebar",
+        "dsh-plugin",
+        "@linxin666/dsh-client-ui-task-board",
+        "@linxin666/dsh-client-ui-skill-explorer",
+        "dsh-mnemon",
+        "dsh-pr-board",
+        "@a9i5k4/dsh-auto-memory",
+        "@weibaohui/skills-management",
+        "@omdsh-dev/dsh-plugin-check",
+        "@weibaohui/dsh-kb",
+        "dsh-notifier",
+        "dsh-network-settings",
+        "dsh-undo-savepoint",
+        "dsh-excel-panel",
+        "dsh-docs-panel",
+        "@changfenhuang/dsh-genui",
+        "@workbench/client-ui"
+      ]
+    }
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "task_id": "GT-STRAT-01",
+  "scenario": "strat.quarterly-review@1.0.0",
+  "skill": "strategy-decode",
+  "generated_at": "2026-09-29T05:14:17.957Z",
+  "source_data": {
+    "okr_file": "templates/workspace/data/strat/okr.csv",
+    "weekly_file": "templates/workspace/data/strat/weekly.csv",
+    "okr_rows": 5,
+    "weekly_rows": 4,
+    "weekly_span": "W39-W42",
+    "okr_quarter": "Q4",
+    "fiscal_year": 2026
+  },
+  "period": {
+    "annual": "2026",
+    "quarter": "Q4",
+    "label": "2026Q4",
+    "week_range": "W39-W42",
+    "weekly_weeks": ["W39", "W40", "W41", "W42"]
+  },
+  "okr_decode": [
+    {
+      "objective": "华南区营收增长",
+      "objective_owner": "销售VP",
+      "kr_id": "KR1",
+      "kr_title": "新客数 +30%",
+      "baseline_progress_pct": 42,
+      "quarter": "Q4",
+      "owner": "销售VP",
+      "gap_pct": 58,
+      "status": "at_risk",
+      "evidence": "W39-W42 新增客户 41/45/38/52，W41 回落至 38 后 W42 回升至 52，四周合计新增 176"
+    },
+    {
+      "objective": "华南区营收增长",
+      "objective_owner": "销售VP",
+      "kr_id": "KR2",
+      "kr_title": "客户续约率 92%",
+      "baseline_progress_pct": 68,
+      "quarter": "Q4",
+      "owner": "客户成功部",
+      "gap_pct": 32,
+      "status": "on_track",
+      "evidence": "续约推进为五个 KR 中第二高进度；W39 华南经销商回款延迟需行政跟进，存在续约扰动风险"
+    },
+    {
+      "objective": "华南区营收增长",
+      "objective_owner": "销售VP",
+      "kr_id": "KR3",
+      "kr_title": "客单价 +18%",
+      "baseline_progress_pct": 25,
+      "quarter": "Q4",
+      "owner": "产品商业化",
+      "gap_pct": 75,
+      "status": "at_risk",
+      "evidence": "进度最低项；W39-W42 周营收 1286/1352/1194/1478 万元对应订单 312/338/295/356，单均约 4.12 万元，客单价抬升尚未体现在周度口径"
+    },
+    {
+      "objective": "组织效能提升",
+      "objective_owner": "HRBP",
+      "kr_id": "KR1",
+      "kr_title": "关键岗位到位率 95%",
+      "baseline_progress_pct": 80,
+      "quarter": "Q4",
+      "owner": "HRBP",
+      "gap_pct": 20,
+      "status": "on_track",
+      "evidence": "五个 KR 中进度最高，组织侧支撑基本到位"
+    },
+    {
+      "objective": "组织效能提升",
+      "objective_owner": "HRBP",
+      "kr_id": "KR2",
+      "kr_title": "人均产出 +12%",
+      "baseline_progress_pct": 35,
+      "quarter": "Q4",
+      "owner": "各BU负责人",
+      "gap_pct": 65,
+      "status": "at_risk",
+      "evidence": "W41 投放 ROI 周环比 -7%，投入产出效率下行，人均产出承压，需市场部复盘结论闭环"
+    }
+  ],
+  "weekly_tracking": [
+    {"week": "W39", "revenue_wan": 1286, "orders": 312, "new_customers": 41, "avg_order_value_wan": 4.12, "risk_note": "华南经销商回款延迟（行政跟进）"},
+    {"week": "W40", "revenue_wan": 1352, "orders": 338, "new_customers": 45, "avg_order_value_wan": 4.0, "risk_note": "-"},
+    {"week": "W41", "revenue_wan": 1194, "orders": 295, "new_customers": 38, "avg_order_value_wan": 4.05, "risk_note": "投放ROI 周环比 -7%（市场部复盘）"},
+    {"week": "W42", "revenue_wan": 1478, "orders": 356, "new_customers": 52, "avg_order_value_wan": 4.15, "risk_note": "-"}
+  ],
+  "tracking_summary": {
+    "revenue_total_wan": 5310,
+    "revenue_avg_wan": 1327.5,
+    "revenue_wow_pct": {"W40": 5.13, "W41": -11.69, "W42": 23.79},
+    "orders_total": 1301,
+    "new_customers_total": 176,
+    "new_customers_avg": 44,
+    "avg_order_value_wan": 4.08,
+    "risk_weeks": ["W39", "W41"],
+    "green_weeks": ["W40", "W42"]
+  },
+  "okr_reached": false,
+  "okr_reached_detail": {
+    "reached": false,
+    "evaluated_at": "2026-09-29T05:14:17.957Z",
+    "kr_total": 5,
+    "kr_at_or_above_80_pct": 1,
+    "kr_below_50_pct": 2,
+    "avg_progress_pct": 50,
+    "on_track": ["华南区营收增长/KR2 客户续约率 92%", "组织效能提升/KR1 关键岗位到位率 95%"],
+    "at_risk": ["华南区营收增长/KR1 新客数 +30%", "华南区营收增长/KR3 客单价 +18%", "组织效能提升/KR2 人均产出 +12%"],
+    "reason": "Q4 五个 KR 平均进度 50%，无一项达成 100%，且营收侧 KR1/KR3 与效能侧 KR2 均低于 50%，周度口径 W41 出现营收与 ROI 双回落，故判定本季度 OKR 未达成"
+  },
+  "comp_review_flag": {
+    "flag": true,
+    "scope": "区间口径",
+    "status": "merged_interval_only",
+    "note": "合并薪酬盘点仅以区间口径呈现（如岗位到位率 80%、人均产出 35% 等进度区间），不输出个人薪酬数值、个人绩效与个人身份信息，规避个人级数据外泄"
+  },
+  "decision": {
+    "status": "pending_dual_approval",
+    "archivable": false,
+    "archiving_rule": "双审批通过方可归档",
+    "approvals": [
+      {"role": "业务审批人（销售VP / HRBP）", "status": "pending", "gate": "业务域 STRAT 负责人"},
+      {"role": "合规审批人（数据与薪酬口径）", "status": "pending", "gate": "确认合并薪酬盘点仅区间口径"}
+    ],
+    "conclusion": "Q4 追踪表生成完成，OKR 判定为未达成；归档动作在双审批通过前保持锁定"
+  },
+  "decisions": [
+    {
+      "id": "D1",
+      "title": "华南区营收增长 KR1/KR3 进入加速攻坚",
+      "basis": "KR1 进度 42%、KR3 进度 25%，均低于 50%；W41 营收环比 -11.69%",
+      "owner": "销售VP / 产品商业化",
+      "action": "以 W42 回升（营收 1478 万元、新客 52）为基准设定周度新客不低于 50、单均不低于 4.15 万元的看板红线"
+    },
+    {
+      "id": "D2",
+      "title": "投放 ROI 复盘结论闭环",
+      "basis": "W41 投放 ROI 周环比 -7%（市场部复盘），关联组织效能提升 KR2（进度 35%）",
+      "owner": "市场部 / 各BU负责人",
+      "action": "两周内提交 ROI 修复方案并对人均产出口径重估"
+    },
+    {
+      "id": "D3",
+      "title": "华南经销商回款风险移交行政跟进",
+      "basis": "W39 风险摘要载明华南经销商回款延迟，直接影响客户续约率 92% 目标（进度 68%）",
+      "owner": "客户成功部 / 行政",
+      "action": "在续约窗口前完成回款清收台账与风险客户名单确认"
+    }
+  ],
+  "approval": {
+    "archive_requires_dual_approval": true,
+    "approval_count_required": 2,
+    "approval_count_received": 0,
+    "archive_allowed": false,
+    "comp_review_interval_only": true
+  },
+  "data_basis": [
+    "templates/workspace/data/strat/okr.csv：5 条 2026 Q4 KR 记录（2 个 Objective）",
+    "templates/workspace/data/strat/weekly.csv：W39-W42 四条周度经营记录"
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "report_id": "GT-REC-01",
+  "workflow": "rec.funnel-weekly@1.0.0",
+  "skill": "funnel-analysis",
+  "domain": "REC",
+  "week": "2026-W40",
+  "week_range": "2026-09-28 ~ 2026-10-04",
+  "generated_at": "2026-09-29T07:08:14.859Z",
+  "data_sources": [
+    "templates/workspace/data/rec/funnel.csv",
+    "templates/workspace/data/rec/candidates.csv",
+    "templates/workspace/data/rec/interviews.csv"
+  ],
+  "stages": [
+    {
+      "stage": "简历投递",
+      "count": 486,
+      "conversion_pct": 100,
+      "week": "2026-W40",
+      "stage_conversion_pct": 100.0,
+      "wow_count_delta": 15,
+      "wow_stage_conversion_delta": 0.0,
+      "is_bottleneck": false
+    },
+    {
+      "stage": "初筛通过",
+      "count": 172,
+      "conversion_pct": 35,
+      "week": "2026-W40",
+      "stage_conversion_pct": 35.4,
+      "wow_count_delta": 8,
+      "wow_stage_conversion_delta": 0.6,
+      "is_bottleneck": false
+    },
+    {
+      "stage": "面试通过",
+      "count": 58,
+      "conversion_pct": 12,
+      "week": "2026-W40",
+      "stage_conversion_pct": 33.7,
+      "wow_count_delta": 3,
+      "wow_stage_conversion_delta": 0.2,
+      "is_bottleneck": true
+    },
+    {
+      "stage": "offer发放",
+      "count": 21,
+      "conversion_pct": 4,
+      "week": "2026-W40",
+      "stage_conversion_pct": 36.2,
+      "wow_count_delta": 1,
+      "wow_stage_conversion_delta": -0.2,
+      "is_bottleneck": false
+    },
+    {
+      "stage": "入职",
+      "count": 17,
+      "conversion_pct": 3,
+      "week": "2026-W40",
+      "stage_conversion_pct": 81.0,
+      "wow_count_delta": 1,
+      "wow_stage_conversion_delta": 1.0,
+      "is_bottleneck": false
+    }
+  ],
+  "bottleneck": {
+    "stage": "面试通过",
+    "from_stage": "初筛通过",
+    "count": 58,
+    "conversion_pct": 12,
+    "stage_conversion_pct": 33.7,
+    "week": "2026-W40",
+    "lost_count": 114,
+    "detection_rule": "三周（W38/W39/W40）环节间转化率最低且绝对流失人数最大的环节",
+    "severity": "high",
+    "trend": "连续三周为最低环节：W38 33.3% → W39 33.5% → W40 33.7%；绝对流失 W38 104 人 → W39 109 人 → W40 114 人，缺口持续扩大",
+    "evidence": [
+      "面试通过环节 W40 流失 114 人（172 → 58），为全漏斗最大绝对流失点",
+      "interviews.csv 21 条面试记录中 8 条 result=pending（IV002/IV004/IV008/IV011/IV013/IV018/IV019/IV021），面试评价未闭环占比 38.1%",
+      "已完成面试中仅 IV012（C008 财务分析一面，62 分）判 fail，通过率虚高说明 pending 未回写是流程堵点而非评价严格",
+      "candidates.csv 显示 11 名候选人卡在在途环节：screening 3 人（C002/C005/C012）、first 2 人（C006/C013）、second 4 人（C001/C003/C011/C014）、final 1 人（C007）、offer 待确认 1 人（C004）",
+      "IV008（C006）与 IV019（C013）均为 2026-10-06 11:00、面试官同为孙**，一面时段冲突，直接导致本环节无法按时出评价"
+    ],
+    "recommended_actions": [
+      "本周内回收 8 条 pending 面试评价，明确 first/second/final 各环节 SLA 为面试后 24 小时内回写",
+      "重排 2026-10-06 11:00 孙**的双线一面（C006 / C013），避免同一面试官时段冲突",
+      "对 second 环节 4 名待评候选人（C001/C003/C011/C014）集中排期，缩短复试等待时长",
+      "复盘面试通过率口径：区分「评价未回收」与「真正未通过」，避免把流程积压误读为筛选严格"
+    ]
+  },
+  "secondary_watch": {
+    "stage": "初筛通过",
+    "from_stage": "简历投递",
+    "count": 172,
+    "conversion_pct": 35,
+    "stage_conversion_pct": 35.4,
+    "week": "2026-W40",
+    "lost_count": 314,
+    "note": "绝对流失最大但周环比略升 0.6pct，属正常筛选强度，列为关注项而非瓶颈"
+  },
+  "week_over_week": [
+    { "week": "2026-W38", "stage": "简历投递", "count": 452, "conversion_pct": 100, "stage_conversion_pct": 100.0 },
+    { "week": "2026-W38", "stage": "初筛通过", "count": 156, "conversion_pct": 35, "stage_conversion_pct": 34.5 },
+    { "week": "2026-W38", "stage": "面试通过", "count": 52, "conversion_pct": 12, "stage_conversion_pct": 33.3 },
+    { "week": "2026-W38", "stage": "offer发放", "count": 18, "conversion_pct": 4, "stage_conversion_pct": 34.6 },
+    { "week": "2026-W38", "stage": "入职", "count": 15, "conversion_pct": 3, "stage_conversion_pct": 83.3 },
+    { "week": "2026-W39", "stage": "简历投递", "count": 471, "conversion_pct": 100, "stage_conversion_pct": 100.0 },
+    { "week": "2026-W39", "stage": "初筛通过", "count": 164, "conversion_pct": 35, "stage_conversion_pct": 34.8 },
+    { "week": "2026-W39", "stage": "面试通过", "count": 55, "conversion_pct": 12, "stage_conversion_pct": 33.5 },
+    { "week": "2026-W39", "stage": "offer发放", "count": 20, "conversion_pct": 4, "stage_conversion_pct": 36.4 },
+    { "week": "2026-W39", "stage": "入职", "count": 16, "conversion_pct": 3, "stage_conversion_pct": 80.0 },
+    { "week": "2026-W40", "stage": "简历投递", "count": 486, "conversion_pct": 100, "stage_conversion_pct": 100.0 },
+    { "week": "2026-W40", "stage": "初筛通过", "count": 172, "conversion_pct": 35, "stage_conversion_pct": 35.4 },
+    { "week": "2026-W40", "stage": "面试通过", "count": 58, "conversion_pct": 12, "stage_conversion_pct": 33.7 },
+    { "week": "2026-W40", "stage": "offer发放", "count": 21, "conversion_pct": 4, "stage_conversion_pct": 36.2 },
+    { "week": "2026-W40", "stage": "入职", "count": 17, "conversion_pct": 3, "stage_conversion_pct": 81.0 }
+  ],
+  "in_flight": {
+    "week": "2026-W40",
+    "total_active_candidates": 11,
+    "by_stage": [
+      { "stage": "screening", "count": 3, "candidates_masked": ["李****", "赵****", "黄****"] },
+      { "stage": "first", "count": 2, "candidates_masked": ["刘****", "何****"] },
+      { "stage": "second", "count": 4, "candidates_masked": ["张****", "王****", "马****", "冯****"] },
+      { "stage": "final", "count": 1, "candidates_masked": ["周****"] },
+      { "stage": "offer", "count": 1, "candidates_masked": ["陈****"] }
+    ],
+    "pending_interview_reviews": 8,
+    "pending_interview_ids": ["IV002", "IV004", "IV008", "IV011", "IV013", "IV018", "IV019", "IV021"]
+  },
+  "scheduling_conflict": {
+    "detected": true,
+    "interview_at": "2026-10-06 11:00",
+    "interviewer_masked": "孙**",
+    "interview_ids": ["IV008", "IV019"],
+    "candidates_masked": ["刘****", "何****"],
+    "impact": "同一面试官时段双线，导致一面评价无法闭环，属面试环节堵点的直接诱因"
+  },
+  "pii_policy": {
+    "masked": true,
+    "retained_fields": ["candidate_masked", "candidate_id"],
+    "dropped_fields": ["candidate_phone", "candidate_idcard"],
+    "rule": "候选人 PII 仅以掩码形式呈现，本交付物不含可还原的手机号与身份证信息",
+    "approval_required": false,
+    "scope": "本报告为汇总统计口径，不含个人级 PII 明细对外披露"
+  }
+}

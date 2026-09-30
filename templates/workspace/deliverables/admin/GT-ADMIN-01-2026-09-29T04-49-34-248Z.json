@@ -1,0 +1,193 @@
+{
+  "task_id": "GT-ADMIN-01",
+  "generated_at": "2026-09-29T04:49:34.248Z",
+  "scenario": "admin.procurement@1.0.0",
+  "domain": "ADMIN",
+  "skill": "purchase-compare",
+  "workflow": "admin.purchase-approve@1.0.0",
+  "item": "办公用品采购（办公笔记本×20、会议椅×40）",
+  "qty": 60,
+  "amount_wan": 16.356,
+  "budget_ok": false,
+  "approvals": [
+    {
+      "step": 1,
+      "role": "采购经办（purchase-compare 技能）",
+      "type": "自动",
+      "required": true,
+      "status": "已完成",
+      "note": "基于 purchases.csv 三家供应商报价完成比价，锁定各项最低价供应商"
+    },
+    {
+      "step": 2,
+      "role": "财务预算复核",
+      "type": "人工",
+      "required": true,
+      "status": "待处理",
+      "note": "未检索到 admin 预算台账数据文件，预算充足性无法确认，按‘预算不足直接阻断’规则挂起"
+    },
+    {
+      "step": 3,
+      "role": "行政负责人审批",
+      "type": "人工",
+      "required": true,
+      "status": "待处理",
+      "note": "预算复核通过后方可进入，否则整单退回"
+    },
+    {
+      "step": 4,
+      "role": "用印管理员（印章使用）",
+      "type": "人工",
+      "required": true,
+      "status": "待处理",
+      "note": "用印强制人工，禁止自动化盖章，须线下核验合同与审批单一致性"
+    }
+  ],
+  "decision": "BLOCKED",
+  "blocked": true,
+  "block_reason": "预算充足性无法确认（admin 域无预算台账数据），依据验收标准‘预算不足直接阻断’，本单在财务预算复核通过前不得放行，用印环节不得自动执行",
+  "currency": "CNY",
+  "amount_yuan": 163560,
+  "items": [
+    {
+      "item": "办公笔记本×20",
+      "qty": 20,
+      "selected_vendor": "供应商B",
+      "unit_price_yuan": 6580,
+      "amount_yuan": 131600,
+      "amount_wan": 13.16,
+      "lead_days": 10,
+      "budget_ok": false,
+      "selection_basis": "三家中最低价（供应商A 6800元、供应商C 7100元），按最低价定标规则入选",
+      "approvals": [
+        {
+          "role": "财务预算复核",
+          "type": "人工",
+          "required": true,
+          "status": "待处理"
+        },
+        {
+          "role": "行政负责人审批",
+          "type": "人工",
+          "required": true,
+          "status": "待处理"
+        },
+        {
+          "role": "用印管理员",
+          "type": "人工",
+          "required": true,
+          "status": "待处理",
+          "note": "用印强制人工"
+        }
+      ],
+      "risk_note": "最低价供应商B交期10天，较长；最快交期的供应商C单价高出520元/台，整批多支出10400元，若活动/入驻节点早于10天需改判供应商C并重走审批"
+    },
+    {
+      "item": "会议椅×40",
+      "qty": 40,
+      "selected_vendor": "供应商C",
+      "unit_price_yuan": 799,
+      "amount_yuan": 31960,
+      "amount_wan": 3.196,
+      "lead_days": 15,
+      "budget_ok": false,
+      "selection_basis": "两家中最低价（供应商A 860元、供应商C 799元），按最低价定标规则入选",
+      "approvals": [
+        {
+          "role": "财务预算复核",
+          "type": "人工",
+          "required": true,
+          "status": "待处理"
+        },
+        {
+          "role": "行政负责人审批",
+          "type": "人工",
+          "required": true,
+          "status": "待处理"
+        },
+        {
+          "role": "用印管理员",
+          "type": "人工",
+          "required": true,
+          "status": "待处理",
+          "note": "用印强制人工"
+        }
+      ],
+      "risk_note": "供应商C交期15天，属本单最长，需与会议排期核对"
+    }
+  ],
+  "price_comparison": [
+    {
+      "item": "办公笔记本×20",
+      "quotes": [
+        {
+          "vendor_masked": "供应商A",
+          "unit_price_yuan": 6800,
+          "lead_days": 7,
+          "selected": false
+        },
+        {
+          "vendor_masked": "供应商B",
+          "unit_price_yuan": 6580,
+          "lead_days": 10,
+          "selected": true
+        },
+        {
+          "vendor_masked": "供应商C",
+          "unit_price_yuan": 7100,
+          "lead_days": 3,
+          "selected": false
+        }
+      ],
+      "saving_vs_highest_yuan": 10400
+    },
+    {
+      "item": "会议椅×40",
+      "quotes": [
+        {
+          "vendor_masked": "供应商A",
+          "unit_price_yuan": 860,
+          "lead_days": 12,
+          "selected": false
+        },
+        {
+          "vendor_masked": "供应商C",
+          "unit_price_yuan": 799,
+          "lead_days": 15,
+          "selected": true
+        }
+      ],
+      "saving_vs_highest_yuan": 2440
+    }
+  ],
+  "total_saving_vs_highest_yuan": 12840,
+  "asset_context": [
+    {
+      "asset_id": "AST-0113",
+      "asset": "打印机",
+      "location": "行政仓库",
+      "status": "维修中",
+      "relevance": "行政仓库在修资产，不占用本单采购预算口径，但提示办公设备类仍有在办维修项"
+    },
+    {
+      "asset_id": "AST-0121",
+      "asset": "测试手机",
+      "holder_masked": "李****",
+      "status": "已归还",
+      "relevance": "已归还资产未复用于办公笔记本缺口，20台笔记本仍按新增采购申报"
+    }
+  ],
+  "data_sources": [
+    "templates/workspace/data/admin/purchases.csv",
+    "templates/workspace/data/admin/assets.csv"
+  ],
+  "unavailable_data": [
+    "templates/workspace/data/admin/budget.csv (ENOENT)",
+    "templates/workspace/data/admin/policy.md (ENOENT)"
+  ],
+  "compliance_notes": [
+    "人员姓名与供应商名称均沿用源数据脱敏形式（张****、李****、供应商A/B/C），交付物不做还原",
+    "用印环节强制人工，自动执行链在此终止并转人工队列",
+    "预算未核实即阻断，禁止先采后批"
+  ]
+}

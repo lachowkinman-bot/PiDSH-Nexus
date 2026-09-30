@@ -1,0 +1,136 @@
+{
+  "task_id": "GT-MKTOFF-01",
+  "scenario": "mkt-off.event-roi@1.0.0",
+  "skill": "event-plan",
+  "workflow": "mkt-off.event-plan@1.0.0",
+  "generated_at": "2026-09-29T07:00:08.071Z",
+  "event": "秋季新品发布会",
+  "event_id": "EV-2608",
+  "event_type": "发布会",
+  "city": "广州",
+  "venue": "广州塔国际会议中心",
+  "start_date": "2026-10-22",
+  "end_date": "2026-10-22",
+  "owner": "市场部",
+  "quarter": "2026-Q3",
+  "budget_wan": 110,
+  "currency": "CNY",
+  "budget_unit": "万元",
+  "dept_quarter_pkg_wan": 400,
+  "budget_share_of_pkg_pct": 27.5,
+  "approval": {
+    "required": true,
+    "rule": "预算超部门季度包 20% 触发审批",
+    "threshold_wan": 80,
+    "ratio_vs_threshold_pct": 137.5,
+    "reason": "预算 110 万元 = 市场部 2026-Q3 季度包 400 万元的 27.5%，已超过 20%（80 万元）审批线",
+    "approvers": ["市场部负责人", "财务部预算归口", "渠道部(经销商邀约协同)"],
+    "current_status": "待审批",
+    "submit_by": "2026-10-08",
+    "decision_deadline": "2026-10-12",
+    "fallback_if_rejected": "压缩至 80 万元方案：线下出席规模由 360 人降至 220 人，取消分会场直播，媒体通稿由付费发布改为自有渠道分发，物料沿用 EV-2602 经销商大会主视觉体系"
+  },
+  "budget_breakdown_wan": [
+    { "item": "场地租赁（广州塔国际会议中心，含主会场与签到区）", "amount_wan": 45, "basis": "events.csv venue_cost_wan=45", "owner": "市场部" },
+    { "item": "现场搭建、舞美与音响灯光", "amount_wan": 18, "basis": "参照 EV-2608 同城同级别发布会搭建占比", "owner": "设计组" },
+    { "item": "媒体传播与新闻通稿发布", "amount_wan": 14, "basis": "媒体资源包分发改约 30 家；通稿物料 M-2609 待审后启用", "owner": "品牌组" },
+    { "item": "直播与视频制作（含产品演示视频字幕整改）", "amount_wan": 9, "basis": "物料 M-2608 补免责声明字幕后重新送审", "owner": "品牌组" },
+    { "item": "物料设计制作（背板、易拉宝、伴手礼包装、导视）", "amount_wan": 8, "basis": "沿用 M-2603/M-2604/M-2611 已通过品牌规范", "owner": "设计组" },
+    { "item": "嘉宾与产品讲师邀约及差旅", "amount_wan": 7, "basis": "参照 EV-2601/EV-2605 讲师差旅均值", "owner": "市场部" },
+    { "item": "经销商邀约与来宾接待", "amount_wan": 5, "basis": "金级 3 家 + 银级 5 家优先邀约，普通级二批跟进", "owner": "渠道部" },
+    { "item": "现场执行服务与人力", "amount_wan": 4, "basis": "参照 EV-2606 执行外包报价", "owner": "行政支持" }
+  ],
+  "budget_check": {
+    "sum_wan": 110,
+    "equals_budget_wan": true,
+    "overrun_vs_plan_wan": 0,
+    "note": "预算即计划值，实际支出 0 万元；活动未开始，actual_wan 在 events.csv 中为 0"
+  },
+  "schedule": [
+    { "phase": "方案定稿与预算审批", "start": "2026-09-29", "end": "2026-10-12", "owner": "市场部", "milestone": "预算 110 万元过审（超 20% 审批线，需市场部+财务部双签）", "dependency": "审批通过后方可对外锁定场地与媒体资源" },
+    { "phase": "物料整改与终审", "start": "2026-09-29", "end": "2026-10-16", "owner": "品牌组/设计组", "milestone": "M-2608 产品演示视频补免责声明字幕、M-2609 媒体通稿与新闻资料包完成法务与品牌双审并置 external_ready=yes", "dependency": "所有对媒对外物料必须 legal_check/brand_check 双通过" },
+    { "phase": "邀约与来宾确认", "start": "2026-10-08", "end": "2026-10-18", "owner": "渠道部", "milestone": "金级 3 家、银级 5 家确认到场，回执回收率 ≥ 85%", "dependency": "依赖审批通过；争议经销商暂缓邀约" },
+    { "phase": "场地搭建与彩排", "start": "2026-10-19", "end": "2026-10-21", "owner": "市场部/设计组", "milestone": "主会场搭建完成并完成 1 次全流程彩排与直播压力测试", "dependency": "物料终审通过" },
+    { "phase": "活动执行（新品发布）", "start": "2026-10-22", "end": "2026-10-22", "owner": "市场部", "milestone": "发布会当日交付：主讲发布、产品演示、媒体采访、经销商订货意向收集", "dependency": "场地与人员齐备" },
+    { "phase": "线索归集与复盘核算", "start": "2026-10-23", "end": "2026-10-31", "owner": "市场部/品牌组", "milestone": "leads 去重归集、费用结算、ROI 复盘报告归档", "dependency": "现场签到与业务系统数据回收" }
+  ],
+  "targets": {
+    "attendees": 360,
+    "attendees_basis": "同季度同城同类活动到场数：EV-2602 480 人、EV-2606 420 人、EV-2605 360 人；新品发布会按 360 人设定",
+    "leads": 320,
+    "leads_dedup": 260,
+    "leads_basis": "参照 EV-2602 leads=395/leads_dedup=352 与 EV-2606 leads=338/leads_dedup=296 的去重率（约 0.86）向下保守设定",
+    "revenue_wan": 220,
+    "roi_target": 2.0,
+    "roi_basis": "2026-Q3 已完成活动实际 ROI：经销商大会 2.4/2.1、渠道会 1.9/1.7、快闪店 1.5、展会 1.2-1.6；发布会取 2.0 为目标下限",
+    "breakeven_revenue_wan": 110
+  },
+  "invitees": {
+    "priority_tier": "金级、银级",
+    "gold": [
+      { "dealer_ref": "DEALER-***01", "region": "华南", "agreement_no": "DA-2026-001", "rebate_pct": 3.0, "exclusive_flag": "是", "sellthrough_pct": 92.4 },
+      { "dealer_ref": "DEALER-***03", "region": "华东", "agreement_no": "DA-2026-003", "rebate_pct": 3.0, "exclusive_flag": "是", "sellthrough_pct": 95.1 },
+      { "dealer_ref": "DEALER-***09", "region": "华北", "agreement_no": "DA-2026-009", "rebate_pct": 3.0, "exclusive_flag": "是", "sellthrough_pct": 90.8 }
+    ],
+    "silver": [
+      { "dealer_ref": "DEALER-***02", "region": "华南", "agreement_no": "DA-2026-002", "rebate_pct": 2.0, "sellthrough_pct": 81.6 },
+      { "dealer_ref": "DEALER-***05", "region": "华中", "agreement_no": "DA-2026-005", "rebate_pct": 2.0, "sellthrough_pct": 76.9 },
+      { "dealer_ref": "DEALER-***07", "region": "西南", "agreement_no": "DA-2026-007", "rebate_pct": 2.0, "sellthrough_pct": 84.7 },
+      { "dealer_ref": "DEALER-***10", "region": "华北", "agreement_no": "DA-2026-010", "rebate_pct": 2.0, "sellthrough_pct": 72.4 },
+      { "dealer_ref": "DEALER-***12", "region": "华东", "agreement_no": "DA-2026-012", "rebate_pct": 2.0, "sellthrough_pct": 79.3 }
+    ],
+    "second_wave": [
+      { "dealer_ref": "DEALER-***08", "region": "西南", "agreement_no": "DA-2026-008", "rebate_pct": 1.5, "sellthrough_pct": 63.5 },
+      { "dealer_ref": "DEALER-***11", "region": "华南", "agreement_no": "DA-2026-011", "rebate_pct": 1.5, "sellthrough_pct": 55.7 }
+    ],
+    "hold": [
+      { "dealer_ref": "DEALER-***04", "region": "华东", "agreement_no": "DA-2026-004", "reason": "dispute_flag=是，sellthrough_pct=68.3，先由渠道部完成对账再定级邀约" },
+      { "dealer_ref": "DEALER-***06", "region": "华中", "agreement_no": "DA-2026-006", "reason": "dispute_flag=是，sellthrough_pct=58.2，暂缓定向邀约" }
+    ],
+    "invite_count": 10,
+    "invite_basis": "12 份在期协议（2026-Q3）中剔除 2 家争议经销商，其余 10 家按金级/银级优先、普通级二批分批邀约"
+  },
+  "materials": [
+    { "material_id": "M-2608", "material": "产品演示视频（含字幕）", "type": "视频", "version": "V2", "channel": "线上", "review_status": "审核中", "legal_check": "通过", "brand_check": "待审", "external_ready": "no", "issue_type": "字幕免责声明待补", "action": "补免责声明字幕后重交品牌组复审，2026-10-16 前必须 external_ready=yes", "owner": "品牌组", "gate": "阻断项：线上投放前置" },
+    { "material_id": "M-2609", "material": "媒体通稿与新闻资料包", "type": "通稿", "version": "V1", "channel": "媒体", "review_status": "待审", "legal_check": "未审", "brand_check": "未审", "external_ready": "no", "issue_type": "未进入法务与品牌审核", "action": "2026-10-08 前提交法务与品牌双审，双通过后方可对媒分发", "owner": "品牌组", "gate": "阻断项：媒体传播前置" },
+    { "material_id": "M-2603", "material": "伴手礼包装", "type": "包装", "version": "V1", "channel": "现场", "review_status": "通过", "legal_check": "通过", "brand_check": "通过", "external_ready": "yes", "issue_type": "-", "action": "可直接复用，按 360 人份备货", "owner": "行政支持", "gate": "无" },
+    { "material_id": "M-2607", "material": "经销商大会主KV", "type": "主视觉", "version": "V1", "channel": "现场", "review_status": "通过", "legal_check": "通过", "brand_check": "通过", "external_ready": "yes", "issue_type": "-", "action": "作为发布会主视觉基版，按发布会主题延展（延展稿需重新送品牌审核）", "owner": "市场部", "gate": "无" },
+    { "material_id": "M-2611", "material": "展位导视系统", "type": "导视", "version": "V1", "channel": "现场", "review_status": "通过", "legal_check": "通过", "brand_check": "通过", "external_ready": "yes", "issue_type": "-", "action": "复用导视规范至签到区与分会场", "owner": "设计组", "gate": "无" }
+  ],
+  "material_summary": {
+    "total": 5,
+    "external_ready_yes": 3,
+    "blocking": 2,
+    "blocking_ids": ["M-2608", "M-2609"],
+    "rejected_reference": ["M-2604(现场背板:品牌字号不合规)", "M-2610(经销商返利政策单页:价格比较表述无依据)"],
+    "rule": "对媒与线上物料以 external_ready=yes 且 legal_check/brand_check 双通过为准；任一项为否即不得对外投放"
+  },
+  "risks": [
+    { "risk": "预算超 20% 审批线未过", "impact": "高", "response": "准备 80 万元压缩版方案（规模降至 220 人、取消分会场直播），审批决议期限 2026-10-12" },
+    { "risk": "M-2609 媒体通稿未完成法务审核", "impact": "高", "response": "2026-10-08 前提交双审，未过则不启动付费媒体分发，改用自有渠道分发" },
+    { "risk": "M-2608 视频字幕免责声明缺失", "impact": "中", "response": "补字幕后重审，未过则现场仅播放无字幕版并暂停线上投放" },
+    { "risk": "2 家争议经销商列入邀约名单", "impact": "中", "response": "DA-2604/DA-2606 移入暂缓名单，由渠道部完成对账后再定邀约" },
+    { "risk": "同期活动排期拥挤（EV-2612 执行中、EV-2616 策划中）", "impact": "中", "response": "错峰安排，10-22 发布日用人与场地资源不与 EV-2612/EV-2616 重叠" }
+  ],
+  "roi_reference": [
+    { "event_id": "EV-2602", "event": "经销商大会", "budget_wan": 150, "actual_wan": 168, "roi": 2.4 },
+    { "event_id": "EV-2606", "event": "华中经销商大会", "budget_wan": 120, "actual_wan": 131, "roi": 2.1 },
+    { "event_id": "EV-2601", "event": "华南渠道会", "budget_wan": 80, "actual_wan": 76, "roi": 1.9 },
+    { "event_id": "EV-2605", "event": "华东渠道会", "budget_wan": 95, "actual_wan": 92, "roi": 1.7 },
+    { "event_id": "EV-2609", "event": "校园路演-华南理工站", "budget_wan": 18, "actual_wan": 17, "roi": 0.9 }
+  ],
+  "data_sources": [
+    "templates/workspace/data/mkt-off/events.csv（EV-2608 计划与部门季度包）",
+    "templates/workspace/data/mkt-off/dealer_agreements.csv（在期协议与经销商分级）",
+    "templates/workspace/data/mkt-off/materials.csv（物料审核状态与阻断项）"
+  ],
+  "desensitization": {
+    "applied": true,
+    "rules": [
+      "经销商以 DEALER-***NN 引用，不输出真实名称与联系方式",
+      "物料审核人仅保留姓氏掩码（如 李**、王**），法务/品牌未审记录以 - 表示",
+      "协议正文以 terms_digest 摘要替代，不引用原始条款文本",
+      "无个人身份信息（PII）与银行/账期账号数据写入交付物"
+    ]
+  }
+}

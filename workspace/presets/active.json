@@ -1,0 +1,22 @@
+{
+  "applied_at": "2026-09-29T10:10:02+08:00",
+  "scene_id": "eap.referral@1.0.0",
+  "domain": "ER",
+  "data_domain": "er-eap",
+  "name": "员工援助计划（EAP）",
+  "level": "L4+",
+  "isolated": true,
+  "namespace": "workspace/eap/",
+  "policies": {
+    "permission": { "min_level": "L4", "dual_approval": true },
+    "redact": { "fields": ["disciplinary_detail", "eap_content", "health_mental"], "gate": "redact_gate" },
+    "memory": { "pii_allowed": false, "exclude": ["graph-memory", "pi-hermes-memory"] }
+  },
+  "network": "DISABLED",
+  "workflow_id": "er-eap.eap-referral@1.0.0",
+  "consumed_by": [
+    { "consumer": "permission-gateway", "ok": true },
+    { "consumer": "workflow-engine", "ok": true },
+    { "consumer": "redact-gate", "ok": true }
+  ]
+}

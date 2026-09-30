@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: ben.claim-review@1.0.0
+domain: ben
+description: "理赔协办周报（时效/结案）"
+trigger:
+  type: command
+  expr: claim-review
+nodes:
+  - id: n1
+    type: skill
+    ref: checkup-report
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "理赔协办周报（时效/结案）：数据版本 + 产物哈希"
+deliverable:
+  file: claim-review-<ts>.json
+  format: json
+  fields:
+    - claim_masked
+    - type
+    - days
+    - status
+  acceptance: "理赔金额仅区间"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-claim-review

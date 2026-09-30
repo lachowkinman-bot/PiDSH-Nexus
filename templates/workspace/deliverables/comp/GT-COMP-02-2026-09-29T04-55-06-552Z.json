@@ -1,0 +1,121 @@
+{
+  "deliverable_id": "GT-COMP-02",
+  "task": "payroll-recon",
+  "workflow": "comp.payroll-recon@1.0.0",
+  "scenario": "comp.salary-review@1.0.0",
+  "domain": "COMP",
+  "generated_at": "2026-09-29T04:55:06.552Z",
+  "period": "2026-09",
+  "headcount": 4,
+  "currency": "CNY",
+  "unit": "万元/年",
+  "gross_diff": 31.0,
+  "gross_diff_pct": 20.53,
+  "threshold_pct": 0.5,
+  "threshold_breached": true,
+  "baseline_total_wan": 151.0,
+  "payout_total_wan": 182.0,
+  "recon_basis": "以 bands.csv 带宽中位值(p50)作为 payroll 应付基准，以 adjust_queue.csv 的 proposed_band 中位值作为发放明细应付额；两表中均未包含实际发薪台账金额，故本表为带宽口径对账，非实发金额对账。",
+  "source_files": [
+    {
+      "path": "templates/workspace/data/comp/adjust_queue.csv",
+      "rows": 4,
+      "role": "发放明细（调薪申请队列）"
+    },
+    {
+      "path": "templates/workspace/data/comp/bands.csv",
+      "rows": 5,
+      "role": "payroll 带宽基准（P3/P4/P5/P6/M2）"
+    }
+  ],
+  "data_gaps": [
+    "未提供 payroll 实发台账文件，实发金额与带宽基准的差额无法核验",
+    "adjust_queue.csv 无金额字段，item 级差异由带宽中位值推导",
+    "status=已批准 仅 1 条，其余 3 条未完成审批闭环，不具备入账依据"
+  ],
+  "items": [
+    {
+      "rank": 1,
+      "employee_masked": "EMP-****12",
+      "current_band": "P4",
+      "proposed_band": "P5",
+      "reason": "晋升答辩通过",
+      "status": "双审批中",
+      "approvals": "HRD✓/CFO待",
+      "payroll_baseline_wan": 36.0,
+      "payout_request_wan": 55.0,
+      "gross_diff_wan": 19.0,
+      "gross_diff_pct": 52.78,
+      "exceeds_threshold": true,
+      "disbursement_eligible": false,
+      "finding": "跨带晋升 P4→P5，年度成本上浮 19.00 万元(52.78%)，超 0.5% 阈值 52.28 个百分点；CFO 审批未完成，不得计入本期发放。"
+    },
+    {
+      "rank": 2,
+      "employee_masked": "EMP-****63",
+      "current_band": "P3",
+      "proposed_band": "P4",
+      "reason": "关键人才保留",
+      "status": "草稿",
+      "approvals": "-",
+      "payroll_baseline_wan": 24.0,
+      "payout_request_wan": 36.0,
+      "gross_diff_wan": 12.0,
+      "gross_diff_pct": 50.0,
+      "exceeds_threshold": true,
+      "disbursement_eligible": false,
+      "finding": "跨带保留调薪 P3→P4，年度成本上浮 12.00 万元(50.00%)，超 0.5% 阈值 49.50 个百分点；单据仍为草稿、无任何审批记录，属控制缺口，不得进入 payroll 入账。"
+    },
+    {
+      "rank": 3,
+      "employee_masked": "EMP-****35",
+      "current_band": "P5",
+      "proposed_band": "P5",
+      "reason": "带宽内调薪",
+      "status": "已批准",
+      "approvals": "HRD✓/CFO✓",
+      "payroll_baseline_wan": 55.0,
+      "payout_request_wan": 55.0,
+      "gross_diff_wan": 0.0,
+      "gross_diff_pct": 0.0,
+      "exceeds_threshold": false,
+      "disbursement_eligible": true,
+      "finding": "带内调薪，带宽中位值口径无差异(0.00%)。双审批完整，为本期唯一可入账项；实际涨幅落于 P5 带宽 p25-p75(42-70 万元)内，需以实发台账复核具体调薪点数。"
+    },
+    {
+      "rank": 4,
+      "employee_masked": "EMP-****51",
+      "current_band": "P4",
+      "proposed_band": "P4",
+      "reason": "超带宽校准",
+      "status": "双审批中",
+      "approvals": "HRD待/CFO待",
+      "payroll_baseline_wan": 36.0,
+      "payout_request_wan": 36.0,
+      "gross_diff_wan": 0.0,
+      "gross_diff_pct": 0.0,
+      "exceeds_threshold": false,
+      "disbursement_eligible": false,
+      "finding": "带级未变但申报原因为“超带宽校准”，带宽中位值口径差异为 0.00%，故金额差异被口径掩盖；该情形必然对应实发高于 p75=46 万元的事实，属带宽口径对账的盲区，须以实发台账单独核验。HRD/CFO 均未审批。"
+    }
+  ],
+  "items_over_threshold": 2,
+  "exposure_summary": {
+    "approved_exposure_wan": 0.0,
+    "pending_approval_exposure_wan": 19.0,
+    "draft_exposure_wan": 12.0,
+    "total_potential_exposure_wan": 31.0
+  },
+  "control_findings": [
+    "本期 4 条调薪申请中仅 1 条(25%)完成双审批闭环，其余 3 条(75%)不具备 payroll 入账依据。",
+    "EMP-****63 处于草稿状态却已进入发放明细口径，存在未批先算风险。",
+    "EMP-****51 的“超带宽校准”在带宽中位值口径下差异为 0，说明仅用带宽基准对账会漏检超带宽发薪，需补实发台账校验。"
+  ],
+  "recommendations": [
+    "将 EMP-****12、EMP-****63 两笔超阈值差异(合计 31.00 万元/年)挂起，待 CFO 审批完成后重新对账再入账。",
+    "补齐 payroll 实发台账，对 4 名员工做金额级二次对账，重点核 EMP-****51 的超带宽情形。",
+    "对草稿状态单据加发放行系统校验，阻断未完成审批的调薪进入发放明细。"
+  ],
+  "approval_required": "CFO 审批（超 0.5% 阈值的 2 笔差异须 CFO 签批后方可入账）",
+  "masking": "员工标识已按 EMP-****NN 脱敏，仅保留后 2 位；本交付物不含姓名、工号明文、身份证、银行账号等直接标识信息。"
+}

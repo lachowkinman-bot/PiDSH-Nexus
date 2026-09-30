@@ -1,0 +1,29 @@
+{
+ "agent": "pi",
+ "task": "T9",
+ "ok": true,
+ "err": null,
+ "ms": 96839,
+ "chars": 11335,
+ "hits": [
+  "安装",
+  "调用",
+  "卸载"
+ ],
+ "need": [
+  "安装",
+  "调用",
+  "卸载"
+ ],
+ "headings": 28,
+ "numbers": 175,
+ "scores": {
+  "correctness": 5,
+  "usability": 5,
+  "quality": 5,
+  "approval_behavior": 5,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：任意包安装→功能调用→卸载。\n本任务不依赖预置数据文件，请基于通用业务知识直接产出。\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "pi"
+}

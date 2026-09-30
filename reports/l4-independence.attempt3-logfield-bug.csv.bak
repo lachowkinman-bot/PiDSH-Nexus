@@ -1,0 +1,11 @@
+pkg,phase,boot_alive,bound,ts
+pi2dsh,removed,0,undefined,2026-09-29T01:49:12.270Z
+pi2dsh,restored,0,undefined,2026-09-29T01:50:05.941Z
+dsh-better-sidebar,removed,0,undefined,2026-09-29T01:50:44.165Z
+dsh-better-sidebar,restored,0,undefined,2026-09-29T01:51:37.155Z
+dsh-plugin,removed,0,undefined,2026-09-29T01:52:35.011Z
+dsh-plugin,restored,0,undefined,2026-09-29T01:53:49.393Z
+pi-hermes-memory,removed,0,undefined,2026-09-29T01:54:38.557Z
+pi-hermes-memory,restored,0,undefined,2026-09-29T01:55:29.348Z
+pi-approval-guardian,removed,0,undefined,2026-09-29T01:56:20.798Z
+pi-approval-guardian,restored,0,undefined,2026-09-29T01:57:11.313Z

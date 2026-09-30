@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: admin.procurement@1.0.0
+domain: ADMIN
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.single
+  - cap.redact.all
+data_assets:
+  - name: purchase-requests.xlsx
+    level: L2
+    pii_fields: []
+  - name: asset-register.xlsx
+    level: L2
+    pii_fields: []
+skills: [purchase-compare, asset-inventory, meeting-minutes]
+workflows: [workflows/admin.purchase-approve.yaml, workflows/admin.seal-request.yaml]
+policies:
+  permission:
+    min_level: L3
+    dual_approval: false
+  redact:
+    fields: [seal_record, procurement_price]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/admin/README.md]
+golden_tasks:
+  - id: GT-ADMIN-01
+    input: "生成办公用品采购比价与审批单"
+    expected_plan: "见 docs/preset-design/admin.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L3"
+    expected_output: reports/admin/gt-01.md
+    expected_files: [data/admin/purchase-requests.xlsx, data/admin/asset-register.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-ADMIN-02
+    input: "输出季度资产盘点差异表"
+    expected_plan: "见 docs/preset-design/admin.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L3"
+    expected_output: reports/admin/gt-02.md
+    expected_files: [data/admin/purchase-requests.xlsx, data/admin/asset-register.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-ADMIN-03
+    input: "生成会议纪要并跟踪待办"
+    expected_plan: "见 docs/preset-design/admin.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L3"
+    expected_output: reports/admin/gt-03.md
+    expected_files: [data/admin/purchase-requests.xlsx, data/admin/asset-register.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：用印不允许任何自动化放行（强制 HITL）。

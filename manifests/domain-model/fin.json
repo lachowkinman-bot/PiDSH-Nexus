@@ -1,0 +1,1182 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "fin",
+ "label": "财务 FIN",
+ "scene_ids": [
+  "fin.expense-approve@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": false,
+ "redact_fields": [
+  "bank_account",
+  "invoice_taxid"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.414Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/fin.expense-approve.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/fin/",
+  "doc": "docs/preset-design/fin.md"
+ },
+ "tables": [
+  {
+   "file": "budget.csv",
+   "rows": 12,
+   "columns": [
+    "dept",
+    "budget_wan",
+    "used_wan",
+    "remain_wan",
+    "period",
+    "dept_code",
+    "period_type",
+    "revenue_wan",
+    "net_wan",
+    "owner",
+    "updated_at"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "expenses.csv",
+   "rows": 29,
+   "columns": [
+    "expense_id",
+    "applicant_masked",
+    "amount_yuan",
+    "reason",
+    "level",
+    "status",
+    "dept",
+    "dept_code",
+    "gl_account",
+    "period",
+    "invoice_no",
+    "paid_at"
+   ],
+   "pii_likely": [
+    "applicant_masked"
+   ]
+  },
+  {
+   "file": "invoices.csv",
+   "rows": 19,
+   "columns": [
+    "invoice_no",
+    "invoice_code",
+    "invoice_date",
+    "seller_name",
+    "seller_taxid",
+    "buyer_title",
+    "buyer_taxid",
+    "amount_yuan",
+    "tax_yuan",
+    "total_yuan",
+    "expense_id",
+    "check_result",
+    "issue_type"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "revenue_ledger.csv",
+   "rows": 15,
+   "columns": [
+    "revenue_id",
+    "period",
+    "dept",
+    "dept_code",
+    "customer_masked",
+    "contract_no",
+    "amount_yuan",
+    "tax_rate",
+    "tax_yuan",
+    "total_yuan",
+    "invoice_no",
+    "recognize_date",
+    "status"
+   ],
+   "pii_likely": [
+    "customer_masked"
+   ]
+  }
+ ],
+ "skills": [
+  {
+   "name": "expense-precheck",
+   "file": "templates/skills-domain/fin/SKILL-expense-precheck.md"
+  },
+  {
+   "name": "budget-analysis",
+   "file": "templates/skills-domain/fin/SKILL-budget-analysis.md"
+  },
+  {
+   "name": "invoice-check",
+   "file": "templates/skills-domain/fin/SKILL-invoice-check.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "fin.expense-approve@1.0.0",
+   "kind": "approve",
+   "description": "报销审批（强审批）",
+   "skill": "expense-precheck",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "expense-precheck"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "报销审批（强审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "报销审批（强审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "expense-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "expense_id",
+     "amount_yuan",
+     "level",
+     "approvals"
+    ],
+    "acceptance": "L4 必须双审批；审批单与产物一致"
+   }
+  },
+  {
+   "id": "fin.monthly-report@1.0.0",
+   "kind": "report",
+   "description": "月度财报（分级输出）",
+   "skill": "budget-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "budget-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "月度财报（分级输出）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "monthly-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "revenue_wan",
+     "cost_wan",
+     "net_wan"
+    ],
+    "acceptance": "财报数字 A 级可溯（凭证级）"
+   }
+  },
+  {
+   "id": "fin.budget-review@1.0.0",
+   "kind": "approve",
+   "description": "预算调整审批（部门季度包）",
+   "skill": "budget-analysis",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "budget-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "预算调整审批（部门季度包） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "预算调整审批（部门季度包）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "budget-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dept",
+     "budget_wan",
+     "delta_wan",
+     "reason"
+    ],
+    "acceptance": "超包 10% 加签 CFO"
+   }
+  },
+  {
+   "id": "fin.invoice-check@1.0.0",
+   "kind": "calc",
+   "description": "发票校验（税号/金额/连号）",
+   "skill": "invoice-check",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "invoice-check"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "发票校验（税号/金额/连号）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "invoice-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "invoice_no",
+     "amount_yuan",
+     "checks",
+     "result"
+    ],
+    "acceptance": "连号/抬头不一致直接 FAIL"
+   }
+  },
+  {
+   "id": "fin.reimburse-audit@1.0.0",
+   "kind": "report",
+   "description": "报销抽审（合规抽样）",
+   "skill": "expense-precheck",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "expense-precheck"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "报销抽审（合规抽样）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "reimburse-audit-<ts>.json",
+    "format": "json",
+    "fields": [
+     "sample_size",
+     "issues",
+     "issue_rate",
+     "actions"
+    ],
+    "acceptance": "抽样比例 ≥10%"
+   }
+  },
+  {
+   "id": "fin.cashflow-week@1.0.0",
+   "kind": "report",
+   "description": "周现金流简报（进/出/余）",
+   "skill": "invoice-check",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "invoice-check"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "周现金流简报（进/出/余）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cashflow-week-<ts>.json",
+    "format": "json",
+    "fields": [
+     "week",
+     "in_wan",
+     "out_wan",
+     "balance_wan"
+    ],
+    "acceptance": "银行账户字段 L4 只出汇总"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-FIN-01",
+   "input": "预审 10 张报销单并输出异常清单",
+   "expected_output": "reports/fin/gt-01.md",
+   "skill": null,
+   "scene": "fin.expense-approve@1.0.0"
+  },
+  {
+   "id": "GT-FIN-02",
+   "input": "生成部门预算执行月报",
+   "expected_output": "reports/fin/gt-02.md",
+   "skill": null,
+   "scene": "fin.expense-approve@1.0.0"
+  },
+  {
+   "id": "GT-FIN-03",
+   "input": "发票要素校验并标记疑点",
+   "expected_output": "reports/fin/gt-03.md",
+   "skill": null,
+   "scene": "fin.expense-approve@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/fin",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/fin/t/budget",
+   "type": "table",
+   "title": "budget.csv",
+   "table": "budget",
+   "file": "budget.csv"
+  },
+  {
+   "route": "#/fin/t/expenses",
+   "type": "table",
+   "title": "expenses.csv",
+   "table": "expenses",
+   "file": "expenses.csv"
+  },
+  {
+   "route": "#/fin/t/invoices",
+   "type": "table",
+   "title": "invoices.csv",
+   "table": "invoices",
+   "file": "invoices.csv"
+  },
+  {
+   "route": "#/fin/t/revenue_ledger",
+   "type": "table",
+   "title": "revenue_ledger.csv",
+   "table": "revenue_ledger",
+   "file": "revenue_ledger.csv"
+  },
+  {
+   "route": "#/fin/w/expense-approve",
+   "type": "workflow",
+   "title": "报销审批（强审批）",
+   "workflow": "fin.expense-approve@1.0.0"
+  },
+  {
+   "route": "#/fin/w/monthly-report",
+   "type": "workflow",
+   "title": "月度财报（分级输出）",
+   "workflow": "fin.monthly-report@1.0.0"
+  },
+  {
+   "route": "#/fin/w/budget-review",
+   "type": "workflow",
+   "title": "预算调整审批（部门季度包）",
+   "workflow": "fin.budget-review@1.0.0"
+  },
+  {
+   "route": "#/fin/w/invoice-check",
+   "type": "workflow",
+   "title": "发票校验（税号/金额/连号）",
+   "workflow": "fin.invoice-check@1.0.0"
+  },
+  {
+   "route": "#/fin/w/reimburse-audit",
+   "type": "workflow",
+   "title": "报销抽审（合规抽样）",
+   "workflow": "fin.reimburse-audit@1.0.0"
+  },
+  {
+   "route": "#/fin/w/cashflow-week",
+   "type": "workflow",
+   "title": "周现金流简报（进/出/余）",
+   "workflow": "fin.cashflow-week@1.0.0"
+  },
+  {
+   "route": "#/fin/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "expenses.csv",
+         "L3",
+         "invoice_taxid（PII 由关联表 `invoices.csv` 的 `seller_taxid` / `buyer_taxid` 承载；本表 `applicant_masked` 为不可还原掩码）",
+         "29",
+         "费用/报销凭证明细（金额单位**元**）：原 6 列（单号/申请人掩码/金额/事由/审批级别/状态）+ 追加 6 列（部门/部门码/科目/期间/发票号/支付日）；覆盖 2026-08、2026-09 两期 × 6 部门，是 **cost 口径**的凭证级来源"
+        ],
+        [
+         "invoices.csv",
+         "L3",
+         "seller_taxid, buyer_taxid",
+         "19",
+         "发票要素台账（金额单位**元**）：发票号码/代码/开票日/销方名称与税号/购买方抬头与税号/不含税金额/税额/价税合计/关联报销单/校验结论/疑点类型；承载 scene 声明的 `invoice_taxid`，是 GT-FIN-03 的判定依据"
+        ],
+        [
+         "budget.csv",
+         "L2",
+         "—（scene 声明 `pii_fields: []`）",
+         "12",
+         "部门月度预算执行与经营损益汇总（金额单位**万元**，2 位小数）：原 5 列（部门/预算/已用/剩余/期间）+ 追加 6 列（部门码/期间类型/**收入**/**净额**/责任人/更新时间）；6 部门 × 2 期，是 **revenue/cost/net 口径**的汇总来源"
+        ],
+        [
+         "revenue_ledger.csv",
+         "L3",
+         "customer_masked（掩码，不可还原）",
+         "15",
+         "收入凭证明细（金额单位**元**）：收入单号/期间/部门/客户掩码/合同号/不含税金额/税率/税额/价税合计/发票号/确认日/状态；**非 scene 数据资产**（本域扩展表，供 GT-FIN-02 收入侧取证），级别保守继承销售侧合同口径 L3"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "声明侧",
+        "落地侧",
+        "级别"
+       ],
+       "rows": [
+        [
+         "scene `data_assets` 的 expense-claims.xlsx / type-dict 的 `fin, expense-claims, table, L3, invoice_taxid`",
+         "expenses.csv（费用主表）+ invoices.csv（发票子表，`invoice_taxid` 落地列）",
+         "L3"
+        ],
+        [
+         "scene `data_assets` 的 budget-master.xlsx / type-dict 的 `fin, budget-master, table, L2, none`",
+         "budget.csv",
+         "L2"
+        ],
+        [
+         "（无 scene 声明；GT-FIN-02 收入侧取证需要）",
+         "revenue_ledger.csv",
+         "L3（保守继承）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "表头英文小写下划线、UTF-8、逗号分隔、字段内不使用英文逗号；**金额单位写进列名**（`*_yuan` = 元、`*_wan` = 万元），无单位歧义。",
+      "`expenses.csv` 原 6 列、`budget.csv` 原 5 列的**列名与列序均未删改**，仅追加列（追加列已逐字段写入 §1.1）；原 5 条 expenses 行（EXP-8812~EXP-8816）的既有取值逐字保留。",
+      "每表数据行 ≥10（§15.4 校验下限），本页行数以上表为准（不含表头）。",
+      "**口径恒等式**（由数据保证，§9 V-FIN-07 逐项校验）：`Σexpenses.amount_yuan(部门,期间) / 10000 ≡ budget.used_wan`；`Σrevenue_ledger.amount_yuan(部门,期间) / 10000 ≡ budget.revenue_wan`；`budget_wan − used_wan ≡ remain_wan`；`net_wan ≡ revenue_wan − used_wan`。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "expense_id",
+         "string",
+         "是",
+         "报销/费用单号，唯一主键，格式 `EXP-####`（EXP-8812~EXP-8840 连续编号）；原始列"
+        ],
+        [
+         "applicant_masked",
+         "string",
+         "是",
+         "申请人掩码（姓 + `****`，如 `周****`），掩码前值不入库、不出域、不入记忆层；原始列（对应 redact 口径）"
+        ],
+        [
+         "amount_yuan",
+         "number",
+         "是",
+         "单笔金额（**元**，整数）；与 `invoices.total_yuan` 的比对见 §9 V-FIN-02；原始列"
+        ],
+        [
+         "reason",
+         "string",
+         "是",
+         "事由（科目化描述，含期间批次），用于科目归类与异常解释；原始列"
+        ],
+        [
+         "level",
+         "enum",
+         "是",
+         "审批级别 L1 / L2 / L3 / L4，按\"科目基准级别 + 金额升级\"复合判定（规则见 §5 与 §9 V-FIN-05）；原始列"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "报销单状态：待预审 / 待审批 / 双审批中 / 已批准 / 已驳回 / 已报销（迁移见 §4.1）；原始列"
+        ],
+        [
+         "dept",
+         "enum",
+         "是",
+         "归属部门（词表：销售部/市场部/研发部/行政部/人力资源部/财务部），与 `budget.dept` 同词表；追加列"
+        ],
+        [
+         "dept_code",
+         "enum",
+         "是",
+         "部门码 SL / MK / RD / AD / HR / FN（对齐 `budget.dept_code`，用于跨表连接）；追加列"
+        ],
+        [
+         "gl_account",
+         "enum",
+         "是",
+         "费用科目：差旅费 / 交通费 / 办公费 / 设备采购 / 市场推广费 / 广告投放费 / 云资源费 / 外包服务费 / 项目直接成本 / 房租物业费 / 招聘服务费 / 员工活动费 / 审计咨询费 / 银行手续费；决定科目基准审批级别；追加列"
+        ],
+        [
+         "period",
+         "string",
+         "是",
+         "归属期间 `YYYY-MM`（2026-08 / 2026-09），是预算执行月报的过滤键；追加列"
+        ],
+        [
+         "invoice_no",
+         "string",
+         "否",
+         "关联发票号 `INV-YYYY-MM######`；在 `invoices.csv` 中命中即为已归档，未命中按 §9 V-FIN-08 列\"待补件\"；追加列"
+        ],
+        [
+         "paid_at",
+         "date",
+         "否",
+         "支付/报销到账日 `YYYY-MM-DD`；在途行（待预审/待审批/双审批中）为 `-`，是现金流出与状态机的证据字段；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "invoice_no",
+         "string",
+         "是",
+         "发票号码（本 preset 用 `INV-YYYY-MM######` 可读化编号，唯一主键；连号判定按号段尾部递增，见 §9 V-FIN-03）"
+        ],
+        [
+         "invoice_code",
+         "string",
+         "是",
+         "发票代码（12 位数字，如 `031002000211`）；同代码 + 同销方 + 号码连续 = 连号"
+        ],
+        [
+         "invoice_date",
+         "string",
+         "是",
+         "开票日期 `YYYY-MM-DD`；晚于 `expenses.paid_at` 记跨期发票疑点"
+        ],
+        [
+         "seller_name",
+         "string",
+         "是",
+         "销方名称（合成主体，非真实企业）"
+        ],
+        [
+         "seller_taxid",
+         "string",
+         "是",
+         "销方纳税人识别号（PII / 敏感标识）。合规值 18 位；样例含 1 条 17 位异常（`91310115MA1K3QY44`，见 V-FIN-01）"
+        ],
+        [
+         "buyer_title",
+         "string",
+         "是",
+         "购买方抬头，必须等于主体登记名称 `星桥科技（上海）有限公司`，否则 FAIL（V-FIN-04）"
+        ],
+        [
+         "buyer_taxid",
+         "string",
+         "是",
+         "购买方税号，主体唯一值 `91310115MA1K3QX09T`；与抬头一并构成\"主体一致性\"证据"
+        ],
+        [
+         "amount_yuan",
+         "number",
+         "是",
+         "不含税金额（**元**，2 位小数）"
+        ],
+        [
+         "tax_yuan",
+         "number",
+         "是",
+         "税额（**元**，2 位小数）；`amount_yuan + tax_yuan ≡ total_yuan`（V-FIN-02）"
+        ],
+        [
+         "total_yuan",
+         "number",
+         "是",
+         "价税合计（**元**，2 位小数）；与 `expenses.amount_yuan` 一致（差异即\"金额不符\"FAIL）"
+        ],
+        [
+         "expense_id",
+         "ref",
+         "是",
+         "→ `expenses.expense_id` 外键，禁止孤儿行（V-FIN-08）"
+        ],
+        [
+         "check_result",
+         "enum",
+         "是",
+         "校验结论：通过 / 疑点 / FAIL（映射发票状态机见 §4.2）"
+        ],
+        [
+         "issue_type",
+         "string",
+         "否",
+         "疑点/失败类型：连号 / 抬头不一致 / 金额不符 / 税号格式异常 / 跨期发票；`通过` 行为 `-`"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "dept",
+         "enum",
+         "是",
+         "部门（6 部门词表，与 expenses.dept 一致）；原始列"
+        ],
+        [
+         "budget_wan",
+         "number",
+         "是",
+         "当期预算包（**万元**，2 位小数）；原始列"
+        ],
+        [
+         "used_wan",
+         "number",
+         "是",
+         "当期预算执行数（**万元**，2 位小数）＝成本口径 `cost_wan`；恒等于该部门该期 expenses 明细合计（含在途、不含已驳回），原始列"
+        ],
+        [
+         "remain_wan",
+         "number",
+         "是",
+         "预算余额 ＝ `budget_wan − used_wan`（余额不足拦截见 V-FIN-06）；原始列"
+        ],
+        [
+         "period",
+         "string",
+         "是",
+         "期间 `YYYY-MM`（2026-08 / 2026-09）；原始列（原为季度标签 `Q4`，本版按**月度**口径落地以对齐 `fin.monthly-report` 报告期，属口径修正而非列变更）"
+        ],
+        [
+         "dept_code",
+         "enum",
+         "是",
+         "部门码 SL / MK / RD / AD / HR / FN；追加列"
+        ],
+        [
+         "period_type",
+         "enum",
+         "是",
+         "期间类型：月度（本域仅月度；季度包由 `fin.budget-review` 审议后按月度落地）；追加列"
+        ],
+        [
+         "revenue_wan",
+         "number",
+         "是",
+         "当期确认收入（**万元**，2 位小数）；恒等于 `Σrevenue_ledger.amount_yuan(部门,期间)/10000`；**GT-FIN-02 必填字段 revenue_wan 的汇总来源**；追加列"
+        ],
+        [
+         "net_wan",
+         "number",
+         "是",
+         "当期净额（**万元**，2 位小数）＝ `revenue_wan − used_wan`（成本中心为负值，属预期）；**GT-FIN-02 必填字段 net_wan 的汇总来源**；追加列"
+        ],
+        [
+         "owner",
+         "string",
+         "是",
+         "部门预算责任人（掩码名，如 `周****`）；追加列"
+        ],
+        [
+         "updated_at",
+         "date",
+         "是",
+         "数据版本时间戳 `YYYY-MM-DD`，审计\"依据数据版本\"取该值；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "revenue_id",
+         "string",
+         "是",
+         "收入确认单号 `R-YYYYMM-###`，唯一主键"
+        ],
+        [
+         "period",
+         "string",
+         "是",
+         "归属期间 `YYYY-MM`，与 budget.period 同域"
+        ],
+        [
+         "dept",
+         "enum",
+         "是",
+         "收入归属部门（仅销售部/市场部/研发部有收入；行政部/人力资源部/财务部为成本中心，其 revenue_wan=0.00）"
+        ],
+        [
+         "dept_code",
+         "enum",
+         "是",
+         "部门码，与 budget.dept_code 一致"
+        ],
+        [
+         "customer_masked",
+         "string",
+         "是",
+         "客户名称掩码（如 `华****科技有限公司`），不可还原；真名受 redact_gate 约束"
+        ],
+        [
+         "contract_no",
+         "string",
+         "是",
+         "销售合同号 `HT-YYYY-####`，供跨域（sales）取证"
+        ],
+        [
+         "amount_yuan",
+         "number",
+         "是",
+         "不含税收入（**元**，整数），收入口径凭证级来源"
+        ],
+        [
+         "tax_rate",
+         "number",
+         "是",
+         "税率（小数，本域取 0.06）"
+        ],
+        [
+         "tax_yuan",
+         "number",
+         "是",
+         "销项税额（**元**）＝ `round(amount_yuan × tax_rate)`"
+        ],
+        [
+         "total_yuan",
+         "number",
+         "是",
+         "价税合计（**元**）＝ `amount_yuan + tax_yuan`"
+        ],
+        [
+         "invoice_no",
+         "string",
+         "是",
+         "开票号 `INV-YYYY-MM####`（收入侧发票，与费用侧 `invoices.csv` 号段不重叠）"
+        ],
+        [
+         "recognize_date",
+         "date",
+         "是",
+         "收入确认日 `YYYY-MM-DD`（权责发生时点）"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "收款状态：已确认 / 已开票 / 已回款（迁移顺序不可逆）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/fin.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 报销单（expenses.status）",
+     "tables": [
+      {
+       "header": [
+        "状态（CSV 落值）",
+        "标识符",
+        "等价口径",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "待预审",
+         "pending_precheck",
+         "待预审",
+         "待审批 / 已驳回",
+         "`expense_id` 已分配、`invoices.check_result` 未定"
+        ],
+        [
+         "待审批",
+         "pending_approval",
+         "待审批",
+         "双审批中 / 已批准 / 已驳回",
+         "`paid_at` 为空；命中审批级别 L1–L3 单审批"
+        ],
+        [
+         "双审批中",
+         "pending_dual",
+         "双审批中",
+         "已批准 / 已驳回",
+         "命中 L4 或金额 ≥5 万元；`approvals` 计数 1/2"
+        ],
+        [
+         "已批准",
+         "approved",
+         "**已通过**",
+         "已报销",
+         "审批人 + 依据数据版本 + 产物哈希（workflow n5 audit）"
+        ],
+        [
+         "已驳回",
+         "rejected",
+         "已驳回",
+         "待预审（补件重提）",
+         "驳回原因必填；**本期快照 0 行**，以保证 `Σexpenses ≡ used_wan` 恒等（见 §9 V-FIN-07）"
+        ],
+        [
+         "已报销",
+         "reimbursed",
+         "**已支付 / 已报销**",
+         "—（终态）",
+         "`paid_at` 必填；支付即计入 `used_wan` 与周现金流 `out_wan`"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "迁移只经唯一函数 `setStatus(entity, to, by)` 并写操作日志（参照 §8.3）；流程实例状态（running/done/rejected/cancelled）与单据状态**解耦**：流程 done 后由 after_complete 钩子回写单据。",
+      "本快照分布（29 行）：已报销 25 / 双审批中 2 / 待审批 1 / 已批准 1；样例：EXP-8824（行政部，319,180 元，双审批中，超剩余预算）、EXP-8813（研发部，15,600 元，待审批）。"
+     ]
+    },
+    {
+     "heading": "4.2 发票（invoices.check_result，INVOICE_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "落地取值",
+        "进入条件",
+        "允许后继"
+       ],
+       "rows": [
+        [
+         "待校验",
+         "（尚未写入台账行）",
+         "报销单提交、发票未归档",
+         "已核验 / 疑点"
+        ],
+        [
+         "已核验",
+         "`通过`",
+         "号码/代码/税号/抬头/金额/税额全部合规",
+         "—（终态）"
+        ],
+        [
+         "疑点",
+         "`疑点`",
+         "单一要素可疑但非硬伤（税号位数异常、跨期发票）",
+         "人工复核后 → 已核验 / 转 FAIL 流程"
+        ],
+        [
+         "（强制不通过）",
+         "`FAIL`",
+         "**连号**、**抬头不一致**、金额不符（workflow acceptance 原文\"连号/抬头不一致直接 FAIL\"）",
+         "不得自动放行；退回报销单并记 `已驳回`"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "本快照分布（19 行）：通过 13 / 疑点 2 / FAIL 4；FAIL 样例：EXP-8813（抬头 `星桥科技（北京）有限公司` 与主体不符）、EXP-8823（价税合计 620,000 元 vs 报销单 640,000 元）、EXP-8814 与 EXP-8816（同销方同日连号 `INV-2026-090107` / `INV-2026-090108`）。",
+      "发票状态与报销单状态解耦：发票 FAIL 是报销单走向 `已驳回` 的触发条件之一，但两表状态各自落值、互不双写。"
+     ]
+    },
+    {
+     "heading": "4.3 预算包（budget.period / fin.budget-review）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "判定",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "执行正常",
+         "`used_wan / budget_wan < 90%`",
+         "budget.csv：used_wan / budget_wan"
+        ],
+        [
+         "接近超包",
+         "`80% ≤ 执行率 < 100%` 预警",
+         "budget.csv：remain_wan（如 2026-09 市场部 remain 14.00 万元）"
+        ],
+        [
+         "余额不足",
+         "单笔在途金额 > `remain_wan × 10000`",
+         "expenses：amount_yuan / status；budget：remain_wan（样例 EXP-8824）"
+        ],
+        [
+         "超包待审",
+         "累计执行率 ≥100% 或调整幅度 > 包 10%",
+         "budget-review-<ts>.json：dept / budget_wan / delta_wan / reason"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/fin.md#§4"
+  },
+  "5": {
+   "title": "审批链（节点-角色-双审批-金额阈值）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "流程",
+        "节点链",
+        "审批角色",
+        "双审批",
+        "金额/条件阈值",
+        "manifest 落点"
+       ],
+       "rows": [
+        [
+         "报销（fin.expense-approve）",
+         "提交 → expense-precheck 预审 → 条件判定 → L4 审批 → 写产物 → 审计",
+         "部门负责人 → 财务负责人 →（大额）CFO",
+         "**是**（`dual:true`，任意金额均双人）",
+         "域基线：全部 L4 双审批；加签细化：≥5 万元加签财务负责人；≥50 万元加签 CFO；≥部门 `remain_wan` 先转 `fin.budget-review` 或驳回",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ],
+        [
+         "预算调整（fin.budget-review）",
+         "预算分析 → 条件判定 → L4 审批 → 写产物 → 审计",
+         "部门负责人 + 财务负责人 →（超包）CFO",
+         "**是**（`dual:true`）",
+         "acceptance 原文\"超包 10% 加签 CFO\"：`",
+         "delta_wan",
+         "> budget_wan × 10%` 必须 CFO 加签",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ],
+        [
+         "月度财报（fin.monthly-report）",
+         "取数 → 汇总 → 写产物 → 审计",
+         "无审批（分级出数）",
+         "否",
+         "分级别口径：公司级汇总可对 L4 输出；部门明细仅在 L4 命名空间内",
+         "无 approval 节点（kind=report）"
+        ],
+        [
+         "付款/现金流（fin.cashflow-week）",
+         "取数 → 汇总 → 写产物 → 审计",
+         "无审批（只出汇总）",
+         "否",
+         "银行账户字段一律不得出现在产物中（只出 in/out/balance 汇总）",
+         "无 approval 节点（kind=report）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "场景基线 `policies.permission.min_level=L4`、`dual_approval=false` 为**域默认**；两条 approve 工作流在流程级升格为 L4 双审批（与 workflow YAML 一致），规则**单调加严、不放松**。",
+      "审批级别（`expenses.level`）判定规则（本文档细化，manifest 未写死数值）：**取\"科目基准级别\"与\"金额升级规则\"二者较高者**——基准：办公费/交通费=L1，差旅费/员工活动费=L2，设备采购/云资源费/外包服务费/房租物业费/招聘服务费/审计咨询费/银行手续费=L3，市场推广费/广告投放费/项目直接成本=L4；金额升级：≥5 万元不低于 L3，≥30 万元为 L4。",
+      "5 万元 / 30 万元 / 50 万元为本文档细化阈值；定制时必须与 scene/workflow 配置保持同一口径并只允许加严。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/fin.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定",
+        "失败处理"
+       ],
+       "rows": [
+        [
+         "V-FIN-01 发票要素完整性",
+         "`invoice_no` / `invoice_code` / `invoice_date` / `seller_name` / `seller_taxid` / `buyer_title` / `buyer_taxid` / `amount_yuan` 非空；`invoice_code` 为 12 位数字；税号 18 位（本表 1 条 17 位为**故意注入样例**）",
+         "FAIL：要素缺失或格式非法不得入账；税号位数异常转人工复核"
+        ],
+        [
+         "V-FIN-02 价税恒等与三流一致",
+         "逐行 `amount_yuan + tax_yuan = total_yuan`；且 `total_yuan = expenses.amount_yuan`（同 `expense_id`）",
+         "FAIL：金额不符行不得置已批准（样例 EXP-8823）"
+        ],
+        [
+         "V-FIN-03 连号检测",
+         "同销方 + 同发票代码 + 号码连续 → **直接 FAIL**（workflow acceptance 原文）",
+         "FAIL：禁止自动放行，退回报销单并记疑点（样例 INV-2026-090107/090108）"
+        ],
+        [
+         "V-FIN-04 抬头与主体一致性",
+         "`buyer_title` = `星桥科技（上海）有限公司` 且 `buyer_taxid` = `91310115MA1K3QX09T`",
+         "FAIL：抬头不一致一票否决（样例 EXP-8813）"
+        ],
+        [
+         "V-FIN-05 金额阈值与审批级别",
+         "`level` = max(科目基准级别, 金额升级规则)（§5）；金额 ≥5 万元须 `approvals ≥2`；≥30 万元必须 L4；≥50 万元加签 CFO",
+         "FAIL：级别低于规则或双审批人数不足，不得置已批准"
+        ],
+        [
+         "V-FIN-06 预算余额不足拦截",
+         "在途报销单 `amount_yuan > remain_wan × 10000` → 拦截（不许透支）；`remain_wan < 0` 即负余额为非法",
+         "FAIL：立即阻断并转 `fin.budget-review`（样例 EXP-8824，行政部剩余 4.00 万元）"
+        ],
+        [
+         "V-FIN-07 四表勾稽",
+         "`Σexpenses.amount_yuan(部门,期间)/10000 = budget.used_wan`；`Σrevenue_ledger.amount_yuan(部门,期间)/10000 = budget.revenue_wan`；`budget_wan − used_wan = remain_wan`；`net_wan = revenue_wan − used_wan`；全表等式在 2026-08 / 2026-09 两期均成立",
+         "FAIL：任一等式不成立即拒绝出数，先修数据再出报告"
+        ],
+        [
+         "V-FIN-08 外键与发票归档完整性",
+         "`invoices.expense_id` ∈ `expenses.expense_id`（禁孤儿行）；`expenses.invoice_no` 未在 invoices.csv 命中时，必须在报告中列为\"发票未归档/待补件\"（本快照 29 张凭证中 19 张已归档、10 张待补件）",
+         "FAIL：孤儿行拒绝写入；未归档项漏报视为报告不合格"
+        ],
+        [
+         "V-FIN-09 财报数字 A 级可溯",
+         "`monthly-report` 四必填字段每个值必须给出 (文件, 行, 列) 证据；成本与收入须同时给出汇总层与凭证层两个来源且相互吻合",
+         "FAIL：无证据链或仅单一来源 → 判定 B 级并显式声明缺口，不得标注 A 级"
+        ],
+        [
+         "V-FIN-10 脱敏与边界",
+         "`bank_account` 禁入任何输出（只出汇总）；`invoice_taxid` 出域前必过 `redact_gate`（只出合规结论/掩码）；`applicant_masked` 不得还原",
+         "FAIL：任一违规即一票否决（redact_gate 未命中即出域）"
+        ],
+        [
+         "V-FIN-11 状态迁移合法",
+         "`expenses.status` ∈ {待预审, 待审批, 双审批中, 已批准, 已驳回, 已报销}；`invoices.check_result` ∈ {通过, 疑点, FAIL}；迁移只经唯一函数并写操作日志",
+         "FAIL：非法枚举值拒绝写入；跳级迁移回退并记审计"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/fin.md#§9"
+  }
+ },
+ "gaps": []
+}

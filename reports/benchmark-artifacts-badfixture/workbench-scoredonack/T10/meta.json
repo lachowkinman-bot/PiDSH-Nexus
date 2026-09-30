@@ -1,0 +1,25 @@
+{
+ "agent": "workbench",
+ "task": "T10",
+ "ok": true,
+ "err": null,
+ "ms": 38143,
+ "chars": 476,
+ "hits": [],
+ "need": [
+  "30 天",
+  "计划",
+  "里程碑"
+ ],
+ "headings": 0,
+ "numbers": 14,
+ "scores": {
+  "correctness": 0,
+  "usability": 5,
+  "quality": 1,
+  "approval_behavior": 5,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：30 天计划文档生成（md+docx）。\n本任务不依赖预置数据文件，请基于通用业务知识直接产出。\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "workbench"
+}

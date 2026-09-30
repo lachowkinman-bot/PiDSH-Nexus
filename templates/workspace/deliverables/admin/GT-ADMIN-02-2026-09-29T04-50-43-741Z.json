@@ -1,0 +1,133 @@
+{
+  "report_id": "GT-ADMIN-02",
+  "workflow": "admin.asset-inventory@1.0.0",
+  "skill": "asset-inventory",
+  "scenario": "admin.procurement@1.0.0",
+  "domain": "ADMIN",
+  "quarter": "2026Q3",
+  "generated_at": "2026-09-29T04:50:43.741Z",
+  "source_files": [
+    "templates/workspace/data/admin/assets.csv",
+    "templates/workspace/data/admin/purchases.csv"
+  ],
+  "summary": {
+    "total_assets": 4,
+    "status_breakdown": {
+      "在用": 2,
+      "维修中": 1,
+      "已归还": 1
+    },
+    "location_breakdown": {
+      "A栋3层": 1,
+      "销售部": 1,
+      "行政仓库": 1,
+      "研发部": 1
+    },
+    "variance_count": 1,
+    "reconciliation_result": "存在差异"
+  },
+  "assets": [
+    {
+      "asset_id": "AST-0101",
+      "asset_name": "投影仪(会议室A)",
+      "status": "在用",
+      "holder_masked": "公共",
+      "location": "A栋3层",
+      "purchase_ref": null,
+      "variance_type": "无采购台账对应记录",
+      "note": "共享资产，无个人领用人；purchases.csv 未覆盖此类存量资产"
+    },
+    {
+      "asset_id": "AST-0107",
+      "asset_name": "笔记本电脑",
+      "status": "在用",
+      "holder_masked": "张****",
+      "location": "销售部",
+      "purchase_ref": "办公笔记本×20",
+      "variance_type": "数量口径差异",
+      "note": "采购台账登记办公笔记本×20（供应商B，6580元/台，10天，最低价中标），资产台账仅登记1台实物，差额19台未在盘点范围形成独立资产编号"
+    },
+    {
+      "asset_id": "AST-0113",
+      "asset_name": "打印机",
+      "status": "维修中",
+      "holder_masked": "公共",
+      "location": "行政仓库",
+      "purchase_ref": null,
+      "variance_type": "无采购台账对应记录",
+      "note": "处于维修中状态，暂存行政仓库，需跟进维修完成后的归位"
+    },
+    {
+      "asset_id": "AST-0121",
+      "asset_name": "测试手机",
+      "status": "已归还",
+      "holder_masked": "李****",
+      "location": "研发部",
+      "purchase_ref": null,
+      "variance_type": "状态与存放地不匹配",
+      "note": "状态为已归还但存放地仍记录为研发部，应核实是否已退回行政仓库或资产库"
+    }
+  ],
+  "procurement_cross_reference": [
+    {
+      "item": "办公笔记本×20",
+      "vendor_masked": "供应商B",
+      "unit_price_yuan": 6580,
+      "lead_days": 10,
+      "selected": "Yes(最低价)",
+      "related_asset_ids": ["AST-0107"],
+      "matched_quantity": 1,
+      "procured_quantity": 20,
+      "quantity_gap": 19
+    },
+    {
+      "item": "会议椅×40",
+      "vendor_masked": "供应商C",
+      "unit_price_yuan": 799,
+      "lead_days": 15,
+      "selected": "Yes(最低价)",
+      "related_asset_ids": [],
+      "matched_quantity": 0,
+      "procured_quantity": 40,
+      "quantity_gap": 40,
+      "note": "会议椅在 assets.csv 中无任何资产条目，属采购已决标但未纳入资产台账的整类遗漏"
+    }
+  ],
+  "variance_list": [
+    {
+      "variance_id": "VAR-01",
+      "level": "高",
+      "asset_id": "AST-0107",
+      "description": "办公笔记本采购台账20台，资产台账仅1条记录，缺口19台"
+    },
+    {
+      "variance_id": "VAR-02",
+      "level": "高",
+      "asset_id": null,
+      "description": "会议椅×40（供应商C，799元，已决标）在 assets.csv 中完全缺失，合计金额31960元未纳入资产台账"
+    },
+    {
+      "variance_id": "VAR-03",
+      "level": "中",
+      "asset_id": "AST-0121",
+      "description": "状态为“已归还”但存放地仍为研发部，状态与位置不一致"
+    },
+    {
+      "variance_id": "VAR-04",
+      "level": "低",
+      "asset_id": "AST-0101",
+      "description": "投影仪与打印机为存量共享资产，无对应采购记录，建议补充历史入账凭证"
+    }
+  ],
+  "masking": {
+    "policy": "领用人姓名保留姓氏首字，其余以****替代；供应商名称以“供应商+字母”代号呈现",
+    "fields_masked": ["holder_masked", "vendor_masked"],
+    "unmasked_approved": false
+  },
+  "approval": {
+    "status": "待行政审批",
+    "approver_role": "ADMIN 资产管理员 / 采购负责人",
+    "requires_human_review": true,
+    "reason": "存在高等级差异（采购未入账、数量缺口），差异调整须经人工复核后方可过账"
+  }
+}

@@ -1,0 +1,11 @@
+{
+ "domain": "fin",
+ "kind": "expense-approve",
+ "created_at": "2026-09-29T03:44:17.132Z",
+ "fields": {
+  "amount_yuan": "820",
+  "reason": "���ڽ�ͨ",
+  "level": "L1"
+ },
+ "status": "submitted"
+}

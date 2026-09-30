@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: fin.invoice-check@1.0.0
+domain: fin
+description: "发票校验（税号/金额/连号）"
+trigger:
+  type: command
+  expr: invoice-check
+nodes:
+  - id: n1
+    type: skill
+    ref: invoice-check
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "发票校验（税号/金额/连号）：输入参数 + 结果快照"
+deliverable:
+  file: invoice-check-<ts>.json
+  format: json
+  fields:
+    - invoice_no
+    - amount_yuan
+    - checks
+    - result
+  acceptance: "连号/抬头不一致直接 FAIL"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-invoice-check

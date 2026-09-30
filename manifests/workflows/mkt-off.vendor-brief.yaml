@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-off.vendor-brief@1.0.0
+domain: mkt-off
+description: "经销商简报（条款执行）"
+trigger:
+  type: command
+  expr: vendor-brief
+nodes:
+  - id: n1
+    type: skill
+    ref: material-compliance
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "经销商简报（条款执行）：数据版本 + 产物哈希"
+deliverable:
+  file: vendor-brief-<ts>.json
+  format: json
+  fields:
+    - dealer_masked
+    - terms_exec
+    - sellthrough
+    - risk
+  acceptance: "经销商条款 L3 脱敏"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-vendor-brief

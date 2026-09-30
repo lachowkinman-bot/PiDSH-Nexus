@@ -1,0 +1,132 @@
+{
+  "deliverable_id": "GT-BEN-03",
+  "scenario": "ben.plan-compare@1.0.0",
+  "domain": "BEN",
+  "skill": "flex-benefit",
+  "workflow": "ben.points-calc@1.0.0",
+  "generated_at": "2026-09-29T04-52-22-950Z",
+  "unit": "points",
+  "source_files": [
+    "templates/workspace/data/ben/plans.csv",
+    "templates/workspace/data/ben/usage.csv"
+  ],
+  "employee_masked": "EMP-****51",
+  "points_total": 300,
+  "selected": [
+    {
+      "plan": "EAP心理支持",
+      "points": 300,
+      "covers": "全年8次匿名咨询",
+      "provider_masked": "某EAP机构"
+    }
+  ],
+  "remaining": 0,
+  "requested_points": 600,
+  "raw_remaining": -300,
+  "intercepted": true,
+  "intercept_rule": "points_total - requested_points < 0 时拒绝扣减并回滚，remaining 归零，不落负分台账",
+  "intercept_reason": "EMP-****51 申报 EAP心理支持 600 分，超出该方案年度配额 300 分，超出 300 分，扣减被拦截",
+  "approved": false,
+  "adjustment": "超配 300 分需退回，或改选/加购额度内方案后方可入账",
+  "plan_catalog": [
+    {
+      "plan": "升级商保(家属)",
+      "points_per_year": 1600,
+      "covers": "门诊+住院+体检",
+      "provider_masked": "某保险公司"
+    },
+    {
+      "plan": "高端体检套餐",
+      "points_per_year": 900,
+      "covers": "全面体检+齿科",
+      "provider_masked": "某体检机构"
+    },
+    {
+      "plan": "弹性健身",
+      "points_per_year": 600,
+      "covers": "健身房通兑",
+      "provider_masked": "某运动平台"
+    },
+    {
+      "plan": "EAP心理支持",
+      "points_per_year": 300,
+      "covers": "全年8次匿名咨询",
+      "provider_masked": "某EAP机构"
+    }
+  ],
+  "employees": [
+    {
+      "employee_masked": "EMP-****12",
+      "plan": "升级商保(家属)",
+      "points_total": 1600,
+      "selected": [
+        {
+          "plan": "升级商保(家属)",
+          "points": 1450
+        }
+      ],
+      "points_used": 1450,
+      "remaining": 150,
+      "raw_remaining": 150,
+      "intercepted": false,
+      "status": "通过"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "plan": "高端体检套餐",
+      "points_total": 900,
+      "selected": [
+        {
+          "plan": "高端体检套餐",
+          "points": 900
+        }
+      ],
+      "points_used": 900,
+      "remaining": 0,
+      "raw_remaining": 0,
+      "intercepted": false,
+      "status": "通过"
+    },
+    {
+      "employee_masked": "EMP-****07",
+      "plan": "弹性健身",
+      "points_total": 600,
+      "selected": [
+        {
+          "plan": "弹性健身",
+          "points": 300
+        }
+      ],
+      "points_used": 300,
+      "remaining": 300,
+      "raw_remaining": 300,
+      "intercepted": false,
+      "status": "通过"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "plan": "EAP心理支持",
+      "points_total": 300,
+      "selected": [
+        {
+          "plan": "EAP心理支持",
+          "points": 600
+        }
+      ],
+      "points_used": 600,
+      "remaining": 0,
+      "raw_remaining": -300,
+      "intercepted": true,
+      "status": "拦截"
+    }
+  ],
+  "summary": {
+    "total_employees": 4,
+    "passed": 3,
+    "intercepted_count": 1,
+    "total_points_granted": 3400,
+    "total_points_selected": 3250,
+    "total_remaining": 450,
+    "negative_remaining_blocked": 1
+  }
+}

@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: er-eap.exit-interview@1.0.0
+domain: er-eap
+description: "离职面谈纪要（结构化）"
+trigger:
+  type: command
+  expr: exit-interview
+nodes:
+  - id: n1
+    type: skill
+    ref: offboarding-flow
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "离职面谈纪要（结构化）：数据版本 + 产物哈希"
+deliverable:
+  file: exit-interview-<ts>.json
+  format: json
+  fields:
+    - employee_masked
+    - reasons
+    - improvements
+    - rehire_flag
+  acceptance: "敏感表述经脱敏"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-exit-interview

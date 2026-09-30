@@ -1,0 +1,96 @@
+{
+  "category": "benefit-plan-comparison",
+  "scenario": "ben.plan-compare@1.0.0",
+  "workflow": "ben.vendor-compare@1.0.0",
+  "domain": "BEN",
+  "generated_at": "2026-09-29T05:00:47.353Z",
+  "source_files": [
+    "templates/workspace/data/ben/plans.csv",
+    "templates/workspace/data/ben/usage.csv"
+  ],
+  "vendors": [
+    {
+      "plan": "升级商保(家属)",
+      "provider_masked": "某保险公司",
+      "points_per_year": 1600,
+      "covers": "门诊+住院+体检",
+      "points_used": 1450,
+      "remaining": 150,
+      "utilization_pct": 90.63,
+      "coverage_breadth": 3
+    },
+    {
+      "plan": "高端体检套餐",
+      "provider_masked": "某体检机构",
+      "points_per_year": 900,
+      "covers": "全面体检+齿科",
+      "points_used": 900,
+      "remaining": 0,
+      "utilization_pct": 100.0,
+      "coverage_breadth": 2
+    },
+    {
+      "plan": "弹性健身",
+      "provider_masked": "某运动平台",
+      "points_per_year": 600,
+      "covers": "健身房通兑",
+      "points_used": 300,
+      "remaining": 300,
+      "utilization_pct": 50.0,
+      "coverage_breadth": 1
+    },
+    {
+      "plan": "EAP心理支持",
+      "provider_masked": "某EAP机构",
+      "points_per_year": 300,
+      "covers": "全年8次匿名咨询",
+      "points_used": 600,
+      "remaining": 0,
+      "utilization_pct": 200.0,
+      "coverage_breadth": 1
+    }
+  ],
+  "points": {
+    "unit": "points/year",
+    "plan_count_in_dataset": 4,
+    "plan_count_requested_by_scenario": 3,
+    "annual_allocation_total": 3400,
+    "consumed_total": 3250,
+    "declared_remaining_total": 450,
+    "derived_remaining_total": 150,
+    "by_plan": [
+      { "plan": "升级商保(家属)", "allocated": 1600, "used": 1450, "declared_remaining": 150, "derived_remaining": 150 },
+      { "plan": "高端体检套餐", "allocated": 900, "used": 900, "declared_remaining": 0, "derived_remaining": 0 },
+      { "plan": "弹性健身", "allocated": 600, "used": 300, "declared_remaining": 300, "derived_remaining": 300 },
+      { "plan": "EAP心理支持", "allocated": 300, "used": 600, "declared_remaining": 0, "derived_remaining": -300 }
+    ],
+    "anomalies": [
+      {
+        "plan": "EAP心理支持",
+        "issue": "usage.csv 记录 points_used=600 大于 plans.csv 年度额度 300（利用率 200%），且 remaining 记为 0 而非 -300，两文件在该行不一致",
+        "impact": "declared_remaining_total(450) 与 derived_remaining_total(150) 相差 300",
+        "action": "需业务方核对 EAP 额度口径是否含机构侧额外点数或存在跨年结转"
+      }
+    ],
+    "reallocation_signal": "弹性健身 余量 300、利用率仅 50%，为四套方案中最低，可作为额度再分配来源"
+  },
+  "winner": {
+    "plan": "升级商保(家属)",
+    "provider_masked": "某保险公司",
+    "points_per_year": 1600,
+    "rationale": "覆盖维度最广（门诊+住院+体检，coverage_breadth=3）；在四套方案中绝对消耗最高（1450/1600），利用率 90.63%，仅余 150 点，需求真实且接近额度上限；单点覆盖效率最优。",
+    "runner_up": "高端体检套餐",
+    "runner_up_rationale": "利用率 100% 且额度耗尽（900/900，余 0），需求同样确定，但覆盖维度（2）低于中标方案。",
+    "deprioritized": "弹性健身",
+    "deprioritized_rationale": "利用率仅 50%（300/600），余量 300，为四套方案中最弱，建议降配或并入其他方案。",
+    "disclaimer": "EAP心理支持因两文件额度/用量不一致，未纳入胜出判定，需数据修正后复评。"
+  },
+  "compliance": {
+    "health_data_level": "L4",
+    "memory_layer_admission": "DENIED",
+    "desensitization": "员工标识与供应商名称均以掩码形式呈现（EMP-****NN / 某保险公司·某体检机构·某运动平台·某EAP机构），交付物与报告未落任何可识别个人或供应商真名",
+    "evidence_scope": "仅使用 plans.csv 与 usage.csv 的聚合/掩码字段，未派生、未回填、未缓存任何个人级健康明细",
+    "approval_required_for": "任何将本比选结论关联到个人健康记录的下游动作，须经 BEN 域数据 owner 审批",
+    "status": "PASS"
+  }
+}

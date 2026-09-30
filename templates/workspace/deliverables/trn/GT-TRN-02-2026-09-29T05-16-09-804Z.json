@@ -1,0 +1,80 @@
+{
+  "report_id": "GT-TRN-02",
+  "scenario": "trn.plan-approve@1.0.0",
+  "skill": "hour-stats",
+  "workflow": "trn.hours-report@1.0.0",
+  "period": "2026-H1",
+  "generated_at": "2026-09-29T05:16:09.804Z",
+  "dept": "全公司",
+  "planned_h": 708,
+  "completed_h": 0,
+  "rate": 0.0,
+  "rate_definition": "completed_h / planned_h（学时达标率）",
+  "unit": "人时(person-hour)",
+  "planned_h_derivation": "sum(courses.csv.hours × courses.csv.enrolled) = 708 人时",
+  "completed_h_derivation": "courses.csv 与 certificates.csv 均无上半年(2026-H1)实际参训/结课记录，按可得数据记 0 人时，不做估算",
+  "source_files": [
+    "templates/workspace/data/trn/courses.csv",
+    "templates/workspace/data/trn/certificates.csv"
+  ],
+  "source_trace": [
+    {
+      "course": "新员工入职",
+      "category": "必修",
+      "hours_per_person": 6,
+      "enrolled": 32,
+      "planned_person_hours": 192,
+      "next_session": "10-11"
+    },
+    {
+      "course": "合规与信息安全",
+      "category": "必修",
+      "hours_per_person": 4,
+      "enrolled": 57,
+      "planned_person_hours": 228,
+      "next_session": "10-13"
+    },
+    {
+      "course": "销售进阶谈判",
+      "category": "进阶",
+      "hours_per_person": 12,
+      "enrolled": 18,
+      "planned_person_hours": 216,
+      "next_session": "10-18"
+    },
+    {
+      "course": "管理者 First 30 天",
+      "category": "领导力",
+      "hours_per_person": 8,
+      "enrolled": 9,
+      "planned_person_hours": 72,
+      "next_session": "10-22"
+    }
+  ],
+  "totals": {
+    "distinct_courses": 4,
+    "sum_course_hours": 30,
+    "total_enrolled": 116,
+    "planned_person_hours": 708,
+    "completed_person_hours": 0
+  },
+  "dept_dimension_available": false,
+  "data_gaps": [
+    "courses.csv 无部门字段，无法输出部门级达标率，dept 只能取全公司口径",
+    "courses.csv 无实际参训人数、结课人数、签到或学时消耗记录，completed_h 不可计算",
+    "courses.csv 的 next_session 仅含 10-11/10-13/10-18/10-22，全部落在下半年(2026-H2)，样本中没有上半年排期",
+    "certificates.csv 为证照台账（4 条），不含任何学时字段，无法作为学时达标依据"
+  ],
+  "certificate_reference": {
+    "total": 4,
+    "valid": 2,
+    "expiring_within_90d": 1,
+    "expired": 1,
+    "note": "陈**** 安全员C证 已于 2024-10-01 过期；王**** 特种作业操作证 2026-10-14 到期。证照口径仅作合规提示，不参与学时达标率计算"
+  },
+  "conclusion": "按 courses.csv 可追溯数据，上半年计划学时 708 人时、已完成 0 人时、达标率 0%；该结论的实质是数据缺失而非业务失败，需补齐参训与结课记录后方可出具真实达标率",
+  "action_required": [
+    "补充 2026-H1 签到/结课/学时消耗明细（建议按 工号-部门-课程-日期 粒度）后重跑 hour-stats",
+    "在课程台账中增加部门归属字段，以支持部门级达标率"
+  ]
+}

@@ -1,0 +1,540 @@
+{
+  "deliverable_id": "GT-FIN-01",
+  "task_scenario": "fin.expense-approve@1.0.0",
+  "domain": "FIN",
+  "skill": "expense-precheck",
+  "workflow": "fin.expense-approve@1.0.0",
+  "generated_at": "2026-09-29T06:56:59.441Z",
+  "period": "2026-09",
+  "currency": "CNY",
+  "entity": {
+    "buyer_title": "星桥科技（上海）有限公司",
+    "buyer_taxid": "91310115MA1K3QX09T"
+  },
+  "selection_rule": "取费用期间 2026-09 的报销单，按 expense_id 升序排列，预审前 10 张（EXP-8812 ~ EXP-8821）。",
+  "acceptance_criteria": {
+    "l4_requires_dual_approval": true,
+    "approval_sheet_must_match_deliverable": true,
+    "invoice_rules": [
+      "连号发票直接 FAIL",
+      "抬头不一致直接 FAIL",
+      "金额不符直接 FAIL"
+    ]
+  },
+  "summary": {
+    "checked_count": 10,
+    "total_amount_yuan": 6837770.0,
+    "l4_count": 6,
+    "l4_amount_yuan": 6816140.0,
+    "non_l4_amount_yuan": 21630.0,
+    "pass_count": 6,
+    "exception_expense_count": 4,
+    "exception_item_count": 5,
+    "l4_dual_approval_blocked_count": 1,
+    "invoice_fail_count": 3
+  },
+  "budget_basis": [
+    {
+      "dept": "销售部",
+      "dept_code": "SL",
+      "period": "2026-09",
+      "budget_wan": 300.0,
+      "used_wan": 268.0,
+      "remain_wan": 32.0,
+      "checked_expense_sum_yuan": 2680000.0,
+      "reconcile": "selected expenses of SL in 2026-09 (EXP-8812/8817/8818) sum exactly to used_wan 268.00"
+    },
+    {
+      "dept": "市场部",
+      "dept_code": "MK",
+      "period": "2026-09",
+      "budget_wan": 210.0,
+      "used_wan": 196.0,
+      "remain_wan": 14.0,
+      "checked_expense_sum_yuan": 1960000.0,
+      "reconcile": "selected expenses of MK in 2026-09 (EXP-8815/8819/8820) sum exactly to used_wan 196.00"
+    },
+    {
+      "dept": "研发部",
+      "dept_code": "RD",
+      "period": "2026-09",
+      "budget_wan": 380.0,
+      "used_wan": 342.0,
+      "remain_wan": 38.0,
+      "checked_expense_sum_yuan": 3420000.0,
+      "reconcile": "selected expenses of RD in 2026-09 (EXP-8813/8821) plus EXP-8822 sum exactly to used_wan 342.00"
+    },
+    {
+      "dept": "行政部",
+      "dept_code": "AD",
+      "period": "2026-09",
+      "budget_wan": 100.0,
+      "used_wan": 96.0,
+      "remain_wan": 4.0,
+      "checked_expense_sum_yuan": 960000.0,
+      "reconcile": "2026-09 AD expenses (EXP-8814/8823/8824) sum exactly to used_wan 96.00"
+    },
+    {
+      "dept": "人力资源部",
+      "dept_code": "HR",
+      "period": "2026-09",
+      "budget_wan": 90.0,
+      "used_wan": 84.0,
+      "remain_wan": 6.0,
+      "checked_expense_sum_yuan": 840000.0,
+      "reconcile": "2026-09 HR expenses (EXP-8816/8825/8826) sum exactly to used_wan 84.00"
+    },
+    {
+      "dept": "财务部",
+      "dept_code": "FN",
+      "period": "2026-09",
+      "budget_wan": 80.0,
+      "used_wan": 76.0,
+      "remain_wan": 4.0,
+      "checked_expense_sum_yuan": 760000.0,
+      "reconcile": "2026-09 FN expenses (EXP-8827/8828) sum exactly to used_wan 76.00"
+    }
+  ],
+  "approval_matrix": {
+    "L1": ["部门负责人"],
+    "L2": ["部门负责人"],
+    "L3": ["部门负责人", "财务负责人"],
+    "L4": ["部门负责人", "财务负责人"]
+  },
+  "expenses": [
+    {
+      "expense_id": "EXP-8812",
+      "amount_yuan": 3860.0,
+      "level": "L2",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "周****",
+          "decision": "通过",
+          "stage": "部门审批"
+        }
+      ],
+      "approvals_required": 1,
+      "approvals_recorded": 1,
+      "dual_approval_satisfied": true,
+      "dept": "销售部",
+      "dept_code": "SL",
+      "gl_account": "差旅费",
+      "reason": "差旅-深圳出差",
+      "status": "已批准",
+      "invoice_no": "INV-2026-090112",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 3860.0,
+      "amount_match": true,
+      "budget_check": "通过（销售部 2026-09 剩余额度 320000 元，本单已计入 used_wan 268.00）",
+      "verdict": "通过",
+      "exceptions": []
+    },
+    {
+      "expense_id": "EXP-8813",
+      "amount_yuan": 15600.0,
+      "level": "L3",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "许****",
+          "decision": "待审批",
+          "stage": "部门审批"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "待审批",
+          "stage": "财务审批"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 0,
+      "dual_approval_satisfied": false,
+      "dept": "研发部",
+      "dept_code": "RD",
+      "gl_account": "设备采购",
+      "reason": "设备采购",
+      "status": "待审批",
+      "invoice_no": "INV-2026-090305",
+      "invoice_check_result": "FAIL",
+      "invoice_total_yuan": 15600.0,
+      "amount_match": true,
+      "budget_check": "通过（研发部 2026-09 剩余额度 380000 元）",
+      "verdict": "不通过（不得进入付款）",
+      "exceptions": [
+        {
+          "code": "INV_TITLE_MISMATCH",
+          "severity": "阻断",
+          "detail": "发票 INV-2026-090305 购买方抬头为「星桥科技（北京）有限公司」，与报销主体「星桥科技（上海）有限公司」不一致；价税合计 15600.00 元与报销单一致，问题在抬头而非金额。",
+          "required_action": "退回申请人，要求销方作废重开为上海主体抬头后重新提交审批。"
+        },
+        {
+          "code": "APPROVAL_NOT_COMPLETED",
+          "severity": "阻断",
+          "detail": "L3 需部门负责人 + 财务负责人 2 级审批，当前 approvals_recorded=0（status=待审批）。",
+          "required_action": "发票合规性补齐后再启动审批链。"
+        }
+      ]
+    },
+    {
+      "expense_id": "EXP-8814",
+      "amount_yuan": 820.0,
+      "level": "L1",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "蒋****",
+          "decision": "通过",
+          "stage": "部门审批"
+        }
+      ],
+      "approvals_required": 1,
+      "approvals_recorded": 1,
+      "dual_approval_satisfied": true,
+      "dept": "行政部",
+      "dept_code": "AD",
+      "gl_account": "交通费",
+      "reason": "市内交通",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090107",
+      "invoice_check_result": "FAIL",
+      "invoice_total_yuan": 820.0,
+      "amount_match": true,
+      "budget_check": "通过（行政部 2026-09 剩余额度 40000 元）",
+      "verdict": "事后异常（已报销，需追补核查）",
+      "exceptions": [
+        {
+          "code": "INV_SERIAL_SPLIT",
+          "severity": "高",
+          "detail": "发票 INV-2026-090107 与 INV-2026-090108 为同销方（同城生活服务（上海）有限公司，税号 91310115MA1K3QY31T）同日连号开具，820.00 元与 1350.00 元拆分报销（对应 EXP-8814 与 EXP-8816），构成拆分嫌疑。",
+          "required_action": "合并两单为一次采购事项复核，必要时要求销方合并开具一张发票。"
+        }
+      ]
+    },
+    {
+      "expense_id": "EXP-8815",
+      "amount_yuan": 42800.0,
+      "level": "L4",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "郑****",
+          "decision": "通过",
+          "stage": "一审"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "待审批",
+          "stage": "二审"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 1,
+      "dual_approval_satisfied": false,
+      "dept": "市场部",
+      "dept_code": "MK",
+      "gl_account": "市场推广费",
+      "reason": "市场活动尾款",
+      "status": "双审批中",
+      "invoice_no": "INV-2026-090203",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 42800.0,
+      "amount_match": true,
+      "budget_check": "通过（市场部 2026-09 剩余额度 140000 元）",
+      "verdict": "挂起（等待第二审批）",
+      "exceptions": [
+        {
+          "code": "L4_DUAL_APPROVAL_PENDING",
+          "severity": "阻断",
+          "detail": "L4 单必须双审批，当前仅 1/2 审批通过（status=双审批中），不得付款。",
+          "required_action": "推送财务负责人完成二审后再放行。"
+        }
+      ]
+    },
+    {
+      "expense_id": "EXP-8816",
+      "amount_yuan": 1350.0,
+      "level": "L1",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "韩****",
+          "decision": "通过",
+          "stage": "部门审批"
+        }
+      ],
+      "approvals_required": 1,
+      "approvals_recorded": 1,
+      "dual_approval_satisfied": true,
+      "dept": "人力资源部",
+      "dept_code": "HR",
+      "gl_account": "办公费",
+      "reason": "办公用品",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090108",
+      "invoice_check_result": "FAIL",
+      "invoice_total_yuan": 1350.0,
+      "amount_match": true,
+      "budget_check": "通过（人力资源部 2026-09 剩余额度 60000 元）",
+      "verdict": "事后异常（已报销，需追补核查）",
+      "exceptions": [
+        {
+          "code": "INV_SERIAL_SPLIT",
+          "severity": "高",
+          "detail": "发票 INV-2026-090108 与 INV-2026-090107 同销方同日连号，与 EXP-8814 构成 820.00 元 + 1350.00 元的同日拆分报销，且两单分属行政部与人力资源部，存在跨部门拆单规避审批额度嫌疑。",
+          "required_action": "两单并案核查，核对是否为同一采购事项及是否存在规避审批权限的行为。"
+        }
+      ]
+    },
+    {
+      "expense_id": "EXP-8817",
+      "amount_yuan": 1486140.0,
+      "level": "L4",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "周****",
+          "decision": "通过",
+          "stage": "一审"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "通过",
+          "stage": "二审"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 2,
+      "dual_approval_satisfied": true,
+      "dept": "销售部",
+      "dept_code": "SL",
+      "gl_account": "市场推广费",
+      "reason": "渠道推广费-华东区9月批次",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090118",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 1486140.0,
+      "amount_match": true,
+      "budget_check": "通过（销售部 2026-09 预算 3000000 元，used_wan 2680000 元含本单）",
+      "verdict": "通过",
+      "exceptions": []
+    },
+    {
+      "expense_id": "EXP-8818",
+      "amount_yuan": 1190000.0,
+      "level": "L4",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "周****",
+          "decision": "通过",
+          "stage": "一审"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "通过",
+          "stage": "二审"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 2,
+      "dual_approval_satisfied": true,
+      "dept": "销售部",
+      "dept_code": "SL",
+      "gl_account": "项目直接成本",
+      "reason": "客户项目直接成本-9月交付",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090121",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 1190000.0,
+      "amount_match": true,
+      "budget_check": "通过（销售部 2026-09 used_wan 2680000 元含本单）",
+      "verdict": "通过",
+      "exceptions": []
+    },
+    {
+      "expense_id": "EXP-8819",
+      "amount_yuan": 1180000.0,
+      "level": "L4",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "郑****",
+          "decision": "通过",
+          "stage": "一审"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "通过",
+          "stage": "二审"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 2,
+      "dual_approval_satisfied": true,
+      "dept": "市场部",
+      "dept_code": "MK",
+      "gl_account": "市场推广费",
+      "reason": "秋季发布会执行尾款",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090207",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 1180000.0,
+      "amount_match": true,
+      "budget_check": "通过（市场部 2026-09 预算 2100000 元，used_wan 1960000 元含本单）",
+      "verdict": "通过",
+      "exceptions": []
+    },
+    {
+      "expense_id": "EXP-8820",
+      "amount_yuan": 737200.0,
+      "level": "L4",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "郑****",
+          "decision": "通过",
+          "stage": "一审"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "通过",
+          "stage": "二审"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 2,
+      "dual_approval_satisfied": true,
+      "dept": "市场部",
+      "dept_code": "MK",
+      "gl_account": "广告投放费",
+      "reason": "信息流广告投放-9月结算",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090211",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 737200.0,
+      "amount_match": true,
+      "budget_check": "通过（市场部 2026-09 used_wan 1960000 元含本单）",
+      "verdict": "通过",
+      "exceptions": []
+    },
+    {
+      "expense_id": "EXP-8821",
+      "amount_yuan": 2180000.0,
+      "level": "L4",
+      "approvals": [
+        {
+          "seq": 1,
+          "role": "部门负责人",
+          "approver_masked": "许****",
+          "decision": "通过",
+          "stage": "一审"
+        },
+        {
+          "seq": 2,
+          "role": "财务负责人",
+          "approver_masked": "秦****",
+          "decision": "通过",
+          "stage": "二审"
+        }
+      ],
+      "approvals_required": 2,
+      "approvals_recorded": 2,
+      "dual_approval_satisfied": true,
+      "dept": "研发部",
+      "dept_code": "RD",
+      "gl_account": "云资源费",
+      "reason": "云资源与算力采购-9月",
+      "status": "已报销",
+      "invoice_no": "INV-2026-090308",
+      "invoice_check_result": "通过",
+      "invoice_total_yuan": 2180000.0,
+      "amount_match": true,
+      "budget_check": "通过（研发部 2026-09 预算 3800000 元，used_wan 3420000 元含本单）",
+      "verdict": "通过",
+      "exceptions": []
+    }
+  ],
+  "exceptions": [
+    {
+      "expense_id": "EXP-8813",
+      "amount_yuan": 15600.0,
+      "level": "L3",
+      "dept": "研发部",
+      "code": "INV_TITLE_MISMATCH",
+      "severity": "阻断",
+      "detail": "INV-2026-090305 购买方抬头为星桥科技（北京）有限公司，与报销主体星桥科技（上海）有限公司不一致（验收标准：抬头不一致直接 FAIL）。"
+    },
+    {
+      "expense_id": "EXP-8813",
+      "amount_yuan": 15600.0,
+      "level": "L3",
+      "dept": "研发部",
+      "code": "APPROVAL_NOT_COMPLETED",
+      "severity": "阻断",
+      "detail": "L3 需 2 级审批（部门负责人 + 财务负责人），当前 0/2 完成，status=待审批。"
+    },
+    {
+      "expense_id": "EXP-8814",
+      "amount_yuan": 820.0,
+      "level": "L1",
+      "dept": "行政部",
+      "code": "INV_SERIAL_SPLIT",
+      "severity": "高",
+      "detail": "INV-2026-090107 与 INV-2026-090108 同销方（91310115MA1K3QY31T）同日连号，820.00 元与 1350.00 元拆分（验收标准：连号直接 FAIL）。"
+    },
+    {
+      "expense_id": "EXP-8815",
+      "amount_yuan": 42800.0,
+      "level": "L4",
+      "dept": "市场部",
+      "code": "L4_DUAL_APPROVAL_PENDING",
+      "severity": "阻断",
+      "detail": "L4 必须双审批，当前审批 1/2（status=双审批中），二审未完成。"
+    },
+    {
+      "expense_id": "EXP-8816",
+      "amount_yuan": 1350.0,
+      "level": "L1",
+      "dept": "人力资源部",
+      "code": "INV_SERIAL_SPLIT",
+      "severity": "高",
+      "detail": "INV-2026-090108 与 INV-2026-090107 同销方同日连号，与 EXP-8814 构成跨部门同日拆分报销。"
+    }
+  ],
+  "consistency_statement": {
+    "source_of_truth": [
+      "templates/workspace/data/fin/expenses.csv",
+      "templates/workspace/data/fin/invoices.csv",
+      "templates/workspace/data/fin/budget.csv",
+      "templates/workspace/data/fin/revenue_ledger.csv"
+    ],
+    "checks": [
+      "10 张报销单的 expense_id / amount_yuan / level 与 expenses.csv 逐字一致，无改写、无补位。",
+      "10 张对应发票的 total_yuan 与报销单 amount_yuan 全部一致（金额无差异）。",
+      "审批单（approvals）与 expenses.csv.status 一致：已报销/已批准的 L4 单均为 2 条通过记录；双审批中的 EXP-8815 仅 1 条通过 + 1 条待审批。",
+      "2026-09 各部门报销合计与 budget.csv.used_wan 完全对平（SL 2680000、MK 1960000、RD 3420000、AD 960000、HR 840000、FN 760000），无预算超支。"
+    ]
+  }
+}

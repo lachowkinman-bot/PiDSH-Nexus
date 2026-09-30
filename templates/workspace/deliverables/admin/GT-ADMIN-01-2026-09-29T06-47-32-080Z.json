@@ -1,0 +1,107 @@
+{
+  "task_id": "GT-ADMIN-01",
+  "generated_at": "2026-09-29T06:47:32.080Z",
+  "scenario": "admin.procurement@1.0.0",
+  "business_domain": "ADMIN",
+  "skill": "purchase-compare",
+  "workflow": "admin.purchase-approve@1.0.0",
+  "source_files": [
+    "templates/workspace/data/admin/purchases.csv",
+    "templates/workspace/data/admin/assets.csv"
+  ],
+  "item": "办公桌×12",
+  "qty": 12,
+  "amount_wan": 1.416,
+  "budget_ok": false,
+  "request_id": "PR-2026-Q3-004",
+  "request_dept": "销售部",
+  "currency": "CNY",
+  "quote_comparison": [
+    {
+      "vendor_masked": "供应商A",
+      "unit_price_yuan": 1250,
+      "lead_days": 10,
+      "amount_yuan": 15000,
+      "amount_wan": 1.5,
+      "selected": false,
+      "quote_date": "2026-09-18",
+      "note": "未中选"
+    },
+    {
+      "vendor_masked": "供应商B",
+      "unit_price_yuan": 1180,
+      "lead_days": 14,
+      "amount_yuan": 14160,
+      "amount_wan": 1.416,
+      "selected": true,
+      "selection_reason": "最低价中选",
+      "quote_date": "2026-09-18",
+      "note": "最低价但预算缺口 4360 元；待预算调整"
+    },
+    {
+      "vendor_masked": "供应商C",
+      "unit_price_yuan": 1290,
+      "lead_days": 8,
+      "amount_yuan": 15480,
+      "amount_wan": 1.548,
+      "selected": false,
+      "quote_date": "2026-09-18",
+      "note": "未中选"
+    }
+  ],
+  "budget_check": {
+    "result": "blocked",
+    "budget_ok": false,
+    "shortfall_yuan": 4360,
+    "shortfall_wan": 0.436,
+    "reason": "销售部办公家具预算不足，最低价中选方案（供应商B 1180 元 × 12 = 14160 元）仍存在 4360 元预算缺口，按「预算不足直接阻断」规则，本次采购审批流程直接阻断，不得进入下单环节。",
+    "next_action": "需销售部追加/调整家具预算或下调采购数量后重新提交比价与审批。"
+  },
+  "approvals": [
+    {
+      "step": 1,
+      "node": "比价确认",
+      "owner": "行政部",
+      "mode": "自动",
+      "status": "passed",
+      "detail": "已完成三家比价（供应商A/B/C），供应商B 以 1180 元/张、总价 14160 元为最低价中选。"
+    },
+    {
+      "step": 2,
+      "node": "预算校验",
+      "owner": "预算/财务",
+      "mode": "自动",
+      "status": "blocked",
+      "detail": "预算不足，缺口 4360 元，按验收标准「预算不足直接阻断」，流程在此节点终止。"
+    },
+    {
+      "step": 3,
+      "node": "用印（合同/印章）",
+      "owner": "人工（授权印章管理员）",
+      "mode": "人工强制",
+      "status": "not_reached",
+      "detail": "用印环节强制人工审批，不得自动执行；因预算校验已阻断，本次未进入用印环节。"
+    }
+  ],
+  "blocked": true,
+  "block_reason": "预算不足直接阻断（预算缺口 4360 元）",
+  "human_in_the_loop": [
+    {
+      "control": "用印强制人工",
+      "enforced": true,
+      "detail": "任何采购合同用印必须由授权印章管理员人工审批，系统不做自动用印。"
+    }
+  ],
+  "evidence_from_assets_csv": [
+    {
+      "asset_id": "AST-0128",
+      "asset": "办公桌",
+      "dept": "销售部",
+      "location": "A栋4层开放区",
+      "status": "在用",
+      "price_yuan": 1180,
+      "last_event": "2026-09-25 季度盘点在用"
+    }
+  ],
+  "conclusion": "PR-2026-Q3-004（办公桌×12，销售部）三家比价完成、供应商B 最低价中选，但销售部家具预算不足，缺口 4360 元，按规则直接阻断审批，不予下单；用印环节强制人工，本次未触达。"
+}

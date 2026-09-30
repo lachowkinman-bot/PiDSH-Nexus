@@ -1,0 +1,199 @@
+{
+  "workflow": "fin.expense-approve@1.0.0",
+  "skill": "expense-precheck",
+  "domain": "FIN",
+  "generated_at": "2026-09-29T04:57:53.819Z",
+  "source_files": [
+    "templates/workspace/data/fin/expenses.csv",
+    "templates/workspace/data/fin/budget.csv"
+  ],
+  "policy": {
+    "level_amount_bands_yuan": {
+      "L1": "0-999",
+      "L2": "1000-4999",
+      "L3": "5000-19999",
+      "L4": ">=20000"
+    },
+    "required_approvals_by_level": {
+      "L1": 1,
+      "L2": 1,
+      "L3": 2,
+      "L4": 2
+    },
+    "approval_chain_by_level": {
+      "L1": ["直属主管"],
+      "L2": ["直属主管"],
+      "L3": ["直属主管", "部门负责人"],
+      "L4": ["部门负责人", "财务负责人"]
+    },
+    "l4_rule": "L4 必须完成双审批（部门负责人与财务负责人两人均通过）方可放款"
+  },
+  "reviewed_count": 5,
+  "requested_count": 10,
+  "data_gap": {
+    "status": "存在数据缺口",
+    "missing_count": 5,
+    "detail": "任务要求预审 10 张报销单，但 expenses.csv 实际仅含 5 条记录（EXP-8812 至 EXP-8816）；缺失的 5 张无任何数据来源，未做补造或占位填充。"
+  },
+  "budget_snapshot": [
+    { "dept": "销售部", "budget_wan": 320, "used_wan": 214, "remain_wan": 106, "period": "Q4" },
+    { "dept": "市场部", "budget_wan": 280, "used_wan": 199, "remain_wan": 81, "period": "Q4" },
+    { "dept": "研发部", "budget_wan": 410, "used_wan": 187, "remain_wan": 223, "period": "Q4" },
+    { "dept": "行政部", "budget_wan": 120, "used_wan": 96, "remain_wan": 24, "period": "Q4" },
+    { "dept": "人力资源部", "budget_wan": 150, "used_wan": 88, "remain_wan": 62, "period": "Q4" }
+  ],
+  "expenses": [
+    {
+      "expense_id": "EXP-8812",
+      "amount_yuan": 3860,
+      "level": "L2",
+      "approvals": {
+        "required": 1,
+        "completed": 1,
+        "chain": ["直属主管"],
+        "status": "已批准",
+        "satisfied": true,
+        "l4_double_approval_required": false,
+        "l4_double_approval_satisfied": null
+      },
+      "reason": "差旅-深圳出差",
+      "applicant_masked": "张****",
+      "amount_level_consistent": true,
+      "decision": "通过",
+      "anomalies": []
+    },
+    {
+      "expense_id": "EXP-8813",
+      "amount_yuan": 15600,
+      "level": "L3",
+      "approvals": {
+        "required": 2,
+        "completed": 0,
+        "chain": ["直属主管", "部门负责人"],
+        "status": "待审批",
+        "satisfied": false,
+        "l4_double_approval_required": false,
+        "l4_double_approval_satisfied": null
+      },
+      "reason": "设备采购",
+      "applicant_masked": "李****",
+      "amount_level_consistent": true,
+      "decision": "挂起-审批未完成（缺 2 位审批人签署）",
+      "anomalies": ["APPROVAL_MISSING"]
+    },
+    {
+      "expense_id": "EXP-8814",
+      "amount_yuan": 820,
+      "level": "L1",
+      "approvals": {
+        "required": 1,
+        "completed": 1,
+        "chain": ["直属主管"],
+        "status": "已报销",
+        "satisfied": true,
+        "l4_double_approval_required": false,
+        "l4_double_approval_satisfied": null
+      },
+      "reason": "市内交通",
+      "applicant_masked": "王****",
+      "amount_level_consistent": true,
+      "decision": "通过",
+      "anomalies": []
+    },
+    {
+      "expense_id": "EXP-8815",
+      "amount_yuan": 42800,
+      "level": "L4",
+      "approvals": {
+        "required": 2,
+        "completed": 1,
+        "chain": ["部门负责人", "财务负责人"],
+        "status": "双审批中",
+        "satisfied": false,
+        "l4_double_approval_required": true,
+        "l4_double_approval_satisfied": false
+      },
+      "reason": "市场活动尾款",
+      "applicant_masked": "陈****",
+      "amount_level_consistent": true,
+      "decision": "阻断-未满足 L4 双审批，禁止放款",
+      "anomalies": ["L4_DUAL_APPROVAL_INCOMPLETE"]
+    },
+    {
+      "expense_id": "EXP-8816",
+      "amount_yuan": 1350,
+      "level": "L1",
+      "approvals": {
+        "required": 1,
+        "completed": 1,
+        "chain": ["直属主管"],
+        "status": "已报销",
+        "satisfied": true,
+        "l4_double_approval_required": false,
+        "l4_double_approval_satisfied": null
+      },
+      "reason": "办公用品",
+      "applicant_masked": "赵****",
+      "amount_level_consistent": false,
+      "expected_level_by_amount": "L2",
+      "decision": "异常-定级与金额不符（1350 元应为 L2），已按 L1 完成报销，需补 L2 审批记录并复核账务",
+      "anomalies": ["LEVEL_AMOUNT_MISMATCH"]
+    }
+  ],
+  "anomalies": [
+    {
+      "severity": "阻断",
+      "code": "L4_DUAL_APPROVAL_INCOMPLETE",
+      "expense_id": "EXP-8815",
+      "amount_yuan": 42800,
+      "level": "L4",
+      "detail": "L4 单据仅完成 1/2 双审批（状态为“双审批中”），违反验收标准“L4 必须双审批”，不得放款。"
+    },
+    {
+      "severity": "高",
+      "code": "LEVEL_AMOUNT_MISMATCH",
+      "expense_id": "EXP-8816",
+      "amount_yuan": 1350,
+      "level": "L1",
+      "detail": "金额 1350 元落在 L2 区间（1000-4999），却按 L1 定级并已报销，属审批层级低报，需事后补 L2 审批并调账。"
+    },
+    {
+      "severity": "中",
+      "code": "APPROVAL_MISSING",
+      "expense_id": "EXP-8813",
+      "amount_yuan": 15600,
+      "level": "L3",
+      "detail": "L3 单据状态为“待审批”，已完成 0/2 审批（需直属主管 + 部门负责人），审批链未闭环。"
+    },
+    {
+      "severity": "高",
+      "code": "DATA_GAP_MISSING_EXPENSES",
+      "expense_id": null,
+      "amount_yuan": null,
+      "level": null,
+      "detail": "应预审 10 张，expenses.csv 仅提供 5 张，缺失 5 张，无法完成全量预审，需补齐数据源后重跑。"
+    },
+    {
+      "severity": "低",
+      "code": "DEPT_ATTRIBUTION_UNKNOWN",
+      "expense_id": null,
+      "amount_yuan": null,
+      "level": null,
+      "detail": "expenses.csv 未包含部门字段，无法把每张单据逐笔归集到 budget.csv 的部门预算；仅供提示，不做推断性归因。"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "blocked": 1,
+    "pending": 1,
+    "abnormal": 1,
+    "anomaly_total": 5,
+    "highest_severity": "阻断"
+  },
+  "validation": {
+    "required_fields_present": ["expense_id", "amount_yuan", "level", "approvals"],
+    "approval_status_matches_source": true,
+    "l4_dual_approval_rule_enforced": true,
+    "budget_reference": "所有单据金额（最大 42800 元 = 4.28 万）均远小于任一部门 Q4 剩余预算（最小 24 万），预算额度层面无超支风险"
+  }
+}

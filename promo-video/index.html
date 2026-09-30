@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>自主设计工作台 · 引流宣传片</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Microsoft YaHei";
+        src: local("Microsoft YaHei Bold"), local("Microsoft YaHei");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Microsoft YaHei";
+        src: local("Microsoft YaHei Light");
+        font-weight: 300;
+      }
+      @font-face {
+        font-family: "Microsoft YaHei";
+        src: local("Microsoft YaHei");
+        font-weight: 400;
+      }
+      :root {
+        --bg: #0f0e0c;
+        --fg: #f5f1e8;
+        --accent: #ffb020;
+        --muted: #9a938a;
+        --hairline: rgba(255, 176, 32, 0.16);
+        --panel: rgba(255, 255, 255, 0.035);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      body {
+        font-family: "Microsoft YaHei", sans-serif;
+        color: var(--fg);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      .mono { font-family: "JetBrains Mono", "Microsoft YaHei", monospace; }
+
+      /* ---------- persistent background ---------- */
+      .bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1300px 1000px at 50% 34%, #171410 0%, #0f0e0c 58%, #0a0908 100%);
+      }
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 176, 32, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 176, 32, 0.05) 1px, transparent 1px);
+        background-size: 96px 96px;
+        mask-image: radial-gradient(900px 1200px at 50% 44%, #000 0%, transparent 76%);
+        -webkit-mask-image: radial-gradient(900px 1200px at 50% 44%, #000 0%, transparent 76%);
+      }
+      .glow {
+        position: absolute;
+        width: 980px;
+        height: 980px;
+        left: 50px;
+        top: 320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 176, 32, 0.16) 0%, rgba(255, 176, 32, 0) 62%);
+        filter: blur(40px);
+      }
+      .topbar {
+        position: absolute;
+        top: 74px;
+        left: 72px;
+        right: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 27px;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+      .topbar .tw { color: var(--accent); }
+      .dot {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        margin-right: 12px;
+        vertical-align: middle;
+      }
+
+      /* ---------- scenes ---------- */
+      .scene {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .ghost {
+        position: absolute;
+        font-size: 300px;
+        font-weight: 700;
+        color: rgba(245, 241, 232, 0.045);
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+      .statement {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1.3;
+      }
+      .kicker {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 30px;
+        letter-spacing: 0.22em;
+        color: var(--muted);
+      }
+
+      /* ---------- frame 1 ---------- */
+      #f1-win {
+        position: absolute;
+        left: 190px;
+        top: 470px;
+        width: 700px;
+        height: 470px;
+        border: 1px solid rgba(245, 241, 232, 0.13);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      #f1-win .bar {
+        height: 58px;
+        border-bottom: 1px solid rgba(245, 241, 232, 0.09);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 24px;
+      }
+      #f1-win .b { width: 15px; height: 15px; border-radius: 50%; background: rgba(245, 241, 232, 0.16); }
+      #f1-win .url {
+        margin-left: 14px;
+        flex: 1;
+        height: 32px;
+        border-radius: 9px;
+        background: rgba(245, 241, 232, 0.06);
+        font-size: 21px;
+        line-height: 32px;
+        padding-left: 16px;
+        color: rgba(245, 241, 232, 0.38);
+      }
+      #f1-win .x {
+        position: absolute;
+        right: -34px;
+        top: -34px;
+        width: 92px;
+        height: 92px;
+        border: 3px solid var(--accent);
+        border-radius: 50%;
+        color: var(--accent);
+        font-size: 54px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 88px;
+      }
+      #f1-b1 { top: 1010px; font-size: 96px; }
+      #f1-strike {
+        position: absolute;
+        left: 140px;
+        top: 1096px;
+        width: 800px;
+        height: 10px;
+        background: var(--accent);
+        transform-origin: 0% 50%;
+      }
+      #f1-b2 { top: 1010px; font-size: 96px; }
+      #f1-b3 { top: 1000px; font-size: 96px; }
+      #f1-pane {
+        position: absolute;
+        left: 210px;
+        top: 760px;
+        width: 660px;
+        height: 400px;
+        border: 1px solid rgba(245, 241, 232, 0.2);
+        border-radius: 22px;
+        background: rgba(245, 241, 232, 0.07);
+        backdrop-filter: blur(7px);
+      }
+
+      /* ---------- frame 2 ---------- */
+      .vs-card {
+        position: absolute;
+        top: 880px;
+        width: 420px;
+        height: 470px;
+        border-radius: 26px;
+        border: 1px solid rgba(245, 241, 232, 0.13);
+        background: var(--panel);
+        text-align: center;
+      }
+      #f2-l { left: 80px; }
+      #f2-r { left: 580px; border-color: var(--hairline); }
+      .vs-card .glyph {
+        margin-top: 74px;
+        font-size: 92px;
+        font-weight: 700;
+        line-height: 1;
+        color: rgba(245, 241, 232, 0.8);
+      }
+      #f2-r .glyph { color: var(--accent); }
+      .vs-card .name { margin-top: 44px; font-size: 43px; font-weight: 700; }
+      .vs-card .sub { margin-top: 20px; font-size: 25px; color: var(--muted); line-height: 1.5; }
+      .vs-badge {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        margin-left: -44px;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 88px;
+        background: #241d10;
+        border: 2px solid rgba(245, 241, 232, 0.22);
+        color: rgba(245, 241, 232, 0.55);
+      }
+      #f2-r .vs-badge { border-color: var(--accent); color: var(--accent); }
+      #f2-h { top: 560px; font-size: 92px; color: var(--accent); }
+      #f2-tag { top: 452px; }
+      #f2-s { top: 620px; font-size: 88px; }
+      .pillrow {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 810px;
+        display: flex;
+        justify-content: center;
+      }
+      #f2-path {
+        padding: 16px 38px;
+        border: 1px solid var(--hairline);
+        border-radius: 999px;
+        font-size: 30px;
+        color: var(--fg);
+        background: var(--panel);
+        white-space: nowrap;
+      }
+      #f2-c { top: 1010px; font-size: 44px; color: var(--muted); font-weight: 400; }
+
+      /* ---------- frame 3 ---------- */
+      #f3-h { top: 430px; font-size: 96px; }
+      #f3-card {
+        position: absolute;
+        left: 120px;
+        top: 660px;
+        width: 840px;
+        height: 620px;
+        border-radius: 28px;
+        border: 1px solid rgba(245, 241, 232, 0.12);
+        background: var(--panel);
+      }
+      #f3-trigrow {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 578px;
+        display: flex;
+        justify-content: center;
+      }
+      #f3-trig {
+        padding: 14px 34px;
+        border: 1px solid var(--hairline);
+        border-radius: 999px;
+        font-size: 27px;
+        color: var(--accent);
+        background: rgba(255, 176, 32, 0.07);
+        white-space: nowrap;
+      }
+      .f3-row {
+        position: absolute;
+        left: 166px;
+        width: 748px;
+        height: 108px;
+        display: flex;
+        align-items: center;
+      }
+      .f3-row .idx { width: 76px; font-size: 27px; color: var(--muted); }
+      .f3-row .txt { flex: 1; font-size: 38px; font-weight: 700; }
+      .chk {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 176, 32, 0.13);
+        color: var(--accent);
+      }
+      .chk svg {
+        width: 56px;
+        height: 56px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 5.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .chk circle { opacity: 0.3; }
+      .chk path { stroke-dasharray: 36; stroke-dashoffset: 36; }
+
+      /* ---------- frame 4 ---------- */
+      #f4-glow {
+        position: absolute;
+        left: 90px;
+        top: 760px;
+        width: 900px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(255, 176, 32, 0.3) 0%, rgba(255, 176, 32, 0) 65%);
+        filter: blur(30px);
+      }
+      #f4-tag { top: 700px; }
+      #f4-num {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 830px;
+        text-align: center;
+        font-size: 230px;
+        font-weight: 700;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+      }
+      #f4-num .yen { font-size: 120px; vertical-align: 30px; margin-right: 10px; }
+      #f4-line {
+        position: absolute;
+        left: 300px;
+        top: 1170px;
+        width: 480px;
+        height: 8px;
+        background: var(--accent);
+        transform-origin: 50% 50%;
+        border-radius: 4px;
+      }
+      #f4-sub { top: 1224px; font-size: 38px; color: var(--fg); font-weight: 400; letter-spacing: 0.14em; }
+
+      /* ---------- frame 5 ---------- */
+      #f5-card {
+        position: absolute;
+        left: 110px;
+        top: 640px;
+        width: 860px;
+        height: 660px;
+        border-radius: 30px;
+        border: 1px solid rgba(245, 241, 232, 0.11);
+        background: var(--panel);
+        text-align: center;
+      }
+      #f5-l1 { top: 720px; font-size: 82px; }
+      #f5-div {
+        position: absolute;
+        left: 380px;
+        top: 882px;
+        width: 320px;
+        height: 2px;
+        background: rgba(245, 241, 232, 0.22);
+        transform-origin: 50% 50%;
+      }
+      #f5-l2 { top: 940px; font-size: 56px; color: var(--fg); }
+      #f5-l3 { top: 1046px; font-size: 44px; color: var(--muted); font-weight: 400; line-height: 1.55; padding: 0 60px; }
+      #f5-l3 em { font-style: normal; color: var(--accent); font-weight: 700; }
+      #f5-foot { top: 1206px; font-size: 26px; letter-spacing: 0.18em; }
+
+      /* ---------- frame 6 ---------- */
+      #f6-h { top: 620px; font-size: 72px; }
+      #f6-pill {
+        position: absolute;
+        left: 100px;
+        top: 840px;
+        width: 880px;
+        height: 320px;
+        border-radius: 26px;
+        background: #17140f;
+        border: 1px solid var(--hairline);
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+      }
+      .f6-line {
+        position: relative;
+        margin: 52px 0 0 56px;
+        height: 84px;
+        font-size: 47px;
+        white-space: nowrap;
+      }
+      .f6-line .ch { display: inline-block; opacity: 0; }
+      .f6-line .ch.m { color: var(--accent); }
+      .f6-line .ch.z { font-family: "Microsoft YaHei", monospace; font-weight: 700; }
+      #f6-caret {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 6px;
+        height: 58px;
+        background: var(--accent);
+        opacity: 0;
+      }
+      #f6-foot { top: 1300px; font-size: 31px; letter-spacing: 0.16em; }
+      #f6-mark { top: 1524px; font-size: 25px; letter-spacing: 0.3em; color: rgba(154, 147, 138, 0.75); }
+
+      /* ---------- captions ---------- */
+      .cap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 1368px;
+        display: flex;
+        justify-content: center;
+      }
+      .cap-in {
+        max-width: 900px;
+        padding: 20px 40px;
+        background: rgba(18, 16, 13, 0.82);
+        border: 1px solid rgba(255, 176, 32, 0.24);
+        border-radius: 22px;
+        font-size: 47px;
+        font-weight: 700;
+        line-height: 1.4;
+        text-align: center;
+        letter-spacing: 0.015em;
+      }
+      .cap-in em { font-style: normal; color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-width="1080"
+      data-height="1920"
+      data-duration="55.116"
+    >
+      <!-- persistent background + chrome -->
+      <div class="bg" data-layout-ignore></div>
+      <div class="bg-grid" data-layout-ignore></div>
+      <div class="glow" id="glow" data-layout-ignore></div>
+      <div class="topbar mono" id="topbar" data-layout-ignore>
+        <span><span class="tw">~</span>/workspace</span>
+        <span><span class="dot" id="topdot"></span>LOCAL</span>
+      </div>
+
+      <!-- ============ frame 1 · hook ============ -->
+      <section id="frame-1" class="scene clip" data-start="0" data-duration="8.44" data-track-index="1">
+        <div class="ghost" id="f1-ghost" data-layout-ignore style="left: 96px; top: 300px;">网页</div>
+        <div id="f1-win" data-layout-ignore>
+          <div class="bar">
+            <span class="b"></span><span class="b"></span><span class="b"></span>
+            <span class="url mono">https://…</span>
+          </div>
+          <div class="x" id="f1-x" style="opacity: 0;">✕</div>
+        </div>
+        <h1 class="statement" id="f1-b1" data-layout-allow-occlusion>网页版 AI 工作台</h1>
+        <div id="f1-strike" data-layout-ignore></div>
+        <h1 class="statement" id="f1-b2" style="opacity: 0;">看着热闹</h1>
+        <h1 class="statement" id="f1-b3" style="opacity: 0;">总隔着一层</h1>
+        <div id="f1-pane" data-layout-ignore></div>
+      </section>
+
+      <!-- ============ frame 2 · product intro ============ -->
+      <section id="frame-2" class="scene clip" data-start="8.44" data-duration="11.392" data-track-index="1">
+        <div class="ghost" id="f2-ghost" data-layout-ignore style="left: 320px; top: 1150px;">本地</div>
+        <div class="kicker mono" id="f2-tag" style="opacity: 0;">THIS WORKBENCH</div>
+        <h1 class="statement" id="f2-h" style="opacity: 0;">完全自主设计</h1>
+        <div class="vs-card" id="f2-l" style="opacity: 0;">
+          <div class="vs-badge" id="f2-lb">✕</div>
+          <div class="glyph mono">&lt;/&gt;</div>
+          <div class="name">网页工作台</div>
+          <div class="sub">跑在浏览器里<br />隔着一层</div>
+        </div>
+        <div class="vs-card" id="f2-r" style="opacity: 0;">
+          <div class="vs-badge" id="f2-rb">✓</div>
+          <div class="glyph mono">&gt;_</div>
+          <div class="name">工作区工作台</div>
+          <div class="sub">本地运行<br />原生协同</div>
+        </div>
+        <h1 class="statement" id="f2-s" style="opacity: 0;">长在<span style="color: var(--accent)">本地工作区</span></h1>
+        <div class="pillrow" data-layout-ignore>
+          <div class="mono" id="f2-path" style="opacity: 0;"><span style="color: var(--accent)">~</span>/workspace</div>
+        </div>
+        <div class="statement" id="f2-c" style="opacity: 0;">跟 AI 工具 · 原生协同</div>
+      </section>
+
+      <!-- ============ frame 3 · checklist ============ -->
+      <section id="frame-3" class="scene clip" data-start="19.832" data-duration="8.632" data-track-index="1">
+        <div class="ghost" id="f3-ghost" data-layout-ignore style="left: 250px; top: 1180px;">即用</div>
+        <h1 class="statement" id="f3-h" style="opacity: 0;">拿来<span style="color: var(--accent)">即用</span></h1>
+        <div id="f3-trigrow" data-layout-ignore>
+          <div class="mono" id="f3-trig" style="opacity: 0;">workbench · setup</div>
+        </div>
+        <div id="f3-card" style="opacity: 0;" data-layout-ignore></div>
+        <div class="f3-row" id="f3-r1" style="top: 706px; opacity: 0;">
+          <span class="idx mono">01</span><span class="txt">整套文件放进工作区</span>
+          <span class="chk" id="f3-c1"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"></circle><path d="M20 33.5l8 8L45 23"></path></svg></span>
+        </div>
+        <div class="f3-row" id="f3-r2" style="top: 830px; opacity: 0;">
+          <span class="idx mono">02</span><span class="txt">按说明执行</span>
+          <span class="chk" id="f3-c2"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"></circle><path d="M20 33.5l8 8L45 23"></path></svg></span>
+        </div>
+        <div class="f3-row" id="f3-r3" style="top: 954px; opacity: 0;">
+          <span class="idx mono">03</span><span class="txt">环境自动就位</span>
+          <span class="chk" id="f3-c3"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"></circle><path d="M20 33.5l8 8L45 23"></path></svg></span>
+        </div>
+        <div class="f3-row" id="f3-r4" style="top: 1078px; opacity: 0;">
+          <span class="idx mono">04</span><span class="txt" style="color: var(--accent)">几分钟，开跑</span>
+          <span class="chk" id="f3-c4"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"></circle><path d="M20 33.5l8 8L45 23"></path></svg></span>
+        </div>
+      </section>
+
+      <!-- ============ frame 4 · price ============ -->
+      <section id="frame-4" class="scene clip" data-start="28.464" data-duration="5.312" data-track-index="1">
+        <div class="ghost" id="f4-ghost" data-layout-ignore style="left: 330px; top: 300px;">299</div>
+        <div id="f4-glow" style="opacity: 0;" data-layout-ignore></div>
+        <div class="kicker mono" id="f4-tag" style="opacity: 0;">一整套 · 自主设计工作台方案</div>
+        <div id="f4-num" style="opacity: 0;" class="mono"><span class="yen">¥</span><span id="f4-v">0</span></div>
+        <div id="f4-line" data-layout-ignore></div>
+        <div class="statement" id="f4-sub" style="opacity: 0;">一套 · 拿来即用</div>
+      </section>
+
+      <!-- ============ frame 5 · honest note ============ -->
+      <section id="frame-5" class="scene clip" data-start="33.776" data-duration="12.184" data-track-index="1">
+        <div class="ghost" id="f5-ghost" data-layout-ignore style="left: 300px; top: 380px;">修订</div>
+        <div id="f5-card" style="opacity: 0;" data-layout-ignore></div>
+        <h1 class="statement" id="f5-l1" style="opacity: 0;">说句实话</h1>
+        <div id="f5-div" data-layout-ignore></div>
+        <div class="statement" id="f5-l2" style="opacity: 0;">环境不同 · 场景不同</div>
+        <div class="statement" id="f5-l3" style="opacity: 0;">迭代修订 →<br /><em>结合你自己的情况</em></div>
+        <div class="kicker mono" id="f5-foot" style="opacity: 0;">ENV → YOUR MACHINE</div>
+      </section>
+
+      <!-- ============ frame 6 · cta ============ -->
+      <section id="frame-6" class="scene clip" data-start="45.96" data-duration="9.156" data-track-index="1">
+        <div class="ghost" id="f6-ghost" data-layout-ignore style="left: 170px; top: 300px;">工作台</div>
+        <h1 class="statement" id="f6-h" style="opacity: 0;">想要一套自己的工作台？</h1>
+        <div id="f6-pill" style="opacity: 0;" data-layout-ignore>
+          <div class="f6-line mono" id="f6-l1"></div>
+          <div class="f6-line mono" id="f6-l2"></div>
+          <div id="f6-caret" data-layout-ignore></div>
+        </div>
+        <div class="statement" id="f6-foot" style="opacity: 0;">自主设计 · 本地工作区 · 拿来即用</div>
+        <div class="kicker mono" id="f6-mark" style="opacity: 0;">299 / SET</div>
+      </section>
+
+      <!-- ============ caption track ============ -->
+      <div class="cap clip" id="cap-1"  data-start="0.496"  data-duration="3.085" data-track-index="5"><div class="cap-in">刷到过很多 网页版 AI 工作台？</div></div>
+      <div class="cap clip" id="cap-2"  data-start="3.641"  data-duration="2.185" data-track-index="5"><div class="cap-in">HTML 页面，看着热闹</div></div>
+      <div class="cap clip" id="cap-3"  data-start="5.886"  data-duration="1.985" data-track-index="5"><div class="cap-in">用起来，总隔着一层</div></div>
+      <div class="cap clip" id="cap-4"  data-start="8.936"  data-duration="1.121" data-track-index="5"><div class="cap-in">这套工作台</div></div>
+      <div class="cap clip" id="cap-5"  data-start="10.117" data-duration="1.603" data-track-index="5"><div class="cap-in"><em>完全自主设计</em></div></div>
+      <div class="cap clip" id="cap-6"  data-start="11.78"  data-duration="2.197" data-track-index="5"><div class="cap-in">不是跑在浏览器里的网页</div></div>
+      <div class="cap clip" id="cap-7"  data-start="14.037" data-duration="2.44"  data-track-index="5"><div class="cap-in">直接长在你的<em>本地工作区</em>里</div></div>
+      <div class="cap clip" id="cap-8"  data-start="16.537" data-duration="2.691" data-track-index="5"><div class="cap-in">跟你的 AI 工具，原生协同</div></div>
+      <div class="cap clip" id="cap-9"  data-start="20.328" data-duration="0.982" data-track-index="5"><div class="cap-in"><em>拿来即用</em></div></div>
+      <div class="cap clip" id="cap-10" data-start="21.37"  data-duration="1.884" data-track-index="5"><div class="cap-in">整套文件 放进工作区</div></div>
+      <div class="cap clip" id="cap-11" data-start="23.314" data-duration="1.214" data-track-index="5"><div class="cap-in">按说明执行</div></div>
+      <div class="cap clip" id="cap-12" data-start="24.588" data-duration="1.34"  data-track-index="5"><div class="cap-in">环境自动就位</div></div>
+      <div class="cap clip" id="cap-13" data-start="25.988" data-duration="1.881" data-track-index="5"><div class="cap-in">几分钟，就能开跑</div></div>
+      <div class="cap clip" id="cap-14" data-start="28.96"  data-duration="1.387" data-track-index="5"><div class="cap-in">这样一整套方案</div></div>
+      <div class="cap clip" id="cap-15" data-start="30.407" data-duration="1.777" data-track-index="5"><div class="cap-in">只要 <em>299</em></div></div>
+      <div class="cap clip" id="cap-16" data-start="34.272" data-duration="2.105" data-track-index="5"><div class="cap-in">当然，说句实话</div></div>
+      <div class="cap clip" id="cap-17" data-start="36.437" data-duration="1.641" data-track-index="5"><div class="cap-in">每台电脑的环境不同</div></div>
+      <div class="cap clip" id="cap-18" data-start="38.138" data-duration="1.719" data-track-index="5"><div class="cap-in">应用场景也不同</div></div>
+      <div class="cap clip" id="cap-19" data-start="39.917" data-duration="1.097" data-track-index="5"><div class="cap-in">拿到手之后</div></div>
+      <div class="cap clip" id="cap-20" data-start="41.074" data-duration="1.491" data-track-index="5"><div class="cap-in">具体的迭代和修订</div></div>
+      <div class="cap clip" id="cap-21" data-start="42.625" data-duration="2.749" data-track-index="5"><div class="cap-in">要结合<em>你自己的情况</em>来完成</div></div>
+      <div class="cap clip" id="cap-22" data-start="46.456" data-duration="2.124" data-track-index="5"><div class="cap-in">想要一套自己的工作台？</div></div>
+      <div class="cap clip" id="cap-23" data-start="48.64"  data-duration="1.676" data-track-index="5"><div class="cap-in">评论区扣<em>「工作台」</em></div></div>
+      <div class="cap clip" id="cap-24" data-start="50.376" data-duration="1.846" data-track-index="5"><div class="cap-in">或直接私信我</div></div>
+
+      <!-- ============ voiceover (Microsoft Xiaoxiao) ============ -->
+      <audio id="vo-s1" src="assets/audio/s1.mp3" data-start="0.4"    data-duration="7.44"   data-track-index="10"></audio>
+      <audio id="vo-s2" src="assets/audio/s2.mp3" data-start="8.84"   data-duration="10.392" data-track-index="10"></audio>
+      <audio id="vo-s3" src="assets/audio/s3.mp3" data-start="20.232" data-duration="7.632"  data-track-index="10"></audio>
+      <audio id="vo-s4" src="assets/audio/s4.mp3" data-start="28.864" data-duration="3.312"  data-track-index="10"></audio>
+      <audio id="vo-s5" src="assets/audio/s5.mp3" data-start="34.176" data-duration="11.184" data-track-index="10"></audio>
+      <audio id="vo-s6" src="assets/audio/s6.mp3" data-start="46.36"  data-duration="5.856"  data-track-index="10"></audio>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+        var PER = 0.05; // terminal typing: seconds per glyph
+
+        function build() {
+          window.__timelines = window.__timelines || {};
+          var tl = gsap.timeline({ paused: true });
+
+          /* ---- persistent chrome ---- */
+          tl.fromTo("#topbar", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.25);
+          tl.fromTo("#topdot", { scale: 1, opacity: 1 }, { scale: 0.72, opacity: 0.55, duration: 1.1, yoyo: true, repeat: 47, ease: "power1.inOut" }, 0.4);
+          tl.fromTo("#glow", { scale: 1, opacity: 1 }, { scale: 1.07, opacity: 0.8, duration: 3.2, yoyo: true, repeat: 16, ease: "sine.inOut" }, 0);
+
+          /* ================= frame 1 · hook (0 – 8.44) ================= */
+          tl.fromTo("#f1-ghost", { x: -26 }, { x: 26, duration: 8.2, ease: "none" }, 0);
+          tl.fromTo("#f1-win", { opacity: 0, y: 46, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power2.out" }, 0.35);
+          tl.fromTo("#f1-b1", { opacity: 0, y: 72, scale: 1.08 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power4.out" }, 0.55);
+          tl.fromTo("#f1-x", { opacity: 0, scale: 1.9, rotate: -18 }, { opacity: 1, scale: 1, rotate: 0, duration: 0.38, ease: "back.out(2.2)" }, 2.35);
+          tl.fromTo("#f1-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.34, ease: "power3.inOut" }, 2.55);
+          tl.to("#f1-b1", { opacity: 0, y: -48, duration: 0.26, ease: "power2.in" }, 3.42);
+          tl.set("#f1-b1", { opacity: 0 }, 3.68);
+          tl.to("#f1-strike", { opacity: 0, duration: 0.22, ease: "power1.out" }, 3.42);
+          tl.set("#f1-strike", { opacity: 0 }, 3.68);
+          tl.fromTo("#f1-b2", { opacity: 0, y: 62 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 3.66);
+          tl.to("#f1-b2", { opacity: 0, y: -48, duration: 0.24, ease: "power2.in" }, 5.6);
+          tl.set("#f1-b2", { opacity: 0 }, 5.9);
+          tl.fromTo("#f1-b3", { opacity: 0, y: 62 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 5.9);
+          tl.fromTo("#f1-pane", { opacity: 0, y: -150 }, { opacity: 1, y: 0, duration: 0.75, ease: "power2.out" }, 6.35);
+
+          /* ================= frame 2 · intro (8.44 – 19.832) ================= */
+          tl.fromTo("#f2-ghost", { x: 22 }, { x: -22, duration: 11.2, ease: "none" }, 8.44);
+          tl.fromTo("#f2-tag", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.85);
+          tl.fromTo("#f2-h", { opacity: 0, y: 84, scale: 1.05 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power4.out" }, 10.05);
+          tl.fromTo("#f2-l", { opacity: 0, x: -190, rotateY: -58 }, { opacity: 1, x: 0, rotateY: 0, transformPerspective: 1100, duration: 0.7, ease: "power3.out" }, 11.75);
+          tl.fromTo("#f2-r", { opacity: 0, x: 190, rotateY: 58 }, { opacity: 1, x: 0, rotateY: 0, transformPerspective: 1100, duration: 0.7, ease: "power3.out" }, 11.98);
+          tl.fromTo("#f2-lb", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.36, ease: "back.out(2.4)" }, 12.95);
+          tl.fromTo("#f2-rb", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.36, ease: "back.out(2.4)" }, 13.18);
+          tl.to("#f2-h", { opacity: 0, y: -44, duration: 0.3, ease: "power2.in" }, 14.05);
+          tl.to("#f2-tag", { opacity: 0, duration: 0.3 }, 14.05);
+          tl.to("#f2-l", { opacity: 0, x: -150, duration: 0.45, ease: "power2.in" }, 14.45);
+          tl.to("#f2-r", { opacity: 0, x: 150, duration: 0.45, ease: "power2.in" }, 14.45);
+          tl.fromTo("#f2-s", { opacity: 0, y: 76 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, 14.8);
+          tl.fromTo("#f2-path", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 15.35);
+          tl.fromTo("#f2-c", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 16.6);
+
+          /* ================= frame 3 · checklist (19.832 – 28.464) ================= */
+          tl.fromTo("#f3-ghost", { x: -22 }, { x: 22, duration: 8.5, ease: "none" }, 19.832);
+          tl.fromTo("#f3-h", { opacity: 0, y: 66 }, { opacity: 1, y: 0, duration: 0.5, ease: "power4.out" }, 20.33);
+          tl.fromTo("#f3-trig", { opacity: 0, y: 20, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.9)" }, 21.45);
+          tl.fromTo("#f3-card", { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" }, 21.4);
+          tl.fromTo("#f3-r1", { opacity: 0, y: 38 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 21.7);
+          tl.fromTo("#f3-r2", { opacity: 0, y: 38 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 23.31);
+          tl.fromTo("#f3-r3", { opacity: 0, y: 38 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 24.59);
+          tl.fromTo("#f3-r4", { opacity: 0, y: 38 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 25.99);
+          function check(id, at) {
+            tl.fromTo(id + " svg", { opacity: 0, scale: 0.72, rotate: -18, filter: "blur(7px)" },
+              { opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)", duration: 0.34, ease: "back.out(1.8)" }, at);
+            tl.fromTo(id + " path", { strokeDashoffset: 36 }, { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" }, at + 0.12);
+          }
+          check("#f3-c1", 22.15);
+          check("#f3-c2", 23.76);
+          check("#f3-c3", 25.04);
+          check("#f3-c4", 26.44);
+          tl.fromTo("#f3-r4", { textShadow: "0 0 0px rgba(255,176,32,0)" },
+            { textShadow: "0 0 34px rgba(255,176,32,0.55)", duration: 0.5, ease: "power2.out" }, 26.6);
+
+          /* ================= frame 4 · price (28.464 – 33.776) ================= */
+          tl.fromTo("#f4-ghost", { x: 18 }, { x: -18, duration: 5.2, ease: "none" }, 28.464);
+          tl.fromTo("#f4-tag", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 28.96);
+          tl.fromTo("#f4-num", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 30.2);
+          var numEl = document.getElementById("f4-v");
+          var counter = { v: 0 };
+          tl.to(counter, {
+            v: 299, duration: 1.05, ease: "power1.inOut", snap: { v: 1 },
+            onUpdate: function () { numEl.textContent = String(Math.round(counter.v)); },
+          }, 30.35);
+          tl.fromTo("#f4-glow", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 31.3);
+          tl.to("#f4-glow", { opacity: 0.55, duration: 0.9, ease: "sine.inOut" }, 31.9);
+          tl.fromTo("#f4-line", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 31.45);
+          tl.fromTo("#f4-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 31.95);
+
+          /* ================= frame 5 · honest note (33.776 – 45.96) ================= */
+          tl.fromTo("#f5-ghost", { x: 20 }, { x: -20, duration: 12, ease: "none" }, 33.776);
+          tl.fromTo("#f5-card", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 34.25);
+          tl.fromTo("#f5-l1", { opacity: 0, y: 54 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 34.35);
+          tl.fromTo("#f5-div", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 36.35);
+          tl.fromTo("#f5-l2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 36.55);
+          tl.fromTo("#f5-l3", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 41.05);
+          tl.fromTo("#f5-foot", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, 42.65);
+
+          /* ================= frame 6 · cta typing (45.96 – 55.116) ================= */
+          function fillLine(lineId, parts) {
+            var el = document.getElementById(lineId);
+            parts.forEach(function (p) {
+              var s = document.createElement("span");
+              s.className = "ch" + (p.mono ? " m" : "") + (p.zh ? " z" : "");
+              s.textContent = p.t;
+              el.appendChild(s);
+            });
+          }
+          fillLine("f6-l1", [
+            { t: ">", mono: 1 }, { t: " ", mono: 1 },
+            { t: "评", zh: 1 }, { t: "论", zh: 1 }, { t: "区", zh: 1 }, { t: "扣", zh: 1 },
+            { t: "「", zh: 1 }, { t: "工", zh: 1 }, { t: "作", zh: 1 }, { t: "台", zh: 1 }, { t: "」", zh: 1 },
+          ]);
+          fillLine("f6-l2", [
+            { t: ">", mono: 1 }, { t: " ", mono: 1 },
+            { t: "或", zh: 1 }, { t: "直", zh: 1 }, { t: "接", zh: 1 }, { t: "私", zh: 1 }, { t: "信", zh: 1 }, { t: "我", zh: 1 },
+          ]);
+          var caret = document.getElementById("f6-caret");
+          var pill = document.getElementById("f6-pill");
+          var base = { x: pill.getBoundingClientRect().left, y: pill.getBoundingClientRect().top };
+
+          tl.fromTo("#f6-ghost", { x: 20 }, { x: -20, duration: 9, ease: "none" }, 45.96);
+          tl.fromTo("#f6-h", { opacity: 0, y: 58 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, 46.4);
+          tl.fromTo("#f6-pill", { opacity: 0, y: 46, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, 48.35);
+
+          function typeLine(lineId, t0) {
+            var chars = document.querySelectorAll("#" + lineId + " .ch");
+            var first = chars[0].getBoundingClientRect();
+            tl.set(caret, { x: first.left - base.x, y: first.top - base.y, opacity: 1 }, t0);
+            chars.forEach(function (c, i) {
+              var at = t0 + i * PER;
+              var isSpace = c.textContent === " ";
+              tl.set(c, { opacity: isSpace ? 1 : 0 }, 0);
+              tl.to(c, { opacity: 1, duration: isSpace ? 0.01 : 0.06, ease: "power1.out" }, at);
+              var r = c.getBoundingClientRect();
+              tl.to(caret, { x: r.right - base.x, y: r.top - base.y, duration: PER, ease: "none" }, at);
+            });
+            return t0 + chars.length * PER;
+          }
+          typeLine("f6-l1", 48.75);
+          var t2 = typeLine("f6-l2", 50.35);
+          tl.to(caret, { opacity: 0, duration: 0.2, yoyo: true, repeat: 7, ease: "steps(1)" }, t2 + 0.15);
+          tl.fromTo("#f6-foot", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, t2 + 0.9);
+          tl.fromTo("#f6-mark", { opacity: 0 }, { opacity: 1, duration: 0.5 }, t2 + 1.2);
+
+          /* ================= captions ================= */
+          for (var i = 1; i <= 24; i++) {
+            var el = document.getElementById("cap-" + i);
+            var st = parseFloat(el.dataset.start);
+            tl.fromTo(el.querySelector(".cap-in"), { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.26, ease: "power3.out" }, st + 0.02);
+          }
+
+          window.__timelines["main"] = tl;
+        }
+
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(build);
+        } else {
+          build();
+        }
+      })();
+    </script>
+  </body>
+</html>

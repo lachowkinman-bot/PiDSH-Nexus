@@ -1,0 +1,92 @@
+{
+  "report_id": "campaign-report-2026-09-29T07-03-22-451Z",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "skill": "ad-analysis",
+  "workflow": "mkt-on.campaign-report@1.0.0",
+  "report_ts": "2026-09-29T07-03-22-451Z",
+  "week": "2026-W40",
+  "period": "2026-09-28 ~ 2026-10-04",
+  "unit": "万元",
+  "roi_formula": "roi = sum(leads.csv.est_value_wan where channel matches and created_at in period) / ad_spend.csv.spend_wan",
+  "data_sources": [
+    "data/mkt-on/ad_spend.csv",
+    "data/mkt-on/leads.csv",
+    "data/mkt-on/content_calendar.csv"
+  ],
+  "totals": {
+    "spend_wan": 34.0,
+    "leads": 6,
+    "leads_value_wan": 69.0,
+    "roi": 2.03
+  },
+  "channels": [
+    {
+      "channel": "小红书",
+      "week": "2026-W40",
+      "spend_wan": 5.0,
+      "leads": 1,
+      "leads_value_wan": 15.0,
+      "roi": 3.0,
+      "lead_ids": ["LEAD-2113"],
+      "rank": 1
+    },
+    {
+      "channel": "知乎",
+      "week": "2026-W40",
+      "spend_wan": 3.5,
+      "leads": 1,
+      "leads_value_wan": 8.0,
+      "roi": 2.29,
+      "lead_ids": ["LEAD-2114"],
+      "rank": 2
+    },
+    {
+      "channel": "信息流",
+      "week": "2026-W40",
+      "spend_wan": 7.0,
+      "leads": 1,
+      "leads_value_wan": 15.0,
+      "roi": 2.14,
+      "lead_ids": ["LEAD-2116"],
+      "rank": 3
+    },
+    {
+      "channel": "抖音",
+      "week": "2026-W40",
+      "spend_wan": 8.0,
+      "leads": 1,
+      "leads_value_wan": 15.0,
+      "roi": 1.88,
+      "lead_ids": ["LEAD-2111"],
+      "rank": 4
+    },
+    {
+      "channel": "百度SEM",
+      "week": "2026-W40",
+      "spend_wan": 4.5,
+      "leads": 1,
+      "leads_value_wan": 8.0,
+      "roi": 1.78,
+      "lead_ids": ["LEAD-2115"],
+      "rank": 5
+    },
+    {
+      "channel": "视频号",
+      "week": "2026-W40",
+      "spend_wan": 6.0,
+      "leads": 1,
+      "leads_value_wan": 8.0,
+      "roi": 1.33,
+      "lead_ids": ["LEAD-2112"],
+      "rank": 6
+    }
+  ],
+  "unattributed_leads": [
+    {
+      "channel": "公众号",
+      "lead_ids": ["LEAD-2117"],
+      "leads_value_wan": 8.0,
+      "reason": "内容页留资（双11 活动页），无对应付费渠道花费，未计入渠道 ROI"
+    }
+  ]
+}

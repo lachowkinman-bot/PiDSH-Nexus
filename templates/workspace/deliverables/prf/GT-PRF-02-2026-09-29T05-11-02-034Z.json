@@ -1,0 +1,265 @@
+{
+  "deliverable_id": "GT-PRF-02",
+  "deliverable_type": "calibration-approve-meeting-material",
+  "scenario": "prf.calibration@1.0.0",
+  "workflow": "prf.calibration-approve@1.0.0",
+  "skill": "calibration-analysis",
+  "business_domain": "PRF",
+  "generated_at": "2026-09-29T05-11-02.034Z",
+  "period": "Q4",
+  "headcount": 5,
+  "employee_masked": [
+    "EMP-****12",
+    "EMP-****35",
+    "EMP-****07",
+    "EMP-****51",
+    "EMP-****29"
+  ],
+  "manager_grade": [
+    "B+",
+    "A",
+    "C+",
+    "B",
+    "B-"
+  ],
+  "calibrated_grade": [
+    "A-",
+    "A",
+    "C",
+    "B+",
+    "C+"
+  ],
+  "records": [
+    {
+      "employee_masked": "EMP-****12",
+      "dept": "销售部",
+      "manager_grade": "B+",
+      "calibrated_grade": "A-",
+      "direction": "上调",
+      "level_delta": 1,
+      "delta_note": "超出：大单突破"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "dept": "研发部",
+      "manager_grade": "A",
+      "calibrated_grade": "A",
+      "direction": "一致",
+      "level_delta": 0,
+      "delta_note": "一致"
+    },
+    {
+      "employee_masked": "EMP-****07",
+      "dept": "市场部",
+      "manager_grade": "C+",
+      "calibrated_grade": "C",
+      "direction": "一致",
+      "level_delta": 0,
+      "delta_note": "一致"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "dept": "财务部",
+      "manager_grade": "B",
+      "calibrated_grade": "B+",
+      "direction": "上调",
+      "level_delta": 1,
+      "delta_note": "超出：跨部门支持"
+    },
+    {
+      "employee_masked": "EMP-****29",
+      "dept": "行政部",
+      "manager_grade": "B-",
+      "calibrated_grade": "C+",
+      "direction": "下调",
+      "level_delta": -1,
+      "delta_note": "下调：两次客诉"
+    }
+  ],
+  "approvals": [
+    {
+      "approval_id": "APP-GT-PRF-02-01",
+      "employee_masked": "EMP-****12",
+      "dept": "销售部",
+      "change": "B+ -> A-",
+      "direction": "上调",
+      "level_delta": 1,
+      "reason": "超出：大单突破",
+      "approver_role": "销售部负责人 + HRBP",
+      "status": "待审批",
+      "decided_at": null
+    },
+    {
+      "approval_id": "APP-GT-PRF-02-02",
+      "employee_masked": "EMP-****51",
+      "dept": "财务部",
+      "change": "B -> B+",
+      "direction": "上调",
+      "level_delta": 1,
+      "reason": "超出：跨部门支持",
+      "approver_role": "财务部负责人 + HRBP",
+      "status": "待审批",
+      "decided_at": null
+    },
+    {
+      "approval_id": "APP-GT-PRF-02-03",
+      "employee_masked": "EMP-****29",
+      "dept": "行政部",
+      "change": "B- -> C+",
+      "direction": "下调",
+      "level_delta": -1,
+      "reason": "下调：两次客诉",
+      "approver_role": "行政部负责人 + 员工关系",
+      "status": "待审批",
+      "decided_at": null
+    },
+    {
+      "approval_id": "APP-GT-PRF-02-04",
+      "employee_masked": "EMP-****35",
+      "dept": "研发部",
+      "change": "A -> A",
+      "direction": "一致",
+      "level_delta": 0,
+      "reason": "一致，无需差异审批",
+      "approver_role": "研发部负责人",
+      "status": "已对齐",
+      "decided_at": null
+    },
+    {
+      "approval_id": "APP-GT-PRF-02-05",
+      "employee_masked": "EMP-****07",
+      "dept": "市场部",
+      "change": "C+ -> C",
+      "direction": "一致",
+      "level_delta": 0,
+      "reason": "一致，无需差异审批",
+      "approver_role": "市场部负责人",
+      "status": "已对齐",
+      "decided_at": null
+    }
+  ],
+  "approval_summary": {
+    "total": 5,
+    "pending_approval": 3,
+    "aligned": 2,
+    "blocking_path": "3 条差异项须经部门负责人 + HRBP/员工关系双签后方可定稿"
+  },
+  "distribution": {
+    "grade_order": ["A", "A-", "B+", "B", "B-", "C+", "C"],
+    "manager_grade_distribution": [
+      { "grade": "A", "count": 1, "share": 0.2 },
+      { "grade": "A-", "count": 0, "share": 0.0 },
+      { "grade": "B+", "count": 1, "share": 0.2 },
+      { "grade": "B", "count": 1, "share": 0.2 },
+      { "grade": "B-", "count": 1, "share": 0.2 },
+      { "grade": "C+", "count": 1, "share": 0.2 },
+      { "grade": "C", "count": 0, "share": 0.0 }
+    ],
+    "calibrated_grade_distribution": [
+      { "grade": "A", "count": 1, "share": 0.2 },
+      { "grade": "A-", "count": 1, "share": 0.2 },
+      { "grade": "B+", "count": 1, "share": 0.2 },
+      { "grade": "B", "count": 0, "share": 0.0 },
+      { "grade": "B-", "count": 0, "share": 0.0 },
+      { "grade": "C+", "count": 1, "share": 0.2 },
+      { "grade": "C", "count": 1, "share": 0.2 }
+    ],
+    "band_distribution": [
+      { "band": "A档(A/A-)", "manager_count": 1, "manager_share": 0.2, "calibrated_count": 2, "calibrated_share": 0.4 },
+      { "band": "B档(B+/B/B-)", "manager_count": 3, "manager_share": 0.6, "calibrated_count": 1, "calibrated_share": 0.2 },
+      { "band": "C档(C+/C)", "manager_count": 1, "manager_share": 0.2, "calibrated_count": 2, "calibrated_share": 0.4 }
+    ],
+    "by_dept": [
+      { "dept": "销售部", "employee_masked": "EMP-****12", "manager_grade": "B+", "calibrated_grade": "A-" },
+      { "dept": "研发部", "employee_masked": "EMP-****35", "manager_grade": "A", "calibrated_grade": "A" },
+      { "dept": "市场部", "employee_masked": "EMP-****07", "manager_grade": "C+", "calibrated_grade": "C" },
+      { "dept": "财务部", "employee_masked": "EMP-****51", "manager_grade": "B", "calibrated_grade": "B+" },
+      { "dept": "行政部", "employee_masked": "EMP-****29", "manager_grade": "B-", "calibrated_grade": "C+" }
+    ]
+  },
+  "dispersion": {
+    "scale_mapping": { "A": 6, "A-": 5, "B+": 4, "B": 3, "B-": 2, "C+": 1, "C": 0 },
+    "manager": {
+      "mean_score": 3.2,
+      "median_grade": "B",
+      "min_grade": "C+",
+      "max_grade": "A",
+      "range_levels": 5,
+      "q1_grade": "B-",
+      "q3_grade": "B+",
+      "iqr_levels": 2,
+      "variance": 2.96,
+      "std_dev": 1.72
+    },
+    "calibrated": {
+      "mean_score": 3.2,
+      "median_grade": "B+",
+      "min_grade": "C",
+      "max_grade": "A",
+      "range_levels": 6,
+      "q1_grade": "C+",
+      "q3_grade": "A-",
+      "iqr_levels": 4,
+      "variance": 5.36,
+      "std_dev": 2.32
+    },
+    "change": {
+      "mean_delta_score": 0.0,
+      "std_dev_change_pct": 34.6,
+      "variance_change_pct": 81.1,
+      "iqr_change_levels": 2,
+      "range_change_levels": 1,
+      "dispersion_verdict": "均值持平、离散度显著放大：校准后拉开强弱区分，同时出现 A 与 C 两端"
+    }
+  },
+  "delta_analysis": {
+    "changed_count": 3,
+    "changed_share": 0.6,
+    "upgraded_count": 2,
+    "upgraded_share": 0.4,
+    "downgraded_count": 2,
+    "downgraded_share": 0.2,
+    "unchanged_count": 2,
+    "unchanged_share": 0.4,
+    "net_delta_score": 0,
+    "note": "上调 2 人(EMP-****12、EMP-****51)，下调 2 人(EMP-****29 及 C+->C 的 EMP-****07)，净Δ=0；表中 delta_note 标注'一致'的 EMP-****07 实际等级由 C+ 变为 C，属记录口径不一致，须在会议上澄清"
+  },
+  "kpi_context": {
+    "source": "templates/workspace/data/prf/kpi.csv",
+    "items": [
+      { "kpi": "新签销售额(万)", "target": 4800, "actual": 3912, "rate": 81.5, "period": "Q4", "attainment": "未达标" },
+      { "kpi": "客户续约率", "target": 92, "actual": 89.6, "rate": 97.4, "period": "Q4", "attainment": "未达标" },
+      { "kpi": "需求交付准时率", "target": 90, "actual": 93.2, "rate": 103.6, "period": "Q4", "attainment": "达标" },
+      { "kpi": "人效指数", "target": 110, "actual": 104, "rate": 94.5, "period": "Q4", "attainment": "未达标" }
+    ],
+    "mean_rate": 94.25,
+    "attained_count": 1,
+    "total_count": 4,
+    "usage": "作为校准松紧度的上行参照：整体达成率 94.25%、4 项中仅 1 项达标，不支持整体上调；销售部新签销售额 81.5% 与 EMP-****12 上调结论存在张力，须由销售部负责人以'大单突破'事实举证"
+  },
+  "meeting_agenda": [
+    { "order": 1, "topic": "分布对齐", "content": "确认 A/B/C 三档由 20%/60%/20% 调整为 40%/20%/40% 是否符合组织导向" },
+    { "order": 2, "topic": "离散度审查", "content": "校准后标准差由 1.72 级升至 2.32 级(+34.6%)、极差由 5 级扩至 6 级，确认两端拉开的合理性" },
+    { "order": 3, "topic": "差异项逐条过会", "content": "3 条差异项(APP-01/02/03)逐条举证与双签" },
+    { "order": 4, "topic": "口径澄清", "content": "EMP-****07 的 delta_note='一致' 与 C+->C 事实不符，回写源表" },
+    { "order": 5, "topic": "数据治理红线", "content": "校准纪要仅落库至审批档案，禁止写入记忆层" }
+  ],
+  "data_sources": [
+    { "file": "templates/workspace/data/prf/calibration.csv", "rows": 5, "columns": ["employee_masked", "dept", "manager_grade", "calibrated_grade", "delta_note"] },
+    { "file": "templates/workspace/data/prf/kpi.csv", "rows": 4, "columns": ["kpi", "target", "actual", "rate", "period"] }
+  ],
+  "privacy": {
+    "masking": "员工标识沿用源表掩码格式 EMP-****NN，未引入姓名、工号明文或任何可复原标识",
+    "fields_retained": ["employee_masked", "dept", "manager_grade", "calibrated_grade", "delta_note"],
+    "fields_suppressed": ["姓名", "工号明文", "薪酬", "联系方式", "绩效评语原文"],
+    "scope": "部门级为最细粒度，单部门记录不足以还原个人身份之外的敏感信息",
+    "compliant": true
+  },
+  "memory_policy": {
+    "acceptance_criterion": "校准纪要禁入记忆层",
+    "memory_write": false,
+    "memory_layer_excluded": true,
+    "persisted_to": ["templates/workspace/deliverables/prf/GT-PRF-02-2026-09-29T05-11-02-034Z.json", "reports/prf/gt-02.md"],
+    "note": "本交付物含校准差异与下调原因，属纪要类敏感内容，仅作为审批档案落盘，不写入任何向量库/长期记忆/检索索引"
+  }
+}

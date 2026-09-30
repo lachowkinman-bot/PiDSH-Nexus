@@ -1,0 +1,52 @@
+capability_id,capability_name,implementation,tier_status,note
+cap.engine.dsh,Agent运行时引擎,@deepseek-ai/dsh,PRESET_OK,
+cap.bridge.pi2dsh,Pi生态桥接,pi2dsh,PRESET_OK,
+cap.ui.sidebar,侧边工作台UI,dsh-better-sidebar,PRESET_OK,
+cap.marketplace,插件中心入口,dsh-plugin,PRESET_OK,
+cap.memory.session,跨会话记忆,pi-hermes-memory,PRESET_OK,
+cap.approval.single,单级审批守卫,pi-approval-guardian,PRESET_OK,
+cap.approval.multi,多级审批/组织门禁,@mutmutco/pi-plugin,PRESET_OK,
+cap.redact.all,全局脱敏,pi-redact-all,PRESET_OK,
+cap.connector.mcp,MCP连接器,pi-mcp-adapter,PRESET_OK,
+cap.excel.panel,Excel面板,dsh-excel-panel,PRESET_OK,
+cap.docs.panel,Docs面板,dsh-docs-panel,PRESET_OK,
+cap.ui.hitl,todo看板/澄清对话框,@rmrdeveloper/sideroom-pi,PRESET_OK,
+cap.observability.stats,token/成本观测,pi-stats-footer,PRESET_OK,
+cap.recovery.savepoint,快照回滚,dsh-undo-savepoint,PRESET_OK,
+cap.subagent.parallel,并行子代理,@tintinweb/pi-subagents,PRESET_OK,
+cap.orchestration.dag,DAG编排,pi-dag-core,PRESET_OK,
+cap.knowledge.graph,知识图谱记忆,graph-memory,PRESET_OK,
+cap.search.web,联网搜索,pi-deepseek-search,PRESET_OK,
+cap.orchestration.queue,任务队列,pi-queue-steer-factory,PRESET_OK,
+cap.autonomy.loop,无人值守循环,pi-loop-mode,PRESET_OK,
+cap.vision.ocr,OCR视觉,@anionex/dsh-vision-toolkit,PRESET_OK,
+cap.cost.usage,用量分析,@ychris12138/dsh-usage-stats,PRESET_OK,
+cap.review.annotation,产物批注,@changfenhuang/dsh-annotation,PRESET_OK,
+cap.network.diag,网络诊断,dsh-network-settings,PRESET_OK,
+cap.shell.desktop,桌面外壳,dsh-web,PRESET_OK,
+cap.orchestration.chief,Chief of Staff编排,skills-cockpit,PRESET_OK,
+cap.preset.base,Preset基础层,industrypack-base,PRESET_OK,
+cap.knowledge.graph,知识图谱记忆（主图）,graph-memory,PRESET_OK,
+cap.knowledge.vector,向量+全文+图记忆,pi-vault-mind,PRESET_OK,
+cap.knowledge.longcontext,长上下文,billion-context-pi,PRESET_OK,
+cap.knowledge.wiki,Obsidian wiki 摄取,@zosmaai/pi-llm-wiki,PRESET_OK,
+cap.knowledge.injection,注入语料与召回测试,templates/knowledge/,PRESET_OK,
+cap.domain.strat,业务域能力包 strat,skills-domain-strat,PRESET_OK,自制层
+cap.domain.mkt,业务域能力包 mkt,skills-domain-mkt,PRESET_OK,自制层
+cap.domain.sales,业务域能力包 sales,skills-domain-sales,PRESET_OK,自制层
+cap.domain.fin,业务域能力包 fin,skills-domain-fin,PRESET_OK,自制层
+cap.domain.rec,业务域能力包 rec,skills-domain-rec,PRESET_OK,自制层
+cap.domain.trn,业务域能力包 trn,skills-domain-trn,PRESET_OK,自制层
+cap.domain.prf,业务域能力包 prf,skills-domain-prf,PRESET_OK,自制层
+cap.domain.comp,业务域能力包 comp,skills-domain-comp,PRESET_OK,自制层
+cap.domain.ben,业务域能力包 ben,skills-domain-ben,PRESET_OK,自制层
+cap.domain.admin,业务域能力包 admin,skills-domain-admin,PRESET_OK,自制层
+cap.domain.cmp,业务域能力包 cmp,skills-domain-cmp,PRESET_OK,自制层
+cap.domain.er-eap,业务域能力包 er-eap,skills-domain-er-eap,PRESET_OK,自制层
+cap.ind.mes-readonly,制造MES只读接入,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级
+cap.ind.his-readonly,医疗HIS只读接入,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级
+cap.ind.regulatory-filing,行业监管报送材料生成,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级
+cap.ind.pos-readonly,零售POS只读接入,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级
+cap.ind.gov-formatter,政企公文格式化,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级
+cap.ind.lms-readonly,企业LMS学习记录只读接入,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级
+cap.ind.appsec-scan,应用安全扫描结果接入,,GAP_REGISTERED,扩展位：无现成npm包，先核验后回填或降级

@@ -1,0 +1,241 @@
+{
+  "deliverable": "cert-expiry-2026-09-29T07-15-25-640Z.json",
+  "scenario": "trn.plan-approve@1.0.0",
+  "skill": "cert-expiry",
+  "workflow": "trn.cert-expiry@1.0.0",
+  "domain": "TRN",
+  "generated_at": "2026-09-29T07:15:25.640Z",
+  "reference_date": "2026-09-29",
+  "window_days": 90,
+  "source_files": [
+    "templates/workspace/data/trn/certificates.csv",
+    "templates/workspace/data/trn/courses.csv"
+  ],
+  "policy": {
+    "expiring_rule": "到期日在 reference_date 起 90 天内(含)且未过期 → 列入临期清单并推送续期",
+    "expired_rule": "到期日早于 reference_date → 立即拦截,禁止排班/上岗,直至续期完成",
+    "blocking_boundary": "days_left <= 0 立即拦截;0 < days_left <= 30 强提醒+预备拦截;30 < days_left <= 90 常规续期提醒"
+  },
+  "summary": {
+    "total_certificates": 14,
+    "within_90_days_count": 6,
+    "expired_count": 3,
+    "expiring_soon_count": 3,
+    "blocked_immediately_count": 3,
+    "out_of_scope_count": 8
+  },
+  "expiring_certificates": [
+    {
+      "certificate": "特种作业操作证",
+      "holder_masked": "E2***",
+      "expire_date": "2026-10-14",
+      "days_left": 15,
+      "cert_id": "CERT-****-0007",
+      "holder_dept": "安全环保部",
+      "required_role": "特种作业岗",
+      "course": "特种作业安全操作",
+      "source_status": "90天内到期",
+      "severity": "high",
+      "interception": {
+        "block_required": true,
+        "block_from": "2026-10-15",
+        "action": "立即启动续期(费用380元);2026-10-14 24:00 前未完成续期则自动拦截排班与上岗",
+        "renew_fee": 380,
+        "approver": null,
+        "approval_needed": true
+      }
+    },
+    {
+      "certificate": "安全员B证",
+      "holder_masked": "E3***",
+      "expire_date": "2026-11-30",
+      "days_left": 62,
+      "cert_id": "CERT-****-0058",
+      "holder_dept": "安全环保部",
+      "required_role": "安全管理岗",
+      "course": "安全员 B 证考前培训",
+      "source_status": "90天内到期",
+      "severity": "high",
+      "interception": {
+        "block_required": true,
+        "block_from": "2026-12-01",
+        "action": "续期(费用360元);已开设 10-15 安全员B证考前培训(18/20 报名),建议在本批次内完成续期,到期未续期自动转拦截",
+        "renew_fee": 360,
+        "approver": null,
+        "approval_needed": true
+      }
+    },
+    {
+      "certificate": "危化品安全作业证",
+      "holder_masked": "E7***",
+      "expire_date": "2026-12-20",
+      "days_left": 82,
+      "cert_id": "CERT-****-0052",
+      "holder_dept": "生产制造部",
+      "required_role": "危化品操作岗",
+      "course": "危化品安全管理",
+      "source_status": "90天内到期",
+      "severity": "medium",
+      "interception": {
+        "block_required": false,
+        "block_from": "2026-12-21",
+        "action": "安排续期(费用420元),建议并入 10-06 危化品安全管理合规课(44/45);到期未续期自动转拦截",
+        "renew_fee": 420,
+        "approver": null,
+        "approval_needed": true
+      }
+    },
+    {
+      "certificate": "电动叉车司机证",
+      "holder_masked": "E8***",
+      "expire_date": "2026-08-31",
+      "days_left": -29,
+      "cert_id": "CERT-****-0064",
+      "holder_dept": "生产制造部",
+      "required_role": "叉车司机岗",
+      "course": "电动叉车安全操作",
+      "source_status": "已过期",
+      "severity": "critical",
+      "interception": {
+        "block_required": true,
+        "block_from": "2026-09-01",
+        "action": "已过期29天,立即拦截叉车驾驶作业;关联课程 06-18 已结束且通过率95.0%,可凭合格记录办理换证后解除拦截",
+        "renew_fee": null,
+        "approver": null,
+        "approval_needed": true
+      }
+    },
+    {
+      "certificate": "焊接与热切割作业证",
+      "holder_masked": "E6***",
+      "expire_date": "2026-06-19",
+      "days_left": -102,
+      "cert_id": "CERT-****-0041",
+      "holder_dept": "生产制造部",
+      "required_role": "焊接作业岗",
+      "course": "焊接与热切割作业",
+      "source_status": "已过期",
+      "severity": "critical",
+      "interception": {
+        "block_required": true,
+        "block_from": "2026-06-20",
+        "action": "已过期102天,立即拦截动火/焊接作业(高风险违规);需完成 10-06 焊接与热切割作业课(28/30)并复审取证后解除",
+        "renew_fee": null,
+        "approver": null,
+        "approval_needed": true
+      }
+    },
+    {
+      "certificate": "安全员C证",
+      "holder_masked": "E3***",
+      "expire_date": "2024-10-01",
+      "days_left": -728,
+      "cert_id": "CERT-****-0021",
+      "holder_dept": "安全环保部",
+      "required_role": "安全管理岗",
+      "course": "安全员 C 证考前培训",
+      "source_status": "已过期",
+      "severity": "critical",
+      "interception": {
+        "block_required": true,
+        "block_from": "2024-10-02",
+        "action": "已过期728天,长期失管,立即拦截安全管理岗任职资格;需重新报考取证(非续期),并回溯核查该岗位历史在岗合规性",
+        "renew_fee": null,
+        "approver": null,
+        "approval_needed": true
+      }
+    }
+  ],
+  "near_boundary_excluded": [
+    {
+      "certificate": "起重机械指挥证",
+      "holder_masked": "E10***",
+      "expire_date": "2027-02-10",
+      "days_left": 134,
+      "cert_id": "CERT-****-0095",
+      "source_status": "有效",
+      "note": "超出90天窗口,不列入本期清单;建议下一周期(2026-11-12 起)纳入监控"
+    }
+  ],
+  "valid_not_in_scope": [
+    {
+      "certificate": "注册会计师",
+      "holder_masked": "E5***",
+      "expire_date": "2027-05-31",
+      "days_left": 244,
+      "cert_id": "CERT-****-0012",
+      "source_status": "有效"
+    },
+    {
+      "certificate": "一级建造师",
+      "holder_masked": "E4***",
+      "expire_date": "2028-03-19",
+      "days_left": 536,
+      "cert_id": "CERT-****-0033",
+      "source_status": "有效"
+    },
+    {
+      "certificate": "注册安全工程师",
+      "holder_masked": "E9***",
+      "expire_date": "2029-04-09",
+      "days_left": 923,
+      "cert_id": "CERT-****-0071",
+      "source_status": "有效"
+    },
+    {
+      "certificate": "低压电工作业证",
+      "holder_masked": "E1***",
+      "expire_date": "2028-05-07",
+      "days_left": 586,
+      "cert_id": "CERT-****-0088",
+      "source_status": "有效"
+    },
+    {
+      "certificate": "消防设施操作员证",
+      "holder_masked": "E11***",
+      "expire_date": "2029-09-19",
+      "days_left": 1086,
+      "cert_id": "CERT-****-0103",
+      "source_status": "有效"
+    },
+    {
+      "certificate": "一级注册消防工程师",
+      "holder_masked": "E12***",
+      "expire_date": "2028-11-11",
+      "days_left": 774,
+      "cert_id": "CERT-****-0111",
+      "source_status": "有效"
+    },
+    {
+      "certificate": "高处作业操作证",
+      "holder_masked": "E2***",
+      "expire_date": "2029-09-13",
+      "days_left": 1080,
+      "cert_id": "CERT-****-0080",
+      "source_status": "已续期",
+      "renew_fee": 300,
+      "approver": "A3***",
+      "renew_date": "2026-09-10",
+      "note": "已于2026-09-10完成续期并经 A3*** 审批,拦截已解除,不计入本期清单"
+    }
+  ],
+  "approval_notes": {
+    "approval_required": true,
+    "reason": "本期清单 6 条证书均涉及上岗资格或续期费用(380+360+420=1160元),按 trn.plan-approve 场景需审批后执行",
+    "unassigned_approver": [
+      "CERT-****-0007",
+      "CERT-****-0058",
+      "CERT-****-0052",
+      "CERT-****-0064",
+      "CERT-****-0041",
+      "CERT-****-0021"
+    ],
+    "note": "上述 6 条清单证书 approver 字段为空,需指派审批人后流程方可推进;台账内已续期记录 CERT-****-0080 具备审批人 A3***",
+    "approval_boundary": "岗位禁排等拦截动作可先行执行以控制风险;涉及费用的续期与报销必须先取得审批"
+  },
+  "masking": {
+    "rule": "持有人与审批人一律以原台账掩码形式保留(E*编号*** / A*编号***),不与任何真实身份信息关联",
+    "raw_identity_exported": false,
+    "unmasked_fields_present": false
+  }
+}

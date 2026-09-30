@@ -1,0 +1,150 @@
+{
+  "deliverable": "course-schedule",
+  "task_id": "GT-TRN-01",
+  "scenario": "trn.plan-approve@1.0.0",
+  "skill": "course-schedule",
+  "workflow": "trn.course-schedule@1.0.0",
+  "generated_at": "2026-09-29T05:15:42.791Z",
+  "planning_month": "2026-10",
+  "source_files": [
+    "templates/workspace/data/trn/courses.csv",
+    "templates/workspace/data/trn/certificates.csv"
+  ],
+  "schedule": [
+    {
+      "course": "新员工入职",
+      "date": "2026-10-11",
+      "trainer": "张岚",
+      "room": "A201",
+      "hours": 6,
+      "enrolled": 32,
+      "category": "必修",
+      "certificate_gate": "无强制持证要求",
+      "status": "正常"
+    },
+    {
+      "course": "合规与信息安全",
+      "date": "2026-10-13",
+      "trainer": "陈志远",
+      "room": "A101",
+      "hours": 4,
+      "enrolled": 57,
+      "category": "必修",
+      "certificate_gate": "需持有效安全员C证",
+      "status": "冲突-已标红"
+    },
+    {
+      "course": "销售进阶谈判",
+      "date": "2026-10-18",
+      "trainer": "刘敏",
+      "room": "B305",
+      "hours": 12,
+      "enrolled": 18,
+      "category": "进阶",
+      "certificate_gate": "无强制持证要求",
+      "status": "正常"
+    },
+    {
+      "course": "管理者 First 30 天",
+      "date": "2026-10-22",
+      "trainer": "周航",
+      "room": "A201",
+      "hours": 8,
+      "enrolled": 9,
+      "category": "领导力",
+      "certificate_gate": "无强制持证要求",
+      "status": "正常"
+    },
+    {
+      "course": "安全员C证复训（补训）",
+      "date": "2026-10-22",
+      "trainer": "赵宁",
+      "room": "A201",
+      "hours": 4,
+      "enrolled": 3,
+      "category": "必修",
+      "certificate_gate": "复训对象：持已过期安全员C证人员",
+      "status": "冲突-已标红"
+    }
+  ],
+  "conflicts": [
+    {
+      "conflict_id": "CFT-01",
+      "severity": "红",
+      "type": "讲师资质失效",
+      "date": "2026-10-13",
+      "detail": "讲师陈志远所持《安全员C证》状态为「已过期」（有效期至 2024-10-01），其担任 10-13《合规与信息安全》安全模块主讲不满足持证授课要求。",
+      "evidence": "certificates.csv: 安全员C证,陈****,2021-11-02,2024-10-01,已过期",
+      "alternatives": [
+        "改由持有效《一级建造师》的赵宁主讲（2025-03-20 至 2028-03-19 有效）",
+        "改由持有效《注册会计师》的李文主讲数据与信息安全合规模块",
+        "将 10-13 课程顺延至 10-26，待陈志远完成安全员C证复训后开课"
+      ]
+    },
+    {
+      "conflict_id": "CFT-02",
+      "severity": "红",
+      "type": "证书到期窗口重叠",
+      "date": "2026-10-11",
+      "detail": "王姓员工《特种作业操作证》于 2026-10-14 到期（90天内到期），与 10-11《新员工入职》、10-13《合规与信息安全》两场必修培训同期，需在培训前完成复审换证，否则 10-14 后不得上岗且培训签到无效。",
+      "evidence": "certificates.csv: 特种作业操作证,王****,2023-10-15,2026-10-14,90天内到期",
+      "alternatives": [
+        "将复审换证预约提前至 2026-10-09 前完成",
+        "该员工改期至 10-26 场次参训，避开到期日"
+      ]
+    },
+    {
+      "conflict_id": "CFT-03",
+      "severity": "红",
+      "type": "场地重复占用",
+      "date": "2026-10-22",
+      "detail": "10-22 当日 A201 教室同时排入《管理者 First 30 天》（8 学时，09:00-17:00）与《安全员C证复训（补训）》（4 学时），同一时段场地重复占用。",
+      "evidence": "courses.csv: 管理者 First 30 天,8,9,10-22,领导力 与 补训排期同场地同日",
+      "alternatives": [
+        "补训改至 B305（10-22 全天可用）",
+        "补训改至 A101，时间 2026-10-23 09:00-12:00",
+        "管理者 First 30 天保留 A201，补训降至 10-24 下午场"
+      ]
+    }
+  ],
+  "conflict_summary": {
+    "total": 3,
+    "red": 3,
+    "amber": 0,
+    "green_sessions": 2,
+    "flagged_sessions": 2
+  },
+  "approval": {
+    "workflow": "trn.plan-approve@1.0.0",
+    "status": "待审批",
+    "approval_chain": [
+      {
+        "step": 1,
+        "role": "培训主管",
+        "action": "复核课表与冲突处置方案",
+        "status": "待办"
+      },
+      {
+        "step": 2,
+        "role": "业务域负责人（TRN）",
+        "action": "批准下月培训计划发布",
+        "status": "待办"
+      },
+      {
+        "step": 3,
+        "role": "安全与合规负责人",
+        "action": "确认持证讲师与到期证书处置（CFT-01/CFT-02）",
+        "status": "待办"
+      }
+    ],
+    "blocking_conflicts": ["CFT-01", "CFT-02", "CFT-03"],
+    "release_condition": "全部红色冲突处置方案被采纳或书面豁免后方可发布课表"
+  },
+  "data_basis": {
+    "courses_rows": 4,
+    "certificates_rows": 4,
+    "expired_certificates": 1,
+    "expiring_within_90d": 1,
+    "valid_certificates": 2
+  }
+}

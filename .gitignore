@@ -1,0 +1,24 @@
+# —— 运行期与可重建的大体积产物（不入库；重建方式见 BUNDLE-INDEX-3.0.md 与 scripts/）——
+/node_modules/
+/.work/
+/.dsh-home/
+/offline/
+/offline-3.0/
+/installer-output/
+/deliverables/
+/src-tauri/target/
+/src-tauri/gen/
+
+# —— 第三方包/插件来源目录（7 GB+，182k 文件；由 Pi_DSH_support 下载脚本复现，不入库）——
+/Pi_DSH_support/
+
+# —— 本机工具与临时状态 ——
+/.mimosa/
+/.dsh-file-drop/
+/.playwright-mcp/
+*.log
+*.tmp
+
+# —— 敏感文件（只保留 .env.example）——
+.env
+.env.local

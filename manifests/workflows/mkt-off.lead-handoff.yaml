@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-off.lead-handoff@1.0.0
+domain: mkt-off
+description: "线下线索移交销售（去重+脱敏）"
+trigger:
+  type: command
+  expr: lead-handoff
+nodes:
+  - id: n1
+    type: skill
+    ref: roi-review
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "线下线索移交销售（去重+脱敏）：输入参数 + 结果快照"
+deliverable:
+  file: lead-handoff-<ts>.json
+  format: json
+  fields:
+    - event
+    - leads
+    - dedup_pct
+    - owner
+  acceptance: "移交前必须过 redact_gate"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-lead-handoff

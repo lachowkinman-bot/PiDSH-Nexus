@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: cmp.pipia-review@1.0.0
+domain: cmp
+description: "PIPIA 评审（高风险处理）"
+trigger:
+  type: command
+  expr: pipia-review
+nodes:
+  - id: n1
+    type: skill
+    ref: pipia-list
+  - id: n2
+    type: condition
+    expr: "PIPIA 评审（高风险处理） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "PIPIA 评审（高风险处理）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: pipia-review-<ts>.json
+  format: json
+  fields:
+    - process
+    - risk_level
+    - residual
+    - approvals
+  acceptance: "高风险 residual 未降级不得上线"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-pipia-review

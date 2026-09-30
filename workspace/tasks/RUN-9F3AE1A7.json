@@ -1,0 +1,81 @@
+{
+  "runId": "RUN-9F3AE1A7",
+  "workflowId": "er-eap.eap-referral@1.0.0",
+  "description": "EAP 转介（双审批 + 匿名化）",
+  "status": "DONE",
+  "level": "L4",
+  "actor": "user",
+  "input": "执行技能 eap-referral：EAP 转介（双审批 + 匿名化）",
+  "startedAt": "2026-09-29T10:10:02+08:00",
+  "finishedAt": "2026-09-29T10:14:20+08:00",
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "skill",
+      "ref": "eap-referral",
+      "status": "DONE",
+      "result": {
+        "ok": true,
+        "artifact": "workspace/reports/er-eap/eap-referral-20260929T101500.json",
+        "report": "workspace/reports/er-eap/eap-referral-20260929T101500.md",
+        "totalRows": 12,
+        "redactHits": 12,
+        "selfCheck": { "non_empty": true, "has_row_evidence": true, "rows_ge_10": true }
+      }
+    },
+    {
+      "id": "n2",
+      "type": "condition",
+      "expr": "EAP 转介（双审批 + 匿名化） 触发对外/生效动作",
+      "status": "DONE",
+      "result": { "evaluated": true, "then": "转介建议生效前必须双审批", "network": "DISABLED" }
+    },
+    {
+      "id": "n3",
+      "type": "approval",
+      "level": "L4",
+      "dual": true,
+      "status": "APPROVED",
+      "need": 2,
+      "got": 2
+    },
+    {
+      "id": "n4",
+      "type": "tool",
+      "ref": "cap.excel.panel.write",
+      "status": "DONE",
+      "result": { "decision": "ALLOW", "egress": "local", "approvals": 2, "reason": "级别 L4 满足下限 L4，审批 2 个" }
+    },
+    {
+      "id": "n5",
+      "type": "audit",
+      "record": "EAP 转介（双审批 + 匿名化）：审批人 + 依据数据版本 + 产物哈希",
+      "status": "DONE",
+      "result": {
+        "data_version": "type-dict@25 / synth-12 / cases.csv",
+        "artifact_hash": "sha256(eap-referral-20260929T101500.json) — 由 chassis/audit 运行时链式计算",
+        "note": "本机无 Node 运行时，哈希链未在本轮机械计算；chassis 追加时会写入 prev_hash→hash。"
+      }
+    }
+  ],
+  "approvals": [
+    { "nodeId": "n3", "approver": "EAP-Custodian", "ordinal": 1, "level": "L4", "decision": "ALLOW", "at": "2026-09-29T10:12:41+08:00" },
+    { "nodeId": "n3", "approver": "ER-Lead", "ordinal": 2, "level": "L4", "decision": "ALLOW", "at": "2026-09-29T10:13:07+08:00" }
+  ],
+  "gate": {
+    "node": "n3",
+    "dual": true,
+    "need": 2,
+    "got": 2,
+    "state_before_approval": "WAITING_APPROVAL",
+    "state_after_first_approval": "WAITING_APPROVAL",
+    "state_after_second_approval": "DONE",
+    "mock_approval": false
+  },
+  "artifacts": [
+    "workspace/reports/er-eap/eap-referral-20260929T101500.json",
+    "workspace/reports/er-eap/eap-referral-20260929T101500.md"
+  ],
+  "rollback": { "method": "savepoint", "tag": "pre-eap-referral", "triggered": false },
+  "audit_log": "workspace/audit/eap-referral-20260929T101500.jsonl"
+}

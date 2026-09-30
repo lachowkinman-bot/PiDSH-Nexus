@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: trn.plan-approve@1.0.0
+domain: TRN
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.single
+  - cap.redact.all
+data_assets:
+  - name: courses.xlsx
+    level: L2
+    pii_fields: []
+  - name: certificates.xlsx
+    level: L3
+    pii_fields: [cert_id]
+skills: [course-schedule, hour-stats, cert-expiry]
+workflows: [workflows/trn.plan-approve.yaml, workflows/trn.expiry-block.yaml]
+policies:
+  permission:
+    min_level: L3
+    dual_approval: false
+  redact:
+    fields: [cert_id]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/trn/README.md]
+golden_tasks:
+  - id: GT-TRN-01
+    input: "生成下月培训计划并走审批"
+    expected_plan: "见 docs/preset-design/trn.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L3"
+    expected_output: reports/trn/gt-01.md
+    expected_files: [data/trn/courses.xlsx, data/trn/certificates.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-TRN-02
+    input: "统计上半年学时达标率"
+    expected_plan: "见 docs/preset-design/trn.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L3"
+    expected_output: reports/trn/gt-02.md
+    expected_files: [data/trn/courses.xlsx, data/trn/certificates.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-TRN-03
+    input: "输出 90 天内到期证书清单与拦截建议"
+    expected_plan: "见 docs/preset-design/trn.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L3"
+    expected_output: reports/trn/gt-03.md
+    expected_files: [data/trn/courses.xlsx, data/trn/certificates.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：行业化：特种作业证/执业证到期拦截（Overlay 预留）。

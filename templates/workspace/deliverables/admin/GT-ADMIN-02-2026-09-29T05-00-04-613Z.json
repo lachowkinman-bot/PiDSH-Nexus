@@ -1,0 +1,107 @@
+{
+  "deliverable_id": "GT-ADMIN-02",
+  "skill": "asset-inventory",
+  "workflow": "admin.asset-inventory@1.0.0",
+  "scenario": "admin.procurement@1.0.0",
+  "domain": "ADMIN",
+  "report_period": "2026-Q3",
+  "generated_at": "2026-09-29T05:00:04.613Z",
+  "source_files": [
+    "templates/workspace/data/admin/assets.csv",
+    "templates/workspace/data/admin/purchases.csv"
+  ],
+  "reconciliation": {
+    "assets_csv_rows": 4,
+    "inventory_rows_in_report": 4,
+    "asset_id_matched": 4,
+    "asset_id_only_in_assets_csv": 0,
+    "asset_id_only_in_report": 0,
+    "status_conflict_count": 0,
+    "holder_conflict_count": 0,
+    "location_conflict_count": 0,
+    "reconciled": true,
+    "note": "报表逐行与 assets.csv 勾稽一致，asset_id/状态/领用人/位置四项字段无冲突。"
+  },
+  "variance_summary": {
+    "total_assets": 4,
+    "by_status": {
+      "在用": 2,
+      "维修中": 1,
+      "已归还": 1
+    },
+    "by_location": {
+      "A栋3层": 1,
+      "销售部": 1,
+      "行政仓库": 1,
+      "研发部": 1
+    },
+    "by_holder_type": {
+      "公共": 2,
+      "个人": 2
+    },
+    "abnormal_count": 2,
+    "abnormal_asset_ids": ["AST-0113", "AST-0121"]
+  },
+  "purchase_context": {
+    "source": "templates/workspace/data/admin/purchases.csv",
+    "selected_lines": [
+      {
+        "item": "办公笔记本×20",
+        "vendor_masked": "供应商B",
+        "unit_price_yuan": 6580,
+        "lead_days": 10,
+        "decision": "已选中（最低价）"
+      },
+      {
+        "item": "会议椅×40",
+        "vendor_masked": "供应商C",
+        "unit_price_yuan": 799,
+        "lead_days": 15,
+        "decision": "已选中（最低价）"
+      }
+    ],
+    "note": "purchases.csv 为采购比价数据，未含 asset_id，无法与资产台账逐条勾稽；仅用于说明本期入库来源与交付周期，不参与资产状态差异判定。"
+  },
+  "records": [
+    {
+      "asset_id": "AST-0101",
+      "status": "在用",
+      "holder_masked": "公共",
+      "location": "A栋3层",
+      "asset_name": "投影仪(会议室A)",
+      "variance_type": "无差异",
+      "variance_detail": "与 assets.csv 记录完全一致，公共资产，状态正常。",
+      "action_required": "无"
+    },
+    {
+      "asset_id": "AST-0107",
+      "status": "在用",
+      "holder_masked": "张****",
+      "location": "销售部",
+      "asset_name": "笔记本电脑",
+      "variance_type": "无差异",
+      "variance_detail": "与 assets.csv 记录完全一致，个人领用中，领用人已脱敏。",
+      "action_required": "无"
+    },
+    {
+      "asset_id": "AST-0113",
+      "status": "维修中",
+      "holder_masked": "公共",
+      "location": "行政仓库",
+      "asset_name": "打印机",
+      "variance_type": "状态差异（待跟踪）",
+      "variance_detail": "资产处于『维修中』且不在原使用位置，已转入行政仓库；台账状态无冲突，但维修周期与责任归属缺台账字段，无法核销。",
+      "action_required": "补充维修工单号与预计返还日期，超期未返还则转报废评估"
+    },
+    {
+      "asset_id": "AST-0121",
+      "status": "已归还",
+      "holder_masked": "李****",
+      "location": "研发部",
+      "asset_name": "测试手机",
+      "variance_type": "状态差异（待处置）",
+      "variance_detail": "资产已归还但仍登记在研发部位置，领用人未清空，存在『已归还/仍挂研发部』的台账悬挂状态。",
+      "action_required": "确认归还入库位置并清空领用人字段，或重新分配给研发部使用"
+    }
+  ]
+}

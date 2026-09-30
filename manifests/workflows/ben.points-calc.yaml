@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: ben.points-calc@1.0.0
+domain: ben
+description: "弹性积分测算（年度额度）"
+trigger:
+  type: command
+  expr: points-calc
+nodes:
+  - id: n1
+    type: skill
+    ref: flex-benefit
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "弹性积分测算（年度额度）：输入参数 + 结果快照"
+deliverable:
+  file: points-calc-<ts>.json
+  format: json
+  fields:
+    - employee_masked
+    - points_total
+    - selected
+    - remaining
+  acceptance: "剩余分可为负拦截"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-points-calc

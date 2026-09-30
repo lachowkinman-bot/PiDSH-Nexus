@@ -1,0 +1,3952 @@
+{
+ "generated_at": "2026-09-29T04:48:05.020Z",
+ "count": 78,
+ "by_domain": {
+  "strat": [
+   "strat.quarterly-review@1.0.0",
+   "strat.weekly-report@1.0.0",
+   "strat.okr-set@1.0.0",
+   "strat.competitor-brief@1.0.0",
+   "strat.org-inventory@1.0.0",
+   "strat.quarter-close@1.0.0"
+  ],
+  "mkt-on": [
+   "mkt-on.publish-approve@1.0.0",
+   "mkt-on.campaign-report@1.0.0",
+   "mkt-on.content-calendar@1.0.0",
+   "mkt-on.lead-funnel@1.0.0",
+   "mkt-on.seo-audit@1.0.0",
+   "mkt-on.ad-spend-review@1.0.0"
+  ],
+  "mkt-off": [
+   "mkt-off.event-roi@1.0.0",
+   "mkt-off.material-review@1.0.0",
+   "mkt-off.event-plan@1.0.0",
+   "mkt-off.vendor-brief@1.0.0",
+   "mkt-off.booth-approve@1.0.0",
+   "mkt-off.lead-handoff@1.0.0"
+  ],
+  "sales": [
+   "sales.quote-approve@1.0.0",
+   "sales.win-review@1.0.0",
+   "sales.quote-calc@1.0.0",
+   "sales.pipeline-report@1.0.0",
+   "sales.contract-review@1.0.0",
+   "sales.target-split@1.0.0"
+  ],
+  "fin": [
+   "fin.expense-approve@1.0.0",
+   "fin.monthly-report@1.0.0",
+   "fin.budget-review@1.0.0",
+   "fin.invoice-check@1.0.0",
+   "fin.reimburse-audit@1.0.0",
+   "fin.cashflow-week@1.0.0"
+  ],
+  "rec": [
+   "rec.funnel-weekly@1.0.0",
+   "rec.resume-forward@1.0.0",
+   "rec.jd-draft@1.0.0",
+   "rec.interview-schedule@1.0.0",
+   "rec.offer-approve@1.0.0",
+   "rec.onboarding-check@1.0.0"
+  ],
+  "trn": [
+   "trn.plan-approve@1.0.0",
+   "trn.hours-report@1.0.0",
+   "trn.course-schedule@1.0.0",
+   "trn.cert-expiry@1.0.0",
+   "trn.cert-renew@1.0.0",
+   "trn.enroll-approve@1.0.0"
+  ],
+  "prf": [
+   "prf.calibration-approve@1.0.0",
+   "prf.cascade-report@1.0.0",
+   "prf.kpi-tracking@1.0.0",
+   "prf.review-cycle@1.0.0",
+   "prf.one-on-one@1.0.0",
+   "prf.grade-distribution@1.0.0"
+  ],
+  "comp": [
+   "comp.salary-adjust@1.0.0",
+   "comp.band-report@1.0.0",
+   "comp.payroll-recon@1.0.0",
+   "comp.compa-ratio@1.0.0",
+   "comp.queue-approve@1.0.0",
+   "comp.cost-projection@1.0.0"
+  ],
+  "ben": [
+   "ben.vendor-compare@1.0.0",
+   "ben.checkup-report@1.0.0",
+   "ben.points-calc@1.0.0",
+   "ben.plan-enroll@1.0.0",
+   "ben.claim-review@1.0.0",
+   "ben.annual-survey@1.0.0"
+  ],
+  "admin": [
+   "admin.purchase-approve@1.0.0",
+   "admin.seal-request@1.0.0",
+   "admin.asset-inventory@1.0.0",
+   "admin.meeting-minutes@1.0.0",
+   "admin.supply-order@1.0.0",
+   "admin.vendor-price@1.0.0"
+  ],
+  "cmp": [
+   "cmp.policy-review@1.0.0",
+   "cmp.evidence-pack@1.0.0",
+   "cmp.pipia-review@1.0.0",
+   "cmp.audit-trail@1.0.0",
+   "cmp.training-check@1.0.0",
+   "cmp.reg-filing@1.0.0"
+  ],
+  "er-eap": [
+   "er-eap.offboard-approve@1.0.0",
+   "er-eap.eap-referral@1.0.0",
+   "er-eap.dispute-case@1.0.0",
+   "er-eap.exit-interview@1.0.0",
+   "er-eap.anon-report@1.0.0",
+   "er-eap.wellbeing-check@1.0.0"
+  ]
+ },
+ "workflows": [
+  {
+   "workflow_id": "strat.quarterly-review@1.0.0",
+   "domain": "strat",
+   "kind": "approve",
+   "description": "季度战略复盘（合并薪酬盘点走双审批）",
+   "skill": "strategy-decode",
+   "trigger": {
+    "type": "command",
+    "expr": "quarterly-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "strategy-decode"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "季度战略复盘（合并薪酬盘点走双审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "季度战略复盘（合并薪酬盘点走双审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "quarterly-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "okr_reached",
+     "comp_review_flag",
+     "decision"
+    ],
+    "acceptance": "合并薪酬盘点仅区间口径；双审批通过方可归档"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-quarterly-review"
+   }
+  },
+  {
+   "workflow_id": "strat.weekly-report@1.0.0",
+   "domain": "strat",
+   "kind": "report",
+   "description": "经营周报（收入/订单/风险三段）",
+   "skill": "biz-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "weekly-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "biz-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "经营周报（收入/订单/风险三段）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "weekly-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "week",
+     "revenue_wan",
+     "orders",
+     "risks",
+     "next_actions"
+    ],
+    "acceptance": "数字可追溯到 data/strat/weekly.csv 行级"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-weekly-report"
+   }
+  },
+  {
+   "workflow_id": "strat.okr-set@1.0.0",
+   "domain": "strat",
+   "kind": "calc",
+   "description": "OKR 目标与 KR 制定（表格化提交）",
+   "skill": "strategy-decode",
+   "trigger": {
+    "type": "command",
+    "expr": "okr-set"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "strategy-decode"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "OKR 目标与 KR 制定（表格化提交）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "okr-set-<ts>.json",
+    "format": "json",
+    "fields": [
+     "objective",
+     "kr_list",
+     "quarter",
+     "owner"
+    ],
+    "acceptance": "每条 KR 必须可量化（progress_pct 数值）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-okr-set"
+   }
+  },
+  {
+   "workflow_id": "strat.competitor-brief@1.0.0",
+   "domain": "strat",
+   "kind": "report",
+   "description": "竞品动态简报（脱敏摘要口径）",
+   "skill": "competitor-watch",
+   "trigger": {
+    "type": "command",
+    "expr": "competitor-brief"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "competitor-watch"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "竞品动态简报（脱敏摘要口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "competitor-brief-<ts>.json",
+    "format": "json",
+    "fields": [
+     "competitor",
+     "move_type",
+     "impact",
+     "our_response"
+    ],
+    "acceptance": "外部检索内容必须经脱敏摘要（禁原文外发）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-competitor-brief"
+   }
+  },
+  {
+   "workflow_id": "strat.org-inventory@1.0.0",
+   "domain": "strat",
+   "kind": "report",
+   "description": "组织盘点（关键岗位/继任）",
+   "skill": "biz-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "org-inventory"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "biz-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "组织盘点（关键岗位/继任）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "org-inventory-<ts>.json",
+    "format": "json",
+    "fields": [
+     "position",
+     "incumbent_masked",
+     "successor_masked",
+     "risk_level"
+    ],
+    "acceptance": "人员字段一律掩码（Type-Dict L4 口径）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-org-inventory"
+   }
+  },
+  {
+   "workflow_id": "strat.quarter-close@1.0.0",
+   "domain": "strat",
+   "kind": "approve",
+   "description": "季度关账经营决议（含调薪包）",
+   "skill": "strategy-decode",
+   "trigger": {
+    "type": "command",
+    "expr": "quarter-close"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "strategy-decode"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "季度关账经营决议（含调薪包） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "季度关账经营决议（含调薪包）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "quarter-close-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "highlights",
+     "comp_package_flag",
+     "approvals"
+    ],
+    "acceptance": "调薪包触发 COMP 域双审批联动"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-quarter-close"
+   }
+  },
+  {
+   "workflow_id": "mkt-on.publish-approve@1.0.0",
+   "domain": "mkt-on",
+   "kind": "approve",
+   "description": "内容发布审批（L4 强审批 + 脱敏）",
+   "skill": "content-gen",
+   "trigger": {
+    "type": "command",
+    "expr": "publish-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "content-gen"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "内容发布审批（L4 强审批 + 脱敏） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "内容发布审批（L4 强审批 + 脱敏）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "publish-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "title",
+     "channel",
+     "publish_at",
+     "pii_check",
+     "approver"
+    ],
+    "acceptance": "含 PII 的素材必须 redact 后才可发布"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-publish-approve"
+   }
+  },
+  {
+   "workflow_id": "mkt-on.campaign-report@1.0.0",
+   "domain": "mkt-on",
+   "kind": "report",
+   "description": "投放周报（渠道×ROI）",
+   "skill": "ad-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "campaign-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "ad-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "投放周报（渠道×ROI）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "campaign-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "channel",
+     "spend_wan",
+     "leads",
+     "roi",
+     "week"
+    ],
+    "acceptance": "ROI 数字可追溯到 data/mkt-on/leads.csv"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-campaign-report"
+   }
+  },
+  {
+   "workflow_id": "mkt-on.content-calendar@1.0.0",
+   "domain": "mkt-on",
+   "kind": "calc",
+   "description": "内容日历排期（两周滚动）",
+   "skill": "content-gen",
+   "trigger": {
+    "type": "command",
+    "expr": "content-calendar"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "content-gen"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "内容日历排期（两周滚动）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "content-calendar-<ts>.json",
+    "format": "json",
+    "fields": [
+     "date",
+     "channel",
+     "title",
+     "status"
+    ],
+    "acceptance": "排期冲突（同日同渠道）须标红"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-content-calendar"
+   }
+  },
+  {
+   "workflow_id": "mkt-on.lead-funnel@1.0.0",
+   "domain": "mkt-on",
+   "kind": "report",
+   "description": "线索漏斗周报（阶段转化）",
+   "skill": "seo-audit",
+   "trigger": {
+    "type": "command",
+    "expr": "lead-funnel"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "seo-audit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "线索漏斗周报（阶段转化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "lead-funnel-<ts>.json",
+    "format": "json",
+    "fields": [
+     "stage",
+     "count",
+     "conversion_pct",
+     "week"
+    ],
+    "acceptance": "线索手机号/邮箱仅掩码口径"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-lead-funnel"
+   }
+  },
+  {
+   "workflow_id": "mkt-on.seo-audit@1.0.0",
+   "domain": "mkt-on",
+   "kind": "report",
+   "description": "SEO 诊断（收录/关键词）",
+   "skill": "seo-audit",
+   "trigger": {
+    "type": "command",
+    "expr": "seo-audit"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "seo-audit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "SEO 诊断（收录/关键词）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "seo-audit-<ts>.json",
+    "format": "json",
+    "fields": [
+     "page",
+     "keywords",
+     "rank",
+     "issue"
+    ],
+    "acceptance": "外部抓取仅摘要，禁整站镜像"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-seo-audit"
+   }
+  },
+  {
+   "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+   "domain": "mkt-on",
+   "kind": "approve",
+   "description": "投放加预算审批（阈值触发）",
+   "skill": "ad-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "ad-spend-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "ad-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "投放加预算审批（阈值触发） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "投放加预算审批（阈值触发）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "ad-spend-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "channel",
+     "current_spend_wan",
+     "increment_wan",
+     "expected_roi"
+    ],
+    "acceptance": "单周加预算 >10 万触发双审批"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-ad-spend-review"
+   }
+  },
+  {
+   "workflow_id": "mkt-off.event-roi@1.0.0",
+   "domain": "mkt-off",
+   "kind": "report",
+   "description": "活动 ROI 复盘（预算 vs 实际）",
+   "skill": "roi-review",
+   "trigger": {
+    "type": "command",
+    "expr": "event-roi"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "roi-review"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "活动 ROI 复盘（预算 vs 实际）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "event-roi-<ts>.json",
+    "format": "json",
+    "fields": [
+     "event",
+     "budget_wan",
+     "actual_wan",
+     "roi",
+     "lessons"
+    ],
+    "acceptance": "数字可追溯到 data/mkt-off/events.csv"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-event-roi"
+   }
+  },
+  {
+   "workflow_id": "mkt-off.material-review@1.0.0",
+   "domain": "mkt-off",
+   "kind": "approve",
+   "description": "物料合规审查（法务→品牌→归档）",
+   "skill": "material-compliance",
+   "trigger": {
+    "type": "command",
+    "expr": "material-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "material-compliance"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "物料合规审查（法务→品牌→归档） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "物料合规审查（法务→品牌→归档）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "material-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "material",
+     "legal_check",
+     "brand_check",
+     "final_status"
+    ],
+    "acceptance": "任一未过即不得外发；外发走审批"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-material-review"
+   }
+  },
+  {
+   "workflow_id": "mkt-off.event-plan@1.0.0",
+   "domain": "mkt-off",
+   "kind": "calc",
+   "description": "活动策划案（预算/场地/排期）",
+   "skill": "event-plan",
+   "trigger": {
+    "type": "command",
+    "expr": "event-plan"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "event-plan"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "活动策划案（预算/场地/排期）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "event-plan-<ts>.json",
+    "format": "json",
+    "fields": [
+     "event",
+     "city",
+     "budget_wan",
+     "schedule"
+    ],
+    "acceptance": "预算超部门季度包 20% 触发审批"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-event-plan"
+   }
+  },
+  {
+   "workflow_id": "mkt-off.vendor-brief@1.0.0",
+   "domain": "mkt-off",
+   "kind": "report",
+   "description": "经销商简报（条款执行）",
+   "skill": "material-compliance",
+   "trigger": {
+    "type": "command",
+    "expr": "vendor-brief"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "material-compliance"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "经销商简报（条款执行）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "vendor-brief-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dealer_masked",
+     "terms_exec",
+     "sellthrough",
+     "risk"
+    ],
+    "acceptance": "经销商条款 L3 脱敏"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-vendor-brief"
+   }
+  },
+  {
+   "workflow_id": "mkt-off.booth-approve@1.0.0",
+   "domain": "mkt-off",
+   "kind": "approve",
+   "description": "展位/场地签约审批",
+   "skill": "event-plan",
+   "trigger": {
+    "type": "command",
+    "expr": "booth-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "event-plan"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "展位/场地签约审批 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "展位/场地签约审批：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "booth-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "venue",
+     "cost_wan",
+     "dates",
+     "approver"
+    ],
+    "acceptance": "单场签约 >30 万双审批"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-booth-approve"
+   }
+  },
+  {
+   "workflow_id": "mkt-off.lead-handoff@1.0.0",
+   "domain": "mkt-off",
+   "kind": "calc",
+   "description": "线下线索移交销售（去重+脱敏）",
+   "skill": "roi-review",
+   "trigger": {
+    "type": "command",
+    "expr": "lead-handoff"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "roi-review"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "线下线索移交销售（去重+脱敏）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "lead-handoff-<ts>.json",
+    "format": "json",
+    "fields": [
+     "event",
+     "leads",
+     "dedup_pct",
+     "owner"
+    ],
+    "acceptance": "移交前必须过 redact_gate"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-lead-handoff"
+   }
+  },
+  {
+   "workflow_id": "sales.quote-approve@1.0.0",
+   "domain": "sales",
+   "kind": "approve",
+   "description": "报价审批（DAG + 折扣阈值）",
+   "skill": "quote-calc",
+   "trigger": {
+    "type": "command",
+    "expr": "quote-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quote-calc"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "报价审批（DAG + 折扣阈值） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "报价审批（DAG + 折扣阈值）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "quote-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "quote_id",
+     "total_wan",
+     "discount_pct",
+     "approvals"
+    ],
+    "acceptance": "折扣 ≥10% 双审批；≥15% 加签 CFO"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-quote-approve"
+   }
+  },
+  {
+   "workflow_id": "sales.win-review@1.0.0",
+   "domain": "sales",
+   "kind": "report",
+   "description": "赢单复盘（打法沉淀）",
+   "skill": "win-review",
+   "trigger": {
+    "type": "command",
+    "expr": "win-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "win-review"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "赢单复盘（打法沉淀）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "win-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "opportunity",
+     "amount_k",
+     "win_factors",
+     "playbook_update"
+    ],
+    "acceptance": "结论可追溯到商机记录"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-win-review"
+   }
+  },
+  {
+   "workflow_id": "sales.quote-calc@1.0.0",
+   "domain": "sales",
+   "kind": "calc",
+   "description": "报价测算（规格×数量×折扣）",
+   "skill": "quote-calc",
+   "trigger": {
+    "type": "command",
+    "expr": "quote-calc"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quote-calc"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "报价测算（规格×数量×折扣）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "quote-calc-<ts>.json",
+    "format": "json",
+    "fields": [
+     "customer_masked",
+     "items",
+     "discount_pct",
+     "total_wan"
+    ],
+    "acceptance": "低于底价必须转 quote-approve"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-quote-calc"
+   }
+  },
+  {
+   "workflow_id": "sales.pipeline-report@1.0.0",
+   "domain": "sales",
+   "kind": "report",
+   "description": "管道周报（阶段×金额）",
+   "skill": "quota-dashboard",
+   "trigger": {
+    "type": "command",
+    "expr": "pipeline-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quota-dashboard"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "管道周报（阶段×金额）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "pipeline-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "stage",
+     "count",
+     "amount_k",
+     "week"
+    ],
+    "acceptance": "金额单位万元，可追溯 pipeline.csv"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-pipeline-report"
+   }
+  },
+  {
+   "workflow_id": "sales.contract-review@1.0.0",
+   "domain": "sales",
+   "kind": "approve",
+   "description": "合同评审（法务/财务会签）",
+   "skill": "win-review",
+   "trigger": {
+    "type": "command",
+    "expr": "contract-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "win-review"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "合同评审（法务/财务会签） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "合同评审（法务/财务会签）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "contract-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "contract_no",
+     "terms_risk",
+     "payment_terms",
+     "approvals"
+    ],
+    "acceptance": "回款条款偏离标准必须双审批"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-contract-review"
+   }
+  },
+  {
+   "workflow_id": "sales.target-split@1.0.0",
+   "domain": "sales",
+   "kind": "calc",
+   "description": "销售目标分解（区→人）",
+   "skill": "quota-dashboard",
+   "trigger": {
+    "type": "command",
+    "expr": "target-split"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quota-dashboard"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "销售目标分解（区→人）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "target-split-<ts>.json",
+    "format": "json",
+    "fields": [
+     "region",
+     "owner_masked",
+     "target_wan",
+     "quarter"
+    ],
+    "acceptance": "合计必须等于区目标"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-target-split"
+   }
+  },
+  {
+   "workflow_id": "fin.expense-approve@1.0.0",
+   "domain": "fin",
+   "kind": "approve",
+   "description": "报销审批（强审批）",
+   "skill": "expense-precheck",
+   "trigger": {
+    "type": "command",
+    "expr": "expense-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "expense-precheck"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "报销审批（强审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "报销审批（强审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "expense-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "expense_id",
+     "amount_yuan",
+     "level",
+     "approvals"
+    ],
+    "acceptance": "L4 必须双审批；审批单与产物一致"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-expense-approve"
+   }
+  },
+  {
+   "workflow_id": "fin.monthly-report@1.0.0",
+   "domain": "fin",
+   "kind": "report",
+   "description": "月度财报（分级输出）",
+   "skill": "budget-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "monthly-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "budget-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "月度财报（分级输出）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "monthly-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "revenue_wan",
+     "cost_wan",
+     "net_wan"
+    ],
+    "acceptance": "财报数字 A 级可溯（凭证级）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-monthly-report"
+   }
+  },
+  {
+   "workflow_id": "fin.budget-review@1.0.0",
+   "domain": "fin",
+   "kind": "approve",
+   "description": "预算调整审批（部门季度包）",
+   "skill": "budget-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "budget-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "budget-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "预算调整审批（部门季度包） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "预算调整审批（部门季度包）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "budget-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dept",
+     "budget_wan",
+     "delta_wan",
+     "reason"
+    ],
+    "acceptance": "超包 10% 加签 CFO"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-budget-review"
+   }
+  },
+  {
+   "workflow_id": "fin.invoice-check@1.0.0",
+   "domain": "fin",
+   "kind": "calc",
+   "description": "发票校验（税号/金额/连号）",
+   "skill": "invoice-check",
+   "trigger": {
+    "type": "command",
+    "expr": "invoice-check"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "invoice-check"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "发票校验（税号/金额/连号）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "invoice-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "invoice_no",
+     "amount_yuan",
+     "checks",
+     "result"
+    ],
+    "acceptance": "连号/抬头不一致直接 FAIL"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-invoice-check"
+   }
+  },
+  {
+   "workflow_id": "fin.reimburse-audit@1.0.0",
+   "domain": "fin",
+   "kind": "report",
+   "description": "报销抽审（合规抽样）",
+   "skill": "expense-precheck",
+   "trigger": {
+    "type": "command",
+    "expr": "reimburse-audit"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "expense-precheck"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "报销抽审（合规抽样）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "reimburse-audit-<ts>.json",
+    "format": "json",
+    "fields": [
+     "sample_size",
+     "issues",
+     "issue_rate",
+     "actions"
+    ],
+    "acceptance": "抽样比例 ≥10%"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-reimburse-audit"
+   }
+  },
+  {
+   "workflow_id": "fin.cashflow-week@1.0.0",
+   "domain": "fin",
+   "kind": "report",
+   "description": "周现金流简报（进/出/余）",
+   "skill": "invoice-check",
+   "trigger": {
+    "type": "command",
+    "expr": "cashflow-week"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "invoice-check"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "周现金流简报（进/出/余）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cashflow-week-<ts>.json",
+    "format": "json",
+    "fields": [
+     "week",
+     "in_wan",
+     "out_wan",
+     "balance_wan"
+    ],
+    "acceptance": "银行账户字段 L4 只出汇总"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-cashflow-week"
+   }
+  },
+  {
+   "workflow_id": "rec.funnel-weekly@1.0.0",
+   "domain": "rec",
+   "kind": "report",
+   "description": "漏斗周报（阶段转化）",
+   "skill": "funnel-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "funnel-weekly"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "funnel-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "漏斗周报（阶段转化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "funnel-weekly-<ts>.json",
+    "format": "json",
+    "fields": [
+     "stage",
+     "count",
+     "conversion_pct",
+     "week"
+    ],
+    "acceptance": "候选人 PII 仅掩码"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-funnel-weekly"
+   }
+  },
+  {
+   "workflow_id": "rec.resume-forward@1.0.0",
+   "domain": "rec",
+   "kind": "approve",
+   "description": "简历外发（强制脱敏 + 审批）",
+   "skill": "jd-gen",
+   "trigger": {
+    "type": "command",
+    "expr": "resume-forward"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "jd-gen"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "简历外发（强制脱敏 + 审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "简历外发（强制脱敏 + 审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "resume-forward-<ts>.json",
+    "format": "json",
+    "fields": [
+     "candidate_masked",
+     "target",
+     "redact_fields",
+     "approver"
+    ],
+    "acceptance": "未脱敏外发 = 一票否决"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-resume-forward"
+   }
+  },
+  {
+   "workflow_id": "rec.jd-draft@1.0.0",
+   "domain": "rec",
+   "kind": "calc",
+   "description": "JD 起草（岗位/要求/薪酬带）",
+   "skill": "jd-gen",
+   "trigger": {
+    "type": "command",
+    "expr": "jd-draft"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "jd-gen"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "JD 起草（岗位/要求/薪酬带）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "jd-draft-<ts>.json",
+    "format": "json",
+    "fields": [
+     "position",
+     "requirements",
+     "band",
+     "locale"
+    ],
+    "acceptance": "薪酬带引用 comp.bands 区间口径"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-jd-draft"
+   }
+  },
+  {
+   "workflow_id": "rec.interview-schedule@1.0.0",
+   "domain": "rec",
+   "kind": "calc",
+   "description": "面试安排（ interviewer 冲突检测）",
+   "skill": "interview-summary",
+   "trigger": {
+    "type": "command",
+    "expr": "interview-schedule"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "interview-summary"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "面试安排（ interviewer 冲突检测）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "interview-schedule-<ts>.json",
+    "format": "json",
+    "fields": [
+     "candidate_masked",
+     "slot",
+     "interviewers",
+     "mode"
+    ],
+    "acceptance": "同一面试官同时段冲突须标红"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-interview-schedule"
+   }
+  },
+  {
+   "workflow_id": "rec.offer-approve@1.0.0",
+   "domain": "rec",
+   "kind": "approve",
+   "description": "offer 审批（薪酬带核对）",
+   "skill": "funnel-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "offer-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "funnel-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "offer 审批（薪酬带核对） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "offer 审批（薪酬带核对）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "offer-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "candidate_masked",
+     "position",
+     "offer_band",
+     "approvals"
+    ],
+    "acceptance": "offer 超出 P75 必须双审批"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-offer-approve"
+   }
+  },
+  {
+   "workflow_id": "rec.onboarding-check@1.0.0",
+   "domain": "rec",
+   "kind": "report",
+   "description": "入职准备清单（账号/设备/导师）",
+   "skill": "interview-summary",
+   "trigger": {
+    "type": "command",
+    "expr": "onboarding-check"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "interview-summary"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "入职准备清单（账号/设备/导师）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "onboarding-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "owner",
+     "due",
+     "status"
+    ],
+    "acceptance": "入职日前 3 天必须全绿"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-onboarding-check"
+   }
+  },
+  {
+   "workflow_id": "trn.plan-approve@1.0.0",
+   "domain": "trn",
+   "kind": "approve",
+   "description": "培训计划审批（预算/学时）",
+   "skill": "course-schedule",
+   "trigger": {
+    "type": "command",
+    "expr": "plan-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "course-schedule"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "培训计划审批（预算/学时） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "培训计划审批（预算/学时）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "plan-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "course",
+     "hours",
+     "budget_wan",
+     "approver"
+    ],
+    "acceptance": "外部采购课程走审批"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-plan-approve"
+   }
+  },
+  {
+   "workflow_id": "trn.hours-report@1.0.0",
+   "domain": "trn",
+   "kind": "report",
+   "description": "学时统计（人/部门口径）",
+   "skill": "hour-stats",
+   "trigger": {
+    "type": "command",
+    "expr": "hours-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "hour-stats"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "学时统计（人/部门口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "hours-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dept",
+     "planned_h",
+     "completed_h",
+     "rate"
+    ],
+    "acceptance": "学时数字可追溯 courses.csv"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-hours-report"
+   }
+  },
+  {
+   "workflow_id": "trn.course-schedule@1.0.0",
+   "domain": "trn",
+   "kind": "calc",
+   "description": "排期（讲师/场地冲突检测）",
+   "skill": "course-schedule",
+   "trigger": {
+    "type": "command",
+    "expr": "course-schedule"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "course-schedule"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "排期（讲师/场地冲突检测）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "course-schedule-<ts>.json",
+    "format": "json",
+    "fields": [
+     "course",
+     "date",
+     "trainer",
+     "room"
+    ],
+    "acceptance": "冲突自动标红并建议备选"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-course-schedule"
+   }
+  },
+  {
+   "workflow_id": "trn.cert-expiry@1.0.0",
+   "domain": "trn",
+   "kind": "report",
+   "description": "资质到期提醒（特种作业/证书）",
+   "skill": "cert-expiry",
+   "trigger": {
+    "type": "command",
+    "expr": "cert-expiry"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "cert-expiry"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "资质到期提醒（特种作业/证书）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cert-expiry-<ts>.json",
+    "format": "json",
+    "fields": [
+     "certificate",
+     "holder_masked",
+     "expire_date",
+     "days_left"
+    ],
+    "acceptance": "90 天内到期必须列出；过期立即拦截"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-cert-expiry"
+   }
+  },
+  {
+   "workflow_id": "trn.cert-renew@1.0.0",
+   "domain": "trn",
+   "kind": "approve",
+   "description": "证书复审/换证审批",
+   "skill": "hour-stats",
+   "trigger": {
+    "type": "command",
+    "expr": "cert-renew"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "hour-stats"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "证书复审/换证审批 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "证书复审/换证审批：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cert-renew-<ts>.json",
+    "format": "json",
+    "fields": [
+     "certificate",
+     "holder_masked",
+     "renew_fee",
+     "approver"
+    ],
+    "acceptance": "岗位强依赖证书过期未续 = 上岗拦截"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-cert-renew"
+   }
+  },
+  {
+   "workflow_id": "trn.enroll-approve@1.0.0",
+   "domain": "trn",
+   "kind": "calc",
+   "description": "报名确认（名额/前置课校验）",
+   "skill": "course-schedule",
+   "trigger": {
+    "type": "command",
+    "expr": "enroll-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "course-schedule"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "报名确认（名额/前置课校验）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "enroll-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "course",
+     "employee_masked",
+     "prereq_ok",
+     "seats_left"
+    ],
+    "acceptance": "前置课未修直接拒绝"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-enroll-approve"
+   }
+  },
+  {
+   "workflow_id": "prf.calibration-approve@1.0.0",
+   "domain": "prf",
+   "kind": "approve",
+   "description": "绩效校准（双审批）",
+   "skill": "calibration-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "calibration-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "calibration-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "绩效校准（双审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "绩效校准（双审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "calibration-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "manager_grade",
+     "calibrated_grade",
+     "approvals"
+    ],
+    "acceptance": "校准纪要禁入记忆层"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-calibration-approve"
+   }
+  },
+  {
+   "workflow_id": "prf.cascade-report@1.0.0",
+   "domain": "prf",
+   "kind": "report",
+   "description": "目标分解报告（公司→部门→人）",
+   "skill": "goal-cascade",
+   "trigger": {
+    "type": "command",
+    "expr": "cascade-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "goal-cascade"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "目标分解报告（公司→部门→人）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cascade-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "level",
+     "owner_masked",
+     "goal",
+     "weight"
+    ],
+    "acceptance": "权重合计必须 = 100%"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-cascade-report"
+   }
+  },
+  {
+   "workflow_id": "prf.kpi-tracking@1.0.0",
+   "domain": "prf",
+   "kind": "report",
+   "description": "KPI 追踪（实际 vs 目标）",
+   "skill": "kpi-track",
+   "trigger": {
+    "type": "command",
+    "expr": "kpi-tracking"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "kpi-track"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "KPI 追踪（实际 vs 目标）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "kpi-tracking-<ts>.json",
+    "format": "json",
+    "fields": [
+     "kpi",
+     "target",
+     "actual",
+     "rate"
+    ],
+    "acceptance": "数据可追溯 kpi.csv"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-kpi-tracking"
+   }
+  },
+  {
+   "workflow_id": "prf.review-cycle@1.0.0",
+   "domain": "prf",
+   "kind": "calc",
+   "description": "考核周期发起（模板下发）",
+   "skill": "kpi-track",
+   "trigger": {
+    "type": "command",
+    "expr": "review-cycle"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "kpi-track"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "考核周期发起（模板下发）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "review-cycle-<ts>.json",
+    "format": "json",
+    "fields": [
+     "cycle",
+     "template",
+     "targets",
+     "deadline"
+    ],
+    "acceptance": "全员覆盖校验（无遗漏人）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-review-cycle"
+   }
+  },
+  {
+   "workflow_id": "prf.one-on-one@1.0.0",
+   "domain": "prf",
+   "kind": "report",
+   "description": "一对一沟通纪要（结构化）",
+   "skill": "goal-cascade",
+   "trigger": {
+    "type": "command",
+    "expr": "one-on-one"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "goal-cascade"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "一对一沟通纪要（结构化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "one-on-one-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "topics",
+     "actions",
+     "next_date"
+    ],
+    "acceptance": "纪要默认不入记忆层"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-one-on-one"
+   }
+  },
+  {
+   "workflow_id": "prf.grade-distribution@1.0.0",
+   "domain": "prf",
+   "kind": "report",
+   "description": "等级分布与强制分布比对",
+   "skill": "calibration-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "grade-distribution"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "calibration-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "等级分布与强制分布比对：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "grade-distribution-<ts>.json",
+    "format": "json",
+    "fields": [
+     "grade",
+     "count",
+     "pct",
+     "target_pct"
+    ],
+    "acceptance": "偏离强制分布线 >5pct 标红"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-grade-distribution"
+   }
+  },
+  {
+   "workflow_id": "comp.salary-adjust@1.0.0",
+   "domain": "comp",
+   "kind": "approve",
+   "description": "调薪审批（双审批 + redact_gate）",
+   "skill": "band-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "salary-adjust"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "band-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "调薪审批（双审批 + redact_gate） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "调薪审批（双审批 + redact_gate）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "salary-adjust-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "band_from",
+     "band_to",
+     "approvals"
+    ],
+    "acceptance": "个体薪酬只出区间；redact_gate 强制"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-salary-adjust"
+   }
+  },
+  {
+   "workflow_id": "comp.band-report@1.0.0",
+   "domain": "comp",
+   "kind": "report",
+   "description": "带宽偏离报告（区间口径）",
+   "skill": "band-analysis",
+   "trigger": {
+    "type": "command",
+    "expr": "band-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "band-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "带宽偏离报告（区间口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "band-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "band",
+     "headcount",
+     "above_p75",
+     "below_p25"
+    ],
+    "acceptance": "不出现任何个体原值"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-band-report"
+   }
+  },
+  {
+   "workflow_id": "comp.payroll-recon@1.0.0",
+   "domain": "comp",
+   "kind": "report",
+   "description": "payroll 对账（应发 vs 实发）",
+   "skill": "payroll-recon",
+   "trigger": {
+    "type": "command",
+    "expr": "payroll-recon"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "payroll-recon"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "payroll 对账（应发 vs 实发）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "payroll-recon-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "headcount",
+     "gross_diff",
+     "items"
+    ],
+    "acceptance": "差异 >0.5% 逐项列出"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-payroll-recon"
+   }
+  },
+  {
+   "workflow_id": "comp.compa-ratio@1.0.0",
+   "domain": "comp",
+   "kind": "report",
+   "description": "CR 指数报告（人/带宽）",
+   "skill": "compa-ratio",
+   "trigger": {
+    "type": "command",
+    "expr": "compa-ratio"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "compa-ratio"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "CR 指数报告（人/带宽）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "compa-ratio-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "band",
+     "cr",
+     "zone"
+    ],
+    "acceptance": "CR 仅区间展示（0.8–1.2 分档）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-compa-ratio"
+   }
+  },
+  {
+   "workflow_id": "comp.queue-approve@1.0.0",
+   "domain": "comp",
+   "kind": "approve",
+   "description": "调薪队列批量审批（HRD+CFO）",
+   "skill": "compa-ratio",
+   "trigger": {
+    "type": "command",
+    "expr": "queue-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "compa-ratio"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "调薪队列批量审批（HRD+CFO） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "调薪队列批量审批（HRD+CFO）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "queue-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "batch",
+     "items",
+     "total_impact_wan",
+     "approvals"
+    ],
+    "acceptance": "批量影响 >50 万/年 加签 CEO"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-queue-approve"
+   }
+  },
+  {
+   "workflow_id": "comp.cost-projection@1.0.0",
+   "domain": "comp",
+   "kind": "calc",
+   "description": "调薪包成本测算（区间口径）",
+   "skill": "payroll-recon",
+   "trigger": {
+    "type": "command",
+    "expr": "cost-projection"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "payroll-recon"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "调薪包成本测算（区间口径）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "cost-projection-<ts>.json",
+    "format": "json",
+    "fields": [
+     "scenario",
+     "pct",
+     "cost_impact_wan",
+     "note"
+    ],
+    "acceptance": "测算不含个体原值"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-cost-projection"
+   }
+  },
+  {
+   "workflow_id": "ben.vendor-compare@1.0.0",
+   "domain": "ben",
+   "kind": "approve",
+   "description": "方案比选（DAG：商保/体检/弹性）",
+   "skill": "plan-compare",
+   "trigger": {
+    "type": "command",
+    "expr": "vendor-compare"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "plan-compare"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "方案比选（DAG：商保/体检/弹性） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "方案比选（DAG：商保/体检/弹性）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "vendor-compare-<ts>.json",
+    "format": "json",
+    "fields": [
+     "category",
+     "vendors",
+     "points",
+     "winner"
+    ],
+    "acceptance": "健康数据 L4 禁入记忆层"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-vendor-compare"
+   }
+  },
+  {
+   "workflow_id": "ben.checkup-report@1.0.0",
+   "domain": "ben",
+   "kind": "report",
+   "description": "体检报告聚合（脱敏）",
+   "skill": "checkup-report",
+   "trigger": {
+    "type": "command",
+    "expr": "checkup-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "checkup-report"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "体检报告聚合（脱敏）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "checkup-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "abnormal_items",
+     "followup",
+     "year"
+    ],
+    "acceptance": "个体健康指标不出原值，仅建议"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-checkup-report"
+   }
+  },
+  {
+   "workflow_id": "ben.points-calc@1.0.0",
+   "domain": "ben",
+   "kind": "calc",
+   "description": "弹性积分测算（年度额度）",
+   "skill": "flex-benefit",
+   "trigger": {
+    "type": "command",
+    "expr": "points-calc"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "flex-benefit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "弹性积分测算（年度额度）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "points-calc-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "points_total",
+     "selected",
+     "remaining"
+    ],
+    "acceptance": "剩余分可为负拦截"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-points-calc"
+   }
+  },
+  {
+   "workflow_id": "ben.plan-enroll@1.0.0",
+   "domain": "ben",
+   "kind": "approve",
+   "description": "方案投保/变更审批",
+   "skill": "plan-compare",
+   "trigger": {
+    "type": "command",
+    "expr": "plan-enroll"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "plan-compare"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "方案投保/变更审批 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "方案投保/变更审批：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "plan-enroll-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "plan",
+     "effective_date",
+     "approver"
+    ],
+    "acceptance": "家属信息仅掩码"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-plan-enroll"
+   }
+  },
+  {
+   "workflow_id": "ben.claim-review@1.0.0",
+   "domain": "ben",
+   "kind": "report",
+   "description": "理赔协办周报（时效/结案）",
+   "skill": "checkup-report",
+   "trigger": {
+    "type": "command",
+    "expr": "claim-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "checkup-report"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "理赔协办周报（时效/结案）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "claim-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "claim_masked",
+     "type",
+     "days",
+     "status"
+    ],
+    "acceptance": "理赔金额仅区间"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-claim-review"
+   }
+  },
+  {
+   "workflow_id": "ben.annual-survey@1.0.0",
+   "domain": "ben",
+   "kind": "report",
+   "description": "年度福利满意度调查（聚合）",
+   "skill": "flex-benefit",
+   "trigger": {
+    "type": "command",
+    "expr": "annual-survey"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "flex-benefit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "年度福利满意度调查（聚合）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "annual-survey-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dimension",
+     "score",
+     "n",
+     "verbatim_theme"
+    ],
+    "acceptance": "开放题经脱敏聚合"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-annual-survey"
+   }
+  },
+  {
+   "workflow_id": "admin.purchase-approve@1.0.0",
+   "domain": "admin",
+   "kind": "approve",
+   "description": "采购审批（DAG + 预算校验）",
+   "skill": "purchase-compare",
+   "trigger": {
+    "type": "command",
+    "expr": "purchase-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "purchase-compare"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "采购审批（DAG + 预算校验） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "采购审批（DAG + 预算校验）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "purchase-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "qty",
+     "amount_wan",
+     "budget_ok",
+     "approvals"
+    ],
+    "acceptance": "预算不足直接阻断；用印强制人工"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-purchase-approve"
+   }
+  },
+  {
+   "workflow_id": "admin.seal-request@1.0.0",
+   "domain": "admin",
+   "kind": "approve",
+   "description": "用印申请（强制人工放行）",
+   "skill": "meeting-minutes",
+   "trigger": {
+    "type": "command",
+    "expr": "seal-request"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "meeting-minutes"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "用印申请（强制人工放行） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "用印申请（强制人工放行）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "seal-request-<ts>.json",
+    "format": "json",
+    "fields": [
+     "doc",
+     "seal_type",
+     "copies",
+     "keeper_confirm"
+    ],
+    "acceptance": "用印禁自动放行（必须人工确认）"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-seal-request"
+   }
+  },
+  {
+   "workflow_id": "admin.asset-inventory@1.0.0",
+   "domain": "admin",
+   "kind": "report",
+   "description": "资产盘点（在用/维修/闲置）",
+   "skill": "asset-inventory",
+   "trigger": {
+    "type": "command",
+    "expr": "asset-inventory"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "asset-inventory"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "资产盘点（在用/维修/闲置）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "asset-inventory-<ts>.json",
+    "format": "json",
+    "fields": [
+     "asset_id",
+     "status",
+     "holder_masked",
+     "location"
+    ],
+    "acceptance": "与 assets.csv 勾稽"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-asset-inventory"
+   }
+  },
+  {
+   "workflow_id": "admin.meeting-minutes@1.0.0",
+   "domain": "admin",
+   "kind": "calc",
+   "description": "会议纪要（决议/待办/责任人）",
+   "skill": "meeting-minutes",
+   "trigger": {
+    "type": "command",
+    "expr": "meeting-minutes"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "meeting-minutes"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "会议纪要（决议/待办/责任人）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "meeting-minutes-<ts>.json",
+    "format": "json",
+    "fields": [
+     "meeting",
+     "decisions",
+     "todos",
+     "owners"
+    ],
+    "acceptance": "待办必须带责任人与期限"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-meeting-minutes"
+   }
+  },
+  {
+   "workflow_id": "admin.supply-order@1.0.0",
+   "domain": "admin",
+   "kind": "calc",
+   "description": "办公用品下单（比价后）",
+   "skill": "asset-inventory",
+   "trigger": {
+    "type": "command",
+    "expr": "supply-order"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "asset-inventory"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "办公用品下单（比价后）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "supply-order-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "vendor_masked",
+     "qty",
+     "amount_yuan"
+    ],
+    "acceptance": "必须引用比价结论（最低价或说明）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-supply-order"
+   }
+  },
+  {
+   "workflow_id": "admin.vendor-price@1.0.0",
+   "domain": "admin",
+   "kind": "report",
+   "description": "供应商比价报告（三家原则）",
+   "skill": "purchase-compare",
+   "trigger": {
+    "type": "command",
+    "expr": "vendor-price"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "purchase-compare"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "供应商比价报告（三家原则）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "vendor-price-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "quotes",
+     "lowest",
+     "chosen"
+    ],
+    "acceptance": "不足三家须说明理由"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-vendor-price"
+   }
+  },
+  {
+   "workflow_id": "cmp.policy-review@1.0.0",
+   "domain": "cmp",
+   "kind": "report",
+   "description": "制度审查 checklist（逐条比对）",
+   "skill": "policy-checklist",
+   "trigger": {
+    "type": "command",
+    "expr": "policy-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "policy-checklist"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "制度审查 checklist（逐条比对）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "policy-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "policy",
+     "items",
+     "pass_rate",
+     "gaps"
+    ],
+    "acceptance": "Requirement→Release 链完整"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-policy-review"
+   }
+  },
+  {
+   "workflow_id": "cmp.evidence-pack@1.0.0",
+   "domain": "cmp",
+   "kind": "approve",
+   "description": "证据打包（append-only 对齐）",
+   "skill": "evidence-pack",
+   "trigger": {
+    "type": "command",
+    "expr": "evidence-pack"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "evidence-pack"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "证据打包（append-only 对齐） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "证据打包（append-only 对齐）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "evidence-pack-<ts>.json",
+    "format": "json",
+    "fields": [
+     "case",
+     "evidence_items",
+     "hashes",
+     "packaged_at"
+    ],
+    "acceptance": "打包后不可增删（append-only）"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-evidence-pack"
+   }
+  },
+  {
+   "workflow_id": "cmp.pipia-review@1.0.0",
+   "domain": "cmp",
+   "kind": "approve",
+   "description": "PIPIA 评审（高风险处理）",
+   "skill": "pipia-list",
+   "trigger": {
+    "type": "command",
+    "expr": "pipia-review"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "pipia-list"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "PIPIA 评审（高风险处理） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "PIPIA 评审（高风险处理）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "pipia-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "process",
+     "risk_level",
+     "residual",
+     "approvals"
+    ],
+    "acceptance": "高风险 residual 未降级不得上线"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-pipia-review"
+   }
+  },
+  {
+   "workflow_id": "cmp.audit-trail@1.0.0",
+   "domain": "cmp",
+   "kind": "report",
+   "description": "审计留痕月报（覆盖率）",
+   "skill": "policy-checklist",
+   "trigger": {
+    "type": "command",
+    "expr": "audit-trail"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "policy-checklist"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "审计留痕月报（覆盖率）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "audit-trail-<ts>.json",
+    "format": "json",
+    "fields": [
+     "scope",
+     "events",
+     "coverage_pct",
+     "gaps"
+    ],
+    "acceptance": "关键动作覆盖率 ≥95%"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-audit-trail"
+   }
+  },
+  {
+   "workflow_id": "cmp.training-check@1.0.0",
+   "domain": "cmp",
+   "kind": "report",
+   "description": "合规培训完成度核查",
+   "skill": "pipia-list",
+   "trigger": {
+    "type": "command",
+    "expr": "training-check"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "pipia-list"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "合规培训完成度核查：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "training-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dept",
+     "required",
+     "completed",
+     "rate"
+    ],
+    "acceptance": "必修未完成 >5% 上报管理层"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-training-check"
+   }
+  },
+  {
+   "workflow_id": "cmp.reg-filing@1.0.0",
+   "domain": "cmp",
+   "kind": "calc",
+   "description": "监管报送清单与截止提醒",
+   "skill": "evidence-pack",
+   "trigger": {
+    "type": "command",
+    "expr": "reg-filing"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "evidence-pack"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "监管报送清单与截止提醒：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "reg-filing-<ts>.json",
+    "format": "json",
+    "fields": [
+     "filing",
+     "authority",
+     "deadline",
+     "days_left"
+    ],
+    "acceptance": "7 天内到期必须置顶"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-reg-filing"
+   }
+  },
+  {
+   "workflow_id": "er-eap.offboard-approve@1.0.0",
+   "domain": "er-eap",
+   "kind": "approve",
+   "description": "离职流程（多级审批）",
+   "skill": "offboarding-flow",
+   "trigger": {
+    "type": "command",
+    "expr": "offboard-approve"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "offboarding-flow"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "离职流程（多级审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "离职流程（多级审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "offboard-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "last_day",
+     "handover_ok",
+     "approvals"
+    ],
+    "acceptance": "交接未完成不得进入最后一步"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-offboard-approve"
+   }
+  },
+  {
+   "workflow_id": "er-eap.eap-referral@1.0.0",
+   "domain": "er-eap",
+   "kind": "approve",
+   "description": "EAP 转介（双审批 + 匿名化）",
+   "skill": "eap-referral",
+   "trigger": {
+    "type": "command",
+    "expr": "eap-referral"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "eap-referral"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "EAP 转介（双审批 + 匿名化） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "EAP 转介（双审批 + 匿名化）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "eap-referral-<ts>.json",
+    "format": "json",
+    "fields": [
+     "anon_id",
+     "direction",
+     "approvals",
+     "sessions"
+    ],
+    "acceptance": "输出仅匿名编号；禁网；禁入记忆层"
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "dual": true,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-eap-referral"
+   }
+  },
+  {
+   "workflow_id": "er-eap.dispute-case@1.0.0",
+   "domain": "er-eap",
+   "kind": "report",
+   "description": "争议处理台账（阶段/证据）",
+   "skill": "dispute-ops",
+   "trigger": {
+    "type": "command",
+    "expr": "dispute-case"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "dispute-ops"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "争议处理台账（阶段/证据）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "dispute-case-<ts>.json",
+    "format": "json",
+    "fields": [
+     "case_id",
+     "type",
+     "stage",
+     "evidence_refs"
+    ],
+    "acceptance": "证据引用指向 evidence-pack"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-dispute-case"
+   }
+  },
+  {
+   "workflow_id": "er-eap.exit-interview@1.0.0",
+   "domain": "er-eap",
+   "kind": "report",
+   "description": "离职面谈纪要（结构化）",
+   "skill": "offboarding-flow",
+   "trigger": {
+    "type": "command",
+    "expr": "exit-interview"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "offboarding-flow"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "离职面谈纪要（结构化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "exit-interview-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "reasons",
+     "improvements",
+     "rehire_flag"
+    ],
+    "acceptance": "敏感表述经脱敏"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-exit-interview"
+   }
+  },
+  {
+   "workflow_id": "er-eap.anon-report@1.0.0",
+   "domain": "er-eap",
+   "kind": "report",
+   "description": "EAP 匿名使用月报（聚合口径）",
+   "skill": "eap-referral",
+   "trigger": {
+    "type": "command",
+    "expr": "anon-report"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "eap-referral"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "EAP 匿名使用月报（聚合口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "anon-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "month",
+     "total_referrals",
+     "by_direction",
+     "sessions"
+    ],
+    "acceptance": "仅聚合数字，无任何个体字段"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-anon-report"
+   }
+  },
+  {
+   "workflow_id": "er-eap.wellbeing-check@1.0.0",
+   "domain": "er-eap",
+   "kind": "calc",
+   "description": "组织健康度脉搏（匿名问卷聚合）",
+   "skill": "eap-referral",
+   "trigger": {
+    "type": "command",
+    "expr": "wellbeing-check"
+   },
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "eap-referral"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "组织健康度脉搏（匿名问卷聚合）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "wellbeing-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dimension",
+     "score",
+     "n",
+     "trend"
+    ],
+    "acceptance": "n<5 不出分（防反推）"
+   },
+   "hitl_nodes": [],
+   "dual": false,
+   "rollback": {
+    "method": "savepoint",
+    "tag": "pre-wellbeing-check"
+   }
+  }
+ ]
+}

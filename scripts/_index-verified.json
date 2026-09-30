@@ -1,0 +1,228 @@
+{
+ "verified_at": "2026-09-27T04:14:51.546Z",
+ "real": [
+  {
+   "name": "@juicesharp/rpiv-ask-user-question",
+   "version": "2.11.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@juicesharp/rpiv-ask-user-question/-/rpiv-ask-user-question-2.11.0.tgz"
+  },
+  {
+   "name": "pi-ansicat",
+   "version": "0.3.7",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-ansicat/-/pi-ansicat-0.3.7.tgz"
+  },
+  {
+   "name": "pi-aimail",
+   "version": "0.1.18",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-aimail/-/pi-aimail-0.1.18.tgz"
+  },
+  {
+   "name": "@companion-ai/feynman",
+   "version": "0.5.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@companion-ai/feynman/-/feynman-0.5.8.tgz"
+  },
+  {
+   "name": "@agimon-ai/doompi-grep",
+   "version": "0.0.1-alpha.65",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agimon-ai/doompi-grep/-/doompi-grep-0.0.1-alpha.65.tgz"
+  },
+  {
+   "name": "@agimon-ai/doompi-autostop",
+   "version": "0.0.1-alpha.70",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agimon-ai/doompi-autostop/-/doompi-autostop-0.0.1-alpha.70.tgz"
+  },
+  {
+   "name": "@agimon-ai/doompi-read",
+   "version": "0.0.1-alpha.65",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agimon-ai/doompi-read/-/doompi-read-0.0.1-alpha.65.tgz"
+  },
+  {
+   "name": "pi-background-tasks",
+   "version": "2.6.7",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-background-tasks/-/pi-background-tasks-2.6.7.tgz"
+  },
+  {
+   "name": "billion-context",
+   "version": "0.1.158",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/billion-context/-/billion-context-0.1.158.tgz"
+  },
+  {
+   "name": "pi-goal-x",
+   "version": "0.31.9",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-goal-x/-/pi-goal-x-0.31.9.tgz"
+  },
+  {
+   "name": "@langfuse/pi-observability-plugin",
+   "version": "0.1.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@langfuse/pi-observability-plugin/-/pi-observability-plugin-0.1.2.tgz"
+  },
+  {
+   "name": "pi-mcp-extension",
+   "version": "1.5.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-mcp-extension/-/pi-mcp-extension-1.5.0.tgz"
+  },
+  {
+   "name": "bigpowers",
+   "version": "2.88.9",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/bigpowers/-/bigpowers-2.88.9.tgz"
+  },
+  {
+   "name": "context-mode",
+   "version": "1.0.169",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/context-mode/-/context-mode-1.0.169.tgz"
+  },
+  {
+   "name": "pi-powerline-footer",
+   "version": "0.18.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-powerline-footer/-/pi-powerline-footer-0.18.0.tgz"
+  },
+  {
+   "name": "pi-claude-bridge",
+   "version": "0.8.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-claude-bridge/-/pi-claude-bridge-0.8.0.tgz"
+  },
+  {
+   "name": "@dietrichgebert/ponytail",
+   "version": "4.10.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@dietrichgebert/ponytail/-/ponytail-4.10.0.tgz"
+  },
+  {
+   "name": "@narumitw/pi-usage",
+   "version": "0.61.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-usage/-/pi-usage-0.61.1.tgz"
+  },
+  {
+   "name": "@langchain/langsmith-pi-extension",
+   "version": "0.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@langchain/langsmith-pi-extension/-/langsmith-pi-extension-0.2.0.tgz"
+  },
+  {
+   "name": "pi-cc-extensions",
+   "version": "0.9.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-cc-extensions/-/pi-cc-extensions-0.9.5.tgz"
+  },
+  {
+   "name": "@gotgenes/pi-permission-system",
+   "version": "35.0.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@gotgenes/pi-permission-system/-/pi-permission-system-35.0.0.tgz"
+  },
+  {
+   "name": "confluence-cli",
+   "version": "2.25.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/confluence-cli/-/confluence-cli-2.25.2.tgz"
+  },
+  {
+   "name": "pi-simplify",
+   "version": "0.2.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-simplify/-/pi-simplify-0.2.3.tgz"
+  },
+  {
+   "name": "@akagilnc/pi-workflow-roles",
+   "version": "0.1.5207",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@akagilnc/pi-workflow-roles/-/pi-workflow-roles-0.1.5207.tgz"
+  },
+  {
+   "name": "@raindrop-ai/pi-agent",
+   "version": "0.2.4",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@raindrop-ai/pi-agent/-/pi-agent-0.2.4.tgz"
+  },
+  {
+   "name": "pi-provider-litellm",
+   "version": "3.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-provider-litellm/-/pi-provider-litellm-3.2.0.tgz"
+  },
+  {
+   "name": "@ff-labs/pi-fff",
+   "version": "0.11.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@ff-labs/pi-fff/-/pi-fff-0.11.0.tgz"
+  },
+  {
+   "name": "@moyai/pi-session-hoarder",
+   "version": "0.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@moyai/pi-session-hoarder/-/pi-session-hoarder-0.2.0.tgz"
+  },
+  {
+   "name": "@narumitw/pi-goal",
+   "version": "0.54.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-goal/-/pi-goal-0.54.8.tgz"
+  },
+  {
+   "name": "agent-comms",
+   "version": "8.0.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/agent-comms/-/agent-comms-8.0.8.tgz"
+  },
+  {
+   "name": "@quintinshaw/pi-dynamic-workflows",
+   "version": "3.13.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@quintinshaw/pi-dynamic-workflows/-/pi-dynamic-workflows-3.13.0.tgz"
+  },
+  {
+   "name": "@amaster.ai/pi-memory-mem0",
+   "version": "0.1.18",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@amaster.ai/pi-memory-mem0/-/pi-memory-mem0-0.1.18.tgz"
+  },
+  {
+   "name": "pi-advisor-flow",
+   "version": "0.8.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-advisor-flow/-/pi-advisor-flow-0.8.2.tgz"
+  },
+  {
+   "name": "@narumitw/pi-btw",
+   "version": "0.61.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-btw/-/pi-btw-0.61.1.tgz"
+  },
+  {
+   "name": "@narumitw/pi-plan-mode",
+   "version": "0.58.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-plan-mode/-/pi-plan-mode-0.58.3.tgz"
+  },
+  {
+   "name": "@henryqw/pi-subagent",
+   "version": "22.2.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@henryqw/pi-subagent/-/pi-subagent-22.2.3.tgz"
+  },
+  {
+   "name": "gentle-pi",
+   "version": "3.7.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/gentle-pi/-/gentle-pi-3.7.0.tgz"
+  },
+  {
+   "name": "pi-prompt-template-model",
+   "version": "0.12.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-prompt-template-model/-/pi-prompt-template-model-0.12.3.tgz"
+  },
+  {
+   "name": "pi-btw",
+   "version": "0.6.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-btw/-/pi-btw-0.6.1.tgz"
+  },
+  {
+   "name": "cc-safety-net",
+   "version": "2.4.11",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/cc-safety-net/-/cc-safety-net-2.4.11.tgz"
+  },
+  {
+   "name": "@agentskit/doc-bridge",
+   "version": "1.12.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agentskit/doc-bridge/-/doc-bridge-1.12.0.tgz"
+  },
+  {
+   "name": "@trim21/personal-pi-extensions",
+   "version": "0.1.626",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@trim21/personal-pi-extensions/-/personal-pi-extensions-0.1.626.tgz"
+  },
+  {
+   "name": "@goofansu/pi-stuff",
+   "version": "1.0.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@goofansu/pi-stuff/-/pi-stuff-1.0.2.tgz"
+  },
+  {
+   "name": "pi-fabric",
+   "version": "0.97.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-fabric/-/pi-fabric-0.97.0.tgz"
+  }
+ ],
+ "fake": [
+  "@schovest/pi-goal"
+ ]
+}

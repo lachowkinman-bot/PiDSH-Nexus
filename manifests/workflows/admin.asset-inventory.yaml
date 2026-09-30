@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: admin.asset-inventory@1.0.0
+domain: admin
+description: "资产盘点（在用/维修/闲置）"
+trigger:
+  type: command
+  expr: asset-inventory
+nodes:
+  - id: n1
+    type: skill
+    ref: asset-inventory
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "资产盘点（在用/维修/闲置）：数据版本 + 产物哈希"
+deliverable:
+  file: asset-inventory-<ts>.json
+  format: json
+  fields:
+    - asset_id
+    - status
+    - holder_masked
+    - location
+  acceptance: "与 assets.csv 勾稽"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-asset-inventory

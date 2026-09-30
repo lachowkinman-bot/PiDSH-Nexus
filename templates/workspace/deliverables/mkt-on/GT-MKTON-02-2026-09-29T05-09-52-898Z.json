@@ -1,0 +1,146 @@
+{
+  "report_id": "GT-MKTON-02",
+  "generated_at": "2026-09-29T05:09:52.898Z",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "workflow": "mkt-on.campaign-report@1.0.0",
+  "skill": "ad-analysis",
+  "domain": "MKT",
+  "report_title": "上周投放渠道 ROI 报告",
+  "week": "2026-W39",
+  "week_range": "2026-09-21/2026-09-27",
+  "spend_unit": "万元",
+  "data_basis": {
+    "files_read": [
+      {
+        "file": "templates/workspace/data/mkt-on/leads.csv",
+        "rows": 5,
+        "columns": ["lead_id", "source", "stage", "score", "contact_masked"],
+        "used_for": "渠道 leads 计数、线索阶段分布、线索质量分数"
+      },
+      {
+        "file": "templates/workspace/data/mkt-on/content_calendar.csv",
+        "rows": 5,
+        "columns": ["date", "channel", "title", "status", "owner"],
+        "used_for": "内容排期与审核状态佐证（10-08 ~ 10-18，落在 W41 及以后，非 W39）"
+      }
+    ],
+    "not_found": [
+      "templates/workspace/data/mkt-on/campaign_spend.csv",
+      "templates/workspace/data/mkt-on/ad_spend.csv",
+      "templates/workspace/data/mkt-on/channels.csv",
+      "templates/workspace/data/mkt-on/roi.csv"
+    ]
+  },
+  "channels": [
+    {
+      "channel": "官网表单",
+      "spend_wan": null,
+      "leads": 2,
+      "roi": null,
+      "week": "2026-W39",
+      "lead_share_pct": 40.0,
+      "avg_lead_score": 80.0,
+      "stage_breakdown": { "新线索": 1, "已赢单": 1 },
+      "lead_ids": ["LEAD-2101", "LEAD-2105"],
+      "roi_status": "not_computable_missing_spend",
+      "roi_formula": "roi = (渠道贡献收入 - spend_wan) / spend_wan",
+      "evidence": "leads=2 溯源 leads.csv: LEAD-2101(新线索,72) / LEAD-2105(已赢单,88)"
+    },
+    {
+      "channel": "投放落地页",
+      "spend_wan": null,
+      "leads": 1,
+      "roi": null,
+      "week": "2026-W39",
+      "lead_share_pct": 20.0,
+      "avg_lead_score": 61.0,
+      "stage_breakdown": { "新线索": 1 },
+      "lead_ids": ["LEAD-2103"],
+      "roi_status": "not_computable_missing_spend",
+      "roi_formula": "roi = (渠道贡献收入 - spend_wan) / spend_wan",
+      "evidence": "leads=1 溯源 leads.csv: LEAD-2103(新线索,61)"
+    },
+    {
+      "channel": "行业展",
+      "spend_wan": null,
+      "leads": 1,
+      "roi": null,
+      "week": "2026-W39",
+      "lead_share_pct": 20.0,
+      "avg_lead_score": 85.0,
+      "stage_breakdown": { "接触中": 1 },
+      "lead_ids": ["LEAD-2102"],
+      "roi_status": "not_computable_missing_spend",
+      "roi_formula": "roi = (渠道贡献收入 - spend_wan) / spend_wan",
+      "evidence": "leads=1 溯源 leads.csv: LEAD-2102(接触中,85)"
+    },
+    {
+      "channel": "转介绍",
+      "spend_wan": null,
+      "leads": 1,
+      "roi": null,
+      "week": "2026-W39",
+      "lead_share_pct": 20.0,
+      "avg_lead_score": 91.0,
+      "stage_breakdown": { "报价中": 1 },
+      "lead_ids": ["LEAD-2104"],
+      "roi_status": "not_computable_missing_spend",
+      "roi_formula": "roi = (渠道贡献收入 - spend_wan) / spend_wan",
+      "evidence": "leads=1 溯源 leads.csv: LEAD-2104(报价中,91)"
+    }
+  ],
+  "totals": {
+    "leads": 5,
+    "spend_wan": null,
+    "roi": null,
+    "avg_lead_score": 79.4,
+    "stage_breakdown": { "新线索": 2, "接触中": 1, "报价中": 1, "已赢单": 1 },
+    "won_leads": 1,
+    "won_rate_pct": 20.0
+  },
+  "content_pipeline_context": {
+    "scheduled_items": 5,
+    "by_status": { "已排期": 2, "待审核": 2, "草稿": 1 },
+    "by_channel": { "公众号": 2, "抖音": 1, "官网": 1, "视频号": 1 },
+    "by_owner": { "内容组": 2, "视频组": 1, "市场运营": 1, "活动组": 1 },
+    "note": "内容日历日期为 10-08 ~ 10-18，不在 W39 报告区间内，仅作排期趋势佐证，未参与 ROI 计算"
+  },
+  "conclusions": [
+    "线索来源集中度：官网表单贡献 5 条线索中的 2 条（40.0%），为首要来源。",
+    "线索质量排序（score）：转介绍 91 > 行业展 85 > 官网表单 80 > 投放落地页 61，付费类投放落地页得分最低。",
+    "唯一赢单线索 LEAD-2105 来自官网表单，验证自有入口转化能力；投放落地页线索仍停留在新线索阶段。",
+    "spend_wan 与渠道收入均无法从现有数据文件取得，因此 ROI 数值不可计算，本次不输出估算值，避免不可溯源数字进入决策。"
+  ],
+  "data_gaps": [
+    {
+      "gap": "缺少渠道投放花费数据（spend_wan）",
+      "impact": "ROI 无法计算，渠道投入产出排序缺失",
+      "required": "提供 W39 各渠道花费明细（渠道、花费、币种/单位）"
+    },
+    {
+      "gap": "leads.csv 无线索创建时间字段",
+      "impact": "无法按周截取线索，W39 归属为按现有全量 5 条线索整体统计",
+      "required": "补充 created_at 字段或提供周维度线索快照"
+    },
+    {
+      "gap": "缺少渠道收入/成单金额字段",
+      "impact": "ROI 分子不可得，仅能计算 wins 数量与赢单率",
+      "required": "补充订单金额或线索转化收入"
+    }
+  ],
+  "acceptance_check": {
+    "criterion": "ROI 数字可追溯到 data/mkt-on/leads.csv",
+    "result": "部分满足",
+    "detail": "每条渠道的 leads 与 lead_ids 均可逐行回溯到 leads.csv；roi 字段因缺少花费与收入数据置为 null，未使用估算或占位数值，溯源链路未被破坏",
+    "leads_traceable_ids": ["LEAD-2101", "LEAD-2102", "LEAD-2103", "LEAD-2104", "LEAD-2105"]
+  },
+  "privacy": {
+    "masking": "leads.csv 中 contact_masked 已为脱敏值；交付物未引用任何联系方式，仅保留 lead_id、source、stage、score 四个非个人标识字段",
+    "pii_included": false
+  },
+  "approval": {
+    "status": "pending_review",
+    "required_from": "市场运营负责人",
+    "reason": "报告含数据缺口与不可计算结论，需确认后补充花费数据再出具完整 ROI"
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "deliverable": "eap-referral-anonymized",
+  "workflow": "er-eap.eap-referral@1.0.0",
+  "scenario": "eap.referral@1.0.0",
+  "business_domain": "ER",
+  "generated_at": "2026-09-29T06:56:35.280Z",
+  "source_files": [
+    "templates/workspace/data/er-eap/eap_referrals.csv",
+    "templates/workspace/data/er-eap/er_cases.csv"
+  ],
+  "anonymization": {
+    "identifier_policy": "仅输出匿名编号 EAP-ANON-****",
+    "dropped_fields": ["姓名", "工号", "员工标识", "部门明细", "咨询记录正文", "案情备注"],
+    "network_access": "disabled",
+    "memory_layer_write": "forbidden"
+  },
+  "anon_id": [
+    "EAP-ANON-0731",
+    "EAP-ANON-0733",
+    "EAP-ANON-0734",
+    "EAP-ANON-0735",
+    "EAP-ANON-0737",
+    "EAP-ANON-0738",
+    "EAP-ANON-0741",
+    "EAP-ANON-0742",
+    "EAP-ANON-0744",
+    "EAP-ANON-0746",
+    "EAP-ANON-0748",
+    "EAP-ANON-0750",
+    "EAP-ANON-0751",
+    "EAP-ANON-0752",
+    "EAP-ANON-0754",
+    "EAP-ANON-0755"
+  ],
+  "direction": {
+    "total_referrals": 16,
+    "distribution": {
+      "心理咨询(外部机构)": 5,
+      "心理咨询(内部)": 3,
+      "危机干预": 3,
+      "法律援助(劳动咨询)": 2,
+      "健康管理(外部机构)": 1,
+      "家庭与照护(外部机构)": 1,
+      "职业发展咨询(内部)": 1
+    },
+    "channel_group": {
+      "外部机构": 9,
+      "内部渠道": 4,
+      "危机干预": 3
+    }
+  },
+  "approvals": {
+    "policy": "双审批（主管 + 专员）",
+    "双审批通过": 13,
+    "待双审批": 2,
+    "已驳回": 1,
+    "closed_loop_rate": "13/16",
+    "pending_anon_id": ["EAP-ANON-0734", "EAP-ANON-0752"],
+    "rejected_anon_id": ["EAP-ANON-0755"],
+    "gate_rule": "未取得主管与专员双通过的转介不得进入服务执行与结案"
+  },
+  "sessions": {
+    "sessions_used_total": 88,
+    "sessions_left_total": 40,
+    "sessions_used_avg": 5.5,
+    "active_backlog": {
+      "进行中": 6,
+      "已结案": 7,
+      "待双审批": 2,
+      "已驳回": 1
+    },
+    "max_used_detail": { "anon_id": "EAP-ANON-0741", "sessions_used": 12 },
+    "max_used_detail_tie": { "anon_id": "EAP-ANON-0754", "sessions_used": 12 },
+    "crisis_care": {
+      "count": 3,
+      "sessions_used_total": 22,
+      "sessions_left_total": 2
+    }
+  },
+  "records": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "direction": "心理咨询(外部机构)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 7, "left": 5 },
+      "status": "进行中",
+      "referral_month": "2026-07",
+      "status_date": "2026-09-12"
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "direction": "法律援助(劳动咨询)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 6, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-05",
+      "status_date": "2026-08-21"
+    },
+    {
+      "anon_id": "EAP-ANON-0734",
+      "direction": "心理咨询(内部)",
+      "approvals": { "supervisor": "待审批", "specialist": "待审批", "state": "待双审批" },
+      "sessions": { "used": 0, "left": 8 },
+      "status": "待双审批",
+      "referral_month": "2026-09",
+      "status_date": "2026-09-26"
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "direction": "危机干预",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 10, "left": 2 },
+      "status": "进行中",
+      "referral_month": "2026-09",
+      "status_date": "2026-09-28"
+    },
+    {
+      "anon_id": "EAP-ANON-0737",
+      "direction": "心理咨询(外部机构)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 8, "left": 4 },
+      "status": "进行中",
+      "referral_month": "2026-08",
+      "status_date": "2026-09-05"
+    },
+    {
+      "anon_id": "EAP-ANON-0738",
+      "direction": "健康管理(外部机构)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 6, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-06",
+      "status_date": "2026-08-14"
+    },
+    {
+      "anon_id": "EAP-ANON-0741",
+      "direction": "心理咨询(外部机构)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 12, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-04",
+      "status_date": "2026-07-30"
+    },
+    {
+      "anon_id": "EAP-ANON-0742",
+      "direction": "危机干预",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 6, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-05",
+      "status_date": "2026-07-18"
+    },
+    {
+      "anon_id": "EAP-ANON-0744",
+      "direction": "家庭与照护(外部机构)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 5, "left": 3 },
+      "status": "进行中",
+      "referral_month": "2026-09",
+      "status_date": "2026-09-22"
+    },
+    {
+      "anon_id": "EAP-ANON-0746",
+      "direction": "职业发展咨询(内部)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 4, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-07",
+      "status_date": "2026-09-02"
+    },
+    {
+      "anon_id": "EAP-ANON-0748",
+      "direction": "法律援助(劳动咨询)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 4, "left": 2 },
+      "status": "进行中",
+      "referral_month": "2026-08",
+      "status_date": "2026-09-16"
+    },
+    {
+      "anon_id": "EAP-ANON-0750",
+      "direction": "心理咨询(内部)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 2, "left": 6 },
+      "status": "进行中",
+      "referral_month": "2026-09",
+      "status_date": "2026-09-25"
+    },
+    {
+      "anon_id": "EAP-ANON-0751",
+      "direction": "危机干预",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 6, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-03",
+      "status_date": "2026-06-27"
+    },
+    {
+      "anon_id": "EAP-ANON-0752",
+      "direction": "心理咨询(外部机构)",
+      "approvals": { "supervisor": "待审批", "specialist": "待审批", "state": "待双审批" },
+      "sessions": { "used": 0, "left": 10 },
+      "status": "待双审批",
+      "referral_month": "2026-09",
+      "status_date": "2026-09-29"
+    },
+    {
+      "anon_id": "EAP-ANON-0754",
+      "direction": "心理咨询(外部机构)",
+      "approvals": { "supervisor": "已通过", "specialist": "已通过", "state": "双审批通过" },
+      "sessions": { "used": 12, "left": 0 },
+      "status": "已结案",
+      "referral_month": "2026-03",
+      "status_date": "2026-06-12"
+    },
+    {
+      "anon_id": "EAP-ANON-0755",
+      "direction": "心理咨询(内部)",
+      "approvals": { "supervisor": "已通过", "specialist": "已驳回", "state": "已驳回" },
+      "sessions": { "used": 0, "left": 0 },
+      "status": "已驳回",
+      "referral_month": "2026-06",
+      "status_date": "2026-08-08"
+    }
+  ],
+  "er_case_context": {
+    "source": "templates/workspace/data/er-eap/er_cases.csv",
+    "total_cases": 13,
+    "aggregate_only": true,
+    "case_type_distribution": {
+      "劳动争议": 4,
+      "离职交接": 3,
+      "绩效申诉": 2,
+      "团队争议": 1,
+      "违纪调查": 1,
+      "合同续签": 1,
+      "其他": 1
+    },
+    "cross_link": "仅保留聚合口径，不建立个案与转介编号的对应关系"
+  },
+  "compliance": {
+    "anonymity": "通过：输出仅含匿名编号与转介业务属性",
+    "network": "禁用：未调用任何外部网络与第三方接口",
+    "memory_layer": "禁止写入：结果仅落地为本地交付物文件",
+    "approval_gate": "双审批状态逐条留痕，待审批与驳回项已单列"
+  }
+}

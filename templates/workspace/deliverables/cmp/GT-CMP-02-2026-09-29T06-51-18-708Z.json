@@ -1,0 +1,452 @@
+{
+  "report_id": "GT-CMP-02",
+  "report_type": "PIPIA_LAUNCH_CHECKLIST",
+  "title": "新业务上线 PIPIA 清单",
+  "scenario": "cmp.policy-review@1.0.0",
+  "skill": "pipia-list",
+  "workflow": "cmp.pipia-review@1.0.0",
+  "business_domain": "CMP",
+  "generated_at": "2026-09-29T06:51:18.708Z",
+  "source_files": [
+    "templates/workspace/data/cmp/pipia.csv",
+    "templates/workspace/data/cmp/policy_checklist.csv"
+  ],
+  "acceptance_rule": "高风险且 residual 未降级的处理活动不得上线",
+  "summary": {
+    "total_processes": 14,
+    "launchable": 9,
+    "blocked": 3,
+    "pending_review": 2,
+    "high_risk_total": 6,
+    "high_risk_not_downgraded": 3,
+    "high_risk_downgraded": 3,
+    "medium_risk_total": 6,
+    "low_risk_total": 2,
+    "dual_approval_complete": 9,
+    "dual_approval_pending": 3,
+    "dual_approval_absent": 2
+  },
+  "items": [
+    {
+      "pipia_id": "PIPIA-2026-001",
+      "process": "员工考勤人脸识别",
+      "risk_level": "高",
+      "residual": {
+        "level": "中",
+        "downgraded": true,
+        "basis": "闸机侧改为特征值本地比对；原始图像不留存"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "安全合规部",
+      "dept_masked": "DEPT-SEC-***",
+      "data_categories": "生物识别信息；考勤记录",
+      "legal_basis": "《个人信息保护法》第 26、55 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2026-12-01",
+      "check_ref": "CHK-2026-007",
+      "launch_gate": "可上线",
+      "gate_reason": "高风险已通过技术整改将 residual 由高降为中，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-002",
+      "process": "客户线索营销外呼",
+      "risk_level": "中",
+      "residual": {
+        "level": "低",
+        "downgraded": true,
+        "basis": "外呼名单二次确认；退订即时生效"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "市场部",
+      "dept_masked": "DEPT-MKT-***",
+      "data_categories": "联系方式；通话记录",
+      "legal_basis": "《个人信息保护法》第 13、24 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-01-10",
+      "check_ref": "CHK-2026-006",
+      "launch_gate": "可上线",
+      "gate_reason": "非高风险，residual 已降至低，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-003",
+      "process": "EAP 匿名咨询",
+      "risk_level": "高",
+      "residual": {
+        "level": "低",
+        "downgraded": true,
+        "basis": "沿用 er-eap 匿名编号与独立命名空间；结论只出等级"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "EAP专员",
+      "dept_masked": "DEPT-HR-***",
+      "data_categories": "敏感个人信息（健康）；咨询记录",
+      "legal_basis": "《个人信息保护法》第 28、29 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-03-01",
+      "check_ref": "CHK-2026-007",
+      "launch_gate": "可上线",
+      "gate_reason": "敏感个人信息经匿名化与去标识改造后 residual 降至低，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-004",
+      "process": "招聘简历筛选与背景调查",
+      "risk_level": "高",
+      "residual": {
+        "level": "高",
+        "downgraded": false,
+        "basis": "背景调查须单独授权；落选简历 6 个月删除（措施尚未落地生效）"
+      },
+      "approvals": "主管待/DPO待",
+      "owner": "人力资源部",
+      "dept_masked": "DEPT-HR-***",
+      "data_categories": "身份信息；履历与学历",
+      "legal_basis": "《个人信息保护法》第 13 条；《劳动合同法》第 8 条",
+      "assessment_status": "评估中",
+      "risk_status": "处理中",
+      "next_review": "2026-11-30",
+      "check_ref": "CHK-2026-003",
+      "launch_gate": "禁止上线",
+      "gate_reason": "高风险 residual 仍为高且未降级，主管与 DPO 审批均未出具，触发验收红线"
+    },
+    {
+      "pipia_id": "PIPIA-2026-005",
+      "process": "员工薪酬核算与个税申报",
+      "risk_level": "中",
+      "residual": {
+        "level": "低",
+        "downgraded": true,
+        "basis": "最小必要授权；传输与存储加密"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "财务部",
+      "dept_masked": "DEPT-FIN-***",
+      "data_categories": "薪酬；银行账户；身份信息",
+      "legal_basis": "《个人信息保护法》第 13 条；《个人所得税法》第 6 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-02-28",
+      "check_ref": "CHK-2026-005",
+      "launch_gate": "可上线",
+      "gate_reason": "非高风险，residual 已降至低，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-006",
+      "process": "内部通讯录与组织架构展示",
+      "risk_level": "低",
+      "residual": {
+        "level": "低",
+        "downgraded": false,
+        "downgrade_applicable": false,
+        "basis": "仅企业内部可见；员工可申请隐藏个人条目（初始即为低风险，无需降级）"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "信息技术部",
+      "dept_masked": "DEPT-IT-***",
+      "data_categories": "姓名；工号；部门与联系方式",
+      "legal_basis": "《个人信息保护法》第 13 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-06-30",
+      "check_ref": "CHK-2026-005",
+      "launch_gate": "可上线",
+      "gate_reason": "低风险且 residual 为低，不适用降级，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-007",
+      "process": "候选人面试评价留存",
+      "risk_level": "中",
+      "residual": {
+        "level": "中",
+        "downgraded": false,
+        "basis": "评价结构化并去除歧视性标签（仍处待评估状态，未生效）"
+      },
+      "approvals": "—",
+      "owner": "人力资源部",
+      "dept_masked": "DEPT-HR-***",
+      "data_categories": "面试评价；主观标签",
+      "legal_basis": "《个人信息保护法》第 55 条",
+      "assessment_status": "待评",
+      "risk_status": "待处理",
+      "next_review": "2026-12-31",
+      "check_ref": "CHK-2026-003",
+      "launch_gate": "待评审",
+      "gate_reason": "PIPIA 尚未出结论且无任何审批记录，不具备上线判定条件"
+    },
+    {
+      "pipia_id": "PIPIA-2026-008",
+      "process": "员工健康体检数据管理",
+      "risk_level": "高",
+      "residual": {
+        "level": "中",
+        "downgraded": true,
+        "basis": "体检机构直连员工本人；公司仅存完成状态"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "行政部",
+      "dept_masked": "DEPT-ADM-***",
+      "data_categories": "敏感个人信息（健康）",
+      "legal_basis": "《个人信息保护法》第 28、29 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-01-31",
+      "check_ref": "CHK-2026-007",
+      "launch_gate": "可上线",
+      "gate_reason": "高风险经数据最小化（公司侧不落地健康明细）将 residual 由高降为中，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-009",
+      "process": "办公区门禁与视频监控",
+      "risk_level": "高",
+      "residual": {
+        "level": "中",
+        "downgraded": false,
+        "basis": "监控留存期由 90 天压至 30 天并加明示标识（措施未确认生效）"
+      },
+      "approvals": "主管✓/DPO待",
+      "owner": "行政部",
+      "dept_masked": "DEPT-ADM-***",
+      "data_categories": "生物识别信息；行踪轨迹",
+      "legal_basis": "《个人信息保护法》第 26、55 条",
+      "assessment_status": "评估中",
+      "risk_status": "处理中",
+      "next_review": "2026-12-15",
+      "check_ref": "CHK-2026-007",
+      "launch_gate": "禁止上线",
+      "gate_reason": "高风险 residual 未完成降级确认，DPO 审批未出具，触发验收红线；另涉访客单独同意模板覆盖缺口"
+    },
+    {
+      "pipia_id": "PIPIA-2026-010",
+      "process": "离职员工数据留存与清除",
+      "risk_level": "中",
+      "residual": {
+        "level": "中",
+        "downgraded": false,
+        "basis": "建立留存期限表；超期自动清除（期限表尚未建立）"
+      },
+      "approvals": "—",
+      "owner": "人力资源部",
+      "dept_masked": "DEPT-HR-***",
+      "data_categories": "履历；绩效；离职原因",
+      "legal_basis": "《个人信息保护法》第 19、47 条",
+      "assessment_status": "评估中",
+      "risk_status": "处理中",
+      "next_review": "2026-11-30",
+      "check_ref": "CHK-2026-008",
+      "launch_gate": "待评审",
+      "gate_reason": "PIPIA 仍在评估中且无审批记录；依赖数据分类分级与留存期限整改（CHK-2026-008）先行完成"
+    },
+    {
+      "pipia_id": "PIPIA-2026-011",
+      "process": "客服通话录音与质检",
+      "risk_level": "中",
+      "residual": {
+        "level": "低",
+        "downgraded": true,
+        "basis": "录音前播报告知；保存 6 个月"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "客户服务部",
+      "dept_masked": "DEPT-CS-***",
+      "data_categories": "通话录音；声纹特征",
+      "legal_basis": "《个人信息保护法》第 13、26 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-04-30",
+      "check_ref": "CHK-2026-006",
+      "launch_gate": "可上线",
+      "gate_reason": "非高风险，residual 已降至低，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-012",
+      "process": "海外分支人事数据跨境传输",
+      "risk_level": "高",
+      "residual": {
+        "level": "高",
+        "downgraded": false,
+        "basis": "完成安全评估申报前数据不出境（申报未完成，措施未生效）"
+      },
+      "approvals": "主管待/DPO待",
+      "owner": "法务部",
+      "dept_masked": "DEPT-LGL-***",
+      "data_categories": "人事基础信息；薪酬",
+      "legal_basis": "《个人信息保护法》第 38、55 条；《数据出境安全评估办法》第 4 条",
+      "assessment_status": "评估中",
+      "risk_status": "处理中",
+      "next_review": "2026-11-15",
+      "check_ref": "CHK-2026-002",
+      "launch_gate": "禁止上线",
+      "gate_reason": "高风险 residual 仍为高且未降级，双审批均未出具；同时命中 CHK-2026-002 数据出境安全评估申报未完成（整改期限 2026-10-15），存在法定禁止性障碍"
+    },
+    {
+      "pipia_id": "PIPIA-2026-013",
+      "process": "员工绩效数据与晋升评审",
+      "risk_level": "中",
+      "residual": {
+        "level": "低",
+        "downgraded": true,
+        "basis": "评审意见双人复核；员工可申诉"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "人力资源部",
+      "dept_masked": "DEPT-HR-***",
+      "data_categories": "绩效结果；评审意见",
+      "legal_basis": "《个人信息保护法》第 13 条；《劳动合同法》第 4 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-03-31",
+      "check_ref": "CHK-2026-001",
+      "launch_gate": "可上线",
+      "gate_reason": "非高风险，residual 已降至低，双审批齐备"
+    },
+    {
+      "pipia_id": "PIPIA-2026-014",
+      "process": "培训平台学习行为记录",
+      "risk_level": "低",
+      "residual": {
+        "level": "低",
+        "downgraded": false,
+        "downgrade_applicable": false,
+        "basis": "仅用于培训管理；不用于绩效评价（初始即为低风险，无需降级）"
+      },
+      "approvals": "主管✓/DPO✓",
+      "owner": "人力资源部",
+      "dept_masked": "DEPT-HR-***",
+      "data_categories": "学习记录；考试成绩",
+      "legal_basis": "《个人信息保护法》第 13 条",
+      "assessment_status": "已出结论",
+      "risk_status": "已闭环",
+      "next_review": "2027-05-31",
+      "check_ref": "CHK-2026-014",
+      "launch_gate": "可上线",
+      "gate_reason": "低风险且 residual 为低，不适用降级，双审批齐备"
+    }
+  ],
+  "blocked_launch": [
+    {
+      "pipia_id": "PIPIA-2026-004",
+      "process": "招聘简历筛选与背景调查",
+      "risk_level": "高",
+      "residual_level": "高",
+      "residual_downgraded": false,
+      "approvals": "主管待/DPO待",
+      "release_condition": "完成背景调查单独授权落地与落选简历 6 个月删除机制，将 residual 降级并取得主管与 DPO 双审批后方可重新提审"
+    },
+    {
+      "pipia_id": "PIPIA-2026-009",
+      "process": "办公区门禁与视频监控",
+      "risk_level": "高",
+      "residual_level": "中",
+      "residual_downgraded": false,
+      "approvals": "主管✓/DPO待",
+      "release_condition": "确认 30 天留存期与明示标识实际生效、补齐访客单独同意模板（CHK-2026-007，整改期限 2026-10-18），并取得 DPO 审批"
+    },
+    {
+      "pipia_id": "PIPIA-2026-012",
+      "process": "海外分支人事数据跨境传输",
+      "risk_level": "高",
+      "residual_level": "高",
+      "residual_downgraded": false,
+      "approvals": "主管待/DPO待",
+      "release_condition": "完成数据出境安全评估申报（CHK-2026-002，整改期限 2026-10-15）并将 residual 降级，取得主管与 DPO 双审批"
+    }
+  ],
+  "pending_review": [
+    {
+      "pipia_id": "PIPIA-2026-007",
+      "process": "候选人面试评价留存",
+      "risk_level": "中",
+      "residual_level": "中",
+      "blocking_reason": "PIPIA 待评，无审批记录"
+    },
+    {
+      "pipia_id": "PIPIA-2026-010",
+      "process": "离职员工数据留存与清除",
+      "risk_level": "中",
+      "residual_level": "中",
+      "blocking_reason": "PIPIA 评估中，无审批记录"
+    }
+  ],
+  "checklist_cross_reference": [
+    {
+      "check_id": "CHK-2026-003",
+      "policy": "个人信息保护",
+      "item": "PIPIA 年度评估",
+      "level": "高",
+      "status": "待整改",
+      "owner": "安全合规部",
+      "finding": "5 项处理活动 PIPIA 未出结论（高风险 3 项 PIPIA-2026-004/009/012）",
+      "matched_pipia_ids": [
+        "PIPIA-2026-004",
+        "PIPIA-2026-009",
+        "PIPIA-2026-012",
+        "PIPIA-2026-007",
+        "PIPIA-2026-010"
+      ],
+      "rectify_deadline": "2026-10-20",
+      "consistency": "清单结论与制度检查完全一致：未出结论 5 项、其中高风险 3 项，均被判定为禁止上线或待评审"
+    },
+    {
+      "check_id": "CHK-2026-002",
+      "policy": "数据管理制度",
+      "item": "数据出境评估",
+      "level": "高",
+      "status": "待整改",
+      "owner": "法务部",
+      "finding": "海外分支人事数据出境未完成安全评估申报（对应 PIPIA-2026-012）",
+      "matched_pipia_ids": [
+        "PIPIA-2026-012"
+      ],
+      "rectify_deadline": "2026-10-15",
+      "consistency": "与 PIPIA-2026-012 禁止上线结论互相印证"
+    },
+    {
+      "check_id": "CHK-2026-007",
+      "policy": "个人信息保护",
+      "item": "敏感个人信息单独同意",
+      "level": "高",
+      "status": "待整改",
+      "owner": "安全合规部",
+      "finding": "人脸识别场景单独同意书模板未覆盖访客",
+      "matched_pipia_ids": [
+        "PIPIA-2026-001",
+        "PIPIA-2026-003",
+        "PIPIA-2026-008",
+        "PIPIA-2026-009"
+      ],
+      "rectify_deadline": "2026-10-18",
+      "consistency": "构成 PIPIA-2026-009 禁止上线的叠加理由；对已闭环的 001/003/008 构成复核提醒"
+    }
+  ],
+  "approval_statement": {
+    "dual_approval_requirement": "高风险及敏感个人信息处理活动须取得业务主管与 DPO 双审批",
+    "satisfied": [
+      "PIPIA-2026-001",
+      "PIPIA-2026-002",
+      "PIPIA-2026-003",
+      "PIPIA-2026-005",
+      "PIPIA-2026-006",
+      "PIPIA-2026-008",
+      "PIPIA-2026-011",
+      "PIPIA-2026-013",
+      "PIPIA-2026-014"
+    ],
+    "pending": [
+      "PIPIA-2026-004",
+      "PIPIA-2026-009",
+      "PIPIA-2026-012"
+    ],
+    "not_started": [
+      "PIPIA-2026-007",
+      "PIPIA-2026-010"
+    ]
+  },
+  "masking_statement": {
+    "applied": true,
+    "rule": "部门以 DEPT-<域>-*** 形式脱敏，检查与审批人以 E*** 形式脱敏，不输出自然人姓名与联系方式",
+    "verification": "交付物中 owner 字段仅为部门/岗位名称，无个人身份信息；对照表未随交付物导出"
+  },
+  "verdict": "14 项处理活动中 9 项可上线、3 项禁止上线、2 项待评审；禁止上线的 PIPIA-2026-004、PIPIA-2026-009、PIPIA-2026-012 均为高风险且 residual 未降级，严格执行验收标准“高风险 residual 未降级不得上线”。"
+}

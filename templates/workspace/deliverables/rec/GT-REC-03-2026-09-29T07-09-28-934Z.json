@@ -1,0 +1,135 @@
+{
+  "deliverable": "interview-schedule",
+  "task_id": "GT-REC-03",
+  "scenario": "rec.funnel-weekly@1.0.0",
+  "skill": "interview-summary",
+  "workflow": "rec.interview-schedule@1.0.0",
+  "generated_at": "2026-09-29T07:09:28.934Z",
+  "approval": {
+    "required": true,
+    "status": "pending_approval",
+    "type": "resume_forward_to_interviewer",
+    "reason": "候选人简历含手机号、身份证号等个人信息，脱敏后转发面试官方可执行",
+    "approver": "李**(HRD)",
+    "route": ["招聘负责人郑**发起", "HRD李**审批", "审批通过后转发对应面试官"]
+  },
+  "masking": {
+    "applied": true,
+    "rules": [
+      "candidate_masked: 姓名保留姓氏与屏蔽尾字（张****）",
+      "candidate_phone: 仅保留前 3 位与后 4 位（138****5678）",
+      "candidate_idcard: 仅保留前 4 位与后 4 位（4403**********1234）"
+    ],
+    "excluded_fields": ["candidate_phone", "candidate_idcard"]
+  },
+  "schedule": [
+    {
+      "interview_id": "IV002",
+      "candidate_id": "C001",
+      "candidate_masked": "张****",
+      "position": "销售经理",
+      "round": "second",
+      "slot": "2026-10-02 14:00",
+      "interviewers": ["李**(HRD)"],
+      "mode": "视频",
+      "status": "pending",
+      "conflict": false,
+      "note": "待复试评价"
+    },
+    {
+      "interview_id": "IV004",
+      "candidate_id": "C003",
+      "candidate_masked": "王****",
+      "position": "HRBP",
+      "round": "second",
+      "slot": "2026-10-05 16:00",
+      "interviewers": ["李**(HRD)"],
+      "mode": "现场",
+      "status": "pending",
+      "conflict": false,
+      "note": "复试待评，需补组织诊断案例"
+    },
+    {
+      "interview_id": "IV008",
+      "candidate_id": "C006",
+      "candidate_masked": "刘****",
+      "position": "前端工程师",
+      "round": "first",
+      "slot": "2026-10-06 11:00",
+      "interviewers": ["孙**(前端组长)"],
+      "mode": "视频",
+      "status": "pending",
+      "conflict": true,
+      "conflict_detail": "面试官孙**(前端组长)在 2026-10-06 11:00 同时段被 IV008 与 IV019 双占",
+      "note": "一面待评"
+    },
+    {
+      "interview_id": "IV019",
+      "candidate_id": "C013",
+      "candidate_masked": "何****",
+      "position": "前端工程师",
+      "round": "first",
+      "slot": "2026-10-06 11:00",
+      "interviewers": ["孙**(前端组长)"],
+      "mode": "现场",
+      "status": "pending",
+      "conflict": true,
+      "conflict_detail": "面试官孙**(前端组长)在 2026-10-06 11:00 同时段被 IV008 与 IV019 双占",
+      "note": "一面待评，与 IV008 面试官时段冲突待重排"
+    },
+    {
+      "interview_id": "IV021",
+      "candidate_id": "C014",
+      "candidate_masked": "冯****",
+      "position": "HRBP",
+      "round": "second",
+      "slot": "2026-10-06 15:00",
+      "interviewers": ["李**(HRD)"],
+      "mode": "现场",
+      "status": "pending",
+      "conflict": false,
+      "note": "复试待评，员工关系经验强"
+    },
+    {
+      "interview_id": "IV018",
+      "candidate_id": "C011",
+      "candidate_masked": "马****",
+      "position": "销售经理",
+      "round": "second",
+      "slot": "2026-10-07 09:30",
+      "interviewers": ["李**(HRD)"],
+      "mode": "视频",
+      "status": "pending",
+      "conflict": false,
+      "note": "复试待评，团队管理经验待验证"
+    },
+    {
+      "interview_id": "IV011",
+      "candidate_id": "C007",
+      "candidate_masked": "周****",
+      "position": "数据分析师",
+      "round": "final",
+      "slot": "2026-10-10 15:00",
+      "interviewers": ["李**(HRD)"],
+      "mode": "现场",
+      "status": "pending",
+      "conflict": false,
+      "note": "终面待评，建模与指标口径扎实"
+    }
+  ],
+  "conflicts": [
+    {
+      "severity": "red",
+      "interviewer": "孙**(前端组长)",
+      "slot": "2026-10-06 11:00",
+      "interview_ids": ["IV008", "IV019"],
+      "candidates": ["刘****", "何****"],
+      "action": "须改约其中一场（建议 IV019 顺延至 2026-10-06 14:00），改约后再走审批转发"
+    }
+  ],
+  "summary": {
+    "pending_interviews": 7,
+    "conflict_count": 1,
+    "red_flag_count": 1
+  }
+}

@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: ben.checkup-report@1.0.0
+domain: ben
+description: "体检报告聚合（脱敏）"
+trigger:
+  type: command
+  expr: checkup-report
+nodes:
+  - id: n1
+    type: skill
+    ref: checkup-report
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "体检报告聚合（脱敏）：数据版本 + 产物哈希"
+deliverable:
+  file: checkup-report-<ts>.json
+  format: json
+  fields:
+    - employee_masked
+    - abnormal_items
+    - followup
+    - year
+  acceptance: "个体健康指标不出原值，仅建议"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-checkup-report

@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: er-eap.dispute-case@1.0.0
+domain: er-eap
+description: "争议处理台账（阶段/证据）"
+trigger:
+  type: command
+  expr: dispute-case
+nodes:
+  - id: n1
+    type: skill
+    ref: dispute-ops
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "争议处理台账（阶段/证据）：数据版本 + 产物哈希"
+deliverable:
+  file: dispute-case-<ts>.json
+  format: json
+  fields:
+    - case_id
+    - type
+    - stage
+    - evidence_refs
+  acceptance: "证据引用指向 evidence-pack"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-dispute-case

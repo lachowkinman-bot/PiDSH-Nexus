@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: rec.funnel-weekly@1.0.0
+domain: rec
+description: "漏斗周报（阶段转化）"
+trigger:
+  type: command
+  expr: funnel-weekly
+nodes:
+  - id: n1
+    type: skill
+    ref: funnel-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "漏斗周报（阶段转化）：数据版本 + 产物哈希"
+deliverable:
+  file: funnel-weekly-<ts>.json
+  format: json
+  fields:
+    - stage
+    - count
+    - conversion_pct
+    - week
+  acceptance: "候选人 PII 仅掩码"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-funnel-weekly

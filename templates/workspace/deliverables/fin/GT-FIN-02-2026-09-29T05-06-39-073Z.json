@@ -1,0 +1,194 @@
+{
+  "report_id": "GT-FIN-02",
+  "scenario": "fin.expense-approve@1.0.0",
+  "executing_skill": "budget-analysis",
+  "workflow": "fin.monthly-report@1.0.0",
+  "business_domain": "FIN",
+  "generated_at": "2026-09-29T05:06:39.073Z",
+  "period": "2026-Q4",
+  "currency_unit": "万元",
+  "cost_wan": 784,
+  "revenue_wan": null,
+  "net_wan": null,
+  "required_field_status": {
+    "period": "已填列，来源于 budget.csv 的 period 列（Q4），本报告标注为 2026-Q4",
+    "revenue_wan": "无数据来源，置为 null。本次可读数据源仅含预算与费用凭证，不含收入/开票/回款台账，按禁止编造原则不填估计值",
+    "cost_wan": "已填列 784，来源于 budget.csv 五行 used_wan 逐行加总，可凭证级追溯",
+    "net_wan": "无数据来源，置为 null。net = revenue - cost，收入侧缺失导致不可计算"
+  },
+  "data_sources": [
+    {
+      "file": "templates/workspace/data/fin/budget.csv",
+      "rows": 5,
+      "columns": ["dept", "budget_wan", "used_wan", "remain_wan", "period"],
+      "read_status": "读取成功"
+    },
+    {
+      "file": "templates/workspace/data/fin/expenses.csv",
+      "rows": 5,
+      "columns": ["expense_id", "applicant_masked", "amount_yuan", "reason", "level", "status"],
+      "read_status": "读取成功"
+    },
+    {
+      "file": "templates/workspace/data/fin/revenue.csv | income.csv | ledger.csv",
+      "rows": 0,
+      "columns": [],
+      "read_status": "不存在（ENOENT），收入与总账数据缺失"
+    }
+  ],
+  "department_budget": [
+    {
+      "dept": "销售部",
+      "budget_wan": 320,
+      "used_wan": 214,
+      "remain_wan": 106,
+      "execution_rate_pct": 66.88,
+      "variance_to_full_pct": 33.12,
+      "status": "进度正常"
+    },
+    {
+      "dept": "市场部",
+      "budget_wan": 280,
+      "used_wan": 199,
+      "remain_wan": 81,
+      "execution_rate_pct": 71.07,
+      "variance_to_full_pct": 28.93,
+      "status": "进度正常"
+    },
+    {
+      "dept": "研发部",
+      "budget_wan": 410,
+      "used_wan": 187,
+      "remain_wan": 223,
+      "execution_rate_pct": 45.61,
+      "variance_to_full_pct": 54.39,
+      "status": "执行滞后，预算占用最大且剩余最高"
+    },
+    {
+      "dept": "行政部",
+      "budget_wan": 120,
+      "used_wan": 96,
+      "remain_wan": 24,
+      "execution_rate_pct": 80.0,
+      "variance_to_full_pct": 20.0,
+      "status": "执行最快，剩余额度最紧"
+    },
+    {
+      "dept": "人力资源部",
+      "budget_wan": 150,
+      "used_wan": 88,
+      "remain_wan": 62,
+      "execution_rate_pct": 58.67,
+      "variance_to_full_pct": 41.33,
+      "status": "进度正常"
+    }
+  ],
+  "budget_totals": {
+    "budget_wan": 1280,
+    "used_wan": 784,
+    "remain_wan": 496,
+    "execution_rate_pct": 61.25,
+    "crossfoot_check": "通过：逐行 budget_wan - used_wan = remain_wan，且分项加总与合计一致",
+    "highest_execution_dept": "行政部",
+    "lowest_execution_dept": "研发部",
+    "largest_absolute_remain_dept": "研发部"
+  },
+  "expense_voucher_analysis": {
+    "voucher_count": 5,
+    "total_amount_yuan": 64430,
+    "total_amount_wan": 6.443,
+    "by_status": [
+      { "status": "已报销", "count": 2, "amount_yuan": 2170, "share_pct": 3.37 },
+      { "status": "已批准", "count": 1, "amount_yuan": 3860, "share_pct": 5.99 },
+      { "status": "待审批", "count": 1, "amount_yuan": 15600, "share_pct": 24.21 },
+      { "status": "双审批中", "count": 1, "amount_yuan": 42800, "share_pct": 66.41 }
+    ],
+    "by_level": [
+      { "level": "L1", "count": 2, "amount_yuan": 2170 },
+      { "level": "L2", "count": 1, "amount_yuan": 3860 },
+      { "level": "L3", "count": 1, "amount_yuan": 15600 },
+      { "level": "L4", "count": 1, "amount_yuan": 42800 }
+    ],
+    "in_flight_amount_yuan": 58400,
+    "in_flight_share_pct": 90.64,
+    "settled_amount_yuan": 2170,
+    "settled_share_pct": 3.37,
+    "largest_voucher": {
+      "expense_id": "EXP-8815",
+      "amount_yuan": 42800,
+      "reason": "市场活动尾款",
+      "level": "L4",
+      "status": "双审批中"
+    },
+    "voucher_ids": ["EXP-8812", "EXP-8813", "EXP-8814", "EXP-8815", "EXP-8816"],
+    "reconciliation_to_budget": "未勾稽：凭证样本合计 6.443 万元与预算已用 784 万元量级差异显著，凭证表为抽样明细，非预算已用额的全部构成，不得直接将二者相等或相减"
+  },
+  "traceability": [
+    {
+      "metric": "cost_wan=784",
+      "level": "A级（凭证级）",
+      "evidence": "templates/workspace/data/fin/budget.csv 五行 used_wan：214+199+187+96+88=784",
+      "verifiable": true
+    },
+    {
+      "metric": "budget_wan=1280 / remain_wan=496 / execution_rate_pct=61.25",
+      "level": "A级（凭证级）",
+      "evidence": "templates/workspace/data/fin/budget.csv 全列逐行校验，交叉合计一致",
+      "verifiable": true
+    },
+    {
+      "metric": "凭证明细金额与状态分布（64430 元）",
+      "level": "A级（凭证级）",
+      "evidence": "templates/workspace/data/fin/expenses.csv 五个 expense_id 逐笔可查：EXP-8812/8813/8814/8815/8816",
+      "verifiable": true
+    },
+    {
+      "metric": "revenue_wan",
+      "level": "不可评（无来源）",
+      "evidence": "未提供收入、开票或回款台账文件，无法出具任何凭证",
+      "verifiable": false
+    },
+    {
+      "metric": "net_wan",
+      "level": "不可评（无来源）",
+      "evidence": "净额依赖收入侧数据，收入缺失导致公式不可闭环",
+      "verifiable": false
+    }
+  ],
+  "data_quality_issues": [
+    {
+      "issue": "期间口径冲突",
+      "detail": "budget.csv 的 period 列声明为 Q4，而交付物时间戳为 2026-09-29，9 月属 Q3。本报告保留源文件声明值 2026-Q4，需业务方确认季度归属",
+      "severity": "中",
+      "impact": "影响期间可比性与同比/环比口径"
+    },
+    {
+      "issue": "凭证表缺少部门维度",
+      "detail": "expenses.csv 无 dept 字段，无法将费用凭证归集到五个部门，故未出具部门级费用分摊",
+      "severity": "中",
+      "impact": "部门预算执行率与费用明细无法互证"
+    },
+    {
+      "issue": "收入与总账数据缺失",
+      "detail": "工作目录下不存在 revenue.csv / income.csv / ledger.csv，月度财报的收入、净额及利润侧结论无法产出",
+      "severity": "高",
+      "impact": "月报财报口径未闭环，A 级可溯性仅覆盖成本侧"
+    },
+    {
+      "issue": "在途审批占比过高",
+      "detail": "58400 元（90.64%）凭证处于待审批或双审批中状态，其中 L4 级 EXP-8815 单笔 42800 元（66.41%）",
+      "severity": "高",
+      "impact": "月末成本确认存在跨期风险，已用额可能低估"
+    }
+  ],
+  "analysis_conclusion": "本期五个部门预算合计 1280 万元，已用 784 万元，剩余 496 万元，整体执行率 61.25%，成本侧数据交叉合计校验通过、逐行可追溯至 budget.csv，属 A 级凭证级可溯。结构上呈现两极：行政部执行率 80.00% 为最高、剩余仅 24 万元，存在超支前期预警；研发部执行率 45.61% 为最低，同时持有最大预算盘子（410 万元）与最大剩余额度（223 万元），是年末预算沉淀的主要来源，建议对研发部启动预算执行加速或额度调剂评估。费用凭证样本合计 64430 元，其中 90.64% 仍处于在途审批（含单笔 42800 元的 L4 市场活动尾款），仅 3.37% 完成报销，提示月末审批积压与成本跨期确认风险。收入与净额因缺少收入台账来源，本次不予出具数字，财报口径仅成本侧闭环，需补齐收入数据后二次出报。",
+  "approval": {
+    "required_level": "L4 及以上（含大额在途凭证）",
+    "pending_vouchers": ["EXP-8813", "EXP-8815"],
+    "pending_amount_yuan": 58400,
+    "escalation": "EXP-8815（42800 元，L4，双审批中）需财务负责人与业务负责人双签；EXP-8813（15600 元，L3）由部门负责人审批",
+    "status": "待审批",
+    "note": "本报告为分析类交付物，不构成付款指令；在途凭证须走 fin.expense-approve 流程完成审批后方可入账",
+    "blocking_conditions": ["收入与总账数据缺失，财报口径未闭环", "budget.csv 期间口径（Q4）与报告时间戳（2026-09）不一致，需业务确认"]
+  }
+}

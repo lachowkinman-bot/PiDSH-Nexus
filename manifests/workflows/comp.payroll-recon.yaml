@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: comp.payroll-recon@1.0.0
+domain: comp
+description: "payroll 对账（应发 vs 实发）"
+trigger:
+  type: command
+  expr: payroll-recon
+nodes:
+  - id: n1
+    type: skill
+    ref: payroll-recon
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "payroll 对账（应发 vs 实发）：数据版本 + 产物哈希"
+deliverable:
+  file: payroll-recon-<ts>.json
+  format: json
+  fields:
+    - period
+    - headcount
+    - gross_diff
+    - items
+  acceptance: "差异 >0.5% 逐项列出"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-payroll-recon

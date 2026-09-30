@@ -1,0 +1,162 @@
+{
+  "deliverable_id": "GT-CMP-02",
+  "skill": "pipia-list",
+  "workflow": "cmp.pipia-review@1.0.0",
+  "scenario": "cmp.policy-review@1.0.0",
+  "domain": "CMP",
+  "generated_at": "2026-09-29T04:53:02.425Z",
+  "source_data": [
+    "templates/workspace/data/cmp/pipia.csv",
+    "templates/workspace/data/cmp/policy_checklist.csv"
+  ],
+  "acceptance_criterion": "高风险 residual 未降级不得上线",
+  "gate_summary": {
+    "total_processes": 3,
+    "high_risk_processes": 2,
+    "high_risk_with_downgraded_residual": 2,
+    "high_risk_blocked": 0,
+    "gate_result": "通过（2 项高风险均已由高降至中/低，须在指定审批签署后上线；无高风险未降级项）"
+  },
+  "pipia_list": [
+    {
+      "process": "员工考勤人脸识别",
+      "risk_level": "高",
+      "residual": "中",
+      "approvals": [
+        {
+          "role": "安全合规部（PIPIA 归口审批）",
+          "owner": "安全合规部",
+          "status": "待签署",
+          "basis": "个人信息保护 / PIPIA 年度评估（状态：进行中，复核日期 2026-11-15）"
+        },
+        {
+          "role": "法务部（数据出境与合法性审查）",
+          "owner": "法务部",
+          "status": "待签署",
+          "basis": "数据管理制度 / 数据出境评估（状态：待整改，复核日期 2026-10-30）"
+        },
+        {
+          "role": "人力资源部（业务场景确认）",
+          "owner": "人力资源部",
+          "status": "待签署",
+          "basis": "劳动用工制度 / 加班与调休条款（状态：合规，复核日期 2026-09-12）"
+        }
+      ],
+      "residual_downgrade": {
+        "from": "高",
+        "to": "中",
+        "basis": "人脸识别用于考勤打卡，采集目的单一且已限定于考勤场景",
+        "controls": [
+          "人脸模板加密存储并与人脸底库分离管理",
+          "替代打卡方式保留，员工可拒绝人脸识别",
+          "采集范围仅限在职员工，不涉及第三方或客户数据",
+          "出园即失效的模板留存期限与最小化留存策略"
+        ]
+      },
+      "next_review": "2026-12-01",
+      "owner": "安全合规部",
+      "gate_decision": "允许有条件上线；数据出境评估（2026-10-30）与 PIPIA 年度评估（2026-11-15）整改结论落地后须回填复核"
+    },
+    {
+      "process": "客户线索营销外呼",
+      "risk_level": "中",
+      "residual": "低",
+      "approvals": [
+        {
+          "role": "市场部（业务责任方）",
+          "owner": "市场部",
+          "status": "待签署",
+          "basis": "本流程归属部门，对线索来源与使用范围负责"
+        },
+        {
+          "role": "安全合规部（合规会签）",
+          "owner": "安全合规部",
+          "status": "待签署",
+          "basis": "个人信息保护 / PIPIA 年度评估（状态：进行中，复核日期 2026-11-15）"
+        }
+      ],
+      "residual_downgrade": {
+        "from": "中",
+        "to": "低",
+        "basis": "外呼对象为已有合法来源的客户线索，营销目的明确",
+        "controls": [
+          "外呼名单仅取自有合法授权来源的客户线索库",
+          "提供明确拒接/退订通道并同步至抑制名单",
+          "外呼频次与时段受营销服务规范约束",
+          "对话记录按最小必要留存，不采集敏感个人信息"
+        ]
+      },
+      "next_review": "2027-01-10",
+      "owner": "市场部",
+      "gate_decision": "允许上线"
+    },
+    {
+      "process": "EAP 匿名咨询",
+      "risk_level": "高",
+      "residual": "低",
+      "approvals": [
+        {
+          "role": "EAP 专员（保密责任方）",
+          "owner": "EAP专员",
+          "status": "待签署",
+          "basis": "本流程归属岗位，承担心理咨询内容保密义务"
+        },
+        {
+          "role": "安全合规部（敏感信息合规会签）",
+          "owner": "安全合规部",
+          "status": "待签署",
+          "basis": "个人信息保护 / PIPIA 年度评估（状态：进行中，复核日期 2026-11-15）"
+        }
+      ],
+      "residual_downgrade": {
+        "from": "高",
+        "to": "低",
+        "basis": "匿名化设计使咨询内容与员工身份不可关联，原始敏感信息不入业务系统",
+        "controls": [
+          "咨询记录与员工身份标识物理与逻辑强隔离",
+          "仅保留统计级聚合数据用于 EAP 服务质量分析",
+          "禁止向直线主管或人力资源部披露个案内容",
+          "设备与传输通道加密，退出机制与个案销毁流程留痕"
+        ]
+      },
+      "next_review": "2027-03-01",
+      "owner": "EAP专员",
+      "gate_decision": "允许上线；须维持匿名化技术措施，若引入实名预约功能须重新发起 PIPIA"
+    }
+  ],
+  "policy_checklist_refs": [
+    {
+      "policy": "劳动用工制度",
+      "item": "加班与调休条款",
+      "status": "合规",
+      "owner": "人力资源部",
+      "review_date": "2026-09-12"
+    },
+    {
+      "policy": "数据管理制度",
+      "item": "数据出境评估",
+      "status": "待整改",
+      "owner": "法务部",
+      "review_date": "2026-10-30"
+    },
+    {
+      "policy": "个人信息保护",
+      "item": "PIPIA 年度评估",
+      "status": "进行中",
+      "owner": "安全合规部",
+      "review_date": "2026-11-15"
+    },
+    {
+      "policy": "采购合规",
+      "item": "供应商准入审查",
+      "status": "合规",
+      "owner": "采购部",
+      "review_date": "2026-09-28"
+    }
+  ],
+  "open_items": [
+    "法务部：数据出境评估为待整改状态，须在 2026-10-30 前完成整改并出具结论",
+    "安全合规部：PIPIA 年度评估进行中，须在 2026-11-15 前完成并回填考勤人脸识别流程",
+    "所有流程的上线审批签署尚未完成，签署齐备后方可上线"
+  ]
+}

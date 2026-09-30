@@ -1,0 +1,84 @@
+{
+  "task_id": "GT-EAP-01",
+  "scenario": "eap.referral@1.0.0",
+  "skill": "eap-referral",
+  "workflow": "er-eap.eap-referral@1.0.0",
+  "generated_at": "2026-09-29T04:57:40.883Z",
+  "source_data": [
+    "templates/workspace/data/er-eap/eap_referrals.csv",
+    "templates/workspace/data/er-eap/er_cases.csv"
+  ],
+  "constraints": {
+    "anonymized_only": true,
+    "network_access": "disabled",
+    "memory_layer_write": "disabled",
+    "dual_approval_required": true
+  },
+  "referrals": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "direction": "心理咨询(外部机构)",
+      "approvals": {
+        "supervisor": "approved",
+        "specialist": "approved",
+        "dual_approval_satisfied": true
+      },
+      "sessions": {
+        "status": "进行中",
+        "remaining": 5
+      }
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "direction": "法律援助(劳动咨询)",
+      "approvals": {
+        "supervisor": "approved",
+        "specialist": "approved",
+        "dual_approval_satisfied": true
+      },
+      "sessions": {
+        "status": "已结案",
+        "remaining": 0
+      }
+    },
+    {
+      "anon_id": "EAP-ANON-0734",
+      "direction": "心理咨询(内部)",
+      "approvals": {
+        "supervisor": "pending",
+        "specialist": "pending",
+        "dual_approval_satisfied": false
+      },
+      "sessions": {
+        "status": "待双审批",
+        "remaining": 8
+      }
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "direction": "危机干预",
+      "approvals": {
+        "supervisor": "approved",
+        "specialist": "approved",
+        "dual_approval_satisfied": true
+      },
+      "sessions": {
+        "status": "进行中",
+        "remaining": 2
+      }
+    }
+  ],
+  "summary": {
+    "total_referrals": 4,
+    "dual_approval_satisfied": 3,
+    "pending_dual_approval": 1,
+    "pending_anon_ids": ["EAP-ANON-0734"],
+    "active_sessions_remaining": 15,
+    "high_priority_anon_ids": ["EAP-ANON-0735"]
+  },
+  "anonymization": {
+    "identifier_policy": "仅在输出中保留匿名编号 anon_id，未包含任何姓名、工号或可复原的个体标识",
+    "linked_er_case_reference": "none",
+    "note": "人员相关的 ER 案例（ER-1201~ER-1204）已按脱敏要求剥离归属关系，未与任何 anon_id 建立可复原映射"
+  }
+}

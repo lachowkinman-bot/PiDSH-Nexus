@@ -1,0 +1,329 @@
+{
+  "deliverable_id": "GT-ADMIN-03",
+  "skill": "meeting-minutes",
+  "workflow": "admin.meeting-minutes@1.0.0",
+  "scenario": "admin.procurement@1.0.0",
+  "generated_at": "2026-09-29T06:48:20.282Z",
+  "meeting": {
+    "meeting_id": "MM-ADMIN-2026-09-29-01",
+    "title": "行政部2026年第三季度采购执行与资产台账复核会",
+    "date": "2026-09-29",
+    "time_range": "14:00-15:30",
+    "duration_minutes": 90,
+    "chair": "行政部负责人",
+    "recorder": "行政部资产管理员",
+    "location": "A栋3层会议室A",
+    "attendees": [
+      {
+        "owner_id": "OWN-ADM-HEAD",
+        "role": "行政部负责人",
+        "dept": "行政部",
+        "identity": "主持人",
+        "identity_masked": true
+      },
+      {
+        "owner_id": "OWN-ADM-ASSET",
+        "role": "资产管理员",
+        "dept": "行政部",
+        "identity": "资产台账复核责任人",
+        "identity_masked": true
+      },
+      {
+        "owner_id": "OWN-ADM-BUYER",
+        "role": "采购经办",
+        "dept": "行政部",
+        "identity": "比价与请购单经办",
+        "identity_masked": true
+      },
+      {
+        "owner_id": "OWN-RD-LEAD",
+        "role": "研发部部门接口人",
+        "dept": "研发部",
+        "identity": "领用部门代表",
+        "identity_masked": true
+      },
+      {
+        "owner_id": "OWN-FIN-LEAD",
+        "role": "财务部部门接口人",
+        "dept": "财务部",
+        "identity": "预算与验收代表",
+        "identity_masked": true
+      },
+      {
+        "owner_id": "OWN-SALES-LEAD",
+        "role": "销售部部门负责人",
+        "dept": "销售部",
+        "identity": "预算缺口责任部门代表",
+        "identity_masked": true
+      }
+    ],
+    "agenda": [
+      "PR-2026-Q3-001 至 PR-2026-Q3-006 六个请购单的执行状态逐单过会",
+      "2026-09 采购入库资产与资产台账（assets.csv）一致性核对",
+      "预算受阻、单一来源驳回、闲置与报废资产的处置口径",
+      "待办责任人与完成期限的分派"
+    ],
+    "data_sources": [
+      "templates/workspace/data/admin/purchases.csv",
+      "templates/workspace/data/admin/assets.csv"
+    ],
+    "data_baseline_date": "2026-09-29"
+  },
+  "decisions": [
+    {
+      "decision_id": "D1",
+      "title": "Q3采购执行总盘确认",
+      "statement": "确认第三季度6个请购单的执行结果为：3单已入库（PR-2026-Q3-001、PR-2026-Q3-002、PR-2026-Q3-005），1单已批准待入库（PR-2026-Q3-003），1单待审批且预算受阻（PR-2026-Q3-004），1单已驳回（PR-2026-Q3-006）。已入库金额合计171960元，已批准待入库金额14900元，合计186860元；待审批14040元、已驳回12000元不占用本季度执行额度。",
+      "evidence": "purchases.csv 中 order_status 字段逐行汇总：131600+31960+8400=171960；+14900=186860",
+      "impact": "Q3采购执行口径统一，作为年度预算对账基线"
+    },
+    {
+      "decision_id": "D2",
+      "title": "最低价中选结论有效并归档比价材料",
+      "statement": "确认办公笔记本×20（供应商B，6580元/台，131600元）、会议椅×40（供应商C，799元/把，31960元）、会议室投影仪×2（供应商B，4200元/台，8400元）三家比价程序完整、最低价中选有效，比价记录随请购单归档，不再重新议价。",
+      "evidence": "purchases.csv 中同 request_id 下三条报价 selected 字段唯一，note 标注“最低价中选”且已入库",
+      "impact": "锁定已入库订单价格，避免事后重复议价"
+    },
+    {
+      "decision_id": "D3",
+      "title": "资产台账与采购入库数量不符必须限期补录",
+      "statement": "核对发现采购入库数量与资产台账登记条数不一致：办公笔记本入库20台而台账仅登记AST-0108至AST-0111共4条（缺16条）；会议椅入库40把而台账仅登记AST-0122至AST-0125共4把（缺36把）；会议室投影仪入库2台仅登记AST-0102一条（缺1条）。决议认定为台账登记不完整，须在2026-10-10前补录并逐条对应SN与使用人（脱敏留档）。",
+      "evidence": "purchases.csv 中 qty 字段（20/40/2）与 assets.csv 中同 purchase_ref 的记录条数（4/4/1）比对",
+      "impact": "资产账实一致，季度盘点数据可信"
+    },
+    {
+      "decision_id": "D4",
+      "title": "PR-2026-Q3-004 暂不批准，设预算落实硬期限",
+      "statement": "办公桌×12（销售部，最低价供应商B，1180元/张，14160元）因部门家具预算不足4360元被阻断审批，决议暂不批准。销售部须在2026-10-09前完成预算调整并书面确认；逾期未落实则本季度终止该请购单，按8张（9440元）重新报批。",
+      "evidence": "purchases.csv PR-2026-Q3-004 三行 budget_ok 均为 No，note 标注“预算缺口 4360 元”“阻断审批”",
+      "impact": "避免无预算支出，同时保留已完成比价结果的有效性"
+    },
+    {
+      "decision_id": "D5",
+      "title": "PR-2026-Q3-006 维持驳回，补件后重走流程",
+      "statement": "打印机原厂维保服务×1（供应商D，12000元，单一来源）因未达三家比价要求且缺少单一来源审批单，维持驳回。须补交单一来源审批单后重新提交，严禁“先服务后补签”；若2026-10-09前无法补齐审批单，改为公开比价重新采购。",
+      "evidence": "purchases.csv PR-2026-Q3-006：selected=Yes(单一来源)，order_status=已驳回，note 标注“未达三家比价且缺单一来源审批单”",
+      "impact": "守住采购合规底线，维保服务不中断的替代路径已明确"
+    },
+    {
+      "decision_id": "D6",
+      "title": "PR-2026-Q3-003 按最低价中选执行并设超期升级机制",
+      "statement": "激光打印机×5（财务部，供应商B，2980元/台，14900元）维持最低价中选结论；到货预计2026-10-05，行政部按此跟踪验收与入库登记，若超过预计到货日3天仍未到货，升级至行政部负责人并启动备选供应商询价。",
+      "evidence": "purchases.csv PR-2026-Q3-003 供应商B 行：selected=Yes(最低价)，order_status=已批准，note 标注“待入库（预计 2026-10-05）”",
+      "impact": "财务部办公设备补充计划可控"
+    },
+    {
+      "decision_id": "D7",
+      "title": "闲置资产30天调剂期规则",
+      "statement": "对离职释放产生的闲置资产（AST-0121 测试手机、AST-0127 显示器）设立30天内部调剂期，由资产管理员在内部需求渠道公示，公示期内有需求则调拨并更新台账；公示期满无需求则进入处置评估流程（变卖或报废），不得无限期滞留行政仓库。",
+      "evidence": "assets.csv 中 AST-0121、AST-0127 status=闲置，location=行政仓库，last_event 为离职释放（ER-2026-0912、ER-2026-0815）",
+      "impact": "降低闲置资产占用，避免资产无形损耗"
+    },
+    {
+      "decision_id": "D8",
+      "title": "报废资产清理与在修设备闭环",
+      "statement": "AST-0131 打印机(旧)已于2026-09-05报废审批通过（BF-2026-0905），须在2026-10-15前完成实物出库、台账注销与报废单归档；AST-0113 打印机报修工单 WX-2026-0916 须在2026-10-08前给出维修或换新的成本比较结论并闭环。",
+      "evidence": "assets.csv AST-0131 status=已报废 且仍位于行政仓库；AST-0113 status=维修中，last_event 为2026-09-16报修",
+      "impact": "清理报废实物、终止无限期维修挂账"
+    }
+  ],
+  "todos": [
+    {
+      "todo_id": "T01",
+      "task": "补录办公笔记本缺登记资产：按 PR-2026-Q3-001 入库20台，补齐AST-0108至AST-0111之外剩余16台的资产记录，逐条对应SN（脱敏）与研发部领用人，并完成领用登记确认",
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "due_date": "2026-10-10",
+      "priority": "high",
+      "linked_ref": "PR-2026-Q3-001 / AST-0108~AST-0111",
+      "status": "open",
+      "acceptance": "台账新增16条且与采购单数量20台一致，季度盘点可逐台核对"
+    },
+    {
+      "todo_id": "T02",
+      "task": "补录会议椅缺登记资产：按 PR-2026-Q3-002 入库40把，补齐AST-0122至AST-0125之外剩余36把的资产记录并标注实际楼层分布（会议室A、会议室B、A栋2层开放区）",
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "due_date": "2026-10-10",
+      "priority": "high",
+      "linked_ref": "PR-2026-Q3-002 / AST-0122~AST-0125",
+      "status": "open",
+      "acceptance": "台账新增36条且合计40把，位置信息与实物一致"
+    },
+    {
+      "todo_id": "T03",
+      "task": "补录会议室投影仪缺登记资产：按 PR-2026-Q3-005 入库2台仅登记AST-0102，须补充第2台资产记录并区分与2025-11-20购置的AST-0101（会议室A）的归属",
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "due_date": "2026-10-10",
+      "priority": "medium",
+      "linked_ref": "PR-2026-Q3-005 / AST-0102、AST-0101",
+      "status": "open",
+      "acceptance": "投影仪台账条数为2台，会议室A与会议室B归属清晰"
+    },
+    {
+      "todo_id": "T04",
+      "task": "闭环打印机维修工单：跟进 WX-2026-0916（AST-0113，行政仓库，维修中），完成维修报价与换新成本比较，出具维修或报废换新结论并关闭工单",
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "due_date": "2026-10-08",
+      "priority": "high",
+      "linked_ref": "AST-0113 / 工单 WX-2026-0916",
+      "status": "open",
+      "acceptance": "工单状态关闭，资产状态更新为在用或已报废"
+    },
+    {
+      "todo_id": "T05",
+      "task": "跟踪 PR-2026-Q3-003 激光打印机×5 到货与验收：按预计2026-10-05到货节点验收，超期3天升级行政部负责人，到货后完成5台打印机资产登记（财务部）",
+      "owner_id": "OWN-ADM-BUYER",
+      "owner": "行政部采购经办",
+      "dept": "行政部",
+      "due_date": "2026-10-12",
+      "priority": "high",
+      "linked_ref": "PR-2026-Q3-003 / 供应商B 14900元",
+      "status": "open",
+      "acceptance": "入库单与5台资产台账记录齐备，超期情况有升级记录"
+    },
+    {
+      "todo_id": "T06",
+      "task": "处理 PR-2026-Q3-004 预算缺口4360元：销售部完成家具预算调整并书面确认，向行政部提交预算落实凭证；逾期未落实则按8张（9440元）重新报批",
+      "owner_id": "OWN-SALES-LEAD",
+      "owner": "销售部部门负责人",
+      "dept": "销售部",
+      "due_date": "2026-10-09",
+      "priority": "high",
+      "linked_ref": "PR-2026-Q3-004 / 供应商B 1180元×12",
+      "status": "open",
+      "acceptance": "预算调整单落地或重新报批单据提交，二者有其一"
+    },
+    {
+      "todo_id": "T07",
+      "task": "补齐 PR-2026-Q3-006 单一来源审批单并重新提交打印机原厂维保服务×1（12000元）请购；无法补齐则改为公开比价重新采购",
+      "owner_id": "OWN-ADM-BUYER",
+      "owner": "行政部采购经办",
+      "dept": "行政部",
+      "due_date": "2026-10-09",
+      "priority": "high",
+      "linked_ref": "PR-2026-Q3-006 / 供应商D 12000元",
+      "status": "open",
+      "acceptance": "单一来源审批单归档并触发重新审批，或转公开比价的询价记录已发起"
+    },
+    {
+      "todo_id": "T08",
+      "task": "完成 AST-0131 打印机(旧)报废出库：实物清理出行政仓库、台账注销、报废审批单 BF-2026-0905 归档，并留存处置证明",
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "due_date": "2026-10-15",
+      "priority": "medium",
+      "linked_ref": "AST-0131 / BF-2026-0905",
+      "status": "open",
+      "acceptance": "实物不再出现在行政仓库盘点清单，台账状态与处置凭证一致"
+    },
+    {
+      "todo_id": "T09",
+      "task": "执行闲置资产30天调剂：对 AST-0121 测试手机、AST-0127 显示器启动内部公示，公示期内有需求则调拨并更新台账，期满无需求则提交处置评估",
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "due_date": "2026-10-29",
+      "priority": "medium",
+      "linked_ref": "AST-0121（ER-2026-0912）、AST-0127（ER-2026-0815）",
+      "status": "open",
+      "acceptance": "两台闲置资产状态更新为在用或已提交处置评估单"
+    },
+    {
+      "todo_id": "T10",
+      "task": "建立采购交期与预算双控台账：按供应商报价 lead_days 与实际入库日逐单核算偏差（PR-2026-Q3-001/002/005），并将“入库单数量=资产台账条数”纳入季度盘点检查项",
+      "owner_id": "OWN-ADM-HEAD",
+      "owner": "行政部负责人",
+      "dept": "行政部",
+      "due_date": "2026-10-16",
+      "priority": "medium",
+      "linked_ref": "purchases.csv lead_days/order_status 与 assets.csv 一致性比对",
+      "status": "open",
+      "acceptance": "双控台账模板发布，下一次季度盘点按该检查项执行"
+    }
+  ],
+  "owners": [
+    {
+      "owner_id": "OWN-ADM-HEAD",
+      "owner": "行政部负责人",
+      "dept": "行政部",
+      "responsibility": "采购与资产口径决策、超期升级裁决、双控机制建立",
+      "todo_ids": ["T10"]
+    },
+    {
+      "owner_id": "OWN-ADM-ASSET",
+      "owner": "行政部资产管理员",
+      "dept": "行政部",
+      "responsibility": "资产台账补录与账实一致、维修工单闭环、报废与闲置处置执行",
+      "todo_ids": ["T01", "T02", "T03", "T04", "T08", "T09"]
+    },
+    {
+      "owner_id": "OWN-ADM-BUYER",
+      "owner": "行政部采购经办",
+      "dept": "行政部",
+      "responsibility": "请购单比价与审批流转、到货验收跟踪、合规补件",
+      "todo_ids": ["T05", "T07"]
+    },
+    {
+      "owner_id": "OWN-SALES-LEAD",
+      "owner": "销售部部门负责人",
+      "dept": "销售部",
+      "responsibility": "本部门采购预算落实与缺口补救",
+      "todo_ids": ["T06"]
+    },
+    {
+      "owner_id": "OWN-FIN-LEAD",
+      "owner": "财务部部门接口人",
+      "dept": "财务部",
+      "responsibility": "本部门设备到货验收配合与资产接收",
+      "todo_ids": ["T05"]
+    },
+    {
+      "owner_id": "OWN-RD-LEAD",
+      "owner": "研发部部门接口人",
+      "dept": "研发部",
+      "responsibility": "笔记本领用登记确认与实物核对配合",
+      "todo_ids": ["T01"]
+    }
+  ],
+  "risk_register": [
+    {
+      "risk_id": "R1",
+      "description": "采购入库数量与资产台账条数系统性不符（笔记本缺16条、会议椅缺36条、投影仪缺1条），存在资产流失与盘点失真的风险",
+      "level": "high",
+      "mitigation": "T01/T02/T03 限期2026-10-10补录，T10 将一致性校验纳入季度盘点检查项"
+    },
+    {
+      "risk_id": "R2",
+      "description": "办公桌×12 预算缺口4360元若长期悬置，将影响销售部工位扩展计划",
+      "level": "medium",
+      "mitigation": "T06 设2026-10-09硬期限，逾期改按8张重新报批"
+    },
+    {
+      "risk_id": "R3",
+      "description": "打印机原厂维保服务被驳回后若不补件或改比价，设备维保将出现空窗",
+      "level": "medium",
+      "mitigation": "T07 限期补件或转公开比价，避免先服务后补签"
+    },
+    {
+      "risk_id": "R4",
+      "description": "闲置资产在行政仓库长期滞留，导致资产贬值并占用仓储空间",
+      "level": "low",
+      "mitigation": "D7/T09 设30天调剂期，期满强制进入处置评估"
+    }
+  ],
+  "verification": {
+    "required_fields_present": ["meeting", "decisions", "todos", "owners"],
+    "todos_total": 10,
+    "todos_with_owner_and_due": 10,
+    "acceptance_check": "passed",
+    "check_note": "10条待办全部具备 owner_id/owner 责任人与 due_date 期限，满足“待办必须带责任人与期限”验收标准"
+  }
+}

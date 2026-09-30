@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: er-eap.anon-report@1.0.0
+domain: er-eap
+description: "EAP 匿名使用月报（聚合口径）"
+trigger:
+  type: command
+  expr: anon-report
+nodes:
+  - id: n1
+    type: skill
+    ref: eap-referral
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "EAP 匿名使用月报（聚合口径）：数据版本 + 产物哈希"
+deliverable:
+  file: anon-report-<ts>.json
+  format: json
+  fields:
+    - month
+    - total_referrals
+    - by_direction
+    - sessions
+  acceptance: "仅聚合数字，无任何个体字段"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-anon-report

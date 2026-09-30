@@ -1,0 +1,153 @@
+{
+  "deliverable_id": "GT-MKTOFF-02",
+  "generated_at": "2026-09-29T05:08:20.687Z",
+  "scenario": "mkt-off.event-roi@1.0.0",
+  "workflow": "mkt-off.material-review@1.0.0",
+  "skill": "material-compliance",
+  "domain": "MKT",
+  "review_scope": "广告法合规审查 + 品牌规范审查（全量台账物料）",
+  "regulation_basis": [
+    "《中华人民共和国广告法》第八条：广告内容应当清楚、明白，不得使人产生误解",
+    "《中华人民共和国广告法》第九条：不得使用‘国家级’‘最高级’‘最佳’等绝对化用语",
+    "《中华人民共和国广告法》第十一条：引用数据、统计资料等应当真实、准确并表明出处",
+    "《中华人民共和国广告法》第二十八条：不得含有虚假或者引人误解的内容",
+    "《广告绝对化用语执法指南》",
+    "内部《品牌视觉识别（VI）规范》最小字号与标识使用条款"
+  ],
+  "source_files": [
+    "templates/workspace/data/mkt-off/events.csv",
+    "templates/workspace/data/mkt-off/materials.csv"
+  ],
+  "material_count": 4,
+  "materials": [
+    {
+      "material": "经销商手册 V5",
+      "owner": "品牌组",
+      "source_review_status": "通过",
+      "legal_check": "通过",
+      "brand_check": "通过",
+      "final_status": "可外发（须完成外发审批）",
+      "external_release_allowed": true,
+      "approval_required": true,
+      "issues": [],
+      "legal_basis": [
+        "未发现《广告法》第九条禁止的绝对化用语",
+        "无未标明出处的数据、统计资料引用（第十一条）",
+        "版面字号满足品牌 VI 最小字号要求，内容清楚明白（第八条）"
+      ],
+      "note": "台账原始结论为双项通过，本次复核未发现新增合规风险；作为经销商渠道对外发放物料，发放前仍需按渠道外发审批流程留痕。"
+    },
+    {
+      "material": "展台易拉宝",
+      "owner": "设计组",
+      "source_review_status": "审核中",
+      "legal_check": "通过",
+      "brand_check": "待改",
+      "final_status": "不得外发（品牌项待改，退回修改）",
+      "external_release_allowed": false,
+      "approval_required": true,
+      "issues": [
+        "品牌检查为‘待改’：品牌视觉要素未定稿，存在标识使用与版面规范偏差",
+        "审查流程处于‘审核中’，未取得终审结论，不具备外发条件"
+      ],
+      "legal_basis": [
+        "广告用语未触及《广告法》第九条绝对化用语清单",
+        "待改项属于品牌 VI 规范范畴，需设计组改稿后复检"
+      ],
+      "note": "该物料关联展位类活动，现场曝光集中、纠错成本高，建议在展位搭建前完成改稿与复检，避免带缺陷物料上线。"
+    },
+    {
+      "material": "伴手礼包装",
+      "owner": "行政支持",
+      "source_review_status": "通过",
+      "legal_check": "通过",
+      "brand_check": "通过",
+      "final_status": "可外发（须完成外发审批）",
+      "external_release_allowed": true,
+      "approval_required": true,
+      "issues": [],
+      "legal_basis": [
+        "未发现《广告法》第九条绝对化用语及第二十八条引人误解表述",
+        "包装无夸大功效、无虚假承诺类表述",
+        "品牌标识与字号符合内部 VI 规范"
+      ],
+      "note": "台账原始结论为双项通过，本次复核维持通过结论；作为赠品类物料，发放前须经外发审批确认印制数量与用途。"
+    },
+    {
+      "material": "现场背板",
+      "owner": "设计组",
+      "source_review_status": "驳回",
+      "legal_check": "通过",
+      "brand_check": "字号不合规",
+      "final_status": "不得外发（已驳回，须重新设计与复检）",
+      "external_release_allowed": false,
+      "approval_required": true,
+      "issues": [
+        "品牌检查不通过：字号不合规，低于品牌 VI 规范最小字号要求",
+        "字号过小影响现场可读性，有违《广告法》第八条内容应当清楚、明白的要求",
+        "台账状态为‘驳回’，属于已明确否决的物料，禁止进入制作与外发环节"
+      ],
+      "legal_basis": [
+        "《广告法》第八条：广告内容应当清楚、明白",
+        "内部《品牌视觉识别（VI）规范》最小字号条款",
+        "《广告法》第九条用语审查未发现违规"
+      ],
+      "note": "现场背板属大幅面现场物料，改稿后需重新走品牌复检，复检通过并经外发审批后方可使用。"
+    }
+  ],
+  "overall_status": "禁止外发",
+  "release_gate": {
+    "rule": "任一物料 legal_check 或 brand_check 未通过，即不得外发；外发一律走审批",
+    "blocked_materials": [
+      "展台易拉宝",
+      "现场背板"
+    ],
+    "releasable_materials": [
+      "经销商手册 V5",
+      "伴手礼包装"
+    ],
+    "external_release_requires_approval": true,
+    "approval_route": "设计组改稿 → 品牌组合规复检 → 市场部外发审批 → 制作/发放留痕",
+    "next_action": "退回设计组整改展台易拉宝品牌待改项与现场背板字号问题，复检通过后重新提交外发审批；已通过的经销商手册 V5、伴手礼包装可进入外发审批队列"
+  },
+  "event_context": [
+    {
+      "event": "华南渠道会",
+      "city": "广州",
+      "budget_wan": 80,
+      "actual_wan": 76,
+      "roi": 1.9,
+      "owner": "渠道部"
+    },
+    {
+      "event": "经销商大会",
+      "city": "佛山",
+      "budget_wan": 150,
+      "actual_wan": 168,
+      "roi": 2.4,
+      "owner": "市场部"
+    },
+    {
+      "event": "行业展位",
+      "city": "深圳",
+      "budget_wan": 60,
+      "actual_wan": 55,
+      "roi": 1.2,
+      "owner": "品牌组"
+    },
+    {
+      "event": "年终答谢会",
+      "city": "广州",
+      "budget_wan": 40,
+      "actual_wan": 0,
+      "roi": 0,
+      "owner": "筹备中"
+    }
+  ],
+  "event_context_note": "物料台账未标注关联活动字段，故不对物料与活动做强制映射。活动数据仅作为优先级参考：行业展位 ROI 1.2 为已执行活动最低值，其现场类物料（展台易拉宝、现场背板）当前均未通过审查；年终答谢会实际投放为 0 且处于筹备中，尚无物料进入审查台账，后续新增物料须补审。",
+  "data_fidelity": {
+    "materials_csv_rows": 4,
+    "reviewed_rows": 4,
+    "discrepancy_note": "任务描述为‘三套物料’，源文件 materials.csv 实际登记 4 套物料；本次按源文件全量审查，确保无漏审，避免以描述数量覆盖台账事实。"
+  }
+}

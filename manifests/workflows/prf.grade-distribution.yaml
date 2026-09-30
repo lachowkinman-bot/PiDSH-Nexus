@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: prf.grade-distribution@1.0.0
+domain: prf
+description: "等级分布与强制分布比对"
+trigger:
+  type: command
+  expr: grade-distribution
+nodes:
+  - id: n1
+    type: skill
+    ref: calibration-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "等级分布与强制分布比对：数据版本 + 产物哈希"
+deliverable:
+  file: grade-distribution-<ts>.json
+  format: json
+  fields:
+    - grade
+    - count
+    - pct
+    - target_pct
+  acceptance: "偏离强制分布线 >5pct 标红"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-grade-distribution

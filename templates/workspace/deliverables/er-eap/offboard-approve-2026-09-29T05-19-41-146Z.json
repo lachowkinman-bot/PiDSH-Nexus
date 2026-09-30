@@ -1,0 +1,173 @@
+{
+  "deliverable_id": "GT-ER-01",
+  "deliverable_file": "offboard-approve-2026-09-29T05-19-41-146Z.json",
+  "scenario": "eap.referral@1.0.0",
+  "skill": "offboarding-flow",
+  "workflow": "er-eap.offboard-approve@1.0.0",
+  "generated_at": "2026-09-29T05:19:41.146Z",
+  "business_subject": "分支机构裁撤 — 员工关系风险清单（离职交接 + EAP 转介 审批门禁）",
+  "source_files": [
+    "templates/workspace/data/er-eap/er_cases.csv",
+    "templates/workspace/data/er-eap/eap_referrals.csv"
+  ],
+  "record_counts": {
+    "er_cases": 4,
+    "eap_referrals": 4,
+    "offboarding_risk_list": 8
+  },
+  "masking_rule": "员工身份一律以掩码标识呈现：EAP 记录沿用源数据匿名 ID（EAP-ANON-****），ER 记录以 case_id + EMP-**** 形式掩码；清单不落库姓名、工号、机构全称等可直接识别信息，EAP 咨询方向与危机干预状态按最小可知原则仅保留必要字段。",
+  "employee_masked": "ER-1202-EMP-****",
+  "last_day": "未锁定 — 离职交接处于审批中（N+1 方案），需交接清单双签归档后方可确认最后工作日",
+  "handover_ok": false,
+  "approvals": "主管待/专员待（stage=审批中，会签未完成）",
+  "offboarding_risk_list": [
+    {
+      "record_id": "ER-1202",
+      "record_type": "离职交接",
+      "source": "er_cases.csv",
+      "employee_masked": "ER-1202-EMP-****",
+      "last_day": "未锁定 — 交接未完成，最后工作日不可确认",
+      "handover_ok": false,
+      "approvals": "主管待/专员待（stage=审批中，N+1 方案会签未完成）",
+      "approvals_complete": false,
+      "gated_by": "handover_and_approvals",
+      "final_step_allowed": false,
+      "risk_level": "高",
+      "risk": "分支机构裁撤期间唯一在办的离职交接案件，N+1 方案未双签、交接清单未闭环，存在资产/权限/资料脱管与后续仲裁举证风险",
+      "action": "先完成交接清单双签与资料归档，再提交离职终审；终审放行前禁止触发结算与权限回收"
+    },
+    {
+      "record_id": "ER-1201",
+      "record_type": "绩效申诉",
+      "source": "er_cases.csv",
+      "employee_masked": "ER-1201-EMP-****",
+      "last_day": "不适用 — 绩效申诉调解中，未进入离职流程",
+      "handover_ok": true,
+      "approvals": "未完成（stage=调解中，已安排面谈；er_cases.csv 未记录审批节点）",
+      "approvals_complete": false,
+      "gated_by": "approvals",
+      "final_step_allowed": false,
+      "risk_level": "中",
+      "risk": "裁撤背景下绩效申诉易升级为群体性争议，调解结论缺失将影响同批人员沟通口径",
+      "action": "面谈后限期出具调解结论，并纳入裁撤沟通统一口径；结论未出前不进入结案归档"
+    },
+    {
+      "record_id": "ER-1203",
+      "record_type": "团队争议",
+      "source": "er_cases.csv",
+      "employee_masked": "ER-1203-EMP-****",
+      "last_day": "不适用 — 团队争议已结案，未进入离职流程",
+      "handover_ok": true,
+      "approvals": "已完成（双方签字归档）",
+      "approvals_complete": true,
+      "gated_by": "none",
+      "final_step_allowed": true,
+      "risk_level": "低",
+      "risk": "案件已闭环，仅需保留归档件以备裁撤期间口径追溯",
+      "action": "归档件留存，无需追加动作"
+    },
+    {
+      "record_id": "ER-1204",
+      "record_type": "违纪调查",
+      "source": "er_cases.csv",
+      "employee_masked": "ER-1204-EMP-****",
+      "last_day": "不适用 — 违纪调查中，未进入离职流程",
+      "handover_ok": true,
+      "approvals": "未完成（stage=调查中，合规部主办；审批链条未启动）",
+      "approvals_complete": false,
+      "gated_by": "approvals",
+      "final_step_allowed": false,
+      "risk_level": "中",
+      "risk": "证据已封存但调查未结论，若与裁撤名单重叠，离职时点可能影响调查完整性与处理时效",
+      "action": "调查结论出具后再判定是否与裁撤解除动作并行；封存证据保持只读"
+    },
+    {
+      "record_id": "EAP-ANON-0734",
+      "record_type": "心理咨询(内部)",
+      "source": "eap_referrals.csv",
+      "employee_masked": "EAP-ANON-0734",
+      "last_day": "不适用 — EAP 内部咨询转介，未关联离职工作日",
+      "handover_ok": false,
+      "approvals": "主管待/专员待",
+      "approvals_complete": false,
+      "gated_by": "handover_and_approvals",
+      "final_step_allowed": false,
+      "risk_level": "中",
+      "risk": "转介处于待双审批且会话额度 8 次未启用，裁撤期员工支持资源空转，情绪风险无法及时承接",
+      "action": "补齐主管与专员双审批后启动首次咨询；审批未完成前不得将该转介标记为结案"
+    },
+    {
+      "record_id": "EAP-ANON-0735",
+      "record_type": "危机干预",
+      "source": "eap_referrals.csv",
+      "employee_masked": "EAP-ANON-0735",
+      "last_day": "不适用 — 危机干预进行中，未关联离职工作日",
+      "handover_ok": true,
+      "approvals": "主管✓/专员✓",
+      "approvals_complete": true,
+      "gated_by": "none",
+      "final_step_allowed": true,
+      "risk_level": "高",
+      "risk": "危机干预进行中且剩余会话仅 2 次，若与裁撤解除动作叠加，存在急性心理风险与干预中断风险",
+      "action": "优先补充干预额度并绑定 24 小时响应通道；该员工若在裁撤名单内，解除时点需与干预窗口错开"
+    },
+    {
+      "record_id": "EAP-ANON-0731",
+      "record_type": "心理咨询(外部机构)",
+      "source": "eap_referrals.csv",
+      "employee_masked": "EAP-ANON-0731",
+      "last_day": "不适用 — 外部机构咨询转介，未关联离职工作日",
+      "handover_ok": true,
+      "approvals": "主管✓/专员✓",
+      "approvals_complete": true,
+      "gated_by": "none",
+      "final_step_allowed": true,
+      "risk_level": "低",
+      "risk": "转介手续完备、服务进行中，剩余 5 次会话；裁撤若中断服务需提前告知外部机构",
+      "action": "保持服务连续性，涉及裁撤时提前 10 个工作日通知外部机构并结转剩余额度"
+    },
+    {
+      "record_id": "EAP-ANON-0733",
+      "record_type": "法律援助(劳动咨询)",
+      "source": "eap_referrals.csv",
+      "employee_masked": "EAP-ANON-0733",
+      "last_day": "不适用 — 劳动法律咨询已结案，未关联离职工作日",
+      "handover_ok": true,
+      "approvals": "主管✓/专员✓",
+      "approvals_complete": true,
+      "gated_by": "none",
+      "final_step_allowed": true,
+      "risk_level": "低",
+      "risk": "法律援助已结案，剩余会话 0 次；结案记录可作为裁撤协商的合规痕迹",
+      "action": "结案记录留档，无需追加动作"
+    }
+  ],
+  "blocked_from_final_step": [
+    "ER-1201",
+    "ER-1202",
+    "ER-1204",
+    "EAP-ANON-0734"
+  ],
+  "proceedable_records": [
+    "ER-1203",
+    "EAP-ANON-0731",
+    "EAP-ANON-0733",
+    "EAP-ANON-0735"
+  ],
+  "data_gaps": [
+    "er_cases.csv 未提供审批字段与最后工作日，ER 类记录的 approvals 与 last_day 由 stage、note 推导并显式标注推导来源",
+    "未提供分支机构裁撤名单与涉及人数，在办离职交接仅 ER-1202 一条，清单覆盖度存疑，需补裁撤花名册后重跑",
+    "EAP 匿名 ID 与 ER 案件编号之间无关联字段，无法判定同一员工是否同时存在离职交接与危机干预两线风险叠加"
+  ],
+  "acceptance_check": {
+    "rule": "交接未完成不得进入最后一步",
+    "evaluated_records": 8,
+    "handover_not_ok_records": [
+      "ER-1202",
+      "EAP-ANON-0734"
+    ],
+    "violations": 0,
+    "result": "PASS",
+    "evidence": "两条 handover_ok=false 的记录（ER-1202 离职交接未闭环、EAP-ANON-0734 转介待双审批未移交）final_step_allowed 均为 false，未出现交接未完成却被放行至终审或结案的情况；被放行的四条记录均为已结案或双审批齐备。"
+  }
+}

@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: admin.supply-order@1.0.0
+domain: admin
+description: "办公用品下单（比价后）"
+trigger:
+  type: command
+  expr: supply-order
+nodes:
+  - id: n1
+    type: skill
+    ref: asset-inventory
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "办公用品下单（比价后）：输入参数 + 结果快照"
+deliverable:
+  file: supply-order-<ts>.json
+  format: json
+  fields:
+    - item
+    - vendor_masked
+    - qty
+    - amount_yuan
+  acceptance: "必须引用比价结论（最低价或说明）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-supply-order

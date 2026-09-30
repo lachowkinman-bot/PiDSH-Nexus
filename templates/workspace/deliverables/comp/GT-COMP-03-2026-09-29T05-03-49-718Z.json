@@ -1,0 +1,97 @@
+{
+  "deliverable_id": "GT-COMP-03",
+  "scenario": "comp.salary-review@1.0.0",
+  "workflow": "comp.compa-ratio@1.0.0",
+  "skill": "compa-ratio",
+  "domain": "COMP",
+  "generated_at": "2026-09-29T05:03:49.718Z",
+  "cr_display_policy": "CR 仅以区间口径展示：0.8-1.2 按 0.1 分档（0.80-0.90 / 0.90-1.00 / 1.00-1.10 / 1.10-1.20），不输出任何点位值",
+  "data_basis": {
+    "sources": [
+      "templates/workspace/data/comp/adjust_queue.csv",
+      "templates/workspace/data/comp/bands.csv"
+    ],
+    "band_geometry_from_bands_csv": {
+      "P3": {"p25_wan": 18, "p50_wan": 24, "p75_wan": 30, "cr_at_p25": 0.75, "cr_at_p75": 1.25, "zone": "基准"},
+      "P4": {"p25_wan": 28, "p50_wan": 36, "p75_wan": 46, "cr_at_p25": 0.78, "cr_at_p75": 1.28, "zone": "基准"},
+      "P5": {"p25_wan": 42, "p50_wan": 55, "p75_wan": 70, "cr_at_p25": 0.76, "cr_at_p75": 1.27, "zone": "基准"},
+      "P6": {"p25_wan": 60, "p50_wan": 80, "p75_wan": 105, "cr_at_p25": 0.75, "cr_at_p75": 1.31, "zone": "基准"},
+      "M2": {"p25_wan": 70, "p50_wan": 95, "p75_wan": 125, "cr_at_p25": 0.74, "cr_at_p75": 1.32, "zone": "管理带"}
+    },
+    "derivation": "CR = 薪资金额 / 所任职级带宽中点(p50)。bands.csv 提供各职级 p25/p50/p75，可将带宽四分位换算为 CR 参考坐标（p25≈0.75-0.78，p50=1.00，p75≈1.25-1.32），用于把调薪队列事由映射到 0.8-1.2 分档。",
+    "data_gap": "adjust_queue.csv 未提供在职薪资金额字段，故本次 CR 无法计算点位值；依据「带宽四分位坐标 + 队列事由/审批状态」推断 CR 分档区间，属区间口径结论，不得作为个人定薪数值使用。"
+  },
+  "records": [
+    {
+      "employee_masked": "EMP-****12",
+      "band": "P4",
+      "cr": "0.80-0.90",
+      "zone": "基准",
+      "cr_zone_label": "区间内偏低档",
+      "proposed_band": "P5",
+      "reason": "晋升答辩通过",
+      "approval_state": "双审批中（HRD✓/CFO待）",
+      "basis": "P4 中点 36 万；晋升答辩通过属由 P4 向 P5 过渡，其 P4 口径 CR 落在 p25(0.78) 与中点(1.00) 之间，取偏低档",
+      "confidence": "中（区间口径，非点位）",
+      "next_action": "CFO 审批完成后再以新区间(P5 中点 55 万)复算 CR 分档"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "band": "P5",
+      "cr": "0.90-1.00",
+      "zone": "基准",
+      "cr_zone_label": "区间内中低档",
+      "proposed_band": "P5",
+      "reason": "带宽内调薪",
+      "approval_state": "已批准（HRD✓/CFO✓）",
+      "basis": "P5 中点 55 万；事由为带宽内调薪且未触发升带，CR 位于 p50(1.00) 下沿邻档，取 0.90-1.00 档",
+      "confidence": "中（区间口径，非点位）",
+      "next_action": "可在本期调薪落地后按实际金额复核 CR 分档"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "band": "P4",
+      "cr": "1.10-1.20",
+      "zone": "基准",
+      "cr_zone_label": "区间内偏高档（触顶，需复核）",
+      "proposed_band": "P4",
+      "reason": "超带宽校准",
+      "approval_state": "双审批中（HRD待/CFO待）",
+      "basis": "P4 中点 36 万、p75 对应 CR≈1.28；事由为超带宽校准，PR 值贴近 P4 带宽上四分位，落 1.10-1.20 档并标记触顶",
+      "confidence": "中（区间口径，非点位）",
+      "next_action": "存在实际 CR 越过 1.20 上限的可能，需 HRD/CFO 双审批前先做超带宽复核"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "band": "P3",
+      "cr": "0.80-0.90",
+      "zone": "基准",
+      "cr_zone_label": "区间内偏低档",
+      "proposed_band": "P4",
+      "reason": "关键人才保留",
+      "approval_state": "草稿（未进入审批）",
+      "basis": "P3 中点 24 万；关键人才保留通常起因于当前 CR 低于带内中点，落 p25(0.75) 与中点(1.00) 之间偏低档",
+      "confidence": "低-中（草稿态，区间口径）",
+      "next_action": "补齐薪酬数据并进入审批流后再确认分档"
+    }
+  ],
+  "distribution": {
+    "bucket_unit": "CR = 薪资 / 职级带宽中点(p50)",
+    "buckets": [
+      {"range": "0.80-0.90", "headcount": 2, "share": "50.0%", "members": ["EMP-****12", "EMP-****63"]},
+      {"range": "0.90-1.00", "headcount": 1, "share": "25.0%", "members": ["EMP-****35"]},
+      {"range": "1.00-1.10", "headcount": 0, "share": "0.0%", "members": []},
+      {"range": "1.10-1.20", "headcount": 1, "share": "25.0%", "members": ["EMP-****51"]}
+    ],
+    "within_0.8_1.2_total": 4,
+    "out_of_range_flagged": 0,
+    "out_of_range_risk_flagged": ["EMP-****51"],
+    "band_zone_split": {"基准": 4, "管理带": 0},
+    "approval_split": {"已批准": 1, "双审批中": 2, "草稿": 1}
+  },
+  "guardrails": [
+    "CR 一律区间展示，禁止输出个人 CR 点位值",
+    "区间分档固定为 0.8-1.2 的 0.1 步长，避免通过分档反推个人薪资",
+    "双审批中/草稿记录的分档仅用于评审参考，不作为定薪依据"
+  ]
+}

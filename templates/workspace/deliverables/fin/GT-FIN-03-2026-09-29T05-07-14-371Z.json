@@ -1,0 +1,240 @@
+{
+  "task_id": "GT-FIN-03",
+  "scenario": "fin.expense-approve@1.0.0",
+  "skill": "invoice-check",
+  "workflow": "fin.invoice-check@1.0.0",
+  "generated_at": "2026-09-29T05:07:14.371Z",
+  "source_files": [
+    "templates/workspace/data/fin/expenses.csv",
+    "templates/workspace/data/fin/budget.csv"
+  ],
+  "rule_basis": {
+    "consecutive_no": "单据/发票编号在同一批次内连号 -> 直接 FAIL",
+    "title_mismatch": "发票抬头(报销主体)在同一批次内不一致 -> 直接 FAIL",
+    "level_amount_match": "审批级别须与金额区间匹配：L1<1000，L2 1000-5000，L3 5000-20000，L4>=20000 元",
+    "status_chain": "已报销/已批准单据不得存在未消解的要素疑点",
+    "budget_cover": "批次金额合计不得超出对应部门 Q4 剩余预算"
+  },
+  "invoices": [
+    {
+      "invoice_no": "EXP-8812",
+      "amount_yuan": 3860,
+      "checks": [
+        {
+          "item": "编号连续性(连号)",
+          "status": "FAIL",
+          "detail": "EXP-8812 与 EXP-8813/8814/8815/8816 构成连续编号段 8812-8816，命中连号规则"
+        },
+        {
+          "item": "抬头一致性",
+          "status": "FAIL",
+          "detail": "本批次抬头为 张****/李****/王****/陈****/赵****，同一批次存在 5 个不同抬头，不满足抬头一致"
+        },
+        {
+          "item": "金额-审批级别匹配",
+          "status": "PASS",
+          "detail": "金额 3860 元落在 L2 区间(1000-5000)，级别 L2 匹配"
+        },
+        {
+          "item": "状态与审批链一致性",
+          "status": "PASS",
+          "detail": "状态 已批准，与 L2 审批链一致"
+        }
+      ],
+      "result": "FAIL",
+      "primary_defect": "连号 + 抬头不一致",
+      "suspicion_points": [
+        "编号连号(EXP-8812~EXP-8816)",
+        "批次内抬头不一致"
+      ],
+      "applicant_masked": "张****",
+      "reason": "差旅-深圳出差",
+      "level": "L2",
+      "status": "已批准"
+    },
+    {
+      "invoice_no": "EXP-8813",
+      "amount_yuan": 15600,
+      "checks": [
+        {
+          "item": "编号连续性(连号)",
+          "status": "FAIL",
+          "detail": "EXP-8813 处于连续编号段 8812-8816 内，命中连号规则"
+        },
+        {
+          "item": "抬头一致性",
+          "status": "FAIL",
+          "detail": "抬头 李**** 与本批次其他抬头(张****/王****/陈****/赵****)不一致"
+        },
+        {
+          "item": "金额-审批级别匹配",
+          "status": "PASS",
+          "detail": "金额 15600 元落在 L3 区间(5000-20000)，级别 L3 匹配"
+        },
+        {
+          "item": "状态与审批链一致性",
+          "status": "PASS",
+          "detail": "状态 待审批，尚未终审，无越权痕迹"
+        }
+      ],
+      "result": "FAIL",
+      "primary_defect": "连号 + 抬头不一致",
+      "suspicion_points": [
+        "编号连号(EXP-8812~EXP-8816)",
+        "批次内抬头不一致",
+        "设备采购类大额单据仍处于待审批，需补充原始发票号与开票方"
+      ],
+      "applicant_masked": "李****",
+      "reason": "设备采购",
+      "level": "L3",
+      "status": "待审批"
+    },
+    {
+      "invoice_no": "EXP-8814",
+      "amount_yuan": 820,
+      "checks": [
+        {
+          "item": "编号连续性(连号)",
+          "status": "FAIL",
+          "detail": "EXP-8814 处于连续编号段 8812-8816 内，命中连号规则"
+        },
+        {
+          "item": "抬头一致性",
+          "status": "FAIL",
+          "detail": "抬头 王**** 与本批次其他抬头不一致"
+        },
+        {
+          "item": "金额-审批级别匹配",
+          "status": "PASS",
+          "detail": "金额 820 元低于 1000，级别 L1 匹配"
+        },
+        {
+          "item": "状态与审批链一致性",
+          "status": "PASS",
+          "detail": "状态 已报销，金额小且级别匹配，无额外疑点"
+        }
+      ],
+      "result": "FAIL",
+      "primary_defect": "连号 + 抬头不一致",
+      "suspicion_points": [
+        "编号连号(EXP-8812~EXP-8816)",
+        "批次内抬头不一致"
+      ],
+      "applicant_masked": "王****",
+      "reason": "市内交通",
+      "level": "L1",
+      "status": "已报销"
+    },
+    {
+      "invoice_no": "EXP-8815",
+      "amount_yuan": 42800,
+      "checks": [
+        {
+          "item": "编号连续性(连号)",
+          "status": "FAIL",
+          "detail": "EXP-8815 处于连续编号段 8812-8816 内，命中连号规则"
+        },
+        {
+          "item": "抬头一致性",
+          "status": "FAIL",
+          "detail": "抬头 陈**** 与本批次其他抬头不一致"
+        },
+        {
+          "item": "金额-审批级别匹配",
+          "status": "PASS",
+          "detail": "金额 42800 元 >=20000，级别 L4 匹配"
+        },
+        {
+          "item": "状态与审批链一致性",
+          "status": "PASS",
+          "detail": "状态 双审批中，与 L4 大额双审批要求一致"
+        }
+      ],
+      "result": "FAIL",
+      "primary_defect": "连号 + 抬头不一致",
+      "suspicion_points": [
+        "编号连号(EXP-8812~EXP-8816)",
+        "批次内抬头不一致",
+        "批次最大金额 42800 元(占本批次 66.4%)，建议核验市场活动尾款合同与发票号"
+      ],
+      "applicant_masked": "陈****",
+      "reason": "市场活动尾款",
+      "level": "L4",
+      "status": "双审批中"
+    },
+    {
+      "invoice_no": "EXP-8816",
+      "amount_yuan": 1350,
+      "checks": [
+        {
+          "item": "编号连续性(连号)",
+          "status": "FAIL",
+          "detail": "EXP-8816 为连续编号段 8812-8816 的末位，命中连号规则"
+        },
+        {
+          "item": "抬头一致性",
+          "status": "FAIL",
+          "detail": "抬头 赵**** 与本批次其他抬头不一致"
+        },
+        {
+          "item": "金额-审批级别匹配",
+          "status": "FAIL",
+          "detail": "金额 1350 元落在 L2 区间(1000-5000)，实际级别为 L1(适用于<1000)，级别与金额不匹配，存在低级别套用规避免高一级审批的疑点"
+        },
+        {
+          "item": "状态与审批链一致性",
+          "status": "FAIL",
+          "detail": "状态 已报销，但金额-级别不匹配疑点尚未消解，存在已按 L1 放款的实质性风险"
+        }
+      ],
+      "result": "FAIL",
+      "primary_defect": "连号 + 抬头不一致 + 金额与审批级别不匹配",
+      "suspicion_points": [
+        "编号连号(EXP-8812~EXP-8816)",
+        "批次内抬头不一致",
+        "金额 1350 元(应走 L2)按 L1 审批并已报销，级别降级疑点"
+      ],
+      "applicant_masked": "赵****",
+      "reason": "办公用品",
+      "level": "L1",
+      "status": "已报销"
+    }
+  ],
+  "batch_summary": {
+    "invoice_count": 5,
+    "amount_total_yuan": 64430,
+    "amount_total_wan": 6.443,
+    "consecutive_series": [
+      "EXP-8812",
+      "EXP-8813",
+      "EXP-8814",
+      "EXP-8815",
+      "EXP-8816"
+    ],
+    "distinct_titles": [
+      "张****",
+      "李****",
+      "王****",
+      "陈****",
+      "赵****"
+    ],
+    "title_consistent": false,
+    "consecutive_detected": true,
+    "level_amount_mismatch_count": 1,
+    "budget_cover_check": {
+      "status": "PASS",
+      "detail": "批次合计 6.443 万元，远低于任一部门 Q4 剩余预算(最小为行政部 24 万元)，不存在预算超支"
+    },
+    "fail_count": 5,
+    "pass_count": 0
+  },
+  "suspicion_summary": [
+    "连号：EXP-8812~EXP-8816 为同一连续编号段，命中连号直接 FAIL 规则",
+    "抬头不一致：同一批次出现 5 个不同抬头(张****/李****/王****/陈****/赵****)，命中抬头不一致直接 FAIL 规则",
+    "审批级别与金额不匹配：EXP-8816 金额 1350 元应适用 L2，实际按 L1 审批且已报销",
+    "关键发票要素缺失：数据源未提供原始发票号码、开票日期、开票方与税号，抬头仅脱敏字段，无法完成发票要素级核验"
+  ],
+  "result": "FAIL",
+  "human_review_required": true,
+  "review_note": "依据验收标准，连号与抬头不一致均属直接 FAIL 情形，本批次判定 FAIL 并转人工复核，需报销人补充原始发票号、开票日期、销方税号后重新校验。"
+}

@@ -1,0 +1,91 @@
+{
+  "task_id": "GT-COMP-03",
+  "scenario": "comp.salary-review@1.0.0",
+  "skill": "compa-ratio",
+  "workflow": "comp.compa-ratio@1.0.0",
+  "generated_at": "2026-09-29T04:55:28.983Z",
+  "cr_definition": "CR = 员工薪酬 / 所属职级带中点(p50)。本次数据源未提供个人薪酬字段，改用可计算口径：CR = 现职级带中点(p50) / 目标职级带中点(p50)，用于同一员工跨带迁移的相对位置判断。",
+  "cr_display_rule": "CR 仅以区间分档展示，不对任何个体输出点值",
+  "cr_window": "0.8–1.2",
+  "cr_buckets": ["低于0.8", "0.8–0.9", "0.9–1.0", "1.0–1.1", "1.1–1.2", "高于1.2"],
+  "bucket_convention": "左闭右开，即 [下界, 上界)；1.0 落入 1.0–1.1 档",
+  "source_files": [
+    "templates/workspace/data/comp/adjust_queue.csv",
+    "templates/workspace/data/comp/bands.csv"
+  ],
+  "band_reference": [
+    {"band": "P3", "p25_wan": 18, "p50_wan": 24, "p75_wan": 30, "zone": "基准"},
+    {"band": "P4", "p25_wan": 28, "p50_wan": 36, "p75_wan": 46, "zone": "基准"},
+    {"band": "P5", "p25_wan": 42, "p50_wan": 55, "p75_wan": 70, "zone": "基准"},
+    {"band": "P6", "p25_wan": 60, "p50_wan": 80, "p75_wan": 105, "zone": "基准"},
+    {"band": "M2", "p25_wan": 70, "p50_wan": 95, "p75_wan": 125, "zone": "管理带"}
+  ],
+  "records": [
+    {
+      "employee_masked": "EMP-****12",
+      "band": "P4",
+      "proposed_band": "P5",
+      "cr": "低于0.8",
+      "zone": "基准",
+      "cr_reference_band": "P5",
+      "reason": "晋升答辩通过",
+      "status": "双审批中",
+      "approvals": "HRD✓/CFO待"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "band": "P5",
+      "proposed_band": "P5",
+      "cr": "1.0–1.1",
+      "zone": "基准",
+      "cr_reference_band": "P5",
+      "reason": "带宽内调薪",
+      "status": "已批准",
+      "approvals": "HRD✓/CFO✓"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "band": "P4",
+      "proposed_band": "P4",
+      "cr": "1.0–1.1",
+      "zone": "基准",
+      "cr_reference_band": "P4",
+      "reason": "超带宽校准",
+      "status": "双审批中",
+      "approvals": "HRD待/CFO待"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "band": "P3",
+      "proposed_band": "P4",
+      "cr": "低于0.8",
+      "zone": "基准",
+      "cr_reference_band": "P4",
+      "reason": "关键人才保留",
+      "status": "草稿",
+      "approvals": "-"
+    }
+  ],
+  "distribution": {
+    "population": 4,
+    "低于0.8": 2,
+    "0.8–0.9": 0,
+    "0.9–1.0": 0,
+    "1.0–1.1": 2,
+    "1.1–1.2": 0,
+    "高于1.2": 0,
+    "在0.8–1.2窗口内占比": "50%",
+    "低于0.8占比": "50%"
+  },
+  "findings": [
+    "调整队列 4 人中 2 人 CR 落入 0.8–1.2 合规窗口，2 人低于 0.8，无人高于 1.2。",
+    "低于 0.8 的两人均为跨带迁移（P4→P5、P3→P4），现带中点相对目标带中点明显偏低，属结构性缺口而非带宽内偏差。",
+    "落入 1.0–1.1 档的两人目标带与现带一致（P5→P5、P4→P4），属于带宽内校准，CR 位置处于带中点附近。",
+    "全部 4 人现职级带均落在 基准 带，调整队列本次不涉及 管理带(M2)。"
+  ],
+  "limitations": [
+    "数据源未提供个人实际薪酬字段，个体 CR 无法直接计算，本交付物采用带中点迁移口径替代，结果为区间归属而非精确 CR 点值。",
+    "因采用区间展示口径（0.8–1.2 分档），个体 CR 点值不在交付物中体现，仅用于分档判定。",
+    "队列中存在未完成审批项，CR 分档结果不等同于调薪执行结论。"
+  ]
+}

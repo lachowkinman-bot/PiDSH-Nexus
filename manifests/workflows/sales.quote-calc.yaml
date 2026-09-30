@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: sales.quote-calc@1.0.0
+domain: sales
+description: "报价测算（规格×数量×折扣）"
+trigger:
+  type: command
+  expr: quote-calc
+nodes:
+  - id: n1
+    type: skill
+    ref: quote-calc
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "报价测算（规格×数量×折扣）：输入参数 + 结果快照"
+deliverable:
+  file: quote-calc-<ts>.json
+  format: json
+  fields:
+    - customer_masked
+    - items
+    - discount_pct
+    - total_wan
+  acceptance: "低于底价必须转 quote-approve"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-quote-calc

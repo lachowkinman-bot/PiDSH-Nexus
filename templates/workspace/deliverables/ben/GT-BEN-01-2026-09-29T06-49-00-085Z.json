@@ -1,0 +1,394 @@
+{
+  "deliverable_type": "vendor-compare",
+  "deliverable_file": "vendor-compare-2026-09-29T06-49-00-085Z.json",
+  "golden_task_id": "GT-BEN-01",
+  "scenario": "ben.plan-compare@1.0.0",
+  "skill": "plan-compare",
+  "workflow": "ben.vendor-compare@1.0.0",
+  "generated_at": "2026-09-29T06:49:00.085Z",
+  "effective_year": 2026,
+  "currency": "CNY",
+  "category": [
+    "商业保险",
+    "健康体检",
+    "弹性健身",
+    "心理支持",
+    "齿科",
+    "通勤支持"
+  ],
+  "vendors": [
+    "某保险公司",
+    "某体检机构",
+    "某运动平台",
+    "某EAP机构",
+    "某口腔机构",
+    "某出行平台"
+  ],
+  "points": 12750,
+  "winner": {
+    "商业保险": {
+      "plan_id": "BEN-P01",
+      "plan": "升级商保(家属)",
+      "provider_masked": "某保险公司",
+      "reason": "2026 年度已采纳，满意度 4.5（在保候选最高），覆盖门诊+住院+体检，适用本人+家属1人，家庭覆盖广度优于基础档 BEN-P05。"
+    },
+    "健康体检": {
+      "plan_id": "BEN-P02",
+      "plan": "高端体检套餐",
+      "provider_masked": "某体检机构",
+      "reason": "2026 年度已采纳，满意度 4.6（全部候选中最高），投保人数 208 人（体检类最高），检查项覆盖全面体检+齿科。"
+    },
+    "弹性健身": {
+      "plan_id": "BEN-P03",
+      "plan": "弹性健身",
+      "provider_masked": "某运动平台",
+      "reason": "2026 年度已采纳，满意度 4.2，性价比（点数/成本）显著优于尊享档 BEN-P10（1800 点且仍在比选中），建议保留为基础项并对 BEN-P10 做小范围试点。"
+    },
+    "心理支持": {
+      "plan_id": "BEN-P04",
+      "plan": "EAP心理支持",
+      "provider_masked": "某EAP机构",
+      "reason": "2026 年度已采纳，满意度 4.4，全年 8 次匿名咨询已形成稳定使用，匿名机制符合隐私合规要求。"
+    },
+    "齿科": {
+      "plan_id": "BEN-P12",
+      "plan": "年度牙科福利",
+      "provider_masked": "某口腔机构",
+      "reason": "齿科类唯一已采纳方案，满意度 4.1，覆盖洗牙 2 次+基础治疗，与商保齿科责任互补但成本更低。"
+    },
+    "通勤支持": {
+      "plan_id": null,
+      "plan": "本年度不纳入标准方案",
+      "provider_masked": "某出行平台",
+      "reason": "基础档 BEN-P13 满意度仅 3.9 且状态为已弃用；升级档 BEN-P14 仍为草稿未上会。建议先完成需求调研与立项再决定，暂不写入生效方案。"
+    }
+  },
+  "matrices": [
+    {
+      "matrix_id": "MTX-BEN-BASIC-2026",
+      "package_name": "基础档方案比选矩阵",
+      "tier": "基础",
+      "total_points_per_person": 3200,
+      "rows": [
+        {
+          "category": "商业保险",
+          "vendors": [
+            {
+              "plan_id": "BEN-P05",
+              "plan": "基础商保(本人)",
+              "provider_masked": "某保险公司",
+              "tier": "基础",
+              "points_per_year": 800,
+              "cost_per_person_yuan": 1760,
+              "eligible_group": "本人",
+              "enrolled_count": 342,
+              "satisfaction_score": 4.1,
+              "status": "已采纳"
+            },
+            {
+              "plan_id": "BEN-P09",
+              "plan": "意外险(全年)",
+              "provider_masked": "某保险公司",
+              "tier": "基础",
+              "points_per_year": 200,
+              "cost_per_person_yuan": 440,
+              "eligible_group": "全员",
+              "enrolled_count": 268,
+              "satisfaction_score": 4.0,
+              "status": "已采纳"
+            }
+          ],
+          "points": 1000,
+          "winner": "基础商保(本人) / BEN-P05",
+          "rationale": "同为已采纳商业保险，BEN-P05 提供门诊+住院且投保 342 人（该矩阵内最高），满意度 4.1 高于 BEN-P09 的 4.0；BEN-P09 作为低价意外险可叠加而非替代。"
+        },
+        {
+          "category": "健康体检",
+          "vendors": [
+            {
+              "plan_id": "BEN-P07",
+              "plan": "基础体检套餐",
+              "provider_masked": "某体检机构",
+              "tier": "基础",
+              "points_per_year": 400,
+              "cost_per_person_yuan": 800,
+              "eligible_group": "全员",
+              "enrolled_count": 156,
+              "satisfaction_score": 4.0,
+              "status": "已采纳"
+            }
+          ],
+          "points": 400,
+          "winner": "基础体检套餐 / BEN-P07",
+          "rationale": "基础档体检唯一已采纳方案，全员适用，满意度 4.0，为体检类最低成本入口，与升级档 BEN-P02 形成分层。"
+        },
+        {
+          "category": "弹性健身",
+          "vendors": [
+            {
+              "plan_id": "BEN-P03",
+              "plan": "弹性健身",
+              "provider_masked": "某运动平台",
+              "tier": "基础",
+              "points_per_year": 600,
+              "cost_per_person_yuan": 1080,
+              "eligible_group": "全员",
+              "enrolled_count": 174,
+              "satisfaction_score": 4.2,
+              "status": "已采纳"
+            }
+          ],
+          "points": 600,
+          "winner": "弹性健身 / BEN-P03",
+          "rationale": "基础档健身唯一选项，健身房通兑、全员适用，满意度 4.2，单位点数成本 1.80 元/点，明显优于尊享档 BEN-P10。"
+        },
+        {
+          "category": "心理支持",
+          "vendors": [
+            {
+              "plan_id": "BEN-P04",
+              "plan": "EAP心理支持",
+              "provider_masked": "某EAP机构",
+              "tier": "基础",
+              "points_per_year": 300,
+              "cost_per_person_yuan": 720,
+              "eligible_group": "全员",
+              "enrolled_count": 96,
+              "satisfaction_score": 4.4,
+              "status": "已采纳"
+            }
+          ],
+          "points": 300,
+          "winner": "EAP心理支持 / BEN-P04",
+          "rationale": "基础档心理支持唯一方案，全年 8 次匿名咨询、全员适用，满意度 4.4 为全部候选中第二高。"
+        },
+        {
+          "category": "齿科",
+          "vendors": [
+            {
+              "plan_id": "BEN-P12",
+              "plan": "年度牙科福利",
+              "provider_masked": "某口腔机构",
+              "tier": "基础",
+              "points_per_year": 500,
+              "cost_per_person_yuan": 800,
+              "eligible_group": "全员",
+              "enrolled_count": 62,
+              "satisfaction_score": 4.1,
+              "status": "已采纳"
+            }
+          ],
+          "points": 500,
+          "winner": "年度牙科福利 / BEN-P12",
+          "rationale": "基础档齿科唯一方案，覆盖洗牙 2 次+基础治疗，单位点数成本 1.60 元/点，为齿科类最低。"
+        },
+        {
+          "category": "通勤支持",
+          "vendors": [
+            {
+              "plan_id": "BEN-P13",
+              "plan": "通勤补贴",
+              "provider_masked": "某出行平台",
+              "tier": "基础",
+              "points_per_year": 400,
+              "cost_per_person_yuan": 600,
+              "eligible_group": "全员",
+              "enrolled_count": 0,
+              "satisfaction_score": 3.9,
+              "status": "已弃用"
+            }
+          ],
+          "points": 400,
+          "winner": "无（BEN-P13 已弃用，不建议纳入）",
+          "rationale": "BEN-P13 满意度 3.9 为全部方案最低且状态为已弃用，无有效投保记录，不纳入基础档生效方案。"
+        }
+      ]
+    },
+    {
+      "matrix_id": "MTX-BEN-UPGRADE-2026",
+      "package_name": "升级档方案比选矩阵",
+      "tier": "升级",
+      "total_points_per_person": 5450,
+      "rows": [
+        {
+          "category": "商业保险",
+          "vendors": [
+            {
+              "plan_id": "BEN-P01",
+              "plan": "升级商保(家属)",
+              "provider_masked": "某保险公司",
+              "tier": "升级",
+              "points_per_year": 1600,
+              "cost_per_person_yuan": 3520,
+              "eligible_group": "本人+家属1人",
+              "enrolled_count": 126,
+              "satisfaction_score": 4.5,
+              "status": "已采纳"
+            }
+          ],
+          "points": 1600,
+          "winner": "升级商保(家属) / BEN-P01",
+          "rationale": "升级档唯一已采纳商业保险，覆盖门诊+住院+体检并延伸至家属1人，满意度 4.5 为保险类最高，家庭覆盖广度优于 BEN-P05。"
+        },
+        {
+          "category": "健康体检",
+          "vendors": [
+            {
+              "plan_id": "BEN-P02",
+              "plan": "高端体检套餐",
+              "provider_masked": "某体检机构",
+              "tier": "升级",
+              "points_per_year": 900,
+              "cost_per_person_yuan": 1800,
+              "eligible_group": "全员",
+              "enrolled_count": 208,
+              "satisfaction_score": 4.6,
+              "status": "已采纳"
+            }
+          ],
+          "points": 900,
+          "winner": "高端体检套餐 / BEN-P02",
+          "rationale": "升级档体检唯一已采纳方案，全面体检+齿科、全员适用，满意度 4.6 为全部候选最高，投保 208 人为体检类最高。"
+        },
+        {
+          "category": "弹性健身",
+          "vendors": [
+            {
+              "plan_id": "BEN-P10",
+              "plan": "年度健身会员(高端)",
+              "provider_masked": "某运动平台",
+              "tier": "升级",
+              "points_per_year": 1800,
+              "cost_per_person_yuan": 3240,
+              "eligible_group": "全员",
+              "enrolled_count": 0,
+              "satisfaction_score": null,
+              "status": "比选中"
+            }
+          ],
+          "points": 1800,
+          "winner": "年度健身会员(高端) / BEN-P10（推荐候选，待审批与试点验证）",
+          "rationale": "升级档健身唯一候选但尚未落地（0 投保、无比选满意度）。相较已采纳的 BEN-P03 其点数成本高 3.0 元/点且无使用数据支撑，建议仅作小范围试点。"
+        },
+        {
+          "category": "心理支持",
+          "vendors": [
+            {
+              "plan_id": "BEN-P11",
+              "plan": "心理咨询加购包",
+              "provider_masked": "某EAP机构",
+              "tier": "升级",
+              "points_per_year": 450,
+              "cost_per_person_yuan": 1080,
+              "eligible_group": "全员",
+              "enrolled_count": 0,
+              "satisfaction_score": null,
+              "status": "比选中"
+            }
+          ],
+          "points": 450,
+          "winner": "心理咨询加购包 / BEN-P11（推荐候选，待审批）",
+          "rationale": "在已采纳 BEN-P04（8 次匿名咨询，满意度 4.4）基础上追加 4 次匿名咨询，可作为心理支持升级路径；仍为比选中，需福利委员会确认预算。"
+        },
+        {
+          "category": "通勤支持",
+          "vendors": [
+            {
+              "plan_id": "BEN-P14",
+              "plan": "通勤停车补贴",
+              "provider_masked": "某出行平台",
+              "tier": "升级",
+              "points_per_year": 700,
+              "cost_per_person_yuan": 1050,
+              "eligible_group": "全员",
+              "enrolled_count": 0,
+              "satisfaction_score": null,
+              "status": "草稿"
+            }
+          ],
+          "points": 700,
+          "winner": "通勤停车补贴 / BEN-P14（草稿，未上会，暂不生效）",
+          "rationale": "状态为草稿、无投保与满意度数据，虽在已弃用 BEN-P13 基础上增加园区停车，但仍需完成立项审批后方可纳入。"
+        }
+      ]
+    },
+    {
+      "matrix_id": "MTX-BEN-PREMIUM-2026",
+      "package_name": "尊享档方案比选矩阵",
+      "tier": "尊享",
+      "total_points_per_person": 4100,
+      "rows": [
+        {
+          "category": "商业保险",
+          "vendors": [
+            {
+              "plan_id": "BEN-P06",
+              "plan": "尊享商保(含齿科)",
+              "provider_masked": "某保险公司",
+              "tier": "尊享",
+              "points_per_year": 2600,
+              "cost_per_person_yuan": 5720,
+              "eligible_group": "本人+家属2人",
+              "enrolled_count": 0,
+              "satisfaction_score": null,
+              "status": "比选中"
+            }
+          ],
+          "points": 2600,
+          "winner": "尊享商保(含齿科) / BEN-P06（推荐候选，待审批）",
+          "rationale": "尊享档唯一候选，覆盖门诊+住院+齿科+重疾并延伸至家属2人，覆盖最广但成本 2.20 元/点、尚无投保与满意度数据，需审批后试点。"
+        },
+        {
+          "category": "健康体检",
+          "vendors": [
+            {
+              "plan_id": "BEN-P08",
+              "plan": "尊享体检套餐(含家属)",
+              "provider_masked": "某体检机构",
+              "tier": "尊享",
+              "points_per_year": 1500,
+              "cost_per_person_yuan": 3000,
+              "eligible_group": "本人+家属1人",
+              "enrolled_count": 0,
+              "satisfaction_score": null,
+              "status": "比选中"
+            }
+          ],
+          "points": 1500,
+          "winner": "尊享体检套餐(含家属) / BEN-P08（推荐候选，待审批）",
+          "rationale": "尊享档体检唯一候选，在 BEN-P02 全面体检+齿科基础上增加家属1人，成本 2.00 元/点，仍为比选中，建议结合体检异常分布的分层需求评估后试点。"
+        }
+      ]
+    }
+  ],
+  "governance": {
+    "health_data_level4": {
+      "policy": "健康数据 L4 禁入记忆层",
+      "status": "compliant",
+      "action": "checkup_distribution.csv 中的健康异常明细（年龄段/项目/异常数/异常率）判定为敏感级 L4，未写入本交付物、未写入记忆层、未做跨会话留存；仅以聚合口径用于体检方案分层设计判断。",
+      "suppression_respected": true,
+      "suppression_note": "已遵守源数据的小样本抑制标记（n<5 不出分），未对抑制项做任何反推或补全。"
+    },
+    "desensitization": {
+      "employee_identifiers": "员工作业数据以 EMP-****NN / CLM-****NN 掩码形式存在，本交付物未引用任何员工级明细与理赔明细。",
+      "vendor_identifiers": "供应商统一以「某保险公司/某体检机构/某运动平台/某EAP机构/某口腔机构/某出行平台」脱敏呈现。",
+      "department": "未引用部门级使用明细。"
+    },
+    "approval": {
+      "required": true,
+      "scope": "升级档与尊享档中状态为「比选中」及「草稿」的方案（BEN-P06/P08/P10/P11/P14）及通勤支持重启评估。",
+      "approver": "福利委员会",
+      "statement": "本文件为 plan-compare 比选矩阵，属决策输入材料，不构成对任何方案的生效承诺；已采纳方案（BEN-P01/P02/P03/P04/P05/P07/P09/P12）沿用 2026 年既有状态。"
+    }
+  },
+  "evidence": {
+    "sources": [
+      "templates/workspace/data/ben/plans.csv",
+      "templates/workspace/data/ben/usage.csv",
+      "templates/workspace/data/ben/checkup_distribution.csv"
+    ],
+    "plans_records": 14,
+    "usage_records": 14,
+    "checkup_distribution_records": 16
+  }
+}

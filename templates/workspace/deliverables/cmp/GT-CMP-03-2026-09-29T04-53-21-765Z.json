@@ -1,0 +1,214 @@
+{
+  "case": {
+    "case_id": "GT-CMP-03",
+    "domain": "CMP",
+    "scenario": "cmp.policy-review@1.0.0",
+    "workflow": "cmp.evidence-pack@1.0.0",
+    "skill": "evidence-pack@1.0.0",
+    "title": "PIPIA 处理活动评估与制度合规检查的完整证据链打包（审计级）",
+    "requested_by": "CMP 合规评审任务单 GT-CMP-03",
+    "evidence_sources": [
+      "templates/workspace/data/cmp/pipia.csv",
+      "templates/workspace/data/cmp/policy_checklist.csv"
+    ],
+    "scope": "覆盖 pipia.csv 中 3 项个人信息处理活动评估记录，以及 policy_checklist.csv 中 4 项制度合规检查项，共 7 条证据",
+    "status": "packaged",
+    "append_only": true,
+    "evidence_item_count": 7,
+    "review_window": {
+      "earliest_due": "2026-10-30",
+      "latest_due": "2027-03-01"
+    },
+    "retention": "保留至下一轮 PIPIA 年度评估完成，且不早于 2027-03-01"
+  },
+  "evidence_items": [
+    {
+      "id": "EV-PIPIA-001",
+      "evidence_type": "PIPIA 处理活动评估记录",
+      "source_file": "templates/workspace/data/cmp/pipia.csv",
+      "source_locator": "line 2 / record 1",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "process": "员工考勤人脸识别",
+        "risk_level": "高",
+        "residual_risk": "中",
+        "next_review": "2026-12-01",
+        "owner": "安全合规部"
+      },
+      "sensitivity": "高：涉及人脸生物识别信息，属敏感个人信息，且处理场景处于劳动关系管理语境，员工难以自由拒绝",
+      "redaction": "无需字段脱敏：台账仅记录部门级责任主体，不含自然人标识；为保障证据完整性保留原文",
+      "fingerprint": "pipia.csv#L2|29C|59B",
+      "chain_position": 1
+    },
+    {
+      "id": "EV-PIPIA-002",
+      "evidence_type": "PIPIA 处理活动评估记录",
+      "source_file": "templates/workspace/data/cmp/pipia.csv",
+      "source_locator": "line 3 / record 2",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "process": "客户线索营销外呼",
+        "risk_level": "中",
+        "residual_risk": "低",
+        "next_review": "2027-01-10",
+        "owner": "市场部"
+      },
+      "sensitivity": "中：涉及客户联系方式与营销触达记录，属个人信息但非敏感类别",
+      "redaction": "无需字段脱敏：台账层未落自然人姓名与号码，仅记录处理活动与责任部门",
+      "fingerprint": "pipia.csv#L3|27C|53B",
+      "chain_position": 2
+    },
+    {
+      "id": "EV-PIPIA-003",
+      "evidence_type": "PIPIA 处理活动评估记录",
+      "source_file": "templates/workspace/data/cmp/pipia.csv",
+      "source_locator": "line 4 / record 3",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "process": "EAP 匿名咨询",
+        "risk_level": "高",
+        "residual_risk": "低",
+        "next_review": "2027-03-01",
+        "owner": "EAP专员"
+      },
+      "sensitivity": "高：涉及员工心理健康类敏感个人信息，匿名化设计的实际有效性直接决定残余风险等级",
+      "redaction": "无需字段脱敏：台账以匿名咨询口径记录，不含可识别到具体员工的信息",
+      "fingerprint": "pipia.csv#L4|29C|45B",
+      "chain_position": 3
+    },
+    {
+      "id": "EV-CHK-001",
+      "evidence_type": "制度合规检查项",
+      "source_file": "templates/workspace/data/cmp/policy_checklist.csv",
+      "source_locator": "line 2 / record 1",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "policy": "劳动用工制度",
+        "item": "加班与调休条款",
+        "status": "合规",
+        "owner": "人力资源部",
+        "review_date": "2026-09-12"
+      },
+      "sensitivity": "低：制度条款与检查结论，不含个人信息",
+      "redaction": "无需脱敏",
+      "fingerprint": "policy_checklist.csv#L2|34C|74B",
+      "chain_position": 4
+    },
+    {
+      "id": "EV-CHK-002",
+      "evidence_type": "制度合规检查项",
+      "source_file": "templates/workspace/data/cmp/policy_checklist.csv",
+      "source_locator": "line 3 / record 2",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "policy": "数据管理制度",
+        "item": "数据出境评估",
+        "status": "待整改",
+        "owner": "法务部",
+        "review_date": "2026-10-30"
+      },
+      "sensitivity": "中：涉及数据出境合规状态，指向跨境传输风险敞口",
+      "redaction": "无需脱敏",
+      "fingerprint": "policy_checklist.csv#L3|32C|68B",
+      "chain_position": 5
+    },
+    {
+      "id": "EV-CHK-003",
+      "evidence_type": "制度合规检查项",
+      "source_file": "templates/workspace/data/cmp/policy_checklist.csv",
+      "source_locator": "line 4 / record 3",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "policy": "个人信息保护",
+        "item": "PIPIA 年度评估",
+        "status": "进行中",
+        "owner": "安全合规部",
+        "review_date": "2026-11-15"
+      },
+      "sensitivity": "中：为 PIPIA 证据链的制度侧锚点，关联 EV-PIPIA-001/002/003",
+      "redaction": "无需脱敏",
+      "fingerprint": "policy_checklist.csv#L4|38C|74B",
+      "chain_position": 6
+    },
+    {
+      "id": "EV-CHK-004",
+      "evidence_type": "制度合规检查项",
+      "source_file": "templates/workspace/data/cmp/policy_checklist.csv",
+      "source_locator": "line 5 / record 4",
+      "captured_at": "2026-09-29T04:53:21.765Z",
+      "payload": {
+        "policy": "采购合规",
+        "item": "供应商准入审查",
+        "status": "合规",
+        "owner": "采购部",
+        "review_date": "2026-09-28"
+      },
+      "sensitivity": "低：供应商准入审查结论，不含商业敏感条款明细",
+      "redaction": "无需脱敏",
+      "fingerprint": "policy_checklist.csv#L5|30C|62B",
+      "chain_position": 7
+    }
+  ],
+  "hashes": {
+    "algorithm": "utf8-structural-fingerprint-v1",
+    "algorithm_definition": "按 UTF-8 编码逐字统计：C=字符数（含逗号与空格），B=字节数（ASCII 记 1 字节，中日韩字符记 3 字节），A=ASCII 字符数，W=宽字符数。记录级指纹格式为 <文件名>#L<行号>|<字符数>C|<字节数>B，可由任意编辑器逐字复核。",
+    "source_hashes": [
+      {
+        "path": "templates/workspace/data/cmp/pipia.csv",
+        "utf8_bytes": 207,
+        "characters": 135,
+        "ascii_characters": 99,
+        "wide_characters": 36,
+        "records": 3,
+        "header_bytes": 50,
+        "record_bytes": [59, 53, 45],
+        "fingerprint": "207B|135C|99A|36W|3R|50H|59,53,45"
+      },
+      {
+        "path": "templates/workspace/data/cmp/policy_checklist.csv",
+        "utf8_bytes": 314,
+        "characters": 170,
+        "ascii_characters": 98,
+        "wide_characters": 72,
+        "records": 4,
+        "header_bytes": 36,
+        "record_bytes": [74, 68, 74, 62],
+        "fingerprint": "314B|170C|98A|72W|4R|36H|74,68,74,62"
+      }
+    ],
+    "item_hashes": [
+      { "id": "EV-PIPIA-001", "fingerprint": "pipia.csv#L2|29C|59B", "referential_integrity": "A=14,W=15" },
+      { "id": "EV-PIPIA-002", "fingerprint": "pipia.csv#L3|27C|53B", "referential_integrity": "A=14,W=13" },
+      { "id": "EV-PIPIA-003", "fingerprint": "pipia.csv#L4|29C|45B", "referential_integrity": "A=21,W=8" },
+      { "id": "EV-CHK-001", "fingerprint": "policy_checklist.csv#L2|34C|74B", "referential_integrity": "A=14,W=20" },
+      { "id": "EV-CHK-002", "fingerprint": "policy_checklist.csv#L3|32C|68B", "referential_integrity": "A=14,W=18" },
+      { "id": "EV-CHK-003", "fingerprint": "policy_checklist.csv#L4|38C|74B", "referential_integrity": "A=20,W=18" },
+      { "id": "EV-CHK-004", "fingerprint": "policy_checklist.csv#L5|30C|62B", "referential_integrity": "A=14,W=16" }
+    ],
+    "chain_hash": {
+      "method": "按 chain_position 升序拼接 id 与记录指纹（以 ; 分隔，分隔符不计入合计）",
+      "value": "EV-PIPIA-001=pipia.csv#L2|29C|59B;EV-PIPIA-002=pipia.csv#L3|27C|53B;EV-PIPIA-003=pipia.csv#L4|29C|45B;EV-CHK-001=policy_checklist.csv#L2|34C|74B;EV-CHK-002=policy_checklist.csv#L3|32C|68B;EV-CHK-003=policy_checklist.csv#L4|38C|74B;EV-CHK-004=policy_checklist.csv#L5|30C|62B|TOTAL=219C|435B",
+      "totals": { "items": 7, "characters": 219, "utf8_bytes": 435 }
+    },
+    "recompute": {
+      "structural_check": "wc -c -l templates/workspace/data/cmp/pipia.csv templates/workspace/data/cmp/policy_checklist.csv",
+      "cryptographic_check": "sha256sum templates/workspace/data/cmp/pipia.csv templates/workspace/data/cmp/policy_checklist.csv",
+      "note": "本执行节点仅挂载 read/write 工具面，未暴露 shell 与哈希库，故本包记录的是可逐字复核的结构指纹（字符数/字节数/行结构）而非 SHA-256 摘要；下游审计在主机侧运行上述 sha256sum 命令补齐密码学摘要，并与本包 source_hashes 的字符数、字节数、行数逐项比对，任何不一致即判定证据被增删改。"
+    }
+  },
+  "integrity": {
+    "mode": "append-only",
+    "mutation_policy": "本证据包一经写入禁止增删改任何 evidence_item 与 hashes 条目；后续证据只能以新时间戳文件追加，并在新包中引用 case.case_id 与本包 hashes.chain_hash.value 作为前序锚点",
+    "seal_scope": "case + evidence_items + hashes 三者整体构成封条范围，packaged_at 为封条时间",
+    "verification_rule": "任一记录的 source_locator + fingerprint 与源文件复核结果不一致，则该条证据作废并要求重新采集，其余条目不得就此变更"
+  },
+  "findings": [
+    "员工考勤人脸识别（安全合规部，2026-12-01 复评）：初始风险 高、残余风险 中，是 3 项处理活动中唯一残余风险未降至低档者，也是 7 条证据中最早到期的处理活动复评项，须优先补充补偿性措施。",
+    "EAP 匿名咨询（EAP专员，2027-03-01 复评）：初始风险 高但残余风险 低，匿名化控制在台账中被认定为有效，本轮无整改要求。",
+    "客户线索营销外呼（市场部，2027-01-10 复评）：风险 中、残余 低，无新增控制要求。",
+    "数据出境评估（法务部，2026-10-30）是 4 项制度检查中唯一 待整改 项，为制度侧最近期到期事项，需与 PIPIA 年度评估串接推进。",
+    "劳动用工制度-加班与调休条款（人力资源部，2026-09-12）与 采购合规-供应商准入审查（采购部，2026-09-28）均已判定 合规，本轮复评完成。",
+    "个人信息保护-PIPIA 年度评估（安全合规部，2026-11-15）状态为 进行中，本包 3 条处理活动记录可作为其输入底稿；制度侧与处理活动侧同由安全合规部负责，责任链闭合。"
+  ],
+  "packaged_at": "2026-09-29T04:53:21.765Z"
+}

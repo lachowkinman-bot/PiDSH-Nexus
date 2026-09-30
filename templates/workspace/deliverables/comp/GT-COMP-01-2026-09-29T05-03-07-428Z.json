@@ -1,0 +1,275 @@
+{
+  "task_id": "GT-COMP-01",
+  "scenario": "comp.salary-review@1.0.0",
+  "domain": "COMP",
+  "skill": "band-analysis",
+  "workflow": "comp.salary-adjust@1.0.0",
+  "generated_at": "2026-09-29T05:03:07.428Z",
+  "redact_gate": {
+    "enforced": true,
+    "policy": "individual-compensation-as-interval-only",
+    "statement": "个体薪酬仅以职级带宽区间（p25_wan~p75_wan）表达，不输出任何个人薪酬点数、compa-ratio 或绝对金额。",
+    "allowed_output": "band interval (p25/p50/p75)",
+    "blocked_output": [
+      "individual base salary",
+      "individual compa-ratio",
+      "individual bonus amount"
+    ],
+    "subject_identifier": "employee_masked only (EMP-****NN)",
+    "checks": [
+      {
+        "check": "no_absolute_individual_pay",
+        "result": "pass"
+      },
+      {
+        "check": "identifier_masked",
+        "result": "pass"
+      },
+      {
+        "check": "interval_only",
+        "result": "pass"
+      }
+    ]
+  },
+  "source_data": {
+    "adjust_queue": "templates/workspace/data/comp/adjust_queue.csv",
+    "bands": "templates/workspace/data/comp/bands.csv",
+    "queue_rows": 4,
+    "band_rows": 5
+  },
+  "band_reference": [
+    {
+      "band": "P3",
+      "p25_wan": 18,
+      "p50_wan": 24,
+      "p75_wan": 30,
+      "zone": "基准",
+      "currency_unit": "万元/年"
+    },
+    {
+      "band": "P4",
+      "p25_wan": 28,
+      "p50_wan": 36,
+      "p75_wan": 46,
+      "zone": "基准",
+      "currency_unit": "万元/年"
+    },
+    {
+      "band": "P5",
+      "p25_wan": 42,
+      "p50_wan": 55,
+      "p75_wan": 70,
+      "zone": "基准",
+      "currency_unit": "万元/年"
+    },
+    {
+      "band": "P6",
+      "p25_wan": 60,
+      "p50_wan": 80,
+      "p75_wan": 105,
+      "zone": "基准",
+      "currency_unit": "万元/年"
+    },
+    {
+      "band": "M2",
+      "p25_wan": 70,
+      "p50_wan": 95,
+      "p75_wan": 125,
+      "zone": "管理带",
+      "currency_unit": "万元/年"
+    }
+  ],
+  "proposals": [
+    {
+      "employee_masked": "EMP-****12",
+      "band_from": {
+        "band": "P4",
+        "p25_wan": 28,
+        "p50_wan": 36,
+        "p75_wan": 46,
+        "zone": "基准"
+      },
+      "band_to": {
+        "band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "zone": "基准"
+      },
+      "band_shift": "跨级上升 P4→P5",
+      "band_overlap_wan": [
+        42,
+        46
+      ],
+      "midpoint_delta_wan": 19,
+      "midpoint_delta_pct": 52.8,
+      "target_range_wan": [
+        42,
+        70
+      ],
+      "approvals": {
+        "required": [
+          "HRD",
+          "CFO"
+        ],
+        "status": "双审批中",
+        "raw": "HRD✓/CFO待",
+        "hrd": "已审批(✓)",
+        "cfo": "待审批",
+        "final_decision": "pending"
+      },
+      "reason": "晋升答辩通过",
+      "queue_status": "双审批中",
+      "band_deviation_flag": "normal"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "band_from": {
+        "band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "zone": "基准"
+      },
+      "band_to": {
+        "band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "zone": "基准"
+      },
+      "band_shift": "带宽内平移 P5→P5",
+      "band_overlap_wan": [
+        42,
+        70
+      ],
+      "midpoint_delta_wan": 0,
+      "midpoint_delta_pct": 0,
+      "target_range_wan": [
+        42,
+        70
+      ],
+      "approvals": {
+        "required": [
+          "HRD",
+          "CFO"
+        ],
+        "status": "已批准",
+        "raw": "HRD✓/CFO✓",
+        "hrd": "已审批(✓)",
+        "cfo": "已审批(✓)",
+        "final_decision": "approved"
+      },
+      "reason": "带宽内调薪",
+      "queue_status": "已批准",
+      "band_deviation_flag": "in-band"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "band_from": {
+        "band": "P4",
+        "p25_wan": 28,
+        "p50_wan": 36,
+        "p75_wan": 46,
+        "zone": "基准"
+      },
+      "band_to": {
+        "band": "P4",
+        "p25_wan": 28,
+        "p50_wan": 36,
+        "p75_wan": 46,
+        "zone": "基准"
+      },
+      "band_shift": "带宽内平移 P4→P4",
+      "band_overlap_wan": [
+        28,
+        46
+      ],
+      "midpoint_delta_wan": 0,
+      "midpoint_delta_pct": 0,
+      "target_range_wan": [
+        28,
+        46
+      ],
+      "approvals": {
+        "required": [
+          "HRD",
+          "CFO"
+        ],
+        "status": "双审批中",
+        "raw": "HRD待/CFO待",
+        "hrd": "待审批",
+        "cfo": "待审批",
+        "final_decision": "pending"
+      },
+      "reason": "超带宽校准",
+      "queue_status": "双审批中",
+      "band_deviation_flag": "out-of-band-correction",
+      "note": "提案意图为带宽校准，方向为向带内收敛；具体个体偏离幅度属受限字段，按 redact_gate 不输出，仅以 P4 区间 28~46 万元/年表达。"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "band_from": {
+        "band": "P3",
+        "p25_wan": 18,
+        "p50_wan": 24,
+        "p75_wan": 30,
+        "zone": "基准"
+      },
+      "band_to": {
+        "band": "P4",
+        "p25_wan": 28,
+        "p50_wan": 36,
+        "p75_wan": 46,
+        "zone": "基准"
+      },
+      "band_shift": "跨级上升 P3→P4",
+      "band_overlap_wan": [
+        28,
+        30
+      ],
+      "midpoint_delta_wan": 12,
+      "midpoint_delta_pct": 50,
+      "target_range_wan": [
+        28,
+        46
+      ],
+      "approvals": {
+        "required": [
+          "HRD",
+          "CFO"
+        ],
+        "status": "草稿",
+        "raw": "-",
+        "hrd": "未启动",
+        "cfo": "未启动",
+        "final_decision": "not_started"
+      },
+      "reason": "关键人才保留",
+      "queue_status": "草稿",
+      "band_deviation_flag": "not_evaluated",
+      "note": "尚处草稿，未进入审批流；关键人才保留类提案建议补充带宽内定位说明后再提交。"
+    }
+  ],
+  "approval_summary": {
+    "total": 4,
+    "approved": 1,
+    "pending": 2,
+    "not_started": 1,
+    "approval_gate_required": true,
+    "dual_control": "HRD + CFO",
+    "blocking_rule": "band_from != band_to 或 band_deviation_flag != normal 时，必须 HRD 与 CFO 双签方可生效",
+    "awaiting_action": [
+      "EMP-****12: 等 CFO 审批",
+      "EMP-****51: 等 HRD 与 CFO 审批",
+      "EMP-****63: 审批流未启动"
+    ]
+  },
+  "conclusions": [
+    "P4→P5（EMP-****12）为跨级晋升，目标带 P5 区间 42~70 万元/年，中位点由 36 升至 55（+52.8%），已获 HRD 通过，仍待 CFO。",
+    "P5 内调薪（EMP-****35）带宽无变化，目标区间 42~70 万元/年，双审批齐全，可执行。",
+    "超带宽校准（EMP-****51）目标带 P4 区间 28~46 万元/年，双审批均未完成，不得先行落薪。",
+    "关键人才保留（EMP-****63）P3→P4，目标带 P4 区间 28~46 万元/年，中位点上移 50%，审批未启动，属最高流程风险项。",
+    "管理带 M2（70~125 万元/年）在本批次 4 条提案中未被引用。"
+  ]
+}

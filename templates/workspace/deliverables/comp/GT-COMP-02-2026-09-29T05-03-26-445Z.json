@@ -1,0 +1,115 @@
+{
+  "task_id": "GT-COMP-02",
+  "flow": "comp.payroll-recon@1.0.0",
+  "component": "comp.salary-review@1.0.0",
+  "skill": "payroll-recon",
+  "generated_at": "2026-09-29T05:03:26.445Z",
+  "period": "2026-09",
+  "basis": {
+    "recon_type": "发放基准对账（薪酬调整队列 vs 职级带宽中位值）",
+    "payroll_source": "templates/workspace/data/comp/adjust_queue.csv",
+    "payout_source": "templates/workspace/data/comp/bands.csv",
+    "gross_basis": "band_p50_wan（职级带宽 P50 中位值），按 current_band→proposed_band 映射",
+    "gross_basis_unit": "CNY/年",
+    "payroll_register_present": false,
+    "missing_source_note": "数据目录未提供实际工资发放明细（payroll register / payout detail），故以带宽 P50 中位值作为发放基准进行差异比对；带宽内调薪（同职级）项无法由带宽表量化。"
+  },
+  "headcount": 4,
+  "gross_total_current_cny": 1510000,
+  "gross_total_proposed_cny": 1820000,
+  "gross_diff": 310000,
+  "gross_diff_pct": 20.53,
+  "threshold_pct": 0.5,
+  "variance_item_count": 2,
+  "approval_risk_amount_cny": 310000,
+  "items": [
+    {
+      "employee_masked": "EMP-****12",
+      "current_band": "P4",
+      "proposed_band": "P5",
+      "reason": "晋升答辩通过",
+      "status": "双审批中",
+      "approvals": "HRD✓/CFO待",
+      "current_gross_cny": 360000,
+      "proposed_gross_cny": 550000,
+      "gross_diff_cny": 190000,
+      "gross_diff_pct": 52.78,
+      "exceeds_threshold": true,
+      "approval_complete": false,
+      "finding": "晋升增量 19.00 万元（+52.78%）占本次总差异 61.3%，CFO 审批未闭环即已进入发放基准，存在未授权支付风险。"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "current_band": "P5",
+      "proposed_band": "P5",
+      "reason": "带宽内调薪",
+      "status": "已批准",
+      "approvals": "HRD✓/CFO✓",
+      "current_gross_cny": 550000,
+      "proposed_gross_cny": 550000,
+      "gross_diff_cny": 0,
+      "gross_diff_pct": 0.0,
+      "exceeds_threshold": false,
+      "approval_complete": true,
+      "finding": "同职级带宽内调薪，带宽 P50 不随个人调薪变动，差异为 0.00%；实际调薪金额需个人薪酬明细，当前数据源无法核验。"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "current_band": "P4",
+      "proposed_band": "P4",
+      "reason": "超带宽校准",
+      "status": "双审批中",
+      "approvals": "HRD待/CFO待",
+      "current_gross_cny": 360000,
+      "proposed_gross_cny": 360000,
+      "gross_diff_cny": 0,
+      "gross_diff_pct": 0.0,
+      "exceeds_threshold": false,
+      "approval_complete": false,
+      "finding": "标注为超带宽校准但带宽未变更，带宽口径差异为 0.00%；属校准类调整，须以个人实际薪酬核对超带宽金额，且双审批均未开始。"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "current_band": "P3",
+      "proposed_band": "P4",
+      "reason": "关键人才保留",
+      "status": "草稿",
+      "approvals": "-",
+      "current_gross_cny": 240000,
+      "proposed_gross_cny": 360000,
+      "gross_diff_cny": 120000,
+      "gross_diff_pct": 50.0,
+      "exceeds_threshold": true,
+      "approval_complete": false,
+      "finding": "跨级增量 12.00 万元（+50.00%）占总差异 38.7%，单据仍为草稿、未发起任何审批，不得进入本期发放。"
+    }
+  ],
+  "variance_items": [
+    {
+      "employee_masked": "EMP-****12",
+      "gross_diff_cny": 190000,
+      "gross_diff_pct": 52.78,
+      "status": "双审批中",
+      "action": "冻结尾款，待 CFO 审批闭环后随下一发薪周期补发"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "gross_diff_cny": 120000,
+      "gross_diff_pct": 50.0,
+      "status": "草稿",
+      "action": "不予发放，退回 HRBP 补全审批链后再提交对账"
+    }
+  ],
+  "data_gaps": [
+    "缺实际发放明细文件，无法核对实发金额与个税/社保扣缴项",
+    "同职级带宽内调薪（EMP-****35、EMP-****51）金额不可由带宽表推导，需补充个人薪酬快照",
+    "adjust_queue.csv 无生效日期字段，无法确认调整归属期间是否全部落在 2026-09"
+  ],
+  "conclusion": "本期 4 人薪酬调整队列相对职级带宽中位值的发放基准差异为 +31.00 万元（+20.53%），超 0.5% 阈值项 2 条，合计 31.00 万元，且两单均未完成审批闭环，建议全部挂起发放并回补审批留痕。",
+  "acceptance": {
+    "threshold_pct": 0.5,
+    "criterion": "差异 >0.5% 逐项列出",
+    "result": "pass",
+    "evidence": "variance_items 已逐项列出 2 条超阈值项，含金额、比例、状态与处置动作"
+  }
+}

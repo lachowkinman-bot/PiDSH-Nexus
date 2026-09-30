@@ -1,0 +1,12 @@
+{
+  "order_id": "ORD-202441",
+  "amount": 1288.0,
+  "currency": "CNY",
+  "items": [
+    { "sku": "SKU-001", "qty": 2, "unit_price": 644.0 }
+  ],
+  "buyer": {
+    "name": "张三",
+    "email": "zhangsan@example.com"
+  }
+}

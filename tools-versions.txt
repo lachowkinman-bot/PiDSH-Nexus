@@ -1,0 +1,35 @@
+# tools-versions.txt — universal-workbench-3.0 工具链版本锁定（U0/S0 环境前置记录）
+# 生成时间：2026-09-28
+
+## Node（≥24.19 LTS 硬要求）
+- 选型：便携版 zip（不写系统、不装 MSI，保证项目独立且不影响同目录其他项目）
+- 版本：node-v24.21.0-win-x64（v24.21.0，满足 ≥24.19 LTS）
+- 路径：offline/node/node-v24.21.0-win-x64/node.exe
+- 来源：https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip
+- SHA256（与官方 SHASUMS256.txt 逐字一致，已核验）：
+  158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541  node-v24.21.0-win-x64.zip
+- npm：11.19.0（随包）
+
+## 被否决的候选（记录原因）
+- managed node  = v22.22.2 —— ❌ 不满足 ≥24.19（2.0 教训：22.x 会使 pi-vault-mind 不可装）
+- 系统 node     = v24.18.0（C:/Program Files/nodejs/node.exe）—— ❌ < 24.19，不满足硬要求
+- offline/node/ 预置安装包 = 空目录 —— ❌ 无可用离线安装包，故联网取官方 zip 并留 SHA256
+
+## npm 全局前缀隔离
+- prefix = F:\Pi_DSH_workplace\universal-workbench-3.0\.tools\npm-global（经项目内 .npmrc 生效）
+- 目的：`npm i -g` 只落本项目，不污染 %APPDATA%\npm，不影响 other projects
+- 注意：三源探测（U3/U16）必须在本项目 cwd 下执行才能读到本 .npmrc
+
+## 引擎（016 §2 重锁）
+- dsh 目标版本：0.1.7-rc.2（离线包 offline-3.0/engines/deepseek-ai-dsh-0.1.7-rc.2.tgz）
+- 期望 SHA256：5f2da7272d9485abc223e681075809a8d929697c523ee445718e1b7e066bff8（装前核验）
+
+## pnpm（3.0 安装器补齐 · 2026-09-29）
+- 用途：`dsh plugin add` 是**转发给 pnpm** 的（engine lib/bin.js → execa('pnpm')）；此前离线包不含 pnpm，
+  干净机 postinstall 会 exit 127（`dsh: pnpm was not found; install pnpm and make it available on PATH.`）→ 插件装不进去。
+- 版本：10.32.1（与本机 profile 实际使用的 pnpm 一致，避免 pnpm-lock.yaml 锁文件版本漂移）
+- 来源：https://registry.npmjs.org/pnpm/-/pnpm-10.32.1.tgz
+  （integrity 逐字核验：sha512-pwaTjw6JrBRWtlY+q07fHR+vM2jRGR/FxZeQ6W3JGORFarLmfWE94QQ9LoyB+HMD5rQNT/7KnfFe8a1Wc0jyvg==）
+- 落盘：offline/npm/pnpm-10.32.1.tgz（4,534,444 B）
+- SHA256：9b943b94bc8f55efb993aad8e44b538e6b091e60a9e4a944dcde869855f233e3（已入 offline/npm/SHA256SUMS.txt）
+- 安装方式：workbench.ps1 install 第 0 步自举——PATH 上无 pnpm 时 `npm i -g <tgz>`（便携 Node，离线完成）

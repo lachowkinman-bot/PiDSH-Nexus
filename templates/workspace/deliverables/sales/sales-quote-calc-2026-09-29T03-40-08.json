@@ -1,0 +1,34 @@
+{
+ "domain": "sales",
+ "kind": "sales-quote-calc",
+ "created_at": "2026-09-29T03:40:08.395Z",
+ "workflow": "sales.quote-calc@1.0.0",
+ "description": "报价测算（规格×数量×折扣）",
+ "fields": {},
+ "deliverable_spec": {
+  "file": "quote-calc-<ts>.json",
+  "format": "json",
+  "fields": [
+   "customer_masked",
+   "items",
+   "discount_pct",
+   "total_wan"
+  ],
+  "acceptance": "低于底价必须转 quote-approve"
+ },
+ "engine": {
+  "name": "pi",
+  "fallback": false,
+  "output": "{\"type\":\"session\",\"version\":3,\"id\":\"01a0eb3f-8b02-759d-bfff-21b15b7edf6a\",\"timestamp\":\"2026-09-29T03:40:05.250Z\",\"cwd\":\"F:\\\\Pi_DSH_workplace\\\\universal-workbench-3.0\"}\n{\"type\":\"agent_start\"}\n{\"type\":\"turn_start\"}\n{\"type\":\"message_start\",\"message\":{\"role\":\"system\",\"content\":\"\",\"sections\":{\"preamble\":\"You are an expert coding assistant operating inside pi, a coding agent harness. You help users by reading files, executing commands, editing code, and writing new files.\",\"tools\":\"<tools>\\n- read: Read file contents\\n- bash: Execute bash commands (ls, grep, find, etc.)\\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\\n- write: Create or overwrite files\\n\\nIn addition to the tools above, you may have access to other custom tools depending on the project.\\n</tools>\",\"rules\":\"<rules>\\n- Use bash for file operations like ls, rg, find\\n- Use read to examine files instead of cat or sed.\\n- You can inspect PI_* environment variables for current model and session details.\\n- Use edit for precise changes (edits[].oldText must match exactly)\\n- When changing multiple separate locations in one file, use one edit call with multiple entries in edits[] instead of multiple edit calls\\n- Each edits[].oldText is matched against the original file, not after earlier edits are applied. Do not emit overlapping or nested edits. Merge nearby changes into one edit.\\n- Keep edits[].oldText as small as possible while still being unique in the file."
+ },
+ "data_snapshot": [
+  {
+   "table": "pipeline",
+   "rows": 5
+  },
+  {
+   "table": "quotes",
+   "rows": 4
+  }
+ ]
+}

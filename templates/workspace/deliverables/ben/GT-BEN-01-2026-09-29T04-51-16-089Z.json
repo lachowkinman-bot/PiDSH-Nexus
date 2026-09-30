@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0",
+  "deliverable_id": "GT-BEN-01",
+  "scenario": "ben.plan-compare@1.0.0",
+  "task": "plan-compare",
+  "workflow": "ben.vendor-compare@1.0.0",
+  "domain": "BEN",
+  "generated_at": "2026-09-29T04:51:16.089Z",
+  "source_files": [
+    "templates/workspace/data/ben/plans.csv",
+    "templates/workspace/data/ben/usage.csv"
+  ],
+  "category": "员工健康福利积分方案比选",
+  "vendors": [
+    {
+      "vendor_id": "V1",
+      "plan": "升级商保(家属)",
+      "provider_masked": "某保险公司",
+      "covers": ["门诊", "住院", "体检"],
+      "coverage_breadth": 3,
+      "points_per_year": 1600
+    },
+    {
+      "vendor_id": "V2",
+      "plan": "高端体检套餐",
+      "provider_masked": "某体检机构",
+      "covers": ["全面体检", "齿科"],
+      "coverage_breadth": 2,
+      "points_per_year": 900
+    },
+    {
+      "vendor_id": "V3",
+      "plan": "健康管理弹性包(弹性健身+EAP心理支持)",
+      "provider_masked": ["某运动平台", "某EAP机构"],
+      "covers": ["健身房通兑", "全年8次匿名咨询"],
+      "coverage_breadth": 2,
+      "points_per_year": 900
+    }
+  ],
+  "points": [
+    {
+      "vendor_id": "V1",
+      "plan": "升级商保(家属)",
+      "points_per_year": 1600,
+      "points_used": 1450,
+      "remaining": 150,
+      "utilization": 0.9063,
+      "consumption_share": 0.4462
+    },
+    {
+      "vendor_id": "V2",
+      "plan": "高端体检套餐",
+      "points_per_year": 900,
+      "points_used": 900,
+      "remaining": 0,
+      "utilization": 1.0,
+      "consumption_share": 0.2769
+    },
+    {
+      "vendor_id": "V3",
+      "plan": "健康管理弹性包(弹性健身+EAP心理支持)",
+      "points_per_year": 900,
+      "points_used": 900,
+      "remaining": 0,
+      "utilization": 1.0,
+      "consumption_share": 0.2769
+    }
+  ],
+  "winner": {
+    "vendor_id": "V1",
+    "plan": "升级商保(家属)",
+    "provider_masked": "某保险公司",
+    "composite_score": 0.9625,
+    "points_per_year": 1600,
+    "points_used": 1450,
+    "utilization": 0.9063,
+    "reasons": [
+      "覆盖广度最高：门诊+住院+体检 3 项保障，为三套方案中唯一同时覆盖就诊与住院责任的方案",
+      "绝对消耗规模最大：年度已使用 1450 积分，占全部已消耗积分 3250 的 44.62%",
+      "积分使用率 90.63%，接近满额使用，仅余 150 分沉淀，预算沉没风险低"
+    ],
+    "conditions": [
+      "剩余 150 积分需在下一年度方案中确认是否结转或下调额度至 1500 分档",
+      "家属连带保障涉及第三方个人健康信息，须按 L4 口径处理，不得进入记忆层"
+    ]
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "vendor_id": "V1",
+      "plan": "升级商保(家属)",
+      "composite_score": 0.9625,
+      "tie_break": null
+    },
+    {
+      "rank": 2,
+      "vendor_id": "V2",
+      "plan": "高端体检套餐",
+      "composite_score": 0.7862,
+      "tie_break": "与 V3 同分，按基础健康保障优先级(体检属全员基础项)排前"
+    },
+    {
+      "rank": 3,
+      "vendor_id": "V3",
+      "plan": "健康管理弹性包(弹性健身+EAP心理支持)",
+      "composite_score": 0.7862,
+      "tie_break": "与 V2 同分，按基础健康保障优先级排后；其中弹性健身单项使用率仅 50%"
+    }
+  ],
+  "scoring_model": {
+    "method": "加权综合评分法",
+    "criteria": [
+      {"name": "积分使用率", "weight": 0.4, "basis": "usage.csv 的 points_used / plans.csv 的 points_per_year"},
+      {"name": "覆盖广度", "weight": 0.3, "basis": "covers 条目数 / 最大条目数 3"},
+      {"name": "绝对消耗规模", "weight": 0.3, "basis": "points_used / 最大 points_used 1450"}
+    ],
+    "scale": [0, 1],
+    "detail": [
+      {"vendor_id": "V1", "utilization": 0.9063, "coverage_norm": 1.0, "volume_norm": 1.0, "composite_score": 0.9625},
+      {"vendor_id": "V2", "utilization": 1.0, "coverage_norm": 0.6667, "volume_norm": 0.6207, "composite_score": 0.7862},
+      {"vendor_id": "V3", "utilization": 1.0, "coverage_norm": 0.6667, "volume_norm": 0.6207, "composite_score": 0.7862}
+    ]
+  },
+  "totals": {
+    "plans_in_scope": 3,
+    "source_plan_rows": 4,
+    "total_points_per_year": 3400,
+    "total_points_used": 3250,
+    "overall_utilization": 0.9559
+  },
+  "data_quality_findings": [
+    {
+      "finding_id": "DQ-1",
+      "severity": "high",
+      "description": "usage.csv 中 EMP-****51 对 EAP心理支持 记 600 分消耗，但 plans.csv 中该方案年度额度仅 300 分，超出 300 分。疑为跨期结转、双人合并记帐或两条记录合并，需业务侧核对。",
+      "affected": ["EAP心理支持", "V3"]
+    },
+    {
+      "finding_id": "DQ-2",
+      "severity": "medium",
+      "description": "弹性健身年度额度 600 分，实际使用 300 分，沉淀 300 分（使用率 50%），为唯一存在明显额度浪费的单项方案。",
+      "affected": ["弹性健身", "V3"]
+    },
+    {
+      "finding_id": "DQ-3",
+      "severity": "low",
+      "description": "plans.csv 中未提供方案单价、人数上限与协议期字段，本次比选仅能基于积分额度与使用率，未能纳入单位成本维度。",
+      "affected": ["全部方案"]
+    }
+  ],
+  "recommendations": [
+    "首推 V1 升级商保(家属) 续约，但建议将额度由 1600 分下调至 1500 分档以消化 150 分沉淀。",
+    "V2 高端体检套餐 使用率 100%，建议保留并评估扩容至 1200 分档。",
+    "V3 弹性健身 使用率 50%，建议额度由 600 分降至 300 分，释放 300 分额度用于体检或商保扩容。",
+    "EAP心理支持 保持 300 分匿名咨询额度不变，在 DQ-1 超额问题核实前不调整额度。"
+  ],
+  "compliance": {
+    "data_classification": "L4",
+    "memory_layer_write": "FORBIDDEN",
+    "rule": "健康数据 L4 禁入记忆层",
+    "enforcement": [
+      "交付物仅保留方案级聚合口径(额度、消耗、剩余、使用率)，未写入任何个体标识或个体健康/心理服务使用明细。",
+      "usage.csv 中的 employee_masked 字段及其与 EAP心理支持、体检类的逐条对应关系不落盘、不入记忆层、不随交付物外发。",
+      "心理与体检类明细一律按 L4 处理，如需个体级追溯须走独立授权通道，不走本工作流记忆层。"
+    ],
+    "pii_handling": "供应商名称按 plans.csv 原有掩码(某保险公司/某体检机构/某运动平台/某EAP机构)保留，未还原真实主体。",
+    "approval": {
+      "required": true,
+      "owner": "BEN 福利与健康数据负责人",
+      "status": "PENDING_HUMAN_APPROVAL",
+      "reason": "涉及员工健康数据 L4 与供应商额度调整，须人工审批后方可对外或进入下一环节"
+    }
+  },
+  "acceptance": {
+    "criterion": "健康数据 L4 禁入记忆层",
+    "result": "PASS",
+    "evidence": "交付物与执行报告均为方案级聚合数据，无 employee_masked 及个体健康/心理明细，记忆层写入为 FORBIDDEN。"
+  }
+}

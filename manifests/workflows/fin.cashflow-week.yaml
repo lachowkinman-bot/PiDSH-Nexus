@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: fin.cashflow-week@1.0.0
+domain: fin
+description: "周现金流简报（进/出/余）"
+trigger:
+  type: command
+  expr: cashflow-week
+nodes:
+  - id: n1
+    type: skill
+    ref: invoice-check
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "周现金流简报（进/出/余）：数据版本 + 产物哈希"
+deliverable:
+  file: cashflow-week-<ts>.json
+  format: json
+  fields:
+    - week
+    - in_wan
+    - out_wan
+    - balance_wan
+  acceptance: "银行账户字段 L4 只出汇总"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-cashflow-week

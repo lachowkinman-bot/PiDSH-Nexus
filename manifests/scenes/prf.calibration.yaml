@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: prf.calibration@1.0.0
+domain: PRF
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.multi
+  - cap.redact.all
+data_assets:
+  - name: kpi-master.xlsx
+    level: L2
+    pii_fields: []
+  - name: review-results.xlsx
+    level: L4
+    pii_fields: [review_score, review_note]
+skills: [kpi-track, calibration-analysis, goal-cascade]
+workflows: [workflows/prf.calibration-approve.yaml, workflows/prf.cascade-report.yaml]
+policies:
+  permission:
+    min_level: L4
+    dual_approval: true
+  redact:
+    fields: [review_score, review_note]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/prf/README.md]
+golden_tasks:
+  - id: GT-PRF-01
+    input: "生成本季度 KPI 追踪与预警清单"
+    expected_plan: "见 docs/preset-design/prf.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/prf/gt-01.md
+    expected_files: [data/prf/kpi-master.xlsx, data/prf/review-results.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-PRF-02
+    input: "输出校准会议材料（分布+离散度）"
+    expected_plan: "见 docs/preset-design/prf.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/prf/gt-02.md
+    expected_files: [data/prf/kpi-master.xlsx, data/prf/review-results.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-PRF-03
+    input: "把部门目标分解到岗位并生成追踪表"
+    expected_plan: "见 docs/preset-design/prf.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/prf/gt-03.md
+    expected_files: [data/prf/kpi-master.xlsx, data/prf/review-results.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：考核结果 L4；校准纪要禁入记忆层。

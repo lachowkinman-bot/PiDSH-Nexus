@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: trn.plan-approve@1.0.0
+domain: trn
+description: "培训计划审批（预算/学时）"
+trigger:
+  type: command
+  expr: plan-approve
+nodes:
+  - id: n1
+    type: skill
+    ref: course-schedule
+  - id: n2
+    type: condition
+    expr: "培训计划审批（预算/学时） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "培训计划审批（预算/学时）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: plan-approve-<ts>.json
+  format: json
+  fields:
+    - course
+    - hours
+    - budget_wan
+    - approver
+  acceptance: "外部采购课程走审批"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-plan-approve

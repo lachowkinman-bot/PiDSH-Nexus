@@ -1,0 +1,31 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-on.campaign-report@1.0.0
+domain: mkt-on
+description: "投放周报（渠道×ROI）"
+trigger:
+  type: command
+  expr: campaign-report
+nodes:
+  - id: n1
+    type: skill
+    ref: ad-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "投放周报（渠道×ROI）：数据版本 + 产物哈希"
+deliverable:
+  file: campaign-report-<ts>.json
+  format: json
+  fields:
+    - channel
+    - spend_wan
+    - leads
+    - roi
+    - week
+  acceptance: "ROI 数字可追溯到 data/mkt-on/leads.csv"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-campaign-report

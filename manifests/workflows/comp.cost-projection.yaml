@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: comp.cost-projection@1.0.0
+domain: comp
+description: "调薪包成本测算（区间口径）"
+trigger:
+  type: command
+  expr: cost-projection
+nodes:
+  - id: n1
+    type: skill
+    ref: payroll-recon
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "调薪包成本测算（区间口径）：输入参数 + 结果快照"
+deliverable:
+  file: cost-projection-<ts>.json
+  format: json
+  fields:
+    - scenario
+    - pct
+    - cost_impact_wan
+    - note
+  acceptance: "测算不含个体原值"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-cost-projection

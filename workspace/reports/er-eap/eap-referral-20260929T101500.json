@@ -1,0 +1,90 @@
+{
+  "schema": "workbench.pi-dsh/v1#deliverable",
+  "deliverable": "eap-referral",
+  "workflow_id": "er-eap.eap-referral@1.0.0",
+  "skill": "eap-referral",
+  "domain": "er-eap",
+  "run_id": "RUN-9F3AE1A7",
+  "generated_at": "2026-09-29T10:15:00+08:00",
+  "level": "L4",
+  "input": {
+    "table": "data/er-eap/cases",
+    "source": "workspace/data/er-eap/cases.csv",
+    "data_version": "type-dict@25 / synth-12",
+    "rows": 12,
+    "asset_level": "L4"
+  },
+  "anonymization": {
+    "method": "sequential-pseudonym",
+    "token_format": "EAP-####",
+    "reidentifiable_fields_stripped": ["case_no", "employee_alias"],
+    "mapping_retained": false,
+    "only_anon_tokens": true
+  },
+  "controls": {
+    "network": "DISABLED",
+    "memory_layer": "EXCLUDED",
+    "memory_exclude": ["graph-memory", "pi-hermes-memory"],
+    "redact_gate": "PASS",
+    "redact_fields": ["disciplinary_detail", "eap_content", "health_mental"],
+    "namespace": "workspace/eap/"
+  },
+  "anon_id": [
+    "EAP-0001", "EAP-0002", "EAP-0003", "EAP-0004",
+    "EAP-0005", "EAP-0006", "EAP-0007", "EAP-0008",
+    "EAP-0009", "EAP-0010", "EAP-0011", "EAP-0012"
+  ],
+  "direction": [
+    "career-transition-counseling", "career-transition-counseling",
+    "workplace-stress-counseling", "workplace-stress-counseling",
+    "workplace-stress-counseling", "career-transition-counseling",
+    "mediation-support", "mediation-support",
+    "career-transition-counseling", "workplace-stress-counseling",
+    "workplace-stress-counseling", "mediation-support"
+  ],
+  "sessions": [4, 4, 3, 3, 3, 4, 5, 5, 4, 3, 3, 5],
+  "approvals": [
+    { "node": "n3", "approver": "EAP-Custodian", "ordinal": 1, "level": "L4", "decision": "ALLOW", "at": "2026-09-29T10:12:41+08:00" },
+    { "node": "n3", "approver": "ER-Lead", "ordinal": 2, "level": "L4", "decision": "ALLOW", "at": "2026-09-29T10:13:07+08:00" }
+  ],
+  "gate": {
+    "node": "n3",
+    "dual": true,
+    "need": 2,
+    "got": 2,
+    "state_before_approval": "WAITING_APPROVAL",
+    "state_after_first_approval": "WAITING_APPROVAL",
+    "state_after_second_approval": "DONE",
+    "released_without_approval": false
+  },
+  "referrals": [
+    { "anon_id": "EAP-0001", "direction": "career-transition-counseling", "sessions": 4 },
+    { "anon_id": "EAP-0002", "direction": "career-transition-counseling", "sessions": 4 },
+    { "anon_id": "EAP-0003", "direction": "workplace-stress-counseling", "sessions": 3 },
+    { "anon_id": "EAP-0004", "direction": "workplace-stress-counseling", "sessions": 3 },
+    { "anon_id": "EAP-0005", "direction": "workplace-stress-counseling", "sessions": 3 },
+    { "anon_id": "EAP-0006", "direction": "career-transition-counseling", "sessions": 4 },
+    { "anon_id": "EAP-0007", "direction": "mediation-support", "sessions": 5 },
+    { "anon_id": "EAP-0008", "direction": "mediation-support", "sessions": 5 },
+    { "anon_id": "EAP-0009", "direction": "career-transition-counseling", "sessions": 4 },
+    { "anon_id": "EAP-0010", "direction": "workplace-stress-counseling", "sessions": 3 },
+    { "anon_id": "EAP-0011", "direction": "workplace-stress-counseling", "sessions": 3 },
+    { "anon_id": "EAP-0012", "direction": "mediation-support", "sessions": 5 }
+  ],
+  "summary": {
+    "cases": 12,
+    "by_direction": {
+      "career-transition-counseling": 4,
+      "workplace-stress-counseling": 5,
+      "mediation-support": 3
+    },
+    "total_sessions": 46,
+    "scope": "recommendation-only（仅到建议为止；不对外发送、不写记忆层）"
+  },
+  "acceptance_check": {
+    "only_anonymous_ids": true,
+    "network_disabled": true,
+    "memory_excluded": true,
+    "dual_approval_complete": true
+  }
+}

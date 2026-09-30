@@ -1,0 +1,102 @@
+{
+  "report_id": "GT-ADMIN-02",
+  "workflow": "admin.asset-inventory@1.0.0",
+  "skill": "asset-inventory",
+  "scenario": "admin.procurement@1.0.0",
+  "domain": "ADMIN",
+  "generated_at": "2026-09-29T04:59:18.092Z",
+  "period": "2026Q3",
+  "source_files": [
+    "templates/workspace/data/admin/assets.csv",
+    "templates/workspace/data/admin/purchases.csv"
+  ],
+  "reconciliation_basis": "资产台账 assets.csv 逐行勾稽；采购记录 purchases.csv 用于交叉核对采购入库与台账建档情况",
+  "summary": {
+    "asset_records_total": 4,
+    "records_matched": 3,
+    "records_with_variance": 1,
+    "purchase_lines_total": 5,
+    "purchase_lines_linked_to_asset": 0,
+    "variance_rate": 0.25
+  },
+  "assets": [
+    {
+      "asset_id": "AST-0101",
+      "asset_name": "投影仪(会议室A)",
+      "status": "在用",
+      "holder_masked": "公共",
+      "location": "A栋3层",
+      "reconciliation": "一致",
+      "variance_type": "无",
+      "variance_detail": "台账 state 与盘点结果完全吻合：公共资产、在用、位于 A栋3层会议室A，无需调整。",
+      "action": "维持台账记录，按季度常规巡检"
+    },
+    {
+      "asset_id": "AST-0107",
+      "asset_name": "笔记本电脑",
+      "status": "在用",
+      "holder_masked": "张****",
+      "location": "销售部",
+      "reconciliation": "一致",
+      "variance_type": "无",
+      "variance_detail": "使用人张****（已脱敏）与部门销售部匹配，资产状态在用，盘点无差异。",
+      "action": "维持台账记录，按季度常规巡检"
+    },
+    {
+      "asset_id": "AST-0113",
+      "asset_name": "打印机",
+      "status": "维修中",
+      "holder_masked": "公共",
+      "location": "行政仓库",
+      "reconciliation": "一致",
+      "variance_type": "无",
+      "variance_detail": "维修中资产已从使用现场移至行政仓库暂存，状态与存放地点逻辑自洽，盘点无差异。",
+      "action": "跟踪维修工单，修毕后回填状态与最终存放地点"
+    },
+    {
+      "asset_id": "AST-0121",
+      "asset_name": "测试手机",
+      "status": "已归还",
+      "holder_masked": "李****",
+      "location": "研发部",
+      "reconciliation": "不一致",
+      "variance_type": "状态与地点/保管人矛盾",
+      "variance_detail": "资产状态已为“已归还”，但 location 仍登记为研发部（使用现场），且 holder_masked 仍为个人李****，未回填为公共/资产库；归还动作未同步更新存放地点与保管人字段。",
+      "action": "与研发部核对实物是否已交回，确认后把 location 更新为资产库或行政仓库、holder_masked 更新为公共"
+    }
+  ],
+  "purchase_cross_check": [
+    {
+      "item": "办公笔记本×20",
+      "selected_vendor_masked": "供应商B",
+      "unit_price_yuan": 6580,
+      "lead_days": 10,
+      "selection_note": "最低价中选",
+      "amount_yuan": 131600,
+      "asset_link_status": "未勾稽",
+      "finding": "采购 20 台办公笔记本，但资产台账中笔记本电脑仅 1 条（AST-0107），且采购记录无 asset_id 字段，无法逐台对应建档。"
+    },
+    {
+      "item": "会议椅×40",
+      "selected_vendor_masked": "供应商C",
+      "unit_price_yuan": 799,
+      "lead_days": 15,
+      "selection_note": "最低价中选",
+      "amount_yuan": 31960,
+      "asset_link_status": "未勾稽",
+      "finding": "会议椅 40 把在资产台账中无任何对应资产记录，需确认是否作为低值易耗品另册管理。"
+    }
+  ],
+  "conclusions": [
+    "本次季度盘点以 assets.csv 全量 4 条资产记录为基准逐行勾稽，其中 3 条完全一致，1 条存在差异，差异率 25%。",
+    "唯一差异项为 AST-0121 测试手机：状态已置为“已归还”，但存放地点与保管人字段未同步变更，属状态与地点/保管人矛盾。",
+    "采购侧 5 条报价记录（办公笔记本×20、会议椅×40）均无 asset_id，采购数据与资产台账零勾稽，存在资产漏建账风险。",
+    "供应商选择均取最低价（供应商B 6580 元/台、供应商C 799 元/把），采购决策一致，本报告不涉及价格合规判断。"
+  ],
+  "masking_note": "交付物中自然人保管人一律按原数据脱敏形式保留（张****、李****），供应商采用“供应商A/B/C”代号，不含真实姓名、联系方式或供应商全称。",
+  "approval": {
+    "status": "pending",
+    "role": "admin.procurement 资产管理员复核",
+    "reason": "AST-0121 台账字段更正及采购与台账勾稽口径确认涉及台账写操作，需人工审批后执行。"
+  }
+}

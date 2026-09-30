@@ -1,0 +1,125 @@
+{
+  "generated_at": "2026-09-30T01:10:16.082Z",
+  "base": "http://127.0.0.1:3930",
+  "pass": 23,
+  "total": 23,
+  "fail": 0,
+  "errors": [],
+  "records": [
+    {
+      "item": "主驾驶舱交付中心",
+      "pass": true,
+      "note": "页面可访问"
+    },
+    {
+      "item": "驾驶舱生成全部格式",
+      "pass": true,
+      "note": "7 个产物"
+    },
+    {
+      "item": "产物下载按钮 MD",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "产物下载按钮 CSV",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "产物下载按钮 HTML",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "产物下载按钮 XLSX",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "产物下载按钮 DOCX",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "产物下载按钮 PPTX",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "产物下载按钮 PDF",
+      "pass": true,
+      "note": "count=6"
+    },
+    {
+      "item": "域驾驶舱 strat",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 mkt-on",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 mkt-off",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 sales",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 fin",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 rec",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 trn",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 prf",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 comp",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 ben",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 admin",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 cmp",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "域驾驶舱 er-eap",
+      "pass": true,
+      "note": "主/域驾驶舱同窗渲染"
+    },
+    {
+      "item": "浏览器控制台无错误",
+      "pass": true,
+      "note": ""
+    }
+  ]
+}

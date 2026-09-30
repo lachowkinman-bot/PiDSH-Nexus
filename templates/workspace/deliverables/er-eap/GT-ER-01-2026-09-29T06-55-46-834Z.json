@@ -1,0 +1,125 @@
+{
+  "deliverable_type": "offboarding-flow",
+  "scenario": "eap.referral@1.0.0",
+  "workflow": "er-eap.offboard-approve@1.0.0",
+  "task": "分支机构裁撤员工关系风险清单",
+  "generated_at": "2026-09-29T06:55:46.834Z",
+  "scope": {
+    "trigger": "分支机构裁撤",
+    "target_orgs": ["分支机构A", "分支机构B", "分支机构C"],
+    "source_files": [
+      "templates/workspace/data/er-eap/er_cases.csv",
+      "templates/workspace/data/er-eap/eap_referrals.csv"
+    ]
+  },
+  "gate_rule": {
+    "id": "handover-before-final-step",
+    "statement": "交接未完成（handover_ok=false）不得进入最后一步（结算与离职证明/审批通过放行）",
+    "final_step": "结算与离职证明",
+    "enforced": true
+  },
+  "risk_items": [
+    {
+      "case_id": "ER-1202",
+      "employee_masked": "E2***",
+      "dept_masked": "分支机构A",
+      "case_type": "离职交接",
+      "stage": "审批中",
+      "last_day": "2026-10-20",
+      "handover_ok": false,
+      "approvals": {
+        "approval_supervisor": "待审批",
+        "approval_specialist": "待审批",
+        "mode": "主管/专员双审批",
+        "state": "未通过"
+      },
+      "offboard_node": "资产与权限回收",
+      "asset_release_status": "待释放",
+      "contract_status": "履行中",
+      "contract_end_date": "2026-10-20",
+      "dispute_status": "—",
+      "risk_level": "高",
+      "block_reason": "资产与权限回收待释放，交接未完成，禁止进入结算与离职证明环节",
+      "next_step_allowed": false,
+      "action": "冻结放行，限期完成资产/权限回收并复核后再提交双审批"
+    },
+    {
+      "case_id": "ER-1206",
+      "employee_masked": "E6***",
+      "dept_masked": "分支机构B",
+      "case_type": "劳动争议",
+      "stage": "仲裁",
+      "last_day": "2026-10-31",
+      "handover_ok": false,
+      "approvals": {
+        "approval_supervisor": "待审批",
+        "approval_specialist": "待审批",
+        "mode": "主管/专员双审批",
+        "state": "未通过"
+      },
+      "offboard_node": "—",
+      "asset_release_status": "不涉及",
+      "contract_status": "即将到期",
+      "contract_end_date": "2026-10-31",
+      "dispute_status": "仲裁",
+      "risk_level": "高",
+      "block_reason": "仲裁在办且尚未进入交接节点，交接未完成，禁止进入结算与离职证明环节",
+      "next_step_allowed": false,
+      "action": "争议与裁撤节点解耦，先完成仲裁方案与交接清单核定，再启动双审批"
+    },
+    {
+      "case_id": "ER-1209",
+      "employee_masked": "E9***",
+      "dept_masked": "分支机构C",
+      "case_type": "离职交接",
+      "stage": "已完成",
+      "last_day": "2026-08-31",
+      "handover_ok": true,
+      "approvals": {
+        "approval_supervisor": "已通过",
+        "approval_specialist": "已通过",
+        "mode": "主管/专员双审批",
+        "state": "已通过"
+      },
+      "offboard_node": "结算与离职证明",
+      "asset_release_status": "已释放",
+      "contract_status": "已终止",
+      "contract_end_date": "2026-08-31",
+      "dispute_status": "—",
+      "risk_level": "低",
+      "block_reason": "无",
+      "next_step_allowed": true,
+      "action": "归档离职证明与结算凭证，作为裁撤交接基线样本"
+    }
+  ],
+  "eap_coverage_risk": {
+    "note": "EAP 转介数据以匿名编号存储，不可与员工台账关联，仅作裁撤期心理与法律支持容量评估",
+    "active_referrals": 6,
+    "pending_double_approval": 2,
+    "crisis_intervention_active": 1,
+    "high_utilization_active": [
+      {
+        "anon_id": "EAP-ANON-0735",
+        "direction": "危机干预",
+        "sessions_used": 10,
+        "sessions_left": 2,
+        "status": "进行中"
+      },
+      {
+        "anon_id": "EAP-ANON-0737",
+        "direction": "心理咨询(外部机构)",
+        "sessions_used": 8,
+        "sessions_left": 4,
+        "status": "进行中"
+      }
+    ],
+    "action": "裁撤期间保持外部机构心理咨询与劳动法律咨询额度，避免因机构变更中断在谈个案"
+  },
+  "summary": {
+    "total": 3,
+    "handover_blocked": 2,
+    "handover_ok": 1,
+    "final_step_released": 0,
+    "verdict": "3 名裁撤涉及员工中 2 名交接未完成，按门禁规则均不得进入最后一步；仅 ER-1209 交接完成可正常归档"
+  }
+}

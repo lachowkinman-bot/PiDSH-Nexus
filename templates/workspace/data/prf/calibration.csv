@@ -1,0 +1,17 @@
+employee_masked,dept,manager_grade,calibrated_grade,delta_note,self_score,mgr_score,final_score,cycle,status
+EMP-****12,销售部,B,A,超出：大单突破,78,76,76.4,Q4-2026,done
+EMP-****35,研发部,A,A,一致,86,85,85.2,Q4-2026,done
+EMP-****07,市场部,C,C,一致,68,66,66.4,Q4-2026,done
+EMP-****51,财务部,B,B,一致：跨部门支持（档内偏上，未跨档）,82,78,78.8,Q4-2026,done
+EMP-****29,行政部,B,C,下调：两次客诉,74,72,72.4,Q4-2026,appeal
+EMP-****63,销售部,B,B,一致,80,77,77.6,Q4-2026,done
+EMP-****48,研发部,B,A,超出：质量攻坚,81,79,79.4,Q4-2026,done
+EMP-****22,研发部,A,S,超出：年度突破,92,88,88.8,Q4-2026,done
+EMP-****55,市场部,C,C,一致,64,62,62.4,Q4-2026,done
+EMP-****61,财务部,B,B,一致,76,75,75.2,Q4-2026,done
+EMP-****73,行政部,C,D,下调：考勤异常,63,61,61.4,Q4-2026,appeal
+EMP-****18,销售部,A,A,一致,90,87,87.6,Q4-2026,done
+EMP-****84,研发部,B,C,下调：交付延期,72,74,73.6,Q4-2026,pending_confirm
+EMP-****39,市场部,B,B,一致,79,73,74.2,Q4-2026,done
+EMP-****26,研发部,,,,84,,,Q4-2026,pending_mgr
+EMP-****44,行政部,,,,,,,Q4-2026,pending_self

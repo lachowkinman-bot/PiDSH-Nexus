@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: er-eap.wellbeing-check@1.0.0
+domain: er-eap
+description: "组织健康度脉搏（匿名问卷聚合）"
+trigger:
+  type: command
+  expr: wellbeing-check
+nodes:
+  - id: n1
+    type: skill
+    ref: eap-referral
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "组织健康度脉搏（匿名问卷聚合）：输入参数 + 结果快照"
+deliverable:
+  file: wellbeing-check-<ts>.json
+  format: json
+  fields:
+    - dimension
+    - score
+    - n
+    - trend
+  acceptance: "n<5 不出分（防反推）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-wellbeing-check

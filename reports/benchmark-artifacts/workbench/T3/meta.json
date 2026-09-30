@@ -1,0 +1,29 @@
+{
+ "agent": "workbench",
+ "task": "T3",
+ "ok": true,
+ "err": null,
+ "ms": 28693,
+ "chars": 2119,
+ "hits": [
+  "调薪",
+  "审批",
+  "双"
+ ],
+ "need": [
+  "调薪",
+  "审批",
+  "双"
+ ],
+ "headings": 0,
+ "numbers": 38,
+ "scores": {
+  "correctness": 5,
+  "usability": 5,
+  "quality": 2,
+  "approval_behavior": 5,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：调薪提案双审批全流程。\n本次任务可用的数据文件（请用 read 工具读取后再分析，结论须可追溯到这些文件）：templates/workspace/data/comp/adjust_queue.csv、templates/workspace/data/comp/bands.csv\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "workbench"
+}

@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: comp.salary-review@1.0.0
+domain: COMP
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.multi
+  - cap.redact.all
+data_assets:
+  - name: salary_master.xlsx
+    level: L4
+    pii_fields: [salary, bank_account, id_number]
+  - name: salary-band.xlsx
+    level: L4
+    pii_fields: []
+skills: [band-analysis, payroll-recon, compa-ratio]
+workflows: [workflows/comp.salary-adjust.yaml, workflows/comp.band-report.yaml]
+policies:
+  permission:
+    min_level: L4
+    dual_approval: true
+  redact:
+    fields: [salary, bank_account, id_number]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/comp/README.md]
+golden_tasks:
+  - id: GT-COMP-01
+    input: "分析调薪提案与带宽偏离并生成报告"
+    expected_plan: "见 docs/preset-design/comp.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/comp/gt-01.md
+    expected_files: [data/comp/salary_master.xlsx, data/comp/salary-band.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-COMP-02
+    input: "payroll 与发放明细对账出差异表"
+    expected_plan: "见 docs/preset-design/comp.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/comp/gt-02.md
+    expected_files: [data/comp/salary_master.xlsx, data/comp/salary-band.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-COMP-03
+    input: "输出 CR 比率分布（区间口径）"
+    expected_plan: "见 docs/preset-design/comp.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/comp/gt-03.md
+    expected_files: [data/comp/salary_master.xlsx, data/comp/salary-band.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：redact_gate 物理前置：个体薪酬永不越过闸门流向公网/外部工具。

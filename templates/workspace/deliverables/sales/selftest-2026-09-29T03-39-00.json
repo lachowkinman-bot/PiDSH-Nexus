@@ -1,0 +1,9 @@
+{
+ "domain": "sales",
+ "kind": "selftest",
+ "created_at": "2026-09-29T03:39:00.429Z",
+ "fields": {
+  "probe": 1
+ },
+ "status": "submitted"
+}

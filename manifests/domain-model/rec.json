@@ -1,0 +1,955 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "rec",
+ "label": "招聘 REC",
+ "scene_ids": [
+  "rec.funnel-weekly@1.0.0"
+ ],
+ "level": "L3",
+ "dual_approval": false,
+ "redact_fields": [
+  "candidate_phone",
+  "candidate_idcard"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.421Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/rec.funnel-weekly.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/rec/",
+  "doc": "docs/preset-design/rec.md"
+ },
+ "tables": [
+  {
+   "file": "candidates.csv",
+   "rows": 14,
+   "columns": [
+    "candidate_masked",
+    "position",
+    "stage",
+    "interview_at",
+    "source",
+    "candidate_id",
+    "candidate_phone",
+    "candidate_idcard",
+    "education",
+    "exp_years",
+    "score",
+    "offer_salary",
+    "offer_status",
+    "onboard_status",
+    "summary",
+    "note"
+   ],
+   "pii_likely": [
+    "candidate_masked",
+    "candidate_phone",
+    "candidate_idcard"
+   ]
+  },
+  {
+   "file": "funnel.csv",
+   "rows": 15,
+   "columns": [
+    "stage",
+    "count",
+    "conversion_pct",
+    "week"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "interviews.csv",
+   "rows": 21,
+   "columns": [
+    "interview_id",
+    "cand_id",
+    "round",
+    "interviewer",
+    "interviewer_role",
+    "interview_at",
+    "mode",
+    "score",
+    "result",
+    "comment"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "funnel-analysis",
+   "file": "templates/skills-domain/rec/SKILL-funnel-analysis.md"
+  },
+  {
+   "name": "jd-gen",
+   "file": "templates/skills-domain/rec/SKILL-jd-gen.md"
+  },
+  {
+   "name": "interview-summary",
+   "file": "templates/skills-domain/rec/SKILL-interview-summary.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "rec.funnel-weekly@1.0.0",
+   "kind": "report",
+   "description": "漏斗周报（阶段转化）",
+   "skill": "funnel-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "funnel-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "漏斗周报（阶段转化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "funnel-weekly-<ts>.json",
+    "format": "json",
+    "fields": [
+     "stage",
+     "count",
+     "conversion_pct",
+     "week"
+    ],
+    "acceptance": "候选人 PII 仅掩码"
+   }
+  },
+  {
+   "id": "rec.resume-forward@1.0.0",
+   "kind": "approve",
+   "description": "简历外发（强制脱敏 + 审批）",
+   "skill": "jd-gen",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "jd-gen"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "简历外发（强制脱敏 + 审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "简历外发（强制脱敏 + 审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "resume-forward-<ts>.json",
+    "format": "json",
+    "fields": [
+     "candidate_masked",
+     "target",
+     "redact_fields",
+     "approver"
+    ],
+    "acceptance": "未脱敏外发 = 一票否决"
+   }
+  },
+  {
+   "id": "rec.jd-draft@1.0.0",
+   "kind": "calc",
+   "description": "JD 起草（岗位/要求/薪酬带）",
+   "skill": "jd-gen",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "jd-gen"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "JD 起草（岗位/要求/薪酬带）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "jd-draft-<ts>.json",
+    "format": "json",
+    "fields": [
+     "position",
+     "requirements",
+     "band",
+     "locale"
+    ],
+    "acceptance": "薪酬带引用 comp.bands 区间口径"
+   }
+  },
+  {
+   "id": "rec.interview-schedule@1.0.0",
+   "kind": "calc",
+   "description": "面试安排（ interviewer 冲突检测）",
+   "skill": "interview-summary",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "interview-summary"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "面试安排（ interviewer 冲突检测）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "interview-schedule-<ts>.json",
+    "format": "json",
+    "fields": [
+     "candidate_masked",
+     "slot",
+     "interviewers",
+     "mode"
+    ],
+    "acceptance": "同一面试官同时段冲突须标红"
+   }
+  },
+  {
+   "id": "rec.offer-approve@1.0.0",
+   "kind": "approve",
+   "description": "offer 审批（薪酬带核对）",
+   "skill": "funnel-analysis",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "funnel-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "offer 审批（薪酬带核对） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "offer 审批（薪酬带核对）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "offer-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "candidate_masked",
+     "position",
+     "offer_band",
+     "approvals"
+    ],
+    "acceptance": "offer 超出 P75 必须双审批"
+   }
+  },
+  {
+   "id": "rec.onboarding-check@1.0.0",
+   "kind": "report",
+   "description": "入职准备清单（账号/设备/导师）",
+   "skill": "interview-summary",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "interview-summary"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "入职准备清单（账号/设备/导师）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "onboarding-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "owner",
+     "due",
+     "status"
+    ],
+    "acceptance": "入职日前 3 天必须全绿"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-REC-01",
+   "input": "生成本周招聘漏斗周报（含瓶颈环节）",
+   "expected_output": "reports/rec/gt-01.md",
+   "skill": null,
+   "scene": "rec.funnel-weekly@1.0.0"
+  },
+  {
+   "id": "GT-REC-02",
+   "input": "按岗位需求生成 JD 并做合规检查",
+   "expected_output": "reports/rec/gt-02.md",
+   "skill": null,
+   "scene": "rec.funnel-weekly@1.0.0"
+  },
+  {
+   "id": "GT-REC-03",
+   "input": "把候选人简历脱敏后转发面试官（走审批）",
+   "expected_output": "reports/rec/gt-03.md",
+   "skill": null,
+   "scene": "rec.funnel-weekly@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/rec",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/rec/t/candidates",
+   "type": "table",
+   "title": "candidates.csv",
+   "table": "candidates",
+   "file": "candidates.csv"
+  },
+  {
+   "route": "#/rec/t/funnel",
+   "type": "table",
+   "title": "funnel.csv",
+   "table": "funnel",
+   "file": "funnel.csv"
+  },
+  {
+   "route": "#/rec/t/interviews",
+   "type": "table",
+   "title": "interviews.csv",
+   "table": "interviews",
+   "file": "interviews.csv"
+  },
+  {
+   "route": "#/rec/w/funnel-weekly",
+   "type": "workflow",
+   "title": "漏斗周报（阶段转化）",
+   "workflow": "rec.funnel-weekly@1.0.0"
+  },
+  {
+   "route": "#/rec/w/resume-forward",
+   "type": "workflow",
+   "title": "简历外发（强制脱敏 + 审批）",
+   "workflow": "rec.resume-forward@1.0.0"
+  },
+  {
+   "route": "#/rec/w/jd-draft",
+   "type": "workflow",
+   "title": "JD 起草（岗位/要求/薪酬带）",
+   "workflow": "rec.jd-draft@1.0.0"
+  },
+  {
+   "route": "#/rec/w/interview-schedule",
+   "type": "workflow",
+   "title": "面试安排（ interviewer 冲突检测）",
+   "workflow": "rec.interview-schedule@1.0.0"
+  },
+  {
+   "route": "#/rec/w/offer-approve",
+   "type": "workflow",
+   "title": "offer 审批（薪酬带核对）",
+   "workflow": "rec.offer-approve@1.0.0"
+  },
+  {
+   "route": "#/rec/w/onboarding-check",
+   "type": "workflow",
+   "title": "入职准备清单（账号/设备/导师）",
+   "workflow": "rec.onboarding-check@1.0.0"
+  },
+  {
+   "route": "#/rec/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "candidates.csv",
+         "L3",
+         "candidate_phone, candidate_idcard",
+         "14",
+         "候选人主表。scene 数据资产声明名为 candidates.xlsx，落地为同表同字段的 UTF-8 CSV（校验器按同名归一化匹配）"
+        ],
+        [
+         "interviews.csv",
+         "L3",
+         "—",
+         "21",
+         "面试主表。scene 数据资产声明名为 interviews.xlsx，落地 CSV；仅以 cand_id 关联候选人，不含 PII 列"
+        ],
+        [
+         "funnel.csv",
+         "L3",
+         "—",
+         "15",
+         "漏斗周报派生汇总表（3 周 × 5 阶段，2026-W38/W39/W40）。非 scene 数据资产，供 GT-REC-01 使用；级别保守继承源表 L3"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "candidate_masked",
+         "string",
+         "是",
+         "姓名掩码（姓 + `**`），唯一展示标识；原始姓名不入库"
+        ],
+        [
+         "position",
+         "string",
+         "是",
+         "应聘岗位名（对齐职位表 title；本域职位表未落地，暂按岗位名引用）"
+        ],
+        [
+         "stage",
+         "enum",
+         "是",
+         "候选人阶段，枚举见 §4.1，落地存英文枚举值（screening/first/second/final/offer/hired/rejected/talent）"
+        ],
+        [
+         "interview_at",
+         "datetime",
+         "否",
+         "下一场（或最近一场关键）面试时间，格式 `YYYY-MM-DD HH:mm`；无则 `-`"
+        ],
+        [
+         "source",
+         "enum",
+         "否",
+         "来源渠道：猎头/内推/官网/招聘网站/BOSS直聘/猎聘/校招（对齐 PRD B8 渠道口径）"
+        ],
+        [
+         "candidate_id",
+         "string",
+         "是",
+         "候选人 ID（`C` + 3 位），唯一主键；interviews.cand_id 的外键指向本列"
+        ],
+        [
+         "candidate_phone",
+         "string",
+         "否",
+         "手机号（PII）。落地值为脱敏形态 `138****5678`（前 3 后 4，中间 4 星）；完整值不得出域"
+        ],
+        [
+         "candidate_idcard",
+         "string",
+         "否",
+         "身份证号（PII）。落地值为脱敏形态 `4403**********1234`（前 4 后 4，中间 10 星）；完整值不得出域"
+        ],
+        [
+         "education",
+         "enum",
+         "否",
+         "大专/本科/硕士/博士"
+        ],
+        [
+         "exp_years",
+         "number",
+         "否",
+         "工作年限（0-40，整数）"
+        ],
+        [
+         "score",
+         "number",
+         "否",
+         "已完成轮次的最新面试评分（0-100）；无已评轮次为 `-`"
+        ],
+        [
+         "offer_salary",
+         "number",
+         "否",
+         "定薪（元/月），须落在 comp.bands 区间内；未发放为 `-`"
+        ],
+        [
+         "offer_status",
+         "enum",
+         "否",
+         "`-` / sent 已发送 / accepted 已接受 / declined 已放弃"
+        ],
+        [
+         "onboard_status",
+         "enum",
+         "否",
+         "`-` / pending 待入职 / done 已入职"
+        ],
+        [
+         "summary",
+         "enum",
+         "否",
+         "面试摘要徽标：good/medium/bad（看板卡片字段）"
+        ],
+        [
+         "note",
+         "string",
+         "否",
+         "运营注记（淘汰原因、冲突提示、联动待办等）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "interview_id",
+         "string",
+         "是",
+         "面试记录 ID（`IV` + 3 位），唯一主键"
+        ],
+        [
+         "cand_id",
+         "ref",
+         "是",
+         "→ candidates.candidate_id 外键；禁止孤儿行（见 §9）"
+        ],
+        [
+         "round",
+         "enum",
+         "是",
+         "first 初试 / second 复试 / final 终面"
+        ],
+        [
+         "interviewer",
+         "string",
+         "是",
+         "面试官掩码名（姓 + `**`）。本表 PII 字段声明为空，故不得落面试官全名"
+        ],
+        [
+         "interviewer_role",
+         "string",
+         "是",
+         "面试官角色：销售总监/HRD/技术负责人/前端组长/数据负责人/招聘负责人/财务经理"
+        ],
+        [
+         "interview_at",
+         "datetime",
+         "是",
+         "面试时间，格式 `YYYY-MM-DD HH:mm`"
+        ],
+        [
+         "mode",
+         "enum",
+         "是",
+         "现场/视频/电话"
+        ],
+        [
+         "score",
+         "number",
+         "否",
+         "评分 0-100；result=pending 时为 `-`"
+        ],
+        [
+         "result",
+         "enum",
+         "是",
+         "面试结果，枚举见 §4.2：pending 待定 / pass 通过 / fail 未通过"
+        ],
+        [
+         "comment",
+         "string",
+         "否",
+         "评语与结论（脱敏后写入，不含候选人 PII）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "stage",
+         "string",
+         "是",
+         "漏斗阶段（展示口径）：简历投递/初筛通过/面试通过/offer发放/入职"
+        ],
+        [
+         "count",
+         "number",
+         "是",
+         "该周该阶段人数"
+        ],
+        [
+         "conversion_pct",
+         "number",
+         "是",
+         "以当周「简历投递」为基期 100 的累计转化率（占比口径，非段间转化），引用时须区分"
+        ],
+        [
+         "week",
+         "string",
+         "是",
+         "ISO 周（2026-W38/W39/W40）。追加列：原有 3 列列名保持不变"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/rec.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 candidates 阶段（CAND_STAGE）",
+     "tables": [
+      {
+       "header": [
+        "枚举值",
+        "展示",
+        "含义"
+       ],
+       "rows": [
+        [
+         "screening",
+         "简历筛选",
+         "已投递/入库，待初筛"
+        ],
+        [
+         "first",
+         "初试",
+         "一面已安排或进行中"
+        ],
+        [
+         "second",
+         "复试",
+         "一面通过，二面已安排"
+        ],
+        [
+         "final",
+         "终面",
+         "复试通过，终面已安排"
+        ],
+        [
+         "offer",
+         "已发 Offer",
+         "终面通过并生成/发出 Offer"
+        ],
+        [
+         "hired",
+         "已入职",
+         "Offer 接受且入职完成"
+        ],
+        [
+         "rejected",
+         "已淘汰",
+         "任一轮未通过或主动淘汰（终态）"
+        ],
+        [
+         "talent",
+         "人才储备",
+         "岗位暂缓/储备池（暂存态，可重新激活）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "证据/门槛"
+       ],
+       "rows": [
+        [
+         "screening → first",
+         "初筛通过（学历/年限/渠道核验）",
+         "candidates.stage 变更留痕；进入面试安排"
+        ],
+        [
+         "first → second",
+         "该轮 interviews.result=pass",
+         "interviews.round=first 的 pass 记录"
+        ],
+        [
+         "second → final",
+         "该轮 interviews.result=pass",
+         "interviews.round=second 的 pass 记录"
+        ],
+        [
+         "final → offer",
+         "该轮 interviews.result=pass 且完成定薪",
+         "生成 Offer 提示（不自动外发）；offer_salary 落入 comp.bands 区间"
+        ],
+        [
+         "offer → hired",
+         "offer_status=accepted 且 onboard_status=done",
+         "入职流程完成回写"
+        ],
+        [
+         "任意 → rejected",
+         "任一轮 result=fail，或淘汰决策",
+         "note 必填淘汰原因（终态）"
+        ],
+        [
+         "任意 → talent",
+         "岗位暂缓/储备决策",
+         "保留 score/source，可重新激活"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 interviews 结果（INTERVIEW_RESULT）",
+     "tables": [
+      {
+       "header": [
+        "枚举值",
+        "展示",
+        "迁移条件"
+       ],
+       "rows": [
+        [
+         "pending",
+         "待定",
+         "初始态；不得用于推进候选人阶段"
+        ],
+        [
+         "pass",
+         "通过",
+         "由 pending 迁移；评分与评委结论一致（评分建议 ≥75）"
+        ],
+        [
+         "fail",
+         "未通过",
+         "由 pending 迁移；须写 comment 结论"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/rec.md#§4"
+  },
+  "5": {
+   "title": "审批链",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "工作流",
+        "审批节点",
+        "最低级别",
+        "审批角色（建议映射）",
+        "双审批",
+        "驳回/回滚"
+       ],
+       "rows": [
+        [
+         "rec.resume-forward",
+         "n3",
+         "L4",
+         "招聘负责人 → HRD（外发对象为外部面试官/客户时，两级均须签字）",
+         "是（dual=true）",
+         "驳回→流程 rejected，落回草稿；rollback savepoint `pre-resume-forward`"
+        ],
+        [
+         "rec.offer-approve",
+         "n3",
+         "L4",
+         "用人部门负责人 → HRD；offer 超出 P75 时加签 CEO/CFO",
+         "是（dual=true）",
+         "驳回→流程 rejected，Offer 不发送；rollback `pre-offer-approve`"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "钉死事实：两节点的 `level: L4`、`dual: true` 取自工作流 YAML；角色映射为落地建议（scene/工作流未钉角色，按 ROLES/caps 配置）。",
+      "其余 4 条工作流无 approval 节点，仅 audit 留痕；任何对外/生效动作必须经上述两条链，condition 节点不得绕过审批直连写能力。",
+      "未脱敏外发 = 一票否决；审批意见（通过/驳回原因）写入 audit n5。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/rec.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "类别",
+        "规则",
+        "口径/示例"
+       ],
+       "rows": [
+        [
+         "必填",
+         "candidates: candidate_masked/position/stage/source/candidate_id；interviews: interview_id/cand_id/round/interviewer/interviewer_role/interview_at/mode/result",
+         "缺失即拒写，提示「请填写必填项」"
+        ],
+        [
+         "唯一",
+         "candidate_id、interview_id 唯一；candidate_phone/candidate_idcard 在源系统唯一（掩码后不可用于唯一性判定）",
+         "重复即拒写并提示「已存在」"
+        ],
+        [
+         "格式",
+         "手机 `/^1[3-9]\\d{9}$/`（掩码前校验）；身份证 18 位 `/^\\d{17}[\\dXx]$/` + 校验位；日期 `YYYY-MM-DD HH:mm`；枚举值白名单",
+         "落地掩码：手机 `138****5678`（前 3 后 4）、身份证 `4403**********1234`（前 4 后 4）"
+        ],
+        [
+         "引用完整性",
+         "interviews.cand_id → candidates.candidate_id 必须命中；禁止孤儿行",
+         "外键校验失败即拒写"
+        ],
+        [
+         "数值",
+         "score/评分 0-100；exp_years 0-40；offer_salary > 0 且 ∈ comp.bands [p25, p75]",
+         "超出 P75 → 强制双审批"
+        ],
+        [
+         "阶段业务规则",
+         "阶段不可越级；无对应 round 的 pass 记录不得前进；rejected/talent 为分支终态",
+         "见 §4.1 迁移表"
+        ],
+        [
+         "面试业务规则",
+         "result=pending 时 score 必须为 `-`；同一面试官同时段冲突须标红；pass/fail 不可原地改写",
+         "样例冲突 IV008/IV019"
+        ],
+        [
+         "审批业务规则",
+         "未脱敏外发 = 一票否决；offer 超 P75 必须双审批；驳回原因必填",
+         "见 §5"
+        ],
+        [
+         "编制/余额类规则",
+         "本域无年假余额规则；对应「余额」校验为 ①offer_salary 落在薪酬带区间 ②岗位编制余额 count-hired ≥ 0",
+         "hired ≥ count 时职位自动置「已完成」"
+        ],
+        [
+         "交付验收",
+         "漏斗周报 PII 仅掩码；入职清单在入职日前 3 天全绿",
+         "见 §3 交付规范"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/rec.md#§9"
+  }
+ },
+ "gaps": []
+}

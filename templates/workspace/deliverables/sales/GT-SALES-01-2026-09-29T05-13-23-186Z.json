@@ -1,0 +1,33 @@
+{
+  "deliverable_id": "GT-SALES-01",
+  "deliverable_file": "quote-calc-2026-09-29T05-13-23-186Z.json",
+  "scenario": "sales.quote-approval@1.0.0",
+  "skill": "quote-calc",
+  "workflow": "sales.quote-calc@1.0.0",
+  "generated_at": "2026-09-29T05:13:23.186Z",
+  "quote_id": "QT-3301",
+  "customer_masked": "某制造集团",
+  "items": "标准版×3+实施",
+  "discount_pct": 8,
+  "total_wan": 46.8,
+  "currency": "CNY",
+  "list_price_wan": 50.87,
+  "discounted_amount_wan": 4.07,
+  "opportunity": "商机-A（制造业）",
+  "opportunity_stage": "报价",
+  "opportunity_amount_k": 420,
+  "owner_masked": "王****",
+  "expected_close_date": "10-20",
+  "discount_floor_pct": 5,
+  "floor_price_wan": 48.33,
+  "below_floor": true,
+  "approval_required": true,
+  "approval_route": "quote-approve",
+  "approval_status": "待审批",
+  "basis": {
+    "quotes_source": "templates/workspace/data/sales/quotes.csv",
+    "pipeline_source": "templates/workspace/data/sales/pipeline.csv",
+    "floor_rule_evidence": "QT-3302 折扣0%无需审批（已发出）；QT-3303 折扣12%已完成审批（已审批）；QT-3301 折扣8%处于待审批；QT-3304 折扣5%仍为草稿，取5%为免审批折扣上限"
+  },
+  "decision": "折扣8%高于免审批上限5%，成交价46.8万低于底价48.33万，按场景约束必须转 quote-approve 审批，不得直接发出报价单"
+}

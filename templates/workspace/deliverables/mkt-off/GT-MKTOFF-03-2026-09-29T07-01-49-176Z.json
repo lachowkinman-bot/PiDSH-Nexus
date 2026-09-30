@@ -1,0 +1,135 @@
+{
+  "deliverable_id": "GT-MKTOFF-03",
+  "scenario": "mkt-off.event-roi@1.0.0",
+  "skill": "roi-review",
+  "workflow": "mkt-off.event-roi@1.0.0",
+  "quarter": "2026-Q3",
+  "generated_at": "2026-09-29T07:01:49.176Z",
+  "data_asof": "2026-09-28",
+  "event": "2026-Q3 展会类活动 ROI 复盘：行业展位（EV-2603）／广州美妆博览会展位（EV-2607）／行业展位-东莞工业展（EV-2614）",
+  "budget_wan": 147.0,
+  "actual_wan": 147.0,
+  "roi": 1.39,
+  "lessons": [
+    "展会类整体 ROI 仅 1.39（营收 203.6 万 ÷ 实际费用 147 万），低于 Q3 已复盘活动整体 ROI 1.81，也低于经销商大会 2.27 与渠道会 1.79，属资源效率洼地；三场展会预算 147 万与实际 147 万恰好持平（EV-2603 55/60、EV-2607 48/45、EV-2614 44/42），说明问题不在超支而在产出。",
+    "场地费占比过高直接摊薄 ROI：东莞工业展场地费 30 万/实际 44 万＝68.2%，深圳行业展位 26 万/55 万＝47.3%，美妆展 22 万/48 万＝45.8%；深圳行业展位到访 1,200 人（三场最高）却只产出营收 66.0 万，单场 ROI 1.2 为三场最低，人均营收仅 550 元。",
+    "ROI 由线索质量而非线索数量决定：深圳行业展位去重线索 402 条仅产出 66.0 万（单条 1,642 元），东莞工业展去重线索 238 条产出 70.4 万（单条 2,958 元），美妆展 281 条产出 67.2 万（单条 2,392 元）；三场去重率均在 82%–83%（402/486、281/342、238/286），差异来自到场客群与销售跟进而非表单规模。",
+    "物料合规问题与最低 ROI 事件高度重合：materials.csv 中 EV-2603 的“展台易拉宝”（M-2602，审核中，文案绝对化用语）与“现场背板”（M-2604，驳回，品牌字号不合规）均未达 external_ready=yes，EV-2603 即为三场展会中 ROI 最低（1.2）；14 项物料仅 6 项（42.9%）可对外使用，2 项被驳回、6 项仍处审核中/待审。",
+    "同期渠道侧投入产出更优，应作为调仓方向：经销商大会类 ROI 2.27（EV-2602+EV-2606：营收 678.3 万／实际 299 万）、渠道会 1.79（EV-2601+EV-2605：营收 300.8 万／实际 168 万）；dealer_agreements.csv 显示金级经销商 sellthrough 均值 92.8%（92.4/95.1/90.8）、银级 79.0%、普通级 61.4%，且 2 个 dispute_flag=是 的经销（DA-2604 68.3%、DA-2606 58.2%）均为普通级，现场资源应优先投放金/银级。",
+    "长尾活动需重新评估：供应商答谢沙龙（EV-2611）ROI 1.1、渠道伙伴培训营（EV-2615）1.2、校园路演-华南理工站（EV-2609）0.9；EV-2609 是 Q3 唯一 ROI<1 的活动（实际 17 万、营收 15.3 万、单条去重线索产出仅 437 元），其海报 M-2613 亦因“证言授权待补”未过审，建议改为低成本纯获客形式或与其他校园资源合并。",
+    "超支需归因到单一活动而非全局：12 场已执行活动预算 722 万、实际 741 万，超支 19 万（+2.6%），其中 EV-2602 经销商大会超 18 万（150→168）却带来 403.2 万营收与 2.4 的 ROI，属有效超支；EV-2606 超 11 万（120→131）对应 ROI 2.1，同样可接受，其余 7 场均为节余，说明预算纪律整体可控。",
+    "未执行活动占压预算 335 万（EV-2604 年终答谢会 40、EV-2608 秋季新品发布会 110、EV-2612 华南渠道会（秋季）85、EV-2616 生态伙伴大会 100），占 Q3 全量预算 1,057 万的 31.7%，其中 EV-2608、EV-2616、EV-2604 尚未审批或仍处策划中，须在 10 月内明确是否顺延或转投高 ROI 活动。"
+  ],
+  "roi_formula": "roi = revenue_wan ÷ actual_wan（与 events.csv 中 roi 列口径一致，已用 EV-2601 等 12 条记录反向验证）",
+  "scope": {
+    "quarter_events": 16,
+    "executed_events": 12,
+    "pending_events": 4,
+    "pending_event_ids": ["EV-2604", "EV-2608", "EV-2612", "EV-2616"],
+    "primary_scope": "展会类（event_type=展会）三场：EV-2603、EV-2607、EV-2614",
+    "secondary_scope": "全季度已执行活动横向对比"
+  },
+  "portfolio_summary": {
+    "total_budget_wan": 1057.0,
+    "executed_budget_wan": 722.0,
+    "executed_actual_wan": 741.0,
+    "budget_variance_wan": 19.0,
+    "budget_variance_pct": 2.6,
+    "total_revenue_wan": 1342.2,
+    "overall_roi": 1.81,
+    "pending_budget_wan": 335.0,
+    "pending_budget_share_pct": 31.7,
+    "by_type": [
+      { "event_type": "经销商大会", "events": 2, "event_ids": ["EV-2602", "EV-2606"], "budget_wan": 270.0, "actual_wan": 299.0, "revenue_wan": 678.3, "roi": 2.27 },
+      { "event_type": "渠道会", "events": 2, "event_ids": ["EV-2601", "EV-2605"], "budget_wan": 175.0, "actual_wan": 168.0, "revenue_wan": 300.8, "roi": 1.79 },
+      { "event_type": "快闪店", "events": 1, "event_ids": ["EV-2610"], "budget_wan": 35.0, "actual_wan": 39.0, "revenue_wan": 58.5, "roi": 1.5 },
+      { "event_type": "展会", "events": 3, "event_ids": ["EV-2603", "EV-2607", "EV-2614"], "budget_wan": 147.0, "actual_wan": 147.0, "revenue_wan": 203.6, "roi": 1.39 },
+      { "event_type": "开放日", "events": 1, "event_ids": ["EV-2613"], "budget_wan": 30.0, "actual_wan": 28.0, "revenue_wan": 36.4, "roi": 1.3 },
+      { "event_type": "培训营", "events": 1, "event_ids": ["EV-2615"], "budget_wan": 22.0, "actual_wan": 20.0, "revenue_wan": 24.0, "roi": 1.2 },
+      { "event_type": "沙龙", "events": 1, "event_ids": ["EV-2611"], "budget_wan": 25.0, "actual_wan": 23.0, "revenue_wan": 25.3, "roi": 1.1 },
+      { "event_type": "路演", "events": 1, "event_ids": ["EV-2609"], "budget_wan": 18.0, "actual_wan": 17.0, "revenue_wan": 15.3, "roi": 0.9 }
+    ],
+    "exhibition_detail": {
+      "budget_wan": 147.0,
+      "actual_wan": 147.0,
+      "revenue_wan": 203.6,
+      "roi": 1.39,
+      "attendees": 2880,
+      "leads": 1114,
+      "leads_dedup": 921,
+      "dedup_rate_pct": 82.7,
+      "lead_to_attendee_pct": 32.0,
+      "revenue_per_dedup_lead_yuan": 2210,
+      "venue_cost_wan": 78.0,
+      "venue_cost_share_of_actual_pct": 53.1
+    }
+  },
+  "reviewed_events": [
+    { "event": "华南渠道会", "event_id": "EV-2601", "event_type": "渠道会", "city": "广州", "quarter": "2026-Q3", "budget_wan": 80.0, "actual_wan": 76.0, "roi": 1.9, "revenue_wan": 144.4, "leads_dedup": 231, "revenue_per_dedup_lead_yuan": 6251, "status": "复盘完成", "executed": true, "lesson": "渠道会标杆：实际低于预算 4 万且 ROI 1.9，去重率 72.2%，建议保留并复用其定向邀约模板（物料 M-2605 已过审）。" },
+    { "event": "经销商大会", "event_id": "EV-2602", "event_type": "经销商大会", "city": "佛山", "quarter": "2026-Q3", "budget_wan": 150.0, "actual_wan": 168.0, "roi": 2.4, "revenue_wan": 403.2, "leads_dedup": 352, "revenue_per_dedup_lead_yuan": 11455, "status": "复盘完成", "executed": true, "lesson": "Q3 最高 ROI（2.4）与最高单线索产出（1.15 万元/条），超支 18 万属有效投入；应作为预算调仓的首选承接方。" },
+    { "event": "行业展位", "event_id": "EV-2603", "event_type": "展会", "city": "深圳", "quarter": "2026-Q3", "budget_wan": 60.0, "actual_wan": 55.0, "roi": 1.2, "revenue_wan": 66.0, "leads_dedup": 402, "revenue_per_dedup_lead_yuan": 1642, "status": "复盘完成", "executed": true, "lesson": "三场展会 ROI 最低：到访 1,200 人最多、去重线索 402 条最多，但单条产出仅 1,642 元；场地费 26 万占实际 47.3%，且 M-2602/M-2604 两项现场物料未过审，须先解决物料与客群质量问题再决定是否续展。" },
+    { "event": "年终答谢会", "event_id": "EV-2604", "event_type": "答谢会", "city": "广州", "quarter": "2026-Q3", "budget_wan": 40.0, "actual_wan": 0.0, "roi": 0.0, "revenue_wan": 0.0, "leads_dedup": 0, "status": "策划中", "executed": false, "lesson": "预算 40 万尚未动用，邀请函 M-2606 因“抽奖表述不合规”仍在审核中（external_ready=no），须先完成合规修改再启动。" },
+    { "event": "华东渠道会", "event_id": "EV-2605", "event_type": "渠道会", "city": "上海", "quarter": "2026-Q3", "budget_wan": 95.0, "actual_wan": 92.0, "roi": 1.7, "revenue_wan": 156.4, "leads_dedup": 268, "revenue_per_dedup_lead_yuan": 5836, "status": "复盘完成", "executed": true, "lesson": "节余 3 万、ROI 1.7，去重率 74.4% 为渠道会最高，属可复制样本。" },
+    { "event": "华中经销商大会", "event_id": "EV-2606", "event_type": "经销商大会", "city": "武汉", "quarter": "2026-Q3", "budget_wan": 120.0, "actual_wan": 131.0, "roi": 2.1, "revenue_wan": 275.1, "leads_dedup": 296, "revenue_per_dedup_lead_yuan": 9294, "status": "复盘完成", "executed": true, "lesson": "超支 11 万但 ROI 2.1，单条产出 9,294 元；返利政策单页 M-2610 因“价格比较表述无依据”被驳回，需修正后复用。" },
+    { "event": "广州美妆博览会展位", "event_id": "EV-2607", "event_type": "展会", "city": "广州", "quarter": "2026-Q3", "budget_wan": 45.0, "actual_wan": 48.0, "roi": 1.4, "revenue_wan": 67.2, "leads_dedup": 281, "revenue_per_dedup_lead_yuan": 2392, "status": "复盘完成", "executed": true, "lesson": "展会类中效率居次：到访 900 人、去重线索 281 条、单条产出 2,392 元，超支 3 万；若下一届将场地费压缩 20% 并复用行业展位物料，ROI 可达 1.7 以上。" },
+    { "event": "秋季新品发布会", "event_id": "EV-2608", "event_type": "发布会", "city": "广州", "quarter": "2026-Q3", "budget_wan": 110.0, "actual_wan": 0.0, "roi": 0.0, "revenue_wan": 0.0, "leads_dedup": 0, "status": "待审批", "executed": false, "lesson": "110 万预算待审批、物料链路未就绪：M-2608 产品演示视频字幕免责声明待补、M-2609 媒体通稿与新闻资料包未审（legal_check=未审），不具备对外发布条件，不得先投入使用。" },
+    { "event": "校园路演-华南理工站", "event_id": "EV-2609", "event_type": "路演", "city": "广州", "quarter": "2026-Q3", "budget_wan": 18.0, "actual_wan": 17.0, "roi": 0.9, "revenue_wan": 15.3, "leads_dedup": 350, "revenue_per_dedup_lead_yuan": 437, "status": "复盘完成", "executed": true, "lesson": "Q3 唯一 ROI<1 的活动：去重率 58.3% 尚可但单条产出仅 437 元，营收 15.3 万低于实际 17 万；海报 M-2613 证言授权待补（未过审），建议改为低成本纯获客或与院系合作替代。" },
+    { "event": "快闪店-天河城", "event_id": "EV-2610", "event_type": "快闪店", "city": "广州", "quarter": "2026-Q3", "budget_wan": 35.0, "actual_wan": 39.0, "roi": 1.5, "revenue_wan": 58.5, "leads_dedup": 910, "revenue_per_dedup_lead_yuan": 643, "status": "复盘完成", "executed": true, "lesson": "10 天 5,000 人次到访、910 条去重线索，规模效率高但单条产出 643 元，适合承担拉新而非转化指标；物料 M-2612 灯箱已过审，可快速复制到其他购物中心。" },
+    { "event": "供应商答谢沙龙", "event_id": "EV-2611", "event_type": "沙龙", "city": "东莞", "quarter": "2026-Q3", "budget_wan": 25.0, "actual_wan": 23.0, "roi": 1.1, "revenue_wan": 25.3, "leads_dedup": 64, "revenue_per_dedup_lead_yuan": 3953, "status": "已结束", "executed": true, "lesson": "ROI 1.1 接近盈亏平衡；单条去重线索产出 3,953 元但仅 64 条，属小规模高价值沟通，宜并入经销商大会或渠道会同期举办以摊薄场地与会务成本。" },
+    { "event": "华南渠道会（秋季）", "event_id": "EV-2612", "event_type": "渠道会", "city": "广州", "quarter": "2026-Q3", "budget_wan": 85.0, "actual_wan": 0.0, "roi": 0.0, "revenue_wan": 0.0, "leads_dedup": 0, "status": "执行中", "executed": false, "lesson": "85 万在执行中（2026-09-26 至 09-27），费用与线索尚未回填，本次复盘不计入 ROI 口径；参照 EV-2601 渠道会 1.9 的历史基准设定复盘节点。" },
+    { "event": "客户开放日-深圳站", "event_id": "EV-2613", "event_type": "开放日", "city": "深圳", "quarter": "2026-Q3", "budget_wan": 30.0, "actual_wan": 28.0, "roi": 1.3, "revenue_wan": 36.4, "leads_dedup": 104, "revenue_per_dedup_lead_yuan": 3500, "status": "复盘完成", "executed": true, "lesson": "小规模精准触达，节余 2 万、去重率 57.8%；单条产出 3,500 元，但规模受限，建议与行业展位同期举办以共享场地与人力。" },
+    { "event": "行业展位-东莞工业展", "event_id": "EV-2614", "event_type": "展会", "city": "东莞", "quarter": "2026-Q3", "budget_wan": 42.0, "actual_wan": 44.0, "roi": 1.6, "revenue_wan": 70.4, "leads_dedup": 238, "revenue_per_dedup_lead_yuan": 2958, "status": "复盘完成", "executed": true, "lesson": "展会类效率最优：到访 780 人次最少但单条去重线索产出 2,958 元最高（1.8 倍于深圳行业展位）；场地费占比 68.2% 偏高，若压缩场地费为实际值的 50%，ROI 可达 1.9。" },
+    { "event": "渠道伙伴培训营", "event_id": "EV-2615", "event_type": "培训营", "city": "佛山", "quarter": "2026-Q3", "budget_wan": 22.0, "actual_wan": 20.0, "roi": 1.2, "revenue_wan": 24.0, "leads_dedup": 73, "revenue_per_dedup_lead_yuan": 3288, "status": "已结束", "executed": true, "lesson": "ROI 1.2 略高于盈亏线，单条产出 3,288 元；建议与经销商大会合并为“大会+培训”组合，把 20 万会务成本并入 480 人量级会场以求边际 ROI 提升。" },
+    { "event": "生态伙伴大会", "event_id": "EV-2616", "event_type": "大会", "city": "深圳", "quarter": "2026-Q3", "budget_wan": 100.0, "actual_wan": 0.0, "roi": 0.0, "revenue_wan": 0.0, "leads_dedup": 0, "status": "策划中", "executed": false, "lesson": "100 万预算与主视觉 M-2614 均处待审状态（legal_check=未审、brand_check=未审），且深圳国际会展中心同类场地在本季已由 EV-2603 验证 ROI 仅 1.2，建议立项前重估场地与目标客群。" }
+  ],
+  "supporting_evidence": {
+    "dealer_agreements": {
+      "source": "templates/workspace/data/mkt-off/dealer_agreements.csv",
+      "dealers": 12,
+      "avg_sellthrough_pct_by_tier": { "金级": 92.8, "银级": 79.0, "普通": 61.4 },
+      "tier_rebate_pct": { "金级": 3.0, "银级": 2.0, "普通": 1.5 },
+      "disputed_dealers": [
+        { "dealer_masked": "DEALER-***04", "region": "华东", "tier": "普通", "sellthrough_pct": 68.3, "rebate_pct": 1.5, "terms_digest": "季度返利+账期45天" },
+        { "dealer_masked": "DEALER-***06", "region": "华中", "tier": "普通", "sellthrough_pct": 58.2, "rebate_pct": 1.5, "terms_digest": "季度返利" }
+      ],
+      "insight": "金级 3 家 sellthrough 均在 90.8% 以上（92.4/95.1/90.8），明显高于银级 79.0% 与普通级 61.4%；2 家 dispute_flag=是 的经销商全部为普通级。经销商大会类活动 ROI 2.27 与金/银级渠道密度相匹配，现场资源与返利资源应优先投放金/银级，并暂停向争议普通级经销商投放现场权益。"
+    },
+    "materials": {
+      "source": "templates/workspace/data/mkt-off/materials.csv",
+      "items": 14,
+      "external_ready_yes": 6,
+      "external_ready_no": 8,
+      "ready_rate_pct": 42.9,
+      "rejected_items": [
+        { "material_id": "M-2604", "material": "现场背板", "event_id": "EV-2603", "issue_type": "品牌字号不合规", "review_status": "驳回" },
+        { "material_id": "M-2610", "material": "经销商返利政策单页", "event_id": "EV-2606", "issue_type": "价格比较表述无依据", "review_status": "驳回" }
+      ],
+      "pending_items": [
+        { "material_id": "M-2602", "material": "展台易拉宝", "event_id": "EV-2603", "issue_type": "文案绝对化用语", "review_status": "审核中" },
+        { "material_id": "M-2606", "material": "年终答谢会邀请函", "event_id": "EV-2604", "issue_type": "抽奖表述不合规", "review_status": "审核中" },
+        { "material_id": "M-2608", "material": "产品演示视频（含字幕）", "event_id": "EV-2608", "issue_type": "字幕免责声明待补", "review_status": "审核中" },
+        { "material_id": "M-2609", "material": "媒体通稿与新闻资料包", "event_id": "EV-2608", "issue_type": "未审", "review_status": "待审" },
+        { "material_id": "M-2613", "material": "校园路演海报", "event_id": "EV-2609", "issue_type": "证言授权待补", "review_status": "审核中" },
+        { "material_id": "M-2614", "material": "生态伙伴大会主KV", "event_id": "EV-2616", "issue_type": "未审", "review_status": "待审" }
+      ],
+      "insight": "合规通过率与 ROI 呈同向关系：ROI 最低的两场活动（EV-2609 校园路演 0.9、EV-2603 行业展位 1.2）分别存在 1 项与 2 项未过审物料；已过审物料 6 项对应的活动（EV-2601、EV-2602、EV-2605、EV-2606、EV-2610、EV-2614）ROI 均在 1.2 及以上。"
+    }
+  },
+  "actions": [
+    { "priority": "P0", "owner": "品牌组", "action": "9 月 30 日前完成 EV-2603 的 M-2602、M-2604 整改复检（文案绝对化用语、品牌字号），未复检通过不得再用于任何现场展位。", "expected_effect": "解除最低 ROI 展会的物料阻断，为下一届展会 ROI 从 1.2 提升至 1.5 以上创造条件。" },
+    { "priority": "P0", "owner": "市场部", "action": "对 EV-2608（110 万，待审批）暂缓投放：先补齐 M-2608 字幕免责声明与 M-2609 通稿法务审核，合规未通过前不启动媒体与线上渠道。", "expected_effect": "避免 110 万预算在物料不合规状态下空转。" },
+    { "priority": "P1", "owner": "品牌组", "action": "2026-Q4 展会预算按“东莞工业展式客群”重排：把 EV-2603 深圳展位预算的 30%（约 18 万）转投 EV-2614 同类工业客群展位，并复算单条线索产出目标 ≥2,500 元。", "expected_effect": "按单条去重线索产出 1,642→2,958 元的差距测算，可把展会类整体 ROI 由 1.39 推高约 0.3。", "basis": "EV-2603 单条产出 1,642 元 vs EV-2614 单条产出 2,958 元" },
+    { "priority": "P1", "owner": "渠道部", "action": "EV-2612（华南渠道会秋季，执行中）复盘时按 EV-2601 基准（ROI 1.9、去重率 72.2%）考核，并把金/银级经销商到场率纳入 KPI。", "expected_effect": "85 万投入按 ROI 1.9 测算可产出约 161 万营收。" },
+    { "priority": "P1", "owner": "渠道部", "action": "暂停向 dispute_flag=是 的普通级经销商（DA-2604 sellthrough 68.3%、DA-2606 58.2%）投放现场权益，改由返利与账期政策处理。", "expected_effect": "把现场资源集中在 sellthrough ≥90% 的金级渠道（3 家、均值 92.8%）。" },
+    { "priority": "P2", "owner": "市场部", "action": "EV-2615 渠道伙伴培训营与 EV-2611 供应商答谢沙龙不再单独立项，改为并入经销商大会/渠道会同期举办，目标合并后 ROI ≥1.8。", "expected_effect": "消除两场 ROI 1.1–1.2 的长尾活动场地与会务重复支出（合计 43 万）。" },
+    { "priority": "P2", "owner": "品牌组", "action": "EV-2609 校园路演改为低成本纯获客形式（复用线上表单+社团合作），单场预算压至 8 万以内，或 2026-Q4 暂停。", "expected_effect": "止损唯一 ROI<1 的活动（实际 17 万、营收 15.3 万）。" },
+    { "priority": "P2", "owner": "市场部", "action": "建立物料前置合规闸口：活动启动前 14 天所有现场物料须 external_ready=yes，合规未过审即为活动启动的阻塞项。", "expected_effect": "把当前 42.9% 的物料就绪率提升至 100%，消除合规对转化的隐性损耗。" }
+  ],
+  "approval_note": "本次复盘仅使用 2026-Q3 已结束或已复盘活动的实际数据（events.csv 中 12 条 actual_wan>0 的记录）。EV-2604（40 万，策划中）、EV-2608（110 万，待审批）、EV-2612（85 万，执行中）、EV-2616（100 万，策划中）合计 335 万预算不得据本报告动用；其中 EV-2608 与 EV-2616 的物料（M-2608、M-2609、M-2614）均未通过法务/品牌审核，任何外发动作须另行取得书面审批。经销商大会（EV-2602）超支 18 万、华中经销商大会（EV-2606）超支 11 万已计入已发生费用，如需追加或结转须走超支说明与审批流程。",
+  "privacy_note": "本报告及交付物不含经销商真实名称与个人信息：经销商统一使用 dealer_masked（如 DEALER-***01）替代，物料审核人仅保留姓氏掩码（李**、王**、周**、孙**、赵**），协议条款以 terms_digest 摘要引用；交付物中不落盘任何未脱敏字段。",
+  "sources": [
+    "templates/workspace/data/mkt-off/events.csv",
+    "templates/workspace/data/mkt-off/dealer_agreements.csv",
+    "templates/workspace/data/mkt-off/materials.csv"
+  ]
+}

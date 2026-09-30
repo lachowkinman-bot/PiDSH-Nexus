@@ -1,0 +1,33 @@
+{
+  "name": "@workbench/client-ui",
+  "description": "Universal Workbench 工作台插件：12 业务域工作界面 + preset 生命周期（选/用/存/切）+ 审批/审计/记忆面板，挂载于 dsh web 壳内（F2-F14）。结构逐字镜像 @linxin666/dsh-client-ui-task-board@0.4.3（Apache-2.0，范本见 exemplar-reference/）。",
+  "version": "3.0.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js"
+  },
+  "dsh": {
+    "engines": { "dsh": ">=0.1.7-rc.2" },
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-api-workspace-controller"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.1.7-rc.2",
+    "react": "^18.2.0"
+  },
+  "files": ["lib/**/*.js", "lib/**/*.cjs", "lib/**/*.mjs", "cordis.patch.yml", "README.md"],
+  "license": "Apache-2.0"
+}

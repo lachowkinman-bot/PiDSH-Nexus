@@ -1,0 +1,162 @@
+{
+  "report_id": "GT-BEN-02",
+  "scenario": "ben.plan-compare@1.0.0",
+  "skill": "checkup-report",
+  "workflow": "ben.checkup-report@1.0.0",
+  "domain": "BEN",
+  "generated_at": "2026-09-29T06:49:42.819Z",
+  "year": 2026,
+  "report_type": "aggregate_distribution_only",
+  "data_sources": [
+    {
+      "file": "templates/workspace/data/ben/checkup_distribution.csv",
+      "role": "主数据源：按年龄组 × 检查项目的体检异常分布（无个体行）",
+      "rows_read": 16
+    },
+    {
+      "file": "templates/workspace/data/ben/plans.csv",
+      "role": "健康权益计划对照（体检类计划的采纳人数、套餐层级、比选状态）",
+      "rows_read": 14
+    },
+    {
+      "file": "templates/workspace/data/ben/usage.csv",
+      "role": "体检类权益申领记录的脱敏员工标识来源（仅用于确认脱敏格式，不引入个体体检指标）",
+      "rows_read": 14
+    }
+  ],
+  "employee_masked": {
+    "masking_format": "EMP-****NN",
+    "raw_identifiers_included": false,
+    "individual_health_values_included": false,
+    "aggregation_scope": "按年龄组(4组) × 检查项目(4项)聚合，最小可发布样本 n>=5",
+    "suppressed_cell_count": 1,
+    "beneficiary_masked_ids_referenced": [
+      "EMP-****35",
+      "EMP-****29",
+      "EMP-****44",
+      "EMP-****55"
+    ],
+    "beneficiary_ids_basis": "ben/usage.csv 中体检类权益（高端体检套餐 BEN-P02 / 基础体检套餐 BEN-P07，含1条已驳回）的申领记录",
+    "deidentification_note": "checkup_distribution.csv 不含员工行级数据，仅含 examined_count/abnormal_count 聚合值，因此报告中不存在任何个体体检指标原值；使用记录侧仅以既有 EMP-****NN 掩码形式引用，未做任何还原或关联放大。"
+  },
+  "abnormal_items": [
+    {
+      "item_category": "血压",
+      "total_examined": 275,
+      "total_abnormal": 43,
+      "overall_abnormal_rate_pct": 15.6,
+      "coverage_note": "基础项目，4个年龄组全覆盖",
+      "distribution_by_age_band": [
+        { "age_band": "20-29岁", "examined_count": 62, "abnormal_count": 5, "abnormal_rate_pct": 8.1, "suppression_flag": "normal" },
+        { "age_band": "30-39岁", "examined_count": 118, "abnormal_count": 14, "abnormal_rate_pct": 11.9, "suppression_flag": "normal" },
+        { "age_band": "40-49岁", "examined_count": 74, "abnormal_count": 16, "abnormal_rate_pct": 21.6, "suppression_flag": "normal" },
+        { "age_band": "50岁以上", "examined_count": 21, "abnormal_count": 8, "abnormal_rate_pct": 38.1, "suppression_flag": "normal" }
+      ]
+    },
+    {
+      "item_category": "血脂",
+      "total_examined": 275,
+      "total_abnormal": 73,
+      "overall_abnormal_rate_pct": 26.5,
+      "coverage_note": "基础项目，4个年龄组全覆盖；四项中异常率最高",
+      "distribution_by_age_band": [
+        { "age_band": "20-29岁", "examined_count": 62, "abnormal_count": 9, "abnormal_rate_pct": 14.5, "suppression_flag": "normal" },
+        { "age_band": "30-39岁", "examined_count": 118, "abnormal_count": 26, "abnormal_rate_pct": 22.0, "suppression_flag": "normal" },
+        { "age_band": "40-49岁", "examined_count": 74, "abnormal_count": 27, "abnormal_rate_pct": 36.5, "suppression_flag": "normal" },
+        { "age_band": "50岁以上", "examined_count": 21, "abnormal_count": 11, "abnormal_rate_pct": 52.4, "suppression_flag": "normal" }
+      ]
+    },
+    {
+      "item_category": "血糖",
+      "total_examined": 275,
+      "total_abnormal": 37,
+      "overall_abnormal_rate_pct": 13.5,
+      "coverage_note": "基础项目，4个年龄组全覆盖",
+      "distribution_by_age_band": [
+        { "age_band": "20-29岁", "examined_count": 62, "abnormal_count": 4, "abnormal_rate_pct": 6.5, "suppression_flag": "normal" },
+        { "age_band": "30-39岁", "examined_count": 118, "abnormal_count": 11, "abnormal_rate_pct": 9.3, "suppression_flag": "normal" },
+        { "age_band": "40-49岁", "examined_count": 74, "abnormal_count": 15, "abnormal_rate_pct": 20.3, "suppression_flag": "normal" },
+        { "age_band": "50岁以上", "examined_count": 21, "abnormal_count": 7, "abnormal_rate_pct": 33.3, "suppression_flag": "normal" }
+      ]
+    },
+    {
+      "item_category": "骨密度",
+      "total_examined": 62,
+      "total_abnormal": 18,
+      "overall_abnormal_rate_pct": 29.0,
+      "overall_rate_caveat": "合计值仅覆盖 4 组中 3 组可发布数据；50岁以上组被抑制，未纳入合计口径的分母结论",
+      "coverage_note": "加项，覆盖率 62/275 = 22.5%，非全员覆盖，横向比较需谨慎",
+      "distribution_by_age_band": [
+        { "age_band": "20-29岁", "examined_count": 14, "abnormal_count": 2, "abnormal_rate_pct": 14.3, "suppression_flag": "normal" },
+        { "age_band": "30-39岁", "examined_count": 26, "abnormal_count": 6, "abnormal_rate_pct": 23.1, "suppression_flag": "normal" },
+        { "age_band": "40-49岁", "examined_count": 19, "abnormal_count": 8, "abnormal_rate_pct": 42.1, "suppression_flag": "normal" },
+        { "age_band": "50岁以上", "examined_count": 3, "abnormal_count": 2, "abnormal_rate_pct": null, "suppression_flag": "suppressed", "suppression_reason": "n<5 不出分（防反推），不得据分子分母二次计算" }
+      ]
+    }
+  ],
+  "followup": [
+    {
+      "priority": "高",
+      "topic": "血脂复查",
+      "suggestion": "血脂为四项检查中异常率最高项（整体 26.5%，40-49岁 36.5%，50岁以上 52.4%），建议对 40 岁以上人群优先安排血脂专项复查与饮食、运动宣教。",
+      "target_group": "40岁以上体检人群",
+      "based_on": "血脂 in abnormal_items"
+    },
+    {
+      "priority": "高",
+      "topic": "骨密度加项覆盖与统计口径",
+      "suggestion": "骨密度为加项，覆盖率仅 22.5%（62/275），50 岁以上组 n=3 已被抑制。建议下一年度扩大骨密度加项覆盖，覆盖提升后再对本组作统计分析；本年度不对该年龄组输出任何异常率结论。",
+      "target_group": "50岁以上体检人群（加项覆盖）",
+      "based_on": "骨密度 in abnormal_items"
+    },
+    {
+      "priority": "中",
+      "topic": "血压与血糖年龄梯度跟进",
+      "suggestion": "血压异常率由 20-29 岁组 8.1% 升至 50 岁以上组 38.1%，血糖由 6.5% 升至 33.3%，呈稳定随龄上升。建议为 50 岁以上人群提供血压、血糖年度复查提醒，并在 40-49 岁组提前介入。",
+      "target_group": "40岁以上体检人群",
+      "based_on": "血压/血糖 in abnormal_items"
+    },
+    {
+      "priority": "中",
+      "topic": "健康权益联动",
+      "suggestion": "2026 年高端体检套餐（BEN-P02）已采纳 208 人、基础体检套餐（BEN-P07）已采纳 156 人；尊享体检套餐(含家属)（BEN-P08）仍为比选中且 0 人。建议在体检类计划比选时，把家属覆盖与骨密度等加项作为评估维度，以提升体检覆盖率与筛查完整度。",
+      "target_group": "全员（权益配置层）",
+      "based_on": "templates/workspace/data/ben/plans.csv"
+    },
+    {
+      "priority": "低",
+      "topic": "心理支持协同",
+      "suggestion": "EAP 心理支持（BEN-P04）已采纳 96 人。建议将其与体检异常率较高人群的整体健康宣教在同一健康季活动中共用渠道，仅做活动层面的叠加，不做个体层面关联。",
+      "target_group": "全员（宣教层）",
+      "based_on": "EAP心理支持 in plans.csv"
+    },
+    {
+      "priority": "低",
+      "topic": "脱敏与抑制规则保持",
+      "suggestion": "维持 n<5 抑制规则：骨密度 50 岁以上单元格继续不出分，禁止任何反推、差分或与其它年度对照的二次计算，后续发布前由健康数据负责人复核。",
+      "target_group": "报告发布流程",
+      "based_on": "suppression_flag=suppressed in checkup_distribution.csv"
+    }
+  ],
+  "aggregate_summary": {
+    "age_bands_covered": ["20-29岁", "30-39岁", "40-49岁", "50岁以上"],
+    "item_categories_covered": ["血压", "血脂", "血糖", "骨密度"],
+    "total_item_examinations": 887,
+    "total_abnormal_findings": 171,
+    "overall_abnormal_rate_pct": 19.3,
+    "rate_by_age_band": [
+      { "age_band": "20-29岁", "examined_count": 200, "abnormal_count": 20, "abnormal_rate_pct": 10.0 },
+      { "age_band": "30-39岁", "examined_count": 380, "abnormal_count": 57, "abnormal_rate_pct": 15.0 },
+      { "age_band": "40-49岁", "examined_count": 241, "abnormal_count": 66, "abnormal_rate_pct": 27.4 },
+      { "age_band": "50岁以上", "examined_count": 66, "abnormal_count": 28, "abnormal_rate_pct": 42.4, "caveat": "含被抑制的骨密度单元格的分子分母，仅作内部提示，不对外发布单项分龄结论" }
+    ],
+    "key_observation": "体检异常率随年龄组单调上升（10.0% → 15.0% → 27.4% → 42.4%），血脂在全部年龄段均为异常率最高项。"
+  },
+  "compliance": {
+    "individual_raw_values_exposed": false,
+    "suppression_rule": "n<5 不出分",
+    "suppressed_cells": ["2026年 / 50岁以上 / 骨密度"],
+    "output_scope": "仅输出分布与聚合建议，不含诊断结论、不含个体健康指标原值",
+    "approval_note": "本报告为聚合分布口径，无需个体健康数据授权；发布前建议由 HR 员工健康负责人与数据合规复核确认后对外使用。"
+  }
+}

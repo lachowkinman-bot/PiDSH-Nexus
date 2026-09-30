@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "mimosa-hook-status/v1",
+  "recordedAt": "2026-09-29T12:35:06.056Z",
+  "sessionId": "sess_73eb0b9a-d3f7-4a7e-9c18-176a31881c51",
+  "event": "PostToolUse",
+  "toolName": "Write",
+  "file": "F:\\Pi_DSH_workplace\\tools\\agentpack\\agentpack.mjs",
+  "outcome": "clear",
+  "coverage": "complete",
+  "findingCount": 0,
+  "durationMs": 5,
+  "hostState": "hook_complete",
+  "reportHint": ".mimosa/reports/"
+}

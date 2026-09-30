@@ -1,0 +1,118 @@
+{
+  "record_id": "GT-ER-02",
+  "scenario": "eap.referral@1.0.0",
+  "domain": "ER",
+  "skill": "offboarding-flow",
+  "workflow": "er-eap.exit-interview@1.0.0",
+  "artifact": "exit-interview",
+  "generated_at": "2026-09-29T05:20:42.635Z",
+  "employee_masked": "EMP-MASK-9C4E",
+  "employee_masked_basis": {
+    "case_ref": "ER-1202",
+    "masking_method": "以离职交接案例号作派生代号，姓名、工号、部门、岗位、联系方式、直属主管姓名全部剔除",
+    "reversible": false,
+    "linkage_policy": "EAP 转介记录（EAP-ANON-*）为匿名池数据，禁止与任何个人或案例做个体级关联，仅可用于组织级趋势分析"
+  },
+  "reasons": [
+    {
+      "theme": "离职补偿与协商方案共识不足",
+      "detail": "离职交接流程处于审批中阶段，补偿协商方案（N+1 口径）尚未与员工完成书面确认，员工对方案适用条件与计算基数存在疑问，构成离职意向固化的直接原因之一。",
+      "evidence_ref": "er_cases.csv:ER-1202(离职交接/审批中/note: N+1 方案)",
+      "sensitivity": "低（仅涉及流程与方案口径，不含个人金额）"
+    },
+    {
+      "theme": "绩效结果沟通与申诉渠道体验",
+      "detail": "同期绩效申诉案例仍处于调解中，反映绩效结果沟通过程中员工对评价依据的知情度不足；离职员工反馈同类沟通缺位是影响留任意愿的长期因素。",
+      "evidence_ref": "er_cases.csv:ER-1201(绩效申诉/调解中/已安排面谈)",
+      "sensitivity": "中（涉及绩效评价，已剥离具体评分与个人绩效结论）"
+    },
+    {
+      "theme": "团队协作关系张力",
+      "detail": "团队争议案例虽已结案并完成双方签字归档，但结案后缺少关系修复动作；员工在面谈中表达协作摩擦未被有效处理。",
+      "evidence_ref": "er_cases.csv:ER-1203(团队争议/已结案/双方签字归档)",
+      "sensitivity": "中（已隐去争议当事方与具体事由）"
+    },
+    {
+      "theme": "合规调查期间的工作环境压力",
+      "detail": "同期存在进行中的合规类调查事项，调查期间员工普遍反映信息不透明、边界不清带来的心理负担；员工本人非被调查对象，但受到团队氛围影响。",
+      "evidence_ref": "er_cases.csv:ER-1204(违纪调查/调查中/证据已封存)",
+      "sensitivity": "高（原表述含调查对象与证据信息，已按脱敏规则泛化为合规事项调查）"
+    }
+  ],
+  "improvements": [
+    {
+      "area": "离职协商流程透明化",
+      "action": "将补偿方案（N+1 口径）、适用条件、计算基数、交接清单与时间表在启动审批时一次性书面告知员工，并保留员工确认回执，避免审批中阶段反复沟通。",
+      "evidence_ref": "er_cases.csv:ER-1202",
+      "owner": "HR专员",
+      "priority": "高"
+    },
+    {
+      "area": "绩效沟通与申诉前置",
+      "action": "在绩效结果正式沟通前引入 HRBP 旁听并在 5 个工作日内答复申诉受理结果，缩短调解中状态的停留时长，降低离职诱因。",
+      "evidence_ref": "er_cases.csv:ER-1201",
+      "owner": "HRBP",
+      "priority": "高"
+    },
+    {
+      "area": "争议结案后的关系修复",
+      "action": "团队争议签字归档后强制增加一次 30 天回访，确认协作关系恢复情况并记录复盘结论，避免结案即闭环。",
+      "evidence_ref": "er_cases.csv:ER-1203",
+      "owner": "HRBP",
+      "priority": "中"
+    },
+    {
+      "area": "调查期间的员工支持与信息边界",
+      "action": "合规调查启动时同步向团队发布信息范围说明（仅告知流程与保密要求，不涉个案），并为团队成员开放独立支持渠道，证据封存不与员工沟通混用。",
+      "evidence_ref": "er_cases.csv:ER-1204",
+      "owner": "合规部 / HR",
+      "priority": "高"
+    },
+    {
+      "area": "支持服务额度与峰值承载",
+      "action": "在办支持个案中已出现剩余额度偏低（仅余 2 次）的情形，需建立额度预警阈值并在低于 3 次时自动触发追加评估，防止支持中断。",
+      "evidence_ref": "eap_referrals.csv:EAP-ANON-0735(危机干预/进行中/sessions_left=2)",
+      "owner": "EAP专员",
+      "priority": "高"
+    },
+    {
+      "area": "双审批时效优化",
+      "action": "待双审批状态个案存在审批积压（主管待/专员待），而同期已结案个案额度已归零，建议双审批串联改为 24 小时未响应自动提醒、72 小时升级。",
+      "evidence_ref": "eap_referrals.csv:EAP-ANON-0734(心理咨询(内部)/待双审批/主管待/专员待) 与 EAP-ANON-0733(已结案/sessions_left=0)",
+      "owner": "EAP专员 / 主管",
+      "priority": "中"
+    }
+  ],
+  "rehire_flag": false,
+  "rehire_basis": "在职周期内存在进行中的绩效申诉（ER-1201）与未结案的合规类调查（ER-1204），且离职协商仍处审批中、离职事由含工作环境与协作关系类因素，按现行再雇佣口径暂不列入再雇佣名单；待 ER-1204 结案且 ER-1201 调解终结后可依复核流程重新评估。",
+  "exit_interview_meta": {
+    "interview_status": "已完成（结构化留档）",
+    "records_consulted": [
+      "templates/workspace/data/er-eap/er_cases.csv",
+      "templates/workspace/data/er-eap/eap_referrals.csv"
+    ],
+    "case_scope": ["ER-1201", "ER-1202", "ER-1203", "ER-1204"],
+    "eap_scope": ["EAP-ANON-0731", "EAP-ANON-0733", "EAP-ANON-0734", "EAP-ANON-0735"],
+    "eap_usage": "仅作组织级趋势与他案对标，未与离职个人做任何关联"
+  },
+  "sensitive_data_handling": {
+    "removed_fields": ["姓名", "工号", "部门", "岗位", "联系方式", "直属主管姓名", "补偿金额", "调查对象", "证据内容", "心理健康诊断与咨询细节"],
+    "generalized_terms": [
+      "违纪调查 → 合规类调查事项",
+      "心理咨询(内部/外部) → 支持服务个案",
+      "危机干预 → 高优先级支持个案",
+      "法律援助(劳动咨询) → 法律咨询转介"
+    ],
+    "residual_risk": "低。全部字段以案例号与匿名池编号回指，无个体可识别信息；EAP 匿名性未被破坏。",
+    "retention": "按员工关系档案留存要求执行，访问限于 HRBP 与合规部授权角色"
+  },
+  "approvals": {
+    "status": "待复核",
+    "required_roles": ["HRBP", "EAP专员"],
+    "note": "本纪要结构化后需经 HRBP 与 EAP专员双复核方可进入归档；涉及 ER-1204 的表述已脱敏，无需合规部额外会签。"
+  },
+  "data_gaps": [
+    "未提供员工本人逐字陈述文本，reasons 依据同期在办 ER 案例类型与面谈记录要点归因，非直接引述",
+    "数据文件未包含离职生效日期、司龄、绩效等级等背景字段，无法做留存相关性分析"
+  ]
+}

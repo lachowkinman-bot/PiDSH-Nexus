@@ -1,0 +1,193 @@
+{
+  "audit_id": "GT-MKTON-03",
+  "generated_at": "2026-09-29T05:10:22.293Z",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "skill": "seo-audit",
+  "workflow": "mkt-on.seo-audit@1.0.0",
+  "domain": "MKT",
+  "page": {
+    "page_id": "LP-DOUBLE11-2025",
+    "name": "官网双11专题页",
+    "url_path": "/campaign/double11",
+    "channel": "官网",
+    "owner": "市场运营",
+    "status_in_calendar": "草稿",
+    "planned_launch_date": "10-12",
+    "audit_scope": "单页 SEO 诊断（标题、描述、关键词覆盖、结构化数据、内链、索引状态）",
+    "secondary_pages_in_scope": [
+      {
+        "page_id": "LP-AD-LEADGEN",
+        "name": "投放落地页",
+        "channel": "付费投放",
+        "owner": "市场运营",
+        "evidence": "线索表来源字段含「投放落地页」"
+      },
+      {
+        "page_id": "LP-WEB-FORM",
+        "name": "官网表单页",
+        "channel": "官网",
+        "owner": "市场运营",
+        "evidence": "线索表来源字段含「官网表单」"
+      }
+    ]
+  },
+  "keywords": [
+    {
+      "keyword": "Q4 产品白皮书",
+      "intent": "信息型",
+      "target_page": "/campaign/double11",
+      "source_evidence": "内容日历 10-08 公众号《Q4 产品白皮书发布》",
+      "current_coverage": "未覆盖，专题页未出现该主题词",
+      "priority": "高"
+    },
+    {
+      "keyword": "双11 专题",
+      "intent": "交易/活动型",
+      "target_page": "/campaign/double11",
+      "source_evidence": "内容日历 10-12 官网《双11 专题页上线》",
+      "current_coverage": "页面处于草稿，标题与描述未定稿，无法被收录",
+      "priority": "高"
+    },
+    {
+      "keyword": "行业报告解读",
+      "intent": "信息型/长尾",
+      "target_page": "/insights/industry-report",
+      "source_evidence": "内容日历 10-15 公众号《行业报告解读》",
+      "current_coverage": "仅公众号承载，官网无对应可索引落地页，权重无处沉淀",
+      "priority": "中"
+    },
+    {
+      "keyword": "客户案例",
+      "intent": "商业调查型",
+      "target_page": "/cases",
+      "source_evidence": "内容日历 10-10 抖音《客户案例短视频 ×3》",
+      "current_coverage": "短视频无落地页承接，官网缺少案例聚合页",
+      "priority": "中"
+    },
+    {
+      "keyword": "直播预告",
+      "intent": "品牌/活动型",
+      "target_page": "/live",
+      "source_evidence": "内容日历 10-18 视频号《直播预告》",
+      "current_coverage": "无独立可索引页面，直播信息无法被检索",
+      "priority": "低"
+    }
+  ],
+  "rank": {
+    "monitoring_enabled": false,
+    "status": "排名数据不可得",
+    "reason": "本场景提供的数据源仅含 content_calendar.csv（内容排期）与 leads.csv（线索），均不含关键词排名、曝光或 Google Search Console 类指标，因此不给出任何虚构排名数字。",
+    "requested_data_sources": [
+      "Search Console 关键词排名与展现导出",
+      "第三方排名监测（目标词：双11 专题、Q4 产品白皮书）"
+    ],
+    "proxy_indicators": [
+      {
+        "page_id": "LP-DOUBLE11-2025",
+        "proxy": "上线状态",
+        "value": "草稿（计划 10-12 上线）",
+        "interpretation": "页面未发布，排名为「未进入索引」，属最高优先级阻塞项"
+      },
+      {
+        "page_id": "LP-AD-LEADGEN",
+        "proxy": "落地页线索质量分",
+        "value": 61,
+        "baseline": 79.4,
+        "interpretation": "低于全渠道线索均分 18.4 分，落地页与投放词相关性不足"
+      },
+      {
+        "page_id": "LP-WEB-FORM",
+        "proxy": "落地页线索质量分",
+        "value": 80,
+        "baseline": 79.4,
+        "interpretation": "高于均分，是当前最有效的自然/官网承接页，应作为 SEO 优化基准页"
+      }
+    ]
+  },
+  "issue": [
+    {
+      "issue_id": "SEO-01",
+      "page_id": "LP-DOUBLE11-2025",
+      "severity": "阻断",
+      "title": "双11专题页仍为草稿，未发布即无法被收录",
+      "evidence": "content_calendar.csv：10-12 官网《双11 专题页上线》状态=草稿；今天是 09-29 审计日，页面尚未定稿",
+      "impact": "爬虫无页面可抓，标题/描述/结构化数据均未生效，活动期自然流量为 0",
+      "fix": "10-05 前冻结标题（建议「双11 专题 | 核心产品年度优惠」）与 meta description，发布后提交 Search Console 收录",
+      "owner": "市场运营",
+      "due": "10-05"
+    },
+    {
+      "issue_id": "SEO-02",
+      "page_id": "LP-AD-LEADGEN",
+      "severity": "高",
+      "title": "投放落地页关键词与投放意图不匹配，线索质量低于基线",
+      "evidence": "leads.csv：来源=投放落地页仅 1 条 LEAD-2103，score=61；全渠道均分 79.4",
+      "impact": "落地页承接词与广告词不一致，转化差且质量分低，投放 ROI 被稀释",
+      "fix": "按广告词重建 H1 与首屏文案，补齐 FAQ 结构化数据；上线 A/B 两版标题并回看 30 天线索 score",
+      "owner": "市场运营",
+      "due": "10-08"
+    },
+    {
+      "issue_id": "SEO-03",
+      "page_id": "LP-WEB-FORM",
+      "severity": "中",
+      "title": "官网表单页为最强承接页，但缺少结构化数据与 FAQ 支撑",
+      "evidence": "leads.csv：来源=官网表单 2 条（LEAD-2101 score=72、LEAD-2105 score=88 已赢单），平均 80 高于均分",
+      "impact": "优质页面未拿到富媒体摘要，搜索结果点击率被低估",
+      "fix": "为表单页补充 Organization + FAQPage JSON-LD，明确表单区域 aria 标签与提交按钮语义",
+      "owner": "市场运营",
+      "due": "10-10"
+    },
+    {
+      "issue_id": "SEO-04",
+      "page_id": "/insights/industry-report",
+      "severity": "中",
+      "title": "公众号内容缺少官网可索引承接页，权重无处沉淀",
+      "evidence": "content_calendar.csv：10-08《Q4 产品白皮书发布》、10-15《行业报告解读》均为公众号渠道，官网无对应落地页",
+      "impact": "站外内容带来的一次性流量无法转化为可积累的自然搜索资产",
+      "fix": "在官网建立 /insights 栏目，白皮书与报告解读各出一页并互设内链，从专题页与案例页指入",
+      "owner": "内容组",
+      "due": "10-18"
+    },
+    {
+      "issue_id": "SEO-05",
+      "page_id": "/cases",
+      "severity": "中",
+      "title": "视频类内容未做落地页承接，长尾流量流失",
+      "evidence": "content_calendar.csv：10-10 抖音《客户案例短视频 ×3》（待审核）、10-18 视频号《直播预告》（待审核）均无官网对应页面",
+      "impact": "«客户案例» 等高意图长尾词无页面可排名，视频流量无法回流入站",
+      "fix": "建立案例聚合页 /cases 与直播专题 /live，嵌入视频并配备文字版摘要（视频页同样需要可抓取正文）",
+      "owner": "视频组/活动组",
+      "due": "10-20"
+    },
+    {
+      "issue_id": "SEO-06",
+      "page_id": "content_calendar",
+      "severity": "低",
+      "title": "内容排期表缺少 SEO 元信息字段，导致每次上线都要返工",
+      "evidence": "content_calendar.csv 字段仅 date/channel/title/status/owner，无 target_keyword、canonical、meta_description 列",
+      "impact": "关键词与元信息在排期阶段缺失，页面发布后才发现无标题/无描述，收录延迟",
+      "fix": "在排期模板中新增 target_keyword、meta_description、landing_page_url 三个必填列，排期即锁词",
+      "owner": "市场运营",
+      "due": "10-31"
+    }
+  ],
+  "compliance": {
+    "external_crawl_policy": "仅摘要",
+    "full_site_mirror": false,
+    "crawl_scope": "仅对上述 3 个落地页做单页摘要抓取（标题、meta、H1、首屏文案、内链数量），不递归抓取、不镜像整站",
+    "robots_respected": true,
+    "rate_limit": "单域并发 1，间隔 2s，遵守 robots.txt",
+    "pii_handling": "线索联系方式一律脱敏，交付物中仅保留 lead_id 与 score，不落任何手机号或邮箱原文",
+    "approval": {
+      "required": true,
+      "approver_role": "MKT 内容发布负责人",
+      "reason": "涉及官网页面文案与元信息变更，需在排期冻结前审批"
+    }
+  },
+  "next_actions": [
+    "10-05 前冻结双11专题页标题与 meta，解除阻断项 SEO-01",
+    "在内容排期表补齐 SEO 元信息列（SEO-06），避免后续页面重复返工",
+    "待排名监测数据源接入后回填 rank 字段，重跑本审计"
+  ]
+}

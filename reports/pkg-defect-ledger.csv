@@ -1,0 +1,5 @@
+pkg,defect,source,disposition,status
+edit(pi built-in 工具),headless flatMap 崩溃,why-not-met-1.0 未达项4,修复或登记 gap,REQUIRED-FIX
+@rmrdeveloper/sideroom-pi,ask/todo 非交互不可用,why-not-met-1.0 未达项4,提供交互入口或登记,REQUIRED-FIX
+dsh-network-settings,boot 崩溃（不兼容）,why-not-met-1.0 未达项4,剔除+disabled-packages 登记,DISABLED
+dsh-undo-savepoint,依赖 webServer 无头不可装,why-not-met-1.0 未达项4,仅 web profile 安装,CONDITIONAL

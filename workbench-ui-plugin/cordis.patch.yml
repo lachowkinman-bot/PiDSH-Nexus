@@ -1,0 +1,8 @@
+# Universal Workbench client-ui 插件 bundle patch（结构逐字镜像 exemplar-reference/cordis.patch.yml）
+# 双面插件：Node 半面（exports "."）在宿主进程内运行（读 manifests/scenes、注册 /workbench/api/* 路由、
+# 经 engine-skill-runner 调 pi/dsh）；浏览器半面（exports "./client"，宿主以 /plugins/<id>/client.js 提供）
+# 经 window.__ModuleLoader__.load 注入 web GUI。
+# 激活：dsh plugin --profile web add <本插件目录或 tarball>
+- insert:
+    - id: universal-workbench-ui
+      name: '@workbench/client-ui'

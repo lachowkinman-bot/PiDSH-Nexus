@@ -1,0 +1,23 @@
+{
+ "applied_at": "2026-09-29T03:40:08.397Z",
+ "scene_id": "sales.quote-approval@1.0.0",
+ "domain": "SALES",
+ "permission": {
+  "min_level": "L3",
+  "dual_approval": false
+ },
+ "redact": [
+  "customer_contract",
+  "discount_floor"
+ ],
+ "memory_exclude": [],
+ "workflows": [
+  "workflows/sales.quote-approve.yaml",
+  "workflows/sales.win-review.yaml"
+ ],
+ "derived": true,
+ "base_scene": "sales.quote-approval",
+ "name": "selftest-preset",
+ "edited_at": "2026-09-29T03:40:08.399Z",
+ "note": "selftest"
+}

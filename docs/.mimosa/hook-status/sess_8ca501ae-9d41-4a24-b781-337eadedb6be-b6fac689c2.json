@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "mimosa-hook-status/v1",
+  "recordedAt": "2026-09-27T10:10:33.113Z",
+  "sessionId": "sess_8ca501ae-9d41-4a24-b781-337eadedb6be",
+  "event": "PostToolUse",
+  "toolName": "Write",
+  "file": "F:\\AI_HR_Workshop\\HR_AI线下实战集训营\\工作台pi-dsh方案\\universal-workbench-bundle\\scripts\\credential-probe.mjs",
+  "outcome": "clear",
+  "coverage": "complete",
+  "findingCount": 0,
+  "durationMs": 6,
+  "hostState": "hook_complete",
+  "reportHint": ".mimosa/reports/"
+}

@@ -1,0 +1,21 @@
+# graph-memory 知识图谱配置（015 KG 层基线）
+provider: graph-memory            # npm v1.5.8（offline/npm 已预置）
+injection:
+  sources:
+    - templates/knowledge/seeds/            # 13 域种子
+    - templates/knowledge/injection-corpus/ # 注入测试语料（脱敏）
+  chunking: { size: 512, overlap: 64 }
+  entity_extraction: llm
+graph:
+  namespaces:
+    base: { level: L1 }                     # Chassis 骨架图
+    domain: { level: L2, per_domain: true } # 各域子图
+    restricted: { level: L4, domains: [comp, prf, ben, er-eap] }  # L4 隔离子图
+  eap:
+    enabled: false                          # EAP 禁图谱（Scene policies.memory.exclude 强制）
+recall_test:
+  min_score: 0.8                            # 注入后召回 ≥80%
+  sensitive_probe: "任何 L4 实体查询必须返回 APPROVAL_REQUIRED"
+upgrade:
+  compatible_with: [pi-vault-mind, dsh-mnemon, billion-context-pi, @zosmaai/pi-llm-wiki]
+  note: "多引擎共存时以 graph-memory 为主图，其余为向量/长上下文补充；禁双写同一命名空间"

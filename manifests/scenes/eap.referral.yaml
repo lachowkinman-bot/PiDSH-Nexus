@@ -1,0 +1,54 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: eap.referral@1.0.0
+domain: ER
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.multi
+  - cap.redact.all
+data_assets:
+  - name: eap-cases.xlsx
+    level: L4
+    pii_fields: [eap_content, health_mental]
+skills: [offboarding-flow, dispute-ops, eap-referral]
+workflows: [workflows/er.offboard-approve.yaml, workflows/eap.referral-approve.yaml]
+policies:
+  permission:
+    min_level: L4
+    dual_approval: true
+  redact:
+    fields: [disciplinary_detail, eap_content, health_mental]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: [graph-memory, pi-hermes-memory]
+knowledge_seeds: [seeds/er-eap/README.md]
+golden_tasks:
+  - id: GT-ER-01
+    input: "生成分支机构裁撤的员工关系风险清单"
+    expected_plan: "见 docs/preset-design/er-eap.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/er-eap/gt-01.md
+    expected_files: [data/er-eap/eap-cases.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-ER-02
+    input: "离职面谈纪要结构化（脱敏）"
+    expected_plan: "见 docs/preset-design/er-eap.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/er-eap/gt-02.md
+    expected_files: [data/er-eap/eap-cases.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-EAP-01
+    input: "匿名化 EAP 转介建议（双审批+禁网）"
+    expected_plan: "见 docs/preset-design/er-eap.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/er-eap/gt-03.md
+    expected_files: [data/er-eap/eap-cases.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：EAP L4+：禁联网、禁入记忆层（exclude=[graph-memory, pi-hermes-memory]）、双审批、独立命名空间 workspace/eap/、全量留痕。

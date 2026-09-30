@@ -1,0 +1,974 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "strat",
+ "label": "战略 STRAT",
+ "scene_ids": [
+  "strat.quarterly-review@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": true,
+ "redact_fields": [
+  "salary_merged",
+  "ma_terms"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.433Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/strat.quarterly-review.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/strat/",
+  "doc": "docs/preset-design/strat.md"
+ },
+ "tables": [
+  {
+   "file": "okr.csv",
+   "rows": 18,
+   "columns": [
+    "objective",
+    "kr",
+    "progress_pct",
+    "quarter",
+    "owner",
+    "kr_id",
+    "dept",
+    "dept_code",
+    "metric_unit",
+    "baseline_value",
+    "target_value",
+    "status",
+    "confidence",
+    "due_week",
+    "updated_at"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "weekly.csv",
+   "rows": 12,
+   "columns": [
+    "week",
+    "revenue_wan",
+    "orders",
+    "new_customers",
+    "risk_note",
+    "week_start",
+    "week_end",
+    "period",
+    "dept",
+    "dept_code",
+    "revenue_target_wan",
+    "risk_level",
+    "risk_owner",
+    "kr_ref",
+    "updated_at"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "strategy-decode",
+   "file": "templates/skills-domain/strat/SKILL-strategy-decode.md"
+  },
+  {
+   "name": "biz-analysis",
+   "file": "templates/skills-domain/strat/SKILL-biz-analysis.md"
+  },
+  {
+   "name": "competitor-watch",
+   "file": "templates/skills-domain/strat/SKILL-competitor-watch.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "strat.quarterly-review@1.0.0",
+   "kind": "approve",
+   "description": "季度战略复盘（合并薪酬盘点走双审批）",
+   "skill": "strategy-decode",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "strategy-decode"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "季度战略复盘（合并薪酬盘点走双审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "季度战略复盘（合并薪酬盘点走双审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "quarterly-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "okr_reached",
+     "comp_review_flag",
+     "decision"
+    ],
+    "acceptance": "合并薪酬盘点仅区间口径；双审批通过方可归档"
+   }
+  },
+  {
+   "id": "strat.weekly-report@1.0.0",
+   "kind": "report",
+   "description": "经营周报（收入/订单/风险三段）",
+   "skill": "biz-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "biz-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "经营周报（收入/订单/风险三段）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "weekly-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "week",
+     "revenue_wan",
+     "orders",
+     "risks",
+     "next_actions"
+    ],
+    "acceptance": "数字可追溯到 data/strat/weekly.csv 行级"
+   }
+  },
+  {
+   "id": "strat.okr-set@1.0.0",
+   "kind": "calc",
+   "description": "OKR 目标与 KR 制定（表格化提交）",
+   "skill": "strategy-decode",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "strategy-decode"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "OKR 目标与 KR 制定（表格化提交）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "okr-set-<ts>.json",
+    "format": "json",
+    "fields": [
+     "objective",
+     "kr_list",
+     "quarter",
+     "owner"
+    ],
+    "acceptance": "每条 KR 必须可量化（progress_pct 数值）"
+   }
+  },
+  {
+   "id": "strat.competitor-brief@1.0.0",
+   "kind": "report",
+   "description": "竞品动态简报（脱敏摘要口径）",
+   "skill": "competitor-watch",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "competitor-watch"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "竞品动态简报（脱敏摘要口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "competitor-brief-<ts>.json",
+    "format": "json",
+    "fields": [
+     "competitor",
+     "move_type",
+     "impact",
+     "our_response"
+    ],
+    "acceptance": "外部检索内容必须经脱敏摘要（禁原文外发）"
+   }
+  },
+  {
+   "id": "strat.org-inventory@1.0.0",
+   "kind": "report",
+   "description": "组织盘点（关键岗位/继任）",
+   "skill": "biz-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "biz-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "组织盘点（关键岗位/继任）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "org-inventory-<ts>.json",
+    "format": "json",
+    "fields": [
+     "position",
+     "incumbent_masked",
+     "successor_masked",
+     "risk_level"
+    ],
+    "acceptance": "人员字段一律掩码（Type-Dict L4 口径）"
+   }
+  },
+  {
+   "id": "strat.quarter-close@1.0.0",
+   "kind": "approve",
+   "description": "季度关账经营决议（含调薪包）",
+   "skill": "strategy-decode",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "strategy-decode"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "季度关账经营决议（含调薪包） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "季度关账经营决议（含调薪包）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "quarter-close-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "highlights",
+     "comp_package_flag",
+     "approvals"
+    ],
+    "acceptance": "调薪包触发 COMP 域双审批联动"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-STRAT-01",
+   "input": "把 2026 年度战略拆解为 Q4 季度 KR 并生成追踪表",
+   "expected_output": "reports/strat/gt-01.md",
+   "skill": null,
+   "scene": "strat.quarterly-review@1.0.0"
+  },
+  {
+   "id": "GT-STRAT-02",
+   "input": "汇总本月经营周报并给出三大异动归因",
+   "expected_output": "reports/strat/gt-02.md",
+   "skill": null,
+   "scene": "strat.quarterly-review@1.0.0"
+  },
+  {
+   "id": "GT-STRAT-03",
+   "input": "生成竞品季度动态脱敏摘要（禁含未公开财务）",
+   "expected_output": "reports/strat/gt-03.md",
+   "skill": null,
+   "scene": "strat.quarterly-review@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/strat",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/strat/t/okr",
+   "type": "table",
+   "title": "okr.csv",
+   "table": "okr",
+   "file": "okr.csv"
+  },
+  {
+   "route": "#/strat/t/weekly",
+   "type": "table",
+   "title": "weekly.csv",
+   "table": "weekly",
+   "file": "weekly.csv"
+  },
+  {
+   "route": "#/strat/w/quarterly-review",
+   "type": "workflow",
+   "title": "季度战略复盘（合并薪酬盘点走双审批）",
+   "workflow": "strat.quarterly-review@1.0.0"
+  },
+  {
+   "route": "#/strat/w/weekly-report",
+   "type": "workflow",
+   "title": "经营周报（收入/订单/风险三段）",
+   "workflow": "strat.weekly-report@1.0.0"
+  },
+  {
+   "route": "#/strat/w/okr-set",
+   "type": "workflow",
+   "title": "OKR 目标与 KR 制定（表格化提交）",
+   "workflow": "strat.okr-set@1.0.0"
+  },
+  {
+   "route": "#/strat/w/competitor-brief",
+   "type": "workflow",
+   "title": "竞品动态简报（脱敏摘要口径）",
+   "workflow": "strat.competitor-brief@1.0.0"
+  },
+  {
+   "route": "#/strat/w/org-inventory",
+   "type": "workflow",
+   "title": "组织盘点（关键岗位/继任）",
+   "workflow": "strat.org-inventory@1.0.0"
+  },
+  {
+   "route": "#/strat/w/quarter-close",
+   "type": "workflow",
+   "title": "季度关账经营决议（含调薪包）",
+   "workflow": "strat.quarter-close@1.0.0"
+  },
+  {
+   "route": "#/strat/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "okr.csv",
+         "L2",
+         "—（scene 声明 `pii_fields: []`）",
+         "18",
+         "OKR 目标与 KR 台账（4 个 Objective × 共 18 条 KR，全部 Q4）：原 5 列（objective/kr/progress_pct/quarter/owner）+ 追加 10 列（kr_id/dept/dept_code/metric_unit/baseline_value/target_value/status/confidence/due_week/updated_at）；是 `strat.okr-set` / `strat.quarterly-review` 的判定基准，`weekly.kr_ref` 的外键目标"
+        ],
+        [
+         "weekly.csv",
+         "L3",
+         "—",
+         "12",
+         "华南区经营周报台账（滚动 12 周 W31–W42）：原 5 列（week/revenue_wan/orders/new_customers/risk_note）+ 追加 10 列（week_start/week_end/period/dept/dept_code/revenue_target_wan/risk_level/risk_owner/kr_ref/updated_at）；营收/订单/新客为**未公开经营数字**（无 PII，但按经营敏感保守定级 L3），是 `strat.weekly-report` 的行级取证来源"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "声明侧",
+        "落地侧",
+        "级别"
+       ],
+       "rows": [
+        [
+         "scene `data_assets` 的 okr_master.xlsx / type-dict 的 `strat, okr_master, table, L2, none`",
+         "okr.csv",
+         "L2"
+        ],
+        [
+         "（无 scene 声明；`strat.weekly-report` 行级取证与 GT-STRAT-02 需要）",
+         "weekly.csv",
+         "L3（保守定级）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "`comp-review-merged.xlsx`（scene 声明的合并薪酬盘点，`salary_merged`）按 scene 尾注**只在 L4 命名空间内以区间口径引用**：本域不落任何个人薪酬明细列，仅在 `quarterly-review` 的 `comp_review_flag` 中出\"是否涉及/区间结论\"（详见 §7 与 §10-1）。",
+      "表头英文小写下划线、UTF-8（无 BOM）、逗号分隔、字段内不使用英文逗号；空值统一写 `-`；`revenue_wan` / `*_wan` 单位**万元**、`new_customers` 单位**家**、`orders` 单位**单**。",
+      "`okr.csv` 原 5 列、`weekly.csv` 原 5 列的**列名与列序均未删改**，仅追加列（追加列已逐字段写入 §1.1）；`weekly.csv` 原 4 行（W39–W42）逐字保留。",
+      "每表数据行 ≥10（§15.4 校验下限），本页行数以上表为准（不含表头）。",
+      "**可复算口径**（§9 逐项校验）：①逐周 `round(revenue_wan × 10000 / orders, 2)` 落在 40,000–41,600 元（即 4.00–4.15 万元）；②`Σ weekly(period=2026Q4).revenue_wan = 4,024` 万元（Q4 截至基线日累计，**禁外推为季度全量**）；③`okr` 状态分布 `on_track 4 / at_risk 9 / behind 4 / done 1 = 18`。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "objective",
+         "string",
+         "是",
+         "目标（Objective）名称，同一目标下多条 KR 共用（本快照 4 个：华南区营收增长 / 组织效能提升 / 产品竞争力提升 / 竞争应对与经营韧性）；原始列"
+        ],
+        [
+         "kr",
+         "string",
+         "是",
+         "KR 标题，**必须为\"指标 + 目标值\"形态**（如 `KR1 新客数 +30%`、`KR4 交付周期 ≤30 天`），是可量化校验（V-STRAT-01）的第一道防线；原始列"
+        ],
+        [
+         "progress_pct",
+         "number",
+         "是",
+         "季度里程碑加权完成度（0–100 整数），由 KR owner 按月度节奏填报；**非**累计值/目标值的机械比，禁由 weekly 倒算（V-STRAT-06）；状态判定依据见 §4.1；原始列"
+        ],
+        [
+         "quarter",
+         "enum",
+         "是",
+         "目标周期 Q1–Q4（本快照全为 `Q4`，对应 2026Q4，与复盘 `period` 一致，V-STRAT-05）；原始列"
+        ],
+        [
+         "owner",
+         "string",
+         "是",
+         "KR 责任人/责任部门（保留原始口径：销售VP / 客户成功部 / 产品商业化 / HRBP / 各BU负责人；新增行用角色口径 产品VP / 交付负责人 / 市场部负责人）；原始列"
+        ],
+        [
+         "kr_id",
+         "string",
+         "是",
+         "KR 唯一主键，前缀即 Objective 码：`SC-` 华南区营收增长 / `B-` 组织效能提升 / `PV-` 产品竞争力提升 / `RC-` 竞争应对与经营韧性；`weekly.kr_ref` 外键指向本列；追加列"
+        ],
+        [
+         "dept",
+         "enum",
+         "是",
+         "归属部门（词表：华南区销售部 / 客户成功部 / 产品与商业化部 / 交付与实施部 / 人力资源部 / 市场部），与 `weekly.dept` 同词表；追加列"
+        ],
+        [
+         "dept_code",
+         "enum",
+         "是",
+         "部门码 SL-SC / CS / PD / DL / HR / MK（与 `weekly.dept_code` 一致，用于跨表连接）；追加列"
+        ],
+        [
+         "metric_unit",
+         "enum",
+         "是",
+         "度量单位：家 / % / 万元 / 万元/人 / 天 / 分 / 个 / 倍 / 项；追加列"
+        ],
+        [
+         "baseline_value",
+         "number",
+         "是",
+         "基线值（2025Q4 同口径），与 `target_value`、`metric_unit` 构成\"必可量化\"三要素；追加列"
+        ],
+        [
+         "target_value",
+         "number",
+         "是",
+         "季度目标值（与 `kr` 标题中的目标值同口径：如 SC-KR1 baseline 180 家 → target 234 家 = +30%）；追加列"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "KR 状态机取值 **on_track / at_risk / behind / done**（阈值与迁移见 §4.1；`done` 必须 `progress_pct=100`）；追加列"
+        ],
+        [
+         "confidence",
+         "enum",
+         "是",
+         "owner 对达成判断的置信度：高 / 中 / 低（`低` + `at_risk`/`behind` 者为复盘必查清单）；追加列"
+        ],
+        [
+         "due_week",
+         "string",
+         "是",
+         "KR 检查点 ISO 周（W50 双周检查点 / W52 季末），必须 ≥ `weekly.week` 最大值（V-STRAT-07）；追加列"
+        ],
+        [
+         "updated_at",
+         "date",
+         "是",
+         "数据版本时间戳 `YYYY-MM-DD`（本快照 2026-10-18）；审计\"依据数据版本\"取该值；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "week",
+         "string",
+         "是",
+         "ISO 周号 `W31`–`W42`（华南区销售口径，滚动 12 周：Q3 尾 9 周 + Q4 头 3 周）；原始列"
+        ],
+        [
+         "revenue_wan",
+         "number",
+         "是",
+         "当周确认营收（**万元**，整数，华南区口径）；原始列"
+        ],
+        [
+         "orders",
+         "number",
+         "是",
+         "当周订单数（单）；原始列"
+        ],
+        [
+         "new_customers",
+         "number",
+         "是",
+         "当周新增客户数（家）；原始列"
+        ],
+        [
+         "risk_note",
+         "string",
+         "否",
+         "风险摘要，**必附责任方**（如 `投放ROI 周环比 -7%（市场部复盘）`）；无风险写 `-`；原始列"
+        ],
+        [
+         "week_start",
+         "date",
+         "是",
+         "ISO 周起始日（周一）`YYYY-MM-DD`；追加列"
+        ],
+        [
+         "week_end",
+         "date",
+         "是",
+         "ISO 周结束日（周日）；`week_end − week_start = 6 天`（V-STRAT-05）；追加列"
+        ],
+        [
+         "period",
+         "enum",
+         "是",
+         "归属季度 2026Q3 / 2026Q4，必须与 `week_start` 的 ISO 季度一致；追加列"
+        ],
+        [
+         "dept",
+         "enum",
+         "是",
+         "数据归属部门（本表全为 华南区销售部，与 `okr.dept` 同词表）；追加列"
+        ],
+        [
+         "dept_code",
+         "enum",
+         "是",
+         "部门码 SL-SC（与 `okr.dept_code` 一致）；追加列"
+        ],
+        [
+         "revenue_target_wan",
+         "number",
+         "是",
+         "当周营收目标（**万元**）：Q3 周 1200 / Q4 周 1500；用于逐周达成率与异动归因，**不得改写为事后目标**；追加列"
+        ],
+        [
+         "risk_level",
+         "enum",
+         "是",
+         "风险等级：无 / 低 / 中 / 高（无风险行 = `无`）；追加列"
+        ],
+        [
+         "risk_owner",
+         "string",
+         "是",
+         "风险跟进责任方（部门/角色：市场部 / 交付与实施部 / 产品与商业化部 / 供应链 / 人力资源部 / 财务部 / 法务与合规 / 行政部），无风险写 `-`；追加列"
+        ],
+        [
+         "kr_ref",
+         "ref",
+         "是",
+         "→ `okr.kr_id` 外键，**分号分隔多值**（如 `SC-KR4;SC-KR5;RC-KR3`）：该周异动/风险归因命中的 KR；`status ∈ {at_risk, behind}` 的 KR 必须至少被 1 条**风险行**（`risk_note ≠ -`）命中（V-STRAT-03）；追加列"
+        ],
+        [
+         "updated_at",
+         "date",
+         "是",
+         "数据版本时间戳 `YYYY-MM-DD`（本快照 2026-10-18）；追加列"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/strat.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 KR 状态（okr.status，KR_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "状态（CSV 落值）",
+        "判定（progress_pct）",
+        "含义",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "on_track",
+         "≥ 60",
+         "按节奏推进，预期达成",
+         "at_risk / behind / done",
+         "okr：kr_id / progress_pct / confidence / updated_at"
+        ],
+        [
+         "at_risk",
+         "25–59",
+         "进度偏离节奏，需专项动作",
+         "behind / on_track / done",
+         "+ weekly 风险行命中（`kr_ref` 命中 ≥1 次，V-STRAT-03）"
+        ],
+        [
+         "behind",
+         "< 25",
+         "显著落后，须列复盘必查清单",
+         "at_risk / on_track / done",
+         "+ weekly 风险行命中 + `confidence=低` 时须给整改责任人与检查点（`due_week`）"
+        ],
+        [
+         "done",
+         "= 100",
+         "已达成（终态）",
+         "—（终态；不得只改状态不改 progress）",
+         "progress_pct=100 + updated_at 落在当期"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "迁移只经唯一函数 `setStatus(entity, to, by)` 并写操作日志（参照 §8.3）；**禁止跳级改写**（如 behind → done 而无 progress 变化）、禁止 `done` 回退（须重开 KR 记录并留痕）。",
+      "判定以阈值为准、以证据为限：`status` 与 `progress_pct` 阈值不一致即 V-STRAT-02 FAIL；`at_risk`/`behind` 缺 weekly 证据行即记\"证据缺口\"（不得直接判定达成）。",
+      "本快照分布（18 条）：on_track 4（SC-KR2 68 / B-KR1 80 / B-KR3 62 / RC-KR1 75）、at_risk 9、behind 4（SC-KR5 18 / B-KR4 22 / PV-KR4 12 / RC-KR4 21）、done 1（B-KR5 = 年度编制与人力预算评审完成）。样例：`SC-KR5 经销回款周期 ≤45 天`（progress 18，behind，证据行 W37/W39 回款周期 68 天、华南经销商回款延迟）。"
+     ]
+    },
+    {
+     "heading": "4.2 季度复盘决议（`quarterly-review-<ts>.json` 的 decision）",
+     "tables": [
+      {
+       "header": [
+        "状态（落值）",
+        "进入条件",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "draft 草稿",
+         "取数与 KR 判定完成，尚未提交",
+         "pending_dual_approval",
+         "okr.csv 全量 + weekly 行级证据"
+        ],
+        [
+         "pending_dual_approval 待双审批",
+         "提交审批（hitl n3，L4 双审批）",
+         "approved / rejected",
+         "`approvals` 计数 0/2→1/2；审批人 + 依据数据版本（okr.updated_at）"
+        ],
+        [
+         "approved 已通过",
+         "双审批 **2/2** 通过",
+         "archived",
+         "两条审批记录 + 产物哈希"
+        ],
+        [
+         "rejected 已驳回",
+         "任一审批人 ✗（判定证据不足 / 薪酬盘点非区间口径）",
+         "draft（补证重提）",
+         "驳回原因必填 + 缺口项清单（V-STRAT-03）"
+        ],
+        [
+         "archived 已归档",
+         "通过后写入 `reports/strat/` 与 `templates/workspace/deliverables/strat/`（终态）",
+         "—（终态）",
+         "产物哈希 + 审计事件"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.3 季度关账决议（`quarter-close-<ts>.json` 的 decision，含调薪包）",
+     "tables": [
+      {
+       "header": [
+        "判定",
+        "条件",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "免联动关账",
+         "`comp_package_flag=false`",
+         "quarter-close 产物：period / highlights / approvals"
+        ],
+        [
+         "触发薪酬包联动",
+         "`comp_package_flag=true`",
+         "+ `comp/adjust_queue.csv`：batch / status / approvals / current_salary_range_wan（**只引用区间列**）"
+        ],
+        [
+         "回退",
+         "审批 ✗ 或调薪包越过区间口径闸门",
+         "驳回原因 + redact_gate 未命中记录"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/strat.md#§4"
+  },
+  "5": {
+   "title": "审批链（节点-角色-双审批-条件阈值）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "流程",
+        "节点链",
+        "审批角色（建议映射）",
+        "双审批",
+        "阈值/条件",
+        "manifest 落点"
+       ],
+       "rows": [
+        [
+         "季度战略复盘（strat.quarterly-review）",
+         "decode n1 → condition n2 → approval n3 → write n4 → audit n5",
+         "① 战略负责人（CSO）② 合规与数据口径审批人（HRD/法务）",
+         "**是**（`dual:true`）",
+         "n2 原文\"复盘结论涉及组织与预算变更\"；涉及合并薪酬盘点时产物**仅区间口径**；归档锁定至 2/2 通过",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ],
+        [
+         "季度关账经营决议（strat.quarter-close）",
+         "decode n1 → condition n2 → approval n3 → write n4 → audit n5",
+         "① CEO/CSO ② CFO（调薪包口径）→ 涉及人力条款加签 HRD",
+         "**是**（`dual:true`）",
+         "acceptance 原文\"调薪包触发 COMP 域双审批联动\"：`comp_package_flag=true` 必须 CFO+HRD 签字且 COMP 侧再走双审批",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ],
+        [
+         "经营周报（strat.weekly-report）",
+         "n1 → n2 → n3",
+         "无审批（分级出数）",
+         "否",
+         "数字可追溯至 weekly.csv 行级；**不对外发布**（对外发布走 mkt-on 发布审批链）",
+         "无 approval 节点（kind=report）"
+        ],
+        [
+         "OKR 制定（strat.okr-set）",
+         "n1 → n2 → n3",
+         "无审批（草拟/表格化提交）",
+         "否",
+         "每条 KR 必可量化；KR 生效需经季度复盘/关账审批链，本流程只产出草稿版",
+         "无 approval 节点（kind=calc）"
+        ],
+        [
+         "竞品动态简报（strat.competitor-brief）",
+         "n1 → n2 → n3",
+         "无审批（脱敏摘要）",
+         "否",
+         "外部检索经脱敏摘要；禁原文与原始链接出域",
+         "无 approval 节点（kind=report）"
+        ],
+        [
+         "组织盘点（strat.org-inventory）",
+         "n1 → n2 → n3",
+         "无审批（只读视图）",
+         "否",
+         "人员字段一律掩码（`incumbent_masked` / `successor_masked`）",
+         "无 approval 节点（kind=report）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "场景基线 `policies.permission.min_level=L4`、`dual_approval=**true**` 为**域默认**——本域比 fin/rec 更严：**任何审批动作都是双审批**，两条 approve 工作流在流程级同样 `dual:true`（规则**单调加严、不放松**）。",
+      "对外/生效动作只有 n3 一条链：condition 节点不得绕过审批直连写能力（manifest 注释原文）；审批意见（通过/驳回原因）写入 audit n5（审批人 + 依据数据版本 + 产物哈希）。",
+      "双审批角色不可同一人兼任；`approvals` 计数不足 2 时产物不得置 `approved`，也不得归档（V-STRAT-09）。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/strat.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定",
+        "失败处理"
+       ],
+       "rows": [
+        [
+         "V-STRAT-01 KR 必可量化",
+         "每行 `metric_unit` / `baseline_value` / `target_value` / `progress_pct` 齐备且为数值；`progress_pct ∈ [0,100]` 整数；`kr` 标题须为\"指标 + 目标值\"形态（原文 5 条均满足，如 `KR2 客户续约率 92%`）",
+         "FAIL：任一缺项或不可量化（如\"加强协同\"式表述）即拒写，提示补量化口径"
+        ],
+        [
+         "V-STRAT-02 状态—进度一致",
+         "`status` 与阈值映射一致：on_track ≥60 / at_risk 25–59 / behind <25 / done=100；`status` ∈ 四值白名单",
+         "FAIL：不一致即拒写（本快照 18 行全部通过）"
+        ],
+        [
+         "V-STRAT-03 状态—证据覆盖",
+         "`status ∈ {at_risk, behind}` 的 KR（13 条）必须至少被 1 条**风险行**（`risk_note ≠ -`）的 `kr_ref` 命中；`on_track` 的 KR 在最近 4 周（W39–W42）不得被 `risk_level=高` 命中",
+         "FAIL：未命中记\"证据缺口\"，不得直接判定达成/关闭；高风险误挂 on_track 立即回退状态"
+        ],
+        [
+         "V-STRAT-04 主键与外键",
+         "`okr.kr_id` 唯一；`weekly.kr_ref`（分号分隔多值）⊆ `okr.kr_id`，禁止孤儿引用",
+         "FAIL：孤儿引用拒写；重复主键覆盖前值并记审计"
+        ],
+        [
+         "V-STRAT-05 期间一致性",
+         "`weekly.period` 必须等于 `week_start` 所在 ISO 季度（W31–W39→2026Q3、W40–W42→2026Q4）；`week_start` 为周一、`week_end − week_start = 6 天`；`okr.quarter = Q4` 与复盘 `period = 2026Q4` 一致；`due_week ≥ max(weekly.week)`",
+         "FAIL：跨期/错周即拒写；期间冲突时先修数据再出报告（禁以时序戳补数，U10 类问题）"
+        ],
+        [
+         "V-STRAT-06 合计口径勾稽与禁倒轧",
+         "逐周 `round(revenue_wan × 10000 / orders, 2)` 可复算（本快照 40,000–41,600 元，即 AOV 4.00–4.15 万元）；`Σ weekly(2026Q4).revenue_wan = 4,024` 万元、`Σ new_customers(2026Q4) = 135`；**progress_pct 不得由 weekly 倒算，weekly 汇总不得外推为季度全量**",
+         "FAIL：勾稽不成立即拒绝出数；出现倒轧/外推一律标 B 级并显式声明缺口"
+        ],
+        [
+         "V-STRAT-07 检查点与终态一致性",
+         "`due_week` ∈ {W50, W52}（本快照）；`done` 行 `progress_pct=100` 且 `updated_at` 落在当期；`behind` 且 `confidence=低` 的行必须有整改责任人与检查点",
+         "FAIL：终态与取值矛盾即拒写"
+        ],
+        [
+         "V-STRAT-08 脱敏与边界（一票否决）",
+         "`salary_merged` 一律区间口径（个人薪酬数值/绩效/身份信息不得出现）；`ma_terms` 禁入任何输出；竞品简报禁原文与原始链接直出；`incumbent_masked`/`successor_masked` 不可还原；未公开经营数字禁外发",
+         "FAIL：任一违规即一票否决（redact_gate 未命中即出域）"
+        ],
+        [
+         "V-STRAT-09 审批完整性",
+         "`quarterly-review` / `quarter-close` 产物必须含 `approvals` 且计数 = 2/2 才可置 approved / archived；`comp_package_flag=true` 必须同批写 COMP 域联动请求",
+         "FAIL：审批不足不得归档；flag 与联动不一致时回退至 pending"
+        ],
+        [
+         "V-STRAT-10 状态迁移合法",
+         "KR 状态与决议状态均按 §4 白名单迁移（禁跳级、禁 done 回退、禁 rejected 原样重提）；迁移只经唯一函数并写操作日志",
+         "FAIL：非法枚举拒写；跳级迁移回退并记审计"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/strat.md#§9"
+  }
+ },
+ "gaps": []
+}

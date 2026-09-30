@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-on.content-calendar@1.0.0
+domain: mkt-on
+description: "内容日历排期（两周滚动）"
+trigger:
+  type: command
+  expr: content-calendar
+nodes:
+  - id: n1
+    type: skill
+    ref: content-gen
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "内容日历排期（两周滚动）：输入参数 + 结果快照"
+deliverable:
+  file: content-calendar-<ts>.json
+  format: json
+  fields:
+    - date
+    - channel
+    - title
+    - status
+  acceptance: "排期冲突（同日同渠道）须标红"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-content-calendar

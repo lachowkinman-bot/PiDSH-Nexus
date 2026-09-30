@@ -1,0 +1,104 @@
+{
+  "report_id": "GT-SALES-03",
+  "report_type": "大区业绩达成看板",
+  "scenario": "sales.quote-approval@1.0.0",
+  "workflow": "sales.pipeline-report@1.0.0",
+  "skill": "quota-dashboard",
+  "business_domain": "SALES",
+  "generated_at": "2026-09-29T05:13:58.518Z",
+  "week": "2026-W40",
+  "region_scope": "pipeline.csv 全量口径（源数据未包含大区字段，未做地域拆分与推测）",
+  "amount_unit": "万元",
+  "amount_source_unit": "源列 amount_k 为千元，已按 1 万元 = 10 千元换算为万元",
+  "traceability": {
+    "primary_source": "templates/workspace/data/sales/pipeline.csv",
+    "secondary_source": "templates/workspace/data/sales/quotes.csv",
+    "source_columns": ["opportunity", "stage", "amount_k", "owner", "close_date"],
+    "row_count": 5
+  },
+  "stages": [
+    {
+      "stage": "线索",
+      "count": 1,
+      "amount_k": 9.0,
+      "week": "2026-W40",
+      "opportunities": ["商机-D（医药流通）"],
+      "earliest_close_date": "12-01",
+      "share_of_pipeline_pct": 5.4
+    },
+    {
+      "stage": "接触",
+      "count": 1,
+      "amount_k": 18.0,
+      "week": "2026-W40",
+      "opportunities": ["商机-B（零售连锁）"],
+      "earliest_close_date": "11-05",
+      "share_of_pipeline_pct": 10.8
+    },
+    {
+      "stage": "报价",
+      "count": 2,
+      "amount_k": 73.0,
+      "week": "2026-W40",
+      "opportunities": ["商机-A（制造业）", "商机-E（教育集团）"],
+      "earliest_close_date": "10-20",
+      "share_of_pipeline_pct": 44.0
+    },
+    {
+      "stage": "赢单",
+      "count": 1,
+      "amount_k": 66.0,
+      "week": "2026-W40",
+      "opportunities": ["商机-C（物流集团）"],
+      "earliest_close_date": "10-12",
+      "share_of_pipeline_pct": 39.8
+    }
+  ],
+  "summary": {
+    "total_count": 5,
+    "total_amount_k": 166.0,
+    "won_count": 1,
+    "won_amount_k": 66.0,
+    "open_count": 4,
+    "open_amount_k": 100.0,
+    "win_rate_pct": 20.0,
+    "achievement_rate_pct": null,
+    "achievement_rate_note": "pipeline.csv 未提供大区目标额（quota），达成率不可计算，未使用推测值填充",
+    "stage_order": ["线索", "接触", "报价", "赢单"]
+  },
+  "quote_snapshot": {
+    "quote_source": "templates/workspace/data/sales/quotes.csv",
+    "quote_count": 4,
+    "quote_total_k": 169.9,
+    "by_status": [
+      { "status": "待审批", "count": 1, "amount_k": 46.8, "quote_ids": ["QT-3301"] },
+      { "status": "已发出", "count": 1, "amount_k": 12.0, "quote_ids": ["QT-3302"] },
+      { "status": "已审批", "count": 1, "amount_k": 89.5, "quote_ids": ["QT-3303"] },
+      { "status": "草稿", "count": 1, "amount_k": 21.6, "quote_ids": ["QT-3304"] }
+    ],
+    "approval_focus": [
+      {
+        "quote_id": "QT-3301",
+        "status": "待审批",
+        "discount_pct": 8,
+        "amount_k": 46.8,
+        "note": "唯一待审批报价，金额占报价总额 27.5%，为审批流阻塞点"
+      },
+      {
+        "quote_id": "QT-3303",
+        "status": "已审批",
+        "discount_pct": 12,
+        "amount_k": 89.5,
+        "note": "最高折扣且金额最大，已审批，对应 pipeline 中赢单商机-C（物流集团，66.0 万元）"
+      }
+    ]
+  },
+  "data_quality": {
+    "missing_fields": ["region", "quota_target", "close_date_year"],
+    "masked_fields": ["owner", "customer_masked"],
+    "notes": [
+      "close_date 仅含月-日（如 10-20），未含年份，按各自 M-D 原值保留，未推断年份",
+      "所有派生指标均由 pipeline.csv 5 行明细逐条聚合得出，无外部数据注入"
+    ]
+  }
+}

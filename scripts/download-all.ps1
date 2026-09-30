@@ -1,0 +1,87 @@
+﻿# scripts/download-all.ps1 — 手动下载脚本（Windows PowerShell 7 优先，兼容 Windows PowerShell 5.1）
+# 用途：015 资源包预置层兜底。自动模式下由 Agent 运行；手动模式：
+#   pwsh -File scripts/download-all.ps1            # 全部
+#   pwsh -File scripts/download-all.ps1 -Mirror npmmirror -SkipNode -SkipDshWeb
+# 安全：仅 http/https；host 白名单；拒绝回环/私有/保留地址；SHA256 校验，空哈希=失败
+[CmdletBinding()]
+param(
+  [ValidateSet('official','npmmirror','tencent')][string]$Mirror = 'official',
+  [switch]$SkipNode, [switch]$SkipDshWeb, [int]$Retry = 3
+)
+$ErrorActionPreference = 'Stop'
+if ($PSVersionTable.PSVersion.Major -ge 7) { $PSNativeCommandUseErrorActionPreference = $false }
+$REG = @{ official='https://registry.npmjs.org'; npmmirror='https://registry.npmmirror.com'; tencent='https://mirrors.tencent.com/npm' }
+$ALLOWED = @('registry.npmjs.org','registry.npmmirror.com','mirrors.tencent.com','nodejs.org','github.com','codeload.github.com')
+function Test-AllowedHost([string]$Url){
+  if ($Url -notmatch '^https?://') { return $false }
+  $h = ([uri]$Url).Host
+  if ($ALLOWED -notcontains $h) { return $false }
+  if ($h -match '^(localhost|127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.|0\.|\[?::1\]?)') { return $false }
+  return $true
+}
+function Get-Sha([string]$p){ $h = Get-FileHash -Algorithm SHA256 -LiteralPath $p; if (-not $h.Hash) { throw "EMPTY_HASH $p" }; $h.Hash.ToLower() }
+function Fetch([string]$url,[string]$dest){
+  if (-not (Test-AllowedHost $url)) { Write-Host "REJECT-HOST $url"; return $false }
+  for($i=0; $i -lt $Retry; $i++){
+    & curl.exe -L --fail --retry 2 -sS -o $dest $url
+    if ($LASTEXITCODE -eq 0 -and (Test-Path $dest) -and (Get-Item $dest).Length -gt 0) { return $true }
+  }
+  return $false
+}
+# —— 24 个 npm 包（与 offline/npm/SHA256SUMS.txt 同名同版本；2026-09-27 锁定）——
+$PKGS = @(
+  @('deepseek-ai-dsh','@deepseek-ai/dsh','0.1.5-rc.3'), @('pi2dsh','pi2dsh','0.25.2'),
+  @('dsh-better-sidebar','dsh-better-sidebar','0.21.1'), @('dsh-plugin','dsh-plugin','1.4.8'),
+  @('pi-hermes-memory','pi-hermes-memory','0.9.9'), @('pi-approval-guardian','pi-approval-guardian','0.8.0'),
+  @('pi-redact-all','pi-redact-all','0.2.1'), @('pi-mcp-adapter','pi-mcp-adapter','2.38.0'),
+  @('dsh-excel-panel','dsh-excel-panel','0.6.1'), @('dsh-docs-panel','dsh-docs-panel','0.1.0'),
+  @('rmrdeveloper-sideroom-pi','@rmrdeveloper/sideroom-pi','8.11.0'), @('pi-stats-footer','pi-stats-footer','0.4.0'),
+  @('dsh-undo-savepoint','dsh-undo-savepoint','0.4.9'), @('tintinweb-pi-subagents','@tintinweb/pi-subagents','0.19.0'),
+  @('pi-dag-core','pi-dag-core','0.1.6'), @('graph-memory','graph-memory','1.5.8'),
+  @('mutmutco-pi-plugin','@mutmutco/pi-plugin','4.5.41'), @('pi-deepseek-search','pi-deepseek-search','1.0.20'),
+  @('pi-queue-steer-factory','pi-queue-steer-factory','0.17.5'), @('pi-loop-mode','pi-loop-mode','2.5.4'),
+  @('anionex-dsh-vision-toolkit','@anionex/dsh-vision-toolkit','0.1.45'),
+  @('ychris12138-dsh-usage-stats','@ychris12138/dsh-usage-stats','0.3.4'),
+  @('changfenhuang-dsh-annotation','@changfenhuang/dsh-annotation','1.4.10'), @('dsh-network-settings','dsh-network-settings','0.3.3')
+)
+New-Item -ItemType Directory -Force -Path 'offline/npm','offline/node','offline/github' | Out-Null
+$sums = @(); $fail = @()
+foreach($p in $PKGS){
+  $base = $p[0]; $npm = $p[1]; $ver = $p[2]
+  $file = "$base-$ver.tgz"; $dest = "offline/npm/$file"
+  if (Test-Path $dest) { Write-Host "SKIP(exists) $file"; }
+  else {
+    $url = "$($REG[$Mirror])/$npm/-/$(($npm -split '/')[-1])-$ver.tgz"
+    if (-not (Fetch $url $dest)) { $fail += $file; Write-Host "FAIL $file"; continue }
+  }
+  $sums += "$file  $(Get-Sha $dest)"; Write-Host "OK $file"
+}
+$sums | Set-Content -Encoding UTF8 'offline/npm/SHA256SUMS.txt'
+# —— Node 24 LTS 离线安装器（文件名经 SHASUMS256.txt 解析，避免写死版本号；latest-v24.x=v24.21.0 满足 pi-vault-mind engines>=24.19）——
+if (-not $SkipNode) {
+  $shasums = 'offline/node/SHASUMS256.txt'
+  if (Fetch 'https://nodejs.org/dist/latest-v24.x/SHASUMS256.txt' $shasums) {
+    foreach($line in ([IO.File]::ReadAllLines((Resolve-Path $shasums)))){
+      if ($line -match '^(?<sha>[0-9a-f]{64})\s+\*(?<f>node-v\d+\.\d+\.\d+-(x64|arm64)\.msi)$' -or
+          $line -match '^(?<sha>[0-9a-f]{64})\s+\*(?<f>node-v\d+\.\d+\.\d+\.pkg)$') {
+        $f = $Matches.f; $dest = "offline/node/$f"
+        if (-not (Test-Path $dest)) {
+          if (Fetch "https://nodejs.org/dist/latest-v24.x/$f" $dest) {
+            $a = Get-Sha $dest; if ($a -ne $Matches.sha.ToLower()) { Write-Host "NODE-HASH-MISMATCH $f"; $fail += $f; continue }
+            Write-Host "OK $f"
+          } else { $fail += $f }
+        } else { Write-Host "SKIP(exists) $f" }
+      }
+    }
+  } else { $fail += 'node-SHASUMS' }
+}
+# —— dsh-web 源码（浅克隆；zip 实测 452MB 过重）——
+if (-not $SkipDshWeb) {
+  if (Test-Path 'offline/github/dsh-web/.git') { Write-Host 'SKIP(exists) dsh-web' }
+  else {
+    & git clone --depth 1 https://github.com/zhu1090093659/dsh-web offline/github/dsh-web 2>$null
+    if ($LASTEXITCODE -eq 0) { Write-Host 'OK dsh-web (shallow clone)' } else { $fail += 'dsh-web(需手动 git clone)'; Write-Host 'FAIL dsh-web —— 请手动：git clone --depth 1 https://github.com/zhu1090093659/dsh-web offline/github/dsh-web' }
+  }
+}
+if ($fail.Count -gt 0) { Write-Host "`nFAILED ITEMS:"; $fail | ForEach-Object { Write-Host " - $_" }; exit 1 }
+Write-Host "`nDOWNLOAD_ALL_DONE"

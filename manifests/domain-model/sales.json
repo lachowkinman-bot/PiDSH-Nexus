@@ -1,0 +1,1142 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "sales",
+ "label": "销售 SALES",
+ "scene_ids": [
+  "sales.quote-approval@1.0.0"
+ ],
+ "level": "L3",
+ "dual_approval": false,
+ "redact_fields": [
+  "customer_contract",
+  "discount_floor"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.426Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/sales.quote-approval.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/sales/",
+  "doc": "docs/preset-design/sales.md"
+ },
+ "tables": [
+  {
+   "file": "pipeline.csv",
+   "rows": 20,
+   "columns": [
+    "opportunity",
+    "stage",
+    "amount_k",
+    "owner",
+    "close_date",
+    "opportunity_id",
+    "customer_id",
+    "customer_masked",
+    "contact_masked",
+    "region",
+    "probability_pct",
+    "source",
+    "close_month",
+    "next_action",
+    "lost_reason",
+    "contract_no",
+    "updated_at"
+   ],
+   "pii_likely": [
+    "customer_masked",
+    "contact_masked"
+   ]
+  },
+  {
+   "file": "quotes.csv",
+   "rows": 15,
+   "columns": [
+    "quote_id",
+    "customer_masked",
+    "items",
+    "discount_pct",
+    "total_wan",
+    "status",
+    "opportunity_id",
+    "customer_id",
+    "contact_masked",
+    "list_price_wan",
+    "discount_floor_wan",
+    "approval_route",
+    "contract_no",
+    "payment_terms",
+    "terms_deviation",
+    "note",
+    "updated_at"
+   ],
+   "pii_likely": [
+    "customer_masked",
+    "contact_masked"
+   ]
+  },
+  {
+   "file": "targets.csv",
+   "rows": 12,
+   "columns": [
+    "region",
+    "region_quota_wan",
+    "owner_masked",
+    "owner_target_wan",
+    "quarter",
+    "updated_at"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "quote-calc",
+   "file": "templates/skills-domain/sales/SKILL-quote-calc.md"
+  },
+  {
+   "name": "win-review",
+   "file": "templates/skills-domain/sales/SKILL-win-review.md"
+  },
+  {
+   "name": "quota-dashboard",
+   "file": "templates/skills-domain/sales/SKILL-quota-dashboard.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "sales.quote-approve@1.0.0",
+   "kind": "approve",
+   "description": "报价审批（DAG + 折扣阈值）",
+   "skill": "quote-calc",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quote-calc"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "报价审批（DAG + 折扣阈值） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "报价审批（DAG + 折扣阈值）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "quote-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "quote_id",
+     "total_wan",
+     "discount_pct",
+     "approvals"
+    ],
+    "acceptance": "折扣 ≥10% 双审批；≥15% 加签 CFO"
+   }
+  },
+  {
+   "id": "sales.win-review@1.0.0",
+   "kind": "report",
+   "description": "赢单复盘（打法沉淀）",
+   "skill": "win-review",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "win-review"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "赢单复盘（打法沉淀）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "win-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "opportunity",
+     "amount_k",
+     "win_factors",
+     "playbook_update"
+    ],
+    "acceptance": "结论可追溯到商机记录"
+   }
+  },
+  {
+   "id": "sales.quote-calc@1.0.0",
+   "kind": "calc",
+   "description": "报价测算（规格×数量×折扣）",
+   "skill": "quote-calc",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quote-calc"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "报价测算（规格×数量×折扣）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "quote-calc-<ts>.json",
+    "format": "json",
+    "fields": [
+     "customer_masked",
+     "items",
+     "discount_pct",
+     "total_wan"
+    ],
+    "acceptance": "低于底价必须转 quote-approve"
+   }
+  },
+  {
+   "id": "sales.pipeline-report@1.0.0",
+   "kind": "report",
+   "description": "管道周报（阶段×金额）",
+   "skill": "quota-dashboard",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quota-dashboard"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "管道周报（阶段×金额）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "pipeline-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "stage",
+     "count",
+     "amount_k",
+     "week"
+    ],
+    "acceptance": "金额单位万元，可追溯 pipeline.csv"
+   }
+  },
+  {
+   "id": "sales.contract-review@1.0.0",
+   "kind": "approve",
+   "description": "合同评审（法务/财务会签）",
+   "skill": "win-review",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "win-review"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "合同评审（法务/财务会签） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "合同评审（法务/财务会签）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "contract-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "contract_no",
+     "terms_risk",
+     "payment_terms",
+     "approvals"
+    ],
+    "acceptance": "回款条款偏离标准必须双审批"
+   }
+  },
+  {
+   "id": "sales.target-split@1.0.0",
+   "kind": "calc",
+   "description": "销售目标分解（区→人）",
+   "skill": "quota-dashboard",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "quota-dashboard"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "销售目标分解（区→人）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "target-split-<ts>.json",
+    "format": "json",
+    "fields": [
+     "region",
+     "owner_masked",
+     "target_wan",
+     "quarter"
+    ],
+    "acceptance": "合计必须等于区目标"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-SALES-01",
+   "input": "按客户需求生成报价单并走折扣审批",
+   "expected_output": "reports/sales/gt-01.md",
+   "skill": null,
+   "scene": "sales.quote-approval@1.0.0"
+  },
+  {
+   "id": "GT-SALES-02",
+   "input": "汇总本月赢单复盘要点",
+   "expected_output": "reports/sales/gt-02.md",
+   "skill": null,
+   "scene": "sales.quote-approval@1.0.0"
+  },
+  {
+   "id": "GT-SALES-03",
+   "input": "生成大区业绩达成看板",
+   "expected_output": "reports/sales/gt-03.md",
+   "skill": null,
+   "scene": "sales.quote-approval@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/sales",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/sales/t/pipeline",
+   "type": "table",
+   "title": "pipeline.csv",
+   "table": "pipeline",
+   "file": "pipeline.csv"
+  },
+  {
+   "route": "#/sales/t/quotes",
+   "type": "table",
+   "title": "quotes.csv",
+   "table": "quotes",
+   "file": "quotes.csv"
+  },
+  {
+   "route": "#/sales/t/targets",
+   "type": "table",
+   "title": "targets.csv",
+   "table": "targets",
+   "file": "targets.csv"
+  },
+  {
+   "route": "#/sales/w/quote-approve",
+   "type": "workflow",
+   "title": "报价审批（DAG + 折扣阈值）",
+   "workflow": "sales.quote-approve@1.0.0"
+  },
+  {
+   "route": "#/sales/w/win-review",
+   "type": "workflow",
+   "title": "赢单复盘（打法沉淀）",
+   "workflow": "sales.win-review@1.0.0"
+  },
+  {
+   "route": "#/sales/w/quote-calc",
+   "type": "workflow",
+   "title": "报价测算（规格×数量×折扣）",
+   "workflow": "sales.quote-calc@1.0.0"
+  },
+  {
+   "route": "#/sales/w/pipeline-report",
+   "type": "workflow",
+   "title": "管道周报（阶段×金额）",
+   "workflow": "sales.pipeline-report@1.0.0"
+  },
+  {
+   "route": "#/sales/w/contract-review",
+   "type": "workflow",
+   "title": "合同评审（法务/财务会签）",
+   "workflow": "sales.contract-review@1.0.0"
+  },
+  {
+   "route": "#/sales/w/target-split",
+   "type": "workflow",
+   "title": "销售目标分解（区→人）",
+   "workflow": "sales.target-split@1.0.0"
+  },
+  {
+   "route": "#/sales/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "pipeline.csv",
+         "L2",
+         "—（scene/Type-Dict 声明 none；`owner`/`contact_masked` 为「姓+`****`」不可还原掩码，`customer_id` 为匿名代理键 `CUST-###`）",
+         "20",
+         "商机主表（金额单位**千元**）：原生 5 列（商机/阶段/金额/负责人/成交日）+ 追加 12 列（商机ID/客户ID/客户掩码/联系人掩码/大区/赢率/来源/成交月/下一动作/输单原因/合同号/版本时间戳）；覆盖 7 阶段 × 5 大区，是管道周报、赢单复盘与目标达成的事实源"
+        ],
+        [
+         "quotes.csv",
+         "L3",
+         "customer_masked, contact_masked, discount_floor_wan（承载 scene redact 字段 `customer_contract`、`discount_floor`）",
+         "15",
+         "报价台账（金额单位**万元**）：原生 6 列（报价号/客户掩码/配置/折扣/含税合计/状态）+ 追加 11 列（商机ID/客户ID/联系人掩码/目录价/底价/审批路由/合同号/回款条款/条款偏离/备注/版本时间戳）；报价审批、合同评审的判定依据，合同要素寄存在本表追加列"
+        ],
+        [
+         "targets.csv",
+         "L2",
+         "—",
+         "12",
+         "大区→负责人季度目标分解表（金额单位**万元**）：5 大区 12 名负责人；`Σowner_target_wan = region_quota_wan`（§9 V-SALES-06），供 GT-SALES-03 达成看板与 `sales.target-split` 取数；**非 scene 数据资产**（本域扩展表），级别保守继承 pipeline"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "声明侧",
+        "落地侧",
+        "级别"
+       ],
+       "rows": [
+        [
+         "scene `data_assets` 的 pipeline.xlsx（Type-Dict：`sales, pipeline, table, L2, none`）",
+         "pipeline.csv",
+         "L2"
+        ],
+        [
+         "scene `data_assets` 的 contracts.xlsx（Type-Dict：`sales, contracts, table, L3, customer_contract`）",
+         "**不单独落地合同主表**：合同要素（`contract_no` / `payment_terms` / `terms_deviation`）以 quotes.csv 追加列承载，合同原文与条款正文一律不外发（§10）",
+         "L3"
+        ],
+        [
+         "（无 scene 声明；GT-SALES-03 达成率与 `sales.target-split` 验收需要）",
+         "targets.csv",
+         "L2（保守继承）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "表头英文小写下划线、UTF-8、逗号分隔、字段内不使用英文逗号；**金额单位写进列名**（`amount_k` = 千元、`*_wan` = 万元），跨表口径折算见 §9 V-SALES-05。",
+      "`pipeline.csv` 原生 5 列（`opportunity,stage,amount_k,owner,close_date`）、`quotes.csv` 原生 6 列（`quote_id,customer_masked,items,discount_pct,total_wan,status`）的**列名与列序均未删改**，仅追加列（追加列已逐字段写入 §1.1）；原 5 条商机行、原 4 条报价行的既有取值逐字保留。",
+      "每表数据行 ≥12（本页行数以上表为准，不含表头），满足 §15.4 校验下限与 scene 数据资产规模要求。",
+      "**既存口径修正登记**：`pipeline.close_date` 仅 `MM-DD` 无年份（历史 GT 报告已记为口径差异），本版**不改原列**，以追加列 `close_month`（`YYYY-MM`）补全年份口径，报告期取 `close_month`。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "opportunity",
+         "string",
+         "是",
+         "商机名称（`商机-<字母>（行业）`），展示口径；原始列"
+        ],
+        [
+         "stage",
+         "enum",
+         "是",
+         "商机阶段，枚举与迁移见 §4.1（落地值：线索/接触/方案/报价/谈判/赢单/输单）；原始列"
+        ],
+        [
+         "amount_k",
+         "number",
+         "是",
+         "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+        ],
+        [
+         "owner",
+         "string",
+         "是",
+         "商机负责人掩码（姓 + `****`，如 `王****`）；原始列"
+        ],
+        [
+         "close_date",
+         "string",
+         "是",
+         "预计/实际成交日 `MM-DD`（源表无年份，保留原样）；原始列"
+        ],
+        [
+         "opportunity_id",
+         "string",
+         "是",
+         "商机 ID（`OPP-YYYY-####`），唯一主键；quotes.opportunity_id 的外键指向本列；追加列"
+        ],
+        [
+         "customer_id",
+         "string",
+         "是",
+         "客户匿名代理键（`CUST-###`），不可还原为真实企业；quotes.customer_id 必须与本列一致；追加列"
+        ],
+        [
+         "customer_masked",
+         "string",
+         "是",
+         "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列"
+        ],
+        [
+         "contact_masked",
+         "string",
+         "是",
+         "客户联系人掩码（姓 + `****`）；真实姓名/手机/邮箱不入库；追加列"
+        ],
+        [
+         "region",
+         "enum",
+         "是",
+         "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列"
+        ],
+        [
+         "probability_pct",
+         "number",
+         "是",
+         "阶段默认赢率（%）：线索 10 / 接触 20 / 方案 40 / 报价 60 / 谈判 80 / 赢单 100 / 输单 0；追加列"
+        ],
+        [
+         "source",
+         "enum",
+         "是",
+         "线索来源：官网表单 / 行业展会 / 投放落地页 / 转介绍 / 渠道推荐 / 陌拜 / CRM导入 / 公开招标（可回写 mkt-on 线索归因，§6）；追加列"
+        ],
+        [
+         "close_month",
+         "string",
+         "是",
+         "成交归属月 `YYYY-MM`（2026-10/11/12），管道周报与月报的过滤键；追加列"
+        ],
+        [
+         "next_action",
+         "string",
+         "是",
+         "下一动作（销售跟进指令，脱敏文本，不含客户 PII）；追加列"
+        ],
+        [
+         "lost_reason",
+         "enum",
+         "否",
+         "输单原因：预算冻结 / 竞品低价；`stage=输单` 时必填，其余为 `-`；追加列"
+        ],
+        [
+         "contract_no",
+         "string",
+         "否",
+         "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列"
+        ],
+        [
+         "updated_at",
+         "date",
+         "是",
+         "数据版本时间戳 `YYYY-MM-DD`，审计「依据数据版本」取该值，全表快照一致（2026-10-12）；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "quote_id",
+         "string",
+         "是",
+         "报价单号（`QT-####`），唯一主键；原始列"
+        ],
+        [
+         "customer_masked",
+         "string",
+         "是",
+         "客户名称掩码（与 pipeline.customer_masked 同值）；原始列"
+        ],
+        [
+         "items",
+         "string",
+         "是",
+         "配置明细（`<版本>×<数量>+<附加项>`，如 `旗舰版×2+培训`）；产品版本：标准版/专业版/旗舰版，附加项：实施/培训；原始列"
+        ],
+        [
+         "discount_pct",
+         "number",
+         "是",
+         "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+        ],
+        [
+         "total_wan",
+         "number",
+         "是",
+         "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "报价单状态，枚举与迁移见 §4.2（草稿/待审批/已批准/已驳回/已发出；既存落地值「已审批」≡「已批准」）；原始列"
+        ],
+        [
+         "opportunity_id",
+         "ref",
+         "是",
+         "→ pipeline.opportunity_id 外键，禁止孤儿行；追加列"
+        ],
+        [
+         "customer_id",
+         "ref",
+         "是",
+         "→ pipeline.customer_id；必须等于该商机的 customer_id（防串户，§9 V-SALES-02）；追加列"
+        ],
+        [
+         "contact_masked",
+         "string",
+         "是",
+         "客户联系人掩码（姓 + `****`）；追加列"
+        ],
+        [
+         "list_price_wan",
+         "number",
+         "是",
+         "目录价合计（**万元**，2 位小数），与 `items` 配置对应；追加列"
+        ],
+        [
+         "discount_floor_wan",
+         "number",
+         "是",
+         "该配置的底价（**万元**，2 位小数）。承载 scene redact 字段 `discount_floor`：`total_wan < discount_floor_wan` 即「低于底价」，必须转报价审批（§9 V-SALES-04）；出域仅出「是否低于底价」的结论；追加列"
+        ],
+        [
+         "approval_route",
+         "enum",
+         "是",
+         "审批路由（按折扣档位与底价规则取较严者）：一级授权 / 双审批 / 双审批+CFO加签（§5）；映射 workflow `approvals` 字段（签数 1/2/3）；追加列"
+        ],
+        [
+         "contract_no",
+         "string",
+         "否",
+         "销售合同号 `HT-YYYY-####`（报价转合同后回填，与 pipeline.contract_no 一致）；未签为 `-`；**合同原文不落地**；追加列"
+        ],
+        [
+         "payment_terms",
+         "enum",
+         "是",
+         "拟约定回款条款：30%预付+70%验收（标准模板）/ 20%预付+40%发货+40%验收 / 20%预付+30%发货+50%验收 / 40%预付+60%验收 / 月结30天；追加列"
+        ],
+        [
+         "terms_deviation",
+         "enum",
+         "是",
+         "相对标准回款条款的偏离：无 / 偏离；`偏离` 且已签合同 → 触发 cmp 合规留痕（§6）；追加列"
+        ],
+        [
+         "note",
+         "string",
+         "否",
+         "备注（审批要点/驳回原因/规则命中说明，如「低于底价已转报价审批」「毛利率低于产品线红线驳回重报」）；追加列"
+        ],
+        [
+         "updated_at",
+         "date",
+         "是",
+         "数据版本时间戳 `YYYY-MM-DD`（快照一致 2026-10-12）；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "region",
+         "enum",
+         "是",
+         "大区（与 pipeline.region 同词表：华东/华南/华北/西南/华中）"
+        ],
+        [
+         "region_quota_wan",
+         "number",
+         "是",
+         "大区季度目标（**万元**）；同区各行取值必须一致"
+        ],
+        [
+         "owner_masked",
+         "string",
+         "是",
+         "负责人掩码（姓 + `****`，须能在 pipeline.owner 命中）"
+        ],
+        [
+         "owner_target_wan",
+         "number",
+         "是",
+         "负责人季度目标（**万元**）；`Σ(region 内 owner_target_wan) = region_quota_wan`"
+        ],
+        [
+         "quarter",
+         "string",
+         "是",
+         "目标周期 `YYYY-Q#`（本快照 2026-Q4）"
+        ],
+        [
+         "updated_at",
+         "date",
+         "是",
+         "数据版本时间戳 `YYYY-MM-DD`（快照一致 2026-10-12）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/sales.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 商机阶段（pipeline.stage，PIPELINE_STAGE）",
+     "tables": [
+      {
+       "header": [
+        "枚举值",
+        "展示",
+        "阶段赢率",
+        "进入条件"
+       ],
+       "rows": [
+        [
+         "线索",
+         "线索",
+         "10%",
+         "线索入库并完成归属分配（`source` 必填）"
+        ],
+        [
+         "接触",
+         "初访",
+         "20%",
+         "完成首次有效接触（拜访/演示/技术交流），需求初步明确"
+        ],
+        [
+         "方案",
+         "方案",
+         "40%",
+         "需求调研收口，输出解决方案与配置建议"
+        ],
+        [
+         "报价",
+         "报价",
+         "60%",
+         "生成报价单并进入报价流程（审批/发送）"
+        ],
+        [
+         "谈判",
+         "谈判",
+         "80%",
+         "客户接受方案，进入商务条款（价格/回款/交付期）谈判"
+        ],
+        [
+         "赢单",
+         "赢单",
+         "100%",
+         "合同签订（`contract_no` 回填）"
+        ],
+        [
+         "输单",
+         "输单",
+         "0%",
+         "明确失单（`lost_reason` 必填）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "证据/门槛"
+       ],
+       "rows": [
+        [
+         "线索 → 接触",
+         "首次有效接触完成",
+         "`next_action` 更新；`source` 已归因（可回写 mkt-on）"
+        ],
+        [
+         "接触 → 方案",
+         "需求调研完成、方案评审通过",
+         "方案阶段赢率 40%；可并行做标准品预报价（`quote-calc`）"
+        ],
+        [
+         "方案 → 报价",
+         "报价单生成并进入报价流程",
+         "quotes.status ≥ 待审批 且 `approval_route` 已判定（§5）"
+        ],
+        [
+         "报价 → 谈判",
+         "客户接受报价或进入条款谈判",
+         "报价单 `approval_route` 已完成相应签批；回款条款进入评审"
+        ],
+        [
+         "谈判 → 赢单",
+         "合同签订",
+         "`contract_no` 必填；联动 fin 收入确认/开票（§6）"
+        ],
+        [
+         "任意 → 输单",
+         "失单决策确认",
+         "`lost_reason` 必填；转年度培育池并触发 mkt-on 线索回流（§6）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**禁止**：越级推进（如 线索→报价）；`close_month` 与 `close_date` 的月份不一致（§9 V-SALES-09）；赢单无 `contract_no`、输单无 `lost_reason`。",
+      "阶段与报价单状态**解耦**（同 fin 的「两表状态各自落值、互不双写」）：报价单 `status` 由报价流程驱动，商机 `stage` 由销售流程驱动；允许「标准化预报价在 接触 阶段发出」（QT-3302）、「草稿测算在 线索 阶段先行」（QT-3304）——此类为**阶段滞后预警样例**（§9 V-SALES-09 黄灯，非阻断）。",
+      "本快照分布（20 行）：线索 3 / 接触 4 / 方案 3 / 报价 3 / 谈判 3 / 赢单 2 / 输单 2；大区分布 华东 8 / 华南 4 / 华北 4 / 西南 1 / 华中 3。"
+     ]
+    },
+    {
+     "heading": "4.2 报价单状态（quotes.status，QUOTE_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "状态（CSV 落值）",
+        "标识符",
+        "等价口径",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "草稿",
+         "draft",
+         "草稿",
+         "待审批",
+         "`approval_route` 已预判；低于底价时提交必须转审批（QT-3304）"
+        ],
+        [
+         "待审批",
+         "pending_approval",
+         "待审批",
+         "已批准 / 已驳回",
+         "`approval_route` 非空；签批计数与档位一致（§5）"
+        ],
+        [
+         "已批准",
+         "approved",
+         "**已审批**（既存落地值等价）",
+         "已发出",
+         "审批人 + 依据数据版本 + 产物哈希（workflow n5 audit）"
+        ],
+        [
+         "已驳回",
+         "rejected",
+         "已驳回",
+         "草稿（改价重报）",
+         "`note` 必填驳回原因（QT-3311 毛利红线 / QT-3312 超低价+非标条款）"
+        ],
+        [
+         "已发出",
+         "sent",
+         "已发出",
+         "—（终态）",
+         "对外生效证据：客户已接收；合同签订后报价状态**冻结不回写**"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "迁移只经唯一函数 `setStatus(entity, to, by)` 并写操作日志（参照 §8.3）；流程实例状态（running/done/rejected/cancelled）与单据状态解耦，流程 done 后由 after_complete 钩子回写。",
+      "本快照分布（15 行）：待审批 6 / 已批准 3（含既存值「已审批」1）/ 草稿 2 / 已驳回 2 / 已发出 2。",
+      "报价转合同（`contract_no` 回填）后状态冻结：赢单的 QT-3303 保持「已审批」、QT-3310 为「已发出」，两者均合法，避免双写。"
+     ]
+    },
+    {
+     "heading": "4.3 合同回款条款状态（quotes.terms_deviation，TERMS_RISK）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "落地取值",
+        "进入条件",
+        "允许后继"
+       ],
+       "rows": [
+        [
+         "标准",
+         "无",
+         "回款条款 = 标准模板「30%预付+70%验收」",
+         "—（终态）"
+        ],
+        [
+         "偏离",
+         "偏离",
+         "非标条款（降预付/加账期），须 `sales.contract-review` 双审批",
+         "复核结论回写（cmp 证据包）→ 关闭或退回重谈"
+        ],
+        [
+         "已复核",
+         "（由 cmp 结论承载，不落本表列）",
+         "偏离条款经法务/财务会签并打包证据",
+         "到期结案；不得自动放行未复核的偏离条款"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "偏离样例：QT-3308（20%预付+40%发货+40%验收）、QT-3310（合同 HT-2026-0427，已签且偏离 → cmp 联动）、QT-3312（月结30天，超低价驳回）、QT-3313（客户要求降低预付比例）。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/sales.md#§4"
+  },
+  "5": {
+   "title": "审批链（节点-角色-阈值）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "档位",
+        "触发条件（quotes.csv 口径）",
+        "审批节点",
+        "角色链（建议映射）",
+        "签数",
+        "依据与样例"
+       ],
+       "rows": [
+        [
+         "一级授权",
+         "`discount_pct < 10` 且 `total_wan ≥ discount_floor_wan`",
+         "域内一级授权（不强制进入 quote-approve；若进入，n3 仍按 manifest L4 双审批执行，规则只加严）",
+         "销售负责人",
+         "1",
+         "scene `dual_approval=false`；样例 QT-3302（0%）、QT-3311、QT-3314、QT-3315"
+        ],
+        [
+         "双审批",
+         "`10 ≤ discount_pct < 15`，**或** `total_wan < discount_floor_wan`（低于底价，无论折扣）",
+         "sales.quote-approve n3（**L4，dual=true**，hitl_nodes=[n3]）",
+         "销售负责人 → 商务/财务负责人",
+         "2",
+         "acceptance 原文「折扣 ≥10% 双审批」＋「低于底价必须转 quote-approve」；样例 QT-3303（12%）、QT-3307（10%）、QT-3309（12%）、QT-3310（11%）、QT-3313（14%）、QT-3301（8% 但低于底价）"
+        ],
+        [
+         "双审批+CFO加签",
+         "`discount_pct ≥ 15`",
+         "sales.quote-approve n3 + CFO 加签（第三签）",
+         "销售负责人 → 商务/财务负责人 → CFO",
+         "3",
+         "acceptance 原文「≥15% 加签 CFO」；样例 QT-3305（15%）、QT-3306（18%）、QT-3308（16%）、QT-3312（22%）"
+        ],
+        [
+         "合同会签",
+         "合同评审触发（回款条款偏离标准）",
+         "sales.contract-review n3（**L4，dual=true**，hitl_nodes=[n3]）",
+         "法务负责人 → 财务负责人",
+         "2",
+         "acceptance 原文「回款条款偏离标准必须双审批」；样例 QT-3310（合同 HT-2026-0427）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "钉死事实：两条 approve 工作流的 n3 均为 `level: L4`、`dual: true`（取自工作流 YAML/index.json）；`approval_route` 三档与「≥10% 双审批 / ≥15% 加签 CFO」为 acceptance 原文口径，角色映射为落地建议（scene/工作流未钉角色，按 ROLES/caps 配置）。",
+      "路由判定取**较严者**：折扣档与底价规则同时命中时按高档执行（如 QT-3301 折扣 8% 落一级授权档，但低于底价 → 双审批）。",
+      "驳回/回滚：驳回 → 流程 rejected，报价回落 `草稿` 并必填原因；rollback savepoint `pre-quote-approve` / `pre-contract-review`；审批意见（通过/驳回原因）写入 audit n5。",
+      "审批路由 → 交付字段映射：`approval_route` = 一级授权/双审批/双审批+CFO加签 → workflow `approvals` 签数 1/2/3；`status` 为 待审批 时按已签数计（1/2/3 中未完成态）。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/sales.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定",
+        "失败处理"
+       ],
+       "rows": [
+        [
+         "V-SALES-01 必填与枚举",
+         "pipeline：opportunity_id / stage / amount_k / owner / region / probability_pct / close_month / customer_id 非空；quotes：quote_id / discount_pct / total_wan / status / opportunity_id / customer_id / list_price_wan / discount_floor_wan / approval_route / payment_terms / terms_deviation 非空；targets：region / region_quota_wan / owner_masked / owner_target_wan / quarter 非空；枚举白名单（阶段 §4.1、报价状态 §4.2、大区、来源、路由、条款偏离）",
+         "缺失或越界即拒写，提示「请填写必填项/枚举非法」"
+        ],
+        [
+         "V-SALES-02 主键与外键",
+         "opportunity_id、quote_id 唯一；`quotes.opportunity_id ∈ pipeline.opportunity_id`（禁孤儿行）；`quotes.customer_id ≡ 该商机 customer_id`（防串户）；`targets.region ⊆ pipeline.region` 且 `targets.owner_masked ⊆ pipeline.owner`",
+         "外键/一致性失败即拒写；孤儿报价不得进入审批"
+        ],
+        [
+         "V-SALES-03 折扣阈值与加签",
+         "`approval_route = 双审批+CFO加签`（discount ≥15）＞ `双审批`（10 ≤ discount <15，或低于底价）＞ `一级授权`（discount <10 且 ≥底价），取较严者；`status ∈ {已批准, 已审批, 已发出}` 的行必须与阈值一致（≥10% 不得为一级授权；≥15% 必须含 CFO 加签）",
+         "档位低于规则或路由与折扣不符即 FAIL，不得置已批准/已发出"
+        ],
+        [
+         "V-SALES-04 低于底价必须转审批",
+         "逐行判定 `total_wan < discount_floor_wan`：命中行 `approval_route ∈ {双审批, 双审批+CFO加签}`；草稿命中时提交必须进入 `sales.quote-approve`（不得直接发送）",
+         "低于底价且未转审批即一票否决（quote-calc acceptance 原文）；样例 QT-3301 / QT-3304 / QT-3312"
+        ],
+        [
+         "V-SALES-05 金额恒等式与单位口径",
+         "报价恒等式 `total_wan = round(list_price_wan × (1 − discount_pct/100), 1)` 逐行成立；单位口径：pipeline 千元、quotes/targets 万元，报告与产物统一万元（`amount_k ÷ 10`）；`close_month` 必须与 `close_date` 月份一致",
+         "恒等式不成立或单位混用即拒绝出数；跨表比较须先折算并注明口径"
+        ],
+        [
+         "V-SALES-06 目标分解合计 = 区目标",
+         "`Σ owner_target_wan(region) = region_quota_wan`，5 大区全部成立（华东 900 / 华南 600 / 华北 520 / 西南 280 / 华中 360，误差 0）；同区 `region_quota_wan` 取值一致",
+         "target-split acceptance 原文「合计必须等于区目标」；不等即拒出分解表"
+        ],
+        [
+         "V-SALES-07 管道汇总勾稽",
+         "管道周报的 stage×count×amount_k 汇总必须等于 pipeline.csv 全量明细合计（Σ20 行 `amount_k` = 15,790 千元 = 1,579.0 万元；其中赢单 2,160 千元 = 216.0 万元）；`probability_pct` 与阶段枚举一一对应",
+         "汇总与明细不一致即拒绝出报告；口径差异需显式说明（如赢单额 vs 管道预估）"
+        ],
+        [
+         "V-SALES-08 管道覆盖率",
+         "`Σ amount_k(stage≠输单) ÷ 10 ÷ region_quota_wan ≥ 40%`；本快照 华东 71.1% / 华南 41.5% / 华北 50.8% / 西南 75.0% / **华中 25.0%（刻意埋点预警）**",
+         "低于阈值仅**预警**（黄灯）不阻断，进入线索补量清单"
+        ],
+        [
+         "V-SALES-09 状态迁移合法",
+         "阶段不可越级（§4.1）；`stage=输单` 必填 `lost_reason`；`stage=赢单` 必填 `contract_no`；`status=已驳回` 必填 `note`；报价 `status ∈ {待审批, 已批准, 已审批, 已发出}` 而商机 `stage ∈ {线索, 接触}` → 阶段滞后预警（黄灯，样例 QT-3302）；草稿态而商机 `stage=线索` → 提示补齐阶段推进（样例 QT-3304）",
+         "非法迁移回退并记审计；预警项须在报告中列明，不阻断流程"
+        ],
+        [
+         "V-SALES-10 脱敏与边界",
+         "`discount_floor_wan` 出域仅出「是否低于底价」结论；`customer_contract` 口径（合同号/条款/正文）禁出原文；客户标识仅 `CUST-###` + `某<行业>` 掩码形态；人员仅「姓+****」；PII 禁入记忆层",
+         "任一违规即一票否决（redact_gate 未命中即出域）"
+        ],
+        [
+         "V-SALES-11 交付验收",
+         "quote-approve：≥10% 双审批、≥15% CFO 加签；quote-calc：低于底价必须转 quote-approve；pipeline-report：万元口径可追溯 pipeline.csv；contract-review：回款条款偏离标准必须双审批；target-split：合计等于区目标；win-review：结论可追溯到商机记录",
+         "任一条不满足即交付不合格，重跑并补证据"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/sales.md#§9"
+  }
+ },
+ "gaps": []
+}

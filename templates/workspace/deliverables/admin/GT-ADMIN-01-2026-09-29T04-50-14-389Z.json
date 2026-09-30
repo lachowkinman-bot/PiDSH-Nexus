@@ -1,0 +1,125 @@
+{
+  "doc_id": "GT-ADMIN-01",
+  "generated_at": "2026-09-29T04:50:14.389Z",
+  "scenario": "admin.procurement@1.0.0",
+  "domain": "ADMIN",
+  "skill": "purchase-compare",
+  "workflow": "admin.purchase-approve@1.0.0",
+  "title": "办公用品采购比价与审批单",
+  "item": [
+    "办公笔记本×20",
+    "会议椅×40"
+  ],
+  "qty": [
+    20,
+    40
+  ],
+  "amount_wan": 16.356,
+  "currency": "CNY",
+  "amount_yuan": 163560,
+  "budget_ok": false,
+  "status": "BLOCKED",
+  "datasource": [
+    "templates/workspace/data/admin/purchases.csv",
+    "templates/workspace/data/admin/assets.csv"
+  ],
+  "lines": [
+    {
+      "item": "办公笔记本×20",
+      "qty": 20,
+      "unit": "台",
+      "selected_vendor_masked": "供应商B",
+      "unit_price_yuan": 6580,
+      "amount_yuan": 131600,
+      "amount_wan": 13.16,
+      "lead_days": 10,
+      "selection_rule": "取最低有效报价",
+      "quotes": [
+        {"vendor_masked": "供应商A", "unit_price_yuan": 6800, "lead_days": 7, "amount_yuan": 136000},
+        {"vendor_masked": "供应商B", "unit_price_yuan": 6580, "lead_days": 10, "amount_yuan": 131600},
+        {"vendor_masked": "供应商C", "unit_price_yuan": 7100, "lead_days": 3, "amount_yuan": 142000}
+      ],
+      "saving_vs_highest_yuan": 10400,
+      "saving_pct_vs_highest": 7.32
+    },
+    {
+      "item": "会议椅×40",
+      "qty": 40,
+      "unit": "把",
+      "selected_vendor_masked": "供应商C",
+      "unit_price_yuan": 799,
+      "amount_yuan": 31960,
+      "amount_wan": 3.196,
+      "lead_days": 15,
+      "selection_rule": "取最低有效报价",
+      "quotes": [
+        {"vendor_masked": "供应商A", "unit_price_yuan": 860, "lead_days": 12, "amount_yuan": 34400},
+        {"vendor_masked": "供应商C", "unit_price_yuan": 799, "lead_days": 15, "amount_yuan": 31960}
+      ],
+      "saving_vs_highest_yuan": 2440,
+      "saving_pct_vs_highest": 7.09
+    }
+  ],
+  "vendor_count": {
+    "办公笔记本×20": 3,
+    "会议椅×40": 2
+  },
+  "total_saving_yuan": 12840,
+  "estimated_lead_days_max": 15,
+  "budget_check": {
+    "checked": true,
+    "budget_source": null,
+    "required_amount_wan": 16.356,
+    "available_budget_wan": null,
+    "conclusion": "FAIL_CLOSED",
+    "reason": "数据目录未提供预算基线文件（仅存在 purchases.csv 与 assets.csv），无法核验可用预算是否覆盖 16.356 万元，按风控要求执行「预算不足直接阻断」，禁止放行至审批流转。"
+  },
+  "asset_ledger_check": {
+    "duplicate_risk": "none",
+    "evidence": [
+      "AST-0107 笔记本电脑 1 台在用（持有人 张****，销售部），本次申购 20 台属新增扩容，无台账重复。",
+      "资产台账中无会议椅在用记录，会议椅×40 为全新购置需求。",
+      "AST-0113 打印机状态为维修中、AST-0121 测试手机已归还，均与本次采购品类无关，不纳入比价范围。"
+    ]
+  },
+  "approvals": [
+    {
+      "seq": 1,
+      "step": "预算核验",
+      "role": "财务-预算岗",
+      "mode": "auto",
+      "required": true,
+      "status": "BLOCKED",
+      "blocking": true,
+      "comment": "预算基线缺失，amount_wan=16.356 无法核验，流程阻断，不进入后续审批。"
+    },
+    {
+      "seq": 2,
+      "step": "比价结果复核",
+      "role": "行政主管",
+      "mode": "human",
+      "required": true,
+      "status": "PENDING",
+      "blocking": false,
+      "comment": "待预算核验通过后人工复核供应商B/供应商C 最低价选取与交付周期（最长15天）。"
+    },
+    {
+      "seq": 3,
+      "step": "用印审批",
+      "role": "印章管理员",
+      "mode": "human",
+      "required": true,
+      "status": "PENDING",
+      "blocking": true,
+      "auto_approve_allowed": false,
+      "comment": "用印强制人工：采购合同/审批单用印一律由印章管理员人工审批，系统不提供自动放行。"
+    }
+  ],
+  "masking": {
+    "applied": true,
+    "fields": ["vendor_masked", "holder_masked"],
+    "note": "供应商名称与资产持有人姓名均为脱敏值，原始明细未落盘至交付物。"
+  },
+  "blocked_reason": "预算基线数据缺失（fail-closed），且用印环节强制人工，本单不得自动完成审批。",
+  "next_action": "由财务补充本年度行政办公用品预算基线（可用额度）后重跑 purchase-compare；预算通过后转行政主管复核并提交印章管理员人工用印。"
+}

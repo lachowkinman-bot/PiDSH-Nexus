@@ -1,0 +1,103 @@
+{
+  "task_id": "GT-COMP-01",
+  "skill": "band-analysis",
+  "workflow": "comp.salary-adjust@1.0.0",
+  "scenario": "comp.salary-review@1.0.0",
+  "domain": "COMP",
+  "generated_at": "2026-09-29T04:54:49.022Z",
+  "source_data": [
+    "templates/workspace/data/comp/adjust_queue.csv",
+    "templates/workspace/data/comp/bands.csv"
+  ],
+  "redact_gate": {
+    "enforced": true,
+    "policy": "individual-pay-band-only",
+    "allowed_granularity": "band-range",
+    "suppressed_fields": [
+      "current_salary_point",
+      "proposed_salary_point",
+      "salary_delta_amount",
+      "compa_ratio",
+      "personal_identifier"
+    ],
+    "note": "个体薪酬仅以带宽区间（万元/年，P25-P75）表达，不输出个人薪酬点值"
+  },
+  "band_reference": [
+    { "band": "P3", "p25_wan": 18, "p50_wan": 24, "p75_wan": 30, "zone": "基准" },
+    { "band": "P4", "p25_wan": 28, "p50_wan": 36, "p75_wan": 46, "zone": "基准" },
+    { "band": "P5", "p25_wan": 42, "p50_wan": 55, "p75_wan": 70, "zone": "基准" },
+    { "band": "P6", "p25_wan": 60, "p50_wan": 80, "p75_wan": 105, "zone": "基准" },
+    { "band": "M2", "p25_wan": 70, "p50_wan": 95, "p75_wan": 125, "zone": "管理带" }
+  ],
+  "proposals": [
+    {
+      "employee_masked": "EMP-****12",
+      "band_from": "P4",
+      "band_to": "P5",
+      "reason": "晋升答辩通过",
+      "status": "双审批中",
+      "approvals": { "hrd": "已通过", "cfo": "待审批" },
+      "band_range_from_wan": [28, 46],
+      "band_range_to_wan": [42, 70],
+      "deviation_type": "跨带晋升",
+      "deviation_assessment": "由 P4 带宽（28-46 万）上移至 P5 带宽（42-70 万），区间上界提升 52.2%；P4 与 P5 区间存在 42-46 万重叠区，衔接平滑，属于晋升驱动的跨带移动",
+      "within_band_risk": "low"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "band_from": "P5",
+      "band_to": "P5",
+      "reason": "带宽内调薪",
+      "status": "已批准",
+      "approvals": { "hrd": "已通过", "cfo": "已通过" },
+      "band_range_from_wan": [42, 70],
+      "band_range_to_wan": [42, 70],
+      "deviation_type": "带宽内调整",
+      "deviation_assessment": "职级不变，调整范围限制在 P5 带宽 42-70 万区间内，未触及带宽边界，偏离度为 0（无跨带）",
+      "within_band_risk": "none"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "band_from": "P4",
+      "band_to": "P4",
+      "reason": "超带宽校准",
+      "status": "双审批中",
+      "approvals": { "hrd": "待审批", "cfo": "待审批" },
+      "band_range_from_wan": [28, 46],
+      "band_range_to_wan": [28, 46],
+      "deviation_type": "超带宽校准",
+      "deviation_assessment": "职级维持 P4 但触发超带宽校准，说明个体落位已越过 P4 带宽上界 46 万；需向 P4 区间（28-46 万）回归或走晋升 / 带宽例外审批，双审批均未完成，暂不可执行",
+      "within_band_risk": "high"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "band_from": "P3",
+      "band_to": "P4",
+      "reason": "关键人才保留",
+      "status": "草稿",
+      "approvals": { "hrd": "未提交", "cfo": "未提交" },
+      "band_range_from_wan": [18, 30],
+      "band_range_to_wan": [28, 46],
+      "deviation_type": "跨带保留",
+      "deviation_assessment": "由 P3 带宽（18-30 万）上移至 P4 带宽（28-46 万），区间上界提升 53.3%；属关键人才保留类跨带提案，尚未进入审批流程",
+      "within_band_risk": "medium"
+    }
+  ],
+  "analysis_summary": {
+    "total_proposals": 4,
+    "cross_band": 2,
+    "within_band": 1,
+    "over_band_calibration": 1,
+    "approved": 1,
+    "pending_dual_approval": 2,
+    "draft": 1,
+    "band_coverage": ["P3", "P4", "P5"],
+    "key_findings": [
+      "共 4 条调薪提案，涉及 P3-P5 三个基准带，无管理带（M2）提案",
+      "仅 EMP-****35 完成 HRD+CFO 双审批并可执行；EMP-****12 与 EMP-****51 处于双审批中，需补齐 CFO / HRD 审批",
+      "EMP-****51 为唯一超带宽校准项，个体落位越过 P4 上界（46 万），属最高合规风险项，建议优先按带宽例外或晋升路径重议",
+      "两条跨带提案（EMP-****12、EMP-****63）目标带与前带均存在区间重叠，衔接未见断档",
+      "EMP-****63 仍为草稿状态，未进入审批链路"
+    ]
+  }
+}

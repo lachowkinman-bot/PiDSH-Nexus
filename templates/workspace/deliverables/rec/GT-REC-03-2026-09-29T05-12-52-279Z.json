@@ -1,0 +1,152 @@
+{
+  "artifact": "interview-schedule-2026-09-29T05-12-52-279Z.json",
+  "task_id": "GT-REC-03",
+  "scenario": "rec.funnel-weekly@1.0.0",
+  "skill": "interview-summary",
+  "workflow": "rec.interview-schedule@1.0.0",
+  "generated_at": "2026-09-29T05:12:52.279Z",
+  "timezone": "Asia/Shanghai (UTC+08:00)",
+  "source_data": [
+    {
+      "file": "templates/workspace/data/rec/candidates.csv",
+      "rows_read": 5,
+      "columns": ["candidate_masked", "position", "stage", "interview_at", "source"],
+      "used_for": "面试排期与候选人脱敏转发清单"
+    },
+    {
+      "file": "templates/workspace/data/rec/funnel.csv",
+      "rows_read": 5,
+      "columns": ["stage", "count", "conversion_pct"],
+      "used_for": "本周招聘漏斗基线，用于说明排期在漏斗中的位置"
+    }
+  ],
+  "schedules": [
+    {
+      "candidate_masked": "张****",
+      "position": "销售经理",
+      "stage": "面试安排",
+      "slot": "2026-10-02T14:00:00+08:00",
+      "slot_raw": "10-02 14:00",
+      "slot_end": "2026-10-02T15:00:00+08:00",
+      "interviewers": ["面试官-销售总监-01", "面试官-HRBP-01"],
+      "mode": "视频面试（飞书会议）",
+      "source_channel": "猎头",
+      "conflict": {
+        "has_conflict": false,
+        "severity": "none",
+        "highlight": "none",
+        "detail": "面试官-销售总监-01 与 面试官-HRBP-01 在 2026-10-02 14:00-15:00 均无其他已排面试，无同时段占用。"
+      },
+      "resume_forward": {
+        "masked_payload": "张**** / 销售经理 / 猎头渠道 / 面试安排（该渠道简历原文姓名、手机号、邮箱、现雇主全称、身份证号均在发信前剥离）",
+        "fields_removed": ["真实姓名", "手机号", "邮箱", "身份证号", "现雇主全称", "薪资期望明细", "附件简历原件"],
+        "forward_to": ["面试官-销售总监-01", "面试官-HRBP-01"],
+        "approval_required": true,
+        "approval_ref": "APR-REC-20260929-001"
+      }
+    },
+    {
+      "candidate_masked": "王****",
+      "position": "HRBP",
+      "stage": "面试安排",
+      "slot": "2026-10-05T16:00:00+08:00",
+      "slot_raw": "10-05 16:00",
+      "slot_end": "2026-10-05T17:00:00+08:00",
+      "interviewers": ["面试官-HR负责人-01", "面试官-销售总监-01"],
+      "mode": "现场面试（总部 3F 面试间 B）",
+      "source_channel": "官网",
+      "conflict": {
+        "has_conflict": false,
+        "severity": "none",
+        "highlight": "none",
+        "detail": "面试官-销售总监-01 本周另一场面试在 2026-10-02 14:00-15:00，与其 2026-10-05 16:00-17:00 时段不重叠；面试官-HR负责人-01 本周仅此一场。"
+      },
+      "resume_forward": {
+        "masked_payload": "王**** / HRBP / 官网渠道 / 面试安排（该渠道简历原文姓名、手机号、邮箱、现雇主全称均已剥离）",
+        "fields_removed": ["真实姓名", "手机号", "邮箱", "身份证号", "现雇主全称", "薪资期望明细", "附件简历原件"],
+        "forward_to": ["面试官-HR负责人-01", "面试官-销售总监-01"],
+        "approval_required": true,
+        "approval_ref": "APR-REC-20260929-002"
+      }
+    }
+  ],
+  "context_not_scheduled": [
+    {
+      "candidate_masked": "李****",
+      "position": "财务分析",
+      "stage": "简历筛选",
+      "interview_at_raw": "-",
+      "reason": "仍处简历筛选阶段，尚未进入面试安排，不生成排期与转发。"
+    },
+    {
+      "candidate_masked": "赵****",
+      "position": "渠道销售",
+      "stage": "简历筛选",
+      "interview_at_raw": "-",
+      "reason": "仍处简历筛选阶段，尚未进入面试安排，不生成排期与转发。"
+    },
+    {
+      "candidate_masked": "陈****",
+      "position": "前端工程师",
+      "stage": "已发offer",
+      "interview_at_raw": "10-09 10:00",
+      "reason": "面试流程已结束并进入 offer 阶段，10-09 10:00 为 offer 相关时间点，不属本次面试排期，仅作漏斗上下文保留。"
+    }
+  ],
+  "conflicts": [],
+  "conflict_rule": {
+    "rule_id": "REC-SCHED-CONFLICT-001",
+    "definition": "同一面试官在两场面试的时段 [slot, slot_end) 存在交集即判为同时段冲突。",
+    "action": "冲突行标记 has_conflict=true、severity=high、highlight=red，并在 conflicts 数组中登记冲突的面试官、命中时段与涉及候选人。",
+    "result": "本次 2 场、共 3 个面试官席位（销售总监-01 出现 2 次、HRBP-01 出现 1 次、HR负责人-01 出现 1 次）经两两时段比对，交集为空，未触发冲突；conflicts 数组为空。",
+    "red_flagged_rows": 0
+  },
+  "masking": {
+    "policy": "REC-PRIV-002 投递简历对外转发最小化",
+    "applied_to": ["张****", "王****"],
+    "identity_form": "仅保留姓氏 + 4 位掩码（沿用源数据 mask 形式），转发正文与文件名不含姓名全称。",
+    "stripped_before_forward": ["真实姓名", "手机号", "邮箱", "身份证号", "现雇主全称", "薪资期望明细", "简历附件原件"],
+    "rationale": "面试官仅需岗位相关履历信息，转发属对外流转，需按最小必要原则脱敏并按流程走审批。"
+  },
+  "approval": {
+    "required": true,
+    "status": "pending",
+    "channel": "系统内审批（招聘线）",
+    "submitted_at": "2026-09-29T05:12:52.279Z",
+    "submitter": "rec.interview-schedule@1.0.0 技能节点",
+    "requests": [
+      {
+        "approval_ref": "APR-REC-20260929-001",
+        "candidate_masked": "张****",
+        "approver_roles": ["用人部门负责人", "HRBP"],
+        "reason": "向面试官转发脱敏简历并确认 2026-10-02 14:00 视频面试排期"
+      },
+      {
+        "approval_ref": "APR-REC-20260929-002",
+        "candidate_masked": "王****",
+        "approver_roles": ["HR负责人", "用人部门负责人"],
+        "reason": "向面试官转发脱敏简历并确认 2026-10-05 16:00 现场面试排期"
+      }
+    ],
+    "blocking_rule": "审批通过前不发送任何含候选人信息的邮件或日程邀请。"
+  },
+  "funnel_baseline": {
+    "as_of": "2026-09-29",
+    "stages": [
+      {"stage": "简历投递", "count": 486, "conversion_pct": 100},
+      {"stage": "初筛通过", "count": 172, "conversion_pct": 35},
+      {"stage": "面试通过", "count": 58, "conversion_pct": 12},
+      {"stage": "offer发放", "count": 21, "conversion_pct": 4},
+      {"stage": "入职", "count": 17, "conversion_pct": 3}
+    ],
+    "note": "本次仅 2 名候选人处于面试安排阶段（张****、王****），对应漏斗中「初筛通过 172 → 面试通过 58」这一环节的待进行部分。"
+  },
+  "acceptance_check": {
+    "criteria": "同一面试官同时段冲突须标红",
+    "checked": true,
+    "comparable_pairs": 3,
+    "conflicts_found": 0,
+    "verdict": "pass",
+    "evidence": "销售总监-01 出现 2 次（10-02 14:00-15:00、10-05 16:00-17:00），时段无交集；其余面试官各出现 1 次。无冲突可标红，规则已生效待后续数据触发。"
+  }
+}

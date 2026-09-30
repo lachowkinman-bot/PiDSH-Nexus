@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: strat.okr-set@1.0.0
+domain: strat
+description: "OKR 目标与 KR 制定（表格化提交）"
+trigger:
+  type: command
+  expr: okr-set
+nodes:
+  - id: n1
+    type: skill
+    ref: strategy-decode
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "OKR 目标与 KR 制定（表格化提交）：输入参数 + 结果快照"
+deliverable:
+  file: okr-set-<ts>.json
+  format: json
+  fields:
+    - objective
+    - kr_list
+    - quarter
+    - owner
+  acceptance: "每条 KR 必须可量化（progress_pct 数值）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-okr-set

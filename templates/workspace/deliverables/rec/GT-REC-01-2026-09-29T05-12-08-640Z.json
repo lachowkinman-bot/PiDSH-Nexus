@@ -1,0 +1,119 @@
+{
+  "report_id": "GT-REC-01",
+  "scenario": "rec.funnel-weekly@1.0.0",
+  "skill": "funnel-analysis",
+  "week": "2026-W40",
+  "week_range": "2026-09-28/2026-10-04",
+  "stage": "简历投递",
+  "count": 486,
+  "conversion_pct": 100,
+  "sources": [
+    "templates/workspace/data/rec/funnel.csv",
+    "templates/workspace/data/rec/candidates.csv"
+  ],
+  "funnel": [
+    {
+      "stage": "简历投递",
+      "count": 486,
+      "conversion_pct": 100,
+      "stage_conversion_pct": null,
+      "drop_off_count": 0,
+      "week": "2026-W40"
+    },
+    {
+      "stage": "初筛通过",
+      "count": 172,
+      "conversion_pct": 35,
+      "stage_conversion_pct": 35.4,
+      "drop_off_count": 314,
+      "week": "2026-W40"
+    },
+    {
+      "stage": "面试通过",
+      "count": 58,
+      "conversion_pct": 12,
+      "stage_conversion_pct": 33.7,
+      "drop_off_count": 114,
+      "week": "2026-W40"
+    },
+    {
+      "stage": "offer发放",
+      "count": 21,
+      "conversion_pct": 4,
+      "stage_conversion_pct": 36.2,
+      "drop_off_count": 37,
+      "week": "2026-W40"
+    },
+    {
+      "stage": "入职",
+      "count": 17,
+      "conversion_pct": 3,
+      "stage_conversion_pct": 81.0,
+      "drop_off_count": 4,
+      "week": "2026-W40"
+    }
+  ],
+  "bottleneck": {
+    "stage": "面试通过",
+    "previous_stage": "初筛通过",
+    "stage_conversion_pct": 33.7,
+    "drop_off_count": 114,
+    "conversion_pct": 12,
+    "evidence": "初筛通过 172 人进入面试环节后仅 58 人通过，环节转化率 33.7%，为全链路最低；同时绝对流失 114 人，仅次于简历投递→初筛通过的 314 人。",
+    "suggestion": "复核面试评分配置与面试官排期，将初筛→面试的转化率从 33.7% 提升至 45% 可多产出约 19 名面试通过者。"
+  },
+  "secondary_bottleneck": {
+    "stage": "初筛通过",
+    "previous_stage": "简历投递",
+    "stage_conversion_pct": 35.4,
+    "drop_off_count": 314,
+    "evidence": "486 份简历投递中仅 172 份通过初筛，绝对流失量最大，属规模化筛选效率问题。"
+  },
+  "highlights": [
+    "offer发放→入职转化率 81.0%，为全链路最高，录用接受与到岗执行良好。",
+    "端到端转化率 3%（486→17），整体漏斗呈收紧态势。"
+  ],
+  "candidates_in_progress": [
+    {
+      "candidate_masked": "张****",
+      "position": "销售经理",
+      "stage": "面试安排",
+      "interview_at": "10-02 14:00",
+      "source": "猎头"
+    },
+    {
+      "candidate_masked": "李****",
+      "position": "财务分析",
+      "stage": "简历筛选",
+      "interview_at": "-",
+      "source": "内推"
+    },
+    {
+      "candidate_masked": "王****",
+      "position": "HRBP",
+      "stage": "面试安排",
+      "interview_at": "10-05 16:00",
+      "source": "官网"
+    },
+    {
+      "candidate_masked": "陈****",
+      "position": "前端工程师",
+      "stage": "已发offer",
+      "interview_at": "10-09 10:00",
+      "source": "内推"
+    },
+    {
+      "candidate_masked": "赵****",
+      "position": "渠道销售",
+      "stage": "简历筛选",
+      "interview_at": "-",
+      "source": "招聘网站"
+    }
+  ],
+  "pii_policy": {
+    "masking": "enabled",
+    "rule": "候选人姓名与联系方式一律掩码，仅保留脱敏后的 candidate_masked 字段（保留姓氏首字 + ****），交付物与报告中不含任何明文 PII。",
+    "compliant": true
+  },
+  "generated_at": "2026-09-29T05:12:08.640Z"
+}

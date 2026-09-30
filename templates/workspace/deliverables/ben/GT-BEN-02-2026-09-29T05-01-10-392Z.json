@@ -1,0 +1,104 @@
+{
+  "report_type": "checkup-report",
+  "report_id": "GT-BEN-02",
+  "scene": "ben.plan-compare@1.0.0",
+  "skill": "checkup-report",
+  "workflow": "ben.checkup-report@1.0.0",
+  "domain": "BEN",
+  "year": 2026,
+  "generated_at": "2026-09-29T05:01:10.392Z",
+  "data_sources": [
+    "templates/workspace/data/ben/plans.csv",
+    "templates/workspace/data/ben/usage.csv"
+  ],
+  "employee_masked": [
+    "EMP-****07",
+    "EMP-****12",
+    "EMP-****35",
+    "EMP-****51"
+  ],
+  "population": {
+    "employees_total": 4,
+    "plans_in_scope": 4,
+    "points_allocated_total": 3400,
+    "points_used_total": 3250,
+    "utilization_rate": 0.9559
+  },
+  "distribution": {
+    "plan_distribution": [
+      { "plan": "升级商保(家属)", "covers": "门诊+住院+体检", "provider_masked": "某保险公司", "points_per_year": 1600, "enrolled_count": 1, "enrolled_ratio": 0.25 },
+      { "plan": "高端体检套餐", "covers": "全面体检+齿科", "provider_masked": "某体检机构", "points_per_year": 900, "enrolled_count": 1, "enrolled_ratio": 0.25 },
+      { "plan": "弹性健身", "covers": "健身房通兑", "provider_masked": "某运动平台", "points_per_year": 600, "enrolled_count": 1, "enrolled_ratio": 0.25 },
+      { "plan": "EAP心理支持", "covers": "全年8次匿名咨询", "provider_masked": "某EAP机构", "points_per_year": 300, "enrolled_count": 1, "enrolled_ratio": 0.25 }
+    ],
+    "quota_status_distribution": [
+      { "status": "额度已耗尽(remaining=0)", "employee_count": 2, "ratio": 0.5 },
+      { "status": "额度部分使用(0<remaining<额度)", "employee_count": 1, "ratio": 0.25 },
+      { "status": "额度未使用(remaining=额度)", "employee_count": 1, "ratio": 0.25 }
+    ],
+    "points_used_band_distribution": [
+      { "band": "0-300", "employee_count": 1, "ratio": 0.25 },
+      { "band": "301-600", "employee_count": 1, "ratio": 0.25 },
+      { "band": "601-900", "employee_count": 1, "ratio": 0.25 },
+      { "band": "901-1600", "employee_count": 1, "ratio": 0.25 }
+    ]
+  },
+  "abnormal_items": [
+    {
+      "item": "体检类权益覆盖缺口",
+      "category": "coverage_gap",
+      "affected_count": 2,
+      "ratio": 0.5,
+      "basis": "现行方案中仅「升级商保(家属)」与「高端体检套餐」含体检/全面体检；「弹性健身」「EAP心理支持」不含体检项目",
+      "severity": "medium",
+      "value_policy": "仅输出分布计数，不输出任何个体健康指标原值"
+    },
+    {
+      "item": "年度权益额度耗尽",
+      "category": "quota_exhausted",
+      "affected_count": 2,
+      "ratio": 0.5,
+      "basis": "usage.csv 中 remaining=0 的记录数",
+      "severity": "low",
+      "value_policy": "仅输出分布计数，不输出任何个体健康指标原值"
+    },
+    {
+      "item": "额度使用与实际扣减不一致(EAP心理支持)",
+      "category": "data_consistency",
+      "affected_count": 1,
+      "ratio": 0.25,
+      "basis": "EAP心理支持年度额度为 300 点，存在记录 points_used=600，超出年度额度 300 点(200%)，与 plans.csv 配置不一致",
+      "severity": "high",
+      "value_policy": "仅输出方案级额度口径，不涉及个体健康信息"
+    },
+    {
+      "item": "体检类权益未使用",
+      "category": "benefit_underuse",
+      "affected_count": 1,
+      "ratio": 0.25,
+      "basis": "含体检能力的方案中，存在 remaining 等于全额度的记录数",
+      "severity": "medium",
+      "value_policy": "仅输出分布计数，不输出任何个体健康指标原值"
+    }
+  ],
+  "followup": [
+    "建议：对未纳入体检类方案的 2 名(50%)参保人员，在下一权益周期评估是否增补体检类权益选项。",
+    "建议：对额度已耗尽的 2 名(50%)人员，按现有规则提供额度追加申请入口，由本人自愿发起。",
+    "建议：核查「EAP心理支持」600 点扣减记录的审批与计费链路，确认是否属跨年度累计或口径配置偏差，并按合规流程更正。",
+    "建议：对体检类权益未使用的 1 名(25%)人员，面向全员统一发布体检预约提醒，不针对个人做健康状况推断。",
+    "建议：本报告不提供个体健康指标原值，如需个体级健康解读，应由本人在授权范围内向体检机构或企业医务人员单独获取。"
+  ],
+  "privacy": {
+    "masking": "员工标识统一以 EMP-****NN 形式呈现，provider 字段统一以「某XX机构/平台」形式呈现",
+    "raw_health_values_exported": false,
+    "aggregation_min_group_size": 1,
+    "output_scope": "分布与建议",
+    "notes": "源数据 plans.csv / usage.csv 不含任何体检检查项数值，报告按要求仅输出分布，不输出个体健康指标原值，followup 仅为建议"
+  },
+  "approval": {
+    "status": "pending_review",
+    "required_approver_role": "BEN 数据合规负责人",
+    "reason": "体检数据属敏感个人信息，报告对外分发前需完成合规审批",
+    "review_items": ["脱敏完整性", "分组可识别性复核", "建议口径合规性"]
+  }
+}

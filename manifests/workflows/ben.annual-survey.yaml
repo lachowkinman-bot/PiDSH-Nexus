@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: ben.annual-survey@1.0.0
+domain: ben
+description: "年度福利满意度调查（聚合）"
+trigger:
+  type: command
+  expr: annual-survey
+nodes:
+  - id: n1
+    type: skill
+    ref: flex-benefit
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "年度福利满意度调查（聚合）：数据版本 + 产物哈希"
+deliverable:
+  file: annual-survey-<ts>.json
+  format: json
+  fields:
+    - dimension
+    - score
+    - n
+    - verbatim_theme
+  acceptance: "开放题经脱敏聚合"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-annual-survey

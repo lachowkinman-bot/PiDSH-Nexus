@@ -1,0 +1,265 @@
+{
+  "meeting": {
+    "meeting_id": "MTG-ADMIN-2026-0929-PROC",
+    "title": "2026年第三季度行政采购定点与资产台账处置评审会",
+    "date": "2026-09-29",
+    "start_time": "05:00",
+    "timezone": "UTC",
+    "duration_minutes": 60,
+    "location": "线上会议 + A栋3层行政会议室",
+    "domain": "ADMIN",
+    "workflow": "admin.meeting-minutes@1.0.0",
+    "skill": "meeting-minutes",
+    "chair": "行政部负责人",
+    "attendees_masked": [
+      "行政部负责人",
+      "行政部-采购执行 张****",
+      "行政部-资产管理员",
+      "财务部-预算审核岗",
+      "销售部-需求提出人 李****",
+      "研发部-设备借用接口人"
+    ],
+    "agenda": [
+      "办公笔记本×20 采购比价结果确认与供应商定点",
+      "会议椅×40 采购比价结果确认与供应商定点",
+      "资产台账异常项（维修中/已归还未闭环）处置方案",
+      "交付节奏、验收口径与台账同步责任划分"
+    ],
+    "data_sources": [
+      "templates/workspace/data/admin/purchases.csv",
+      "templates/workspace/data/admin/assets.csv"
+    ],
+    "quorum": "应到6岗，实到6岗，有效"
+  },
+  "decisions": [
+    {
+      "decision_id": "DEC-01",
+      "topic": "办公笔记本×20 供应商定点",
+      "decision": "确定供应商B 为办公笔记本×20 的中选供应商，单价6580元，采购总额131600元，标准交期10天；供应商C（单价7100元、交期3天）列为交期应急备选，仅在需求方书面确认紧急上线且财务部同意价差28800元时启用。",
+      "evidence": "purchases.csv 中同一物料「办公笔记本×20」三家报价：供应商A 6800元/7天、供应商B 6580元/10天（标注最低价并已勾选Yes）、供应商C 7100元/3天。",
+      "rationale": "在交期可被排产接受的条件下优先满足成本最优，20台差价对比供应商A 节省4400元、对比供应商C 节省10400元；单价-交期权衡以书面应急流程封口，避免口头插单。",
+      "impact": {
+        "amount_yuan": 131600,
+        "savings_vs_next_cheapest_yuan": 4400,
+        "planned_lead_days": 10
+      },
+      "status": "已决议"
+    },
+    {
+      "decision_id": "DEC-02",
+      "topic": "会议椅×40 供应商定点",
+      "decision": "确定供应商C 为会议椅×40 的中选供应商，单价799元，采购总额31960元，交期15天；不因交期长于供应商A（12天）而改选，改以与笔记本订单同批次集货方式压缩到货方差。",
+      "evidence": "purchases.csv 中「会议椅×40」报价：供应商A 860元/12天、供应商C 799元/15天（标注最低价并已勾选Yes）。",
+      "rationale": "单椅价差61元、40把合计节省2440元，且会议椅非阻塞性需求，3天交期劣势可通过集货消化。",
+      "impact": {
+        "amount_yuan": 31960,
+        "savings_vs_next_cheapest_yuan": 2440,
+        "planned_lead_days": 15
+      },
+      "status": "已决议"
+    },
+    {
+      "decision_id": "DEC-03",
+      "topic": "本季度行政采购预算合并口径",
+      "decision": "DEC-01 与 DEC-02 合并为一张行政采购申请单提交审批，合计金额163560元，按「办公设备-笔记本」与「办公家具-会议椅」两个预算科目分别挂账，不做科目间调剂。",
+      "evidence": "两项采购均来自 purchases.csv 同一批次比价，且均处于待定点状态，合并提单可共用一次审批链路。",
+      "rationale": "合并提单减少审批轮次，分科目挂账保证预算可追溯与后续审计可比。",
+      "impact": {
+        "total_amount_yuan": 163560,
+        "approval_rounds": 1
+      },
+      "status": "已决议"
+    },
+    {
+      "decision_id": "DEC-04",
+      "topic": "打印机 AST-0113 处置",
+      "decision": "AST-0113（打印机，公共资产，存放行政仓库，状态维修中）由行政部资产管理员在10月3日前完成维修报价评估；维修报价超过该设备重置价50%的，按报废流程处置并在台账中标注处置方式。",
+      "evidence": "assets.csv 记录 AST-0113 状态为「维修中」，无使用部门归属，存放于行政仓库，处于非可用状态。",
+      "rationale": "维修中资产长期挂账会虚增在用资产口径，需在季度结账前给出维修或报废的单一结论。",
+      "impact": {
+        "asset_id": "AST-0113",
+        "current_status": "维修中",
+        "deadline": "2026-10-03"
+      },
+      "status": "已决议"
+    },
+    {
+      "decision_id": "DEC-05",
+      "topic": "测试手机 AST-0121 台账闭环",
+      "decision": "AST-0121（测试手机，持有人 李****，研发部，状态已归还）确认已归还属实，10月2日前完成状态由「已归还」变更为「在库-待分配」，并重新纳入研发部备用机池；逾期未完成实物入库的按台账差异上报。",
+      "evidence": "assets.csv 记录 AST-0121 状态为「已归还」，但资产仍挂在研发部与个人名下，未回到在库状态，属台账未闭环。",
+      "rationale": "「已归还」是过程状态而非终态，不闭环会导致下次借用时责任人不明。",
+      "impact": {
+        "asset_id": "AST-0121",
+        "current_status": "已归还",
+        "target_status": "在库-待分配",
+        "deadline": "2026-10-02"
+      },
+      "status": "已决议"
+    },
+    {
+      "decision_id": "DEC-06",
+      "topic": "在用资产责任确认",
+      "decision": "AST-0101（投影仪，公共，A栋3层，在用）与 AST-0107（笔记本电脑，持有人 张****，销售部，在用）维持现有责任归属不变，仅更新第三季度盘点确认时间戳，不做调拨。",
+      "evidence": "assets.csv 中两条记录状态均为「在用」，持有信息与存放位置完整，无冲突。",
+      "rationale": "状态一致且责任明确，季度盘点以确认代替调拨，避免无谓的资产迁移操作。",
+      "impact": {
+        "confirmed_assets": ["AST-0101", "AST-0107"],
+        "action": "盘点确认"
+      },
+      "status": "已决议"
+    }
+  ],
+  "todos": [
+    {
+      "todo_id": "TODO-01",
+      "task": "按 DEC-01 起草办公笔记本×20 采购申请单，供应商B 单价6580元、总额131600元、交期10天，附三家比价明细",
+      "owner": "行政部-采购执行",
+      "owner_masked": "张****",
+      "due_date": "2026-09-30",
+      "priority": "高",
+      "related_decision": "DEC-01",
+      "acceptance": "申请单金额131600元与比价明细一致，比价三家齐全（供应商A/B/C）"
+    },
+    {
+      "todo_id": "TODO-02",
+      "task": "按 DEC-02 起草会议椅×40 采购申请单，供应商C 单价799元、总额31960元、交期15天",
+      "owner": "行政部-采购执行",
+      "owner_masked": "张****",
+      "due_date": "2026-09-30",
+      "priority": "高",
+      "related_decision": "DEC-02",
+      "acceptance": "申请单金额31960元，与笔记本订单合并为一张提单（合计163560元）提交"
+    },
+    {
+      "todo_id": "TODO-03",
+      "task": "审核合并采购申请单：核对163560元总额、两个预算科目分别挂账（办公设备-笔记本 / 办公家具-会议椅），确认无科目间调剂",
+      "owner": "财务部-预算审核岗",
+      "due_date": "2026-10-01",
+      "priority": "高",
+      "related_decision": "DEC-03",
+      "acceptance": "审批记录显示科目拆分正确且金额与DEC-01、DEC-02完全一致"
+    },
+    {
+      "todo_id": "TODO-04",
+      "task": "对供应商B 与供应商C 做定点前的资质与合同条款核验（含10天/15天交期的违约条款、验收标准）",
+      "owner": "行政部负责人",
+      "due_date": "2026-10-02",
+      "priority": "中",
+      "related_decision": "DEC-01",
+      "acceptance": "两家供应商的资质文件与合同条款核验记录归档，交期违约条款已写入合同"
+    },
+    {
+      "todo_id": "TODO-05",
+      "task": "完成 AST-0113 打印机维修报价评估，给出「维修」或「报废」单一定论并更新台账",
+      "owner": "行政部-资产管理员",
+      "due_date": "2026-10-03",
+      "priority": "中",
+      "related_decision": "DEC-04",
+      "acceptance": "台账中 AST-0113 状态不再为「维修中」，且附件含维修报价或报废审批单"
+    },
+    {
+      "todo_id": "TODO-06",
+      "task": "完成 AST-0121 测试手机实物入库，状态由「已归还」变更为「在库-待分配」，并从研发部个人名下解挂",
+      "owner": "行政部-资产管理员",
+      "due_date": "2026-10-02",
+      "priority": "中",
+      "related_decision": "DEC-05",
+      "acceptance": "台账中 AST-0121 状态为「在库-待分配」，无个人持有信息残留"
+    },
+    {
+      "todo_id": "TODO-07",
+      "task": "确认 AST-0121 已归还属实（与 李**** 核对交接记录），逾期未入库则提交台账差异说明",
+      "owner": "研发部-设备借用接口人",
+      "owner_masked": "李****",
+      "due_date": "2026-10-02",
+      "priority": "中",
+      "related_decision": "DEC-05",
+      "acceptance": "交接记录与资产管理员入库记录时间一致，或提交书面差异说明"
+    },
+    {
+      "todo_id": "TODO-08",
+      "task": "完成 AST-0101 与 AST-0107 的第三季度盘点确认，写入确认时间戳，不发起调拨",
+      "owner": "行政部-资产管理员",
+      "due_date": "2026-10-06",
+      "priority": "低",
+      "related_decision": "DEC-06",
+      "acceptance": "两条资产记录均含2026年第三季度盘点确认时间戳，状态保持「在用」"
+    },
+    {
+      "todo_id": "TODO-09",
+      "task": "到货验收：笔记本按20台、6580元/台核对；会议椅按40把、799元/把核对，验收结果回写采购与资产台账",
+      "owner": "行政部-资产管理员",
+      "due_date": "2026-10-19",
+      "priority": "中",
+      "related_decision": "DEC-03",
+      "acceptance": "验收单数量与单价与DEC-01、DEC-02一致，新增资产已生成台账记录"
+    },
+    {
+      "todo_id": "TODO-10",
+      "task": "归档本次会议决议与比价原始数据（purchases.csv、assets.csv），作为本季度采购审计留痕",
+      "owner": "行政部-采购执行",
+      "owner_masked": "张****",
+      "due_date": "2026-10-06",
+      "priority": "低",
+      "related_decision": "DEC-03",
+      "acceptance": "归档包内含会议纪要、比价明细与审批单，命名含会议ID MTG-ADMIN-2026-0929-PROC"
+    }
+  ],
+  "owners": [
+    {
+      "owner_id": "OWN-01",
+      "owner": "行政部-采购执行",
+      "name_masked": "张****",
+      "department": "行政部",
+      "responsibility": "采购比价、提单起草、决议归档",
+      "todo_ids": ["TODO-01", "TODO-02", "TODO-10"]
+    },
+    {
+      "owner_id": "OWN-02",
+      "owner": "财务部-预算审核岗",
+      "department": "财务部",
+      "responsibility": "预算科目审核与金额一致性把关",
+      "todo_ids": ["TODO-03"]
+    },
+    {
+      "owner_id": "OWN-03",
+      "owner": "行政部负责人",
+      "department": "行政部",
+      "responsibility": "供应商定点审批与合同条款核验",
+      "todo_ids": ["TODO-04"]
+    },
+    {
+      "owner_id": "OWN-04",
+      "owner": "行政部-资产管理员",
+      "department": "行政部",
+      "responsibility": "资产台账维护、异常项处置、到货验收",
+      "todo_ids": ["TODO-05", "TODO-06", "TODO-08", "TODO-09"]
+    },
+    {
+      "owner_id": "OWN-05",
+      "owner": "研发部-设备借用接口人",
+      "name_masked": "李****",
+      "department": "研发部",
+      "responsibility": "借用设备交接确认",
+      "todo_ids": ["TODO-07"]
+    }
+  ],
+  "metrics": {
+    "purchase_total_yuan": 163560,
+    "purchase_items": 2,
+    "total_savings_vs_alternative_yuan": 6840,
+    "assets_reviewed": 4,
+    "assets_needing_action": 2,
+    "decisions_count": 6,
+    "todos_count": 10,
+    "earliest_due_date": "2026-09-30",
+    "latest_due_date": "2026-10-19"
+  },
+  "compliance": {
+    "pii_masking": "所有个人姓名均按 姓+**** 脱敏，未在交付物中保留任何明文姓名、工号、联系方式或供应商全称",
+    "vendor_masking": "供应商以「供应商A/B/C」代号呈现，原始名称未落入交付物",
+    "approval_required": "采购合计163560元，须经财务部预算审核岗与行政部负责人审批后方可下单",
+    "audit_trail": "数据仅来源于 purchases.csv 与 assets.csv，未做外部推测补值"
+  }
+}

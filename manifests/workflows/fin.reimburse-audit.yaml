@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: fin.reimburse-audit@1.0.0
+domain: fin
+description: "报销抽审（合规抽样）"
+trigger:
+  type: command
+  expr: reimburse-audit
+nodes:
+  - id: n1
+    type: skill
+    ref: expense-precheck
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "报销抽审（合规抽样）：数据版本 + 产物哈希"
+deliverable:
+  file: reimburse-audit-<ts>.json
+  format: json
+  fields:
+    - sample_size
+    - issues
+    - issue_rate
+    - actions
+  acceptance: "抽样比例 ≥10%"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-reimburse-audit

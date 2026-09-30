@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: prf.cascade-report@1.0.0
+domain: prf
+description: "目标分解报告（公司→部门→人）"
+trigger:
+  type: command
+  expr: cascade-report
+nodes:
+  - id: n1
+    type: skill
+    ref: goal-cascade
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "目标分解报告（公司→部门→人）：数据版本 + 产物哈希"
+deliverable:
+  file: cascade-report-<ts>.json
+  format: json
+  fields:
+    - level
+    - owner_masked
+    - goal
+    - weight
+  acceptance: "权重合计必须 = 100%"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-cascade-report

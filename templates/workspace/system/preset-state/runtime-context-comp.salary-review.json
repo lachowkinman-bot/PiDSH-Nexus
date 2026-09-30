@@ -1,0 +1,19 @@
+{
+ "applied_at": "2026-09-28T05:58:25.701Z",
+ "scene_id": "comp.salary-review@1.0.0",
+ "domain": "COMP",
+ "permission": {
+  "min_level": "L4",
+  "dual_approval": true
+ },
+ "redact": [
+  "salary",
+  "bank_account",
+  "id_number"
+ ],
+ "memory_exclude": [],
+ "workflows": [
+  "workflows/comp.salary-adjust.yaml",
+  "workflows/comp.band-report.yaml"
+ ]
+}

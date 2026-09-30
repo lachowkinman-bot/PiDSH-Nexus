@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: prf.one-on-one@1.0.0
+domain: prf
+description: "一对一沟通纪要（结构化）"
+trigger:
+  type: command
+  expr: one-on-one
+nodes:
+  - id: n1
+    type: skill
+    ref: goal-cascade
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "一对一沟通纪要（结构化）：数据版本 + 产物哈希"
+deliverable:
+  file: one-on-one-<ts>.json
+  format: json
+  fields:
+    - employee_masked
+    - topics
+    - actions
+    - next_date
+  acceptance: "纪要默认不入记忆层"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-one-on-one

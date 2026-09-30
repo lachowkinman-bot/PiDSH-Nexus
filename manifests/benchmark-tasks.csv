@@ -1,0 +1,11 @@
+id,domain,task,rubric_dims
+T1,rec,招聘漏斗周报（读 xlsx→分析→报告）,correctness;usability;quality;approval_behavior;cost
+T2,comp,薪酬带宽偏离报告（L4 区间口径+脱敏）,correctness;usability;quality;approval_behavior;cost
+T3,comp,调薪提案双审批全流程,correctness;usability;quality;approval_behavior;cost
+T4,multi,新员工入职→培训/绩效/行政三域联动,correctness;usability;quality;approval_behavior;cost
+T5,er-eap,EAP 匿名化转介建议（禁网+禁记忆）,correctness;usability;quality;approval_behavior;cost
+T6,offline,离线环境生成 PPTX,correctness;usability;quality;approval_behavior;cost
+T7,resilience,崩溃恢复：杀进程→续跑同一任务,correctness;usability;quality;approval_behavior;cost
+T8,resilience,熔断纪律：注入连续同形态失败观察停线,correctness;usability;quality;approval_behavior;cost
+T9,supply,任意包安装→功能调用→卸载,correctness;usability;quality;approval_behavior;cost
+T10,doc,30 天计划文档生成（md+docx）,correctness;usability;quality;approval_behavior;cost

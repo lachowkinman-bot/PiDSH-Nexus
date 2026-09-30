@@ -1,0 +1,132 @@
+{
+  "report_id": "GT-STRAT-02",
+  "task_id": "GT-STRAT-02-2026-09-29T07-13-00-974Z",
+  "scenario": "strat.quarterly-review@1.0.0",
+  "business_domain": "STRAT",
+  "skill": "biz-analysis",
+  "workflow": "strat.weekly-report@1.0.0",
+  "generated_at": "2026-09-29T07:13:00.974Z",
+  "data_as_of": "2026-10-18",
+  "week": "2026-10（W40-W42，数据截至 2026-10-18，10 月为 MTD 不完整月）",
+  "month_window": {
+    "period": "2026-10",
+    "weeks": ["W40", "W41", "W42"],
+    "date_range": "2026-09-28 ~ 2026-10-18",
+    "counting_rule": "按 week_end 归属月份：W40（2026-09-28~2026-10-04）计入 10 月；10 月截至数据截止日仅有 3 个完整周",
+    "complete_month": false,
+    "note": "数据源 weekly.csv 的 updated_at 为 2026-10-18，晚于任务号时间戳 2026-09-29T07-13-00.974Z；本报告以数据源中最新可得数据（W40-W42）为报告窗口，并保留 9 月（W36-W39）作为对比基期"
+  },
+  "revenue_wan": 4024,
+  "orders": 989,
+  "new_customers": 135,
+  "revenue_target_wan": 4500,
+  "target_attainment_pct": 89.4,
+  "unit_notes": {
+    "revenue_wan": "万元，10 月 MTD 三周求和：1352 + 1194 + 1478",
+    "orders": "单，10 月 MTD 三周求和：338 + 295 + 356",
+    "new_customers": "家，10 月 MTD 三周求和：45 + 38 + 52",
+    "revenue_target_wan": "万元，Q4 周目标 1500 × 3 周"
+  },
+  "weekly_rows": [
+    {"week": "W40", "week_start": "2026-09-28", "week_end": "2026-10-04", "period": "2026Q4", "revenue_wan": 1352, "orders": 338, "new_customers": 45, "revenue_target_wan": 1500, "attainment_pct": 90.1, "risk_level": "无", "risk_note": "-", "risk_owner": "-"},
+    {"week": "W41", "week_start": "2026-10-05", "week_end": "2026-10-11", "period": "2026Q4", "revenue_wan": 1194, "orders": 295, "new_customers": 38, "revenue_target_wan": 1500, "attainment_pct": 79.6, "risk_level": "高", "risk_note": "投放ROI 周环比 -7%（市场部复盘）", "risk_owner": "市场部"},
+    {"week": "W42", "week_start": "2026-10-12", "week_end": "2026-10-18", "period": "2026Q4", "revenue_wan": 1478, "orders": 356, "new_customers": 52, "revenue_target_wan": 1500, "attainment_pct": 98.5, "risk_level": "无", "risk_note": "-", "risk_owner": "-"}
+  ],
+  "comparison": {
+    "base_period": "2026-09（W36-W39，含跨月周 W36：2026-08-31~2026-09-06）",
+    "base_weeks": ["W36", "W37", "W38", "W39"],
+    "base_totals": {"revenue_wan": 4933, "orders": 1202, "new_customers": 153, "revenue_target_wan": 4800, "attainment_pct": 102.8},
+    "base_weekly_avg": {"revenue_wan": 1233.25, "orders": 300.5, "new_customers": 38.25},
+    "current_weekly_avg": {"revenue_wan": 1341.33, "orders": 329.67, "new_customers": 45},
+    "weekly_avg_change_pct": {"revenue_wan": 8.8, "orders": 9.7, "new_customers": 17.6},
+    "rolling_4_weeks_W39_W42": {"revenue_wan": 5310, "orders": 1301, "weeks": ["W39", "W40", "W41", "W42"]},
+    "week_over_week_pct": [
+      {"week": "W40", "vs": "W39", "revenue_pct": 5.1, "orders_pct": 8.3, "new_customers_pct": 9.8},
+      {"week": "W41", "vs": "W40", "revenue_pct": -11.7, "orders_pct": -12.7, "new_customers_pct": -15.6},
+      {"week": "W42", "vs": "W41", "revenue_pct": 23.8, "orders_pct": 20.7, "new_customers_pct": 36.8}
+    ],
+    "volatility": {"revenue_min_wan": 1194, "revenue_max_wan": 1478, "range_wan": 284, "range_pct_of_weekly_avg": 21.2}
+  },
+  "risks": [
+    {
+      "id": "ANOM-1",
+      "title": "W41 单周营收与订单双降 11.7%，为 Q4 唯一高风险周",
+      "level": "高",
+      "kr_ref": ["SC-KR4", "SC-KR1", "SC-KR3", "RC-KR2", "B-KR2"],
+      "evidence_rows": [
+        {"source": "data/strat/weekly.csv", "week": "W40", "fields": {"revenue_wan": 1352, "orders": 338, "new_customers": 45, "risk_level": "无"}},
+        {"source": "data/strat/weekly.csv", "week": "W41", "fields": {"revenue_wan": 1194, "orders": 295, "new_customers": 38, "risk_level": "高", "risk_owner": "市场部", "risk_note": "投放ROI 周环比 -7%（市场部复盘）", "kr_ref": "SC-KR4;SC-KR1;SC-KR3;RC-KR2;B-KR2"}},
+        {"source": "data/strat/okr.csv", "kr_id": "RC-KR2", "fields": {"kr": "重点投放 ROI ≥3.5", "baseline_value": 2.6, "target_value": 3.5, "progress_pct": 33, "status": "at_risk", "confidence": "低"}}
+      ],
+      "attribution": [
+        "直接动因：W41 风险记录明确指向投放 ROI 周环比 -7%，获客与转化效率同步回落，导致当周营收环比 -158 万元、订单环比 -43 单、新客环比 -7 家（-15.6%）。",
+        "链路归因：投放效率下滑传导至新客获取（SC-KR1 新客数 +30% 进度仅 42%）与客单价提升（SC-KR3 客单价 +18% 进度仅 25%，confidence 低），再叠加人均产出不足（B-KR2 人均产出 +12% 进度 35%）共同压制单周产出。",
+        "量化影响：W41 达成率 79.6%，对 1500 万元周目标缺口 306 万元，是 10 月 MTD 未能达成的唯一拖累周。"
+      ]
+    },
+    {
+      "id": "ANOM-2",
+      "title": "Q4 周目标口径由 1200 抬升至 1500（+25%），达成率中枢下移并出现单周失守",
+      "level": "中",
+      "kr_ref": ["SC-KR4", "SC-KR2"],
+      "evidence_rows": [
+        {"source": "data/strat/weekly.csv", "week": "W39", "fields": {"revenue_wan": 1286, "revenue_target_wan": 1200, "period": "2026Q3", "attainment_pct": 107.2}},
+        {"source": "data/strat/weekly.csv", "week": "W40", "fields": {"revenue_wan": 1352, "revenue_target_wan": 1500, "period": "2026Q4", "attainment_pct": 90.1}},
+        {"source": "data/strat/weekly.csv", "week": "W41", "fields": {"revenue_wan": 1194, "revenue_target_wan": 1500, "period": "2026Q4", "attainment_pct": 79.6}},
+        {"source": "data/strat/weekly.csv", "week": "W42", "fields": {"revenue_wan": 1478, "revenue_target_wan": 1500, "period": "2026Q4", "attainment_pct": 98.5}},
+        {"source": "data/strat/okr.csv", "kr_id": "SC-KR4", "fields": {"kr": "季度营收 +22%", "baseline_value": 14800, "target_value": 18056, "progress_pct": 38, "status": "at_risk", "confidence": "中"}}
+      ],
+      "attribution": [
+        "分母效应为主：达成率下移发生在 Q3→Q4 切换点（周目标 1200→1500，+25%），而绝对收入并未恶化——10 月周均 1341.33 万元高于 9 月周均 1233.25 万元（+8.8%），订单周均 +9.7%、新客周均 +17.6%。",
+        "结构因素：Q4 抬升后达成率在 90.1% / 79.6% / 98.5% 间波动，极差 284 万元（占周均 21.2%），说明目标抬升尚未被稳定产能覆盖。",
+        "对冲因素：SC-KR2 客户续约率 88%→92% 进度 68%、on_track，为达成率提供托底；10 月 MTD 达成率 89.4%（4024/4500），较 9 月 102.8%（4933/4800）回落 13.4 个百分点。"
+      ]
+    },
+    {
+      "id": "ANOM-3",
+      "title": "回款周期与交付周期双超目标，现金流与履约形成经营性瓶颈",
+      "level": "中",
+      "kr_ref": ["SC-KR5", "PV-KR4", "PV-KR3", "B-KR4"],
+      "evidence_rows": [
+        {"source": "data/strat/weekly.csv", "week": "W33", "fields": {"risk_note": "深圳大客户验收延期（交付部跟进）", "risk_level": "高", "risk_owner": "交付与实施部", "kr_ref": "SC-KR4;PV-KR4;PV-KR2"}},
+        {"source": "data/strat/weekly.csv", "week": "W37", "fields": {"risk_note": "回款周期拉长至 68 天（财务协同）", "risk_level": "中", "risk_owner": "财务部", "kr_ref": "SC-KR4;SC-KR5"}},
+        {"source": "data/strat/weekly.csv", "week": "W38", "fields": {"risk_note": "标杆客户案例授权延迟（法务协同）", "risk_level": "低", "risk_owner": "法务与合规", "kr_ref": "SC-KR4;PV-KR3"}},
+        {"source": "data/strat/weekly.csv", "week": "W39", "fields": {"risk_note": "华南经销商回款延迟（行政跟进）", "risk_level": "中", "risk_owner": "行政部", "kr_ref": "SC-KR4;SC-KR5;RC-KR3"}},
+        {"source": "data/strat/okr.csv", "kr_id": "SC-KR5", "fields": {"kr": "经销回款周期 ≤45 天", "baseline_value": 68, "target_value": 45, "progress_pct": 18, "status": "behind", "confidence": "低", "due_week": "W50"}},
+        {"source": "data/strat/okr.csv", "kr_id": "PV-KR4", "fields": {"kr": "交付周期 ≤30 天", "baseline_value": 52, "target_value": 30, "progress_pct": 12, "status": "behind", "confidence": "低", "due_week": "W50"}}
+      ],
+      "attribution": [
+        "回款侧：W37 记录回款周期拉长至 68 天，W39 记录华南经销商回款延迟，与 SC-KR5（≤45 天，当前 68 天，进度 18%，behind，confidence 低）一致，回款风险在 10 月中旬后仍由行政部与财务部承接。",
+        "交付侧：W33 深圳大客户验收延期与 W38 标杆案例授权延迟指向履约链路，与 PV-KR4（≤30 天，当前 52 天，进度 12%，behind）一致，直接压低 PV-KR3 标杆案例（3/8，进度 37%）。",
+        "共同瓶颈在人力与协同：W36 记录交付人力缺口 2 人；B-KR4 关键岗位继任覆盖 0.8 人（目标 ≥1.5 人，behind，confidence 低）、B-KR2 人均产出进度 35%，说明回款与交付的超时并非单点问题，而是协同与人力配置约束。"
+      ]
+    }
+  ],
+  "secondary_risks": [
+    {"week": "W31", "level": "中", "risk_note": "竞品在华南降价 5% 抢单（市场部跟踪）", "risk_owner": "市场部", "kr_ref": "SC-KR4;RC-KR1"},
+    {"week": "W33", "level": "高", "risk_note": "深圳大客户验收延期（交付部跟进）", "risk_owner": "交付与实施部", "kr_ref": "SC-KR4;PV-KR4;PV-KR2"},
+    {"week": "W34", "level": "中", "risk_note": "新品上市延期 2 周（产品部）", "risk_owner": "产品与商业化部", "kr_ref": "SC-KR4;PV-KR1"},
+    {"week": "W35", "level": "中", "risk_note": "台风致物流中断 2 天（供应链跟进）", "risk_owner": "供应链", "kr_ref": "SC-KR4;PV-KR4;RC-KR4"},
+    {"week": "W36", "level": "中", "risk_note": "交付人力缺口 2 人（HRBP 跟进）", "risk_owner": "人力资源部", "kr_ref": "SC-KR4;B-KR2;B-KR4"}
+  ],
+  "next_actions": [
+    {"id": "NA-1", "owner": "市场部负责人", "action": "复盘 W41 投放 ROI 环比 -7% 的渠道明细，将重点投放 ROI 从 2.6 倍回升至 ≥3.5 倍（RC-KR2），W43 起每周在周报中披露 ROI 与获客成本", "kr_ref": ["RC-KR2", "SC-KR1"], "due": "2026-W45", "priority": "高"},
+    {"id": "NA-2", "owner": "销售VP + 客户成功部", "action": "针对 W41 对 1500 万元周目标的 306 万元缺口制定补量计划，新客数恢复到 ≥45 家/周并冲刺 60 家/周（SC-KR1 当前进度 42%）", "kr_ref": ["SC-KR4", "SC-KR1"], "due": "2026-W46", "priority": "高"},
+    {"id": "NA-3", "owner": "财务部 + 行政部 + 销售VP", "action": "启动华南经销商回款专项，对 TOP 客户逐户对账并推动回款，将回款周期从 68 天压缩至 ≤45 天（SC-KR5，due_week W50）", "kr_ref": ["SC-KR5", "RC-KR3"], "due": "2026-W50", "priority": "高"},
+    {"id": "NA-4", "owner": "交付与实施部 + HRBP", "action": "补齐 W36 记录的 2 人交付人力缺口并把交付周期从 52 天压至 ≤30 天（PV-KR4），同步将关键岗位继任覆盖从 0.8 人提升到 ≥1.5 人（B-KR4）", "kr_ref": ["PV-KR4", "B-KR4", "B-KR2"], "due": "2026-W50", "priority": "高"},
+    {"id": "NA-5", "owner": "法务与合规 + 产品VP", "action": "闭环 W38 标杆客户案例授权延迟，将华南标杆案例从 3 个推进到 ≥8 个（PV-KR3），并复核 W34 新品上市延期对 PV-KR1 新品收入占比（当前 6%，目标 15%）的影响", "kr_ref": ["PV-KR3", "PV-KR1"], "due": "2026-W47", "priority": "中"}
+  ],
+  "data_lineage": {
+    "sources": [
+      {"file": "templates/workspace/data/strat/weekly.csv", "rows_used": ["W31", "W32", "W33", "W34", "W35", "W36", "W37", "W38", "W39", "W40", "W41", "W42"], "primary_window_rows": ["W40", "W41", "W42"], "comparison_window_rows": ["W36", "W37", "W38", "W39"], "updated_at": "2026-10-18"},
+      {"file": "templates/workspace/data/strat/okr.csv", "rows_used": ["SC-KR1", "SC-KR2", "SC-KR3", "SC-KR4", "SC-KR5", "PV-KR1", "PV-KR2", "PV-KR3", "PV-KR4", "RC-KR1", "RC-KR2", "RC-KR3", "RC-KR4", "B-KR1", "B-KR2", "B-KR3", "B-KR4", "B-KR5"], "updated_at": "2026-10-18"}
+    ],
+    "aggregation_rule": "10 月 MTD 汇总 = W40 + W41 + W42 逐行求和，未做插值或估算；达成率 = 当周营收 / 当周 revenue_target_wan"
+  },
+  "compliance": {
+    "desensitization": "沿用源数据的脱敏口径：仅保留部门/责任人角色（市场部、财务部、行政部、交付与实施部、人力资源部、法务与合规、供应链、销售VP 等）与部门代码（SL-SC/CS/PD/DL/MK/HR），无自然人姓名、无客户主体实名（源数据中的“深圳大客户”“华南经销商”保持原样）、无联系方式与合同金额明细",
+    "distribution": "内部经营周报，仅限 STRAT 场景工作台节点与授权管理层读取；不对外发布",
+    "approval": "待审批：销售VP（SC-KR4 经营口径）、HRBP（B-KR2/B-KR4 人力口径）、数据合规岗（脱敏与数据来源）；未经审批不得对外引用",
+    "risk_level": "中（含 1 项高风险周异动 W41 与 2 项 behind KR：SC-KR5、PV-KR4）"
+  }
+}

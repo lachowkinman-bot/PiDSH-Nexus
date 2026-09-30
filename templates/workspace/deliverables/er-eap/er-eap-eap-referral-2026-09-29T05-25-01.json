@@ -1,0 +1,34 @@
+{
+ "domain": "er-eap",
+ "kind": "er-eap-eap-referral",
+ "created_at": "2026-09-29T05:25:01.684Z",
+ "workflow": "er-eap.eap-referral@1.0.0",
+ "description": "EAP 转介（双审批 + 匿名化）",
+ "fields": {},
+ "deliverable_spec": {
+  "file": "eap-referral-<ts>.json",
+  "format": "json",
+  "fields": [
+   "anon_id",
+   "direction",
+   "approvals",
+   "sessions"
+  ],
+  "acceptance": "输出仅匿名编号；禁网；禁入记忆层"
+ },
+ "engine": {
+  "name": "pi",
+  "fallback": false,
+  "output": "I couldn't execute it — the referenced workflow isn't reachable, so I can't read its steps or run it.\n\n## What I checked\n\n**Workspace `F:/Pi_DSH_workplace/universal-workbench-3.0`**\n- Only one file exists that I can read: `package.json` (contents: just `playwright-core` dependency)\n- No `README.md`, `AGENTS.md`, `CLAUDE.md`, `tsconfig.json`, `src/`, `index.*`\n- Not a git repo (`.git/HEAD` missing)\n\n**Skill / workflow definition locations tried (all ENOENT)**\n- `skills/eap-referral/SKILL.md`, `.pi/skills/eap-referral/SKILL.md`, `.claude/skills/eap-referral/SKILL.md`, `.agents/skills/eap-referral/SKILL.md`\n- `er-eap/eap-referral/README.md`, `eap-referral/SKILL.md`, `workflows/er-eap/eap-referral/workflow.yaml`\n- Registries: `registry.json`, `workflows.json`, `manifest.json`, `skills.json`, `.workbench/registry.json`, `workbench/registry.json`, `config/workflows.json`, `data/workflows.json`\n- User-level: `C:\\Users\\Kinman\\.pi\\...`, `C:\\Users\\Kinman\\.claude\\skills\\eap-referral\\SKILL.md`, `C:\\Users\\Kinman\\.agents\\skills\\eap-referral\\SKILL.md`\n\n`eap-referral` is also **not** in my loaded skill registry (the 300+ available skills), and workflow id `er-eap.eap-referral@1.0.0` resolves to nothing I can open.\n\nAlso worth flagging: my current toolset here is only `read` + `write` — no shell — so I can't enumerate the directory to discover the real layout.\n\n## To unblock, give me one of these\n\n1. **The path** to the workflow definition (e.g. `F:/.../eap-referral/workflow.yaml` or `SKILL.m"
+ },
+ "data_snapshot": [
+  {
+   "table": "eap_referrals",
+   "rows": 4
+  },
+  {
+   "table": "er_cases",
+   "rows": 4
+  }
+ ]
+}

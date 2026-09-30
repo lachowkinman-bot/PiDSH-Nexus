@@ -1,0 +1,13 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-off.roi-report@1.0.0
+description: "活动 ROI 复盘报告"
+trigger: { type: command, expr: "roi-report" }
+nodes:
+  - id: n1; type: skill; ref: roi-review
+  - id: n2; type: condition; expr: "活动 ROI 复盘报告 触发对外/生效动作"
+  - id: n3; type: approval; level: L3; dual: false   # condition 的 then 分支禁止绕过审批直连外部写能力
+  - id: n4; type: tool; ref: cap.excel.panel.write
+  - id: n5; type: audit; record: "活动 ROI 复盘报告 + 审批人 + 依据数据版本"
+check: { expected: "产物与审批单一致", actual_ref: audit/n5, on_fail: rollback }
+hitl_nodes: [n3]
+rollback: { method: savepoint, tag: pre-roi-report }

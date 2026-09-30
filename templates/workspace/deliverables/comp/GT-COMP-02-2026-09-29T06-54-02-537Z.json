@@ -1,0 +1,573 @@
+{
+  "deliverable": "payroll-recon",
+  "scene": "comp.salary-review@1.0.0",
+  "domain": "COMP",
+  "workflow": "comp.payroll-recon@1.0.0",
+  "generated_at": "2026-09-29T06:54:02.537Z",
+  "period": "2026Q3-Q4",
+  "period_detail": {
+    "start_month": "2026-07",
+    "end_month": "2026-12",
+    "basis_field": "effective_month",
+    "batches": [
+      "BATCH-2026Q3-A",
+      "BATCH-2026Q3-B",
+      "BATCH-2026Q3-C",
+      "BATCH-2026Q4-A",
+      "BATCH-2026Q4-B"
+    ]
+  },
+  "headcount": 16,
+  "gross_diff": 122.5,
+  "gross_diff_pct": 11.88,
+  "gross_diff_detail": {
+    "unit": "万元/年（区间中点年化）",
+    "payroll_baseline_wan": 1031.5,
+    "disbursement_planned_wan": 1154.0,
+    "diff_wan": 122.5,
+    "diff_pct": 11.88,
+    "baseline_scope": "16 名调薪对象 current_salary_range_wan 区间中点合计（payroll 系统账面口径）",
+    "disbursement_scope": "同 16 名对象 proposed_salary_range_wan 区间中点合计（发放明细申报口径）",
+    "direction": "increase",
+    "note": "净差异含已驳回对象 EMP-****88 的 -4.0 万元冲减；不含该项的调薪增量合计为 126.5 万元"
+  },
+  "threshold_pct": 0.5,
+  "criteria": "逐项比较“申报调薪幅度区间中点”与“按区间中点复算的实际调薪幅度”，绝对偏差 >0.5 个百分点即列为差异项",
+  "summary": {
+    "items_total": 16,
+    "items_flagged_over_threshold": 7,
+    "items_near_threshold": 1,
+    "max_abs_diff_pp": 2.02,
+    "max_abs_diff_employee": "EMP-****63",
+    "out_of_band_before": 1,
+    "out_of_band_after": 2,
+    "status_conflicts": 1,
+    "pending_approval": 7,
+    "approved_not_effective": 3,
+    "effective": 4,
+    "draft": 1,
+    "rejected": 1
+  },
+  "segments": [
+    {
+      "governance_state": "已生效",
+      "headcount": 4,
+      "payroll_baseline_wan": 252.0,
+      "disbursement_planned_wan": 282.0,
+      "diff_wan": 30.0,
+      "diff_pct": 11.9,
+      "employees": ["EMP-****07", "EMP-****58", "EMP-****66", "EMP-****19"]
+    },
+    {
+      "governance_state": "已通过（待生效）",
+      "headcount": 3,
+      "payroll_baseline_wan": 258.5,
+      "disbursement_planned_wan": 274.0,
+      "diff_wan": 15.5,
+      "diff_pct": 6.0,
+      "employees": ["EMP-****35", "EMP-****29", "EMP-****94"]
+    },
+    {
+      "governance_state": "待审批",
+      "headcount": 7,
+      "payroll_baseline_wan": 427.0,
+      "disbursement_planned_wan": 503.0,
+      "diff_wan": 76.0,
+      "diff_pct": 17.8,
+      "employees": ["EMP-****12", "EMP-****51", "EMP-****44", "EMP-****73", "EMP-****81", "EMP-****02", "EMP-****46"]
+    },
+    {
+      "governance_state": "草稿",
+      "headcount": 1,
+      "payroll_baseline_wan": 27.0,
+      "disbursement_planned_wan": 32.0,
+      "diff_wan": 5.0,
+      "diff_pct": 18.52,
+      "employees": ["EMP-****63"]
+    },
+    {
+      "governance_state": "已驳回",
+      "headcount": 1,
+      "payroll_baseline_wan": 67.0,
+      "disbursement_planned_wan": 63.0,
+      "diff_wan": -4.0,
+      "diff_pct": -5.97,
+      "employees": ["EMP-****88"]
+    }
+  ],
+  "items": [
+    {
+      "employee_masked": "EMP-****12",
+      "batch": "BATCH-2026Q4-A",
+      "status": "待审批",
+      "approvals": "HRD✓/CFO待",
+      "effective_month": "2026-11",
+      "reason": "晋升答辩通过",
+      "current_band": "P4",
+      "proposed_band": "P5",
+      "payroll_mid_wan": 37.0,
+      "disbursement_mid_wan": 48.0,
+      "recomputed_adjust_pct": 29.73,
+      "declared_adjust_pct_mid": 28.5,
+      "diff_pp": 1.23,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +1.23pp：申报区间 25%~32% 的中点 28.5% 低于复算值 29.73%",
+        "审批未闭环：CFO 未审"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "batch": "BATCH-2026Q4-A",
+      "status": "已通过",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-11",
+      "reason": "带宽内调薪",
+      "current_band": "P5",
+      "proposed_band": "P5",
+      "payroll_mid_wan": 48.0,
+      "disbursement_mid_wan": 52.0,
+      "recomputed_adjust_pct": 8.33,
+      "declared_adjust_pct_mid": 7.0,
+      "diff_pp": 1.33,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +1.33pp：申报区间 5%~9% 的中点 7.0% 低于复算值 8.33%"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "batch": "BATCH-2026Q4-A",
+      "status": "待审批",
+      "approvals": "HRD待/CFO待",
+      "effective_month": "2026-11",
+      "reason": "超带宽校准",
+      "current_band": "P4",
+      "proposed_band": "P4",
+      "payroll_mid_wan": 49.0,
+      "disbursement_mid_wan": 51.0,
+      "recomputed_adjust_pct": 4.08,
+      "declared_adjust_pct_mid": 4.0,
+      "diff_pp": 0.08,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P4",
+        "p25_wan": 28,
+        "p50_wan": 36,
+        "p75_wan": 46,
+        "disbursement_position": "高于P75",
+        "payroll_position": "高于P75"
+      },
+      "risk_flags": [
+        "调后中点 51 万高于 P4 上限 46 万，仍处带宽外",
+        "调前中点 49 万已高于 P4 上限 46 万，属带宽外运行存量",
+        "审批未闭环：HRD、CFO 均未审"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "batch": "BATCH-2026Q4-B",
+      "status": "草稿",
+      "approvals": "-",
+      "effective_month": "2026-12",
+      "reason": "关键人才保留",
+      "current_band": "P3",
+      "proposed_band": "P4",
+      "payroll_mid_wan": 27.0,
+      "disbursement_mid_wan": 32.0,
+      "recomputed_adjust_pct": 18.52,
+      "declared_adjust_pct_mid": 16.5,
+      "diff_pp": 2.02,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "P4",
+        "p25_wan": 28,
+        "p50_wan": 36,
+        "p75_wan": 46,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +2.02pp（本次最大偏差）：申报区间 14%~19% 的中点 16.5% 低于复算值 18.52%",
+        "草稿状态未进入审批流，无法计入本期有效发放"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****07",
+      "batch": "BATCH-2026Q3-A",
+      "status": "已生效",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-08",
+      "reason": "绩效调薪（A 等）",
+      "current_band": "P6",
+      "proposed_band": "P6",
+      "payroll_mid_wan": 80.0,
+      "disbursement_mid_wan": 86.0,
+      "recomputed_adjust_pct": 7.5,
+      "declared_adjust_pct_mid": 7.5,
+      "diff_pp": 0.0,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P6",
+        "p25_wan": 60,
+        "p50_wan": 80,
+        "p75_wan": 105,
+        "disbursement_position": "P50~P75",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": []
+    },
+    {
+      "employee_masked": "EMP-****29",
+      "batch": "BATCH-2026Q3-C",
+      "status": "已通过",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-10",
+      "reason": "绩效调薪（B 等）",
+      "current_band": "P5",
+      "proposed_band": "P5",
+      "payroll_mid_wan": 48.0,
+      "disbursement_mid_wan": 50.0,
+      "recomputed_adjust_pct": 4.17,
+      "declared_adjust_pct_mid": 5.0,
+      "diff_pp": -0.83,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 -0.83pp：申报区间 3%~7% 的中点 5.0% 高于复算值 4.17%，申报口径偏乐观"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****44",
+      "batch": "BATCH-2026Q4-B",
+      "status": "待审批",
+      "approvals": "HRD待/CFO待",
+      "effective_month": "2026-12",
+      "reason": "储备干部晋升",
+      "current_band": "P2",
+      "proposed_band": "P3",
+      "payroll_mid_wan": 15.0,
+      "disbursement_mid_wan": 22.0,
+      "recomputed_adjust_pct": 46.67,
+      "declared_adjust_pct_mid": 46.0,
+      "diff_pp": 0.67,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "P3",
+        "p25_wan": 18,
+        "p50_wan": 24,
+        "p75_wan": 30,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +0.67pp：申报区间 40%~52% 的中点 46.0% 低于复算值 46.67%",
+        "审批未闭环：HRD、CFO 均未审",
+        "跨两级晋升带幅 40%~52%，为本次最高幅度区间，需专项审批留痕"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****58",
+      "batch": "BATCH-2026Q3-A",
+      "status": "已生效",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-07",
+      "reason": "管理岗晋升",
+      "current_band": "M1",
+      "proposed_band": "M2",
+      "payroll_mid_wan": 66.0,
+      "disbursement_mid_wan": 84.0,
+      "recomputed_adjust_pct": 27.27,
+      "declared_adjust_pct_mid": 26.5,
+      "diff_pp": 0.77,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "M2",
+        "p25_wan": 70,
+        "p50_wan": 95,
+        "p75_wan": 125,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +0.77pp：申报区间 23%~30% 的中点 26.5% 低于复算值 27.27%",
+        "已生效 3 个月以上，偏差属历史既成事实，仅作账实追溯标注"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****66",
+      "batch": "BATCH-2026Q3-A",
+      "status": "已生效",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-08",
+      "reason": "普调（年度）",
+      "current_band": "P7",
+      "proposed_band": "P7",
+      "payroll_mid_wan": 96.0,
+      "disbursement_mid_wan": 101.0,
+      "recomputed_adjust_pct": 5.21,
+      "declared_adjust_pct_mid": 5.5,
+      "diff_pp": -0.29,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P7",
+        "p25_wan": 78,
+        "p50_wan": 102,
+        "p75_wan": 132,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": []
+    },
+    {
+      "employee_masked": "EMP-****73",
+      "batch": "BATCH-2026Q4-A",
+      "status": "待审批",
+      "approvals": "HRD✓/CFO待",
+      "effective_month": "2026-11",
+      "reason": "异动-调岗至平台组",
+      "current_band": "P4",
+      "proposed_band": "P5",
+      "payroll_mid_wan": 33.0,
+      "disbursement_mid_wan": 45.0,
+      "recomputed_adjust_pct": 36.36,
+      "declared_adjust_pct_mid": 36.0,
+      "diff_pp": 0.36,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": [
+        "调后中点 45 万仅高于 P5 下限 42 万 7.1%，调岗后仍处带宽低段，存在短期再调风险",
+        "审批未闭环：CFO 未审"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****81",
+      "batch": "BATCH-2026Q4-A",
+      "status": "待审批",
+      "approvals": "HRD待/CFO待",
+      "effective_month": "2026-11",
+      "reason": "特别调薪（关键保留）",
+      "current_band": "P8",
+      "proposed_band": "P8",
+      "payroll_mid_wan": 128.0,
+      "disbursement_mid_wan": 138.0,
+      "recomputed_adjust_pct": 7.81,
+      "declared_adjust_pct_mid": 7.5,
+      "diff_pp": 0.31,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P8",
+        "p25_wan": 95,
+        "p50_wan": 126,
+        "p75_wan": 165,
+        "disbursement_position": "P50~P75",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": [
+        "审批未闭环：HRD、CFO 均未审"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****94",
+      "batch": "BATCH-2026Q3-C",
+      "status": "已通过",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-10",
+      "reason": "长期激励校准",
+      "current_band": "P9",
+      "proposed_band": "P9",
+      "payroll_mid_wan": 162.5,
+      "disbursement_mid_wan": 172.0,
+      "recomputed_adjust_pct": 5.85,
+      "declared_adjust_pct_mid": 6.0,
+      "diff_pp": -0.15,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P9",
+        "p25_wan": 120,
+        "p50_wan": 158,
+        "p75_wan": 210,
+        "disbursement_position": "P50~P75",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": []
+    },
+    {
+      "employee_masked": "EMP-****02",
+      "batch": "BATCH-2026Q4-B",
+      "status": "待审批",
+      "approvals": "HRD✓/CFO待",
+      "effective_month": "2026-12",
+      "reason": "总监晋任",
+      "current_band": "M2",
+      "proposed_band": "M3",
+      "payroll_mid_wan": 100.0,
+      "disbursement_mid_wan": 128.0,
+      "recomputed_adjust_pct": 28.0,
+      "declared_adjust_pct_mid": 27.5,
+      "diff_pp": 0.5,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "M3",
+        "p25_wan": 95,
+        "p50_wan": 130,
+        "p75_wan": 175,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +0.50pp，恰处 0.5pp 阈值边界，按“>0.5%”规则不计入超限项，建议人工复核",
+        "审批未闭环：CFO 未审"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****19",
+      "batch": "BATCH-2026Q3-B",
+      "status": "已生效",
+      "approvals": "HRD✓/CFO✓",
+      "effective_month": "2026-09",
+      "reason": "转正调薪",
+      "current_band": "P1",
+      "proposed_band": "P1",
+      "payroll_mid_wan": 10.0,
+      "disbursement_mid_wan": 11.0,
+      "recomputed_adjust_pct": 10.0,
+      "declared_adjust_pct_mid": 9.0,
+      "diff_pp": 1.0,
+      "exceeds_0_5pct": true,
+      "band": {
+        "reference_band": "P1",
+        "p25_wan": 8,
+        "p50_wan": 10,
+        "p75_wan": 13,
+        "disbursement_position": "P50~P75",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": [
+        "幅度申报口径偏差 +1.00pp：申报区间 6%~12% 的中点 9.0% 低于复算值 10.0%"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****88",
+      "batch": "BATCH-2026Q4-A",
+      "status": "已驳回",
+      "approvals": "HRD✗/CFO待",
+      "effective_month": "-",
+      "reason": "超带宽校准（低于下限）",
+      "current_band": "P6",
+      "proposed_band": "P6",
+      "payroll_mid_wan": 67.0,
+      "disbursement_mid_wan": 63.0,
+      "recomputed_adjust_pct": -5.97,
+      "declared_adjust_pct_mid": -6.0,
+      "diff_pp": 0.03,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P6",
+        "p25_wan": 60,
+        "p50_wan": 80,
+        "p75_wan": 105,
+        "disbursement_position": "P25~P50",
+        "payroll_position": "P25~P50"
+      },
+      "risk_flags": [
+        "状态矛盾：流程状态为“已驳回”，但审批字段仍为“CFO待”，审批流未正常闭合",
+        "原因标注为“低于下限”，但调后中点 63 万仍高于 P6 下限 60 万，原因描述与带宽事实不符",
+        "该对象不计入本期有效发放，其在总额中形成 -4.0 万元负向差异"
+      ]
+    },
+    {
+      "employee_masked": "EMP-****46",
+      "batch": "BATCH-2026Q4-A",
+      "status": "待审批",
+      "approvals": "HRD待/CFO待",
+      "effective_month": "2026-11",
+      "reason": "特别调薪（补贴并入）",
+      "current_band": "P5",
+      "proposed_band": "P5",
+      "payroll_mid_wan": 65.0,
+      "disbursement_mid_wan": 71.0,
+      "recomputed_adjust_pct": 9.23,
+      "declared_adjust_pct_mid": 9.5,
+      "diff_pp": -0.27,
+      "exceeds_0_5pct": false,
+      "band": {
+        "reference_band": "P5",
+        "p25_wan": 42,
+        "p50_wan": 55,
+        "p75_wan": 70,
+        "disbursement_position": "高于P75",
+        "payroll_position": "P50~P75"
+      },
+      "risk_flags": [
+        "调后中点 71 万高于 P5 上限 70 万，补贴并入后突破带宽上限，需按超带宽规则单独审批",
+        "审批未闭环：HRD、CFO 均未审"
+      ]
+    }
+  ],
+  "flagged_items": [
+    "EMP-****63",
+    "EMP-****35",
+    "EMP-****12",
+    "EMP-****19",
+    "EMP-****29",
+    "EMP-****58",
+    "EMP-****44"
+  ],
+  "data_sources": [
+    {
+      "path": "templates/workspace/data/comp/adjust_queue.csv",
+      "rows": 16,
+      "columns": 11,
+      "role": "发放明细申报口径（调薪台账）"
+    },
+    {
+      "path": "templates/workspace/data/comp/bands.csv",
+      "rows": 12,
+      "columns": 5,
+      "role": "薪酬带宽制度基准（P1-P9、M1-M3）"
+    }
+  ],
+  "assumptions": [
+    "金额区间 current_salary_range_wan / proposed_salary_range_wan 按年化万元处理，取区间中点作为单人可比金额",
+    "申报幅度区间 adjust_pct_range 取算术中点作为申报值，与按区间中点复算的实际幅度对比，单位统一为百分点（pp）",
+    "带宽合规判定以 proposed_band 对应行的 p25~p75 为准，中点 >p75 记为高于P75，<p25 记为低于P25",
+    "period 由 effective_month 字段覆盖范围推导为 2026-07~2026-12，对应 2026Q3、2026Q4 五个批次"
+  ],
+  "redaction": {
+    "employee_identifier": "原始工号已脱敏为 EMP-****NN 形式",
+    "amounts": "仅保留万元区间与区间中点，未包含个人银行账户、证件号等直接标识",
+    "note": "本交付物不包含任何未脱敏个人信息，可用于跨部门对账流转"
+  },
+  "approval_note": "本对账结果仅用于差异定位与审批留痕，不构成任何调薪决定；全部 7 项待审批对象须完成 HRD/CFO 双签后，方可进入发放流程。"
+}

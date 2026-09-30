@@ -1,0 +1,154 @@
+{
+  "task_id": "GT-ADMIN-01",
+  "scenario": "admin.procurement@1.0.0",
+  "workflow": "admin.purchase-approve@1.0.0",
+  "skill": "purchase-compare",
+  "domain": "ADMIN",
+  "generated_at": "2026-09-29T04:59:42.681Z",
+  "item": "办公用品采购包（办公笔记本×20、会议椅×40）",
+  "qty": 60,
+  "amount_wan": 16.356,
+  "budget_ok": false,
+  "approvals": [
+    {
+      "node": "比价结果复核",
+      "role": "采购专员（采购比价技能自动生成）",
+      "required": true,
+      "mode": "auto",
+      "status": "passed",
+      "reason": "两家物料均在 3 家供应商中完成同规格比价，均选取最低单价：办公笔记本×20 取供应商B 6580元/台（较供应商A 6800元低220元、较供应商C 7100元低520元）；会议椅×40 取供应商C 799元/把（较供应商A 860元低61元）。"
+    },
+    {
+      "node": "部门负责人审批",
+      "role": "行政管理部负责人",
+      "required": true,
+      "mode": "manual",
+      "status": "pending",
+      "reason": "采购金额16.356万元，超出比价技能自动放行阈值，需部门负责人确认采购必要性与数量合理性（办公笔记本×20、会议椅×40）。"
+    },
+    {
+      "node": "财务预算审批",
+      "role": "财务部预算岗",
+      "required": true,
+      "mode": "manual",
+      "status": "blocked",
+      "reason": "采购数据目录中未提供预算基线文件（assets.csv 仅含资产台账，purchases.csv 仅含比价明细），无法核验剩余预算额度；按验收标准“预算不足直接阻断”，本单在预算额度补齐并核验通过前不予放行。"
+    },
+    {
+      "node": "用印审批",
+      "role": "印章管理员（人工）",
+      "required": true,
+      "mode": "manual_enforced",
+      "status": "pending",
+      "reason": "采购合同/订单需加盖公章，按验收标准“用印强制人工”，用印环节禁止自动流转，必须由印章管理员线下人工核验单据与授权后加盖。"
+    }
+  ],
+  "blocked": true,
+  "block_reason": "预算基线缺失（data/admin 下无预算额度文件），budget_ok=false，按“预算不足直接阻断”规则阻断后续流程；同时用印环节强制人工，不进入自动放行。",
+  "selected_quotes": [
+    {
+      "item": "办公笔记本×20",
+      "vendor_masked": "供应商B",
+      "unit_price_yuan": 6580,
+      "qty": 20,
+      "subtotal_yuan": 131600,
+      "subtotal_wan": 13.16,
+      "lead_days": 10,
+      "price_gap_vs_lowest": 0,
+      "note": "为三家报价中最低价，交付周期10天，长于供应商C的3天，需在采购进度中预留到货时间。"
+    },
+    {
+      "item": "会议椅×40",
+      "vendor_masked": "供应商C",
+      "unit_price_yuan": 799,
+      "qty": 40,
+      "subtotal_yuan": 31960,
+      "subtotal_wan": 3.196,
+      "lead_days": 15,
+      "price_gap_vs_lowest": 0,
+      "note": "为两家有效报价中最低价，交付周期15天，为本次采购关键路径最长项。"
+    }
+  ],
+  "rejected_quotes": [
+    {
+      "item": "办公笔记本×20",
+      "vendor_masked": "供应商A",
+      "unit_price_yuan": 6800,
+      "qty": 20,
+      "subtotal_yuan": 136000,
+      "lead_days": 7,
+      "reject_reason": "单价高于最低价220元/台，合计高4400元。"
+    },
+    {
+      "item": "办公笔记本×20",
+      "vendor_masked": "供应商C",
+      "unit_price_yuan": 7100,
+      "qty": 20,
+      "subtotal_yuan": 142000,
+      "lead_days": 3,
+      "reject_reason": "单价高于最低价520元/台，合计高10400元；交付最快但溢价过高。"
+    },
+    {
+      "item": "会议椅×40",
+      "vendor_masked": "供应商A",
+      "unit_price_yuan": 860,
+      "qty": 40,
+      "subtotal_yuan": 34400,
+      "lead_days": 12,
+      "reject_reason": "单价高于最低价61元/把，合计高2440元。"
+    }
+  ],
+  "amount_breakdown": {
+    "currency": "CNY",
+    "notebook_subtotal_yuan": 131600,
+    "chair_subtotal_yuan": 31960,
+    "amount_yuan": 163560,
+    "amount_wan": 16.356,
+    "saving_vs_worst_quotes_yuan": 17240,
+    "saving_vs_worst_quotes_note": "按各项最高报价组合计算：办公笔记本×20按7100元/台=142000元、会议椅×40按860元/把=34400元，合计176400元，本次最低价组合节省17240元。"
+  },
+  "asset_context": [
+    {
+      "asset_id": "AST-0101",
+      "asset": "投影仪(会议室A)",
+      "holder_masked": "公共",
+      "location": "A栋3层",
+      "status": "在用",
+      "relevance": "公共资产，与本次笔记本、会议椅采购无重复购置冲突。"
+    },
+    {
+      "asset_id": "AST-0107",
+      "asset": "笔记本电脑",
+      "holder_masked": "张****",
+      "location": "销售部",
+      "status": "在用",
+      "relevance": "在册笔记本处于在用状态，本次新增20台需在审批中说明为增量需求，避免与存量资产重复。"
+    },
+    {
+      "asset_id": "AST-0113",
+      "asset": "打印机(公共)",
+      "holder_masked": "公共",
+      "location": "行政仓库",
+      "status": "维修中",
+      "relevance": "维修中资产，不占用本次采购额度，但提示行政仓库存在待修设备。"
+    },
+    {
+      "asset_id": "AST-0121",
+      "asset": "测试手机",
+      "holder_masked": "李****",
+      "location": "研发部",
+      "status": "已归还",
+      "relevance": "已归还资产，可复用调拨，与本次采购品类不同。"
+    }
+  ],
+  "data_sources": [
+    "templates/workspace/data/admin/purchases.csv",
+    "templates/workspace/data/admin/assets.csv"
+  ],
+  "compliance": {
+    "desensitized": true,
+    "desensitization_note": "供应商名称以“供应商A/B/C”代称、资产持有人以“张****”形式脱敏，交付物中不含自然人姓名、联系方式等个人信息。",
+    "seal_manual_review_enforced": true,
+    "block_on_budget_insufficient": true
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schema": "universal-workbench/domain-delivery/v1",
+  "formats": ["md", "csv", "html", "xlsx", "docx", "pptx", "pdf"],
+  "data_note": "合成冷启动数据；仅用于验证工作台交付链路，不构成真实业务结论。",
+  "domains": {
+    "strat": {
+      "label": "战略 STRAT",
+      "title": "战略执行与季度复盘交付包",
+      "primary_table": "okr.csv",
+      "secondary_table": "weekly.csv",
+      "workflow_id": "strat.quarterly-review@1.0.0"
+    },
+    "mkt-on": {
+      "label": "营销（线上）MKT-ON",
+      "title": "线上营销投放与内容运营交付包",
+      "primary_table": "ad_spend.csv",
+      "secondary_table": "leads.csv",
+      "workflow_id": "mkt-on.campaign-report@1.0.0"
+    },
+    "mkt-off": {
+      "label": "营销（线下）MKT-OFF",
+      "title": "线下活动与经销商运营交付包",
+      "primary_table": "events.csv",
+      "secondary_table": "dealer_agreements.csv",
+      "workflow_id": "mkt-off.event-roi@1.0.0"
+    },
+    "sales": {
+      "label": "销售 SALES",
+      "title": "销售管道与报价审批交付包",
+      "primary_table": "pipeline.csv",
+      "secondary_table": "quotes.csv",
+      "workflow_id": "sales.pipeline-report@1.0.0"
+    },
+    "fin": {
+      "label": "财务 FIN",
+      "title": "预算、报销与收入核对交付包",
+      "primary_table": "expenses.csv",
+      "secondary_table": "budget.csv",
+      "workflow_id": "fin.monthly-report@1.0.0"
+    },
+    "rec": {
+      "label": "招聘 REC",
+      "title": "招聘漏斗与面试运营交付包",
+      "primary_table": "funnel.csv",
+      "secondary_table": "candidates.csv",
+      "workflow_id": "rec.funnel-weekly@1.0.0"
+    },
+    "trn": {
+      "label": "培训 TRN",
+      "title": "培训计划与证书到期交付包",
+      "primary_table": "courses.csv",
+      "secondary_table": "certificates.csv",
+      "workflow_id": "trn.hours-report@1.0.0"
+    },
+    "prf": {
+      "label": "绩效 PRF",
+      "title": "绩效目标与校准交付包",
+      "primary_table": "kpi.csv",
+      "secondary_table": "calibration.csv",
+      "workflow_id": "prf.cascade-report@1.0.0"
+    },
+    "comp": {
+      "label": "薪酬 COMP",
+      "title": "薪酬带宽与调薪审批交付包",
+      "primary_table": "bands.csv",
+      "secondary_table": "adjust_queue.csv",
+      "workflow_id": "comp.band-report@1.0.0"
+    },
+    "ben": {
+      "label": "福利 BEN",
+      "title": "福利方案与积分使用交付包",
+      "primary_table": "plans.csv",
+      "secondary_table": "usage.csv",
+      "workflow_id": "ben.vendor-compare@1.0.0"
+    },
+    "admin": {
+      "label": "行政 ADMIN",
+      "title": "采购比价与资产台账交付包",
+      "primary_table": "purchases.csv",
+      "secondary_table": "assets.csv",
+      "workflow_id": "admin.purchase-approve@1.0.0"
+    },
+    "cmp": {
+      "label": "合规 CMP",
+      "title": "制度审查与 PIPIA 证据交付包",
+      "primary_table": "policy_checklist.csv",
+      "secondary_table": "pipia.csv",
+      "workflow_id": "cmp.evidence-pack@1.0.0"
+    },
+    "er-eap": {
+      "label": "员工关系/EAP",
+      "title": "员工关系与 EAP 匿名转介交付包",
+      "primary_table": "eap_referrals.csv",
+      "secondary_table": "er_cases.csv",
+      "workflow_id": "er-eap.eap-referral@1.0.0"
+    }
+  }
+}

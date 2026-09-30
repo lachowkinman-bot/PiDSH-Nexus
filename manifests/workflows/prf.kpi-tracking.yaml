@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: prf.kpi-tracking@1.0.0
+domain: prf
+description: "KPI 追踪（实际 vs 目标）"
+trigger:
+  type: command
+  expr: kpi-tracking
+nodes:
+  - id: n1
+    type: skill
+    ref: kpi-track
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "KPI 追踪（实际 vs 目标）：数据版本 + 产物哈希"
+deliverable:
+  file: kpi-tracking-<ts>.json
+  format: json
+  fields:
+    - kpi
+    - target
+    - actual
+    - rate
+  acceptance: "数据可追溯 kpi.csv"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-kpi-tracking

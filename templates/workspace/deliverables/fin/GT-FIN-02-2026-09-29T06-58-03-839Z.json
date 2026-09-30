@@ -1,0 +1,312 @@
+{
+  "report_id": "GT-FIN-02",
+  "report_title": "部门预算执行月报",
+  "skill": "budget-analysis",
+  "workflow": "fin.monthly-report@1.0.0",
+  "scenario": "fin.expense-approve@1.0.0",
+  "business_domain": "FIN",
+  "entity": "星桥科技（上海）有限公司",
+  "tax_id_masked": "91310115MA1K3QX09T",
+  "currency": "CNY",
+  "unit": "万元",
+  "period": "2026-09",
+  "period_type": "月度",
+  "revenue_wan": 1180.00,
+  "cost_wan": 1062.00,
+  "net_wan": 118.00,
+  "net_margin_pct": 10.00,
+  "total_budget_wan": 1160.00,
+  "total_used_wan": 1062.00,
+  "total_remain_wan": 98.00,
+  "budget_execution_rate_pct": 91.55,
+  "cost_accounting_basis": "权责发生制（period=2026-09 费用行全额计入，含审批未完结单据）",
+  "comparison": {
+    "prev_period": "2026-08",
+    "revenue_wan_prev": 1020.00,
+    "cost_wan_prev": 986.00,
+    "net_wan_prev": 34.00,
+    "revenue_delta_wan": 160.00,
+    "revenue_delta_pct": 15.69,
+    "cost_delta_wan": 76.00,
+    "cost_delta_pct": 7.71,
+    "net_delta_wan": 84.00,
+    "net_delta_pct": 247.06,
+    "net_margin_pct_prev": 3.33,
+    "comment": "收入增速（+15.69%）显著高于成本增速（+7.71%），毛利率由 3.33% 提升至 10.00%，净利环比增厚 84 万元。"
+  },
+  "by_dept": [
+    {
+      "dept": "销售部",
+      "dept_code": "SL",
+      "owner_masked": "周****",
+      "budget_wan": 300.00,
+      "used_wan": 268.00,
+      "remain_wan": 32.00,
+      "execution_rate_pct": 89.33,
+      "revenue_wan": 760.00,
+      "net_wan": 492.00,
+      "revenue_share_pct": 64.41,
+      "status": "正常"
+    },
+    {
+      "dept": "市场部",
+      "dept_code": "MK",
+      "owner_masked": "郑****",
+      "budget_wan": 210.00,
+      "used_wan": 196.00,
+      "remain_wan": 14.00,
+      "execution_rate_pct": 93.33,
+      "revenue_wan": 180.00,
+      "net_wan": -16.00,
+      "revenue_share_pct": 15.25,
+      "status": "预算余量偏紧"
+    },
+    {
+      "dept": "研发部",
+      "dept_code": "RD",
+      "owner_masked": "许****",
+      "budget_wan": 380.00,
+      "used_wan": 342.00,
+      "remain_wan": 38.00,
+      "execution_rate_pct": 90.00,
+      "revenue_wan": 240.00,
+      "net_wan": -102.00,
+      "revenue_share_pct": 20.34,
+      "status": "成本中心，净支出最大"
+    },
+    {
+      "dept": "行政部",
+      "dept_code": "AD",
+      "owner_masked": "蒋****",
+      "budget_wan": 100.00,
+      "used_wan": 96.00,
+      "remain_wan": 4.00,
+      "execution_rate_pct": 96.00,
+      "revenue_wan": 0.00,
+      "net_wan": -96.00,
+      "revenue_share_pct": 0.00,
+      "status": "预算余量告急（余 4 万元）"
+    },
+    {
+      "dept": "人力资源部",
+      "dept_code": "HR",
+      "owner_masked": "韩****",
+      "budget_wan": 90.00,
+      "used_wan": 84.00,
+      "remain_wan": 6.00,
+      "execution_rate_pct": 93.33,
+      "revenue_wan": 0.00,
+      "net_wan": -84.00,
+      "revenue_share_pct": 0.00,
+      "status": "正常"
+    },
+    {
+      "dept": "财务部",
+      "dept_code": "FN",
+      "owner_masked": "秦****",
+      "budget_wan": 80.00,
+      "used_wan": 76.00,
+      "remain_wan": 4.00,
+      "execution_rate_pct": 95.00,
+      "revenue_wan": 0.00,
+      "net_wan": -76.00,
+      "revenue_share_pct": 0.00,
+      "status": "正常"
+    }
+  ],
+  "cost_by_gl_account": [
+    { "gl_account": "市场推广费", "amount_yuan": 2708940, "amount_wan": 270.894, "share_pct": 25.51 },
+    { "gl_account": "云资源费", "amount_yuan": 2180000, "amount_wan": 218.000, "share_pct": 20.53 },
+    { "gl_account": "外包服务费", "amount_yuan": 1224400, "amount_wan": 122.440, "share_pct": 11.53 },
+    { "gl_account": "项目直接成本", "amount_yuan": 1190000, "amount_wan": 119.000, "share_pct": 11.21 },
+    { "gl_account": "广告投放费", "amount_yuan": 737200, "amount_wan": 73.720, "share_pct": 6.94 },
+    { "gl_account": "房租物业费", "amount_yuan": 640000, "amount_wan": 64.000, "share_pct": 6.03 },
+    { "gl_account": "招聘服务费", "amount_yuan": 520000, "amount_wan": 52.000, "share_pct": 4.90 },
+    { "gl_account": "审计咨询费", "amount_yuan": 460000, "amount_wan": 46.000, "share_pct": 4.33 },
+    { "gl_account": "办公费", "amount_yuan": 320530, "amount_wan": 32.053, "share_pct": 3.02 },
+    { "gl_account": "员工活动费", "amount_yuan": 318650, "amount_wan": 31.865, "share_pct": 3.00 },
+    { "gl_account": "银行手续费", "amount_yuan": 300000, "amount_wan": 30.000, "share_pct": 2.83 },
+    { "gl_account": "设备采购", "amount_yuan": 15600, "amount_wan": 1.560, "share_pct": 0.15 },
+    { "gl_account": "差旅费", "amount_yuan": 3860, "amount_wan": 0.386, "share_pct": 0.04 },
+    { "gl_account": "交通费", "amount_yuan": 820, "amount_wan": 0.082, "share_pct": 0.01 }
+  ],
+  "cost_account_total_yuan": 10620000,
+  "revenue_ledger_summary": {
+    "records": 8,
+    "net_amount_yuan": 11800000,
+    "net_amount_wan": 1180.00,
+    "tax_amount_yuan": 708000,
+    "tax_inclusive_amount_yuan": 12508000,
+    "by_status": [
+      { "status": "已回款", "records": 3, "net_wan": 710.00, "tax_inclusive_wan": 752.60 },
+      { "status": "已开票", "records": 2, "net_wan": 250.00, "tax_inclusive_wan": 243.80 },
+      { "status": "已确认", "records": 3, "net_wan": 220.00, "tax_inclusive_wan": 254.40 }
+    ],
+    "collection_rate_pct_net_basis": 60.17,
+    "collection_rate_note": "已回款合同不含税额 710.00 万元 / 收入 1180.00 万元 = 60.17%；已开票 250.00 万元、已确认（未开票）220.00 万元合计 470.00 万元待收。"
+  },
+  "voucher_traceability": {
+    "acceptance_standard": "财报数字 A 级可溯（凭证级）",
+    "grade": "A",
+    "grade_basis": "报表收入 1180.00 万元 100% 逐笔可溯至 revenue_ledger 合同号/发票号；成本 1062.00 万元 100% 可溯至 expenses 单据号+invoices 发票号，其中 90.98% 金额已通过发票校验。",
+    "expense_docs_in_period": 17,
+    "expense_amount_total_yuan": 10620000,
+    "invoices_matched_in_period": 17,
+    "invoice_match_rate_pct": 100.00,
+    "invoice_check_pass": { "count": 12, "amount_yuan": 9662230, "amount_wan": 966.223, "amount_share_pct": 90.98 },
+    "invoice_check_fail": { "count": 4, "amount_yuan": 657770, "amount_wan": 65.777, "amount_share_pct": 6.19 },
+    "invoice_check_suspect": { "count": 1, "amount_yuan": 300000, "amount_wan": 30.000, "amount_share_pct": 2.83 },
+    "revenue_docs_in_period": 8,
+    "revenue_invoice_match_rate_pct": 100.00,
+    "unclosed_approvals_count": 3,
+    "unclosed_approvals_amount_yuan": 377580,
+    "unclosed_approvals_amount_wan": 37.758
+  },
+  "accounting_basis_adjustment": {
+    "basis": "报表口径含未完结审批单据 3 笔 37.758 万元",
+    "detail": [
+      { "expense_id": "EXP-8815", "dept_code": "MK", "status": "双审批中", "amount_yuan": 42800 },
+      { "expense_id": "EXP-8813", "dept_code": "RD", "status": "待审批", "amount_yuan": 15600 },
+      { "expense_id": "EXP-8824", "dept_code": "AD", "status": "双审批中", "amount_yuan": 319180 }
+    ],
+    "cost_wan_if_excluded": 1024.242,
+    "net_wan_if_excluded": 155.758,
+    "note": "若按已完结审批口径（剔除 3 笔未完结单据），成本为 1024.242 万元、净利为 155.758 万元。本报告正文采用 budget.csv 的 used_wan 口径（1062.00 万元）以与既有预算台账保持一致。"
+  },
+  "exceptions": [
+    {
+      "expense_id": "EXP-8813",
+      "invoice_no": "INV-2026-090305",
+      "dept_code": "RD",
+      "amount_yuan": 15600,
+      "check_result": "FAIL",
+      "issue_type": "抬头不一致",
+      "issue_detail": "购买方抬头为「星桥科技（北京）有限公司」，与报销主体「星桥科技（上海）有限公司」不符，销方税号 91310115MA1K3QX81T。",
+      "impact_wan": 1.560,
+      "action": "退回补开正确抬头发票后重新校验，暂不计入可确认成本。"
+    },
+    {
+      "expense_id": "EXP-8814",
+      "invoice_no": "INV-2026-090107",
+      "dept_code": "AD",
+      "amount_yuan": 820,
+      "check_result": "FAIL",
+      "issue_type": "连号拆分嫌疑",
+      "issue_detail": "与 INV-2026-090108 同日同销方（同城生活服务（上海）有限公司，91310115MA1K3QY31T）连号开具，间隔仅 1 个票号。",
+      "impact_wan": 0.082,
+      "action": "按连号规则直接 FAIL，合并两张发票作单一笔业务复核。"
+    },
+    {
+      "expense_id": "EXP-8816",
+      "invoice_no": "INV-2026-090108",
+      "dept_code": "HR",
+      "amount_yuan": 1350,
+      "check_result": "FAIL",
+      "issue_type": "连号拆分嫌疑",
+      "issue_detail": "与 INV-2026-090107 同日同销方连号开具，两条报销单（AD/HR 跨部门）分列同一销方同日连号票据。",
+      "impact_wan": 0.135,
+      "action": "与 EXP-8814 并案复核，确认是否为跨部门拆单规避审批门槛。"
+    },
+    {
+      "expense_id": "EXP-8823",
+      "invoice_no": "INV-2026-090405",
+      "dept_code": "AD",
+      "amount_yuan": 640000,
+      "check_result": "FAIL",
+      "issue_type": "金额不符",
+      "issue_detail": "发票价税合计 620000.00 元，报销单金额 640000 元，差额 20000.00 元，销方为安泰物业管理（上海）有限公司。",
+      "impact_wan": 64.000,
+      "action": "差额 2.00 万元无票据支撑，须补票或冲减报销单金额后方可入账；为本月最大单笔凭证风险。"
+    },
+    {
+      "expense_id": "EXP-8828",
+      "invoice_no": "INV-2026-090604",
+      "dept_code": "FN",
+      "amount_yuan": 300000,
+      "check_result": "疑点",
+      "issue_type": "销方税号格式异常",
+      "issue_detail": "销方恒泰税务师事务所（上海）有限公司税号「91310115MA1K3QY44」仅 17 位，规范应为 18 位。",
+      "impact_wan": 30.000,
+      "action": "转人工复核销方资质与票面信息，复核通过前不认定 A 级凭证。"
+    },
+    {
+      "expense_id": "EXP-8840",
+      "invoice_no": "INV-2026-080605",
+      "dept_code": "FN",
+      "amount_yuan": 220000,
+      "check_result": "疑点",
+      "issue_type": "跨期发票",
+      "issue_detail": "开票日期 2026-08-30 晚于支付日 2026-08-29，属 2026-08 期间事项，不影响 9 月损益，但同期台账存在时间倒挂。",
+      "impact_wan": 0.000,
+      "action": "调整 8 月凭证序时记录，9 月报表不受影响。"
+    }
+  ],
+  "risks_and_actions": [
+    {
+      "level": "高",
+      "finding": "行政部 9 月预算执行率 96.00%（96/100 万元），余量仅 4.00 万元，叠加 EXP-8824 的 31.918 万元双审批中单据，10 月存在预算超支风险。",
+      "action": "10 月租金 64 万元已形成刚性支出，建议对行政部启动预算追加评审或压缩办公费集采计划。"
+    },
+    {
+      "level": "高",
+      "finding": "市场部与研发部为净支出部门（-16.00 万元 / -102.00 万元），收入贡献 15.25% / 20.34%，成本收入比高于销售部。",
+      "action": "复核市场推广费 270.894 万元投放 ROI 与研发云资源费 218.000 万元用量的单价合理性。"
+    },
+    {
+      "level": "中",
+      "finding": "9 月成本中 65.777 万元凭证校验 FAIL、30.000 万元疑点，合计 95.777 万元（占成本 9.02%）尚不能认定 A 级可溯。",
+      "action": "在 10 月 10 日前完成补票、并案复核与销方资质核验，复算可确认成本。"
+    },
+    {
+      "level": "中",
+      "finding": "收入回款率仅 60.17%，已开票未回款 250.00 万元、已确认未开票 220.00 万元，合计 470.00 万元敞口。",
+      "action": "对 HT-2026-0451、HT-2026-0455 等 已开票 合同推进回款；对 已确认 合同尽快开票锁定账期。"
+    },
+    {
+      "level": "低",
+      "finding": "budget.csv 的 updated_at 为 2026-09-30，晚于本报表生成时点 2026-09-29T06:58:03Z；expenses 中亦有 paid_at=2026-09-30 的单据。",
+      "action": "本报表为月末预估版，需在 2026-09-30 结账后执行一次数据回填与差异复核，确认最终账面数。"
+    }
+  ],
+  "data_sources": [
+    { "file": "templates/workspace/data/fin/budget.csv", "rows": 12, "periods": ["2026-08", "2026-09"], "fields_used": ["dept", "dept_code", "budget_wan", "used_wan", "remain_wan", "revenue_wan", "net_wan", "owner", "updated_at"] },
+    { "file": "templates/workspace/data/fin/expenses.csv", "rows": 29, "periods": ["2026-08", "2026-09"], "fields_used": ["expense_id", "amount_yuan", "dept_code", "gl_account", "status", "invoice_no", "paid_at"] },
+    { "file": "templates/workspace/data/fin/invoices.csv", "rows": 19, "fields_used": ["invoice_no", "invoice_date", "seller_name", "buyer_title", "amount_yuan", "tax_yuan", "total_yuan", "expense_id", "check_result", "issue_type"] },
+    { "file": "templates/workspace/data/fin/revenue_ledger.csv", "rows": 15, "fields_used": ["revenue_id", "period", "dept_code", "contract_no", "amount_yuan", "tax_yuan", "total_yuan", "invoice_no", "status"] }
+  ],
+  "reconciliation_checks": [
+    { "check": "budget.used_wan 合计 = expenses 2026-09 金额合计", "expected": 1062.00, "actual": 1062.00, "result": "PASS" },
+    { "check": "budget.revenue_wan 合计 = revenue_ledger 2026-09 不含税额合计", "expected": 1180.00, "actual": 1180.00, "result": "PASS" },
+    { "check": "net_wan = revenue_wan - cost_wan 且等于各部门 net_wan 合计", "expected": 118.00, "actual": 118.00, "result": "PASS" },
+    { "check": "发票价税合计 = 不含税 + 税额（逐票抽样 19 张）", "expected": 19, "actual": 19, "result": "PASS" },
+    { "check": "2026-09 费用单号与发票号一一对应", "expected": 17, "actual": 17, "result": "PASS" }
+  ],
+  "desensitization": {
+    "policy": "最小必要原则，个人可识别信息一律脱敏，票据与合同号保留以满足凭证级溯源",
+    "applied": [
+      "自然人姓名脱敏为「姓+****」（如 周****、秦****），覆盖 budget.owner 与 expenses.applicant_masked",
+      "客户名称脱敏为「首字+****+行业后缀」（如 华****科技有限公司）",
+      "统一社会信用代码/税号按原值保留，属企业主体标识，用于票据真伪核验与 A 级溯源"
+    ],
+    "not_included": [
+      "员工身份证明、银行账号、联系方式等敏感字段未在本数据集出现",
+      "未导出任何未脱敏的个人明细"
+    ]
+  },
+  "approval": {
+    "status": "待审批",
+    "required_approvers": ["财务部负责人（FN）", "销售部负责人（SL）", "研发部负责人（RD）"],
+    "approval_levels_involved": ["L1", "L2", "L3", "L4"],
+    "pending_in_workflow": 3,
+    "pending_detail": [
+      { "expense_id": "EXP-8815", "level": "L4", "status": "双审批中", "amount_yuan": 42800 },
+      { "expense_id": "EXP-8824", "level": "L4", "status": "双审批中", "amount_yuan": 319180 },
+      { "expense_id": "EXP-8813", "level": "L3", "status": "待审批", "amount_yuan": 15600 }
+    ],
+    "release_condition": "3 笔未完结单据审批通过且 4 笔 FAIL 发票完成补正/冲减后，本报表可转为终版并归档。",
+    "notes": "本报表按 fin.expense-approve@1.0.0 场景产出，仅用于内部预算管控，不作为对外披露口径。"
+  },
+  "generated_at": "2026-09-29T06:58:03.839Z",
+  "generated_by": "budget-analysis@1.0.0",
+  "deliverable_file": "templates/workspace/deliverables/fin/GT-FIN-02-2026-09-29T06-58-03-839Z.json"
+}

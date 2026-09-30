@@ -1,0 +1,39 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: admin.purchase-approve@1.0.0
+domain: admin
+description: "采购审批（DAG + 预算校验）"
+trigger:
+  type: command
+  expr: purchase-approve
+nodes:
+  - id: n1
+    type: skill
+    ref: purchase-compare
+  - id: n2
+    type: condition
+    expr: "采购审批（DAG + 预算校验） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "采购审批（DAG + 预算校验）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: purchase-approve-<ts>.json
+  format: json
+  fields:
+    - item
+    - qty
+    - amount_wan
+    - budget_ok
+    - approvals
+  acceptance: "预算不足直接阻断；用印强制人工"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-purchase-approve

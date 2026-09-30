@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: strat.quarterly-review@1.0.0
+domain: strat
+description: "季度战略复盘（合并薪酬盘点走双审批）"
+trigger:
+  type: command
+  expr: quarterly-review
+nodes:
+  - id: n1
+    type: skill
+    ref: strategy-decode
+  - id: n2
+    type: condition
+    expr: "季度战略复盘（合并薪酬盘点走双审批） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "季度战略复盘（合并薪酬盘点走双审批）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: quarterly-review-<ts>.json
+  format: json
+  fields:
+    - period
+    - okr_reached
+    - comp_review_flag
+    - decision
+  acceptance: "合并薪酬盘点仅区间口径；双审批通过方可归档"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-quarterly-review

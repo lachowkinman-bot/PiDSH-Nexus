@@ -1,0 +1,11 @@
+{
+  "order_id": "ORD-12",
+  "amount": -5,
+  "currency": "CNY",
+  "items": [],
+  "buyer": {
+    "name": "张三",
+    "email": "bad-email"
+  },
+  "debug": true
+}

@@ -1,0 +1,34 @@
+{
+ "domain": "comp",
+ "kind": "comp-queue-approve",
+ "created_at": "2026-09-29T05:24:38.512Z",
+ "workflow": "comp.queue-approve@1.0.0",
+ "description": "调薪队列批量审批（HRD+CFO）",
+ "fields": {},
+ "deliverable_spec": {
+  "file": "queue-approve-<ts>.json",
+  "format": "json",
+  "fields": [
+   "batch",
+   "items",
+   "total_impact_wan",
+   "approvals"
+  ],
+  "acceptance": "批量影响 >50 万/年 加签 CEO"
+ },
+ "engine": {
+  "name": "pi",
+  "fallback": false,
+  "output": "未能执行——`compa-ratio` 这个技能在当前环境中不存在。\n\n**已核验的证据：**\n\n1. 本会话注册的技能清单（`<available_skills>`）中没有任何 HR / 薪酬 / compa-ratio 相关技能，只有工程、设计、办公、飞书、营销等类别。技能从未被注册，因此无法按技能方式加载。\n2. 全局技能目录 `C:\\Users\\Kinman\\.agents\\skills` 下不存在 `compa-ratio\\SKILL.md`（同时试探了 `compa-ratio.md`、`comp-ratio\\SKILL.md`、`compensation\\SKILL.md`，均 ENOENT）。\n3. 当前工作目录 `F:/Pi_DSH_workplace/universal-workbench-3.0` 几乎是空壳，唯一可见文件是 `package.json`（仅依赖 `playwright-core`），没有技能/工作流目录：\n   - `.agents\\skills\\`、`skills\\`、`skills\\registry.json`、`workflows\\comp.queue-approve@1.0.0.md` 均不存在。\n4. 我当前只有 `read` / `write` 两个工具，没有 glob/grep/shell，无法自己做递归目录扫描来\"翻出\"这个技能。\n\n**需要你提供其中一项，我就能继续：**\n\n- 技能文件的真实路径（例如 `F:/.../compa-ratio/SKILL.md` 或工作流定义 `comp.queue-approve@1.0.0` 的落地文件），或\n- 确认该技能所在的实际项目根目录（建议先把工作目录切到真正的 workbench 仓库），或\n- 如果技能包尚未安装，告诉我它在哪个仓库/包名，我先做安装或落盘。\n\n在拿到技能定义之前，我不会凭猜测编造\"调薪队列批量审批（HRD+CFO）\"的流程和审批规则——这类涉及薪酬与审批权限的动作，猜错比不做风险更高。"
+ },
+ "data_snapshot": [
+  {
+   "table": "adjust_queue",
+   "rows": 4
+  },
+  {
+   "table": "bands",
+   "rows": 5
+  }
+ ]
+}

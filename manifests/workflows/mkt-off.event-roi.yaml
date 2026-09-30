@@ -1,0 +1,31 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-off.event-roi@1.0.0
+domain: mkt-off
+description: "活动 ROI 复盘（预算 vs 实际）"
+trigger:
+  type: command
+  expr: event-roi
+nodes:
+  - id: n1
+    type: skill
+    ref: roi-review
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "活动 ROI 复盘（预算 vs 实际）：数据版本 + 产物哈希"
+deliverable:
+  file: event-roi-<ts>.json
+  format: json
+  fields:
+    - event
+    - budget_wan
+    - actual_wan
+    - roi
+    - lessons
+  acceptance: "数字可追溯到 data/mkt-off/events.csv"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-event-roi

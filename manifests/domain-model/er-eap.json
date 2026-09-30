@@ -1,0 +1,880 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "er-eap",
+ "label": "员工关系/EAP",
+ "scene_ids": [
+  "eap.referral@1.0.0",
+  "er.offboarding@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": true,
+ "redact_fields": [
+  "disciplinary_detail",
+  "eap_content",
+  "health_mental"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": [
+   "graph-memory",
+   "pi-hermes-memory"
+  ]
+ },
+ "generated_at": "2026-09-29T09:49:54.412Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/eap.referral.yaml",
+   "manifests/scenes/er.offboarding.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/er-eap/",
+  "doc": "docs/preset-design/er-eap.md"
+ },
+ "tables": [
+  {
+   "file": "eap_referrals.csv",
+   "rows": 16,
+   "columns": [
+    "anon_id",
+    "direction",
+    "status",
+    "approvals",
+    "sessions_left",
+    "approval_supervisor",
+    "approval_specialist",
+    "sessions_used",
+    "referral_month",
+    "status_date"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "er_cases.csv",
+   "rows": 13,
+   "columns": [
+    "case_id",
+    "case_type",
+    "stage",
+    "owner",
+    "note",
+    "employee_masked",
+    "dept_masked",
+    "employee_status",
+    "case_date",
+    "contract_status",
+    "contract_end_date",
+    "dispute_status",
+    "offboard_node",
+    "asset_release_status"
+   ],
+   "pii_likely": [
+    "employee_masked"
+   ]
+  }
+ ],
+ "skills": [
+  {
+   "name": "offboarding-flow",
+   "file": "templates/skills-domain/er-eap/SKILL-offboarding-flow.md"
+  },
+  {
+   "name": "dispute-ops",
+   "file": "templates/skills-domain/er-eap/SKILL-dispute-ops.md"
+  },
+  {
+   "name": "eap-referral",
+   "file": "templates/skills-domain/er-eap/SKILL-eap-referral.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "er-eap.offboard-approve@1.0.0",
+   "kind": "approve",
+   "description": "离职流程（多级审批）",
+   "skill": "offboarding-flow",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "offboarding-flow"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "离职流程（多级审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "离职流程（多级审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "offboard-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "last_day",
+     "handover_ok",
+     "approvals"
+    ],
+    "acceptance": "交接未完成不得进入最后一步"
+   }
+  },
+  {
+   "id": "er-eap.eap-referral@1.0.0",
+   "kind": "approve",
+   "description": "EAP 转介（双审批 + 匿名化）",
+   "skill": "eap-referral",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "eap-referral"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "EAP 转介（双审批 + 匿名化） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "EAP 转介（双审批 + 匿名化）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "eap-referral-<ts>.json",
+    "format": "json",
+    "fields": [
+     "anon_id",
+     "direction",
+     "approvals",
+     "sessions"
+    ],
+    "acceptance": "输出仅匿名编号；禁网；禁入记忆层"
+   }
+  },
+  {
+   "id": "er-eap.dispute-case@1.0.0",
+   "kind": "report",
+   "description": "争议处理台账（阶段/证据）",
+   "skill": "dispute-ops",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "dispute-ops"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "争议处理台账（阶段/证据）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "dispute-case-<ts>.json",
+    "format": "json",
+    "fields": [
+     "case_id",
+     "type",
+     "stage",
+     "evidence_refs"
+    ],
+    "acceptance": "证据引用指向 evidence-pack"
+   }
+  },
+  {
+   "id": "er-eap.exit-interview@1.0.0",
+   "kind": "report",
+   "description": "离职面谈纪要（结构化）",
+   "skill": "offboarding-flow",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "offboarding-flow"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "离职面谈纪要（结构化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "exit-interview-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "reasons",
+     "improvements",
+     "rehire_flag"
+    ],
+    "acceptance": "敏感表述经脱敏"
+   }
+  },
+  {
+   "id": "er-eap.anon-report@1.0.0",
+   "kind": "report",
+   "description": "EAP 匿名使用月报（聚合口径）",
+   "skill": "eap-referral",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "eap-referral"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "EAP 匿名使用月报（聚合口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "anon-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "month",
+     "total_referrals",
+     "by_direction",
+     "sessions"
+    ],
+    "acceptance": "仅聚合数字，无任何个体字段"
+   }
+  },
+  {
+   "id": "er-eap.wellbeing-check@1.0.0",
+   "kind": "calc",
+   "description": "组织健康度脉搏（匿名问卷聚合）",
+   "skill": "eap-referral",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "eap-referral"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "组织健康度脉搏（匿名问卷聚合）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "wellbeing-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dimension",
+     "score",
+     "n",
+     "trend"
+    ],
+    "acceptance": "n<5 不出分（防反推）"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-ER-01",
+   "input": "生成分支机构裁撤的员工关系风险清单",
+   "expected_output": "reports/er-eap/gt-01.md",
+   "skill": null,
+   "scene": "eap.referral@1.0.0"
+  },
+  {
+   "id": "GT-ER-02",
+   "input": "离职面谈纪要结构化（脱敏）",
+   "expected_output": "reports/er-eap/gt-02.md",
+   "skill": null,
+   "scene": "eap.referral@1.0.0"
+  },
+  {
+   "id": "GT-EAP-01",
+   "input": "匿名化 EAP 转介建议（双审批+禁网）",
+   "expected_output": "reports/er-eap/gt-03.md",
+   "skill": null,
+   "scene": "eap.referral@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/er-eap",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/er-eap/t/eap_referrals",
+   "type": "table",
+   "title": "eap_referrals.csv",
+   "table": "eap_referrals",
+   "file": "eap_referrals.csv"
+  },
+  {
+   "route": "#/er-eap/t/er_cases",
+   "type": "table",
+   "title": "er_cases.csv",
+   "table": "er_cases",
+   "file": "er_cases.csv"
+  },
+  {
+   "route": "#/er-eap/w/offboard-approve",
+   "type": "workflow",
+   "title": "离职流程（多级审批）",
+   "workflow": "er-eap.offboard-approve@1.0.0"
+  },
+  {
+   "route": "#/er-eap/w/eap-referral",
+   "type": "workflow",
+   "title": "EAP 转介（双审批 + 匿名化）",
+   "workflow": "er-eap.eap-referral@1.0.0"
+  },
+  {
+   "route": "#/er-eap/w/dispute-case",
+   "type": "workflow",
+   "title": "争议处理台账（阶段/证据）",
+   "workflow": "er-eap.dispute-case@1.0.0"
+  },
+  {
+   "route": "#/er-eap/w/exit-interview",
+   "type": "workflow",
+   "title": "离职面谈纪要（结构化）",
+   "workflow": "er-eap.exit-interview@1.0.0"
+  },
+  {
+   "route": "#/er-eap/w/anon-report",
+   "type": "workflow",
+   "title": "EAP 匿名使用月报（聚合口径）",
+   "workflow": "er-eap.anon-report@1.0.0"
+  },
+  {
+   "route": "#/er-eap/w/wellbeing-check",
+   "type": "workflow",
+   "title": "组织健康度脉搏（匿名问卷聚合）",
+   "workflow": "er-eap.wellbeing-check@1.0.0"
+  },
+  {
+   "route": "#/er-eap/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": ".1 字段级数据字典",
+   "blocks": [
+    {
+     "heading": "er_cases.csv（13 行；表头 14 列，逐字：`case_id,case_type,stage,owner,note,employee_masked,dept_masked,employee_status,case_date,contract_status,contract_end_date,dispute_status,offboard_node,asset_release_status`）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "case_id",
+         "string",
+         "是",
+         "案件编号，主键，形如 ER-XXXX；编号不复用"
+        ],
+        [
+         "case_type",
+         "enum",
+         "是",
+         "案件类型：绩效申诉 / 团队争议 / 违纪调查 / 劳动争议 / 离职交接 / 合同续签"
+        ],
+        [
+         "stage",
+         "enum",
+         "是",
+         "台账处理阶段（案件维度）：调查中 / 调解中 / 协商中 / 审批中 / HR 面谈 / 仲裁 / 诉讼 / 已完成 / 已结案"
+        ],
+        [
+         "owner",
+         "enum",
+         "是",
+         "归口责任角色（非个人标识）：HRBP / HR专员 / 合规部"
+        ],
+        [
+         "note",
+         "string",
+         "是",
+         "处理备注（自由文本，属 disciplinary_detail 受控口径；输出前必过 redact_gate）"
+        ],
+        [
+         "employee_masked",
+         "string",
+         "是",
+         "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+        ],
+        [
+         "dept_masked",
+         "string",
+         "是",
+         "归属组织（部门/分支机构粒度，不构成个人可回溯信息）"
+        ],
+        [
+         "employee_status",
+         "enum",
+         "是",
+         "员工状态：在职 / 离职（离职流程完成后置\"离职\"，对应参照 EMP_STATUS active/left）"
+        ],
+        [
+         "case_date",
+         "date",
+         "是",
+         "案件登记日 YYYY-MM-DD"
+        ],
+        [
+         "contract_status",
+         "enum",
+         "是",
+         "合同状态：履行中 / 即将到期 / 已续签 / 已终止（见 §4.2）"
+        ],
+        [
+         "contract_end_date",
+         "date",
+         "是",
+         "合同到期日 YYYY-MM-DD（用于\"≤60 天\"自动判定）"
+        ],
+        [
+         "dispute_status",
+         "enum",
+         "否",
+         "劳动争议法定阶段：协商中 / 仲裁 / 诉讼 / 已结案；仅 `case_type=劳动争议` 填写，其余记 `—`（见 §4.1）"
+        ],
+        [
+         "offboard_node",
+         "enum",
+         "否",
+         "离职流程当前节点：提交辞职申请 / 直属上级确认 / HR 面谈 / 工作交接 / 资产与权限回收 / 结算与离职证明；未进入离职流程记 `—`"
+        ],
+        [
+         "asset_release_status",
+         "enum",
+         "是",
+         "名下资产释放状态：不涉及 / 待释放 / 已释放（离职完成联动 ADMIN 域置\"已释放\"）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "eap_referrals.csv（16 行；表头 10 列，逐字：`anon_id,direction,status,approvals,sessions_left,approval_supervisor,approval_specialist,sessions_used,referral_month,status_date`）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "anon_id",
+         "string",
+         "是",
+         "匿名转介编号，主键，形如 `EAP-ANON-XXXX`；与真实身份的映射表分离存放于 EAP 独立命名空间，工作台内不可反查"
+        ],
+        [
+         "direction",
+         "enum",
+         "是",
+         "转介方向（**类别标签**，禁写内容/机构实名/人名）：心理咨询(外部机构) / 心理咨询(内部) / 法律援助(劳动咨询) / 危机干预 / 健康管理(外部机构) / 家庭与照护(外部机构) / 职业发展咨询(内部)"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "转介状态：待双审批 / 进行中 / 已结案 / 已驳回（见 §4.3）"
+        ],
+        [
+         "approvals",
+         "string",
+         "是",
+         "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+        ],
+        [
+         "sessions_left",
+         "int",
+         "是",
+         "剩余会话额度（≥0）；待双审批行未核销，通过后方可使用"
+        ],
+        [
+         "approval_supervisor",
+         "enum",
+         "是",
+         "主管侧审批机读值：已通过 / 待审批 / 已驳回（`approvals` 的拆分列，供门禁机检）"
+        ],
+        [
+         "approval_specialist",
+         "enum",
+         "是",
+         "EAP 专员侧审批机读值：已通过 / 待审批 / 已驳回"
+        ],
+        [
+         "sessions_used",
+         "int",
+         "是",
+         "已消耗会话次数（≥0）；`status=待双审批/已驳回` 时必须为 0（见 §9 R2）"
+        ],
+        [
+         "referral_month",
+         "string",
+         "是",
+         "转介受理月份 YYYY-MM（供匿名月报聚合，不落具体日）"
+        ],
+        [
+         "status_date",
+         "date",
+         "是",
+         "当前状态更新日 YYYY-MM-DD（状态迁移留痕）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/er-eap.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 劳动争议（dispute_status；中文值 ↔ 参照 DISPUTE_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "当前状态",
+        "触发条件",
+        "迁移到",
+        "证据/规则"
+       ],
+       "rows": [
+        [
+         "协商中（negotiate）",
+         "协商/调解不成，转入仲裁",
+         "仲裁（arbitrate）",
+         "dispute_status 与 stage 同步更新"
+        ],
+        [
+         "协商中",
+         "达成和解并按约履行",
+         "已结案（closed）",
+         "不得越级直达\"诉讼\""
+        ],
+        [
+         "仲裁",
+         "对裁决不服，进入诉讼",
+         "诉讼（lawsuit）",
+         "需登记外部文书/受理信息"
+        ],
+        [
+         "仲裁",
+         "裁决生效并按约履行",
+         "已结案",
+         "结案需归档说明"
+        ],
+        [
+         "诉讼",
+         "判决/调解生效",
+         "已结案",
+         "—"
+        ],
+        [
+         "已结案",
+         "—（终态）",
+         "已结案",
+         "终态不得回退；变更只可新增行（append-only）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 劳动合同（contract_status；中文值 ↔ 参照 CONTRACT_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "当前状态",
+        "触发条件",
+        "迁移到",
+        "证据/规则"
+       ],
+       "rows": [
+        [
+         "履行中（active）",
+         "快照基准日与 contract_end_date 差值 ≤60 天（系统自动）",
+         "即将到期（expiring）",
+         "contract_end_date + 基准日 2026-09-30"
+        ],
+        [
+         "履行中",
+         "离职流程完成（决定生效）",
+         "已终止（terminated）",
+         "employee_status=离职 + offboard_node=结算与离职证明"
+        ],
+        [
+         "即将到期",
+         "完成续签并登记新到期日",
+         "已续签（renewed）",
+         "续签次数按参照 contracts.renew 登记"
+        ],
+        [
+         "即将到期",
+         "到期未续签，或离职/解除生效",
+         "已终止",
+         "—"
+        ],
+        [
+         "已续签",
+         "新一轮到期前 60 天",
+         "即将到期",
+         "循环预警"
+        ],
+        [
+         "已终止",
+         "—（终态）",
+         "已终止",
+         "终态为 append-only；参照保留值\"已解除（cancelled）\"本域样本未使用，解除类事件先走 offboard-approve 双审批再登记"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.3 EAP 转介（status）",
+     "tables": [
+      {
+       "header": [
+        "当前状态",
+        "触发条件",
+        "迁移到",
+        "证据/规则"
+       ],
+       "rows": [
+        [
+         "待双审批",
+         "主管与专员双审批均=已通过",
+         "进行中",
+         "approval_supervisor=approval_specialist=已通过；此前 sessions_used 必须为 0"
+        ],
+        [
+         "待双审批",
+         "任一审批=已驳回",
+         "已驳回（终态）",
+         "approval_* 记\"已驳回\"；sessions_used=0，转介不得启动服务"
+        ],
+        [
+         "进行中",
+         "服务完成/结案评估通过",
+         "已结案（终态）",
+         "更新 status_date；sessions_left 结清"
+        ],
+        [
+         "进行中",
+         "—",
+         "进行中（核心路径：进行中 → 已结案）",
+         "每次迁移只更新 status/status_date，历史走 append-only 留痕"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/er-eap.md#§4"
+  },
+  "5": {
+   "title": "审批链",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "业务动作",
+        "工作流（Scene 绑定）",
+        "节点",
+        "审批落点",
+        "审批角色（基线建议，两角色须为不同审批人）",
+        "是否双审批"
+       ],
+       "rows": [
+        [
+         "离职 / 处分决定生效",
+         "er-eap.offboard-approve（绑定 workflows/er.offboard-approve.yaml）",
+         "n3",
+         "处分/离职决定生效前",
+         "甲：HR 负责人（HRD）；乙：员工关系归口负责人（HRBP / 合规负责人）",
+         "是（dual=true，L4）"
+        ],
+        [
+         "EAP 转介建议发出",
+         "er-eap.eap-referral（绑定 workflows/eap.referral-approve.yaml）",
+         "n3",
+         "转介建议发出前",
+         "甲：EAP 归口主管；乙：EAP 专员（对应数据列 approval_supervisor / approval_specialist）",
+         "是（dual=true，L4）"
+        ],
+        [
+         "争议台账登记（阶段/证据）",
+         "er-eap.dispute-case",
+         "无审批节点（kind=report）",
+         "—",
+         "—",
+         "否；涉证据对外或解除类动作时分别转 CMP cmp.evidence-pack 或本域 offboard 双审批"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/er-eap.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "编号",
+        "规则",
+        "判定/证据"
+       ],
+       "rows": [
+        [
+         "R1",
+         "匿名化：EAP 输入输出仅匿名编号；eap_referrals.csv 不得出现姓名/工号/机构实名/联系方式；direction 仅类别标签",
+         "机检正则在 EAP 数据与产物上扫描（工号 `E\\d+`、11 位手机号、身份证号）；命中即 FAIL"
+        ],
+        [
+         "R2",
+         "双审批不可绕过：`status=进行中` 行必须 approval_supervisor=approval_specialist=已通过；`sessions_used>0` 而审批未齐 = FAIL；待双审批/已驳回行 sessions_used 必须为 0；condition 的 then 分支禁止绕 n3 直连 cap.excel.panel.write（015 §8.2）",
+         "数据列 + 审批记录交叉机检"
+        ],
+        [
+         "R3",
+         "禁网：EAP 任务全程公网 deny；出现外部检索/外发调用即 FAIL（离线可用性另见 F7）",
+         "网络策略 + 执行轨迹扫描"
+        ],
+        [
+         "R4",
+         "n<5 不出分（防反推）：wellbeing-check 先算 n，n<5 的分维度不出分；anon-report 的 by_direction 仅 n≥5 分组出分（本样本 7 个方向仅\"心理咨询(外部机构)\" n=5 达标，其余 6 组抑制）",
+         "聚合产物中 n 字段与分组成对校验"
+        ],
+        [
+         "R5",
+         "脱敏字段：disciplinary_detail / eap_content / health_mental 命中 redact_gate；未过 gate 的输出 = 一票否决",
+         "redact_gate 命中日志"
+        ],
+        [
+         "R6",
+         "记忆层：读/算/写全过程不得写 graph-memory / pi-hermes-memory（pii_allowed=false）；写入尝试记 FAIL 事件",
+         "记忆面板排除名单（F6，EAP 灰显）+ 写入日志"
+        ],
+        [
+         "R7",
+         "命名空间：EAP 产物只落 workspace/eap/ 与 reports/er-eap/；跨域引用只传匿名编号",
+         "产物路径与字段检查"
+        ],
+        [
+         "R8",
+         "全量留痕：读/算/写审计事件 + 双审批记录（审批人、依据数据版本、产物哈希）append-only，不可改写",
+         "audit/n5 + 轨迹回放（F5）"
+        ],
+        [
+         "R9",
+         "溯源：每条结论可下钻到 CSV 行（sheet/row 级证据）；产物与审批单一致，否则 rollback 到 savepoint",
+         "check.actual_ref=audit/n5"
+        ],
+        [
+         "R10",
+         "数据一致性（015 §15.4）：本文件 §1/§1.1 的文件名、行数（13/16）、字段须与 templates/workspace/data/er-eap/*.csv 逐表一致；xlsx/csv 做同名归一化匹配",
+         "scripts/data-consistency-check.mjs"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/er-eap.md#§9"
+  }
+ },
+ "gaps": []
+}

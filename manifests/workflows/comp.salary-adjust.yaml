@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: comp.salary-adjust@1.0.0
+domain: comp
+description: "调薪审批（双审批 + redact_gate）"
+trigger:
+  type: command
+  expr: salary-adjust
+nodes:
+  - id: n1
+    type: skill
+    ref: band-analysis
+  - id: n2
+    type: condition
+    expr: "调薪审批（双审批 + redact_gate） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "调薪审批（双审批 + redact_gate）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: salary-adjust-<ts>.json
+  format: json
+  fields:
+    - employee_masked
+    - band_from
+    - band_to
+    - approvals
+  acceptance: "个体薪酬只出区间；redact_gate 强制"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-salary-adjust

@@ -1,0 +1,629 @@
+{
+  "task_id": "GT-PRF-02",
+  "artifact": "calibration-approve",
+  "skill": "calibration-analysis",
+  "workflow": "prf.calibration-approve@1.0.0",
+  "scenario": "prf.calibration@1.0.0",
+  "cycle": "Q4-2026",
+  "generated_at": "2026-09-29T07:06:09.876Z",
+  "source_files": [
+    "templates/workspace/data/prf/calibration.csv",
+    "templates/workspace/data/prf/kpi.csv"
+  ],
+  "population": {
+    "roster_total": 16,
+    "graded_records": 14,
+    "ungraded_records": 2,
+    "kpi_linked_employees": 7,
+    "kpi_items": 16
+  },
+  "records": [
+    {
+      "employee_masked": "EMP-****12",
+      "dept": "销售部",
+      "manager_grade": "B",
+      "calibrated_grade": "A",
+      "direction": "up",
+      "grade_steps": 1,
+      "self_score": 78,
+      "mgr_score": 76,
+      "final_score": 76.4,
+      "delta_note": "超出：大单突破",
+      "kpi_flags": ["新签销售额(万) 81.5 at_risk", "回款达成率 93.1 at_risk", "客户续约率 97.4 on_track"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "销售部",
+          "decision": "approved",
+          "evidence": "超出：大单突破"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "pending_signoff",
+          "evidence": "跨档上调（B→A），须在 Q4-2026 校准会重点审议；命中的 2 项 at_risk KPI 需一并说明"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "dept": "研发部",
+      "manager_grade": "A",
+      "calibrated_grade": "A",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 86,
+      "mgr_score": 85,
+      "final_score": 85.2,
+      "delta_note": "一致",
+      "kpi_flags": ["需求交付准时率 103.6 on_track", "交付质量达标率 98.4 on_track"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "研发部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整，进入批量归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****07",
+      "dept": "市场部",
+      "manager_grade": "C",
+      "calibrated_grade": "C",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 68,
+      "mgr_score": 66,
+      "final_score": 66.4,
+      "delta_note": "一致",
+      "kpi_flags": ["有效线索数 90.3 at_risk", "渠道ROI 95.3 on_track"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "市场部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整，进入批量归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "dept": "财务部",
+      "manager_grade": "B",
+      "calibrated_grade": "B",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 82,
+      "mgr_score": 78,
+      "final_score": 78.8,
+      "delta_note": "一致：跨部门支持（档内偏上，未跨档）",
+      "kpi_flags": ["月结及时率 100.0 on_track", "费用稽核准确率 99.6 on_track"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "财务部",
+          "decision": "approved",
+          "evidence": "一致：跨部门支持（档内偏上，未跨档）"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档内偏上但未跨档，按原档归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****29",
+      "dept": "行政部",
+      "manager_grade": "B",
+      "calibrated_grade": "C",
+      "direction": "down",
+      "grade_steps": -1,
+      "self_score": 74,
+      "mgr_score": 72,
+      "final_score": 72.4,
+      "delta_note": "下调：两次客诉",
+      "kpi_flags": ["人效指数 94.5 at_risk", "行政服务满意度 97.8 on_track", "资产盘点准确率 100.0 on_track"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "行政部",
+          "decision": "approved",
+          "evidence": "下调：两次客诉"
+        },
+        {
+          "stage": "appeal_review",
+          "owner_role": "calibration_committee",
+          "decision": "appeal_open",
+          "evidence": "员工已提出申诉，Q4-2026 校准会须复核客诉证据链后定档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "dept": "销售部",
+      "manager_grade": "B",
+      "calibrated_grade": "B",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 80,
+      "mgr_score": 77,
+      "final_score": 77.6,
+      "delta_note": "一致",
+      "kpi_flags": ["新签销售额(万) 95.0 on_track", "客户拜访量 95.0 on_track"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "销售部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整，进入批量归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****48",
+      "dept": "研发部",
+      "manager_grade": "B",
+      "calibrated_grade": "A",
+      "direction": "up",
+      "grade_steps": 1,
+      "self_score": 81,
+      "mgr_score": 79,
+      "final_score": 79.4,
+      "delta_note": "超出：质量攻坚",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "研发部",
+          "decision": "approved",
+          "evidence": "超出：质量攻坚"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "pending_signoff",
+          "evidence": "跨档上调（B→A），研发部本轮 3 例调整需合并审议以验证部门内标准一致"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****22",
+      "dept": "研发部",
+      "manager_grade": "A",
+      "calibrated_grade": "S",
+      "direction": "up",
+      "grade_steps": 1,
+      "self_score": 92,
+      "mgr_score": 88,
+      "final_score": 88.8,
+      "delta_note": "超出：年度突破",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "研发部",
+          "decision": "approved",
+          "evidence": "超出：年度突破"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "pending_signoff",
+          "evidence": "产生本轮唯一 S 档（新开档位），须由校准委员会核准 S 档配额与证据"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****55",
+      "dept": "市场部",
+      "manager_grade": "C",
+      "calibrated_grade": "C",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 64,
+      "mgr_score": 62,
+      "final_score": 62.4,
+      "delta_note": "一致",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "市场部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整，进入批量归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****61",
+      "dept": "财务部",
+      "manager_grade": "B",
+      "calibrated_grade": "B",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 76,
+      "mgr_score": 75,
+      "final_score": 75.2,
+      "delta_note": "一致",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "财务部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整，进入批量归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****73",
+      "dept": "行政部",
+      "manager_grade": "C",
+      "calibrated_grade": "D",
+      "direction": "down",
+      "grade_steps": -1,
+      "self_score": 63,
+      "mgr_score": 61,
+      "final_score": 61.4,
+      "delta_note": "下调：考勤异常",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "行政部",
+          "decision": "approved",
+          "evidence": "下调：考勤异常"
+        },
+        {
+          "stage": "appeal_review",
+          "owner_role": "calibration_committee",
+          "decision": "appeal_open",
+          "evidence": "员工已提出申诉；且产生本轮唯一 D 档（新开档位），须同时核准考勤证据与 D 档处置方案"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****18",
+      "dept": "销售部",
+      "manager_grade": "A",
+      "calibrated_grade": "A",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 90,
+      "mgr_score": 87,
+      "final_score": 87.6,
+      "delta_note": "一致",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "销售部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整，进入批量归档"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****84",
+      "dept": "研发部",
+      "manager_grade": "B",
+      "calibrated_grade": "C",
+      "direction": "down",
+      "grade_steps": -1,
+      "self_score": 72,
+      "mgr_score": 74,
+      "final_score": 73.6,
+      "delta_note": "下调：交付延期",
+      "kpi_flags": ["需求交付准时率 75.0 behind", "交付质量达标率 92.0 at_risk"],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "研发部",
+          "decision": "approved",
+          "evidence": "下调：交付延期"
+        },
+        {
+          "stage": "employee_confirm",
+          "owner_role": "hrbp",
+          "decision": "employee_confirm_pending",
+          "evidence": "员工确认流程未完成，结论暂不可视为生效；唯一 behind KPI（75.0）为下调主要依据"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****39",
+      "dept": "市场部",
+      "manager_grade": "B",
+      "calibrated_grade": "B",
+      "direction": "same",
+      "grade_steps": 0,
+      "self_score": 79,
+      "mgr_score": 73,
+      "final_score": 74.2,
+      "delta_note": "一致",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "市场部",
+          "decision": "approved",
+          "evidence": "一致"
+        },
+        {
+          "stage": "committee_signoff",
+          "owner_role": "calibration_committee",
+          "decision": "batch_pending_minutes",
+          "evidence": "档位未调整；但 73 分维持 B 档与同区间下调案例存在边界不一致，会议需口头复议分档阈值"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****26",
+      "dept": "研发部",
+      "manager_grade": null,
+      "calibrated_grade": null,
+      "direction": "not_graded",
+      "grade_steps": null,
+      "self_score": 84,
+      "mgr_score": null,
+      "final_score": null,
+      "delta_note": "经理评分未提交",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "研发部",
+          "decision": "manager_grade_pending",
+          "evidence": "自评已提交（84），经理评分缺失，无法进入校准；须在会议前补齐"
+        }
+      ]
+    },
+    {
+      "employee_masked": "EMP-****44",
+      "dept": "行政部",
+      "manager_grade": null,
+      "calibrated_grade": null,
+      "direction": "not_graded",
+      "grade_steps": null,
+      "self_score": null,
+      "mgr_score": null,
+      "final_score": null,
+      "delta_note": "自评与经理评分均未提交",
+      "kpi_flags": [],
+      "approvals": [
+        {
+          "stage": "dept_calibration",
+          "owner_role": "dept_manager",
+          "dept": "行政部",
+          "decision": "self_review_pending",
+          "evidence": "自评流程未发起，无任何评分数据，本轮不参与定档"
+        }
+      ]
+    }
+  ],
+  "distribution": {
+    "basis": "14 条已完成双评分记录（剔除 EMP-****26 经理评分缺失、EMP-****44 自评缺失）",
+    "manager_grade": {
+      "S": 0,
+      "A": 3,
+      "B": 8,
+      "C": 3,
+      "D": 0
+    },
+    "manager_grade_ratio": {
+      "S": 0.0,
+      "A": 0.214,
+      "B": 0.571,
+      "C": 0.214,
+      "D": 0.0
+    },
+    "calibrated_grade": {
+      "S": 1,
+      "A": 4,
+      "B": 4,
+      "C": 4,
+      "D": 1
+    },
+    "calibrated_grade_ratio": {
+      "S": 0.071,
+      "A": 0.286,
+      "B": 0.286,
+      "C": 0.286,
+      "D": 0.071
+    },
+    "adjustment": {
+      "unchanged": 8,
+      "up": 3,
+      "down": 3,
+      "adjusted_total": 6,
+      "adjusted_rate": 0.429,
+      "up_steps": 3,
+      "down_steps": -3,
+      "net_grade_steps": 0
+    },
+    "status": {
+      "done": 11,
+      "appeal": 2,
+      "pending_confirm": 1,
+      "pending_mgr": 1,
+      "pending_self": 1
+    },
+    "by_dept": [
+      {"dept": "销售部", "graded": 3, "adjusted": 1, "up": 1, "down": 0, "calibrated": {"A": 2, "B": 1}},
+      {"dept": "研发部", "graded": 4, "adjusted": 3, "up": 2, "down": 1, "calibrated": {"S": 1, "A": 2, "C": 1}},
+      {"dept": "市场部", "graded": 3, "adjusted": 0, "up": 0, "down": 0, "calibrated": {"B": 1, "C": 2}},
+      {"dept": "财务部", "graded": 2, "adjusted": 0, "up": 0, "down": 0, "calibrated": {"B": 2}},
+      {"dept": "行政部", "graded": 2, "adjusted": 2, "up": 0, "down": 2, "calibrated": {"C": 1, "D": 1}}
+    ]
+  },
+  "dispersion": {
+    "grade_scale": {"S": 5, "A": 4, "B": 3, "C": 2, "D": 1},
+    "manager_grade": {
+      "levels_covered": 3,
+      "range": 2,
+      "mean": 3.0,
+      "variance_population": 0.4286,
+      "std_population": 0.655,
+      "std_sample": 0.679
+    },
+    "calibrated_grade": {
+      "levels_covered": 5,
+      "range": 4,
+      "mean": 3.0,
+      "variance_population": 1.1429,
+      "std_population": 1.069,
+      "std_sample": 1.109
+    },
+    "dispersion_change": {
+      "std_population_delta": 0.414,
+      "std_population_growth_rate": 0.633,
+      "std_sample_growth_rate": 0.633,
+      "range_expansion": 2,
+      "mean_shift": 0.0
+    },
+    "score_dispersion": {
+      "manager_score": {"n": 14, "mean": 75.214, "min": 61, "max": 88, "std_population": 8.028},
+      "self_score": {"n": 14, "mean": 77.5, "min": 63, "max": 92},
+      "final_score": {"n": 14, "mean": 75.671, "min": 61.4, "max": 88.8, "std_population": 8.09},
+      "self_minus_manager_mean_gap": 2.286,
+      "self_ge_manager_count": 13,
+      "manager_gt_self_count": 1
+    },
+    "score_to_grade_band_check": {
+      "formula_verified": "final_score = 0.8 * mgr_score + 0.2 * self_score",
+      "formula_matched_rows": 14,
+      "boundary_conflict": [
+        {"employee_masked": "EMP-****29", "mgr_score": 72, "manager_grade": "B", "calibrated_grade": "C"},
+        {"employee_masked": "EMP-****39", "mgr_score": 73, "manager_grade": "B", "calibrated_grade": "B"},
+        {"employee_masked": "EMP-****84", "mgr_score": 74, "manager_grade": "B", "calibrated_grade": "C"}
+      ],
+      "note": "72 分与 74 分均被下调至 C，73 分维持 B，同区间出现反向结论，分档阈值需在会上一并确认"
+    }
+  },
+  "kpi_cross_check": {
+    "items_total": 16,
+    "on_track": 10,
+    "at_risk": 5,
+    "behind": 1,
+    "on_track_rate": 0.625,
+    "aligned_cases": [
+      {"employee_masked": "EMP-****84", "kpi": "需求交付准时率 75.0 behind", "decision": "B→C 下调", "judgement": "方向一致"},
+      {"employee_masked": "EMP-****29", "kpi": "人效指数 94.5 at_risk", "decision": "B→C 下调", "judgement": "方向一致"},
+      {"employee_masked": "EMP-****07", "kpi": "有效线索数 90.3 at_risk", "decision": "C 维持", "judgement": "方向一致"},
+      {"employee_masked": "EMP-****35", "kpi": "交付准时率 103.6 / 质量达标率 98.4 全部 on_track", "decision": "A 维持", "judgement": "方向一致"},
+      {"employee_masked": "EMP-****51", "kpi": "月结及时率 100.0 / 稽核准确率 99.6 全部 on_track", "decision": "B 维持", "judgement": "方向一致"},
+      {"employee_masked": "EMP-****63", "kpi": "新签 95.0 / 拜访量 95.0 全部 on_track", "decision": "B 维持", "judgement": "方向一致"}
+    ],
+    "tension_cases": [
+      {
+        "employee_masked": "EMP-****12",
+        "kpi": "新签销售额 81.5 at_risk、回款达成率 93.1 at_risk、续约率 97.4 on_track",
+        "decision": "B→A 上调",
+        "basis": "超出：大单突破",
+        "judgement": "KPI 侧 2 项 at_risk 与跨档上调方向相左，须会议重点审议并留存证据"
+      }
+    ]
+  },
+  "meeting_materials": {
+    "agenda": [
+      "确认 14 人双评分口径与 2 人缺评处置（EMP-****26 经理补评、EMP-****44 自评发起）",
+      "审议 6 例档位调整：上调 3 例（EMP-****12/48/22）、下调 3 例（EMP-****29/73/84）",
+      "复核 2 例申诉（EMP-****29 两次客诉、EMP-****73 考勤异常）与 1 例员工确认未完成（EMP-****84）",
+      "确认新开档位配额：S 档 1 人（EMP-****22）、D 档 1 人（EMP-****73）",
+      "复议 72/73/74 分 B 档边界不一致问题并固化分档阈值",
+      "针对 EMP-****12 的 KPI 与校准结论张力作出书面裁决"
+    ],
+    "focus_points": [
+      "校准后标准差由 0.655 升至 1.069（+63.3%），均值维持 3.0，属向两端对称拉开的主动区分，而非整体抬降",
+      "调整率 42.9% 高于常态水平，研发部 75%、行政部 100% 为集中区",
+      "自评高于经理评分 13/14 例，均值差 2.286 分，自评偏宽需在下一周期治理"
+    ],
+    "decision_required": [
+      "6 例调整案通过/否决/改档",
+      "2 例申诉受理结论",
+      "S/D 新开档位配额批准"
+    ]
+  },
+  "approvals_summary": {
+    "records_with_completed_dept_calibration": 14,
+    "records_pending_committee_signoff": 3,
+    "records_pending_appeal_review": 2,
+    "records_pending_employee_confirm": 1,
+    "records_batch_pending_minutes": 8,
+    "records_blocked_input": 2,
+    "approver_identity_policy": "源数据未含审批人姓名，approvals 仅记录环节、角色与部门，不引入未经验证的人员标识"
+  },
+  "data_governance": {
+    "masking": {
+      "employee_identifier": "employee_masked（EMP-****NN）",
+      "name_present": false,
+      "id_present": false,
+      "raw_identifier_in_deliverable": false
+    },
+    "memory_policy": {
+      "calibration_minutes_persisted": false,
+      "memory_layer_write": "forbidden",
+      "scope": "校准纪要、申诉理由、档位调整讨论内容禁入记忆层/长期检索库",
+      "retention": "仅作本次审批与归档使用，按 HR 保密口径在受控系统内存放"
+    },
+    "traceability": {
+      "lineage": "calibration.csv 16 行全量覆盖 + kpi.csv 16 条 KPI 关联校验",
+      "derived_values_recomputed": true,
+      "placeholder_used": false
+    }
+  }
+}

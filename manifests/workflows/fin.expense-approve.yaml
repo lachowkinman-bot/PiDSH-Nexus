@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: fin.expense-approve@1.0.0
+domain: fin
+description: "报销审批（强审批）"
+trigger:
+  type: command
+  expr: expense-approve
+nodes:
+  - id: n1
+    type: skill
+    ref: expense-precheck
+  - id: n2
+    type: condition
+    expr: "报销审批（强审批） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "报销审批（强审批）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: expense-approve-<ts>.json
+  format: json
+  fields:
+    - expense_id
+    - amount_yuan
+    - level
+    - approvals
+  acceptance: "L4 必须双审批；审批单与产物一致"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-expense-approve

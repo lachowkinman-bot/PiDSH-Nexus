@@ -1,0 +1,811 @@
+{
+ "verified_at": "2026-09-27T03:53:17.138Z",
+ "real": [
+  {
+   "name": "@earendil-works/chord",
+   "version": "0.87.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@earendil-works/chord/-/chord-0.87.1.tgz"
+  },
+  {
+   "name": "@deepseek-ai/dsh",
+   "version": "0.1.5-rc.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@deepseek-ai/dsh/-/dsh-0.1.5-rc.3.tgz"
+  },
+  {
+   "name": "@earendil-works/pi-agent-core",
+   "version": "0.87.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@earendil-works/pi-agent-core/-/pi-agent-core-0.87.1.tgz"
+  },
+  {
+   "name": "@changfenhuang/dsh-genui",
+   "version": "0.11.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@changfenhuang/dsh-genui/-/dsh-genui-0.11.1.tgz"
+  },
+  {
+   "name": "@anionex/dsh-vision-toolkit",
+   "version": "0.1.45",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@anionex/dsh-vision-toolkit/-/dsh-vision-toolkit-0.1.45.tgz"
+  },
+  {
+   "name": "@a9i5k4/dsh-auto-memory",
+   "version": "3.1.7",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@a9i5k4/dsh-auto-memory/-/dsh-auto-memory-3.1.7.tgz"
+  },
+  {
+   "name": "@deepseek-harness-tui/dsh-tui",
+   "version": "0.11.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@deepseek-harness-tui/dsh-tui/-/dsh-tui-0.11.1.tgz"
+  },
+  {
+   "name": "@earendil-works/pi-coding-agent",
+   "version": "0.87.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@earendil-works/pi-coding-agent/-/pi-coding-agent-0.87.1.tgz"
+  },
+  {
+   "name": "@earendil-works/pi-ai",
+   "version": "0.87.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@earendil-works/pi-ai/-/pi-ai-0.87.1.tgz"
+  },
+  {
+   "name": "@linxin666/dsh-client-ui-git-graph",
+   "version": "0.4.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@linxin666/dsh-client-ui-git-graph/-/dsh-client-ui-git-graph-0.4.3.tgz"
+  },
+  {
+   "name": "@linxin666/dsh-client-ui-skill-explorer",
+   "version": "0.4.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@linxin666/dsh-client-ui-skill-explorer/-/dsh-client-ui-skill-explorer-0.4.3.tgz"
+  },
+  {
+   "name": "@juicesharp/rpiv-todo",
+   "version": "2.11.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@juicesharp/rpiv-todo/-/rpiv-todo-2.11.0.tgz"
+  },
+  {
+   "name": "@linxin666/dsh-client-ui-task-board",
+   "version": "0.4.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@linxin666/dsh-client-ui-task-board/-/dsh-client-ui-task-board-0.4.3.tgz"
+  },
+  {
+   "name": "@liustack/modsearch",
+   "version": "5.10.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@liustack/modsearch/-/modsearch-5.10.5.tgz"
+  },
+  {
+   "name": "@joemccann/pi-pdf",
+   "version": "1.0.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@joemccann/pi-pdf/-/pi-pdf-1.0.1.tgz"
+  },
+  {
+   "name": "@liustack/modlens",
+   "version": "3.26.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@liustack/modlens/-/modlens-3.26.5.tgz"
+  },
+  {
+   "name": "@nanmicoder/dsh-agent-teams",
+   "version": "0.1.21",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@nanmicoder/dsh-agent-teams/-/dsh-agent-teams-0.1.21.tgz"
+  },
+  {
+   "name": "@openviking/dsh-memory-plugin",
+   "version": "0.5.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@openviking/dsh-memory-plugin/-/dsh-memory-plugin-0.5.8.tgz"
+  },
+  {
+   "name": "@notionhq/notion-mcp-server",
+   "version": "2.5.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@notionhq/notion-mcp-server/-/notion-mcp-server-2.5.2.tgz"
+  },
+  {
+   "name": "@shaoshi/dshscan",
+   "version": "0.5.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@shaoshi/dshscan/-/dshscan-0.5.0.tgz"
+  },
+  {
+   "name": "@plannotator/pi-extension",
+   "version": "0.27.21",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@plannotator/pi-extension/-/pi-extension-0.27.21.tgz"
+  },
+  {
+   "name": "@steven-wu/dsh-cost-meter",
+   "version": "0.1.0-rc.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@steven-wu/dsh-cost-meter/-/dsh-cost-meter-0.1.0-rc.3.tgz"
+  },
+  {
+   "name": "@paperjsx/mcp-server",
+   "version": "0.3.6",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@paperjsx/mcp-server/-/mcp-server-0.3.6.tgz"
+  },
+  {
+   "name": "@tianbuyu-wwx/dsh-formatforge",
+   "version": "1.0.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@tianbuyu-wwx/dsh-formatforge/-/dsh-formatforge-1.0.1.tgz"
+  },
+  {
+   "name": "@vectorize-io/hindsight-coding-agents",
+   "version": "0.7.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@vectorize-io/hindsight-coding-agents/-/hindsight-coding-agents-0.7.0.tgz"
+  },
+  {
+   "name": "@wxg-prc-cpg/dsh-weknora",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@wxg-prc-cpg/dsh-weknora/-/dsh-weknora-0.1.0.tgz"
+  },
+  {
+   "name": "@xmanrui/dsh-im",
+   "version": "4.28.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@xmanrui/dsh-im/-/dsh-im-4.28.1.tgz"
+  },
+  {
+   "name": "billion-context-pi",
+   "version": "0.1.81",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/billion-context-pi/-/billion-context-pi-0.1.81.tgz"
+  },
+  {
+   "name": "@vigolium/piolium",
+   "version": "0.0.15",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@vigolium/piolium/-/piolium-0.0.15.tgz"
+  },
+  {
+   "name": "composio-x-pi",
+   "version": "0.0.14",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/composio-x-pi/-/composio-x-pi-0.0.14.tgz"
+  },
+  {
+   "name": "@zosmaai/pi-llm-wiki",
+   "version": "0.12.4",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@zosmaai/pi-llm-wiki/-/pi-llm-wiki-0.12.4.tgz"
+  },
+  {
+   "name": "dsh-auto-memory",
+   "version": "0.3.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-auto-memory/-/dsh-auto-memory-0.3.0.tgz"
+  },
+  {
+   "name": "dsh-artifacts",
+   "version": "0.1.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-artifacts/-/dsh-artifacts-0.1.1.tgz"
+  },
+  {
+   "name": "dsh-background-agents",
+   "version": "0.9.12",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-background-agents/-/dsh-background-agents-0.9.12.tgz"
+  },
+  {
+   "name": "dsh-better-sidebar",
+   "version": "0.21.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-better-sidebar/-/dsh-better-sidebar-0.21.1.tgz"
+  },
+  {
+   "name": "dsh-bridge",
+   "version": "0.1.0-rc.17",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-bridge/-/dsh-bridge-0.1.0-rc.17.tgz"
+  },
+  {
+   "name": "dsh-client-ui-obsidian-memory",
+   "version": "0.3.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-client-ui-obsidian-memory/-/dsh-client-ui-obsidian-memory-0.3.2.tgz"
+  },
+  {
+   "name": "dsh-browser",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-browser/-/dsh-browser-0.1.0.tgz"
+  },
+  {
+   "name": "dsh-codex-connect",
+   "version": "0.1.0-alpha.4.50",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-codex-connect/-/dsh-codex-connect-0.1.0-alpha.4.50.tgz"
+  },
+  {
+   "name": "dsh-builtin-browser",
+   "version": "0.1.22",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-builtin-browser/-/dsh-builtin-browser-0.1.22.tgz"
+  },
+  {
+   "name": "dsh-config-manager",
+   "version": "0.1.64",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-config-manager/-/dsh-config-manager-0.1.64.tgz"
+  },
+  {
+   "name": "dsh-computer-use",
+   "version": "0.3.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-computer-use/-/dsh-computer-use-0.3.1.tgz"
+  },
+  {
+   "name": "dsh-context",
+   "version": "0.57.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-context/-/dsh-context-0.57.0.tgz"
+  },
+  {
+   "name": "dsh-conversation-navigator",
+   "version": "0.2.10",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-conversation-navigator/-/dsh-conversation-navigator-0.2.10.tgz"
+  },
+  {
+   "name": "dsh-deja",
+   "version": "0.21.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-deja/-/dsh-deja-0.21.2.tgz"
+  },
+  {
+   "name": "dsh-cost-meter",
+   "version": "1.7.39",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-cost-meter/-/dsh-cost-meter-1.7.39.tgz"
+  },
+  {
+   "name": "dsh-dragview",
+   "version": "0.1.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-dragview/-/dsh-dragview-0.1.1.tgz"
+  },
+  {
+   "name": "dsh-doublecheck",
+   "version": "0.9.17",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-doublecheck/-/dsh-doublecheck-0.9.17.tgz"
+  },
+  {
+   "name": "dsh-excel-chat",
+   "version": "0.38.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-excel-chat/-/dsh-excel-chat-0.38.0.tgz"
+  },
+  {
+   "name": "dsh-file-drop",
+   "version": "0.1.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-file-drop/-/dsh-file-drop-0.1.3.tgz"
+  },
+  {
+   "name": "dsh-find-plugin",
+   "version": "0.4.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-find-plugin/-/dsh-find-plugin-0.4.0.tgz"
+  },
+  {
+   "name": "dsh-free-vision",
+   "version": "1.0.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-free-vision/-/dsh-free-vision-1.0.8.tgz"
+  },
+  {
+   "name": "dsh-git-graph",
+   "version": "0.1.6",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-git-graph/-/dsh-git-graph-0.1.6.tgz"
+  },
+  {
+   "name": "dsh-forge",
+   "version": "0.0.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-forge/-/dsh-forge-0.0.1.tgz"
+  },
+  {
+   "name": "dsh-genui",
+   "version": "0.2.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-genui/-/dsh-genui-0.2.1.tgz"
+  },
+  {
+   "name": "dsh-github-workbench",
+   "version": "0.3.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-github-workbench/-/dsh-github-workbench-0.3.0.tgz"
+  },
+  {
+   "name": "dsh-github-intelligence",
+   "version": "2.9.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-github-intelligence/-/dsh-github-intelligence-2.9.0.tgz"
+  },
+  {
+   "name": "dsh-im",
+   "version": "1.0.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-im/-/dsh-im-1.0.5.tgz"
+  },
+  {
+   "name": "dsh-inspiration-deck-workshop",
+   "version": "0.1.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-inspiration-deck-workshop/-/dsh-inspiration-deck-workshop-0.1.1.tgz"
+  },
+  {
+   "name": "dsh-lark-bot",
+   "version": "0.19.16",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-lark-bot/-/dsh-lark-bot-0.19.16.tgz"
+  },
+  {
+   "name": "dsh-mcp-lens",
+   "version": "0.1.0-rc.9",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-mcp-lens/-/dsh-mcp-lens-0.1.0-rc.9.tgz"
+  },
+  {
+   "name": "dsh-library",
+   "version": "0.2.16",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-library/-/dsh-library-0.2.16.tgz"
+  },
+  {
+   "name": "dsh-memory-plugin",
+   "version": "0.7.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-memory-plugin/-/dsh-memory-plugin-0.7.2.tgz"
+  },
+  {
+   "name": "dsh-mnemon",
+   "version": "0.5.16",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-mnemon/-/dsh-mnemon-0.5.16.tgz"
+  },
+  {
+   "name": "dsh-notifier",
+   "version": "0.13.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-notifier/-/dsh-notifier-0.13.1.tgz"
+  },
+  {
+   "name": "dsh-paperclip",
+   "version": "0.2.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-paperclip/-/dsh-paperclip-0.2.5.tgz"
+  },
+  {
+   "name": "dsh-office-tools",
+   "version": "1.0.4",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-office-tools/-/dsh-office-tools-1.0.4.tgz"
+  },
+  {
+   "name": "dsh-plugin-manager",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-plugin-manager/-/dsh-plugin-manager-0.1.0.tgz"
+  },
+  {
+   "name": "dsh-plugin-vetting",
+   "version": "0.5.6",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-plugin-vetting/-/dsh-plugin-vetting-0.5.6.tgz"
+  },
+  {
+   "name": "dsh-plugins",
+   "version": "0.1.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-plugins/-/dsh-plugins-0.1.2.tgz"
+  },
+  {
+   "name": "dsh-ppt",
+   "version": "0.5.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-ppt/-/dsh-ppt-0.5.0.tgz"
+  },
+  {
+   "name": "dsh-pr-board",
+   "version": "0.11.14",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-pr-board/-/dsh-pr-board-0.11.14.tgz"
+  },
+  {
+   "name": "dsh-pocket",
+   "version": "2.10.6",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-pocket/-/dsh-pocket-2.10.6.tgz"
+  },
+  {
+   "name": "dsh-rewind-plugin",
+   "version": "0.12.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-rewind-plugin/-/dsh-rewind-plugin-0.12.2.tgz"
+  },
+  {
+   "name": "dsh-sentry",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-sentry/-/dsh-sentry-0.1.0.tgz"
+  },
+  {
+   "name": "dsh-rewind",
+   "version": "0.11.12",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-rewind/-/dsh-rewind-0.11.12.tgz"
+  },
+  {
+   "name": "dsh-smooth-stream",
+   "version": "0.6.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-smooth-stream/-/dsh-smooth-stream-0.6.1.tgz"
+  },
+  {
+   "name": "dsh-skill-picker",
+   "version": "0.5.11",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-skill-picker/-/dsh-skill-picker-0.5.11.tgz"
+  },
+  {
+   "name": "dsh-sonarqube",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-sonarqube/-/dsh-sonarqube-0.1.0.tgz"
+  },
+  {
+   "name": "dsh-translate",
+   "version": "0.2.16",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-translate/-/dsh-translate-0.2.16.tgz"
+  },
+  {
+   "name": "dsh-univer-office",
+   "version": "0.3.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-univer-office/-/dsh-univer-office-0.3.5.tgz"
+  },
+  {
+   "name": "dsh-vision-router",
+   "version": "2.2.4",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-vision-router/-/dsh-vision-router-2.2.4.tgz"
+  },
+  {
+   "name": "dsh-viewer",
+   "version": "0.0.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-viewer/-/dsh-viewer-0.0.1.tgz"
+  },
+  {
+   "name": "dsh-web-search-pro",
+   "version": "0.1.11",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/dsh-web-search-pro/-/dsh-web-search-pro-0.1.11.tgz"
+  },
+  {
+   "name": "markitdown",
+   "version": "0.0.4",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/markitdown/-/markitdown-0.0.4.tgz"
+  },
+  {
+   "name": "pi-agent-pi-markitdown",
+   "version": "1.0.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-agent-pi-markitdown/-/pi-agent-pi-markitdown-1.0.2.tgz"
+  },
+  {
+   "name": "pi-agents",
+   "version": "0.21.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-agents/-/pi-agents-0.21.0.tgz"
+  },
+  {
+   "name": "pi-ai",
+   "version": "0.0.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-ai/-/pi-ai-0.0.1.tgz"
+  },
+  {
+   "name": "pi-archive",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-archive/-/pi-archive-0.1.0.tgz"
+  },
+  {
+   "name": "pi-chat",
+   "version": "1.0.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-chat/-/pi-chat-1.0.0.tgz"
+  },
+  {
+   "name": "pi-devops-tools",
+   "version": "0.12.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-devops-tools/-/pi-devops-tools-0.12.0.tgz"
+  },
+  {
+   "name": "pi-feishu-notify",
+   "version": "0.7.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-feishu-notify/-/pi-feishu-notify-0.7.0.tgz"
+  },
+  {
+   "name": "pi-hermes-memory",
+   "version": "0.9.9",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-hermes-memory/-/pi-hermes-memory-0.9.9.tgz"
+  },
+  {
+   "name": "pi-google-services",
+   "version": "0.1.22",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-google-services/-/pi-google-services-0.1.22.tgz"
+  },
+  {
+   "name": "pi-intercom",
+   "version": "0.14.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-intercom/-/pi-intercom-0.14.0.tgz"
+  },
+  {
+   "name": "pi-list-tools",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-list-tools/-/pi-list-tools-0.1.0.tgz"
+  },
+  {
+   "name": "pi-lens",
+   "version": "4.3.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-lens/-/pi-lens-4.3.0.tgz"
+  },
+  {
+   "name": "pi-llm-wiki",
+   "version": "0.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-llm-wiki/-/pi-llm-wiki-0.1.0.tgz"
+  },
+  {
+   "name": "pi-mcp-adapter",
+   "version": "3.0.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-mcp-adapter/-/pi-mcp-adapter-3.0.0.tgz"
+  },
+  {
+   "name": "pi-maestro-flow",
+   "version": "0.31.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-maestro-flow/-/pi-maestro-flow-0.31.2.tgz"
+  },
+  {
+   "name": "pi-markdown-preview",
+   "version": "0.19.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-markdown-preview/-/pi-markdown-preview-0.19.0.tgz"
+  },
+  {
+   "name": "pi-memory",
+   "version": "0.4.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-memory/-/pi-memory-0.4.2.tgz"
+  },
+  {
+   "name": "pi-memento",
+   "version": "1.0.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-memento/-/pi-memento-1.0.3.tgz"
+  },
+  {
+   "name": "pi-subagents",
+   "version": "0.72.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-subagents/-/pi-subagents-0.72.0.tgz"
+  },
+  {
+   "name": "pi-psql",
+   "version": "2.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-psql/-/pi-psql-2.2.0.tgz"
+  },
+  {
+   "name": "pi-slack-bot",
+   "version": "0.1.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-slack-bot/-/pi-slack-bot-0.1.3.tgz"
+  },
+  {
+   "name": "pi-tools",
+   "version": "1.1.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-tools/-/pi-tools-1.1.0.tgz"
+  },
+  {
+   "name": "pi-web-access",
+   "version": "0.31.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-web-access/-/pi-web-access-0.31.0.tgz"
+  },
+  {
+   "name": "pi-vault-mind",
+   "version": "0.16.36",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-vault-mind/-/pi-vault-mind-0.16.36.tgz"
+  },
+  {
+   "name": "pi-web-ui",
+   "version": "0.96.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-web-ui/-/pi-web-ui-0.96.1.tgz"
+  },
+  {
+   "name": "pi-workspaces",
+   "version": "0.1.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-workspaces/-/pi-workspaces-0.1.2.tgz"
+  },
+  {
+   "name": "@juicesharp/rpiv-ask-user-question",
+   "version": "2.11.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@juicesharp/rpiv-ask-user-question/-/rpiv-ask-user-question-2.11.0.tgz"
+  },
+  {
+   "name": "pi-ansicat",
+   "version": "0.3.7",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-ansicat/-/pi-ansicat-0.3.7.tgz"
+  },
+  {
+   "name": "pi-aimail",
+   "version": "0.1.18",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-aimail/-/pi-aimail-0.1.18.tgz"
+  },
+  {
+   "name": "@companion-ai/feynman",
+   "version": "0.5.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@companion-ai/feynman/-/feynman-0.5.8.tgz"
+  },
+  {
+   "name": "@agimon-ai/doompi-grep",
+   "version": "0.0.1-alpha.65",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agimon-ai/doompi-grep/-/doompi-grep-0.0.1-alpha.65.tgz"
+  },
+  {
+   "name": "@agimon-ai/doompi-autostop",
+   "version": "0.0.1-alpha.70",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agimon-ai/doompi-autostop/-/doompi-autostop-0.0.1-alpha.70.tgz"
+  },
+  {
+   "name": "@agimon-ai/doompi-read",
+   "version": "0.0.1-alpha.65",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agimon-ai/doompi-read/-/doompi-read-0.0.1-alpha.65.tgz"
+  },
+  {
+   "name": "pi-background-tasks",
+   "version": "2.6.7",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-background-tasks/-/pi-background-tasks-2.6.7.tgz"
+  },
+  {
+   "name": "billion-context",
+   "version": "0.1.158",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/billion-context/-/billion-context-0.1.158.tgz"
+  },
+  {
+   "name": "pi-goal-x",
+   "version": "0.31.9",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-goal-x/-/pi-goal-x-0.31.9.tgz"
+  },
+  {
+   "name": "@langfuse/pi-observability-plugin",
+   "version": "0.1.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@langfuse/pi-observability-plugin/-/pi-observability-plugin-0.1.2.tgz"
+  },
+  {
+   "name": "pi-mcp-extension",
+   "version": "1.5.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-mcp-extension/-/pi-mcp-extension-1.5.0.tgz"
+  },
+  {
+   "name": "bigpowers",
+   "version": "2.88.9",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/bigpowers/-/bigpowers-2.88.9.tgz"
+  },
+  {
+   "name": "context-mode",
+   "version": "1.0.169",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/context-mode/-/context-mode-1.0.169.tgz"
+  },
+  {
+   "name": "pi-powerline-footer",
+   "version": "0.18.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-powerline-footer/-/pi-powerline-footer-0.18.0.tgz"
+  },
+  {
+   "name": "pi-claude-bridge",
+   "version": "0.8.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-claude-bridge/-/pi-claude-bridge-0.8.0.tgz"
+  },
+  {
+   "name": "@dietrichgebert/ponytail",
+   "version": "4.10.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@dietrichgebert/ponytail/-/ponytail-4.10.0.tgz"
+  },
+  {
+   "name": "@narumitw/pi-usage",
+   "version": "0.61.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-usage/-/pi-usage-0.61.1.tgz"
+  },
+  {
+   "name": "@langchain/langsmith-pi-extension",
+   "version": "0.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@langchain/langsmith-pi-extension/-/langsmith-pi-extension-0.2.0.tgz"
+  },
+  {
+   "name": "pi-cc-extensions",
+   "version": "0.9.5",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-cc-extensions/-/pi-cc-extensions-0.9.5.tgz"
+  },
+  {
+   "name": "@gotgenes/pi-permission-system",
+   "version": "35.0.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@gotgenes/pi-permission-system/-/pi-permission-system-35.0.0.tgz"
+  },
+  {
+   "name": "confluence-cli",
+   "version": "2.25.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/confluence-cli/-/confluence-cli-2.25.2.tgz"
+  },
+  {
+   "name": "pi-simplify",
+   "version": "0.2.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-simplify/-/pi-simplify-0.2.3.tgz"
+  },
+  {
+   "name": "@akagilnc/pi-workflow-roles",
+   "version": "0.1.5207",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@akagilnc/pi-workflow-roles/-/pi-workflow-roles-0.1.5207.tgz"
+  },
+  {
+   "name": "@raindrop-ai/pi-agent",
+   "version": "0.2.4",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@raindrop-ai/pi-agent/-/pi-agent-0.2.4.tgz"
+  },
+  {
+   "name": "pi-provider-litellm",
+   "version": "3.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-provider-litellm/-/pi-provider-litellm-3.2.0.tgz"
+  },
+  {
+   "name": "@ff-labs/pi-fff",
+   "version": "0.11.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@ff-labs/pi-fff/-/pi-fff-0.11.0.tgz"
+  },
+  {
+   "name": "@moyai/pi-session-hoarder",
+   "version": "0.2.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@moyai/pi-session-hoarder/-/pi-session-hoarder-0.2.0.tgz"
+  },
+  {
+   "name": "@narumitw/pi-goal",
+   "version": "0.54.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-goal/-/pi-goal-0.54.8.tgz"
+  },
+  {
+   "name": "agent-comms",
+   "version": "8.0.8",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/agent-comms/-/agent-comms-8.0.8.tgz"
+  },
+  {
+   "name": "@quintinshaw/pi-dynamic-workflows",
+   "version": "3.13.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@quintinshaw/pi-dynamic-workflows/-/pi-dynamic-workflows-3.13.0.tgz"
+  },
+  {
+   "name": "@amaster.ai/pi-memory-mem0",
+   "version": "0.1.18",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@amaster.ai/pi-memory-mem0/-/pi-memory-mem0-0.1.18.tgz"
+  },
+  {
+   "name": "pi-advisor-flow",
+   "version": "0.8.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-advisor-flow/-/pi-advisor-flow-0.8.2.tgz"
+  },
+  {
+   "name": "@narumitw/pi-btw",
+   "version": "0.61.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-btw/-/pi-btw-0.61.1.tgz"
+  },
+  {
+   "name": "@narumitw/pi-plan-mode",
+   "version": "0.58.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@narumitw/pi-plan-mode/-/pi-plan-mode-0.58.3.tgz"
+  },
+  {
+   "name": "@henryqw/pi-subagent",
+   "version": "22.2.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@henryqw/pi-subagent/-/pi-subagent-22.2.3.tgz"
+  },
+  {
+   "name": "gentle-pi",
+   "version": "3.7.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/gentle-pi/-/gentle-pi-3.7.0.tgz"
+  },
+  {
+   "name": "pi-prompt-template-model",
+   "version": "0.12.3",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-prompt-template-model/-/pi-prompt-template-model-0.12.3.tgz"
+  },
+  {
+   "name": "pi-btw",
+   "version": "0.6.1",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-btw/-/pi-btw-0.6.1.tgz"
+  },
+  {
+   "name": "cc-safety-net",
+   "version": "2.4.11",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/cc-safety-net/-/cc-safety-net-2.4.11.tgz"
+  },
+  {
+   "name": "@agentskit/doc-bridge",
+   "version": "1.12.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@agentskit/doc-bridge/-/doc-bridge-1.12.0.tgz"
+  },
+  {
+   "name": "@trim21/personal-pi-extensions",
+   "version": "0.1.626",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@trim21/personal-pi-extensions/-/personal-pi-extensions-0.1.626.tgz"
+  },
+  {
+   "name": "@goofansu/pi-stuff",
+   "version": "1.0.2",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/@goofansu/pi-stuff/-/pi-stuff-1.0.2.tgz"
+  },
+  {
+   "name": "pi-fabric",
+   "version": "0.97.0",
+   "tarball": "https://mirrors.cloud.tencent.com/npm/pi-fabric/-/pi-fabric-0.97.0.tgz"
+  }
+ ],
+ "fake": [
+  "@atlassianlabs/jira-mcp-server",
+  "@scope/pkg",
+  "@slack/mcp",
+  "@thinkdrive/google-drive-mcp",
+  "dsh-agent-teams",
+  "dsh-collaboration",
+  "dsh-file-mentions",
+  "dsh-free-web-search",
+  "dsh-git-hygiene",
+  "dsh-market",
+  "dsh-plans",
+  "dsh-plugin-man",
+  "dsh-skill-explorer",
+  "dsh-task-board",
+  "dsh-todo-guard",
+  "dsh-toolkit",
+  "dsh-vision-toolkit",
+  "dsh-web",
+  "dsh-weknora",
+  "pi-ch",
+  "pi-fe",
+  "pi-go",
+  "pi-ma",
+  "pi-mc",
+  "pi-mentis",
+  "pi-search-tools",
+  "pi-su",
+  "pi-web-spider",
+  "@schovest/pi-goal(pi.dev索引在列但npm 404,2026-09-27)"
+ ]
+}

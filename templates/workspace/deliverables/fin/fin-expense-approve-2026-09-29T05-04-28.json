@@ -1,0 +1,34 @@
+{
+ "domain": "fin",
+ "kind": "fin-expense-approve",
+ "created_at": "2026-09-29T05:04:28.692Z",
+ "workflow": "fin.expense-approve@1.0.0",
+ "description": "报销审批（强审批）",
+ "fields": {},
+ "deliverable_spec": {
+  "file": "expense-approve-<ts>.json",
+  "format": "json",
+  "fields": [
+   "expense_id",
+   "amount_yuan",
+   "level",
+   "approvals"
+  ],
+  "acceptance": "L4 必须双审批；审批单与产物一致"
+ },
+ "engine": {
+  "name": "pi",
+  "fallback": false,
+  "output": "## 无法执行：该技能在本环境中不存在\n\n我按要求查找并执行 `expense-precheck` / 工作流 `fin.expense-approve@1.0.0`，但没有找到它的定义。**我没有凭猜测编造一个“强审批”流程去跑**——报销审批是有资金后果的操作，虚构规则比报错更危险。\n\n### 已核查的位置（全部为 ENOENT）\n\n| 位置 | 结果 |\n|---|---|\n| 当前项目 `universal-workbench-3.0/` 根目录 | 仅有 `package.json`、`package-lock.json`、`node_modules/` |\n| `./skills/`、`./.pi/skills/`、`./.agents/skills/`、`./.claude/skills/` | 不存在 |\n| `~/.agents/skills/expense-precheck/`（`SKILL.md`/`SKILL.yaml`/`README.md`） | 不存在 |\n| `~/.agents/workflows/fin.expense-approve@1.0.0.md` | 不存在 |\n| `~/.pi/`、项目 `settings.json` / `.mcp.json` / 工作流注册表 | 不存在 |\n\n关键证据：我的技能清单是完整按字母序的（`agent-reach` → `x-api`），**`e` 段落里没有任何 expense/finance-approval 类技能**。所以不是\"路径写错\"，而是这个技能没有被装载。\n\n### 环境现状\n\n```\nF:/Pi_DSH_workplace/universal-workbench-3.0/\n├── package.json          → 依赖仅 playwright-core ^1.63.0\n├── package-lock.json\n└── node_modules/playwright-core\n```\n\n只有 `playwright-core`（浏览器自动化核心库，不含浏览器二进制）。这暗示该技能本应驱动某个 Web 审批系统，但目前**既无技能定义、也无目标系统地址/凭据、也无调用脚本**。同时我当前只有文件读写能力，没有 shell，无法自行抓取或启动外部服务。\n\n### 要让这条工作流真正可执行，需要你提供其一：\n\n1. **技能定义** — 把 `expense-precheck` 的 `SKILL.md`（含 `fin.expense-approve@1.0.0` 的步骤、审批阈值、角色矩阵、升级规则）贴出来或放到 `./skills/expense-precheck/SKILL.md`；\n2. **目标系统接入信息** — 审批系统的 URL / 环境 + 认证方式（playwright-core 需要它才能驱动）；\n3. **待审批数据** — 报销单的输入来源（文件？接口？表单？）。\n\n给我 (1) 我就能按定义逐步执行；给我 (1)+(2)+(3) 我可以端到端跑完并输出审批结论。\n\n你想先补哪一项？或者如果你的本意就是**从零搭建**这个技能，也告诉我——那属于新建，我会先跟你确认审批规则再动手，而不是直接生成一套。"
+ },
+ "data_snapshot": [
+  {
+   "table": "budget",
+   "rows": 5
+  },
+  {
+   "table": "expenses",
+   "rows": 5
+  }
+ ]
+}

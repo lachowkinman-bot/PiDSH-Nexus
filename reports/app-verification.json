@@ -1,0 +1,3216 @@
+{
+ "at": "2026-09-29T11:44:29.596Z",
+ "base": "http://127.0.0.1:3810",
+ "total": 41,
+ "pass": 41,
+ "results": [
+  {
+   "area": "端点",
+   "item": "壳进程",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "场景端点",
+   "pass": 14,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "域端点",
+   "pass": {
+    "strat": [
+     "OKR 目标填写表单",
+     "季度 KR 追踪看板",
+     "竞品动态卡"
+    ],
+    "mkt-on": [
+     "内容日历看板",
+     "投放 ROI 卡",
+     "线索漏斗图（PII 脱敏列）"
+    ],
+    "mkt-off": [
+     "活动台账表",
+     "物料合规审查工作流卡片",
+     "经销商条款摘要卡"
+    ],
+    "sales": [
+     "CRM 管道看板",
+     "报价审批 DAG 视图",
+     "赢单复盘卡"
+    ],
+    "fin": [
+     "报销单表单（可提交）",
+     "预算执行图",
+     "月报分级出数开关"
+    ],
+    "rec": [
+     "候选人看板（脱敏列）",
+     "面试安排表",
+     "简历外发审批入口"
+    ],
+    "trn": [
+     "课程目录",
+     "学时统计图",
+     "证书到期拦截提醒卡"
+    ],
+    "prf": [
+     "OKR/KPI 填写表单",
+     "校准分布图（双审批入口）",
+     "目标分解树"
+    ],
+    "comp": [
+     "薪酬带宽偏离图（区间口径）",
+     "调薪双审批队列",
+     "redact_gate 状态条"
+    ],
+    "ben": [
+     "福利方案比选矩阵",
+     "体检脱敏聚合卡",
+     "弹性积分计算器"
+    ],
+    "admin": [
+     "采购比价表",
+     "资产台账",
+     "用印申请表（强制 HITL 按钮）"
+    ],
+    "cmp": [
+     "制度审查 checklist",
+     "PIPIA 清单",
+     "证据链五级视图"
+    ],
+    "er-eap": [
+     "离职流程步骤条",
+     "EAP 转介表单（匿名化+双审批+禁网指示）"
+    ],
+    "F7-offline": [
+     "离线模式指示页（公网禁用状态）"
+    ],
+    "F8-upgrade": [
+     "升级与回退入口（tools-versions 视图+回退按钮）"
+    ],
+    "F11-selfcheck": [
+     "安装自检报告页（哈希/版本/十要素骨架）"
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "当前 preset",
+   "pass": {
+    "current": "admin.procurement@1.0.0",
+    "applied_at": "2026-09-29T07:20:57.156Z"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "审计端点",
+   "pass": {
+    "stats": {
+     "plugin.apply": 33,
+     "preset.save": 8,
+     "deliverable.create": 22,
+     "engine.run": 136,
+     "workflow.run": 20,
+     "preset.apply": 5,
+     "preset.new": 1,
+     "preset.edit": 1,
+     "rollback.dryrun": 1,
+     "gt.run": 102
+    },
+    "tail": [
+     {
+      "ts": "2026-09-29T05:04:52.852Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "offboarding-flow",
+      "gt_id": "GT-ER-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60922
+     },
+     {
+      "ts": "2026-09-29T05:04:52.852Z",
+      "action": "gt.run",
+      "gt_id": "GT-ER-01",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "offboarding-flow",
+      "workflow": "er-eap.offboard-approve@1.0.0",
+      "pass": false,
+      "artifact": "reports/er-eap/gt-01.md",
+      "artifact_bytes": 5179,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-ER-01-2026-09-29T05-04-20-892Z.json",
+      "struct_ok": false
+     },
+     {
+      "ts": "2026-09-29T05:05:19.835Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "offboarding-flow",
+      "gt_id": "GT-ER-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 61286
+     },
+     {
+      "ts": "2026-09-29T05:05:19.835Z",
+      "action": "gt.run",
+      "gt_id": "GT-ER-02",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "offboarding-flow",
+      "workflow": "er-eap.offboard-approve@1.0.0",
+      "pass": false,
+      "artifact": "reports/er-eap/gt-02.md",
+      "artifact_bytes": 5375,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-ER-02-2026-09-29T05-04-52-853Z.json",
+      "struct_ok": false
+     },
+     {
+      "ts": "2026-09-29T05:05:54.049Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "eap-referral",
+      "gt_id": "GT-EAP-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 61434
+     },
+     {
+      "ts": "2026-09-29T05:05:54.049Z",
+      "action": "gt.run",
+      "gt_id": "GT-EAP-01",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "eap-referral",
+      "workflow": "er-eap.eap-referral@1.0.0",
+      "pass": true,
+      "artifact": "reports/er-eap/gt-03.md",
+      "artifact_bytes": 4599,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-EAP-01-2026-09-29T05-05-19-836Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:06:39.072Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "expense-precheck",
+      "gt_id": "GT-FIN-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 65972
+     },
+     {
+      "ts": "2026-09-29T05:06:39.073Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-01",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "expense-precheck",
+      "workflow": "fin.expense-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/fin/gt-01.md",
+      "artifact_bytes": 7429,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-01-2026-09-29T05-05-54-049Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:07:14.371Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "budget-analysis",
+      "gt_id": "GT-FIN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62631
+     },
+     {
+      "ts": "2026-09-29T05:07:14.371Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-02",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "budget-analysis",
+      "workflow": "fin.monthly-report@1.0.0",
+      "pass": false,
+      "artifact": "reports/fin/gt-02.md",
+      "artifact_bytes": 7921,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-02-2026-09-29T05-06-39-073Z.json",
+      "struct_ok": false
+     },
+     {
+      "ts": "2026-09-29T05:07:51.119Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "invoice-check",
+      "gt_id": "GT-FIN-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62338
+     },
+     {
+      "ts": "2026-09-29T05:07:51.119Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-03",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "invoice-check",
+      "workflow": "fin.invoice-check@1.0.0",
+      "pass": true,
+      "artifact": "reports/fin/gt-03.md",
+      "artifact_bytes": 4826,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-03-2026-09-29T05-07-14-371Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:08:20.686Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "event-plan",
+      "gt_id": "GT-MKTOFF-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60002
+     },
+     {
+      "ts": "2026-09-29T05:08:20.687Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTOFF-01",
+      "scene_id": "mkt-off.event-roi@1.0.0",
+      "skill": "event-plan",
+      "workflow": "mkt-off.event-plan@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-off/gt-01.md",
+      "artifact_bytes": 5740,
+      "deliverable": "templates/workspace/deliverables/mkt-off/GT-MKTOFF-01-2026-09-29T05-07-51-119Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:08:52.345Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "material-compliance",
+      "gt_id": "GT-MKTOFF-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60797
+     },
+     {
+      "ts": "2026-09-29T05:08:52.345Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTOFF-02",
+      "scene_id": "mkt-off.event-roi@1.0.0",
+      "skill": "material-compliance",
+      "workflow": "mkt-off.material-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-off/gt-02.md",
+      "artifact_bytes": 5294,
+      "deliverable": "templates/workspace/deliverables/mkt-off/GT-MKTOFF-02-2026-09-29T05-08-20-687Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:09:13.421Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "roi-review",
+      "gt_id": "GT-MKTOFF-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58063
+     },
+     {
+      "ts": "2026-09-29T05:09:13.422Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTOFF-03",
+      "scene_id": "mkt-off.event-roi@1.0.0",
+      "skill": "roi-review",
+      "workflow": "mkt-off.event-roi@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-off/gt-03.md",
+      "artifact_bytes": 5481,
+      "deliverable": "templates/workspace/deliverables/mkt-off/GT-MKTOFF-03-2026-09-29T05-08-52-346Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:09:52.898Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "content-gen",
+      "gt_id": "GT-MKTON-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 63167
+     },
+     {
+      "ts": "2026-09-29T05:09:52.898Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-01",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "content-gen",
+      "workflow": "mkt-on.publish-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-on/gt-01.md",
+      "artifact_bytes": 6363,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-01-2026-09-29T05-09-13-422Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:10:22.292Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "ad-analysis",
+      "gt_id": "GT-MKTON-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60882
+     },
+     {
+      "ts": "2026-09-29T05:10:22.293Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-02",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "ad-analysis",
+      "workflow": "mkt-on.campaign-report@1.0.0",
+      "pass": false,
+      "artifact": "reports/mkt-on/gt-02.md",
+      "artifact_bytes": 5292,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-02-2026-09-29T05-09-52-898Z.json",
+      "struct_ok": false
+     },
+     {
+      "ts": "2026-09-29T05:10:46.542Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "seo-audit",
+      "gt_id": "GT-MKTON-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58715
+     },
+     {
+      "ts": "2026-09-29T05:10:46.542Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-03",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "seo-audit",
+      "workflow": "mkt-on.seo-audit@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-on/gt-03.md",
+      "artifact_bytes": 3980,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-03-2026-09-29T05-10-22-293Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:11:02.034Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "kpi-track",
+      "gt_id": "GT-PRF-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 56930
+     },
+     {
+      "ts": "2026-09-29T05:11:02.034Z",
+      "action": "gt.run",
+      "gt_id": "GT-PRF-01",
+      "scene_id": "prf.calibration@1.0.0",
+      "skill": "kpi-track",
+      "workflow": "prf.kpi-tracking@1.0.0",
+      "pass": true,
+      "artifact": "reports/prf/gt-01.md",
+      "artifact_bytes": 4092,
+      "deliverable": "templates/workspace/deliverables/prf/GT-PRF-01-2026-09-29T05-10-46-542Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:11:33.097Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "calibration-analysis",
+      "gt_id": "GT-PRF-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 61580
+     },
+     {
+      "ts": "2026-09-29T05:11:33.097Z",
+      "action": "gt.run",
+      "gt_id": "GT-PRF-02",
+      "scene_id": "prf.calibration@1.0.0",
+      "skill": "calibration-analysis",
+      "workflow": "prf.calibration-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/prf/gt-02.md",
+      "artifact_bytes": 6318,
+      "deliverable": "templates/workspace/deliverables/prf/GT-PRF-02-2026-09-29T05-11-02-034Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:12:08.640Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "goal-cascade",
+      "gt_id": "GT-PRF-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60917
+     },
+     {
+      "ts": "2026-09-29T05:12:08.640Z",
+      "action": "gt.run",
+      "gt_id": "GT-PRF-03",
+      "scene_id": "prf.calibration@1.0.0",
+      "skill": "goal-cascade",
+      "workflow": "prf.cascade-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/prf/gt-03.md",
+      "artifact_bytes": 4532,
+      "deliverable": "templates/workspace/deliverables/prf/GT-PRF-03-2026-09-29T05-11-33-097Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:12:25.811Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "funnel-analysis",
+      "gt_id": "GT-REC-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 57246
+     },
+     {
+      "ts": "2026-09-29T05:12:25.811Z",
+      "action": "gt.run",
+      "gt_id": "GT-REC-01",
+      "scene_id": "rec.funnel-weekly@1.0.0",
+      "skill": "funnel-analysis",
+      "workflow": "rec.funnel-weekly@1.0.0",
+      "pass": true,
+      "artifact": "reports/rec/gt-01.md",
+      "artifact_bytes": 4707,
+      "deliverable": "templates/workspace/deliverables/rec/GT-REC-01-2026-09-29T05-12-08-640Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:12:52.278Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "jd-gen",
+      "gt_id": "GT-REC-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58968
+     },
+     {
+      "ts": "2026-09-29T05:12:52.278Z",
+      "action": "gt.run",
+      "gt_id": "GT-REC-02",
+      "scene_id": "rec.funnel-weekly@1.0.0",
+      "skill": "jd-gen",
+      "workflow": "rec.resume-forward@1.0.0",
+      "pass": true,
+      "artifact": "reports/rec/gt-02.md",
+      "artifact_bytes": 3476,
+      "deliverable": "templates/workspace/deliverables/rec/GT-REC-02-2026-09-29T05-12-25-811Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:13:23.185Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "interview-summary",
+      "gt_id": "GT-REC-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60477
+     },
+     {
+      "ts": "2026-09-29T05:13:23.185Z",
+      "action": "gt.run",
+      "gt_id": "GT-REC-03",
+      "scene_id": "rec.funnel-weekly@1.0.0",
+      "skill": "interview-summary",
+      "workflow": "rec.interview-schedule@1.0.0",
+      "pass": true,
+      "artifact": "reports/rec/gt-03.md",
+      "artifact_bytes": 6469,
+      "deliverable": "templates/workspace/deliverables/rec/GT-REC-03-2026-09-29T05-12-52-279Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:13:38.012Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "quote-calc",
+      "gt_id": "GT-SALES-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 56893
+     },
+     {
+      "ts": "2026-09-29T05:13:38.012Z",
+      "action": "gt.run",
+      "gt_id": "GT-SALES-01",
+      "scene_id": "sales.quote-approval@1.0.0",
+      "skill": "quote-calc",
+      "workflow": "sales.quote-calc@1.0.0",
+      "pass": true,
+      "artifact": "reports/sales/gt-01.md",
+      "artifact_bytes": 3657,
+      "deliverable": "templates/workspace/deliverables/sales/GT-SALES-01-2026-09-29T05-13-23-186Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:13:58.517Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "win-review",
+      "gt_id": "GT-SALES-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 57641
+     },
+     {
+      "ts": "2026-09-29T05:13:58.518Z",
+      "action": "gt.run",
+      "gt_id": "GT-SALES-02",
+      "scene_id": "sales.quote-approval@1.0.0",
+      "skill": "win-review",
+      "workflow": "sales.win-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/sales/gt-02.md",
+      "artifact_bytes": 5816,
+      "deliverable": "templates/workspace/deliverables/sales/GT-SALES-02-2026-09-29T05-13-38-012Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:14:17.956Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "quota-dashboard",
+      "gt_id": "GT-SALES-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 57889
+     },
+     {
+      "ts": "2026-09-29T05:14:17.956Z",
+      "action": "gt.run",
+      "gt_id": "GT-SALES-03",
+      "scene_id": "sales.quote-approval@1.0.0",
+      "skill": "quota-dashboard",
+      "workflow": "sales.pipeline-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/sales/gt-03.md",
+      "artifact_bytes": 4672,
+      "deliverable": "templates/workspace/deliverables/sales/GT-SALES-03-2026-09-29T05-13-58-518Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:14:36.513Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "strategy-decode",
+      "gt_id": "GT-STRAT-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 57849
+     },
+     {
+      "ts": "2026-09-29T05:14:36.513Z",
+      "action": "gt.run",
+      "gt_id": "GT-STRAT-01",
+      "scene_id": "strat.quarterly-review@1.0.0",
+      "skill": "strategy-decode",
+      "workflow": "strat.quarterly-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/strat/gt-01.md",
+      "artifact_bytes": 5252,
+      "deliverable": "templates/workspace/deliverables/strat/GT-STRAT-01-2026-09-29T05-14-17-957Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:15:14.397Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "biz-analysis",
+      "gt_id": "GT-STRAT-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 64559
+     },
+     {
+      "ts": "2026-09-29T05:15:14.397Z",
+      "action": "gt.run",
+      "gt_id": "GT-STRAT-02",
+      "scene_id": "strat.quarterly-review@1.0.0",
+      "skill": "biz-analysis",
+      "workflow": "strat.weekly-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/strat/gt-02.md",
+      "artifact_bytes": 7198,
+      "deliverable": "templates/workspace/deliverables/strat/GT-STRAT-02-2026-09-29T05-14-36-514Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:15:42.790Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "competitor-watch",
+      "gt_id": "GT-STRAT-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 59158
+     },
+     {
+      "ts": "2026-09-29T05:15:42.790Z",
+      "action": "gt.run",
+      "gt_id": "GT-STRAT-03",
+      "scene_id": "strat.quarterly-review@1.0.0",
+      "skill": "competitor-watch",
+      "workflow": "strat.competitor-brief@1.0.0",
+      "pass": true,
+      "artifact": "reports/strat/gt-03.md",
+      "artifact_bytes": 5046,
+      "deliverable": "templates/workspace/deliverables/strat/GT-STRAT-03-2026-09-29T05-15-14-398Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:16:09.804Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "course-schedule",
+      "gt_id": "GT-TRN-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60088
+     },
+     {
+      "ts": "2026-09-29T05:16:09.804Z",
+      "action": "gt.run",
+      "gt_id": "GT-TRN-01",
+      "scene_id": "trn.plan-approve@1.0.0",
+      "skill": "course-schedule",
+      "workflow": "trn.course-schedule@1.0.0",
+      "pass": true,
+      "artifact": "reports/trn/gt-01.md",
+      "artifact_bytes": 4458,
+      "deliverable": "templates/workspace/deliverables/trn/GT-TRN-01-2026-09-29T05-15-42-791Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:16:27.965Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "hour-stats",
+      "gt_id": "GT-TRN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 57444
+     },
+     {
+      "ts": "2026-09-29T05:16:27.966Z",
+      "action": "gt.run",
+      "gt_id": "GT-TRN-02",
+      "scene_id": "trn.plan-approve@1.0.0",
+      "skill": "hour-stats",
+      "workflow": "trn.hours-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/trn/gt-02.md",
+      "artifact_bytes": 4149,
+      "deliverable": "templates/workspace/deliverables/trn/GT-TRN-02-2026-09-29T05-16-09-804Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:16:41.630Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "cert-expiry",
+      "gt_id": "GT-TRN-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 56493
+     },
+     {
+      "ts": "2026-09-29T05:16:41.630Z",
+      "action": "gt.run",
+      "gt_id": "GT-TRN-03",
+      "scene_id": "trn.plan-approve@1.0.0",
+      "skill": "cert-expiry",
+      "workflow": "trn.cert-expiry@1.0.0",
+      "pass": true,
+      "artifact": "reports/trn/gt-03.md",
+      "artifact_bytes": 3297,
+      "deliverable": "templates/workspace/deliverables/trn/GT-TRN-03-2026-09-29T05-16-27-966Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:20:42.500Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "offboarding-flow",
+      "gt_id": "GT-ER-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 69455
+     },
+     {
+      "ts": "2026-09-29T05:20:42.501Z",
+      "action": "gt.run",
+      "gt_id": "GT-ER-01",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "offboarding-flow",
+      "workflow": "er-eap.offboard-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/er-eap/gt-01.md",
+      "artifact_bytes": 4213,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-ER-01-2026-09-29T05-19-41-146Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:21:06.245Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "offboarding-flow",
+      "gt_id": "GT-ER-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58341
+     },
+     {
+      "ts": "2026-09-29T05:21:06.245Z",
+      "action": "gt.run",
+      "gt_id": "GT-ER-02",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "offboarding-flow",
+      "workflow": "er-eap.exit-interview@1.0.0",
+      "pass": true,
+      "artifact": "reports/er-eap/gt-02.md",
+      "artifact_bytes": 4672,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-ER-02-2026-09-29T05-20-42-635Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:21:38.986Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "budget-analysis",
+      "gt_id": "GT-FIN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62104
+     },
+     {
+      "ts": "2026-09-29T05:21:38.986Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-02",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "budget-analysis",
+      "workflow": "fin.monthly-report@1.0.0",
+      "pass": false,
+      "artifact": "reports/fin/gt-02.md",
+      "artifact_bytes": 4749,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-02-2026-09-29T05-21-06-382Z.json",
+      "struct_ok": false
+     },
+     {
+      "ts": "2026-09-29T05:22:14.389Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "ad-analysis",
+      "gt_id": "GT-MKTON-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 61430
+     },
+     {
+      "ts": "2026-09-29T05:22:14.390Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-02",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "ad-analysis",
+      "workflow": "mkt-on.campaign-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-on/gt-02.md",
+      "artifact_bytes": 4808,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-02-2026-09-29T05-21-39-113Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T05:23:38.212Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 57534
+     },
+     {
+      "ts": "2026-09-29T05:23:38.215Z",
+      "action": "deliverable.create",
+      "domain": "rec",
+      "kind": "rec-funnel-weekly",
+      "file": "rec-funnel-weekly-2026-09-29T05-23-38.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:23:38.216Z",
+      "action": "workflow.run",
+      "workflow": "rec.funnel-weekly@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "rec/rec-funnel-weekly-2026-09-29T05-23-38.json"
+     },
+     {
+      "ts": "2026-09-29T05:24:23.272Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "band-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 69254
+     },
+     {
+      "ts": "2026-09-29T05:24:23.274Z",
+      "action": "deliverable.create",
+      "domain": "comp",
+      "kind": "comp-salary-adjust",
+      "file": "comp-salary-adjust-2026-09-29T05-24-23.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:24:23.275Z",
+      "action": "workflow.run",
+      "workflow": "comp.salary-adjust@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "comp/comp-salary-adjust-2026-09-29T05-24-23.json"
+     },
+     {
+      "ts": "2026-09-29T05:24:38.511Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "compa-ratio",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 57906
+     },
+     {
+      "ts": "2026-09-29T05:24:38.512Z",
+      "action": "deliverable.create",
+      "domain": "comp",
+      "kind": "comp-queue-approve",
+      "file": "comp-queue-approve-2026-09-29T05-24-38.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:24:38.513Z",
+      "action": "workflow.run",
+      "workflow": "comp.queue-approve@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "comp/comp-queue-approve-2026-09-29T05-24-38.json"
+     },
+     {
+      "ts": "2026-09-29T05:25:01.682Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "eap-referral",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 61442
+     },
+     {
+      "ts": "2026-09-29T05:25:01.684Z",
+      "action": "deliverable.create",
+      "domain": "er-eap",
+      "kind": "er-eap-eap-referral",
+      "file": "er-eap-eap-referral-2026-09-29T05-25-01.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:25:01.685Z",
+      "action": "workflow.run",
+      "workflow": "er-eap.eap-referral@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "er-eap/er-eap-eap-referral-2026-09-29T05-25-01.json"
+     },
+     {
+      "ts": "2026-09-29T05:25:30.137Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "biz-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 60763
+     },
+     {
+      "ts": "2026-09-29T05:25:30.139Z",
+      "action": "deliverable.create",
+      "domain": "strat",
+      "kind": "strat-weekly-report",
+      "file": "strat-weekly-report-2026-09-29T05-25-30.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:25:30.139Z",
+      "action": "workflow.run",
+      "workflow": "strat.weekly-report@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "strat/strat-weekly-report-2026-09-29T05-25-30.json"
+     },
+     {
+      "ts": "2026-09-29T05:37:29.081Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 58878
+     },
+     {
+      "ts": "2026-09-29T05:37:29.083Z",
+      "action": "deliverable.create",
+      "domain": "rec",
+      "kind": "rec-funnel-weekly",
+      "file": "rec-funnel-weekly-2026-09-29T05-37-29.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:37:29.083Z",
+      "action": "workflow.run",
+      "workflow": "rec.funnel-weekly@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "rec/rec-funnel-weekly-2026-09-29T05-37-29.json"
+     },
+     {
+      "ts": "2026-09-29T05:38:19.138Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "band-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 69828
+     },
+     {
+      "ts": "2026-09-29T05:38:19.139Z",
+      "action": "deliverable.create",
+      "domain": "comp",
+      "kind": "comp-salary-adjust",
+      "file": "comp-salary-adjust-2026-09-29T05-38-19.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:38:19.139Z",
+      "action": "workflow.run",
+      "workflow": "comp.salary-adjust@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "comp/comp-salary-adjust-2026-09-29T05-38-19.json"
+     },
+     {
+      "ts": "2026-09-29T05:41:49.057Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "compa-ratio",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 203235
+     },
+     {
+      "ts": "2026-09-29T05:41:49.059Z",
+      "action": "deliverable.create",
+      "domain": "comp",
+      "kind": "comp-queue-approve",
+      "file": "comp-queue-approve-2026-09-29T05-41-49.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:41:49.059Z",
+      "action": "workflow.run",
+      "workflow": "comp.queue-approve@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "comp/comp-queue-approve-2026-09-29T05-41-49.json"
+     },
+     {
+      "ts": "2026-09-29T05:42:38.689Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "eap-referral",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 72221
+     },
+     {
+      "ts": "2026-09-29T05:42:38.690Z",
+      "action": "deliverable.create",
+      "domain": "er-eap",
+      "kind": "er-eap-eap-referral",
+      "file": "er-eap-eap-referral-2026-09-29T05-42-38.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:42:38.691Z",
+      "action": "workflow.run",
+      "workflow": "er-eap.eap-referral@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "er-eap/er-eap-eap-referral-2026-09-29T05-42-38.json"
+     },
+     {
+      "ts": "2026-09-29T05:43:16.837Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "biz-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 68546
+     },
+     {
+      "ts": "2026-09-29T05:43:16.839Z",
+      "action": "deliverable.create",
+      "domain": "strat",
+      "kind": "strat-weekly-report",
+      "file": "strat-weekly-report-2026-09-29T05-43-16.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:43:16.839Z",
+      "action": "workflow.run",
+      "workflow": "strat.weekly-report@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "strat/strat-weekly-report-2026-09-29T05-43-16.json"
+     },
+     {
+      "ts": "2026-09-29T05:53:54.305Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 62354
+     },
+     {
+      "ts": "2026-09-29T05:53:54.306Z",
+      "action": "deliverable.create",
+      "domain": "rec",
+      "kind": "rec-funnel-weekly",
+      "file": "rec-funnel-weekly-2026-09-29T05-53-54.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:53:54.307Z",
+      "action": "workflow.run",
+      "workflow": "rec.funnel-weekly@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "rec/rec-funnel-weekly-2026-09-29T05-53-54.json"
+     },
+     {
+      "ts": "2026-09-29T05:54:38.197Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "band-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 66148
+     },
+     {
+      "ts": "2026-09-29T05:54:38.199Z",
+      "action": "deliverable.create",
+      "domain": "comp",
+      "kind": "comp-salary-adjust",
+      "file": "comp-salary-adjust-2026-09-29T05-54-38.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:54:38.199Z",
+      "action": "workflow.run",
+      "workflow": "comp.salary-adjust@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "comp/comp-salary-adjust-2026-09-29T05-54-38.json"
+     },
+     {
+      "ts": "2026-09-29T05:55:06.893Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "compa-ratio",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 61708
+     },
+     {
+      "ts": "2026-09-29T05:55:06.894Z",
+      "action": "deliverable.create",
+      "domain": "comp",
+      "kind": "comp-queue-approve",
+      "file": "comp-queue-approve-2026-09-29T05-55-06.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:55:06.895Z",
+      "action": "workflow.run",
+      "workflow": "comp.queue-approve@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "comp/comp-queue-approve-2026-09-29T05-55-06.json"
+     },
+     {
+      "ts": "2026-09-29T05:58:00.448Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "eap-referral",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 167086
+     },
+     {
+      "ts": "2026-09-29T05:58:00.450Z",
+      "action": "deliverable.create",
+      "domain": "er-eap",
+      "kind": "er-eap-eap-referral",
+      "file": "er-eap-eap-referral-2026-09-29T05-58-00.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:58:00.451Z",
+      "action": "workflow.run",
+      "workflow": "er-eap.eap-referral@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "er-eap/er-eap-eap-referral-2026-09-29T05-58-00.json"
+     },
+     {
+      "ts": "2026-09-29T05:58:23.346Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "skill": "biz-analysis",
+      "ok": true,
+      "model": "deepseek-v4-flash",
+      "tokens": 60007
+     },
+     {
+      "ts": "2026-09-29T05:58:23.349Z",
+      "action": "deliverable.create",
+      "domain": "strat",
+      "kind": "strat-weekly-report",
+      "file": "strat-weekly-report-2026-09-29T05-58-23.json",
+      "fields": 0
+     },
+     {
+      "ts": "2026-09-29T05:58:23.349Z",
+      "action": "workflow.run",
+      "workflow": "strat.weekly-report@1.0.0",
+      "engine": "pi",
+      "fallback": false,
+      "deliverable": "strat/strat-weekly-report-2026-09-29T05-58-23.json"
+     },
+     {
+      "ts": "2026-09-29T06:47:47.992Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "purchase-compare",
+      "gt_id": "GT-ADMIN-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58613
+     },
+     {
+      "ts": "2026-09-29T06:47:47.992Z",
+      "action": "gt.run",
+      "gt_id": "GT-ADMIN-01",
+      "scene_id": "admin.procurement@1.0.0",
+      "skill": "purchase-compare",
+      "workflow": "admin.purchase-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/admin/gt-01.md",
+      "artifact_bytes": 3503,
+      "deliverable": "templates/workspace/deliverables/admin/GT-ADMIN-01-2026-09-29T06-47-32-080Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:48:20.281Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "asset-inventory",
+      "gt_id": "GT-ADMIN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 64223
+     },
+     {
+      "ts": "2026-09-29T06:48:20.282Z",
+      "action": "gt.run",
+      "gt_id": "GT-ADMIN-02",
+      "scene_id": "admin.procurement@1.0.0",
+      "skill": "asset-inventory",
+      "workflow": "admin.asset-inventory@1.0.0",
+      "pass": true,
+      "artifact": "reports/admin/gt-02.md",
+      "artifact_bytes": 4582,
+      "deliverable": "templates/workspace/deliverables/admin/GT-ADMIN-02-2026-09-29T06-47-47-993Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:48:57.411Z",
+      "action": "preset.save",
+      "scene": "sales.quote-approval"
+     },
+     {
+      "ts": "2026-09-29T06:49:00.085Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "meeting-minutes",
+      "gt_id": "GT-ADMIN-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 64805
+     },
+     {
+      "ts": "2026-09-29T06:49:00.085Z",
+      "action": "gt.run",
+      "gt_id": "GT-ADMIN-03",
+      "scene_id": "admin.procurement@1.0.0",
+      "skill": "meeting-minutes",
+      "workflow": "admin.meeting-minutes@1.0.0",
+      "pass": true,
+      "artifact": "reports/admin/gt-03.md",
+      "artifact_bytes": 6957,
+      "deliverable": "templates/workspace/deliverables/admin/GT-ADMIN-03-2026-09-29T06-48-20-282Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:49:23.851Z",
+      "action": "preset.save",
+      "scene": "sales.quote-approval"
+     },
+     {
+      "ts": "2026-09-29T06:49:42.818Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "plan-compare",
+      "gt_id": "GT-BEN-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 66098
+     },
+     {
+      "ts": "2026-09-29T06:49:42.818Z",
+      "action": "gt.run",
+      "gt_id": "GT-BEN-01",
+      "scene_id": "ben.plan-compare@1.0.0",
+      "skill": "plan-compare",
+      "workflow": "ben.vendor-compare@1.0.0",
+      "pass": true,
+      "artifact": "reports/ben/gt-01.md",
+      "artifact_bytes": 5466,
+      "deliverable": "templates/workspace/deliverables/ben/GT-BEN-01-2026-09-29T06-49-00-085Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:50:15.614Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "checkup-report",
+      "gt_id": "GT-BEN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62567
+     },
+     {
+      "ts": "2026-09-29T06:50:15.615Z",
+      "action": "gt.run",
+      "gt_id": "GT-BEN-02",
+      "scene_id": "ben.plan-compare@1.0.0",
+      "skill": "checkup-report",
+      "workflow": "ben.checkup-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/ben/gt-02.md",
+      "artifact_bytes": 5986,
+      "deliverable": "templates/workspace/deliverables/ben/GT-BEN-02-2026-09-29T06-49-42-819Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:50:39.957Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "flex-benefit",
+      "gt_id": "GT-BEN-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 60976
+     },
+     {
+      "ts": "2026-09-29T06:50:39.957Z",
+      "action": "gt.run",
+      "gt_id": "GT-BEN-03",
+      "scene_id": "ben.plan-compare@1.0.0",
+      "skill": "flex-benefit",
+      "workflow": "ben.points-calc@1.0.0",
+      "pass": true,
+      "artifact": "reports/ben/gt-03.md",
+      "artifact_bytes": 4739,
+      "deliverable": "templates/workspace/deliverables/ben/GT-BEN-03-2026-09-29T06-50-15-615Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:51:18.707Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "policy-checklist",
+      "gt_id": "GT-CMP-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 67518
+     },
+     {
+      "ts": "2026-09-29T06:51:18.708Z",
+      "action": "gt.run",
+      "gt_id": "GT-CMP-01",
+      "scene_id": "cmp.policy-review@1.0.0",
+      "skill": "policy-checklist",
+      "workflow": "cmp.policy-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/cmp/gt-01.md",
+      "artifact_bytes": 5705,
+      "deliverable": "templates/workspace/deliverables/cmp/GT-CMP-01-2026-09-29T06-50-39-958Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:51:51.309Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "pipia-list",
+      "gt_id": "GT-CMP-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 65700
+     },
+     {
+      "ts": "2026-09-29T06:51:51.309Z",
+      "action": "gt.run",
+      "gt_id": "GT-CMP-02",
+      "scene_id": "cmp.policy-review@1.0.0",
+      "skill": "pipia-list",
+      "workflow": "cmp.pipia-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/cmp/gt-02.md",
+      "artifact_bytes": 6737,
+      "deliverable": "templates/workspace/deliverables/cmp/GT-CMP-02-2026-09-29T06-51-18-708Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:53:21.022Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "evidence-pack",
+      "gt_id": "GT-CMP-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 82541
+     },
+     {
+      "ts": "2026-09-29T06:53:21.023Z",
+      "action": "gt.run",
+      "gt_id": "GT-CMP-03",
+      "scene_id": "cmp.policy-review@1.0.0",
+      "skill": "evidence-pack",
+      "workflow": "cmp.evidence-pack@1.0.0",
+      "pass": true,
+      "artifact": "reports/cmp/gt-03.md",
+      "artifact_bytes": 6942,
+      "deliverable": "templates/workspace/deliverables/cmp/GT-CMP-03-2026-09-29T06-51-51-309Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:54:02.536Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "band-analysis",
+      "gt_id": "GT-COMP-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 65361
+     },
+     {
+      "ts": "2026-09-29T06:54:02.537Z",
+      "action": "gt.run",
+      "gt_id": "GT-COMP-01",
+      "scene_id": "comp.salary-review@1.0.0",
+      "skill": "band-analysis",
+      "workflow": "comp.salary-adjust@1.0.0",
+      "pass": true,
+      "artifact": "reports/comp/gt-01.md",
+      "artifact_bytes": 6457,
+      "deliverable": "templates/workspace/deliverables/comp/GT-COMP-01-2026-09-29T06-53-21-024Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:55:14.319Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "payroll-recon",
+      "gt_id": "GT-COMP-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 74572
+     },
+     {
+      "ts": "2026-09-29T06:55:14.319Z",
+      "action": "gt.run",
+      "gt_id": "GT-COMP-02",
+      "scene_id": "comp.salary-review@1.0.0",
+      "skill": "payroll-recon",
+      "workflow": "comp.payroll-recon@1.0.0",
+      "pass": true,
+      "artifact": "reports/comp/gt-02.md",
+      "artifact_bytes": 8056,
+      "deliverable": "templates/workspace/deliverables/comp/GT-COMP-02-2026-09-29T06-54-02-537Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:55:46.834Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "compa-ratio",
+      "gt_id": "GT-COMP-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62615
+     },
+     {
+      "ts": "2026-09-29T06:55:46.834Z",
+      "action": "gt.run",
+      "gt_id": "GT-COMP-03",
+      "scene_id": "comp.salary-review@1.0.0",
+      "skill": "compa-ratio",
+      "workflow": "comp.compa-ratio@1.0.0",
+      "pass": true,
+      "artifact": "reports/comp/gt-03.md",
+      "artifact_bytes": 5053,
+      "deliverable": "templates/workspace/deliverables/comp/GT-COMP-03-2026-09-29T06-55-14-320Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:56:05.981Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "offboarding-flow",
+      "gt_id": "GT-ER-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58848
+     },
+     {
+      "ts": "2026-09-29T06:56:05.981Z",
+      "action": "gt.run",
+      "gt_id": "GT-ER-01",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "offboarding-flow",
+      "workflow": "er-eap.offboard-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/er-eap/gt-01.md",
+      "artifact_bytes": 3376,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-ER-01-2026-09-29T06-55-46-834Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:56:35.279Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "offboarding-flow",
+      "gt_id": "GT-ER-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 61283
+     },
+     {
+      "ts": "2026-09-29T06:56:35.279Z",
+      "action": "gt.run",
+      "gt_id": "GT-ER-02",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "offboarding-flow",
+      "workflow": "er-eap.exit-interview@1.0.0",
+      "pass": true,
+      "artifact": "reports/er-eap/gt-02.md",
+      "artifact_bytes": 8960,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-ER-02-2026-09-29T06-56-05-982Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:56:59.441Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "eap-referral",
+      "gt_id": "GT-EAP-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 61298
+     },
+     {
+      "ts": "2026-09-29T06:56:59.441Z",
+      "action": "gt.run",
+      "gt_id": "GT-EAP-01",
+      "scene_id": "eap.referral@1.0.0",
+      "skill": "eap-referral",
+      "workflow": "er-eap.eap-referral@1.0.0",
+      "pass": true,
+      "artifact": "reports/er-eap/gt-03.md",
+      "artifact_bytes": 5470,
+      "deliverable": "templates/workspace/deliverables/er-eap/GT-EAP-01-2026-09-29T06-56-35-280Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:58:03.837Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "expense-precheck",
+      "gt_id": "GT-FIN-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 76003
+     },
+     {
+      "ts": "2026-09-29T06:58:03.838Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-01",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "expense-precheck",
+      "workflow": "fin.expense-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/fin/gt-01.md",
+      "artifact_bytes": 6845,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-01-2026-09-29T06-56-59-441Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T06:58:54.405Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "budget-analysis",
+      "gt_id": "GT-FIN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 72315
+     },
+     {
+      "ts": "2026-09-29T06:58:54.406Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-02",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "budget-analysis",
+      "workflow": "fin.monthly-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/fin/gt-02.md",
+      "artifact_bytes": 11671,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-02-2026-09-29T06-58-03-839Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:00:08.070Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "invoice-check",
+      "gt_id": "GT-FIN-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 82254
+     },
+     {
+      "ts": "2026-09-29T07:00:08.071Z",
+      "action": "gt.run",
+      "gt_id": "GT-FIN-03",
+      "scene_id": "fin.expense-approve@1.0.0",
+      "skill": "invoice-check",
+      "workflow": "fin.invoice-check@1.0.0",
+      "pass": true,
+      "artifact": "reports/fin/gt-03.md",
+      "artifact_bytes": 6943,
+      "deliverable": "templates/workspace/deliverables/fin/GT-FIN-03-2026-09-29T06-58-54-406Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:00:40.302Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "event-plan",
+      "gt_id": "GT-MKTOFF-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 63590
+     },
+     {
+      "ts": "2026-09-29T07:00:40.302Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTOFF-01",
+      "scene_id": "mkt-off.event-roi@1.0.0",
+      "skill": "event-plan",
+      "workflow": "mkt-off.event-plan@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-off/gt-01.md",
+      "artifact_bytes": 5308,
+      "deliverable": "templates/workspace/deliverables/mkt-off/GT-MKTOFF-01-2026-09-29T07-00-08-071Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:01:49.175Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "material-compliance",
+      "gt_id": "GT-MKTOFF-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 79053
+     },
+     {
+      "ts": "2026-09-29T07:01:49.175Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTOFF-02",
+      "scene_id": "mkt-off.event-roi@1.0.0",
+      "skill": "material-compliance",
+      "workflow": "mkt-off.material-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-off/gt-02.md",
+      "artifact_bytes": 7616,
+      "deliverable": "templates/workspace/deliverables/mkt-off/GT-MKTOFF-02-2026-09-29T07-00-40-303Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:02:53.474Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "roi-review",
+      "gt_id": "GT-MKTOFF-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 73027
+     },
+     {
+      "ts": "2026-09-29T07:02:53.475Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTOFF-03",
+      "scene_id": "mkt-off.event-roi@1.0.0",
+      "skill": "roi-review",
+      "workflow": "mkt-off.event-roi@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-off/gt-03.md",
+      "artifact_bytes": 8793,
+      "deliverable": "templates/workspace/deliverables/mkt-off/GT-MKTOFF-03-2026-09-29T07-01-49-176Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:03:22.450Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "content-gen",
+      "gt_id": "GT-MKTON-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62080
+     },
+     {
+      "ts": "2026-09-29T07:03:22.450Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-01",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "content-gen",
+      "workflow": "mkt-on.publish-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-on/gt-01.md",
+      "artifact_bytes": 6101,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-01-2026-09-29T07-02-53-475Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:04:45.249Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "ad-analysis",
+      "gt_id": "GT-MKTON-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 74838
+     },
+     {
+      "ts": "2026-09-29T07:04:45.249Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-02",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "ad-analysis",
+      "workflow": "mkt-on.campaign-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-on/gt-02.md",
+      "artifact_bytes": 6856,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-02-2026-09-29T07-03-22-451Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:05:41.617Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "seo-audit",
+      "gt_id": "GT-MKTON-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 69028
+     },
+     {
+      "ts": "2026-09-29T07:05:41.617Z",
+      "action": "gt.run",
+      "gt_id": "GT-MKTON-03",
+      "scene_id": "mkt-on.content-publish@1.0.0",
+      "skill": "seo-audit",
+      "workflow": "mkt-on.seo-audit@1.0.0",
+      "pass": true,
+      "artifact": "reports/mkt-on/gt-03.md",
+      "artifact_bytes": 8630,
+      "deliverable": "templates/workspace/deliverables/mkt-on/GT-MKTON-03-2026-09-29T07-04-45-249Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:06:09.875Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "kpi-track",
+      "gt_id": "GT-PRF-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62210
+     },
+     {
+      "ts": "2026-09-29T07:06:09.875Z",
+      "action": "gt.run",
+      "gt_id": "GT-PRF-01",
+      "scene_id": "prf.calibration@1.0.0",
+      "skill": "kpi-track",
+      "workflow": "prf.kpi-tracking@1.0.0",
+      "pass": true,
+      "artifact": "reports/prf/gt-01.md",
+      "artifact_bytes": 4998,
+      "deliverable": "templates/workspace/deliverables/prf/GT-PRF-01-2026-09-29T07-05-41-618Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:07:06.438Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "calibration-analysis",
+      "gt_id": "GT-PRF-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 70081
+     },
+     {
+      "ts": "2026-09-29T07:07:06.439Z",
+      "action": "gt.run",
+      "gt_id": "GT-PRF-02",
+      "scene_id": "prf.calibration@1.0.0",
+      "skill": "calibration-analysis",
+      "workflow": "prf.calibration-approve@1.0.0",
+      "pass": true,
+      "artifact": "reports/prf/gt-02.md",
+      "artifact_bytes": 8080,
+      "deliverable": "templates/workspace/deliverables/prf/GT-PRF-02-2026-09-29T07-06-09-876Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:08:14.858Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "goal-cascade",
+      "gt_id": "GT-PRF-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 68728
+     },
+     {
+      "ts": "2026-09-29T07:08:14.859Z",
+      "action": "gt.run",
+      "gt_id": "GT-PRF-03",
+      "scene_id": "prf.calibration@1.0.0",
+      "skill": "goal-cascade",
+      "workflow": "prf.cascade-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/prf/gt-03.md",
+      "artifact_bytes": 3449,
+      "deliverable": "templates/workspace/deliverables/prf/GT-PRF-03-2026-09-29T07-07-06-439Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:08:48.355Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "funnel-analysis",
+      "gt_id": "GT-REC-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 63350
+     },
+     {
+      "ts": "2026-09-29T07:08:48.355Z",
+      "action": "gt.run",
+      "gt_id": "GT-REC-01",
+      "scene_id": "rec.funnel-weekly@1.0.0",
+      "skill": "funnel-analysis",
+      "workflow": "rec.funnel-weekly@1.0.0",
+      "pass": true,
+      "artifact": "reports/rec/gt-01.md",
+      "artifact_bytes": 5202,
+      "deliverable": "templates/workspace/deliverables/rec/GT-REC-01-2026-09-29T07-08-14-859Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:09:28.933Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "jd-gen",
+      "gt_id": "GT-REC-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 64097
+     },
+     {
+      "ts": "2026-09-29T07:09:28.934Z",
+      "action": "gt.run",
+      "gt_id": "GT-REC-02",
+      "scene_id": "rec.funnel-weekly@1.0.0",
+      "skill": "jd-gen",
+      "workflow": "rec.resume-forward@1.0.0",
+      "pass": true,
+      "artifact": "reports/rec/gt-02.md",
+      "artifact_bytes": 5721,
+      "deliverable": "templates/workspace/deliverables/rec/GT-REC-02-2026-09-29T07-08-48-356Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:09:45.420Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "interview-summary",
+      "gt_id": "GT-REC-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 58973
+     },
+     {
+      "ts": "2026-09-29T07:09:45.421Z",
+      "action": "gt.run",
+      "gt_id": "GT-REC-03",
+      "scene_id": "rec.funnel-weekly@1.0.0",
+      "skill": "interview-summary",
+      "workflow": "rec.interview-schedule@1.0.0",
+      "pass": true,
+      "artifact": "reports/rec/gt-03.md",
+      "artifact_bytes": 3080,
+      "deliverable": "templates/workspace/deliverables/rec/GT-REC-03-2026-09-29T07-09-28-934Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:09:58.792Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "quote-calc",
+      "gt_id": "GT-SALES-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 59070
+     },
+     {
+      "ts": "2026-09-29T07:09:58.793Z",
+      "action": "gt.run",
+      "gt_id": "GT-SALES-01",
+      "scene_id": "sales.quote-approval@1.0.0",
+      "skill": "quote-calc",
+      "workflow": "sales.quote-calc@1.0.0",
+      "pass": true,
+      "artifact": "reports/sales/gt-01.md",
+      "artifact_bytes": 3294,
+      "deliverable": "templates/workspace/deliverables/sales/GT-SALES-01-2026-09-29T07-09-45-421Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:10:28.020Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "win-review",
+      "gt_id": "GT-SALES-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62862
+     },
+     {
+      "ts": "2026-09-29T07:10:28.020Z",
+      "action": "gt.run",
+      "gt_id": "GT-SALES-02",
+      "scene_id": "sales.quote-approval@1.0.0",
+      "skill": "win-review",
+      "workflow": "sales.win-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/sales/gt-02.md",
+      "artifact_bytes": 5652,
+      "deliverable": "templates/workspace/deliverables/sales/GT-SALES-02-2026-09-29T07-09-58-793Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:11:40.940Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "quota-dashboard",
+      "gt_id": "GT-SALES-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 78067
+     },
+     {
+      "ts": "2026-09-29T07:11:40.940Z",
+      "action": "gt.run",
+      "gt_id": "GT-SALES-03",
+      "scene_id": "sales.quote-approval@1.0.0",
+      "skill": "quota-dashboard",
+      "workflow": "sales.pipeline-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/sales/gt-03.md",
+      "artifact_bytes": 9401,
+      "deliverable": "templates/workspace/deliverables/sales/GT-SALES-03-2026-09-29T07-10-28-020Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:13:00.973Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "strategy-decode",
+      "gt_id": "GT-STRAT-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 79738
+     },
+     {
+      "ts": "2026-09-29T07:13:00.974Z",
+      "action": "gt.run",
+      "gt_id": "GT-STRAT-01",
+      "scene_id": "strat.quarterly-review@1.0.0",
+      "skill": "strategy-decode",
+      "workflow": "strat.quarterly-review@1.0.0",
+      "pass": true,
+      "artifact": "reports/strat/gt-01.md",
+      "artifact_bytes": 6696,
+      "deliverable": "templates/workspace/deliverables/strat/GT-STRAT-01-2026-09-29T07-11-40-940Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:13:57.351Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "biz-analysis",
+      "gt_id": "GT-STRAT-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 70002
+     },
+     {
+      "ts": "2026-09-29T07:13:57.352Z",
+      "action": "gt.run",
+      "gt_id": "GT-STRAT-02",
+      "scene_id": "strat.quarterly-review@1.0.0",
+      "skill": "biz-analysis",
+      "workflow": "strat.weekly-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/strat/gt-02.md",
+      "artifact_bytes": 9547,
+      "deliverable": "templates/workspace/deliverables/strat/GT-STRAT-02-2026-09-29T07-13-00-974Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:14:18.489Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "competitor-watch",
+      "gt_id": "GT-STRAT-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 59311
+     },
+     {
+      "ts": "2026-09-29T07:14:18.490Z",
+      "action": "gt.run",
+      "gt_id": "GT-STRAT-03",
+      "scene_id": "strat.quarterly-review@1.0.0",
+      "skill": "competitor-watch",
+      "workflow": "strat.competitor-brief@1.0.0",
+      "pass": true,
+      "artifact": "reports/strat/gt-03.md",
+      "artifact_bytes": 4751,
+      "deliverable": "templates/workspace/deliverables/strat/GT-STRAT-03-2026-09-29T07-13-57-352Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:14:46.893Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "course-schedule",
+      "gt_id": "GT-TRN-01",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 62274
+     },
+     {
+      "ts": "2026-09-29T07:14:46.893Z",
+      "action": "gt.run",
+      "gt_id": "GT-TRN-01",
+      "scene_id": "trn.plan-approve@1.0.0",
+      "skill": "course-schedule",
+      "workflow": "trn.course-schedule@1.0.0",
+      "pass": true,
+      "artifact": "reports/trn/gt-01.md",
+      "artifact_bytes": 5294,
+      "deliverable": "templates/workspace/deliverables/trn/GT-TRN-01-2026-09-29T07-14-18-490Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:15:25.639Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "hour-stats",
+      "gt_id": "GT-TRN-02",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 63772
+     },
+     {
+      "ts": "2026-09-29T07:15:25.639Z",
+      "action": "gt.run",
+      "gt_id": "GT-TRN-02",
+      "scene_id": "trn.plan-approve@1.0.0",
+      "skill": "hour-stats",
+      "workflow": "trn.hours-report@1.0.0",
+      "pass": true,
+      "artifact": "reports/trn/gt-02.md",
+      "artifact_bytes": 5615,
+      "deliverable": "templates/workspace/deliverables/trn/GT-TRN-02-2026-09-29T07-14-46-894Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:16:05.217Z",
+      "action": "engine.run",
+      "engine": "pi",
+      "model": "deepseek-v4-flash",
+      "skill": "cert-expiry",
+      "gt_id": "GT-TRN-03",
+      "ok": true,
+      "stop": "stop",
+      "tokens": 65675
+     },
+     {
+      "ts": "2026-09-29T07:16:05.217Z",
+      "action": "gt.run",
+      "gt_id": "GT-TRN-03",
+      "scene_id": "trn.plan-approve@1.0.0",
+      "skill": "cert-expiry",
+      "workflow": "trn.cert-expiry@1.0.0",
+      "pass": true,
+      "artifact": "reports/trn/gt-03.md",
+      "artifact_bytes": 5123,
+      "deliverable": "templates/workspace/deliverables/trn/GT-TRN-03-2026-09-29T07-15-25-640Z.json",
+      "struct_ok": true
+     },
+     {
+      "ts": "2026-09-29T07:19:34.877Z",
+      "action": "preset.save",
+      "scene": "sales.quote-approval"
+     },
+     {
+      "ts": "2026-09-29T07:19:35.341Z",
+      "action": "preset.save",
+      "scene": "sales.quote-approval"
+     },
+     {
+      "ts": "2026-09-29T07:20:50.944Z",
+      "action": "preset.apply",
+      "scene": "admin.procurement@1.0.0"
+     },
+     {
+      "ts": "2026-09-29T07:20:51.751Z",
+      "action": "preset.apply",
+      "scene": "admin.procurement@1.0.0"
+     },
+     {
+      "ts": "2026-09-29T07:20:52.121Z",
+      "action": "preset.apply",
+      "scene": "admin.procurement@1.0.0"
+     },
+     {
+      "ts": "2026-09-29T07:20:57.157Z",
+      "action": "preset.apply",
+      "scene": "admin.procurement@1.0.0"
+     },
+     {
+      "ts": "2026-09-29T08:05:38.727Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 18
+     },
+     {
+      "ts": "2026-09-29T10:00:55.383Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 18
+     },
+     {
+      "ts": "2026-09-29T10:03:29.152Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 19
+     },
+     {
+      "ts": "2026-09-29T10:05:16.771Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 19
+     },
+     {
+      "ts": "2026-09-29T10:12:36.380Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 19
+     },
+     {
+      "ts": "2026-09-29T11:17:26.726Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 19
+     },
+     {
+      "ts": "2026-09-29T11:42:53.284Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 19
+     }
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "交付物端点",
+   "pass": {
+    "admin": [
+     {
+      "file": "GT-ADMIN-03-2026-09-29T06-48-20-282Z.json",
+      "bytes": 16400,
+      "mtime": "2026-09-29T06:48:58.706Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T06-47-47-993Z.json",
+      "bytes": 15238,
+      "mtime": "2026-09-29T06:48:19.398Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T06-47-32-080Z.json",
+      "bytes": 3586,
+      "mtime": "2026-09-29T06:47:47.093Z"
+     },
+     {
+      "file": "GT-ADMIN-03-2026-09-29T05-00-18-979Z.json",
+      "bytes": 12592,
+      "mtime": "2026-09-29T05:00:45.623Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T05-00-04-613Z.json",
+      "bytes": 3633,
+      "mtime": "2026-09-29T05:00:17.216Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T04-59-42-681Z.json",
+      "bytes": 5906,
+      "mtime": "2026-09-29T05:00:03.874Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T04-59-18-092Z.json",
+      "bytes": 4693,
+      "mtime": "2026-09-29T04:59:32.696Z"
+     },
+     {
+      "file": "GT-ADMIN-03-2026-09-29T04-50-57-255Z.json",
+      "bytes": 7180,
+      "mtime": "2026-09-29T04:51:15.299Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T04-50-43-741Z.json",
+      "bytes": 4391,
+      "mtime": "2026-09-29T04:50:56.522Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T04-50-14-389Z.json",
+      "bytes": 4465,
+      "mtime": "2026-09-29T04:50:42.884Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T04-49-34-248Z.json",
+      "bytes": 5919,
+      "mtime": "2026-09-29T04:49:55.164Z"
+     }
+    ],
+    "ben": [
+     {
+      "file": "GT-BEN-03-2026-09-29T06-50-15-615Z.json",
+      "bytes": 6597,
+      "mtime": "2026-09-29T06:50:39.026Z"
+     },
+     {
+      "file": "GT-BEN-02-2026-09-29T06-49-42-819Z.json",
+      "bytes": 9465,
+      "mtime": "2026-09-29T06:50:14.355Z"
+     },
+     {
+      "file": "GT-BEN-01-2026-09-29T06-49-00-085Z.json",
+      "bytes": 15732,
+      "mtime": "2026-09-29T06:49:41.416Z"
+     },
+     {
+      "file": "GT-BEN-03-2026-09-29T05-01-31-454Z.json",
+      "bytes": 2547,
+      "mtime": "2026-09-29T05:01:48.505Z"
+     },
+     {
+      "file": "GT-BEN-02-2026-09-29T05-01-10-392Z.json",
+      "bytes": 5101,
+      "mtime": "2026-09-29T05:01:30.717Z"
+     },
+     {
+      "file": "GT-BEN-01-2026-09-29T05-00-47-353Z.json",
+      "bytes": 4238,
+      "mtime": "2026-09-29T05:01:09.109Z"
+     },
+     {
+      "file": "GT-BEN-03-2026-09-29T04-52-22-950Z.json",
+      "bytes": 3363,
+      "mtime": "2026-09-29T04:52:37.875Z"
+     },
+     {
+      "file": "GT-BEN-02-2026-09-29T04-51-55-815Z.json",
+      "bytes": 5781,
+      "mtime": "2026-09-29T04:52:22.177Z"
+     },
+     {
+      "file": "GT-BEN-01-2026-09-29T04-51-16-089Z.json",
+      "bytes": 7078,
+      "mtime": "2026-09-29T04:51:54.848Z"
+     }
+    ],
+    "cmp": [
+     {
+      "file": "GT-CMP-03-2026-09-29T06-51-51-309Z.json",
+      "bytes": 48837,
+      "mtime": "2026-09-29T06:53:10.617Z"
+     },
+     {
+      "file": "GT-CMP-02-2026-09-29T06-51-18-708Z.json",
+      "bytes": 17178,
+      "mtime": "2026-09-29T06:51:49.493Z"
+     },
+     {
+      "file": "GT-CMP-01-2026-09-29T06-50-39-958Z.json",
+      "bytes": 22696,
+      "mtime": "2026-09-29T06:51:17.045Z"
+     },
+     {
+      "file": "GT-CMP-03-2026-09-29T05-02-32-497Z.json",
+      "bytes": 12299,
+      "mtime": "2026-09-29T05:03:06.443Z"
+     },
+     {
+      "file": "GT-CMP-02-2026-09-29T05-02-14-349Z.json",
+      "bytes": 5082,
+      "mtime": "2026-09-29T05:02:31.474Z"
+     },
+     {
+      "file": "GT-CMP-01-2026-09-29T05-01-49-529Z.json",
+      "bytes": 9153,
+      "mtime": "2026-09-29T05:02:13.099Z"
+     },
+     {
+      "file": "GT-CMP-03-2026-09-29T04-53-21-765Z.json",
+      "bytes": 10949,
+      "mtime": "2026-09-29T04:54:37.409Z"
+     },
+     {
+      "file": "GT-CMP-02-2026-09-29T04-53-02-425Z.json",
+      "bytes": 5995,
+      "mtime": "2026-09-29T04:53:20.846Z"
+     },
+     {
+      "file": "GT-CMP-01-2026-09-29T04-52-38-998Z.json",
+      "bytes": 8769,
+      "mtime": "2026-09-29T04:53:01.495Z"
+     }
+    ],
+    "comp": [
+     {
+      "file": "GT-COMP-03-2026-09-29T06-55-14-320Z.json",
+      "bytes": 5890,
+      "mtime": "2026-09-29T06:55:45.120Z"
+     },
+     {
+      "file": "GT-COMP-02-2026-09-29T06-54-02-537Z.json",
+      "bytes": 18345,
+      "mtime": "2026-09-29T06:55:13.334Z"
+     },
+     {
+      "file": "GT-COMP-01-2026-09-29T06-53-21-024Z.json",
+      "bytes": 15412,
+      "mtime": "2026-09-29T06:53:57.259Z"
+     },
+     {
+      "file": "comp-queue-approve-2026-09-29T05-55-06.json",
+      "bytes": 3257,
+      "mtime": "2026-09-29T05:55:06.895Z"
+     },
+     {
+      "file": "comp-salary-adjust-2026-09-29T05-54-38.json",
+      "bytes": 2479,
+      "mtime": "2026-09-29T05:54:38.199Z"
+     },
+     {
+      "file": "comp-queue-approve-2026-09-29T05-41-49.json",
+      "bytes": 2808,
+      "mtime": "2026-09-29T05:41:49.059Z"
+     },
+     {
+      "file": "comp-salary-adjust-2026-09-29T05-38-19.json",
+      "bytes": 2789,
+      "mtime": "2026-09-29T05:38:19.139Z"
+     },
+     {
+      "file": "comp-queue-approve-2026-09-29T05-24-38.json",
+      "bytes": 2230,
+      "mtime": "2026-09-29T05:24:38.513Z"
+     },
+     {
+      "file": "comp-salary-adjust-2026-09-29T05-24-23.json",
+      "bytes": 3202,
+      "mtime": "2026-09-29T05:24:23.275Z"
+     },
+     {
+      "file": "GT-COMP-03-2026-09-29T05-03-49-718Z.json",
+      "bytes": 5029,
+      "mtime": "2026-09-29T05:04:19.848Z"
+     },
+     {
+      "file": "GT-COMP-02-2026-09-29T05-03-26-445Z.json",
+      "bytes": 4732,
+      "mtime": "2026-09-29T05:03:49.043Z"
+     },
+     {
+      "file": "GT-COMP-01-2026-09-29T05-03-07-428Z.json",
+      "bytes": 7188,
+      "mtime": "2026-09-29T05:03:25.121Z"
+     },
+     {
+      "file": "GT-COMP-03-2026-09-29T04-55-28-983Z.json",
+      "bytes": 3642,
+      "mtime": "2026-09-29T04:56:11.666Z"
+     },
+     {
+      "file": "GT-COMP-02-2026-09-29T04-55-06-552Z.json",
+      "bytes": 5254,
+      "mtime": "2026-09-29T04:55:28.385Z"
+     },
+     {
+      "file": "GT-COMP-01-2026-09-29T04-54-49-022Z.json",
+      "bytes": 4384,
+      "mtime": "2026-09-29T04:55:05.613Z"
+     }
+    ],
+    "er-eap": [
+     {
+      "file": "GT-EAP-01-2026-09-29T06-56-35-280Z.json",
+      "bytes": 8487,
+      "mtime": "2026-09-29T06:56:58.643Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T06-56-05-982Z.json",
+      "bytes": 7363,
+      "mtime": "2026-09-29T06:56:33.736Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T06-55-46-834Z.json",
+      "bytes": 4443,
+      "mtime": "2026-09-29T06:56:05.281Z"
+     },
+     {
+      "file": "er-eap-eap-referral-2026-09-29T05-58-00.json",
+      "bytes": 2179,
+      "mtime": "2026-09-29T05:58:00.451Z"
+     },
+     {
+      "file": "er-eap-eap-referral-2026-09-29T05-42-38.json",
+      "bytes": 3140,
+      "mtime": "2026-09-29T05:42:38.690Z"
+     },
+     {
+      "file": "er-eap-eap-referral-2026-09-29T05-25-01.json",
+      "bytes": 2173,
+      "mtime": "2026-09-29T05:25:01.685Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T05-20-42-635Z.json",
+      "bytes": 6941,
+      "mtime": "2026-09-29T05:21:05.552Z"
+     },
+     {
+      "file": "offboard-approve-2026-09-29T05-19-41-146Z.json",
+      "bytes": 8134,
+      "mtime": "2026-09-29T05:20:41.717Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T05-19-41-146Z.json",
+      "bytes": 8134,
+      "mtime": "2026-09-29T05:20:29.835Z"
+     },
+     {
+      "file": "GT-EAP-01-2026-09-29T05-05-19-836Z.json",
+      "bytes": 3529,
+      "mtime": "2026-09-29T05:05:52.743Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T05-04-52-853Z.json",
+      "bytes": 5580,
+      "mtime": "2026-09-29T05:05:10.286Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T05-04-20-892Z.json",
+      "bytes": 9601,
+      "mtime": "2026-09-29T05:04:51.965Z"
+     },
+     {
+      "file": "GT-EAP-01-2026-09-29T04-57-40-883Z.json",
+      "bytes": 2318,
+      "mtime": "2026-09-29T04:57:52.780Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T04-57-19-200Z.json",
+      "bytes": 5103,
+      "mtime": "2026-09-29T04:57:40.222Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T04-56-12-593Z.json",
+      "bytes": 7289,
+      "mtime": "2026-09-29T04:57:13.263Z"
+     }
+    ],
+    "fin": [
+     {
+      "file": "GT-FIN-03-2026-09-29T06-58-54-406Z.json",
+      "bytes": 23936,
+      "mtime": "2026-09-29T06:59:57.274Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T06-58-03-839Z.json",
+      "bytes": 15446,
+      "mtime": "2026-09-29T06:58:52.889Z"
+     },
+     {
+      "file": "GT-FIN-01-2026-09-29T06-56-59-441Z.json",
+      "bytes": 17760,
+      "mtime": "2026-09-29T06:57:52.423Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T05-21-06-382Z.json",
+      "bytes": 6457,
+      "mtime": "2026-09-29T05:21:35.029Z"
+     },
+     {
+      "file": "GT-FIN-03-2026-09-29T05-07-14-371Z.json",
+      "bytes": 8414,
+      "mtime": "2026-09-29T05:07:50.429Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T05-06-39-073Z.json",
+      "bytes": 8445,
+      "mtime": "2026-09-29T05:07:10.834Z"
+     },
+     {
+      "file": "GT-FIN-01-2026-09-29T05-05-54-049Z.json",
+      "bytes": 11224,
+      "mtime": "2026-09-29T05:06:37.712Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T05-04-28.json",
+      "bytes": 3068,
+      "mtime": "2026-09-29T05:04:28.694Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T04-58-23-895Z.json",
+      "bytes": 6005,
+      "mtime": "2026-09-29T04:58:48.230Z"
+     },
+     {
+      "file": "GT-FIN-01-2026-09-29T04-57-53-819Z.json",
+      "bytes": 6690,
+      "mtime": "2026-09-29T04:58:22.355Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T04-32-23.json",
+      "bytes": 2183,
+      "mtime": "2026-09-29T04:32:23.781Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T03-53-22.json",
+      "bytes": 2183,
+      "mtime": "2026-09-29T03:53:22.823Z"
+     },
+     {
+      "file": "expense-approve-2026-09-29T03-44-17.json",
+      "bytes": 204,
+      "mtime": "2026-09-29T03:44:17.133Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T03-44-17.json",
+      "bytes": 2257,
+      "mtime": "2026-09-29T03:44:17.074Z"
+     }
+    ],
+    "mkt-off": [
+     {
+      "file": "GT-MKTOFF-03-2026-09-29T07-01-49-176Z.json",
+      "bytes": 20792,
+      "mtime": "2026-09-29T07:02:52.293Z"
+     },
+     {
+      "file": "GT-MKTOFF-02-2026-09-29T07-00-40-303Z.json",
+      "bytes": 16153,
+      "mtime": "2026-09-29T07:01:47.512Z"
+     },
+     {
+      "file": "GT-MKTOFF-01-2026-09-29T07-00-08-071Z.json",
+      "bytes": 11931,
+      "mtime": "2026-09-29T07:00:39.115Z"
+     },
+     {
+      "file": "GT-MKTOFF-03-2026-09-29T05-08-52-346Z.json",
+      "bytes": 6034,
+      "mtime": "2026-09-29T05:09:12.805Z"
+     },
+     {
+      "file": "GT-MKTOFF-02-2026-09-29T05-08-20-687Z.json",
+      "bytes": 6732,
+      "mtime": "2026-09-29T05:08:51.419Z"
+     },
+     {
+      "file": "GT-MKTOFF-01-2026-09-29T05-07-51-119Z.json",
+      "bytes": 8098,
+      "mtime": "2026-09-29T05:08:20.095Z"
+     }
+    ],
+    "mkt-on": [
+     {
+      "file": "GT-MKTON-03-2026-09-29T07-04-45-249Z.json",
+      "bytes": 19602,
+      "mtime": "2026-09-29T07:05:40.431Z"
+     },
+     {
+      "file": "GT-MKTON-02-2026-09-29T07-03-22-451Z.json",
+      "bytes": 2172,
+      "mtime": "2026-09-29T07:04:44.452Z"
+     },
+     {
+      "file": "GT-MKTON-01-2026-09-29T07-02-53-475Z.json",
+      "bytes": 5313,
+      "mtime": "2026-09-29T07:03:21.381Z"
+     },
+     {
+      "file": "GT-MKTON-02-2026-09-29T05-21-39-113Z.json",
+      "bytes": 4077,
+      "mtime": "2026-09-29T05:22:13.266Z"
+     },
+     {
+      "file": "GT-MKTON-03-2026-09-29T05-10-22-293Z.json",
+      "bytes": 8696,
+      "mtime": "2026-09-29T05:10:45.780Z"
+     },
+     {
+      "file": "GT-MKTON-02-2026-09-29T05-09-52-898Z.json",
+      "bytes": 5937,
+      "mtime": "2026-09-29T05:10:19.912Z"
+     },
+     {
+      "file": "GT-MKTON-01-2026-09-29T05-09-13-422Z.json",
+      "bytes": 6278,
+      "mtime": "2026-09-29T05:09:44.112Z"
+     },
+     {
+      "file": "publish-approve-2026-09-29T05-09-13-422Z.json",
+      "bytes": 6277,
+      "mtime": "2026-09-29T05:09:44.112Z"
+     }
+    ],
+    "prf": [
+     {
+      "file": "GT-PRF-03-2026-09-29T07-07-06-439Z.json",
+      "bytes": 3090,
+      "mtime": "2026-09-29T07:08:13.972Z"
+     },
+     {
+      "file": "GT-PRF-02-2026-09-29T07-06-09-876Z.json",
+      "bytes": 20696,
+      "mtime": "2026-09-29T07:07:05.555Z"
+     },
+     {
+      "file": "GT-PRF-01-2026-09-29T07-05-41-618Z.json",
+      "bytes": 10216,
+      "mtime": "2026-09-29T07:06:03.419Z"
+     },
+     {
+      "file": "GT-PRF-03-2026-09-29T05-11-33-097Z.json",
+      "bytes": 5387,
+      "mtime": "2026-09-29T05:12:07.416Z"
+     },
+     {
+      "file": "GT-PRF-02-2026-09-29T05-11-02-034Z.json",
+      "bytes": 9933,
+      "mtime": "2026-09-29T05:11:31.491Z"
+     },
+     {
+      "file": "GT-PRF-01-2026-09-29T05-10-46-542Z.json",
+      "bytes": 4044,
+      "mtime": "2026-09-29T05:11:01.047Z"
+     }
+    ],
+    "rec": [
+     {
+      "file": "GT-REC-03-2026-09-29T07-09-28-934Z.json",
+      "bytes": 4231,
+      "mtime": "2026-09-29T07:09:44.364Z"
+     },
+     {
+      "file": "GT-REC-02-2026-09-29T07-08-48-356Z.json",
+      "bytes": 7814,
+      "mtime": "2026-09-29T07:09:20.866Z"
+     },
+     {
+      "file": "GT-REC-01-2026-09-29T07-08-14-859Z.json",
+      "bytes": 7047,
+      "mtime": "2026-09-29T07:08:40.804Z"
+     },
+     {
+      "file": "rec-funnel-weekly-2026-09-29T05-53-54.json",
+      "bytes": 2113,
+      "mtime": "2026-09-29T05:53:54.306Z"
+     },
+     {
+      "file": "rec-funnel-weekly-2026-09-29T05-37-29.json",
+      "bytes": 2442,
+      "mtime": "2026-09-29T05:37:29.083Z"
+     },
+     {
+      "file": "rec-funnel-weekly-2026-09-29T05-23-38.json",
+      "bytes": 1937,
+      "mtime": "2026-09-29T05:23:38.216Z"
+     },
+     {
+      "file": "GT-REC-03-2026-09-29T05-12-52-279Z.json",
+      "bytes": 7101,
+      "mtime": "2026-09-29T05:13:13.922Z"
+     },
+     {
+      "file": "GT-REC-02-2026-09-29T05-12-25-811Z.json",
+      "bytes": 5765,
+      "mtime": "2026-09-29T05:12:51.605Z"
+     },
+     {
+      "file": "GT-REC-01-2026-09-29T05-12-08-640Z.json",
+      "bytes": 3491,
+      "mtime": "2026-09-29T05:12:25.167Z"
+     }
+    ],
+    "sales": [
+     {
+      "file": "GT-SALES-03-2026-09-29T07-10-28-020Z.json",
+      "bytes": 14004,
+      "mtime": "2026-09-29T07:11:26.406Z"
+     },
+     {
+      "file": "pipeline-report-2026-09-29T07-10-28-020Z.json",
+      "bytes": 14004,
+      "mtime": "2026-09-29T07:11:26.406Z"
+     },
+     {
+      "file": "GT-SALES-02-2026-09-29T07-09-58-793Z.json",
+      "bytes": 7837,
+      "mtime": "2026-09-29T07:10:27.270Z"
+     },
+     {
+      "file": "GT-SALES-01-2026-09-29T07-09-45-421Z.json",
+      "bytes": 869,
+      "mtime": "2026-09-29T07:09:58.025Z"
+     },
+     {
+      "file": "GT-SALES-03-2026-09-29T05-13-58-518Z.json",
+      "bytes": 3610,
+      "mtime": "2026-09-29T05:14:17.088Z"
+     },
+     {
+      "file": "GT-SALES-02-2026-09-29T05-13-38-012Z.json",
+      "bytes": 4242,
+      "mtime": "2026-09-29T05:13:57.823Z"
+     },
+     {
+      "file": "GT-SALES-01-2026-09-29T05-13-23-186Z.json",
+      "bytes": 1370,
+      "mtime": "2026-09-29T05:13:37.323Z"
+     },
+     {
+      "file": "sales-quote-calc-2026-09-29T03-40-08.json",
+      "bytes": 2186,
+      "mtime": "2026-09-29T03:40:08.396Z"
+     },
+     {
+      "file": "selftest-2026-09-29T03-39-00.json",
+      "bytes": 140,
+      "mtime": "2026-09-29T03:39:00.429Z"
+     }
+    ],
+    "strat": [
+     {
+      "file": "GT-STRAT-03-2026-09-29T07-13-57-352Z.json",
+      "bytes": 6588,
+      "mtime": "2026-09-29T07:14:17.604Z"
+     },
+     {
+      "file": "GT-STRAT-02-2026-09-29T07-13-00-974Z.json",
+      "bytes": 13172,
+      "mtime": "2026-09-29T07:13:55.529Z"
+     },
+     {
+      "file": "GT-STRAT-01-2026-09-29T07-11-40-940Z.json",
+      "bytes": 20620,
+      "mtime": "2026-09-29T07:12:50.654Z"
+     },
+     {
+      "file": "strat-weekly-report-2026-09-29T05-58-23.json",
+      "bytes": 3246,
+      "mtime": "2026-09-29T05:58:23.349Z"
+     },
+     {
+      "file": "strat-weekly-report-2026-09-29T05-43-16.json",
+      "bytes": 2559,
+      "mtime": "2026-09-29T05:43:16.838Z"
+     },
+     {
+      "file": "strat-weekly-report-2026-09-29T05-25-30.json",
+      "bytes": 2356,
+      "mtime": "2026-09-29T05:25:30.139Z"
+     },
+     {
+      "file": "GT-STRAT-03-2026-09-29T05-15-14-398Z.json",
+      "bytes": 5654,
+      "mtime": "2026-09-29T05:15:41.383Z"
+     },
+     {
+      "file": "GT-STRAT-02-2026-09-29T05-14-36-514Z.json",
+      "bytes": 6972,
+      "mtime": "2026-09-29T05:15:12.803Z"
+     },
+     {
+      "file": "GT-STRAT-01-2026-09-29T05-14-17-957Z.json",
+      "bytes": 6700,
+      "mtime": "2026-09-29T05:14:35.722Z"
+     }
+    ],
+    "tools": [],
+    "trn": [
+     {
+      "file": "GT-TRN-03-2026-09-29T07-15-25-640Z.json",
+      "bytes": 8326,
+      "mtime": "2026-09-29T07:16:03.164Z"
+     },
+     {
+      "file": "GT-TRN-02-2026-09-29T07-14-46-894Z.json",
+      "bytes": 7371,
+      "mtime": "2026-09-29T07:15:17.485Z"
+     },
+     {
+      "file": "GT-TRN-01-2026-09-29T07-14-18-490Z.json",
+      "bytes": 10404,
+      "mtime": "2026-09-29T07:14:45.991Z"
+     },
+     {
+      "file": "GT-TRN-03-2026-09-29T05-16-27-966Z.json",
+      "bytes": 2115,
+      "mtime": "2026-09-29T05:16:40.892Z"
+     },
+     {
+      "file": "GT-TRN-02-2026-09-29T05-16-09-804Z.json",
+      "bytes": 3011,
+      "mtime": "2026-09-29T05:16:27.108Z"
+     },
+     {
+      "file": "GT-TRN-01-2026-09-29T05-15-42-791Z.json",
+      "bytes": 5027,
+      "mtime": "2026-09-29T05:16:02.980Z"
+     }
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工作流库",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "按钮清零表",
+   "pass": [
+    {
+     "id": "preset-apply",
+     "label": "选/用（apply）",
+     "route": "POST /workbench/api/apply",
+     "audit": "preset.apply"
+    },
+    {
+     "id": "preset-save",
+     "label": "存（save）",
+     "route": "POST /workbench/api/save",
+     "audit": "preset.save"
+    },
+    {
+     "id": "preset-switch",
+     "label": "切（switch）",
+     "route": "POST /workbench/api/switch",
+     "audit": "preset.switch"
+    },
+    {
+     "id": "preset-new",
+     "label": "新建（派生 Scene）",
+     "route": "POST /workbench/api/preset-new",
+     "audit": "preset.new"
+    },
+    {
+     "id": "preset-edit",
+     "label": "编辑当前 preset",
+     "route": "POST /workbench/api/preset-edit",
+     "audit": "preset.edit"
+    },
+    {
+     "id": "gt-engine",
+     "label": "跑一次 GT（经引擎）",
+     "route": "POST /workbench/api/engine-run",
+     "audit": "engine.run"
+    },
+    {
+     "id": "wf-run",
+     "label": "工作流·发起",
+     "route": "POST /workbench/api/workflow-run",
+     "audit": "workflow.run + deliverable.create"
+    },
+    {
+     "id": "domain-submit",
+     "label": "域表单·提交",
+     "route": "POST /workbench/api/submit",
+     "audit": "deliverable.create"
+    },
+    {
+     "id": "f7-check",
+     "label": "F7 网络自检",
+     "route": "GET /workbench/api/scenes",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-tools",
+     "label": "F8 查看 tools-versions",
+     "route": "GET /workbench/api/tools-versions",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-rollback",
+     "label": "F8 回退演练（dry-run）",
+     "route": "POST /workbench/api/rollback-dryrun",
+     "audit": "rollback.dryrun"
+    },
+    {
+     "id": "f11-report",
+     "label": "F11 自检报告",
+     "route": "GET /workbench/api/audit",
+     "audit": "（读操作）"
+    }
+   ],
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工具版本",
+   "pass": {
+    "content": "# tools-versions.txt — universal-workbench-3.0 工具链版本锁定（U0/S0 环境前置记录）\n# 生成时间：2026-09-28\n\n## Node（≥24.19 LTS 硬要求）\n- 选型：便携版 zip（不写系统、不装 MSI，保证项目独立且不影响同目录其他项目）\n- 版本：node-v24.21.0-win-x64（v24.21.0，满足 ≥24.19 LTS）\n- 路径：offline/node/node-v24.21.0-win-x64/node.exe\n- 来源：https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip\n- SHA256（与官方 SHASUMS256.txt 逐字一致，已核验）：\n  158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541  node-v24.21.0-win-x64.zip\n- npm：11.19.0（随包）\n\n## 被否决的候选（记录原因）\n- managed node  = v22.22.2 —— ❌ 不满足 ≥24.19（2.0 教训：22.x 会使 pi-vault-mind 不可装）\n- 系统 node     = v24.18.0（C:/Program Files/nodejs/node.exe）—— ❌ < 24.19，不满足硬要求\n- offline/node/ 预置安装包 = 空目录 —— ❌ 无可用离线安装包，故联网取官方 zip 并留 SHA256\n\n## npm 全局前缀隔离\n- prefix = F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.tools\\npm-global（经项目内 .npmrc 生效）\n- 目的：`npm i -g` 只落本项目，不污染 %APPDATA%\\npm，不影响 other projects\n- 注意：三源探测（U3/U16）必须在本项目 cwd 下执行才能读到本 .npmrc\n\n## 引擎（016 §2 重锁）\n- dsh 目标版本：0.1.7-rc.2（离线包 offline-3.0/engines/deepseek-ai-dsh-0.1.7-rc.2.tgz）\n- 期望 SHA256：5f2da7272d9485abc223e681075809a8d929697c523ee445718e1b7e066bff8（装前核验）\n\n## pnpm（3.0 安装器补齐 · 2026-09-29）\n- 用途：`dsh plugin add` 是**转发给 pnpm** 的（engine lib/bin.js → execa('pnpm')）；此前离线包不含 pnpm，\n  干净机 postinstall 会 exit 127（`dsh: pnpm was not found; install pnpm and make it available on PATH.`）→ 插件装不进去。\n- 版本：10.32.1（与本机 profile 实际使用的 pnpm 一致，避免 pnpm-lock.yaml 锁文件版本漂移）\n- 来源：https://registry.npmjs.org/pnpm/-/pnpm-10.32.1.tgz\n  （integrity 逐字核验：sha512-pwaTjw6JrBRWtlY+q07fHR+vM2jRGR/FxZeQ6W3JGORFarLmfWE94QQ9LoyB+HMD5rQNT/7KnfFe8a1Wc0jyvg==）\n- 落盘：offline/npm/pnpm-10.32.1.tgz（4,534,444 B）\n- SHA256：9b943b94bc8f55efb993aad8e44b538e6b091e60a9e4a944dcde869855f233e3（已入 offline/npm/SHA256SUMS.txt）\n- 安装方式：workbench.ps1 install 第 0 步自举——PATH 上无 pnpm 时 `npm i -g <tgz>`（便携 Node，离线完成）\n"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 表/行",
+   "pass": true,
+   "note": "tables=2 rows=30"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 表/行",
+   "pass": true,
+   "note": "tables=3 rows=42"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=4"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 表/行",
+   "pass": true,
+   "note": "tables=4 rows=75"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 表/行",
+   "pass": true,
+   "note": "tables=3 rows=50"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=28"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 表/行",
+   "pass": true,
+   "note": "tables=3 rows=44"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 表/行",
+   "pass": true,
+   "note": "tables=2 rows=29"
+  },
+  {
+   "area": "action",
+   "item": "buttons 清零表条目数",
+   "pass": true,
+   "note": "count=12"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景→技能→工作流一致性",
+   "pass": true,
+   "note": "LINT PASS gt_entries=42 gt_unique=39 domains=12 violations=0"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景引用工作流均存在",
+   "pass": true,
+   "note": "workflows=78"
+  },
+  {
+   "area": "勾稽",
+   "item": "数据字典↔落地表一致性",
+   "pass": true,
+   "note": "CHECK_DONE tables=46 issues=0 → reports/data-consistency.csv"
+  },
+  {
+   "area": "勾稽",
+   "item": "交付物↔审计(deliverable.create)",
+   "pass": true,
+   "note": "deliverables=127 audit_create=22"
+  },
+  {
+   "area": "勾稽",
+   "item": "引擎调用可追溯(tokens/stop)",
+   "pass": true,
+   "note": "engine.run=136 with_tokens=119"
+  }
+ ]
+}

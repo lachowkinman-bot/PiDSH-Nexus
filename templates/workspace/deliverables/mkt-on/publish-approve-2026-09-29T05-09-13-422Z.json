@@ -1,0 +1,122 @@
+{
+  "task_id": "GT-MKTON-01",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "domain": "MKT",
+  "skill": "content-gen",
+  "workflow": "mkt-on.publish-approve@1.0.0",
+  "generated_at": "2026-09-29T05:09:13.422Z",
+  "deliverable_file": "publish-approve-2026-09-29T05-09-13-422Z.json",
+  "canonical_task_path": "templates/workspace/deliverables/mkt-on/GT-MKTON-01-2026-09-29T05-09-13-422Z.json",
+  "title": "本周内容日历草稿（5 条：Q4 产品白皮书发布 / 客户案例短视频 ×3 / 双11 专题页上线 / 行业报告解读 / 直播预告）",
+  "channel": "公众号、抖音、官网、视频号",
+  "publish_at": "2026-10-08T10:00:00+08:00",
+  "pii_check": "已按验收标准「含 PII 的素材必须 redact 后才可发布」逐条核验：source=content_calendar.csv、leads.csv。leads.csv 的 contact_masked 列已做源端脱敏（138****2341、chen****@corp.com、139****8870、158****0912、li****@corp.com），lead_id/source/stage/score 不构成直接身份标识，故数据文件本身未发现明文 PII。5 条素材中 1 条判定为含 PII 且未完成脱敏：CAL-002「客户案例短视频 ×3」（引用客户案例，存在客户全称/Logo/工牌/联系方式出镜风险），结论 blocked，须先 redact 并复审后方可发布；CAL-001/CAL-003/CAL-004/CAL-005 判定 pass。",
+  "approver": "市场运营负责人（发布终审）",
+  "week_label": "源日历周期 2026-10-08 ~ 2026-10-18（源文件仅含 MM-DD，按运行年份 2026 归年）",
+  "data_sources": [
+    {
+      "file": "templates/workspace/data/mkt-on/content_calendar.csv",
+      "rows_read": 5,
+      "columns": ["date", "channel", "title", "status", "owner"]
+    },
+    {
+      "file": "templates/workspace/data/mkt-on/leads.csv",
+      "rows_read": 5,
+      "columns": ["lead_id", "source", "stage", "score", "contact_masked"],
+      "pii_finding": "contact_masked 列均为已脱敏形态；无明文手机号/邮箱"
+    }
+  ],
+  "pii_scan": {
+    "raw_pii_found_in_sources": false,
+    "source_masking_applied": true,
+    "items_requiring_redaction": ["CAL-002"],
+    "gate_rule": "含 PII 的素材必须完成 redact 并通过复审后才允许进入发布排期",
+    "gate_result": "blocked_for_CAL-002"
+  },
+  "calendar_draft": [
+    {
+      "id": "CAL-001",
+      "title": "Q4 产品白皮书发布",
+      "channel": "公众号",
+      "publish_at": "2026-10-08T10:00:00+08:00",
+      "pii_check": "pass — 素材为自有产品白皮书与公开产品信息，未包含客户姓名、手机号、邮箱等个人信息，无需脱敏",
+      "approver": "内容组负责人",
+      "owner": "内容组",
+      "source_status": "已排期",
+      "approval_status": "已排期，无需重复审批",
+      "needs_approval": false,
+      "redaction_required": false
+    },
+    {
+      "id": "CAL-002",
+      "title": "客户案例短视频 ×3",
+      "channel": "抖音",
+      "publish_at": "2026-10-10T19:00:00+08:00",
+      "pii_check": "blocked — 素材引用真实客户案例，关联 leads.csv 线索（如 LEAD-2104 报价中/评分91、LEAD-2105 已赢单），成片存在露出客户全称、Logo、工牌、联系方式的可识别风险；须先 redact 隐藏客户全称与 Logo、回填脱敏联系方式（形态同 contact_masked：138****2341、chen****@corp.com）、删除含工牌的原始画面，并取得客户书面授权后方可发布",
+      "approver": "市场运营负责人（发布终审）",
+      "owner": "视频组",
+      "source_status": "待审核",
+      "approval_status": "阻塞：待完成 redact 后提交复审",
+      "needs_approval": true,
+      "redaction_required": true,
+      "redaction_checklist": [
+        "隐去客户公司全称与 Logo 贴片",
+        "口播与字幕中的联系人姓名改用岗位代称（如「该企业供应链负责人」）",
+        "画面内联系方式统一替换为脱敏形态，不得出现完整手机号/邮箱",
+        "删除或虚化含工牌、员工人脸的原始镜头",
+        "归档客户书面授权（案例使用许可）后随审批单提交"
+      ]
+    },
+    {
+      "id": "CAL-003",
+      "title": "双11 专题页上线",
+      "channel": "官网",
+      "publish_at": "2026-10-12T09:30:00+08:00",
+      "pii_check": "pass — 页面素材为自有商品、价格与促销内容，未引用 leads.csv 客户数据；埋点字段不含个人标识，无需脱敏",
+      "approver": "市场运营负责人",
+      "owner": "市场运营",
+      "source_status": "草稿",
+      "approval_status": "待审批（页面草稿已就绪）",
+      "needs_approval": true,
+      "redaction_required": false
+    },
+    {
+      "id": "CAL-004",
+      "title": "行业报告解读",
+      "channel": "公众号",
+      "publish_at": "2026-10-15T10:00:00+08:00",
+      "pii_check": "pass — 内容基于第三方公开行业报告解读，仅引用公开统计数据，未包含个人数据与客户线索信息，无需脱敏",
+      "approver": "内容组负责人",
+      "owner": "内容组",
+      "source_status": "已排期",
+      "approval_status": "已排期，无需重复审批",
+      "needs_approval": false,
+      "redaction_required": false
+    },
+    {
+      "id": "CAL-005",
+      "title": "直播预告",
+      "channel": "视频号",
+      "publish_at": "2026-10-18T20:00:00+08:00",
+      "pii_check": "pass — 素材仅含自有活动时间、主题与嘉宾岗位信息，报名入口由官网承接，素材内不出现手机号/邮箱，无需脱敏",
+      "approver": "活动组负责人",
+      "owner": "活动组",
+      "source_status": "待审核",
+      "approval_status": "待审批",
+      "needs_approval": true,
+      "redaction_required": false
+    }
+  ],
+  "approval_request": {
+    "submitted_items": ["CAL-002", "CAL-003", "CAL-005"],
+    "blocked_items": ["CAL-002"],
+    "approvable_now": ["CAL-003", "CAL-005"],
+    "approver": "市场运营负责人（发布终审）",
+    "decision_options": [
+      "通过 CAL-003 与 CAL-005，直接进入发布排期",
+      "CAL-002 退回视频组执行 redact 清单后重新提交审批",
+      "整单挂起待客户授权文件到位"
+    ],
+    "notes": "CAL-001 与 CAL-004 状态为「已排期」，本轮不重复提交审批。"
+  }
+}

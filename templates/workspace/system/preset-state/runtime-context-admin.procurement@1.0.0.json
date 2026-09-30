@@ -1,0 +1,18 @@
+{
+ "applied_at": "2026-09-29T07:20:57.156Z",
+ "scene_id": "admin.procurement@1.0.0",
+ "domain": "ADMIN",
+ "permission": {
+  "min_level": "L3",
+  "dual_approval": false
+ },
+ "redact": [
+  "seal_record",
+  "procurement_price"
+ ],
+ "memory_exclude": [],
+ "workflows": [
+  "workflows/admin.purchase-approve.yaml",
+  "workflows/admin.seal-request.yaml"
+ ]
+}

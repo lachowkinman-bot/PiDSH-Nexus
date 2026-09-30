@@ -1,0 +1,976 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "cmp",
+ "label": "合规 CMP",
+ "scene_ids": [
+  "cmp.policy-review@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": false,
+ "redact_fields": [
+  "audit_working_papers"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.409Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/cmp.policy-review.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/cmp/",
+  "doc": "docs/preset-design/cmp.md"
+ },
+ "tables": [
+  {
+   "file": "pipia.csv",
+   "rows": 14,
+   "columns": [
+    "process",
+    "risk_level",
+    "residual_risk",
+    "next_review",
+    "owner",
+    "pipia_id",
+    "assessment_status",
+    "dept_masked",
+    "data_categories",
+    "legal_basis",
+    "mitigation",
+    "residual_downgraded",
+    "risk_status",
+    "approval_dual",
+    "launch_gate",
+    "assessed_at",
+    "check_ref"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "policy_checklist.csv",
+   "rows": 20,
+   "columns": [
+    "policy",
+    "item",
+    "status",
+    "owner",
+    "review_date",
+    "check_id",
+    "category",
+    "legal_basis",
+    "level",
+    "finding",
+    "evidence_ref",
+    "rectify_deadline",
+    "closed_date",
+    "reviewer_masked"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "policy-checklist",
+   "file": "templates/skills-domain/cmp/SKILL-policy-checklist.md"
+  },
+  {
+   "name": "pipia-list",
+   "file": "templates/skills-domain/cmp/SKILL-pipia-list.md"
+  },
+  {
+   "name": "evidence-pack",
+   "file": "templates/skills-domain/cmp/SKILL-evidence-pack.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "cmp.policy-review@1.0.0",
+   "kind": "report",
+   "description": "制度审查 checklist（逐条比对）",
+   "skill": "policy-checklist",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "policy-checklist"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "制度审查 checklist（逐条比对）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "policy-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "policy",
+     "items",
+     "pass_rate",
+     "gaps"
+    ],
+    "acceptance": "Requirement→Release 链完整"
+   }
+  },
+  {
+   "id": "cmp.evidence-pack@1.0.0",
+   "kind": "approve",
+   "description": "证据打包（append-only 对齐）",
+   "skill": "evidence-pack",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "evidence-pack"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "证据打包（append-only 对齐） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "证据打包（append-only 对齐）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "evidence-pack-<ts>.json",
+    "format": "json",
+    "fields": [
+     "case",
+     "evidence_items",
+     "hashes",
+     "packaged_at"
+    ],
+    "acceptance": "打包后不可增删（append-only）"
+   }
+  },
+  {
+   "id": "cmp.pipia-review@1.0.0",
+   "kind": "approve",
+   "description": "PIPIA 评审（高风险处理）",
+   "skill": "pipia-list",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "pipia-list"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "PIPIA 评审（高风险处理） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "PIPIA 评审（高风险处理）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "pipia-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "process",
+     "risk_level",
+     "residual",
+     "approvals"
+    ],
+    "acceptance": "高风险 residual 未降级不得上线"
+   }
+  },
+  {
+   "id": "cmp.audit-trail@1.0.0",
+   "kind": "report",
+   "description": "审计留痕月报（覆盖率）",
+   "skill": "policy-checklist",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "policy-checklist"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "审计留痕月报（覆盖率）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "audit-trail-<ts>.json",
+    "format": "json",
+    "fields": [
+     "scope",
+     "events",
+     "coverage_pct",
+     "gaps"
+    ],
+    "acceptance": "关键动作覆盖率 ≥95%"
+   }
+  },
+  {
+   "id": "cmp.training-check@1.0.0",
+   "kind": "report",
+   "description": "合规培训完成度核查",
+   "skill": "pipia-list",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "pipia-list"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "合规培训完成度核查：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "training-check-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dept",
+     "required",
+     "completed",
+     "rate"
+    ],
+    "acceptance": "必修未完成 >5% 上报管理层"
+   }
+  },
+  {
+   "id": "cmp.reg-filing@1.0.0",
+   "kind": "calc",
+   "description": "监管报送清单与截止提醒",
+   "skill": "evidence-pack",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "evidence-pack"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "监管报送清单与截止提醒：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "reg-filing-<ts>.json",
+    "format": "json",
+    "fields": [
+     "filing",
+     "authority",
+     "deadline",
+     "days_left"
+    ],
+    "acceptance": "7 天内到期必须置顶"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-CMP-01",
+   "input": "对员工手册做合规 checklist 审查",
+   "expected_output": "reports/cmp/gt-01.md",
+   "skill": null,
+   "scene": "cmp.policy-review@1.0.0"
+  },
+  {
+   "id": "GT-CMP-02",
+   "input": "生成新业务上线 PIPIA 清单",
+   "expected_output": "reports/cmp/gt-02.md",
+   "skill": null,
+   "scene": "cmp.policy-review@1.0.0"
+  },
+  {
+   "id": "GT-CMP-03",
+   "input": "打包某任务的完整证据链（审计级）",
+   "expected_output": "reports/cmp/gt-03.md",
+   "skill": null,
+   "scene": "cmp.policy-review@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/cmp",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/cmp/t/pipia",
+   "type": "table",
+   "title": "pipia.csv",
+   "table": "pipia",
+   "file": "pipia.csv"
+  },
+  {
+   "route": "#/cmp/t/policy_checklist",
+   "type": "table",
+   "title": "policy_checklist.csv",
+   "table": "policy_checklist",
+   "file": "policy_checklist.csv"
+  },
+  {
+   "route": "#/cmp/w/policy-review",
+   "type": "workflow",
+   "title": "制度审查 checklist（逐条比对）",
+   "workflow": "cmp.policy-review@1.0.0"
+  },
+  {
+   "route": "#/cmp/w/evidence-pack",
+   "type": "workflow",
+   "title": "证据打包（append-only 对齐）",
+   "workflow": "cmp.evidence-pack@1.0.0"
+  },
+  {
+   "route": "#/cmp/w/pipia-review",
+   "type": "workflow",
+   "title": "PIPIA 评审（高风险处理）",
+   "workflow": "cmp.pipia-review@1.0.0"
+  },
+  {
+   "route": "#/cmp/w/audit-trail",
+   "type": "workflow",
+   "title": "审计留痕月报（覆盖率）",
+   "workflow": "cmp.audit-trail@1.0.0"
+  },
+  {
+   "route": "#/cmp/w/training-check",
+   "type": "workflow",
+   "title": "合规培训完成度核查",
+   "workflow": "cmp.training-check@1.0.0"
+  },
+  {
+   "route": "#/cmp/w/reg-filing",
+   "type": "workflow",
+   "title": "监管报送清单与截止提醒",
+   "workflow": "cmp.reg-filing@1.0.0"
+  },
+  {
+   "route": "#/cmp/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "policy_checklist.csv",
+         "L2",
+         "—（scene 声明 `policies.xlsx` 的 `pii_fields: []`）；表内含掩码复核人字段 `reviewer_masked`（`E1***`，不可还原，不构成个人可识别信息）",
+         "20",
+         "制度合规自查清单（合规项 20 项，与参照 §7.1\"合规项 20\"一致）：制度项/检查项/状态/风险等级/法条引用/发现项/整改时限/证据引用；覆盖 9 类检查类别，含 5 条待整改 + 2 条不合规，是**合规率汇总口径**与整改闭环的来源"
+        ],
+        [
+         "pipia.csv",
+         "L4",
+         "audit_working_papers（落地口径=评估底稿列组 `mitigation` 缓释措施 / `approval_dual` 审批痕迹 / `assessed_at` 结论日；scene 声明 `audit-papers.xlsx`，`redact.fields: [audit_working_papers]`）",
+         "14",
+         "个人信息保护影响评估（PIPIA）台账（参照 §7.1\"风险 10\"，本落地 14 条以覆盖三评估状态）：处理活动/初始与残余风险等级/评估状态/风险事件状态/上线闸门/双审批/检查项外键；含 3 条\"高风险 residual 未降级→禁止上线\"阻塞样例"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "scene `data_assets` 的 `policies.xlsx`（L2，`pii_fields: []`）/ type-dict `cmp, policies, table, L2, none` → **落地 `policy_checklist.csv`**",
+      "scene `data_assets` 的 `audit-papers.xlsx`（L4，`pii_fields: [audit_working_papers]`）/ type-dict `cmp, audit-papers, table, L4, audit_working_papers` → **落地 `pipia.csv`**（PIPIA 评估底稿即本域审计工作底稿）",
+      "`xlsx` 仅为 Scene 规格层命名；工作台事实表为 CSV（UTF-8、表头英文小写下划线、逗号分隔、字段内不使用英文逗号）。行数为数据行（不含表头），与校验脚本口径一致。字段内多项取值以 `；` 分隔，空值统一写 `—`（不写英文逗号）。",
+      "**声明级别与访问级别分离**：两张表的声明级别为 L2 / L4；Permission Gateway 按 scene `permission.min_level=L4` 统一准入——**凡读取本域任一表均按 L4 校验**，声明级别只用于资产登记与脱敏规则路由（`audit_working_papers` 命中即过 `redact_gate`）。",
+      "**两表口径对应（禁孤儿引用）**：`pipia.check_ref` → `policy_checklist.check_id`；`policy_checklist.evidence_ref` → `EVP-YYYY-###`（`cmp.evidence-pack` 产物编号，审计级证据链锚点）。本域样本 14 条 PIPIA 全部命中既有检查项，20 条检查项的证据引用全部命中 `EVP-2026-###` 号段（§9 V-CMP-04）。",
+      "**合规率自动汇总口径**（参照 §4.13，由表数据直接算出）：`total=20`、`compliant=13`、`pending=5`、`noncompliant=2`；`合规率 = compliant / total = 65.0%`，`待整改率 25.0%`、`不合规率 10.0%`，三者合计 100.0%。口径见 §9 V-CMP-02，图表口径见 §6（合规风险总览）。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "policy",
+         "string",
+         "是",
+         "制度/政策名称（如\"劳动用工制度\"\"个人信息保护\"\"数据管理制度\"）；原始列"
+        ],
+        [
+         "item",
+         "string",
+         "是",
+         "检查项（条款级颗粒度，如\"加班与调休条款\"\"敏感个人信息单独同意\"）；原始列"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "合规项状态：合规 / 待整改 / 不合规（对应参照 CHECK_STATUS compliant/pending/noncompliant，迁移见 §4.1）；原始列"
+        ],
+        [
+         "owner",
+         "enum",
+         "是",
+         "整改/归口部门（合成部门名，**非个人**）；原始列"
+        ],
+        [
+         "review_date",
+         "date",
+         "是",
+         "本次检查实施日（待整改/不合规项即发现日）；整改时限自该日起算（§9 V-CMP-03）；原始列（语义口径修正见 §10.7）"
+        ],
+        [
+         "check_id",
+         "string",
+         "是",
+         "检查项编号，主键，`CHK-YYYY-###`，编号不复用；追加列"
+        ],
+        [
+         "category",
+         "enum",
+         "是",
+         "检查类别（9 类，参照 §3.2.24）：劳动用工 / 劳动权益 / 数据保护 / 个人信息保护 / 信息安全 / 采购合规 / 反舞弊 / 职业健康安全 / 财税合规；追加列"
+        ],
+        [
+         "legal_basis",
+         "string",
+         "是",
+         "法条引用（《法律名》第 N 条；多项用 `；` 分隔），**不合规/待整改项必填**（§9 V-CMP-01）；追加列（参照 §3.2.24 legalBasis）"
+        ],
+        [
+         "level",
+         "enum",
+         "是",
+         "检查项风险等级：高 / 中 / 低；决定整改时限（§9 V-CMP-03）；追加列（参照 §3.2.24 level）"
+        ],
+        [
+         "finding",
+         "string",
+         "是",
+         "发现项/检查结论（工作底稿口径：只写制度、系统与流程事实，**禁写姓名/工号/联系方式**）；追加列"
+        ],
+        [
+         "evidence_ref",
+         "string",
+         "是",
+         "证据引用：`EVP-YYYY-###` = `cmp.evidence-pack` 证据包编号（审计级可追溯锚点，§9 V-CMP-04）；追加列"
+        ],
+        [
+         "rectify_deadline",
+         "date",
+         "否",
+         "整改完成期限 = `review_date` + 等级时限（高 ≤30 天 / 中 ≤60 天 / 低 ≤90 天）；合规项为 `—`；追加列"
+        ],
+        [
+         "closed_date",
+         "date",
+         "否",
+         "整改复验关闭日（对应 §4.1\"待整改→合规\"迁移完成）；未关闭为 `—`；追加列"
+        ],
+        [
+         "reviewer_masked",
+         "string",
+         "是",
+         "检查/复核人掩码 `E<n>***`（不可还原，不得回填工号/姓名，§9 V-CMP-12）；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "process",
+         "string",
+         "是",
+         "个人信息处理活动名称（如\"员工考勤人脸识别\"）；原始列"
+        ],
+        [
+         "risk_level",
+         "enum",
+         "是",
+         "**初始**风险等级：高 / 中 / 低（未施缓释前的固有风险）；原始列"
+        ],
+        [
+         "residual_risk",
+         "enum",
+         "是",
+         "**残余**风险等级：高 / 中 / 低（评估中为初步值，已出结论为结论值）；原始列"
+        ],
+        [
+         "next_review",
+         "date",
+         "是",
+         "下次复评日 `YYYY-MM-DD`（高风险 ≤6 个月、中风险 ≤9 个月、低风险 ≤12 个月，§9 V-CMP-07）；原始列"
+        ],
+        [
+         "owner",
+         "enum",
+         "是",
+         "责任归口（合成部门名或角色名，**非个人**，如\"安全合规部\"\"EAP专员\"）；原始列"
+        ],
+        [
+         "pipia_id",
+         "string",
+         "是",
+         "评估编号，主键，`PIPIA-YYYY-###`；追加列"
+        ],
+        [
+         "assessment_status",
+         "enum",
+         "是",
+         "PIPIA 评估状态：待评 / 评估中 / 已出结论（迁移见 §4.3）；追加列"
+        ],
+        [
+         "dept_masked",
+         "string",
+         "是",
+         "责任部门脱敏码 `DEPT-<职能>-***`（如 `DEPT-SEC-***`），部门标识不落实名；追加列"
+        ],
+        [
+         "data_categories",
+         "string",
+         "是",
+         "涉及个人信息类别（**类别标签**，多项用 `；` 分隔，如\"生物识别信息；考勤记录\"）；不承载任何具体个人数据；追加列"
+        ],
+        [
+         "legal_basis",
+         "string",
+         "是",
+         "法条引用（《个人信息保护法》第 N 条等；涉出境加《数据出境安全评估办法》）；追加列"
+        ],
+        [
+         "mitigation",
+         "string",
+         "是",
+         "风险缓释措施（**工作底稿口径 `audit_working_papers`**：出域/入报告前必过 `redact_gate`）；追加列"
+        ],
+        [
+         "residual_downgraded",
+         "enum",
+         "是",
+         "降级是否**已完成验证**：是 / 否 / 不适用（不适用=初始即低风险）；判定规则见 §9 V-CMP-05；追加列"
+        ],
+        [
+         "risk_status",
+         "enum",
+         "是",
+         "风险事件状态：待处理 / 处理中 / 已闭环（对应参照 RISK_STATUS open/doing/closed，迁移见 §4.2）；追加列"
+        ],
+        [
+         "approval_dual",
+         "string",
+         "否",
+         "双审批展示口径：`主管✓/DPO✓`（已通过）、`主管待/DPO待`（待审批）、`主管✓/DPO待`（部分通过）；未启动为 `—`；追加列"
+        ],
+        [
+         "launch_gate",
+         "enum",
+         "是",
+         "上线闸门：可上线 / 禁止上线 / 待评审；**高风险且 `residual_downgraded=否` 一律\"禁止上线\"**（§5/§9 V-CMP-05）；追加列"
+        ],
+        [
+         "assessed_at",
+         "date",
+         "否",
+         "PIPIA 结论出具日；`assessment_status≠已出结论` 时为 `—`；追加列"
+        ],
+        [
+         "check_ref",
+         "ref",
+         "是",
+         "→ `policy_checklist.check_id` 外键（本表风险项与检查项的口径对应，禁孤儿引用）；追加列"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/cmp.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 合规项（policy_checklist.status；中文值 ↔ 参照 CHECK_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "当前状态",
+        "触发条件",
+        "迁移到",
+        "证据/规则"
+       ],
+       "rows": [
+        [
+         "合规",
+         "复查发现整改回潮/控制失效",
+         "待整改",
+         "需重新登记 `review_date` 与 `rectify_deadline`（§9 V-CMP-03）"
+        ],
+        [
+         "待整改",
+         "整改完成且复验通过（`closed_date` 落值）",
+         "合规",
+         "复验证据必须引用同一 `evidence_ref` 的更新包；关闭人不得为原发现人（§5）"
+        ],
+        [
+         "待整改",
+         "超过 `rectify_deadline` 未关闭，或复验不通过",
+         "不合规",
+         "逾期即升级，不得静默延期；升级需在 `finding` 追加说明"
+        ],
+        [
+         "不合规",
+         "完成重大整改并通过双人复核",
+         "合规",
+         "双人复核记录（复核人 ∈ 合规负责人 + 原检查人之外角色）；不得跳级回\"待整改\""
+        ],
+        [
+         "合规",
+         "—（当前合格）",
+         "合规",
+         "状态变更只可新增行/追加审计事件（append-only），历史不改写"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 风险事件（pipia.risk_status；中文值 ↔ 参照 RISK_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "当前状态",
+        "触发条件",
+        "迁移到",
+        "证据/规则"
+       ],
+       "rows": [
+        [
+         "待处理",
+         "`owner` 接单并启动 `mitigation`",
+         "处理中",
+         "必须登记责任人（`owner` 非空）与措施；**禁止 待处理→已闭环 跳级**"
+        ],
+        [
+         "处理中",
+         "缓释措施完成且残余风险降级验证通过",
+         "已闭环",
+         "需 `residual_downgraded=是` 或初始低风险（不适用）；关联 `approval_dual` 双通过"
+        ],
+        [
+         "处理中",
+         "复验不通过",
+         "处理中",
+         "只追加日志、不改变状态，禁止回退到\"待处理\""
+        ],
+        [
+         "已闭环",
+         "—（终态）",
+         "已闭环",
+         "终态 append-only；重新打开须新增风险条目并关联原 `pipia_id`"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.3 PIPIA 评估（pipia.assessment_status）与上线闸门",
+     "tables": [
+      {
+       "header": [
+        "当前状态",
+        "触发条件",
+        "迁移到",
+        "证据/规则"
+       ],
+       "rows": [
+        [
+         "待评",
+         "受理评估申请、指定 DPO 与业务归口",
+         "评估中",
+         "无审批要求；`approval_dual` 为 `—`"
+        ],
+        [
+         "评估中",
+         "出具评估结论并经 **L4 双审批**（cmp.pipia-review n3）",
+         "已出结论（终态）",
+         "`assessed_at` 必填；`approval_dual=主管✓/DPO✓`；结论不可回退，重评新增行"
+        ],
+        [
+         "评估中",
+         "材料不足/处理活动范围变更",
+         "待评",
+         "不得删除原有结论痕迹（append-only）"
+        ],
+        [
+         "（闸门）",
+         "`risk_level=高` 且 `residual_downgraded=否`",
+         "闸门=**禁止上线**",
+         "评估中亦不得放行，不得以\"待评审\"规避（§9 V-CMP-05）；本域样本 3 条：004/009/012"
+        ],
+        [
+         "（闸门）",
+         "已出结论且降级已验证（或初始低风险）",
+         "闸门=可上线",
+         "需 `assessed_at` 非空 + 双审批齐备（§9 V-CMP-06）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/cmp.md#§4"
+  },
+  "5": {
+   "title": "审批链（节点-角色-双审批）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "业务动作",
+        "工作流",
+        "节点",
+        "审批落点",
+        "审批角色（基线建议，两角色须为**不同审批人**）",
+        "是否双审批"
+       ],
+       "rows": [
+        [
+         "证据包对外提交（外部审计/监管/争议举证）",
+         "cmp.evidence-pack",
+         "n3",
+         "打包产物对外前",
+         "甲：合规负责人（CCO）；乙：法务/DPO",
+         "**是**（dual=true，L4）"
+        ],
+        [
+         "高风险处理活动上线 / 重大变更",
+         "cmp.pipia-review",
+         "n3",
+         "结论生效与上线前",
+         "甲：DPO（安全合规部）；乙：业务归口负责人（对应 `owner`）",
+         "**是**（dual=true，L4）"
+        ],
+        [
+         "制度审查报告对外",
+         "cmp.policy-report（Scene 绑定）",
+         "n3",
+         "报告对外/生效前",
+         "甲：合规归口负责人；乙：—（单审批）",
+         "否（dual=false，L4）"
+        ],
+        [
+         "合规项整改关闭（待整改/不合规 → 合规）",
+         "无独立工作流（`cmp.policy-review` 复核分支）",
+         "—",
+         "复验通过后关闭",
+         "甲：复核人（原检查人之外）；乙：合规负责人确认（高风险项）",
+         "高风险项**是**；中/低风险单复核"
+        ],
+        [
+         "低风险项整改关闭",
+         "同上",
+         "—",
+         "复验通过后关闭",
+         "甲：复核人",
+         "否"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**整改闭环四闸门**：① 发现（登记 `finding` + `legal_basis` + `evidence_ref`）→ ② 整改（责任人按 `rectify_deadline` 执行，措施落 `mitigation`）→ ③ 复验（复核人 ≠ 发现人，回归测试证据入同一证据包）→ ④ 关闭（`closed_date` 落值，状态置\"合规\"，追加审计事件）。四闸门任一缺失不得关闭（§9 V-CMP-04/V-CMP-09）。",
+      "**高风险上线闸门**：`risk_level=高` 且 `residual_downgraded=否` 的处理活动，`launch_gate` 必须为\"禁止上线\"；即使双审批已通过也不得放行——先完成缓释并验证降级，重评后再走 n3 双审批（workflow acceptance 原文\"高风险 residual 未降级不得上线\"）。",
+      "审批记录统一落 `audit/n5`：审批人 + 依据数据版本 + 产物哈希；`check` 判据\"产物与审批单一致\"，`on_fail=rollback`（savepoint：`pre-evidence-pack` / `pre-pipia-review` / `pre-policy-report`）。",
+      "场景基线 `policies.permission.dual_approval=false` 为**域默认**；两条 approve 工作流在流程级升格为 L4 双审批（与 workflow YAML 一致），规则**单调加严、不放松**。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/cmp.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "编号",
+        "规则",
+        "判定/证据"
+       ],
+       "rows": [
+        [
+         "V-CMP-01",
+         "法条引用必填：`status ∈ {待整改, 不合规}` 的检查项 `legal_basis` 非空且形如《X》第 N 条；`policy_checklist` 全表 20 行均带法条引用",
+         "数据列机检；缺引用即 FAIL（参照 §3.2.24 legalBasis）"
+        ],
+        [
+         "V-CMP-02",
+         "合规率口径固定：`合规率 = compliant / total`；由表数据自动算出 `13/20 = 65.0%`，`pending 25.0%` + `noncompliant 10.0%` 合计 100.0%；报告不得手工改口径或四舍五入掩盖",
+         "汇总产物与 policy_checklist.csv 逐行重算比对"
+        ],
+        [
+         "V-CMP-03",
+         "整改时限：`rectify_deadline − review_date ≤ 30/60/90 天`（高/中/低）；合规项 `rectify_deadline` 必须为 `—`；`rectify_deadline < 基准日` 判\"已逾期\"并升级，不得静默延期",
+         "日期差机检（本样本 7 个开放项全部合规，无逾期）"
+        ],
+        [
+         "V-CMP-04",
+         "证据链可追溯到审计级：每条检查项 `evidence_ref` 必须命中 `cmp.evidence-pack` 证据包编号（`EVP-YYYY-###`），且包内哈希可复算；`pipia.check_ref` 必须命中既有 `check_id`（禁孤儿引用）",
+         "引用解析 + 哈希复算；无引用/引用悬空即 FAIL"
+        ],
+        [
+         "V-CMP-05",
+         "高风险上线闸门：`risk_level=高` 且 `residual_downgraded=否` → `launch_gate` 必须为\"禁止上线\"（评估中亦不得置\"待评审\"规避）；本样本 PIPIA-2026-004/009/012 三条命中",
+         "数据列机检（workflow acceptance 原文\"高风险 residual 未降级不得上线\"）"
+        ],
+        [
+         "V-CMP-06",
+         "结论完整性：`assessment_status=已出结论` 时 `assessed_at` 非空且 `approval_dual=主管✓/DPO✓`；`launch_gate=可上线` 的行必须已出结论",
+         "状态 × 字段交叉机检（本样本 9 条可上线全部合规）"
+        ],
+        [
+         "V-CMP-07",
+         "状态枚举与迁移合法：三项状态机取值必须在 §4 词表内；禁止跳级（待处理→已闭环、待评→已出结论、待整改→不变更直接关闭）；状态变更只经唯一函数并写操作日志",
+         "枚举机检 + 操作日志回放"
+        ],
+        [
+         "V-CMP-08",
+         "风险事件闭环：`risk_status=已闭环` 需 `mitigation` 非空且降级验证通过（`是`/`不适用`）；`处理中/待处理` 行 `owner` 必填；`已闭环` 为终态 only-append",
+         "数据列交叉机检"
+        ],
+        [
+         "V-CMP-09",
+         "留痕覆盖率：`cmp.audit-trail` 的 `coverage_pct ≥95%`，未达标必须在 `gaps` 列明并上报；读/算/写全量 append-only 审计可回放",
+         "audit/n5 + 轨迹回放（F5）"
+        ],
+        [
+         "V-CMP-10",
+         "培训上报：`cmp.training-check` 必修未完成率 >5% 必须上报管理层（本样本 CHK-2026-014 = 6.2% 已登记为待整改）",
+         "产物 rate 字段与台账交叉机检"
+        ],
+        [
+         "V-CMP-11",
+         "报送提醒：`cmp.reg-filing` 中 `days_left ≤ 7` 的条目必须置顶且列入提醒",
+         "产物排序断言"
+        ],
+        [
+         "V-CMP-12",
+         "脱敏与边界：`audit_working_papers` 命中 `redact_gate`；产物/报告中不得出现姓名、工号（正则 `E\\d+`）、手机号、身份证号；`reviewer_masked` 不得还原；员工角色不可读本域台账（§7.3）",
+         "redact_gate 命中日志 + 正则扫描；命中即一票否决"
+        ],
+        [
+         "V-CMP-13",
+         "数据一致性（015 §15.4）：本文件 §1/§1.1 的文件名、行数（20/14）、字段须与 templates/workspace/data/cmp/*.csv 逐表一致；xlsx/csv 做同名归一化匹配",
+         "`scripts/data-consistency-check.mjs`"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/cmp.md#§9"
+  }
+ },
+ "gaps": []
+}

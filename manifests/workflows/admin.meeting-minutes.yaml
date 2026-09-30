@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: admin.meeting-minutes@1.0.0
+domain: admin
+description: "会议纪要（决议/待办/责任人）"
+trigger:
+  type: command
+  expr: meeting-minutes
+nodes:
+  - id: n1
+    type: skill
+    ref: meeting-minutes
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "会议纪要（决议/待办/责任人）：输入参数 + 结果快照"
+deliverable:
+  file: meeting-minutes-<ts>.json
+  format: json
+  fields:
+    - meeting
+    - decisions
+    - todos
+    - owners
+  acceptance: "待办必须带责任人与期限"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-meeting-minutes

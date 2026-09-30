@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: admin.seal-request@1.0.0
+domain: admin
+description: "用印申请（强制人工放行）"
+trigger:
+  type: command
+  expr: seal-request
+nodes:
+  - id: n1
+    type: skill
+    ref: meeting-minutes
+  - id: n2
+    type: condition
+    expr: "用印申请（强制人工放行） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "用印申请（强制人工放行）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: seal-request-<ts>.json
+  format: json
+  fields:
+    - doc
+    - seal_type
+    - copies
+    - keeper_confirm
+  acceptance: "用印禁自动放行（必须人工确认）"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-seal-request

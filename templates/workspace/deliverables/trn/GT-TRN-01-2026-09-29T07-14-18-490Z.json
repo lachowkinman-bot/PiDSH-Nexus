@@ -1,0 +1,331 @@
+{
+  "deliverable": "course-schedule",
+  "scenario": "trn.plan-approve@1.0.0",
+  "workflow": "trn.course-schedule@1.0.0",
+  "business_domain": "TRN",
+  "generated_at": "2026-09-29T07:14:18.490Z",
+  "plan_month": "2026-10",
+  "plan_period": {
+    "start": "2026-10-01",
+    "end": "2026-10-31"
+  },
+  "source_files": [
+    "templates/workspace/data/trn/courses.csv",
+    "templates/workspace/data/trn/certificates.csv"
+  ],
+  "summary": {
+    "total_sessions": 11,
+    "scheduled_sessions": 9,
+    "recommended_sessions": 2,
+    "conflict_count": 1,
+    "conflict_sessions": 2,
+    "total_enrolled": 296,
+    "approval_status": "pending_approval",
+    "note": "10月共排期 9 场既有课程，因证书到期新增 2 场复审课程；发现 1 处资源冲突（同日同讲师同场地），已标红并给出备选方案。"
+  },
+  "sessions": [
+    {
+      "course": "焊接与热切割作业",
+      "date": "2026-10-06",
+      "trainer": "T5***",
+      "room": "实训基地",
+      "dept": "生产制造部",
+      "category": "合规",
+      "hours": 8,
+      "enrolled": 28,
+      "seat_cap": 30,
+      "prereq": "特种作业安全操作",
+      "source": "courses.csv:next_session=10-06",
+      "conflict": true,
+      "conflict_flag": "RED",
+      "conflict_reason": "2026-10-06 同一讲师 T5*** 与同一场地 实训基地 被 危化品安全管理 同时占用",
+      "conflict_group": "CF-2026-10-06-T5-SXJD"
+    },
+    {
+      "course": "危化品安全管理",
+      "date": "2026-10-06",
+      "trainer": "T5***",
+      "room": "实训基地",
+      "dept": "安全环保部",
+      "category": "合规",
+      "hours": 6,
+      "enrolled": 44,
+      "seat_cap": 45,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-06",
+      "conflict": true,
+      "conflict_flag": "RED",
+      "conflict_reason": "2026-10-06 同一讲师 T5*** 与同一场地 实训基地 被 焊接与热切割作业 同时占用",
+      "conflict_group": "CF-2026-10-06-T5-SXJD",
+      "certificate_driver": "CERT-****-0052 危化品安全作业证 2026-12-20 到期（90天内）"
+    },
+    {
+      "course": "特种作业安全操作（复审）",
+      "date": "2026-10-09",
+      "trainer": "T5***",
+      "room": "A105",
+      "dept": "安全环保部",
+      "category": "合规",
+      "hours": 8,
+      "enrolled": 0,
+      "seat_cap": 40,
+      "prereq": "无",
+      "source": "recommended:certificate_renewal",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": "",
+      "certificate_driver": "CERT-****-0007 特种作业操作证 2026-10-14 到期（90天内，续期费 380）"
+    },
+    {
+      "course": "新员工入职",
+      "date": "2026-10-11",
+      "trainer": "T1***",
+      "room": "A201",
+      "dept": "人力资源部",
+      "category": "必修",
+      "hours": 6,
+      "enrolled": 32,
+      "seat_cap": 40,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-11",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": ""
+    },
+    {
+      "course": "合规与信息安全",
+      "date": "2026-10-13",
+      "trainer": "T2***",
+      "room": "A203",
+      "dept": "法务合规部",
+      "category": "必修",
+      "hours": 4,
+      "enrolled": 57,
+      "seat_cap": 60,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-13",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": ""
+    },
+    {
+      "course": "安全员 B 证考前培训",
+      "date": "2026-10-15",
+      "trainer": "T6***",
+      "room": "A105",
+      "dept": "安全环保部",
+      "category": "合规",
+      "hours": 16,
+      "enrolled": 18,
+      "seat_cap": 20,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-15",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": "",
+      "certificate_driver": "CERT-****-0058 安全员B证 2026-11-30 到期（90天内，续期费 360）"
+    },
+    {
+      "course": "安全员 C 证考前培训",
+      "date": "2026-10-15",
+      "trainer": "T7***",
+      "room": "B205",
+      "dept": "安全环保部",
+      "category": "合规",
+      "hours": 16,
+      "enrolled": 12,
+      "seat_cap": 15,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-15",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": "",
+      "certificate_driver": "CERT-****-0021 安全员C证 2024-10-01 已过期"
+    },
+    {
+      "course": "销售进阶谈判",
+      "date": "2026-10-18",
+      "trainer": "EXT-***A",
+      "room": "外部场地",
+      "dept": "销售部",
+      "category": "进阶",
+      "hours": 12,
+      "enrolled": 18,
+      "seat_cap": 20,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-18",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": ""
+    },
+    {
+      "course": "电动叉车安全操作（复审）",
+      "date": "2026-10-20",
+      "trainer": "T8***",
+      "room": "实训基地",
+      "dept": "生产制造部",
+      "category": "合规",
+      "hours": 4,
+      "enrolled": 0,
+      "seat_cap": 30,
+      "prereq": "无",
+      "source": "recommended:certificate_renewal",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": "",
+      "certificate_driver": "CERT-****-0064 电动叉车司机证 2026-08-31 已过期"
+    },
+    {
+      "course": "管理者 First 30 天",
+      "date": "2026-10-22",
+      "trainer": "EXT-***B",
+      "room": "外部场地",
+      "dept": "人力资源部",
+      "category": "领导力",
+      "hours": 8,
+      "enrolled": 9,
+      "seat_cap": 12,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-22",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": ""
+    },
+    {
+      "course": "数据安全与隐私保护",
+      "date": "2026-10-27",
+      "trainer": "T3***",
+      "room": "线上直播",
+      "dept": "信息技术部",
+      "category": "必修",
+      "hours": 6,
+      "enrolled": 41,
+      "seat_cap": 60,
+      "prereq": "无",
+      "source": "courses.csv:next_session=10-27",
+      "conflict": false,
+      "conflict_flag": "GREEN",
+      "conflict_reason": ""
+    }
+  ],
+  "conflicts": [
+    {
+      "conflict_id": "CF-2026-10-06-T5-SXJD",
+      "severity": "high",
+      "flag": "RED",
+      "date": "2026-10-06",
+      "resources": {
+        "trainer": "T5***",
+        "room": "实训基地"
+      },
+      "involved_courses": [
+        "焊接与热切割作业",
+        "危化品安全管理"
+      ],
+      "detail": "两门合规课程被排在同一天 2026-10-06，且共用讲师 T5*** 与场地 实训基地，属硬冲突，无法同时开展。",
+      "alternatives": [
+        {
+          "option": 1,
+          "action": "将 危化品安全管理 顺延至 2026-10-08",
+          "course": "危化品安全管理",
+          "date": "2026-10-08",
+          "trainer": "T5***",
+          "room": "实训基地",
+          "rationale": "同日 2026-10-08 讲师 T5*** 与场地 实训基地 均空闲，不影响另一课程原排期"
+        },
+        {
+          "option": 2,
+          "action": "将 焊接与热切割作业 提前至 2026-10-07",
+          "course": "焊接与热切割作业",
+          "date": "2026-10-07",
+          "trainer": "T5***",
+          "room": "实训基地",
+          "rationale": "2026-10-07 该讲师与场地均空闲，且早于 危化品安全作业证 到期节点，保留复审窗口"
+        },
+        {
+          "option": 3,
+          "action": "保留 10-06 焊接与热切割作业 于 实训基地，将 危化品安全管理 改用备选时段与教室",
+          "course": "危化品安全管理",
+          "date": "2026-10-06",
+          "trainer": "T5***",
+          "room": "A105",
+          "rationale": "同讲师跨场地连排（上午 实训基地 / 下午 A105），场地无占用，但需确认讲师连续授课负荷"
+        }
+      ],
+      "recommended_option": 1
+    }
+  ],
+  "certificate_renewal_gaps": [
+    {
+      "certificate": "特种作业操作证",
+      "cert_id": "CERT-****-0007",
+      "holder_masked": "E2***",
+      "holder_dept": "安全环保部",
+      "expire_date": "2026-10-14",
+      "status": "90天内到期",
+      "renew_fee": 380,
+      "handled_by_session": "特种作业安全操作（复审） 2026-10-09"
+    },
+    {
+      "certificate": "安全员B证",
+      "cert_id": "CERT-****-0058",
+      "holder_masked": "E3***",
+      "holder_dept": "安全环保部",
+      "expire_date": "2026-11-30",
+      "status": "90天内到期",
+      "renew_fee": 360,
+      "handled_by_session": "安全员 B 证考前培训 2026-10-15"
+    },
+    {
+      "certificate": "危化品安全作业证",
+      "cert_id": "CERT-****-0052",
+      "holder_masked": "E7***",
+      "holder_dept": "生产制造部",
+      "expire_date": "2026-12-20",
+      "status": "90天内到期",
+      "renew_fee": 420,
+      "handled_by_session": "危化品安全管理 2026-10-06"
+    },
+    {
+      "certificate": "焊接与热切割作业证",
+      "cert_id": "CERT-****-0041",
+      "holder_masked": "E6***",
+      "holder_dept": "生产制造部",
+      "expire_date": "2026-06-19",
+      "status": "已过期",
+      "renew_fee": null,
+      "handled_by_session": "焊接与热切割作业 2026-10-06"
+    },
+    {
+      "certificate": "安全员C证",
+      "cert_id": "CERT-****-0021",
+      "holder_masked": "E3***",
+      "holder_dept": "安全环保部",
+      "expire_date": "2024-10-01",
+      "status": "已过期",
+      "renew_fee": null,
+      "handled_by_session": "安全员 C 证考前培训 2026-10-15"
+    },
+    {
+      "certificate": "电动叉车司机证",
+      "cert_id": "CERT-****-0064",
+      "holder_masked": "E8***",
+      "holder_dept": "生产制造部",
+      "expire_date": "2026-08-31",
+      "status": "已过期",
+      "renew_fee": null,
+      "handled_by_session": "电动叉车安全操作（复审） 2026-10-20"
+    }
+  ],
+  "approval": {
+    "status": "pending_approval",
+    "route": [
+      "A1***",
+      "A2***"
+    ],
+    "blocked_by": "CF-2026-10-06-T5-SXJD",
+    "blocked_reason": "存在 RED 级资源冲突，需审批人确认备选方案后方可发布",
+    "requester": "course-schedule@1.0.0",
+    "requested_at": "2026-09-29T07:14:18.490Z"
+  }
+}

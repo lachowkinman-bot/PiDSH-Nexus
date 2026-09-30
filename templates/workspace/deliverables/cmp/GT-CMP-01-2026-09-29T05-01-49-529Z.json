@@ -1,0 +1,195 @@
+{
+  "schema": "cmp.policy-review/1.0.0",
+  "task_id": "GT-CMP-01",
+  "scenario": "cmp.policy-review@1.0.0",
+  "skill": "policy-checklist",
+  "workflow": "cmp.policy-review@1.0.0",
+  "generated_at": "2026-09-29T05:01:49.529Z",
+  "reviewer_role": "安全合规部 / 合规审查节点",
+  "policy": "员工手册",
+  "policy_scope": [
+    "劳动用工制度（加班与调休）",
+    "数据管理制度（数据出境）",
+    "个人信息保护（PIPIA 年度评估）",
+    "采购合规（供应商准入）"
+  ],
+  "sources": [
+    {
+      "file": "templates/workspace/data/cmp/policy_checklist.csv",
+      "rows": 4,
+      "columns": ["policy", "item", "status", "owner", "review_date"],
+      "role": "checklist 事实来源：审查项、状态、责任部门、复审日期"
+    },
+    {
+      "file": "templates/workspace/data/cmp/pipia.csv",
+      "rows": 3,
+      "columns": ["process", "risk_level", "residual_risk", "next_review", "owner"],
+      "role": "风险关联来源：个人信息处理活动风险等级与残留风险，用于校验 PIPIA 类缺口"
+    }
+  ],
+  "items": [
+    {
+      "id": "CHK-01",
+      "policy_module": "劳动用工制度",
+      "item": "加班与调休条款",
+      "status": "合规",
+      "owner": "人力资源部",
+      "review_date": "2026-09-12",
+      "requirement": "劳动用工制度-员工手册第4章：加班需审批留痕，加班时长按法定比例折算调休或加班费，调休有效期不超过当年度。",
+      "control": "考勤系统加班审批流 + 调休余额自动核算 + HR 月度抽查",
+      "release_evidence": "2026-09-12 人力资源部复审通过，条款版本归档并生效，未提出整改项",
+      "chain_complete": true,
+      "verdict": "PASS"
+    },
+    {
+      "id": "CHK-02",
+      "policy_module": "数据管理制度",
+      "item": "数据出境评估",
+      "status": "待整改",
+      "owner": "法务部",
+      "review_date": "2026-10-30",
+      "requirement": "数据管理制度：涉及个人信息与重要数据出境的处理活动，须先完成出境安全评估或标准合同备案，方可放行传输。",
+      "control": "出境场景清单 + 评估/备案材料归档 + 传输前合规校验",
+      "release_evidence": "缺失。截至 2026-09-29，法务部未提交出境评估报告与备案回执，条款仍处于待整改状态",
+      "chain_complete": false,
+      "verdict": "FAIL",
+      "blocking": "Requirement 已定义，Release 端无合规放行证据"
+    },
+    {
+      "id": "CHK-03",
+      "policy_module": "个人信息保护",
+      "item": "PIPIA 年度评估",
+      "status": "进行中",
+      "owner": "安全合规部",
+      "review_date": "2026-11-15",
+      "requirement": "个人信息保护：年度 PIPIA 须覆盖员工侧个人信息处理活动，按风险等级输出残留风险结论并明确下次复审时间。",
+      "control": "PIPIA 评估计划 + 处理活动风险台账（pipia.csv）+ 残留风险复评",
+      "release_evidence": "部分具备。风险台账已录入 3 项处理活动（员工考勤人脸识别、客户线索营销外呼、EAP 匿名咨询），评估结论与整改关闭单尚未签发，评估计划于 2026-11-15 到期",
+      "chain_complete": false,
+      "verdict": "PARTIAL",
+      "blocking": "评估进行中，Release 端缺少签发版评估结论"
+    },
+    {
+      "id": "CHK-04",
+      "policy_module": "采购合规",
+      "item": "供应商准入审查",
+      "status": "合规",
+      "owner": "采购部",
+      "review_date": "2026-09-28",
+      "requirement": "采购合规：供应商准入须完成资质、数据安全与合规条款审查，审查记录随合同归档。",
+      "control": "准入评分表 + 合同合规条款 + 供应商档案归档",
+      "release_evidence": "2026-09-28 采购部复审通过，审查记录与合同归档号一致，未提出整改项",
+      "chain_complete": true,
+      "verdict": "PASS"
+    }
+  ],
+  "pass_rate": 0.5,
+  "pass_rate_detail": {
+    "numerator": 2,
+    "denominator": 4,
+    "passed_items": ["CHK-01", "CHK-04"],
+    "non_passed_items": ["CHK-02", "CHK-03"],
+    "rule": "仅 status=合规 且 Requirement→Release 链完整（chain_complete=true）的审查项计入通过"
+  },
+  "gaps": [
+    {
+      "gap_id": "GAP-01",
+      "item_id": "CHK-02",
+      "policy_module": "数据管理制度",
+      "item": "数据出境评估",
+      "severity": "高",
+      "owner": "法务部",
+      "due_date": "2026-10-30",
+      "requirement": "数据出境前须完成安全评估或标准合同备案并归档放行证据。",
+      "gap_description": "审查项状态为待整改，未提交出境评估报告与备案回执，Requirement 已有但无对应 Release 证据，链路在放行环节断裂。",
+      "impact": "存在数据出境合规放行无据的风险；若在整改前发生出境传输，将同时触发制度违规与个人信息合规风险。",
+      "closure_evidence_required": "出境场景清单、评估报告或标准合同备案回执、传输前校验记录",
+      "chain_complete": false
+    },
+    {
+      "gap_id": "GAP-02",
+      "item_id": "CHK-03",
+      "policy_module": "个人信息保护",
+      "item": "PIPIA 年度评估",
+      "severity": "中",
+      "owner": "安全合规部",
+      "due_date": "2026-11-15",
+      "requirement": "年度 PIPIA 须覆盖员工侧处理活动并签发残留风险结论，明确下次复审时间。",
+      "gap_description": "评估处于进行中状态，pipia.csv 风险台账已录入但评估结论与整改关闭单未签发，链路止于中间状态。",
+      "impact": "评估结论缺失将直接支撑不了高残留风险活动的整改决策，并使年度合规举证不完整。",
+      "closure_evidence_required": "签发版 PIPIA 报告、残留风险结论、整改关闭单",
+      "chain_complete": false
+    },
+    {
+      "gap_id": "GAP-03",
+      "item_id": "CHK-03",
+      "policy_module": "个人信息保护",
+      "item": "员工考勤人脸识别（PIPIA 残留风险）",
+      "severity": "中",
+      "owner": "安全合规部",
+      "due_date": "2026-12-01",
+      "requirement": "PIPIA 中风险等级为高的处理活动，须在下次复审前将残留风险压降至可接受水平。",
+      "gap_description": "pipia.csv 记录该活动风险等级为高、残留风险为中、下次复审 2026-12-01。残留风险仍为中且高于年度评估签发节点（2026-11-15），存在评估先行、整改滞后于复审节奏的时序缺口。",
+      "impact": "在人脸识别场景下，残留风险中意味着生物特征信息处理仍存在可降低的暴露面；若 2026-12-01 复审时未压降，将转为超期未整改。",
+      "closure_evidence_required": "人脸识别考勤场景的残留风险压降措施记录与复评结论",
+      "chain_complete": false
+    }
+  ],
+  "risk_correlation": [
+    {
+      "process": "员工考勤人脸识别",
+      "risk_level": "高",
+      "residual_risk": "中",
+      "next_review": "2026-12-01",
+      "owner": "安全合规部",
+      "linked_checklist_item": "CHK-03",
+      "linked_gap": "GAP-03"
+    },
+    {
+      "process": "客户线索营销外呼",
+      "risk_level": "中",
+      "residual_risk": "低",
+      "next_review": "2027-01-10",
+      "owner": "市场部",
+      "linked_checklist_item": "CHK-03",
+      "linked_gap": null,
+      "note": "残留风险已为低，纳入 PIPIA 年度评估结论范围，不单独开缺口"
+    },
+    {
+      "process": "EAP 匿名咨询",
+      "risk_level": "高",
+      "residual_risk": "低",
+      "next_review": "2027-03-01",
+      "owner": "EAP专员",
+      "linked_checklist_item": "CHK-03",
+      "linked_gap": null,
+      "note": "高敏场景经匿名化处理残留风险已降至低，纳入 PIPIA 年度评估结论范围，不单独开缺口"
+    }
+  ],
+  "chain_check": {
+    "rule": "Requirement→Release 链完整 = 制度条款要求（requirement）已定义 且 控制措施（control）已落地 且 发布/关闭证据（release_evidence）已签发",
+    "total_items": 4,
+    "complete_chains": 2,
+    "incomplete_chains": 2,
+    "complete_items": ["CHK-01", "CHK-04"],
+    "incomplete_items": ["CHK-02", "CHK-03"],
+    "conclusion": "Requirement→Release 链整体不完整：劳动用工与采购合规两条链闭环，数据出境评估缺少放行证据，PIPIA 年度评估停留在进行中且无签发结论。"
+  },
+  "approval": {
+    "required": true,
+    "status": "待审批",
+    "approvers": [
+      "安全合规部（PIPIA 结论与 GAP-02/GAP-03）",
+      "法务部（数据出境评估与 GAP-01）"
+    ],
+    "note": "本次输出为 checklist 审查结论，不替代法务放行意见与 PIPIA 签发；整改关闭后方可更新通过率。"
+  },
+  "desensitization": {
+    "applied": true,
+    "rules": [
+      "仅使用制度名称、审查项、状态、责任部门与日期等组织级字段",
+      "未引入员工姓名、工号、联系方式等个人信息",
+      "EAP 匿名咨询相关数据保持场景级粒度，不涉及个案内容"
+    ]
+  }
+}

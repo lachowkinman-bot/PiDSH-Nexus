@@ -1,0 +1,99 @@
+{
+  "report_id": "GT-PRF-03",
+  "scenario": "prf.calibration@1.0.0",
+  "skill": "goal-cascade",
+  "workflow": "prf.cascade-report@1.0.0",
+  "generated_at": "2026-09-29T07:07:06.439Z",
+  "cycle": "Q4-2026",
+  "scope": {
+    "department": "研发部",
+    "department_goal": "需求交付准时率≥90%；交付质量达标率≥96%",
+    "source_files": [
+      "templates/workspace/data/prf/kpi.csv",
+      "templates/workspace/data/prf/calibration.csv"
+    ]
+  },
+  "cascade": [
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****35",
+      "position": "后端工程师",
+      "dept": "研发部",
+      "goal": "承接研发部 Q4-2026 目标：需求交付准时率≥90%、交付质量达标率≥96%（后端交付链路主责）",
+      "weight": 60,
+      "indicators": [
+        {
+          "kpi": "需求交付准时率",
+          "target": 90,
+          "actual": 93.2,
+          "rate": 103.6,
+          "share": 60,
+          "status": "on_track"
+        },
+        {
+          "kpi": "交付质量达标率",
+          "target": 96,
+          "actual": 94.5,
+          "rate": 98.4,
+          "share": 40,
+          "status": "on_track"
+        }
+      ],
+      "calibration": {
+        "manager_grade": "A",
+        "calibrated_grade": "A",
+        "final_score": 85.2,
+        "status": "done"
+      },
+      "risk": "低：两项指标均达标（准时率 103.6%、质量 98.4%），与校准结果 A/A 一致"
+    },
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****84",
+      "position": "前端工程师",
+      "dept": "研发部",
+      "goal": "承接研发部 Q4-2026 目标：需求交付准时率≥90%、交付质量达标率≥96%（前端交付主责）",
+      "weight": 40,
+      "indicators": [
+        {
+          "kpi": "需求交付准时率",
+          "target": 90,
+          "actual": 67.5,
+          "rate": 75.0,
+          "share": 60,
+          "status": "behind"
+        },
+        {
+          "kpi": "交付质量达标率",
+          "target": 96,
+          "actual": 88.3,
+          "rate": 92.0,
+          "share": 40,
+          "status": "at_risk"
+        }
+      ],
+      "calibration": {
+        "manager_grade": "B",
+        "calibrated_grade": "C",
+        "final_score": 73.6,
+        "status": "pending_confirm"
+      },
+      "risk": "高：需求交付准时率仅 75.0%（behind），交付质量达标率 92.0%（at_risk）；校准为 B→C（下调：交付延期），状态 pending_confirm，需重点追踪"
+    }
+  ],
+  "weight_total": 100,
+  "acceptance": {
+    "criterion": "权重合计必须 = 100%",
+    "weight_sum": 100,
+    "passed": true
+  },
+  "deidentification": {
+    "rule": "员工标识统一采用 EMP-****XX 掩码形式，不含姓名/工号明文/联系方式",
+    "field": "owner_masked"
+  },
+  "approval": {
+    "status": "pending",
+    "required_approvers": ["研发部负责人", "HRBP"],
+    "notes": "前端工程师 EMP-****84 校准结果处于 pending_confirm，其目标权重随校准结论生效；研发部目标权重分配（60/40）需部门负责人确认"
+  }
+}

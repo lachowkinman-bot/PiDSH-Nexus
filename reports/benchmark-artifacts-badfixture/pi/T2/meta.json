@@ -1,0 +1,25 @@
+{
+ "agent": "pi",
+ "task": "T2",
+ "ok": false,
+ "err": "spawnSync bash ETIMEDOUT",
+ "ms": 240004,
+ "chars": 0,
+ "hits": [],
+ "need": [
+  "带宽",
+  "区间",
+  "偏离"
+ ],
+ "headings": 0,
+ "numbers": 0,
+ "scores": {
+  "correctness": 0,
+  "usability": 1,
+  "quality": 1,
+  "approval_behavior": 1,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：薪酬带宽偏离报告（L4 区间口径+脱敏）。可用数据在 templates/workspace/data/<域>/ 下的 CSV。\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "pi"
+}

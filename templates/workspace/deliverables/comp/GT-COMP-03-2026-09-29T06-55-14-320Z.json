@@ -1,0 +1,211 @@
+{
+  "task_id": "GT-COMP-03",
+  "scenario": "comp.salary-review@1.0.0",
+  "domain": "COMP",
+  "skill": "compa-ratio",
+  "workflow": "comp.compa-ratio@1.0.0",
+  "generated_at": "2026-09-29T06:55:14.320Z",
+  "source_files": [
+    "templates/workspace/data/comp/adjust_queue.csv",
+    "templates/workspace/data/comp/bands.csv"
+  ],
+  "caliber": {
+    "metric": "CR (compa-ratio) = 薪酬区间 / 本带宽中位值(P50)",
+    "basis": "adjust_queue.current_salary_range_wan ÷ bands.p50_wan(current_band)",
+    "display_rule": "CR 仅以区间分档展示，禁止输出精确比值",
+    "buckets": ["低于0.8", "0.8–0.9", "0.9–1.0", "1.0–1.1", "1.1–1.2", "高于1.2"],
+    "assignment_rule": "取薪酬区间对应 CR 区间中点落入的分档；区间跨档或越界在 interval_note 中标注",
+    "in_scope_headcount": 16,
+    "excluded_headcount": 0
+  },
+  "records": [
+    {
+      "employee_masked": "EMP-****12",
+      "band": "P4",
+      "cr": "1.0–1.1",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "待审批",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "band": "P5",
+      "cr": "0.8–0.9",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已通过",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "band": "P4",
+      "cr": "高于1.2",
+      "zone": "高于区间上限",
+      "band_zone": "基准",
+      "review_status": "待审批",
+      "interval_note": "薪酬区间已越过 0.8–1.2 展示口径上限，需按超带宽校准复核"
+    },
+    {
+      "employee_masked": "EMP-****63",
+      "band": "P3",
+      "cr": "1.1–1.2",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "草稿",
+      "interval_note": "薪酬区间上沿触及 1.2 口径边界"
+    },
+    {
+      "employee_masked": "EMP-****07",
+      "band": "P6",
+      "cr": "1.0–1.1",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已生效",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****29",
+      "band": "P5",
+      "cr": "0.8–0.9",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已通过",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****44",
+      "band": "P2",
+      "cr": "0.9–1.0",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "待审批",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****58",
+      "band": "M1",
+      "cr": "0.9–1.0",
+      "zone": "健康区",
+      "band_zone": "管理带",
+      "review_status": "已生效",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****66",
+      "band": "P7",
+      "cr": "0.9–1.0",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已生效",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****73",
+      "band": "P4",
+      "cr": "0.9–1.0",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "待审批",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****81",
+      "band": "P8",
+      "cr": "1.0–1.1",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "待审批",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****94",
+      "band": "P9",
+      "cr": "1.0–1.1",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已通过",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****02",
+      "band": "M2",
+      "cr": "1.0–1.1",
+      "zone": "健康区",
+      "band_zone": "管理带",
+      "review_status": "待审批",
+      "interval_note": ""
+    },
+    {
+      "employee_masked": "EMP-****19",
+      "band": "P1",
+      "cr": "1.0–1.1",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已生效",
+      "interval_note": "薪酬区间恰好铺满 0.8–1.2 展示口径两端"
+    },
+    {
+      "employee_masked": "EMP-****88",
+      "band": "P6",
+      "cr": "0.8–0.9",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "已驳回",
+      "interval_note": "薪酬区间下沿已低于 0.8 口径下限，对应超带宽校准（低于下限）已驳回"
+    },
+    {
+      "employee_masked": "EMP-****46",
+      "band": "P5",
+      "cr": "1.1–1.2",
+      "zone": "健康区",
+      "band_zone": "基准",
+      "review_status": "待审批",
+      "interval_note": "薪酬区间上沿越过 1.2 口径上限"
+    }
+  ],
+  "distribution": [
+    {
+      "cr_bucket": "低于0.8",
+      "headcount": 0,
+      "share": "0.00%"
+    },
+    {
+      "cr_bucket": "0.8–0.9",
+      "headcount": 3,
+      "share": "18.75%"
+    },
+    {
+      "cr_bucket": "0.9–1.0",
+      "headcount": 4,
+      "share": "25.00%"
+    },
+    {
+      "cr_bucket": "1.0–1.1",
+      "headcount": 6,
+      "share": "37.50%"
+    },
+    {
+      "cr_bucket": "1.1–1.2",
+      "headcount": 2,
+      "share": "12.50%"
+    },
+    {
+      "cr_bucket": "高于1.2",
+      "headcount": 1,
+      "share": "6.25%"
+    }
+  ],
+  "distribution_summary": {
+    "in_band_0.8_to_1.2_headcount": 15,
+    "in_band_0.8_to_1.2_share": "93.75%",
+    "out_of_band_headcount": 1,
+    "median_bucket": "1.0–1.1",
+    "spread_reading": "分布重心落在 0.9–1.1，整体贴近带宽中位值；1 例高于区间上限需超带宽校准复核"
+  },
+  "masking": {
+    "employee_id": "仅输出脱敏编号 employee_masked（EMP-****NN），不含姓名、工号明文",
+    "amount": "薪酬金额不落盘，仅以 CR 分档区间呈现"
+  },
+  "approval_note": "本交付物为 CR 区间分布分析，供薪酬评审会参考；任何调薪生效仍以 adjust_queue.approvals（HRD/CFO）双签为准"
+}

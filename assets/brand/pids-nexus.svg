@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PiDSH Nexus">
+  <rect x="28" y="28" width="456" height="456" rx="128" fill="#10243e"/>
+  <path d="M140 138h232v58H140zM166 196h58v190h-58zM288 196h58v190h-58z" fill="#ffffff"/>
+  <path d="M92 366c66-72 105 52 164-8s86 26 164-38" fill="none" stroke="#28c7fa" stroke-width="30" stroke-linecap="round"/>
+  <circle cx="104" cy="132" r="34" fill="#f5b83d"/>
+  <circle cx="408" cy="104" r="34" fill="#7c5cff"/>
+  <circle cx="408" cy="382" r="34" fill="#28c7fa"/>
+  <circle cx="104" cy="382" r="22" fill="#ffffff"/>
+</svg>

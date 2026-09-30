@@ -1,0 +1,81 @@
+{
+  "task_id": "GT-BEN-03",
+  "scenario": "ben.plan-compare@1.0.0",
+  "skill": "flex-benefit",
+  "workflow": "ben.points-calc@1.0.0",
+  "domain": "BEN",
+  "generated_at": "2026-09-29T05-01-31-454Z",
+  "deliverable_file": "points-calc-2026-09-29T05-01-31-454Z.json",
+  "rule": "points_total 取所选计划的 points_per_year（弹性福利年度积分包），selected 取实际消耗积分 points_used，remaining = points_total - selected；remaining < 0 时该笔测算判为不合规并拦截。",
+  "data_sources": [
+    "templates/workspace/data/ben/plans.csv",
+    "templates/workspace/data/ben/usage.csv"
+  ],
+  "results": [
+    {
+      "employee_masked": "EMP-****12",
+      "points_total": 1600,
+      "selected": 1450,
+      "remaining": 150,
+      "plan": "升级商保(家属)",
+      "provider_masked": "某保险公司",
+      "status": "passed"
+    },
+    {
+      "employee_masked": "EMP-****35",
+      "points_total": 900,
+      "selected": 900,
+      "remaining": 0,
+      "plan": "高端体检套餐",
+      "provider_masked": "某体检机构",
+      "status": "passed"
+    },
+    {
+      "employee_masked": "EMP-****07",
+      "points_total": 600,
+      "selected": 300,
+      "remaining": 300,
+      "plan": "弹性健身",
+      "provider_masked": "某运动平台",
+      "status": "passed"
+    },
+    {
+      "employee_masked": "EMP-****51",
+      "points_total": 300,
+      "selected": 600,
+      "remaining": -300,
+      "plan": "EAP心理支持",
+      "provider_masked": "某EAP机构",
+      "status": "blocked",
+      "block_reason": "remaining 为负（-300），超出弹性福利积分年度额度 300 分，按验收标准拦截，不允许提交核销"
+    }
+  ],
+  "interception": {
+    "criterion": "剩余分可为负拦截",
+    "blocked_count": 1,
+    "blocked_employees": [
+      "EMP-****51"
+    ],
+    "blocked_amount": -300
+  },
+  "summary": {
+    "employee_count": 4,
+    "points_total_sum": 3400,
+    "selected_sum": 3250,
+    "remaining_sum": 150,
+    "passed_remaining_sum": 450,
+    "utilization_rate": 0.956
+  },
+  "approval": {
+    "auto_approved": [
+      "EMP-****12",
+      "EMP-****35",
+      "EMP-****07"
+    ],
+    "requires_human_review": [
+      "EMP-****51"
+    ],
+    "note": "被拦截记录不得自动入账，需员工重新选择计划或由福利管理员人工裁定后次日重跑 ben.points-calc@1.0.0"
+  },
+  "masking": "员工号与供应商名称均按源数据脱敏口径保留（EMP-****NN / 某XX机构），交付物中不含任何可还原的自然人身份信息"
+}

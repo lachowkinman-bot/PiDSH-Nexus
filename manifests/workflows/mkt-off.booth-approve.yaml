@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-off.booth-approve@1.0.0
+domain: mkt-off
+description: "展位/场地签约审批"
+trigger:
+  type: command
+  expr: booth-approve
+nodes:
+  - id: n1
+    type: skill
+    ref: event-plan
+  - id: n2
+    type: condition
+    expr: "展位/场地签约审批 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "展位/场地签约审批：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: booth-approve-<ts>.json
+  format: json
+  fields:
+    - venue
+    - cost_wan
+    - dates
+    - approver
+  acceptance: "单场签约 >30 万双审批"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-booth-approve

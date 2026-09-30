@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/order.schema.json",
+  "title": "采购订单报文校验契约",
+  "type": "object",
+  "required": ["order_id", "amount", "currency", "items", "buyer"],
+  "additionalProperties": false,
+  "properties": {
+    "order_id": { "type": "string", "pattern": "^ORD-\\d{6}$" },
+    "amount": { "type": "number", "exclusiveMinimum": 0 },
+    "currency": { "type": "string", "enum": ["CNY", "USD", "EUR"] },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["sku", "qty", "unit_price"],
+        "additionalProperties": false,
+        "properties": {
+          "sku": { "type": "string", "pattern": "^SKU-\\d{3}$" },
+          "qty": { "type": "integer", "minimum": 1 },
+          "unit_price": { "type": "number", "exclusiveMinimum": 0 }
+        }
+      }
+    },
+    "buyer": {
+      "type": "object",
+      "required": ["name", "email"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "email": { "type": "string", "pattern": "^[^@\\s]+@[^@\\s]+\\.[A-Za-z]{2,}$" }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+ "domain": "comp",
+ "kind": "comp-salary-adjust",
+ "created_at": "2026-09-29T05:24:23.274Z",
+ "workflow": "comp.salary-adjust@1.0.0",
+ "description": "调薪审批（双审批 + redact_gate）",
+ "fields": {},
+ "deliverable_spec": {
+  "file": "salary-adjust-<ts>.json",
+  "format": "json",
+  "fields": [
+   "employee_masked",
+   "band_from",
+   "band_to",
+   "approvals"
+  ],
+  "acceptance": "个体薪酬只出区间；redact_gate 强制"
+ },
+ "engine": {
+  "name": "pi",
+  "fallback": false,
+  "output": "## 执行结果：无法执行（未找到目标技能与工作流）\n\n我按流程对 `band-analysis`（技能）与 `comp.salary-adjust@1.0.0`（工作流）做了定位，但**在当前环境中不存在这两个资产**。为避免编造审批结论，我没有输出任何\"调薪审批\"结果。\n\n### 已核查的位置与结果\n\n**工作区 `F:/Pi_DSH_workplace/universal-workbench-3.0/`**\n实际内容仅为一个空的 npm 工程：\n\n| 路径 | 状态 |\n|---|---|\n| `package.json` | 存在（仅依赖 `playwright-core ^1.63.0`） |\n| `package-lock.json` | 存在 |\n| `node_modules/playwright-core` | 存在 |\n| `README.md` / `AGENTS.md` / `CLAUDE.md` / `SKILL.md` | 不存在 |\n| `skills/`、`workflows/`、`registry/`、`catalog.json`、`manifest.json`、`index.json` | 不存在 |\n| `.pi/`、`.claude/`、`.agents/` 下的技能/工作流定义 | 不存在 |\n\n**候选的全局与父级位置**\n- `C:/Users/Kinman/.agents/skills/band-analysis/SKILL.md` —— 不存在\n- `C:/Users/Kinman/.agents/workflows/comp.salary-adjust@1.0.0.md` —— 不存在\n- `C:/Users/Kinman/.pi/**`、`.workbench/**` —— 不存在\n- `F:/Pi_DSH_workplace/` 根级清单文件 —— 不存在\n\n**已加载的技能目录**中也没有 `band-analysis` 这一项。\n\n### 环境限制（影响定位）\n本次会话仅挂载了 `read` / `write` 两个工具：**没有 bash、没有 glob/列目录**。因此我只能按常见约定逐路径探测，无法对目录做穷举签名，也无法运行工作流引擎。若资产确实存在，请给出其确切文件路径。\n\n### 需要你补充的信息（任一即可）\n1. `band-analysis` 技能定义文件的实际路径，例如 `…/skills/band-analysis/SKILL.md`；\n2. 工作流 `comp.salary-adjust@1.0.0` 的定义位置（yaml/json/md 均可）；\n3. 工作流引擎/运行器的入口，以及\"双审批（双人审批 + 门流水线）\"和 `redact_gate`（脱敏闸门）的配置约定；\n4. 本次调薪审批的输入数据（员工、薪酬带、拟调薪幅度等），或数据目录路径。\n\n拿到上述任一项后，我会按 `comp.salary-adjust@1.0.0` 的步骤契约执行 `band-analysis`，并明确输出「双审批流转 + redact_gate 脱敏校验」的判定与证据。\n\n> 说明：技能「band-analysis」看起来是\"薪酬带分析（band analysis）\"类合规节点。它的结论会直接影响调薪审批，因此我没有在缺少定义与数据的情况下进行任何推断或占位输出——这类编造会造成实际的人事/合规风险。"
+ },
+ "data_snapshot": [
+  {
+   "table": "adjust_queue",
+   "rows": 4
+  },
+  {
+   "table": "bands",
+   "rows": 5
+  }
+ ]
+}

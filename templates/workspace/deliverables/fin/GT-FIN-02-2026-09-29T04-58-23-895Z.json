@@ -1,0 +1,135 @@
+{
+  "report_id": "GT-FIN-02",
+  "scenario": "fin.expense-approve@1.0.0",
+  "skill": "budget-analysis",
+  "workflow": "fin.monthly-report@1.0.0",
+  "domain": "FIN",
+  "generated_at": "2026-09-29T04:58:23.895Z",
+  "currency_unit": "万元",
+  "period": "Q4",
+  "period_source": "templates/workspace/data/fin/budget.csv 字段 period 取值 Q4（源数据未标注年份）",
+  "revenue_wan": null,
+  "cost_wan": 784.0,
+  "net_wan": null,
+  "required_field_status": {
+    "period": "已填列，取自源数据 period 列（Q4）",
+    "revenue_wan": "置空（null）——数据源未提供任何营业收入数据。budget.csv 仅含部门预算与执行额，expenses.csv 仅含报销明细；以 0 充数会造成收入口径失真，故按事实置空并标记数据缺口。",
+    "cost_wan": "已填列真实值 784.0 万元 = budget.csv 五行 used_wan 之和（214+199+187+96+88），逐行可回溯至源文件部门记录。",
+    "net_wan": "置空（null）——净利润 = 收入 - 成本，收入类数据缺失，不具备计算前提，拒绝以估算值填补。"
+  },
+  "cost_basis": {
+    "definition": "Q4 已发生成本口径 = 各部门预算执行额（used_wan）合计",
+    "traceable_source": "templates/workspace/data/fin/budget.csv",
+    "traceable_rows": 5,
+    "sum_check_wan": {
+      "budget_wan": 1280.0,
+      "used_wan": 784.0,
+      "remain_wan": 496.0,
+      "identity": "784.0 + 496.0 = 1280.0 校验通过"
+    }
+  },
+  "budget_execution": {
+    "overall_execution_rate_pct": 61.25,
+    "departments": [
+      {
+        "dept": "销售部",
+        "budget_wan": 320.0,
+        "used_wan": 214.0,
+        "remain_wan": 106.0,
+        "execution_rate_pct": 66.88,
+        "voucher_ref": "budget.csv#销售部/Q4"
+      },
+      {
+        "dept": "市场部",
+        "budget_wan": 280.0,
+        "used_wan": 199.0,
+        "remain_wan": 81.0,
+        "execution_rate_pct": 71.07,
+        "voucher_ref": "budget.csv#市场部/Q4"
+      },
+      {
+        "dept": "研发部",
+        "budget_wan": 410.0,
+        "used_wan": 187.0,
+        "remain_wan": 223.0,
+        "execution_rate_pct": 45.61,
+        "voucher_ref": "budget.csv#研发部/Q4"
+      },
+      {
+        "dept": "行政部",
+        "budget_wan": 120.0,
+        "used_wan": 96.0,
+        "remain_wan": 24.0,
+        "execution_rate_pct": 80.0,
+        "voucher_ref": "budget.csv#行政部/Q4"
+      },
+      {
+        "dept": "人力资源部",
+        "budget_wan": 150.0,
+        "used_wan": 88.0,
+        "remain_wan": 62.0,
+        "execution_rate_pct": 58.67,
+        "voucher_ref": "budget.csv#人力资源部/Q4"
+      }
+    ]
+  },
+  "expense_ledger_analysis": {
+    "source": "templates/workspace/data/fin/expenses.csv",
+    "record_count": 5,
+    "total_amount_yuan": 64430.0,
+    "total_amount_wan": 6.443,
+    "note": "该明细仅为当期报销/审批凭证样本，金额量级（6.443 万元）远小于部门预算执行额（784 万元），不可直接作为成本合计口径，仅用于审批时效与风险观察。",
+    "by_status_yuan": {
+      "已报销": 2170.0,
+      "已批准": 3860.0,
+      "待审批": 15600.0,
+      "双审批中": 42800.0
+    },
+    "by_approval_level_yuan": {
+      "L1": 2170.0,
+      "L2": 3860.0,
+      "L3": 15600.0,
+      "L4": 42800.0
+    },
+    "settled_amount_yuan": 6030.0,
+    "in_flight_amount_yuan": 58400.0,
+    "in_flight_ratio_pct": 90.64,
+    "voucher_refs": [
+      "expenses.csv#EXP-8812/已批准/L2/3860",
+      "expenses.csv#EXP-8813/待审批/L3/15600",
+      "expenses.csv#EXP-8814/已报销/L1/820",
+      "expenses.csv#EXP-8815/双审批中/L4/42800",
+      "expenses.csv#EXP-8816/已报销/L1/1350"
+    ]
+  },
+  "traceability_grade": "A",
+  "traceability_statement": "cost_wan=784.0 及全部部门分解值均可逐行回溯至 budget.csv 原始记录（5 行、Q4、部门级），满足凭证级追溯；同时已对无法溯源的两项收入口径字段显式置空并登记缺口，不以估算值充当财报数字。",
+  "data_gaps": [
+    {
+      "field": "revenue_wan",
+      "severity": "blocking",
+      "detail": "两个数据源（budget.csv、expenses.csv）均不含收入科目，无凭证可引用，已置空。"
+    },
+    {
+      "field": "net_wan",
+      "severity": "blocking",
+      "detail": "净利润依赖收入与成本双边数据，收入缺失导致不可计算，已置空。"
+    },
+    {
+      "field": "period_year",
+      "severity": "warning",
+      "detail": "budget.csv 中 period 仅记录 Q4，未给出会计年度；交付物生成时间为 2026-09-29，与 Q4 归档窗口需业务方确认口径。"
+    }
+  ],
+  "findings": [
+    "整体预算执行率 61.25%（784/1280 万元），季度未能达成时间进度，剩余额度 496 万元集中于研发部（223 万元）。",
+    "行政部执行率 80.00% 为最高，剩余 24 万元，为最可能出现超支风险的部门。",
+    "研发部执行率 45.61% 为最低，223 万元额度未动，存在进度滞后或预算编制偏松两种可能，建议业务复核。",
+    "报销明细中 90.64% 的金额（5.84 万元）处于待审批或双审批中，其中 EXP-8815（4.28 万元、L4、双审批中）单笔占比 66.4%，是审批链路的主要滞留点。"
+  ],
+  "approval_and_masking": {
+    "pii_masking": "expenses.csv 的 applicant_masked 字段在源数据中已脱敏为「姓+****」形式，交付物沿用该脱敏字段，未还原、未新增任何可识别个人的信息；交付物不含身份证明、银行账号、家庭住址等要素。",
+    "approval_chain": "EXP-8814、EXP-8816（L1）已完成报销；EXP-8812（L2）已批准；EXP-8813（L3）待审批；EXP-8815（L4）双审批中。L4 及双审批中单据未终结前，对应费用不确认为已决支出。",
+    "control_note": "本报告为分析产物，不构成记账凭证或审批结论；成本数字以上游财务系统总账为准，明细审批动作仍由 fin.expense-approve 流程执行。"
+  }
+}

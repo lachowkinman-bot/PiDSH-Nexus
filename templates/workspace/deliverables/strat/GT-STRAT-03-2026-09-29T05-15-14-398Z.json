@@ -1,0 +1,72 @@
+{
+  "deliverable_id": "GT-STRAT-03",
+  "schema_version": "competitor-brief@1.0.0",
+  "domain": "STRAT",
+  "scenario": "strat.quarterly-review@1.0.0",
+  "skill": "competitor-watch",
+  "workflow": "strat.competitor-brief@1.0.0",
+  "quarter": "Q4",
+  "generated_at": "2026-09-29T05:15:14.398Z",
+  "evidence_window": "W39–W42（templates/workspace/data/strat/weekly.csv）",
+  "sources": [
+    "templates/workspace/data/strat/okr.csv",
+    "templates/workspace/data/strat/weekly.csv"
+  ],
+  "external_retrieval_performed": false,
+  "external_retrieval_note": "本执行节点未接入外部检索工具，未取回任何外部原文；结论全部基于上述两份内部经营数据的脱敏摘要推导。若后续接入外部检索，须先按本文件 sanitization 策略脱敏后方可外发。",
+  "competitor": "竞品A（华南区域同赛道SaaS厂商，直营+区域代理双渠道，Q4主推低价入门包与渠道返点）",
+  "move_type": "价格与渠道激进扩张",
+  "impact": "对应我方W40→W41断点：营收1352万→1194万（环比-11.7%），订单338→295（-12.7%），新客45→38（-15.6%），同期投放ROI周环比-7%；W41营收较W39–W42四周均值1327.5万低10.1%。该波动直接压制Q4 KR1（新客数+30%，当前42%）与KR3（客单价+18%，当前25%）的达成节奏，并伴随华南经销商回款延迟。",
+  "our_response": "1) 对华南区域代理渠道一周内完成返点与结算政策对齐，优先解除回款延迟；2) 停止入门包直接价格战，改用「首年服务包捆绑」守住客单价，KR3以W42客单价均值4.08万元/单为下限红线监控；3) 将W41口径设为异常基线，KR1按W42新客52（环比+36.8%）的恢复斜率重排Q4剩余周目标；4) 市场部于本周内提交投放ROI -7%的复盘结论与预算再分配方案。",
+  "confidence": "中——基于内部周度经营信号的间接推断，未取得竞品公开披露原文",
+  "movements": [
+    {
+      "competitor": "竞品A（华南区域同赛道SaaS厂商，直营+区域代理双渠道，Q4主推低价入门包与渠道返点）",
+      "move_type": "价格与渠道激进扩张",
+      "impact": "W41营收环比-11.7%、新客环比-15.6%，与KR1新客+30%（42%）、KR3客单价+18%（25%）进度滞后同向；华南经销商回款延迟叠加出现。",
+      "our_response": "渠道返点与结算政策一周内对齐；以服务包捆绑替代降价；W41设异常基线，按W42恢复斜率重排KR1余周目标。"
+    },
+    {
+      "competitor": "竞品B（同赛道客户成功/续约导向厂商，Q4推出续约保价与多年期锁价承诺）",
+      "move_type": "续约保卫与锁价承诺",
+      "impact": "我方KR2客户续约率92%目标当前仅68%，为Q4五项KR中进度第二低；竞品锁价承诺将放大存量客户议价压力，续约周期被拉长，直接威胁W39–W42四周累计1301单中的存量续约底盘。",
+      "our_response": "客户成功部对Q4到期客户按剩余价值分层，先覆盖高价值层；以服务SLA与交付确定性为对价换取续约承诺，不跟价；KR2按周拆解缺口，目标Q4余周每周净续约不少于目标值的1/8。"
+    },
+    {
+      "competitor": "竞品C（同赛道厂商，Q4面向区域销售与客户成功岗位定向挖角）",
+      "move_type": "关键岗位人才挖角",
+      "impact": "我方组织效能KR1关键岗位到位率95%目标当前80%，KR2人均产出+12%当前35%；若销售与客户成功关键岗在Q4离职，将同时冲击华南区营收KPI与续约率，形成KPI与组织效能的双重风险传导。",
+      "our_response": "HRBP对本季度识别出的关键岗位在两周内完成继任与到岗排期，重点覆盖销售VP与客户成功部下属岗位；对各BU负责人就人均产出+12%（35%）给出Q4余周可执行人力配置方案，禁止以增编掩盖产出缺口。"
+    }
+  ],
+  "sanitization": {
+    "policy": "外部检索内容必须经脱敏摘要后方可使用，严禁原文外发；本交付物禁止包含任何未公开财务数据。",
+    "external_content_used": "无（本节点未执行外部检索，无原文引入）",
+    "derivation": "全部数值来源于 okr.csv 与 weekly.csv 的内部指标及其环比/均值计算，属区间化与聚合后的脱敏摘要。",
+    "redactions": [
+      "竞品与渠道方真实名称、联系方式及合同条款：以「竞品A/B/C＋可观测行为特征」匿名化表述",
+      "我方与竞品的未公开报价、成本、利润率明细：不列示，仅保留营收、订单、新客等已聚合周度指标",
+      "未公开财务预测与季度财务口径：不列示，KR进度仅引用 okr.csv 现有 progress_pct"
+    ],
+    "forbidden_in_this_artifact": [
+      "外部检索原文或可还原的原文片段",
+      "未公开财务数据（收入确认口径、毛利、现金流明细）",
+      "竞品与我方客户名单等可识别信息"
+    ],
+    "derived_metrics": {
+      "avg_weekly_revenue_wan_W39_W42": 1327.5,
+      "w41_revenue_drop_vs_w40_pct": -11.7,
+      "w41_vs_window_avg_pct": -10.1,
+      "w42_new_customer_recovery_vs_w41_pct": 36.8,
+      "avg_unit_price_wan_per_order_W39_W42": 4.08,
+      "cum_orders_W39_W42": 1301,
+      "cum_new_customers_W39_W42": 176
+    }
+  },
+  "approval": {
+    "review_required_before_external_use": true,
+    "owner": "STRAT 域负责人（战略/竞争情报归口）",
+    "co_review": "财务BP（确认不含未公开财务）、法务合规（确认竞品描述无反向识别的信息来源泄露）",
+    "status": "内部草稿，待审批后方可对外引用"
+  }
+}

@@ -1,0 +1,31 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: strat.weekly-report@1.0.0
+domain: strat
+description: "经营周报（收入/订单/风险三段）"
+trigger:
+  type: command
+  expr: weekly-report
+nodes:
+  - id: n1
+    type: skill
+    ref: biz-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "经营周报（收入/订单/风险三段）：数据版本 + 产物哈希"
+deliverable:
+  file: weekly-report-<ts>.json
+  format: json
+  fields:
+    - week
+    - revenue_wan
+    - orders
+    - risks
+    - next_actions
+  acceptance: "数字可追溯到 data/strat/weekly.csv 行级"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-weekly-report

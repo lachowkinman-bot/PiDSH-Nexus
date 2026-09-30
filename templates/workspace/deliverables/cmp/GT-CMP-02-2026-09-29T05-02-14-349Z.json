@@ -1,0 +1,160 @@
+{
+  "deliverable_id": "GT-CMP-02",
+  "skill": "pipia-list",
+  "workflow": "cmp.pipia-review@1.0.0",
+  "scenario": "cmp.policy-review@1.0.0",
+  "generated_at": "2026-09-29T05:02:14.349Z",
+  "source_data": [
+    "templates/workspace/data/cmp/pipia.csv",
+    "templates/workspace/data/cmp/policy_checklist.csv"
+  ],
+  "process": "新业务上线 PIPIA 清单（员工考勤人脸识别、客户线索营销外呼、EAP 匿名咨询）",
+  "risk_level": "高",
+  "residual": "中",
+  "approvals": [
+    {
+      "process": "员工考勤人脸识别",
+      "role": "安全合规部",
+      "decision": "未通过-暂缓上线",
+      "reason": "初始风险等级为高，残余风险仍为中，未完成降级，按验收标准不得上线",
+      "conditions": [
+        "补齐人脸识别的人脸模板加密与去标识化方案，残余风险降至低",
+        "完成数据出境评估（法务部，政策清单待整改项）后方可复议"
+      ],
+      "decided_at": "2026-09-29T05:02:14.349Z"
+    },
+    {
+      "process": "客户线索营销外呼",
+      "role": "市场部",
+      "decision": "通过-允许上线",
+      "reason": "初始风险等级为中，残余风险已降至低，符合上线条件",
+      "conditions": [
+        "维持外呼名单来源合法性记录与退订即时生效机制"
+      ],
+      "decided_at": "2026-09-29T05:02:14.349Z"
+    },
+    {
+      "process": "EAP 匿名咨询",
+      "role": "安全合规部",
+      "decision": "通过-允许上线",
+      "reason": "初始风险等级为高，但通过匿名化与最小化采集将残余风险降至低，降级成立",
+      "conditions": [
+        "持续保证匿名性，禁止将咨询记录与员工身份关联",
+        "按 2027-03-01 节点完成复审"
+      ],
+      "decided_at": "2026-09-29T05:02:14.349Z"
+    }
+  ],
+  "items": [
+    {
+      "process": "员工考勤人脸识别",
+      "risk_level": "高",
+      "residual": "中",
+      "approvals": [
+        {
+          "role": "安全合规部",
+          "decision": "未通过-暂缓上线"
+        }
+      ],
+      "owner": "安全合规部",
+      "next_review": "2026-12-01",
+      "launch_gate": "拦截",
+      "pia_measures": [
+        "人脸模板加密存储并去标识化，与工号解耦",
+        "采集前明示告知并取得单独同意，提供刷脸之外的替代考勤方式",
+        "限定存储期限与访问权限，留存调用审计日志"
+      ],
+      "gap": "残余风险中，未降至低，降级措施未验证"
+    },
+    {
+      "process": "客户线索营销外呼",
+      "risk_level": "中",
+      "residual": "低",
+      "approvals": [
+        {
+          "role": "市场部",
+          "decision": "通过-允许上线"
+        }
+      ],
+      "owner": "市场部",
+      "next_review": "2027-01-10",
+      "launch_gate": "放行",
+      "pia_measures": [
+        "线索来源合法性审查与授权链路留存",
+        "外呼频次上限控制与拒接/退订名单即时同步",
+        "通话录音最小化留存并限定质检用途"
+      ],
+      "gap": "无阻断项"
+    },
+    {
+      "process": "EAP 匿名咨询",
+      "risk_level": "高",
+      "residual": "低",
+      "approvals": [
+        {
+          "role": "安全合规部",
+          "decision": "通过-允许上线"
+        }
+      ],
+      "owner": "EAP专员",
+      "next_review": "2027-03-01",
+      "launch_gate": "放行",
+      "pia_measures": [
+        "咨询数据匿名化处理，不采集可直接识别身份的信息",
+        "咨询记录与人事档案物理与逻辑隔离",
+        "仅 EAP专员可访问，访问行为全量留痕"
+      ],
+      "gap": "无阻断项"
+    }
+  ],
+  "policy_context": [
+    {
+      "policy": "个人信息保护",
+      "item": "PIPIA 年度评估",
+      "status": "进行中",
+      "owner": "安全合规部",
+      "review_date": "2026-11-15"
+    },
+    {
+      "policy": "数据管理制度",
+      "item": "数据出境评估",
+      "status": "待整改",
+      "owner": "法务部",
+      "review_date": "2026-10-30"
+    },
+    {
+      "policy": "劳动用工制度",
+      "item": "加班与调休条款",
+      "status": "合规",
+      "owner": "人力资源部",
+      "review_date": "2026-09-12"
+    },
+    {
+      "policy": "采购合规",
+      "item": "供应商准入审查",
+      "status": "合规",
+      "owner": "采购部",
+      "review_date": "2026-09-28"
+    }
+  ],
+  "acceptance_check": {
+    "criteria": "高风险 residual 未降级不得上线",
+    "result": "未通过整体放行：员工考勤人脸识别（高→中，未降级）被拦截，其余两项放行",
+    "blocked_count": 1,
+    "released_count": 2
+  },
+  "approval_summary": {
+    "required_approvers": [
+      "安全合规部",
+      "市场部"
+    ],
+    "blocked": [
+      "员工考勤人脸识别"
+    ],
+    "released": [
+      "客户线索营销外呼",
+      "EAP 匿名咨询"
+    ],
+    "escalation": "员工考勤人脸识别需在 2026-12-01 复审前完成残余风险降级并提请安全合规部复议"
+  }
+}

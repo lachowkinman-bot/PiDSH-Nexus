@@ -1,0 +1,71 @@
+{
+  "task_id": "GT-TRN-03",
+  "scenario": "trn.plan-approve@1.0.0",
+  "skill": "cert-expiry",
+  "workflow": "trn.cert-expiry@1.0.0",
+  "generated_at": "2026-09-29T05:16:27.966Z",
+  "reference_date": "2026-09-29",
+  "window_days": 90,
+  "source_files": [
+    "templates/workspace/data/trn/certificates.csv"
+  ],
+  "summary": {
+    "total_certificates": 4,
+    "expiring_within_90_days": 1,
+    "expired": 1,
+    "blocked": 1,
+    "valid": 2
+  },
+  "expiring_within_90_days": [
+    {
+      "certificate": "特种作业操作证",
+      "holder_masked": "王****",
+      "issue_date": "2023-10-15",
+      "expire_date": "2026-10-14",
+      "days_left": 15,
+      "status": "90天内到期",
+      "action": "提醒续期",
+      "blocking": false,
+      "recommendation": "到期前 15 天，需通知持证人及所属部门启动换证/复审流程，并在到期日前完成材料提交，逾期未换证将自动转入拦截状态。"
+    }
+  ],
+  "expired": [
+    {
+      "certificate": "安全员C证",
+      "holder_masked": "陈****",
+      "issue_date": "2021-11-02",
+      "expire_date": "2024-10-01",
+      "days_left": -728,
+      "status": "已过期",
+      "action": "立即拦截",
+      "blocking": true,
+      "recommendation": "证书已于 2024-10-01 过期 728 天，立即拦截该持证人的安全员岗位排班与作业授权，须重新取证后方可解除拦截。"
+    }
+  ],
+  "valid": [
+    {
+      "certificate": "注册会计师",
+      "holder_masked": "李****",
+      "issue_date": "2024-06-01",
+      "expire_date": "2027-05-31",
+      "days_left": 244,
+      "status": "有效",
+      "action": "无需处理",
+      "blocking": false
+    },
+    {
+      "certificate": "一级建造师",
+      "holder_masked": "赵****",
+      "issue_date": "2025-03-20",
+      "expire_date": "2028-03-19",
+      "days_left": 537,
+      "status": "有效",
+      "action": "无需处理",
+      "blocking": false
+    }
+  ],
+  "interception_policy": {
+    "rule": "days_left < 0 立即拦截；0 <= days_left <= 90 进入续期提醒清单；days_left > 90 正常。",
+    "enforced": true
+  }
+}

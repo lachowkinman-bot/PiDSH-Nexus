@@ -1,0 +1,8 @@
+LOCK: pi=0.87.1 (@earendil-works/pi-coding-agent) | dsh=0.1.5-rc.3 (@deepseek-ai/dsh) | node>=24.19 LTS（2026-09-27 实测 nodejs.org latest-v24.x=v24.21.0，满足 pi-vault-mind engines>=24.19.0） | pnpm>=10 | 锁定日 2026-09-27
+4977d29233a5928a4ef1c16e44bdc19d77bbf38f16823d54ec87c5b0198830bf *offline/engines/deepseek-ai-dsh-0.1.5-rc.3.tgz
+1423ee3c61e7c96464e1cbf3c8dc24d3056cb3410995c3671a98c3ecc527540f *offline/engines/earendil-works-pi-coding-agent-0.87.1.tgz
+
+# 决策台账（2026-09-27 用户确认）
+# 1. U3/U4/U10-U14 六道执行期门禁由执行 Agent 实跑闭合（未跑即交付=V1）
+# 2. 10 Runner 中 9 个 UNVERIFIED：矩阵照发、实测回填，交付物不得宣称 10/10 支持
+# 3. Node 基线改锁 24.19 LTS（保住 KG 向量主力包 pi-vault-mind@0.16.36，engines node>=24.19.0；nodejs.org latest-v24.x=v24.21.0 实测满足）

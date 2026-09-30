@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: fin.budget-review@1.0.0
+domain: fin
+description: "预算调整审批（部门季度包）"
+trigger:
+  type: command
+  expr: budget-review
+nodes:
+  - id: n1
+    type: skill
+    ref: budget-analysis
+  - id: n2
+    type: condition
+    expr: "预算调整审批（部门季度包） 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "预算调整审批（部门季度包）：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: budget-review-<ts>.json
+  format: json
+  fields:
+    - dept
+    - budget_wan
+    - delta_wan
+    - reason
+  acceptance: "超包 10% 加签 CFO"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-budget-review

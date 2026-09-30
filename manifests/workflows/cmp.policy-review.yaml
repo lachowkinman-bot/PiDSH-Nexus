@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: cmp.policy-review@1.0.0
+domain: cmp
+description: "制度审查 checklist（逐条比对）"
+trigger:
+  type: command
+  expr: policy-review
+nodes:
+  - id: n1
+    type: skill
+    ref: policy-checklist
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "制度审查 checklist（逐条比对）：数据版本 + 产物哈希"
+deliverable:
+  file: policy-review-<ts>.json
+  format: json
+  fields:
+    - policy
+    - items
+    - pass_rate
+    - gaps
+  acceptance: "Requirement→Release 链完整"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-policy-review

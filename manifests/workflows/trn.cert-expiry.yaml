@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: trn.cert-expiry@1.0.0
+domain: trn
+description: "资质到期提醒（特种作业/证书）"
+trigger:
+  type: command
+  expr: cert-expiry
+nodes:
+  - id: n1
+    type: skill
+    ref: cert-expiry
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "资质到期提醒（特种作业/证书）：数据版本 + 产物哈希"
+deliverable:
+  file: cert-expiry-<ts>.json
+  format: json
+  fields:
+    - certificate
+    - holder_masked
+    - expire_date
+    - days_left
+  acceptance: "90 天内到期必须列出；过期立即拦截"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-cert-expiry

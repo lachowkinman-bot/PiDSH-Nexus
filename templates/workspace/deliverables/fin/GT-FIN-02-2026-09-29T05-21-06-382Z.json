@@ -1,0 +1,174 @@
+{
+  "report_id": "GT-FIN-02",
+  "report_name": "部门预算执行月报",
+  "scenario": "fin.expense-approve@1.0.0",
+  "skill": "budget-analysis",
+  "workflow": "fin.monthly-report@1.0.0",
+  "generated_at": "2026-09-29T05:21:06.382Z",
+  "currency_unit": "万元",
+
+  "period": "2026-09",
+  "revenue_wan": null,
+  "cost_wan": 784.0,
+  "net_wan": null,
+
+  "required_field_status": {
+    "period": {
+      "value": "2026-09",
+      "state": "TRACED",
+      "evidence": "报告期取自交付物时序戳 2026-09-29，归属 2026 年 9 月",
+      "source": "deliverable_timestamp"
+    },
+    "revenue_wan": {
+      "value": null,
+      "state": "NOT_AVAILABLE",
+      "evidence": "本次输入仅含 templates/workspace/data/fin/budget.csv 与 expenses.csv，两份数据源均无营业收入科目、税率或开票/回款凭证字段，无法取得凭证级收入数据",
+      "source": "none",
+      "impact": "收入无法取值，导致 net_wan 不可计算"
+    },
+    "cost_wan": {
+      "value": 784.0,
+      "state": "TRACED",
+      "evidence": "budget.csv 五行 used_wan 合计：214+199+187+96+88 = 784（万元）；与预算合计 1280、剩余合计 496 满足 1280-784=496 的恒等校验",
+      "source": "templates/workspace/data/fin/budget.csv",
+      "grade": "B"
+    },
+    "net_wan": {
+      "value": null,
+      "state": "NOT_AVAILABLE",
+      "evidence": "净额 = 收入 - 成本，因 revenue_wan 无凭证来源，净额按会计准则不予估算或倒轧",
+      "source": "derived",
+      "impact": "本月净额指标空缺"
+    }
+  },
+
+  "budget_execution": {
+    "period_label_in_source": "Q4",
+    "period_label_conflict": true,
+    "period_conflict_note": "budget.csv 的 period 列标注为 Q4，与报告期 2026-09（第三季度）不一致，已标记为待财务确认的口径差异，未在本报告中改写源数据",
+    "total_budget_wan": 1280.0,
+    "total_used_wan": 784.0,
+    "total_remain_wan": 496.0,
+    "execution_rate_pct": 61.25,
+    "identity_check": "1280.0 - 784.0 = 496.0 (通过)",
+    "departments": [
+      {
+        "dept": "销售部",
+        "budget_wan": 320.0,
+        "used_wan": 214.0,
+        "remain_wan": 106.0,
+        "execution_rate_pct": 66.88
+      },
+      {
+        "dept": "市场部",
+        "budget_wan": 280.0,
+        "used_wan": 199.0,
+        "remain_wan": 81.0,
+        "execution_rate_pct": 71.07
+      },
+      {
+        "dept": "研发部",
+        "budget_wan": 410.0,
+        "used_wan": 187.0,
+        "remain_wan": 223.0,
+        "execution_rate_pct": 45.61
+      },
+      {
+        "dept": "行政部",
+        "budget_wan": 120.0,
+        "used_wan": 96.0,
+        "remain_wan": 24.0,
+        "execution_rate_pct": 80.0
+      },
+      {
+        "dept": "人力资源部",
+        "budget_wan": 150.0,
+        "used_wan": 88.0,
+        "remain_wan": 62.0,
+        "execution_rate_pct": 58.67
+      }
+    ]
+  },
+
+  "voucher_sample": {
+    "source": "templates/workspace/data/fin/expenses.csv",
+    "voucher_count": 5,
+    "total_amount_yuan": 64430.0,
+    "total_amount_wan": 6.443,
+    "settled_amount_yuan": 6030.0,
+    "settled_amount_wan": 0.603,
+    "settled_vouchers": ["EXP-8812", "EXP-8814", "EXP-8816"],
+    "pending_amount_yuan": 58400.0,
+    "pending_amount_wan": 5.84,
+    "pending_vouchers": ["EXP-8813", "EXP-8815"],
+    "pii_handling": "申请人姓名在源数据中已为掩码形式（张****/李****/王****/陈****/赵****），报告全流程沿用掩码，未做还原",
+    "by_level": [
+      {"level": "L1", "amount_yuan": 2170.0, "status": "已报销"},
+      {"level": "L2", "amount_yuan": 3860.0, "status": "已批准"},
+      {"level": "L3", "amount_yuan": 15600.0, "status": "待审批"},
+      {"level": "L4", "amount_yuan": 42800.0, "status": "双审批中"}
+    ],
+    "sample_scope_note": "该文件为 5 笔凭证样本（合计 6.443 万元），与预算口径已用 784 万元存在量级差异，属于明细抽样而非全量凭证库，不得用于替代总账"
+  },
+
+  "anomalies": [
+    {
+      "id": "ANO-01",
+      "severity": "HIGH",
+      "finding": "收入科目缺失，revenue_wan 与 net_wan 无凭证级来源",
+      "action": "向财务核算岗补取 2026-09 收入凭证（开票/回款流水）后重出报告"
+    },
+    {
+      "id": "ANO-02",
+      "severity": "MEDIUM",
+      "finding": "budget.csv period=Q4 与报告期 2026-09 口径冲突",
+      "action": "由财务确认该预算为 Q4 预算还是 9 月累计预算"
+    },
+    {
+      "id": "ANO-03",
+      "severity": "MEDIUM",
+      "finding": "EXP-8815 金额 42,800 元处于 L4 双审批中，占全部待处理金额 73.3%",
+      "action": "按 L4 双审批规则跟踪至终审完成"
+    },
+    {
+      "id": "ANO-04",
+      "severity": "LOW",
+      "finding": "研发部执行率 45.61% 显著低于全局 61.25%，行政部 80.00% 显著偏高",
+      "action": "在月度经营会说明投放节奏差异"
+    }
+  ],
+
+  "traceability_grade": {
+    "grade": "B",
+    "declared_target": "A",
+    "gap_reason": "成本侧数字可追溯至 budget.csv 的部门汇总行（准凭证级），但 budget.csv 与 expenses.csv 之间缺少凭证号到部门预算科目的映射关系，且收入侧完全无来源；A 级要求的总账-明细双向穿透在本次输入下不成立",
+    "grade_downgrade_from": "A",
+    "grade_basis": ["budget.csv 部门汇总", "expenses.csv 5 笔凭证样本", "无收入台账", "无凭证-科目映射表"]
+  },
+
+  "approval": {
+    "required": true,
+    "status": "PENDING",
+    "route": ["财务核算岗", "财务负责人"],
+    "reason": "含收入/净额指标空缺，属财务报告重大事项，需人工复核后方可对外发布",
+    "agent_authority": "仅生成报表草稿与异常清单，不具备收入确认、净额估算与对外发布的授权",
+    "human_only_actions": ["收入确认", "净额口径裁定", "报表对外发布"]
+  },
+
+  "data_sources": [
+    {
+      "path": "templates/workspace/data/fin/budget.csv",
+      "rows": 5,
+      "columns": ["dept", "budget_wan", "used_wan", "remain_wan", "period"],
+      "read_status": "OK",
+      "used_for": ["cost_wan", "budget_execution"]
+    },
+    {
+      "path": "templates/workspace/data/fin/expenses.csv",
+      "rows": 5,
+      "columns": ["expense_id", "applicant_masked", "amount_yuan", "reason", "level", "status"],
+      "read_status": "OK",
+      "used_for": ["voucher_sample", "anomalies"]
+    }
+  ]
+}

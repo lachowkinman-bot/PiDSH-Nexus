@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: comp.compa-ratio@1.0.0
+domain: comp
+description: "CR 指数报告（人/带宽）"
+trigger:
+  type: command
+  expr: compa-ratio
+nodes:
+  - id: n1
+    type: skill
+    ref: compa-ratio
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "CR 指数报告（人/带宽）：数据版本 + 产物哈希"
+deliverable:
+  file: compa-ratio-<ts>.json
+  format: json
+  fields:
+    - employee_masked
+    - band
+    - cr
+    - zone
+  acceptance: "CR 仅区间展示（0.8–1.2 分档）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-compa-ratio

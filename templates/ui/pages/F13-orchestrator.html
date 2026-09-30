@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><title>F13-orchestrator · 主控编排</title>
+<style>
+body{font-family:system-ui,'PingFang SC','Microsoft YaHei';margin:0;background:#f6f8fb;color:#1f2937}
+header{background:#0f172a;color:#fff;padding:10px 16px;font-weight:700}
+main{padding:16px;display:grid;gap:12px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px}
+.state{font-size:12px;color:#6b7280}
+.todo{background:#fffbeb;border:1px dashed #f59e0b;border-radius:8px;padding:8px;font-size:12px;color:#92400e}
+button{border:1px solid #d1d5db;background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer}
+</style></head><body>
+<header>F13-orchestrator · 主控编排 <span style="float:right;font-weight:400;font-size:12px">preset: <span data-bind="current-preset">未装载</span></span></header>
+<main>
+  <section class="card"><h3>任务拆解树</h3><div class="state" data-state="任务拆解树">空态占位</div><div class="todo">TODO(U15)：Chief of Staff：分派/并行/汇总</div></section>
+  <section class="card"><h3>preset 生命周期（F14，绑定 scene-loader.mjs）</h3>
+    <button data-op="list">选：列出 Scene</button> <button data-op="apply">用：应用</button>
+    <button data-op="save">存：持久化</button> <button data-op="switch">切：切换域</button>
+    <div class="state" data-state="lifecycle">未操作</div>
+    <div class="todo">TODO(U15)：按钮接通 scripts/scene-loader.mjs（运行时消费方 ≥1）；操作留 png 截图</div>
+  </section>
+</main></body></html>

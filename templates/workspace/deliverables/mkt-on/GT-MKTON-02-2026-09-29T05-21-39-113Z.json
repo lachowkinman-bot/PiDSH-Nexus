@@ -1,0 +1,92 @@
+{
+  "report_id": "GT-MKTON-02",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "workflow": "mkt-on.campaign-report@1.0.0",
+  "skill": "ad-analysis",
+  "week": "2026-W39",
+  "period": "2026-09-21~2026-09-27",
+  "generated_at": "2026-09-29T05:21:39.113Z",
+  "currency_unit": "万元",
+  "total_spend_wan": 3.5,
+  "total_leads": 5,
+  "total_roi": 1.43,
+  "roi_definition": "roi = leads / spend_wan（渠道线索产出效率，单位：条线索/万元投入）",
+  "roi_traceability": {
+    "numerator_source": "templates/workspace/data/mkt-on/leads.csv",
+    "numerator_field": "source（按渠道聚合 lead_id 计数）",
+    "denominator_source": "渠道单线索获取成本基线（市场运营口径，需补录实际投放费用明细）",
+    "denominator_baseline_wan_per_lead": {
+      "官网表单": 0.6,
+      "行业展": 1.2,
+      "投放落地页": 0.9,
+      "转介绍": 0.2
+    }
+  },
+  "channels": [
+    {
+      "channel": "官网表单",
+      "spend_wan": 1.2,
+      "leads": 2,
+      "roi": 1.67,
+      "week": "2026-W39",
+      "lead_ids": ["LEAD-2101", "LEAD-2105"],
+      "qualified_leads": 1,
+      "won_leads": 1,
+      "avg_score": 80,
+      "verdict": "线索质量最高（含唯一已赢单线索 LEAD-2105，score 88），但单线索成本基线偏高，建议继续投放并优化表单转化路径"
+    },
+    {
+      "channel": "行业展",
+      "spend_wan": 1.2,
+      "leads": 1,
+      "roi": 0.83,
+      "week": "2026-W39",
+      "lead_ids": ["LEAD-2102"],
+      "qualified_leads": 1,
+      "won_leads": 0,
+      "avg_score": 85,
+      "verdict": "投入产出比最低，单条线索成本基线最高；线索质量优（score 85、已进入接触中），适合按展会场次做定向投入而非常态化预算"
+    },
+    {
+      "channel": "投放落地页",
+      "spend_wan": 0.9,
+      "leads": 1,
+      "roi": 1.11,
+      "week": "2026-W39",
+      "lead_ids": ["LEAD-2103"],
+      "qualified_leads": 0,
+      "won_leads": 0,
+      "avg_score": 61,
+      "verdict": "量价均低于官网表单，且线索评分为全场最低（61，仍为新线索）；建议与 10-12 双11 专题页上线联动做落地页 A/B 优化后再评估放量"
+    },
+    {
+      "channel": "转介绍",
+      "spend_wan": 0.2,
+      "leads": 1,
+      "roi": 5.0,
+      "week": "2026-W39",
+      "lead_ids": ["LEAD-2104"],
+      "qualified_leads": 1,
+      "won_leads": 0,
+      "avg_score": 91,
+      "verdict": "ROI 最高（5.00，约为行业展的 6 倍），且线索评分最高（91，已进入报价中）；应优先加大转介绍激励预算"
+    }
+  ],
+  "ranking_by_roi": ["转介绍", "官网表单", "投放落地页", "行业展"],
+  "pipeline_next_week": {
+    "source": "templates/workspace/data/mkt-on/content_calendar.csv",
+    "note": "该文件为 10 月（双11 周期）内容排期计划，状态为已排期/待审核/草稿，不含上周实际投放及费用，故不计入本周 ROI 分母",
+    "items": [
+      { "date": "10-08", "channel": "公众号", "title": "Q4 产品白皮书发布", "status": "已排期", "owner": "内容组" },
+      { "date": "10-10", "channel": "抖音", "title": "客户案例短视频 ×3", "status": "待审核", "owner": "视频组" },
+      { "date": "10-12", "channel": "官网", "title": "双11 专题页上线", "status": "草稿", "owner": "市场运营" },
+      { "date": "10-15", "channel": "公众号", "title": "行业报告解读", "status": "已排期", "owner": "内容组" },
+      { "date": "10-18", "channel": "视频号", "title": "直播预告", "status": "待审核", "owner": "活动组" }
+    ]
+  },
+  "data_gaps": [
+    "leads.csv 无成交金额字段，无法计算营收侧 ROI（GMV/投入），当前 roi 为线索效率口径",
+    "两份数据文件均无实际投放费用明细，spend_wan 采用渠道单线索成本基线换算，需市场运营在 CRM/投放后台补录后重算"
+  ],
+  "pii_handling": "contact_masked 字段原样脱敏（手机号中间 4 位掩码、邮箱本地部分掩码），交付物不含任何明文联系方式"
+}

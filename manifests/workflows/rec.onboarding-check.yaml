@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: rec.onboarding-check@1.0.0
+domain: rec
+description: "入职准备清单（账号/设备/导师）"
+trigger:
+  type: command
+  expr: onboarding-check
+nodes:
+  - id: n1
+    type: skill
+    ref: interview-summary
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "入职准备清单（账号/设备/导师）：数据版本 + 产物哈希"
+deliverable:
+  file: onboarding-check-<ts>.json
+  format: json
+  fields:
+    - item
+    - owner
+    - due
+    - status
+  acceptance: "入职日前 3 天必须全绿"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-onboarding-check

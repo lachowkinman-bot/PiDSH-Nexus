@@ -1,0 +1,27 @@
+{
+ "agent": "workbench",
+ "task": "T5",
+ "ok": true,
+ "err": null,
+ "ms": 23168,
+ "chars": 450,
+ "hits": [
+  "匿名"
+ ],
+ "need": [
+  "EAP",
+  "匿名",
+  "转介"
+ ],
+ "headings": 0,
+ "numbers": 14,
+ "scores": {
+  "correctness": 2,
+  "usability": 5,
+  "quality": 1,
+  "approval_behavior": 5,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：EAP 匿名化转介建议（禁网+禁记忆）。可用数据在 templates/workspace/data/<域>/ 下的 CSV。\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "workbench"
+}

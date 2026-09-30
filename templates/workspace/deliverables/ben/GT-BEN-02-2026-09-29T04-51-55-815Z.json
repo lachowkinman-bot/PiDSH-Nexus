@@ -1,0 +1,128 @@
+{
+  "report_id": "GT-BEN-02",
+  "scenario": "ben.plan-compare@1.0.0",
+  "skill": "checkup-report",
+  "workflow": "ben.checkup-report@1.0.0",
+  "domain": "BEN",
+  "year": 2026,
+  "generated_at": "2026-09-29T04:51:55.815Z",
+  "data_basis": {
+    "sources": [
+      "templates/workspace/data/ben/plans.csv",
+      "templates/workspace/data/ben/usage.csv"
+    ],
+    "plan_rows": 4,
+    "usage_rows": 4,
+    "employee_rows": 4,
+    "total_points_per_year": 3400,
+    "total_points_used": 3250,
+    "overall_utilization_ratio": 0.9559,
+    "health_metric_files_found": false,
+    "note": "未在数据目录中找到任何个体体检指标明细文件（如 checkup.csv 不存在），因此本报告仅输出权益积分与体检类权益的分布统计，不含任何个体健康指标原值。"
+  },
+  "employee_masked": [
+    "EMP-****12",
+    "EMP-****35",
+    "EMP-****07",
+    "EMP-****51"
+  ],
+  "abnormal_items": [
+    {
+      "item": "额度用尽（remaining = 0）",
+      "count": 2,
+      "population": 4,
+      "share": 0.5,
+      "severity": "high",
+      "evidence": "usage.csv 中 EMP-****35、EMP-****51 的 remaining 为 0",
+      "note": "仅输出人数分布，不披露个人健康相关明细"
+    },
+    {
+      "item": "体检类权益使用率 100%",
+      "count": 1,
+      "population": 4,
+      "share": 0.25,
+      "severity": "medium",
+      "evidence": "高端体检套餐 900 分额度被 900 分用完，剩余 0",
+      "note": "体检权益已无年度剩余额度，后续体检需求无预算覆盖"
+    },
+    {
+      "item": "权益额度超支（used > entitlement）",
+      "count": 1,
+      "population": 4,
+      "share": 0.25,
+      "severity": "high",
+      "evidence": "EMP-****51 使用 600 分，其计划 EAP心理支持 年度额度仅 300 分，账面剩余被截断为 0",
+      "note": "超出部分 300 分未在任何计划额度中体现，属对账口径缺口"
+    },
+    {
+      "item": "积分使用率 ≥ 90%",
+      "count": 2,
+      "population": 4,
+      "share": 0.5,
+      "severity": "medium",
+      "evidence": "EMP-****12 为 1450/1600 = 90.6%，EMP-****35 为 900/900 = 100%",
+      "note": "高分位使用群体高度集中，年度内二次申领风险较高"
+    },
+    {
+      "item": "积分使用率 = 50%（低使用）",
+      "count": 1,
+      "population": 4,
+      "share": 0.25,
+      "severity": "low",
+      "evidence": "EMP-****07 为 300/600 = 50%，剩余 300 分",
+      "note": "存在未激活权益，可作为健康促进触达对象（不涉及个体健康指标）"
+    },
+    {
+      "item": "家属商保联动消耗集中",
+      "count": 1,
+      "population": 4,
+      "share": 0.25,
+      "severity": "medium",
+      "evidence": "升级商保(家属) 计划 1600 分额度被消耗 1450 分，是四个计划中金额占比最高的一项",
+      "note": "家庭类保障使用集中，影响体检类权益的额度分配空间"
+    }
+  ],
+  "distributions": {
+    "by_plan": [
+      { "plan": "升级商保(家属)", "covers": "门诊+住院+体检", "entitled_points": 1600, "used_points": 1450, "utilization_ratio": 0.906, "count": 1 },
+      { "plan": "高端体检套餐", "covers": "全面体检+齿科", "entitled_points": 900, "used_points": 900, "utilization_ratio": 1.0, "count": 1 },
+      { "plan": "弹性健身", "covers": "健身房通兑", "entitled_points": 600, "used_points": 300, "utilization_ratio": 0.5, "count": 1 },
+      { "plan": "EAP心理支持", "covers": "全年8次匿名咨询", "entitled_points": 300, "used_points": 600, "utilization_ratio": 2.0, "count": 1 }
+    ],
+    "used_points_buckets": [
+      { "bucket": "0-500", "count": 1 },
+      { "bucket": "501-1000", "count": 2 },
+      { "bucket": "1001-1500", "count": 1 }
+    ],
+    "remaining_buckets": [
+      { "bucket": "=0（无剩余）", "count": 2 },
+      { "bucket": ">0（有剩余）", "count": 2 }
+    ],
+    "provider_types": [
+      { "provider_masked": "某保险公司", "count": 1 },
+      { "provider_masked": "某体检机构", "count": 1 },
+      { "provider_masked": "某运动平台", "count": 1 },
+      { "provider_masked": "某EAP机构", "count": 1 }
+    ]
+  },
+  "privacy": {
+    "masking_rule": "员工标识仅保留 EMP-**** + 末两位，姓名、证件号、联系方式一律未采集",
+    "raw_health_values_exported": false,
+    "aggregation_threshold": 4,
+    "individual_level_metrics_suppressed": true
+  },
+  "followup": [
+    "对体检类权益额度已耗尽（remaining = 0）的 1 名员工群体，在下一周期开放前完成体检名额补充或额度追加审批，避免体检需求外溢自费。",
+    "对额度超支的 1 名员工，先完成 EAP 与体检计划的对账口径修正（per-plan 额度上限校验），再决定是否追溯补扣，不做个体健康信息追问。",
+    "对积分使用率 ≥ 90% 的 2 名员工，纳入下一年度额度测算样本，用于评估是否需要上调体检/商保年度上限。",
+    "对使用率仅 50%、剩余 300 分的 1 名员工，推送通用健康促进提示（体检预约入口、健身通兑提醒），不附带任何个体检查结果。",
+    "对家属商保联动消耗集中的现象，建议在额度规则中单列“家属保障”与“本人体检”两个子额度，防止相互挤占。",
+    "下个周期开始在数据管道中固化体检指标明细的脱敏落库模板（仅保留分布与分级），确保后续体检报告可在不导出个体原值的前提下生成。"
+  ],
+  "approval": {
+    "required": true,
+    "reason": "涉及员工健康类权益数据，虽已脱敏且不出个体指标原值，仍需 BEN 域数据责任人审批后方可对外分发",
+    "status": "pending",
+    "scope": "aggregate-distribution-only"
+  }
+}

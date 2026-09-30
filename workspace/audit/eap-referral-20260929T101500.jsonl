@@ -1,0 +1,13 @@
+{"seq":1,"ts":"2026-09-29T10:10:02+08:00","actor":"user","action":"preset.apply","target":"eap.referral@1.0.0","level":"L4","decision":"ALLOW","detail":"装载成功；运行时消费方 3/3 已消费（permission-gateway / workflow-engine / redact-gate）"}
+{"seq":2,"ts":"2026-09-29T10:10:03+08:00","actor":"user","action":"workflow.start","target":"er-eap.eap-referral@1.0.0","level":"L4","decision":"ALLOW","detail":"run=RUN-9F3AE1A7 input=执行技能 eap-referral：EAP 转介（双审批 + 匿名化）"}
+{"seq":3,"ts":"2026-09-29T10:11:05+08:00","actor":"user","action":"workflow.skill","target":"eap-referral","level":"L4","decision":"DONE","detail":"run=RUN-9F3AE1A7 读取 data/er-eap/cases.csv 12 行；匿名化 EAP-0001..EAP-0012；redact_gate 命中 12 行"}
+{"seq":4,"ts":"2026-09-29T10:11:05+08:00","actor":"system","action":"redact_gate.pass","target":"reports/er-eap/eap-referral-20260929T101500.json","level":"L4","decision":"REDACTED","detail":"命中字段 disciplinary_detail, eap_content, health_mental；输出仅匿名编号 EAP-####"}
+{"seq":5,"ts":"2026-09-29T10:11:06+08:00","actor":"user","action":"workflow.condition","target":"EAP 转介（双审批 + 匿名化） 触发对外/生效动作","level":"L4","decision":"ALLOW","detail":"run=RUN-9F3AE1A7 对外/生效前必须双审批；network=DISABLED"}
+{"seq":6,"ts":"2026-09-29T10:11:06+08:00","actor":"user","action":"workflow.approval","target":"n3","level":"L4","decision":"APPROVAL_REQUIRED","detail":"需 2 审批，当前 0；run 停在 WAITING_APPROVAL"}
+{"seq":7,"ts":"2026-09-29T10:12:41+08:00","actor":"EAP-Custodian","action":"workflow.approval.grant","target":"n3","level":"L4","decision":"ALLOW","detail":"run=RUN-9F3AE1A7 审批人=EAP-Custodian"}
+{"seq":8,"ts":"2026-09-29T10:12:41+08:00","actor":"EAP-Custodian","action":"workflow.approval","target":"n3","level":"L4","decision":"APPROVAL_REQUIRED","detail":"需 2 审批，当前 1；仍停 WAITING_APPROVAL（单审批不得放行）"}
+{"seq":9,"ts":"2026-09-29T10:13:07+08:00","actor":"ER-Lead","action":"workflow.approval.grant","target":"n3","level":"L4","decision":"ALLOW","detail":"run=RUN-9F3AE1A7 审批人=ER-Lead"}
+{"seq":10,"ts":"2026-09-29T10:13:07+08:00","actor":"ER-Lead","action":"workflow.approval","target":"n3","level":"L4","decision":"ALLOW","detail":"审批 2/2 通过"}
+{"seq":11,"ts":"2026-09-29T10:13:08+08:00","actor":"system","action":"permission.evaluate","target":"cap.excel.panel.write","level":"L4","decision":"ALLOW","detail":"级别 L4 满足下限 L4；egress=local；审批 2 个"}
+{"seq":12,"ts":"2026-09-29T10:13:08+08:00","actor":"ER-Lead","action":"workflow.audit","target":"EAP 转介（双审批 + 匿名化）：审批人 + 依据数据版本 + 产物哈希","level":"L4","decision":"ALLOW","detail":"run=RUN-9F3AE1A7 data_version=type-dict@25/synth-12 artifact=eap-referral-20260929T101500.json"}
+{"seq":13,"ts":"2026-09-29T10:14:20+08:00","actor":"ER-Lead","action":"workflow.finish","target":"er-eap.eap-referral@1.0.0","level":"L4","decision":"DONE","detail":"run=RUN-9F3AE1A7 产物=2"}

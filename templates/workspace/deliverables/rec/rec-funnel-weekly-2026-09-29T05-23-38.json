@@ -1,0 +1,34 @@
+{
+ "domain": "rec",
+ "kind": "rec-funnel-weekly",
+ "created_at": "2026-09-29T05:23:38.215Z",
+ "workflow": "rec.funnel-weekly@1.0.0",
+ "description": "漏斗周报（阶段转化）",
+ "fields": {},
+ "deliverable_spec": {
+  "file": "funnel-weekly-<ts>.json",
+  "format": "json",
+  "fields": [
+   "stage",
+   "count",
+   "conversion_pct",
+   "week"
+  ],
+  "acceptance": "候选人 PII 仅掩码"
+ },
+ "engine": {
+  "name": "pi",
+  "fallback": false,
+  "output": "## 阻塞：找不到该技能/工作流定义\n\n我在当前工作区和技能库中都未能定位到 `funnel-analysis` 技能与 `rec.funnel-weekly@1.0.0` 工作流。\n\n**已排查的位置（均不存在）：**\n- 工作区 `F:\\Pi_DSH_workplace\\universal-workbench-3.0\\`：仅有 `package.json` / `package-lock.json` / `node_modules`（唯一依赖 `playwright-core@1.63.0`），无 `SKILL.md`、`workflows/`、`recipes/`、`pipelines/`、`AGENTS.md` 等\n- 技能库 `C:\\Users\\Kinman\\.agents\\skills\\`：无 `funnel-analysis`、`funnel-weekly`、`rec.funnel-weekly` 相关条目（已登记技能中亦无漏斗分析类技能）\n\n**另外两点约束：**\n1. 我当前仅有 `read` / `write` 两个工具，没有 shell，无法做文件系统检索或运行脚本。\n2. 工作区空无一物，即使技能存在，也缺少输入数据（漏斗阶段明细、时间范围、口径定义等）。\n\n**请提供以下任一项，我即可继续执行：**\n- `funnel-analysis` 的 SKILL.md 路径（或直接把内容贴给我），以及 `rec.funnel-weekly@1.0.0` 工作流定义文件；\n- 或漏斗数据来源（文件路径 / 数据库 / 接口），并说明周报的起止日期与阶段顺序；\n- 若本意是让我**新建**这个技能与工作流，请确认，我将按 recipe → workflow → skill 的结构生成。"
+ },
+ "data_snapshot": [
+  {
+   "table": "candidates",
+   "rows": 5
+  },
+  {
+   "table": "funnel",
+   "rows": 5
+  }
+ ]
+}

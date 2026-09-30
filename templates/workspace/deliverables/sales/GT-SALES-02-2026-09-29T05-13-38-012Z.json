@@ -1,0 +1,71 @@
+{
+  "schema": "sales.win-review@1.0.0",
+  "task_id": "GT-SALES-02",
+  "skill": "win-review",
+  "generated_at": "2026-09-29T05:13:38.012Z",
+  "sources": [
+    "templates/workspace/data/sales/pipeline.csv",
+    "templates/workspace/data/sales/quotes.csv"
+  ],
+  "opportunity": "商机-C（物流集团）",
+  "amount_k": 660,
+  "win_factors": [
+    {
+      "factor": "高配产品组合契合客户规模：旗舰版×2 搭配培训服务，客户按集团级规模一次性配置",
+      "evidence": "quotes.csv QT-3303 items=旗舰版×2+培训；customer_masked=某物流集团",
+      "weight": "high"
+    },
+    {
+      "factor": "报价审批链路已闭合：同一客户的报价单早期即完成审批，未在成交环节被折扣流程卡住",
+      "evidence": "quotes.csv QT-3303 status=已审批，discount_pct=12",
+      "weight": "high"
+    },
+    {
+      "factor": "本期管道中单值最高的商机，资源优先级最高，推动强度与投入匹配",
+      "evidence": "pipeline.csv 五条商机金额 420/180/660/90/310（千元），商机-C 的 660 为最高值",
+      "weight": "medium"
+    },
+    {
+      "factor": "成交金额高于管道预估，培训与实施类附加项带来实际增值",
+      "evidence": "pipeline.csv 商机-C amount_k=660；quotes.csv QT-3303 total_wan=89.5（折合 895 千元），差额约 235 千元",
+      "weight": "medium"
+    },
+    {
+      "factor": "行业属性（物流集团）与高配置方案适配：该客户为唯一进入赢单阶段的商机，其余四条停留在报价/接触/线索",
+      "evidence": "pipeline.csv stage 字段：商机-C=赢单，商机-A=报价、商机-B=接触、商机-D=线索、商机-E=报价",
+      "weight": "medium"
+    }
+  ],
+  "playbook_update": [
+    {
+      "change": "在物流/集团型客户的标准打法中固化“平台旗舰版 + 培训服务”捆绑方案，作为该类客户的首选配置模板",
+      "rationale": "QT-3303 的旗舰版×2+培训配置直接对应本期唯一赢单，且金额高于管道预估"
+    },
+    {
+      "change": "明确折扣审批阈值：单笔折扣 ≤12% 走标准审批通道，>12% 需上浮一级审批，避免报价在审批环节滞留",
+      "rationale": "赢单报价 QT-3303 折扣 12% 已审批并成交；对比 QT-3301 折扣 8% 仍为待审批，说明阈值与流程效率直接相关"
+    },
+    {
+      "change": "报价单在商机进入报价阶段后 5 个工作日内完成审批闭环，把“已审批”状态作为推进到谈判的前置条件",
+      "rationale": "商机-A（420 千元）与商机-E（310 千元）同为报价阶段但无对应已审批报价单，存在同类滞留风险"
+    },
+    {
+      "change": "以“基础金额 + 实施/培训附加项”两段式报价值结构替代单一总额报价，用于抬高单笔成交额",
+      "rationale": "商机-C 管道预估 660 千元与 QT-3303 实际 895 千元之间存在约 235 千元增值空间"
+    },
+    {
+      "change": "复盘样本中仅有 1 条赢单记录，后续复盘需累积至少 3 条同期赢单后再提炼行业级规律，当前结论仅适用于物流集团类客户",
+      "rationale": "pipeline.csv 本期仅商机-C 处于赢单阶段，样本量限制结论外推范围"
+    }
+  ],
+  "traceability": {
+    "pipeline_record": "商机-C（物流集团）| stage=赢单 | amount_k=660 | owner=王**** | close_date=10-12",
+    "quote_record": "QT-3303 | customer_masked=某物流集团 | items=旗舰版×2+培训 | discount_pct=12 | total_wan=89.5 | status=已审批",
+    "note": "每条 win_factors 与 playbook_update 均可回溯至上述两条记录中的具体字段"
+  },
+  "data_caveats": [
+    "pipeline.csv 的 close_date 为 MM-DD 格式且无年份，商机-C 记录为 10-12，与本次生成时间 2026-09-29 存在期间口径差异，本期口径以“当前管道快照中的唯一赢单记录”为准",
+    "pipeline.csv amount_k 为千元单位，quotes.csv total_wan 为万元单位，换算后 89.5 万元 = 895 千元，两者口径不同故存在差额",
+    "pipeline.csv 与 quotes.csv 以客户名称（某物流集团）与商机名称（物流集团）人工关联，无客户主键，关联依赖文本匹配"
+  ]
+}

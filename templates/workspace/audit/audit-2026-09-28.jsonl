@@ -1,0 +1,23 @@
+{"ts":"2026-09-28T05:06:08.446Z","action":"engine.run","engine":"dry-run","skill":"self-test","ok":true}
+{"ts":"2026-09-28T05:58:25.702Z","action":"preset.apply","scene":"comp.salary-review"}
+{"ts":"2026-09-28T05:58:25.703Z","action":"preset.apply","scene":"er.offboarding"}
+{"ts":"2026-09-28T05:58:25.704Z","action":"preset.switch","from":"comp.salary-review","to":"er.offboarding"}
+{"ts":"2026-09-28T05:59:46.275Z","action":"engine.run","engine":"dsh","skill":"probe","ok":false,"err":"Command failed: npx -y --package @deepseek-ai/dsh@0.1.7-rc.2 dsh exec probe：ping\nnpm warn Unknown user config \"allow-scr"}
+{"ts":"2026-09-28T05:59:47.221Z","action":"engine.run","engine":"pi","skill":"probe","ok":true}
+{"ts":"2026-09-28T05:59:47.222Z","action":"preset.save","scene":"er.offboarding"}
+{"ts":"2026-09-28T06:44:06.908Z","action":"plugin.apply","ok":true,"routes":8}
+{"ts":"2026-09-28T06:44:06.925Z","action":"preset.save","scene":"er.offboarding"}
+{"ts":"2026-09-28T06:44:45.877Z","action":"preset.apply","scene":"admin.procurement@1.0.0"}
+{"ts":"2026-09-28T06:44:45.886Z","action":"preset.apply","scene":"fin.expense-approve@1.0.0"}
+{"ts":"2026-09-28T06:44:45.887Z","action":"preset.switch","from":"admin.procurement@1.0.0","to":"fin.expense-approve@1.0.0"}
+{"ts":"2026-09-28T06:44:45.889Z","action":"preset.save","scene":"fin.expense-approve@1.0.0"}
+{"ts":"2026-09-28T06:45:17.448Z","action":"plugin.apply","ok":true,"routes":8}
+{"ts":"2026-09-28T06:46:51.755Z","action":"plugin.apply","ok":true,"routes":8}
+{"ts":"2026-09-28T06:53:14.485Z","action":"preset.apply","scene":"admin.procurement@1.0.0"}
+{"ts":"2026-09-28T06:53:17.048Z","action":"preset.save","scene":"admin.procurement@1.0.0"}
+{"ts":"2026-09-28T06:53:19.650Z","action":"preset.apply","scene":"ben.plan-compare@1.0.0"}
+{"ts":"2026-09-28T06:53:19.651Z","action":"preset.switch","from":"admin.procurement@1.0.0","to":"ben.plan-compare@1.0.0"}
+{"ts":"2026-09-28T06:54:04.452Z","action":"engine.run","engine":"dsh","skill":"strat-smoke","ok":false,"err":"spawnSync C:\\WINDOWS\\system32\\cmd.exe EBUSY"}
+{"ts":"2026-09-28T06:54:04.453Z","action":"engine.run","engine":"pi","skill":"strat-smoke","ok":false,"err":"spawnSync C:\\WINDOWS\\system32\\cmd.exe EBUSY"}
+{"ts":"2026-09-28T06:54:04.454Z","action":"engine.run","engine":"local","skill":"strat-smoke","fallback":"offline"}
+{"ts":"2026-09-28T10:45:26.643Z","action":"plugin.apply","ok":true,"routes":8}

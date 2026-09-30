@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: fin.expense-approve@1.0.0
+domain: FIN
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.single
+  - cap.redact.all
+data_assets:
+  - name: expense-claims.xlsx
+    level: L3
+    pii_fields: [invoice_taxid]
+  - name: budget-master.xlsx
+    level: L2
+    pii_fields: []
+skills: [expense-precheck, budget-analysis, invoice-check]
+workflows: [workflows/fin.expense-approve.yaml, workflows/fin.monthly-report.yaml]
+policies:
+  permission:
+    min_level: L4
+    dual_approval: false
+  redact:
+    fields: [bank_account, invoice_taxid]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/fin/README.md]
+golden_tasks:
+  - id: GT-FIN-01
+    input: "预审 10 张报销单并输出异常清单"
+    expected_plan: "见 docs/preset-design/fin.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L4"
+    expected_output: reports/fin/gt-01.md
+    expected_files: [data/fin/expense-claims.xlsx, data/fin/budget-master.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-FIN-02
+    input: "生成部门预算执行月报"
+    expected_plan: "见 docs/preset-design/fin.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L4"
+    expected_output: reports/fin/gt-02.md
+    expected_files: [data/fin/expense-claims.xlsx, data/fin/budget-master.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-FIN-03
+    input: "发票要素校验并标记疑点"
+    expected_plan: "见 docs/preset-design/fin.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L4"
+    expected_output: reports/fin/gt-03.md
+    expected_files: [data/fin/expense-claims.xlsx, data/fin/budget-master.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：财报数字必须 A 级证据可溯（到 sheet/row）；银行账户 L4 禁入任何输出。

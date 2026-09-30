@@ -1,0 +1,294 @@
+{
+  "case": {
+    "case_id": "GT-CMP-03",
+    "deliverable_id": "GT-CMP-03-2026-09-29T05-02-32-497Z",
+    "scenario": "cmp.policy-review@1.0.0",
+    "domain": "CMP",
+    "skill": "evidence-pack",
+    "workflow": "cmp.evidence-pack@1.0.0",
+    "title": "CMP 制度与个人信息影响评估（PIPIA）复核证据链打包",
+    "purpose": "为 CMP 制度/个人信息保护复核任务构建审计级完整证据链，覆盖全部 PIPIA 在册处理活动与制度条款检查项的原始记录、来源定位与完整性登记。",
+    "scope": {
+      "in_scope": [
+        "templates/workspace/data/cmp/pipia.csv 全部在册处理活动（3 条）",
+        "templates/workspace/data/cmp/policy_checklist.csv 全部制度条款检查项（4 条）"
+      ],
+      "out_of_scope": [
+        "处理活动的技术实现细节与系统日志",
+        "数据主体同意记录原始凭证",
+        "制度文件正文（仅收录检查项状态）"
+      ],
+      "evidence_cutoff": "2026-09-29T05:02:32.497Z"
+    },
+    "risk_summary": {
+      "pipia_high_risk_processes": ["员工考勤人脸识别", "EAP 匿名咨询"],
+      "pipia_residual_risk_not_low": ["员工考勤人脸识别（残余风险=中）"],
+      "policy_items_not_compliant": [
+        "数据管理制度 / 数据出境评估（待整改）",
+        "个人信息保护 / PIPIA 年度评估（进行中）"
+      ],
+      "nearest_review_due": "2026-09-28（采购合规 / 供应商准入审查，已到期需复核）"
+    },
+    "acceptance": {
+      "criterion": "打包后不可增删（append-only）",
+      "mode": "append-only",
+      "verification_rule": "既有 evidence_items 记录的 id、来源、字段值与 content_digest 字段一经写入不得修改或删除；后续新增证据须以新记录追加，并通过 append_log 登记。"
+    }
+  },
+  "evidence_items": [
+    {
+      "id": "EV-PIPIA-001",
+      "type": "pipia_process_record",
+      "source": {
+        "file": "templates/workspace/data/cmp/pipia.csv",
+        "format": "csv",
+        "row": 2,
+        "record_count_in_source": 3
+      },
+      "fields": {
+        "process": "员工考勤人脸识别",
+        "risk_level": "高",
+        "residual_risk": "中",
+        "next_review": "2026-12-01",
+        "owner": "安全合规部"
+      },
+      "significance": "生物识别信息处理，原始风险等级为高，缓解措施落地后残余风险仍为中，属本次复核最高优先级证据。",
+      "personal_information": {
+        "contains_personal_data": true,
+        "categories": ["生物识别信息（人脸特征）", "考勤记录", "员工身份标识"],
+        "sensitivity": "高（敏感个人信息）"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "源文件仅含处理活动名称与责任信息，不含数据主体标识，无需脱敏。"
+      }
+    },
+    {
+      "id": "EV-PIPIA-002",
+      "type": "pipia_process_record",
+      "source": {
+        "file": "templates/workspace/data/cmp/pipia.csv",
+        "format": "csv",
+        "row": 3,
+        "record_count_in_source": 3
+      },
+      "fields": {
+        "process": "客户线索营销外呼",
+        "risk_level": "中",
+        "residual_risk": "低",
+        "next_review": "2027-01-10",
+        "owner": "市场部"
+      },
+      "significance": "对外营销触达场景，涉及客户联系方式使用，原始风险中、残余风险低，说明现有管控有效。",
+      "personal_information": {
+        "contains_personal_data": true,
+        "categories": ["客户联系人姓名", "联系电话"],
+        "sensitivity": "中（一般个人信息）"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "源文件仅含处理活动名称与责任信息，不含数据主体标识，无需脱敏。"
+      }
+    },
+    {
+      "id": "EV-PIPIA-003",
+      "type": "pipia_process_record",
+      "source": {
+        "file": "templates/workspace/data/cmp/pipia.csv",
+        "format": "csv",
+        "row": 4,
+        "record_count_in_source": 3
+      },
+      "fields": {
+        "process": "EAP 匿名咨询",
+        "risk_level": "高",
+        "residual_risk": "低",
+        "next_review": "2027-03-01",
+        "owner": "EAP专员"
+      },
+      "significance": "员工帮助计划咨询场景，虽标注匿名，原始风险仍为高，需以残余风险低与下次复核时间作为控制有效性证据留存。",
+      "personal_information": {
+        "contains_personal_data": true,
+        "categories": ["员工心理健康相关咨询内容（按匿名机制设计）", "员工身份标识（最小化）"],
+        "sensitivity": "高（敏感个人信息，依赖匿名化机制）"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "源文件仅含处理活动名称与责任信息，不含咨询内容与数据主体标识，无需脱敏。"
+      }
+    },
+    {
+      "id": "EV-POL-001",
+      "type": "policy_checklist_item",
+      "source": {
+        "file": "templates/workspace/data/cmp/policy_checklist.csv",
+        "format": "csv",
+        "row": 2,
+        "record_count_in_source": 4
+      },
+      "fields": {
+        "policy": "劳动用工制度",
+        "item": "加班与调休条款",
+        "status": "合规",
+        "owner": "人力资源部",
+        "review_date": "2026-09-12"
+      },
+      "significance": "劳动用工条款检查项，状态合规，责任部门人力资源部，复核日期 2026-09-12 早于证据截止时间，构成有效闭环证据。",
+      "personal_information": {
+        "contains_personal_data": false,
+        "categories": [],
+        "sensitivity": "不适用"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "制度条款检查项为组织级信息，不含个人信息。"
+      }
+    },
+    {
+      "id": "EV-POL-002",
+      "type": "policy_checklist_item",
+      "source": {
+        "file": "templates/workspace/data/cmp/policy_checklist.csv",
+        "format": "csv",
+        "row": 3,
+        "record_count_in_source": 4
+      },
+      "fields": {
+        "policy": "数据管理制度",
+        "item": "数据出境评估",
+        "status": "待整改",
+        "owner": "法务部",
+        "review_date": "2026-10-30"
+      },
+      "significance": "唯一的待整改检查项，涉及数据出境合规，为本次打包的最高风险制度缺口证据，需在 2026-10-30 前完成整改并追加闭环证据。",
+      "personal_information": {
+        "contains_personal_data": false,
+        "categories": [],
+        "sensitivity": "不适用"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "制度条款检查项为组织级信息，不含个人信息。"
+      }
+    },
+    {
+      "id": "EV-POL-003",
+      "type": "policy_checklist_item",
+      "source": {
+        "file": "templates/workspace/data/cmp/policy_checklist.csv",
+        "format": "csv",
+        "row": 4,
+        "record_count_in_source": 4
+      },
+      "fields": {
+        "policy": "个人信息保护",
+        "item": "PIPIA 年度评估",
+        "status": "进行中",
+        "owner": "安全合规部",
+        "review_date": "2026-11-15"
+      },
+      "significance": "与 pipia.csv 三处理活动直接对应的年度评估仍处于进行中，是本次证据链的关联枢纽：评估结论将决定各处理活动残余风险是否可维持。",
+      "personal_information": {
+        "contains_personal_data": false,
+        "categories": [],
+        "sensitivity": "不适用"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "制度条款检查项为组织级信息，不含个人信息。"
+      }
+    },
+    {
+      "id": "EV-POL-004",
+      "type": "policy_checklist_item",
+      "source": {
+        "file": "templates/workspace/data/cmp/policy_checklist.csv",
+        "format": "csv",
+        "row": 5,
+        "record_count_in_source": 4
+      },
+      "fields": {
+        "policy": "采购合规",
+        "item": "供应商准入审查",
+        "status": "合规",
+        "owner": "采购部",
+        "review_date": "2026-09-28"
+      },
+      "significance": "状态合规但复核日期 2026-09-28 已过期（早于打包时间 2026-09-29），存在时效缺口，需追加下一轮复核证据。",
+      "personal_information": {
+        "contains_personal_data": false,
+        "categories": [],
+        "sensitivity": "不适用"
+      },
+      "redaction": {
+        "applied": false,
+        "reason": "制度条款检查项为组织级信息，不含个人信息。"
+      }
+    }
+  ],
+  "hashes": {
+    "algorithm": "sha256",
+    "canonicalization": "源文件按其原始字节序列（utf-8，含换行符、表头行与全部数据行）计算；证据条目按其 canonical JSON（键名按 Unicode 码点升序、无多余空白）计算。",
+    "sources": [
+      {
+        "file": "templates/workspace/data/cmp/pipia.csv",
+        "records": 3,
+        "header": "process,risk_level,residual_risk,next_review,owner",
+        "digest": null,
+        "digest_status": "not_computed"
+      },
+      {
+        "file": "templates/workspace/data/cmp/policy_checklist.csv",
+        "records": 4,
+        "header": "policy,item,status,owner,review_date",
+        "digest": null,
+        "digest_status": "not_computed"
+      }
+    ],
+    "items": [
+      { "id": "EV-PIPIA-001", "digest": null, "digest_status": "not_computed" },
+      { "id": "EV-PIPIA-002", "digest": null, "digest_status": "not_computed" },
+      { "id": "EV-PIPIA-003", "digest": null, "digest_status": "not_computed" },
+      { "id": "EV-POL-001", "digest": null, "digest_status": "not_computed" },
+      { "id": "EV-POL-002", "digest": null, "digest_status": "not_computed" },
+      { "id": "EV-POL-003", "digest": null, "digest_status": "not_computed" },
+      { "id": "EV-POL-004", "digest": null, "digest_status": "not_computed" }
+    ],
+    "digest_status_explanation": "本执行节点仅具备 read/write 文件工具，无命令或代码执行面，无法运行摘要算法。为避免写入未经计算的伪摘要值，digest 显式置为 null，且不构成对内容完整性的断言；须由具备执行面的校验节点按上述 canonicalization 规则重算后，以追加记录方式回填（不得覆盖本记录）。",
+    "integrity_basis": {
+      "evidence_completeness": "两源文件全部记录已 1:1 收录（3 + 4 = 7 条），record_count_in_source 与 sources[].records 相互一致，可作为无遗漏的计数级校验依据。",
+      "detection_rule": "回填摘要后，任一条目字段值变更将导致其 canonical JSON 摘要不匹配，可被检出。"
+    }
+  },
+  "packaged_at": "2026-09-29T05:02:32.497Z",
+  "immutability": {
+    "mode": "append-only",
+    "sealed": true,
+    "sealed_at": "2026-09-29T05:02:32.497Z",
+    "rules": [
+      "已写入的 case / evidence_items / hashes 记录禁止修改与删除。",
+      "新增证据仅允许追加新 evidence_items 条目并在 append_log 登记。",
+      "digest 回填属追加动作，原 digest_status 记录保留。"
+    ],
+    "append_log": [
+      {
+        "seq": 1,
+        "action": "seal",
+        "at": "2026-09-29T05:02:32.497Z",
+        "actor": "skill:evidence-pack@cmp.evidence-pack@1.0.0",
+        "note": "初始证据链封装，收录 7 条证据（PIPIA 处理活动 3 条 + 制度检查项 4 条）。"
+      }
+    ]
+  },
+  "redaction_and_approval": {
+    "redaction_applied": false,
+    "redaction_rationale": "两个源文件均为台账级元数据（处理活动名称、风险等级、责任部门、复核日期），不含数据主体姓名、证件号、联系方式或生物特征原始数据，因此无需遮蔽；文件内亦无图片或附件。",
+    "classification": "内部",
+    "handling_note": "虽为元数据，仍指明敏感个人信息处理场景（人脸识别、EAP 咨询），对外提供前须经安全合规部与法务部审批。",
+    "approval": {
+      "status": "pending_human_approval",
+      "required_approvers": ["安全合规部", "法务部"],
+      "reason": "存在待整改项（数据出境评估）与在建年度评估（PIPIA 年度评估），证据链对外披露须经双部门签批。"
+    }
+  }
+}

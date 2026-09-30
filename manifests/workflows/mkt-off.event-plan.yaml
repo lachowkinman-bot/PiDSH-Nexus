@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-off.event-plan@1.0.0
+domain: mkt-off
+description: "活动策划案（预算/场地/排期）"
+trigger:
+  type: command
+  expr: event-plan
+nodes:
+  - id: n1
+    type: skill
+    ref: event-plan
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "活动策划案（预算/场地/排期）：输入参数 + 结果快照"
+deliverable:
+  file: event-plan-<ts>.json
+  format: json
+  fields:
+    - event
+    - city
+    - budget_wan
+    - schedule
+  acceptance: "预算超部门季度包 20% 触发审批"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-event-plan

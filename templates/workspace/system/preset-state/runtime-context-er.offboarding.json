@@ -1,0 +1,22 @@
+{
+ "applied_at": "2026-09-28T05:58:25.703Z",
+ "scene_id": "er.offboarding@1.0.0",
+ "domain": "ER",
+ "permission": {
+  "min_level": "L4",
+  "dual_approval": true
+ },
+ "redact": [
+  "disciplinary_detail",
+  "eap_content",
+  "health_mental"
+ ],
+ "memory_exclude": [
+  "graph-memory",
+  "pi-hermes-memory"
+ ],
+ "workflows": [
+  "workflows/er.offboard-approve.yaml",
+  "workflows/eap.referral-approve.yaml"
+ ]
+}

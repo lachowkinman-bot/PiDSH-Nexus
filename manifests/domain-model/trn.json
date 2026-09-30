@@ -1,0 +1,893 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "trn",
+ "label": "培训 TRN",
+ "scene_ids": [
+  "trn.plan-approve@1.0.0"
+ ],
+ "level": "L3",
+ "dual_approval": false,
+ "redact_fields": [
+  "cert_id"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.439Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/trn.plan-approve.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/trn/",
+  "doc": "docs/preset-design/trn.md"
+ },
+ "tables": [
+  {
+   "file": "certificates.csv",
+   "rows": 14,
+   "columns": [
+    "certificate",
+    "holder_masked",
+    "issue_date",
+    "expire_date",
+    "status",
+    "cert_id",
+    "holder_dept",
+    "course",
+    "required_role",
+    "renew_fee",
+    "approver",
+    "renew_date"
+   ],
+   "pii_likely": [
+    "holder_masked"
+   ]
+  },
+  {
+   "file": "courses.csv",
+   "rows": 18,
+   "columns": [
+    "course",
+    "hours",
+    "enrolled",
+    "next_session",
+    "category",
+    "dept",
+    "trainer",
+    "room",
+    "seat_cap",
+    "prereq",
+    "pass_rate",
+    "completed_h",
+    "status",
+    "budget_wan",
+    "approver"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "course-schedule",
+   "file": "templates/skills-domain/trn/SKILL-course-schedule.md"
+  },
+  {
+   "name": "hour-stats",
+   "file": "templates/skills-domain/trn/SKILL-hour-stats.md"
+  },
+  {
+   "name": "cert-expiry",
+   "file": "templates/skills-domain/trn/SKILL-cert-expiry.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "trn.plan-approve@1.0.0",
+   "kind": "approve",
+   "description": "培训计划审批（预算/学时）",
+   "skill": "course-schedule",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "course-schedule"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "培训计划审批（预算/学时） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "培训计划审批（预算/学时）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "plan-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "course",
+     "hours",
+     "budget_wan",
+     "approver"
+    ],
+    "acceptance": "外部采购课程走审批"
+   }
+  },
+  {
+   "id": "trn.hours-report@1.0.0",
+   "kind": "report",
+   "description": "学时统计（人/部门口径）",
+   "skill": "hour-stats",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "hour-stats"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "学时统计（人/部门口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "hours-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dept",
+     "planned_h",
+     "completed_h",
+     "rate"
+    ],
+    "acceptance": "学时数字可追溯 courses.csv"
+   }
+  },
+  {
+   "id": "trn.course-schedule@1.0.0",
+   "kind": "calc",
+   "description": "排期（讲师/场地冲突检测）",
+   "skill": "course-schedule",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "course-schedule"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "排期（讲师/场地冲突检测）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "course-schedule-<ts>.json",
+    "format": "json",
+    "fields": [
+     "course",
+     "date",
+     "trainer",
+     "room"
+    ],
+    "acceptance": "冲突自动标红并建议备选"
+   }
+  },
+  {
+   "id": "trn.cert-expiry@1.0.0",
+   "kind": "report",
+   "description": "资质到期提醒（特种作业/证书）",
+   "skill": "cert-expiry",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "cert-expiry"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "资质到期提醒（特种作业/证书）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cert-expiry-<ts>.json",
+    "format": "json",
+    "fields": [
+     "certificate",
+     "holder_masked",
+     "expire_date",
+     "days_left"
+    ],
+    "acceptance": "90 天内到期必须列出；过期立即拦截"
+   }
+  },
+  {
+   "id": "trn.cert-renew@1.0.0",
+   "kind": "approve",
+   "description": "证书复审/换证审批",
+   "skill": "hour-stats",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "hour-stats"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "证书复审/换证审批 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "证书复审/换证审批：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cert-renew-<ts>.json",
+    "format": "json",
+    "fields": [
+     "certificate",
+     "holder_masked",
+     "renew_fee",
+     "approver"
+    ],
+    "acceptance": "岗位强依赖证书过期未续 = 上岗拦截"
+   }
+  },
+  {
+   "id": "trn.enroll-approve@1.0.0",
+   "kind": "calc",
+   "description": "报名确认（名额/前置课校验）",
+   "skill": "course-schedule",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "course-schedule"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "报名确认（名额/前置课校验）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "enroll-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "course",
+     "employee_masked",
+     "prereq_ok",
+     "seats_left"
+    ],
+    "acceptance": "前置课未修直接拒绝"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-TRN-01",
+   "input": "生成下月培训计划并走审批",
+   "expected_output": "reports/trn/gt-01.md",
+   "skill": null,
+   "scene": "trn.plan-approve@1.0.0"
+  },
+  {
+   "id": "GT-TRN-02",
+   "input": "统计上半年学时达标率",
+   "expected_output": "reports/trn/gt-02.md",
+   "skill": null,
+   "scene": "trn.plan-approve@1.0.0"
+  },
+  {
+   "id": "GT-TRN-03",
+   "input": "输出 90 天内到期证书清单与拦截建议",
+   "expected_output": "reports/trn/gt-03.md",
+   "skill": null,
+   "scene": "trn.plan-approve@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/trn",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/trn/t/certificates",
+   "type": "table",
+   "title": "certificates.csv",
+   "table": "certificates",
+   "file": "certificates.csv"
+  },
+  {
+   "route": "#/trn/t/courses",
+   "type": "table",
+   "title": "courses.csv",
+   "table": "courses",
+   "file": "courses.csv"
+  },
+  {
+   "route": "#/trn/w/plan-approve",
+   "type": "workflow",
+   "title": "培训计划审批（预算/学时）",
+   "workflow": "trn.plan-approve@1.0.0"
+  },
+  {
+   "route": "#/trn/w/hours-report",
+   "type": "workflow",
+   "title": "学时统计（人/部门口径）",
+   "workflow": "trn.hours-report@1.0.0"
+  },
+  {
+   "route": "#/trn/w/course-schedule",
+   "type": "workflow",
+   "title": "排期（讲师/场地冲突检测）",
+   "workflow": "trn.course-schedule@1.0.0"
+  },
+  {
+   "route": "#/trn/w/cert-expiry",
+   "type": "workflow",
+   "title": "资质到期提醒（特种作业/证书）",
+   "workflow": "trn.cert-expiry@1.0.0"
+  },
+  {
+   "route": "#/trn/w/cert-renew",
+   "type": "workflow",
+   "title": "证书复审/换证审批",
+   "workflow": "trn.cert-renew@1.0.0"
+  },
+  {
+   "route": "#/trn/w/enroll-approve",
+   "type": "workflow",
+   "title": "报名确认（名额/前置课校验）",
+   "workflow": "trn.enroll-approve@1.0.0"
+  },
+  {
+   "route": "#/trn/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "courses.csv",
+         "L2",
+         "—",
+         "18",
+         "课程库 + 培训计划台账（排期/名额/学时/预算/审批人）。scene 声明名 `courses.xlsx`（Excel 面板语义），落地为同名 CSV；`scripts/data-consistency-check.mjs` 按 basename 归一化匹配"
+        ],
+        [
+         "certificates.csv",
+         "L3",
+         "cert_id",
+         "14",
+         "岗位技能认证与证书台账（有效期/状态/换证费用/岗位依赖）。scene 声明名 `certificates.xlsx`；`cert_id` 以 `CERT-****-NNNN` 假名化存储，输出侧仍强制过 `redact_gate`"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**行数** = 数据行数（不含表头），两张表均 ≥10 行，满足数据字典规格与 `data-consistency-check` 的下限校验。",
+      "**级别**：`courses.csv` L2（可外发口径，无 PII）；`certificates.csv` L3（含 PII 字段 `cert_id`，且 `holder_masked`/`approver`/`renew_date` 组合可反查个人，按 L3 管控）。",
+      "**外键**：`certificates.course` → `courses.course`（逐字命中，见 §9 规则 R7）；`courses.prereq` → `courses.course`（自引用）。",
+      "本域落地数据根为 `templates/workspace/data/trn/`；GT 八元组中的 `data/trn/courses.xlsx` 指同一逻辑表的 scene 声明名。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "course",
+         "string",
+         "是",
+         "课程名（业务主键；被 `certificates.course` 与 `prereq` 引用）"
+        ],
+        [
+         "hours",
+         "number",
+         "是",
+         "计划学时（整数，1–24）"
+        ],
+        [
+         "enrolled",
+         "number",
+         "是",
+         "已报名人数（校验 `enrolled ≤ seat_cap`）"
+        ],
+        [
+         "next_session",
+         "string",
+         "是",
+         "场次日期 `MM-DD`（数据基线年 2026；`已结束` 行填已结束场次日期）"
+        ],
+        [
+         "category",
+         "enum",
+         "是",
+         "课程分类：必修 / 进阶 / 领导力 / 合规 / 技能（对齐 PRD F2 的 入职/管理/业务/合规/技能 维度）"
+        ],
+        [
+         "dept",
+         "string",
+         "是",
+         "追加列·主办部门（`trn.hours-report` 的部门口径来源）"
+        ],
+        [
+         "trainer",
+         "string",
+         "是",
+         "追加列·讲师（脱敏工号 `T1***`–`T9***`，外部讲师 `EXT-***A`–`EXT-***D`）"
+        ],
+        [
+         "room",
+         "string",
+         "是",
+         "追加列·场地（教室号 / `线上直播` / `实训基地` / `外部场地`；与 trainer+日期共同做冲突检测）"
+        ],
+        [
+         "seat_cap",
+         "number",
+         "是",
+         "追加列·名额上限（报名确认的上限依据，见 §9 R4）"
+        ],
+        [
+         "prereq",
+         "string",
+         "是",
+         "追加列·前置课（课程名；无前置填 `无`）"
+        ],
+        [
+         "pass_rate",
+         "number",
+         "否",
+         "追加列·最近一期通过率 %（保留 1 位小数）；`已结束` 行必填，`进行中/报名中` 行留空"
+        ],
+        [
+         "completed_h",
+         "number",
+         "是",
+         "追加列·已完成学时（`报名中`=0；`进行中` 0<completed_h<hours；`已结束`=hours）"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "追加列·计划/课程状态：报名中 / 进行中 / 已结束（= TRAIN_STATUS，见 §4.1）"
+        ],
+        [
+         "budget_wan",
+         "number",
+         "是",
+         "追加列·预算（万元）；外部采购课程 >0 即触发 `trn.plan-approve` 审批"
+        ],
+        [
+         "approver",
+         "string",
+         "否",
+         "追加列·预算审批人（脱敏工号 `A1***`/`A2***`）；留空 = 未提审或审批在途"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "certificate",
+         "string",
+         "是",
+         "证书/资质名（如 特种作业操作证、安全员B证）"
+        ],
+        [
+         "holder_masked",
+         "string",
+         "是",
+         "持证人（脱敏工号 `E1***`–`E12***`；禁存姓名/身份证）"
+        ],
+        [
+         "issue_date",
+         "date",
+         "是",
+         "首次发证日 `YYYY-MM-DD`"
+        ],
+        [
+         "expire_date",
+         "date",
+         "是",
+         "有效期至 `YYYY-MM-DD`（`已续期` 行 = 续期后新效期）"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "证书状态：有效 / 90天内到期 / 已过期 / 已续期（见 §4.2）"
+        ],
+        [
+         "cert_id",
+         "string",
+         "是",
+         "追加列·证书编号（假名化 `CERT-****-NNNN`，**PII**，`redact_gate` 强制脱敏后方可出产物）"
+        ],
+        [
+         "holder_dept",
+         "string",
+         "是",
+         "追加列·持证人部门（到期拦截按部门聚合的唯一口径）"
+        ],
+        [
+         "course",
+         "string",
+         "是",
+         "追加列·对应培训课程（`→ courses.course`，用于\"先培训后发证/换证\"闭环）"
+        ],
+        [
+         "required_role",
+         "string",
+         "是",
+         "追加列·岗位强依赖（如 特种作业岗/叉车司机岗；**排班拦截**的匹配键）"
+        ],
+        [
+         "renew_fee",
+         "number",
+         "否",
+         "追加列·换证/复审费用（元）；`已续期`=实际发生，`90天内到期`=预估，其余留空"
+        ],
+        [
+         "approver",
+         "string",
+         "否",
+         "追加列·换证审批人（脱敏工号）；仅已提审/已续期行非空"
+        ],
+        [
+         "renew_date",
+         "date",
+         "否",
+         "追加列·最近一次复审/换证生效日（`已续期` 行非空）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/trn.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 培训计划/课程状态（TRAIN_STATUS，参照 §3.3）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "枚举值",
+        "进入条件",
+        "允许迁移",
+        "本域样例行"
+       ],
+       "rows": [
+        [
+         "报名中",
+         "`signup`",
+         "计划已建、场次未开（`next_session` 晚于数据基线日），`completed_h=0`，`pass_rate` 空",
+         "→ 进行中（到达开课日）；→ 已结束（取消并归档，须留审计）",
+         "新员工入职、合规与信息安全、销售进阶谈判、管理者 First 30 天、数据安全与隐私保护、项目管理实战、客户服务与投诉处理（7 行）"
+        ],
+        [
+         "进行中",
+         "`ongoing`",
+         "已到开课日，`0 < completed_h < hours`",
+         "→ 已结束（结课 + 成绩录入，`completed_h=hours` 且 `pass_rate` 非空）",
+         "特种作业安全操作、焊接与热切割作业、危化品安全管理、安全员 B 证考前培训、安全员 C 证考前培训（5 行）"
+        ],
+        [
+         "已结束",
+         "`done`",
+         "结课，`completed_h = hours` 且 `pass_rate` 已录",
+         "终态；如需复盘另起新计划行（不复用行）",
+         "电动叉车安全操作、高处作业安全操作、一级建造师继续教育、注册安全工程师继续教育、注册会计师继续教育、消防安全与应急处置（6 行）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 证书状态（certificates.status）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "判定式",
+        "迁移",
+        "本域样例行（days_left）"
+       ],
+       "rows": [
+        [
+         "有效",
+         "`days_left > 90`",
+         "→ 90天内到期（随日历推进自动降级，无需人工动作）",
+         "注册会计师(244)、一级建造师(537)、注册安全工程师(923)、低压电工作业证(586)、起重机械指挥证(134)、消防设施操作员证(1086)、一级注册消防工程师(774)"
+        ],
+        [
+         "90天内到期",
+         "`0 < days_left ≤ 90`",
+         "→ 已过期（到期未换证）；→ 已续期（`trn.cert-renew` 审批通过并顺延 `expire_date`）",
+         "特种作业操作证(15)、安全员B证(62)、危化品安全作业证(82)"
+        ],
+        [
+         "已过期",
+         "`days_left ≤ 0` 且未换证",
+         "**不可自动复位**；须走 `trn.cert-renew` 双审批后才可置 `已续期`；期间 `trn.expiry-block` 持续输出上岗拦截",
+         "电动叉车司机证(−29)、焊接与热切割作业证(−102)、安全员C证(−728)"
+        ],
+        [
+         "已续期",
+         "`renew_date` 非空 且 `expire_date` 为顺延后新效期（新 `days_left > 90`）",
+         "终态（下一周期从\"有效\"重新计时）",
+         "高处作业操作证（`renew_date=2026-09-10`，新效期 2029-09-13，days_left=1080）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/trn.md#§4"
+  },
+  "5": {
+   "title": "审批链",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "流程",
+        "节点",
+        "角色",
+        "双审批",
+        "HITL",
+        "回滚点"
+       ],
+       "rows": [
+        [
+         "trn.plan-approve",
+         "n1 技能（course-schedule）→ n2 条件（触发对外/生效动作）→ **n3 审批 L4** → n4 写盘 → n5 审计",
+         "n3：HRD / 培训负责人；预算超阈值（建议 ≥10 万元，本域样例行 `项目管理实战 12.8 万`）加签财务负责人",
+         "**是**（n3.dual=true；域默认 false，由节点级升级）",
+         "是（`hitl_nodes: [n3]`）",
+         "savepoint `pre-plan-approve`"
+        ],
+        [
+         "trn.cert-renew",
+         "n1 技能（hour-stats）→ n2 条件（触发对外/生效动作）→ **n3 审批 L4** → n4 写盘 → n5 审计",
+         "n3：安全负责人 + HRD（特种作业/执业证换发属\"对外生效\"）",
+         "**是**（n3.dual=true）",
+         "是（`hitl_nodes: [n3]`）",
+         "savepoint `pre-cert-renew`"
+        ],
+        [
+         "trn.expiry-block（文件在册，未登记 index）",
+         "n1 技能（cert-expiry）→ n2 条件（资质过期人员不得排班上岗）→ n3 审批 L3 → n4 写盘 → n5 审计",
+         "n3：HR 培训专员（拦截清单确认）",
+         "否（n3.dual=false）",
+         "是（`hitl_nodes: [n3]`）",
+         "savepoint `pre-expiry-block`"
+        ],
+        [
+         "trn.hours-report / trn.course-schedule / trn.enroll-approve",
+         "仅 n1 技能 →（写盘）→ 审计",
+         "无审批角色",
+         "否",
+         "否（`hitl_nodes: []`）",
+         "各自 savepoint"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**条件节点 n2 的 then 分支禁止绕过审批直连外部写能力**（YAML 内联注释的硬约束）；`plan-approve`/`cert-renew` 的 n4 写盘必须在 n3 审批通过之后。",
+      "双审批判定：域级 `dual_approval=false`；**涉及预算支出、证书换发生效、对外提交**时按节点级 `dual=true` 执行，两人复核缺一即挂起（不落盘、不推进）。",
+      "审批失败/驳回：按 `rollback.method=savepoint` 回滚到对应 tag，产物不落 `reports/trn/`，仅留审计事件。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/trn.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "编号",
+        "规则",
+        "阈值/口径",
+        "违反处理"
+       ],
+       "rows": [
+        [
+         "R1",
+         "学时下限/达标",
+         "单课程 `hours ≥ 1`；部门达标率 `rate = Σcompleted_h / Σhours ≥ 80%`",
+         "未达阈值 → 报告标注\"不达标\"并出复盘清单，不自动改数"
+        ],
+        [
+         "R2",
+         "通过率",
+         "`pass_rate ≥ 80` 为该课程达标；`< 80` 需复盘（本域实例：注册会计师继续教育 78.5）",
+         "低于阈值课程不得计入\"技能达标\"、不得触发 §6 的 prf 能力项更新"
+        ],
+        [
+         "R3",
+         "证书提醒窗口",
+         "`0 < days_left ≤ 90` 必须出现在到期清单；`days_left ≤ 0` 立即进入上岗拦截",
+         "漏列/漏拦截 = 任务失败（验收：\"90 天内到期必须列出；过期立即拦截\"）"
+        ],
+        [
+         "R4",
+         "报名名额上限",
+         "`enrolled ≤ seat_cap`；报名确认 `seats_left = seat_cap − enrolled ≥ 0`，不足即拒绝",
+         "超出上限的报名必须拒绝并回写原因，不得静默截断"
+        ],
+        [
+         "R5",
+         "前置课",
+         "`prereq ≠ 无` 时须命中 `courses.course`，未修直接拒绝（验收：\"前置课未修直接拒绝\"）",
+         "`enroll-approve` 输出 `prereq_ok=false` 并拒绝"
+        ],
+        [
+         "R6",
+         "课程状态与报名一致性",
+         "`报名中` ⇒ `completed_h=0` 且 `pass_rate` 空；`进行中` ⇒ `0<completed_h<hours` 且 `pass_rate` 空；`已结束` ⇒ `completed_h=hours` 且 `pass_rate` 非空",
+         "不一致行标红并阻断出报告"
+        ],
+        [
+         "R7",
+         "引用完整性",
+         "`certificates.course`、`courses.prereq` 必须逐字命中 `courses.course`；证书表 14 行全部命中",
+         "未命中即数据缺陷，阻断聚合"
+        ],
+        [
+         "R8",
+         "字段格式",
+         "日期 `YYYY-MM-DD`（`next_session` 为 `MM-DD`）；枚举取值仅限 §4 所列；人员字段一律 `E*`/`T*`/`A*`/`EXT-***` 脱敏格式",
+         "格式违规行不进聚合口径，单独列入缺陷清单"
+        ],
+        [
+         "R9",
+         "状态-日期自洽",
+         "`有效` ⇒ `days_left > 90`；`90天内到期` ⇒ `0 < days_left ≤ 90`；`已过期` ⇒ `days_left ≤ 0`；`已续期` ⇒ `renew_date` 非空且新效期 `days_left > 90`",
+         "不自洽行阻断 §§9 全部聚合结论"
+        ],
+        [
+         "R10",
+         "预算/审批一致性",
+         "`trainer` 为 `EXT-***` 的行必须提审；`approver` 为空表示审批在途，不得出现在\"已生效计划\"结论中",
+         "未提审即出计划的结论无效"
+        ],
+        [
+         "R11",
+         "排期冲突",
+         "同 `trainer` 或同 `room` 在同一 `next_session` 重叠即为冲突，须标红并给备选（验收：\"冲突自动标红并建议备选\"）",
+         "冲突未标注即任务失败"
+        ],
+        [
+         "R12",
+         "脱敏出域",
+         "任何写入 `reports/trn/` 的产物不得含 `cert_id` 原值、姓名、身份证、联系方式",
+         "直接拦截，产物不落盘并记审计"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/trn.md#§9"
+  }
+ },
+ "gaps": []
+}

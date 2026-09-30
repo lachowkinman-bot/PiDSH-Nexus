@@ -1,0 +1,471 @@
+{
+  "deliverable_id": "GT-FIN-03",
+  "skill": "invoice-check",
+  "workflow": "fin.invoice-check@1.0.0",
+  "scenario": "fin.expense-approve@1.0.0",
+  "domain": "FIN",
+  "generated_at": "2026-09-29T06:58:54.406Z",
+  "period": "2026-09",
+  "buyer_entity": "星桥科技（上海）有限公司",
+  "buyer_taxid_on_file": "91310115MA1K3QX09T",
+  "currency": "CNY",
+  "source_files": [
+    "templates/workspace/data/fin/invoices.csv",
+    "templates/workspace/data/fin/expenses.csv",
+    "templates/workspace/data/fin/budget.csv",
+    "templates/workspace/data/fin/revenue_ledger.csv"
+  ],
+  "checks": [
+    {
+      "check_id": "C1",
+      "name": "发票连号（同销方同日连号）",
+      "rule": "同一销方在同一开票日内出现连号发票视为拆分嫌疑，直接判定 FAIL"
+    },
+    {
+      "check_id": "C2",
+      "name": "抬头一致性",
+      "rule": "购买方名称必须等于报销主体「星桥科技（上海）有限公司」，不一致直接判定 FAIL"
+    },
+    {
+      "check_id": "C3",
+      "name": "金额一致性",
+      "rule": "发票价税合计必须等于对应报销单金额，不一致判定 FAIL"
+    },
+    {
+      "check_id": "C4",
+      "name": "销方税号格式",
+      "rule": "销方纳税人识别号必须为 18 位，位数异常判定为疑点并转人工复核"
+    },
+    {
+      "check_id": "C5",
+      "name": "开票与支付时序（跨期）",
+      "rule": "开票日期晚于支付日期判定为跨期疑点，转人工复核"
+    }
+  ],
+  "result": "FAIL",
+  "summary": {
+    "invoice_count": 19,
+    "amount_yuan_total": 12240000.00,
+    "amount_excl_tax_yuan_total": 11511450.44,
+    "tax_yuan_total": 728549.56,
+    "pass_count": 13,
+    "fail_count": 4,
+    "review_count": 2,
+    "pass_amount_yuan": 11082230.00,
+    "fail_amount_yuan": 637770.00,
+    "review_amount_yuan": 520000.00,
+    "fail_invoices": [
+      "INV-2026-090107",
+      "INV-2026-090108",
+      "INV-2026-090305",
+      "INV-2026-090405"
+    ],
+    "review_invoices": [
+      "INV-2026-090604",
+      "INV-2026-080605"
+    ],
+    "acceptance_criteria": "连号、抬头不一致直接 FAIL"
+  },
+  "records": [
+    {
+      "invoice_no": "INV-2026-090112",
+      "amount_yuan": 3860.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（华程商务旅行服务）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 3860.00 元 = 报销单 EXP-8812 金额 3860 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX11T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-07 早于支付日 2026-09-08"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8812",
+      "invoice_code": "031002000211",
+      "invoice_date": "2026-09-07",
+      "seller_name": "华程商务旅行服务（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX11T",
+      "expense_amount_yuan": 3860.00,
+      "amount_excl_tax_yuan": 3641.51,
+      "tax_yuan": 218.49,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090118",
+      "amount_yuan": 1486140.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（沪江传媒广告）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 1486140.00 元 = 报销单 EXP-8817 金额 1486140 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX21T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-24 早于支付日 2026-09-25"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8817",
+      "invoice_code": "031002000212",
+      "invoice_date": "2026-09-24",
+      "seller_name": "沪江传媒广告有限公司",
+      "seller_taxid": "91310115MA1K3QX21T",
+      "expense_amount_yuan": 1486140.00,
+      "amount_excl_tax_yuan": 1402018.87,
+      "tax_yuan": 84121.13,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090121",
+      "amount_yuan": 1190000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（云启数据科技）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 1190000.00 元 = 报销单 EXP-8818 金额 1190000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX31T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-27 早于支付日 2026-09-28"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8818",
+      "invoice_code": "031002000213",
+      "invoice_date": "2026-09-27",
+      "seller_name": "云启数据科技有限公司",
+      "seller_taxid": "91310115MA1K3QX31T",
+      "expense_amount_yuan": 1190000.00,
+      "amount_excl_tax_yuan": 1122641.51,
+      "tax_yuan": 67358.49,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090203",
+      "amount_yuan": 42800.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（睿思会展服务）当日无连号发票，同日另一张 031002000227 不构成连号"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 42800.00 元 = 报销单 EXP-8815 金额 42800 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX41T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "报销单 EXP-8815 尚未支付（状态：双审批中），无跨期问题"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8815",
+      "invoice_code": "031002000214",
+      "invoice_date": "2026-09-18",
+      "seller_name": "睿思会展服务有限公司",
+      "seller_taxid": "91310115MA1K3QX41T",
+      "expense_amount_yuan": 42800.00,
+      "amount_excl_tax_yuan": 40377.36,
+      "tax_yuan": 2422.64,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090207",
+      "amount_yuan": 1180000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（睿思会展服务）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 1180000.00 元 = 报销单 EXP-8819 金额 1180000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX41T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-25 早于支付日 2026-09-26"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8819",
+      "invoice_code": "031002000227",
+      "invoice_date": "2026-09-25",
+      "seller_name": "睿思会展服务有限公司",
+      "seller_taxid": "91310115MA1K3QX41T",
+      "expense_amount_yuan": 1180000.00,
+      "amount_excl_tax_yuan": 1113207.55,
+      "tax_yuan": 66792.45,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090211",
+      "amount_yuan": 737200.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（智汇广告传媒）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 737200.00 元 = 报销单 EXP-8820 金额 737200 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX61T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-30 与支付日 2026-09-30 同日，非跨期"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8820",
+      "invoice_code": "031002000228",
+      "invoice_date": "2026-09-30",
+      "seller_name": "智汇广告传媒（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX61T",
+      "expense_amount_yuan": 737200.00,
+      "amount_excl_tax_yuan": 695471.70,
+      "tax_yuan": 41728.30,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090107",
+      "amount_yuan": 820.00,
+      "checks": [
+        {"check_id": "C1", "status": "FAIL", "detail": "与 INV-2026-090108 同销方（同城生活服务（上海）有限公司）同日（2026-09-05）连号开具，发票号码 031002000215/031002000216 连号，拆分嫌疑，直接 FAIL"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 820.00 元 = 报销单 EXP-8814 金额 820 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QY31T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-05 与支付日 2026-09-05 同日，非跨期"}
+      ],
+      "result": "FAIL",
+      "expense_id": "EXP-8814",
+      "invoice_code": "031002000215",
+      "invoice_date": "2026-09-05",
+      "seller_name": "同城生活服务（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QY31T",
+      "expense_amount_yuan": 820.00,
+      "amount_excl_tax_yuan": 796.12,
+      "tax_yuan": 23.88,
+      "issue_type": "连号：与 INV-2026-090108 同销方同日连号开具，拆分嫌疑（验收标准：连号直接 FAIL）"
+    },
+    {
+      "invoice_no": "INV-2026-090108",
+      "amount_yuan": 1350.00,
+      "checks": [
+        {"check_id": "C1", "status": "FAIL", "detail": "与 INV-2026-090107 同销方（同城生活服务（上海）有限公司）同日（2026-09-05）连号开具，发票号码 031002000216/031002000215 连号，拆分嫌疑，直接 FAIL"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 1350.00 元 = 报销单 EXP-8816 金额 1350 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QY31T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-05 早于支付日 2026-09-06"}
+      ],
+      "result": "FAIL",
+      "expense_id": "EXP-8816",
+      "invoice_code": "031002000216",
+      "invoice_date": "2026-09-05",
+      "seller_name": "同城生活服务（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QY31T",
+      "expense_amount_yuan": 1350.00,
+      "amount_excl_tax_yuan": 1194.69,
+      "tax_yuan": 155.31,
+      "issue_type": "连号：与 INV-2026-090107 同销方同日连号开具，拆分嫌疑（验收标准：连号直接 FAIL）"
+    },
+    {
+      "invoice_no": "INV-2026-090305",
+      "amount_yuan": 15600.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（顺捷办公设备）当日无连号发票"},
+        {"check_id": "C2", "status": "FAIL", "detail": "购买方抬头为「星桥科技（北京）有限公司」，与报销主体「星桥科技（上海）有限公司」不一致，直接 FAIL"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 15600.00 元 = 报销单 EXP-8813 金额 15600 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX81T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "报销单 EXP-8813 尚未支付（状态：待审批），无跨期问题"}
+      ],
+      "result": "FAIL",
+      "expense_id": "EXP-8813",
+      "invoice_code": "031002000217",
+      "invoice_date": "2026-09-16",
+      "seller_name": "顺捷办公设备（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX81T",
+      "buyer_title": "星桥科技（北京）有限公司",
+      "expense_amount_yuan": 15600.00,
+      "amount_excl_tax_yuan": 13805.31,
+      "tax_yuan": 1794.69,
+      "issue_type": "抬头不一致：购买方名称与报销主体不符（验收标准：抬头不一致直接 FAIL）"
+    },
+    {
+      "invoice_no": "INV-2026-090308",
+      "amount_yuan": 2180000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（数联云计算（北京）有限公司）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 2180000.00 元 = 报销单 EXP-8821 金额 2180000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91110108MA01K3QX51 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-22 早于支付日 2026-09-27"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8821",
+      "invoice_code": "031002000218",
+      "invoice_date": "2026-09-22",
+      "seller_name": "数联云计算（北京）有限公司",
+      "seller_taxid": "91110108MA01K3QX51",
+      "expense_amount_yuan": 2180000.00,
+      "amount_excl_tax_yuan": 2056603.77,
+      "tax_yuan": 123396.23,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090312",
+      "amount_yuan": 1224400.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（优才人力资源服务）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 1224400.00 元 = 报销单 EXP-8822 金额 1224400 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX91T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-28 早于支付日 2026-09-29"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8822",
+      "invoice_code": "031002000219",
+      "invoice_date": "2026-09-28",
+      "seller_name": "优才人力资源服务（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX91T",
+      "expense_amount_yuan": 1224400.00,
+      "amount_excl_tax_yuan": 1155094.34,
+      "tax_yuan": 69305.66,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090405",
+      "amount_yuan": 620000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（安泰物业管理）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "FAIL", "detail": "发票价税合计 620000.00 元与报销单 EXP-8823 金额 640000 元不一致，差额 20000.00 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX71T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-09 早于支付日 2026-09-10"}
+      ],
+      "result": "FAIL",
+      "expense_id": "EXP-8823",
+      "invoice_code": "031002000220",
+      "invoice_date": "2026-09-09",
+      "seller_name": "安泰物业管理（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX71T",
+      "expense_amount_yuan": 640000.00,
+      "amount_excl_tax_yuan": 568807.34,
+      "tax_yuan": 51192.66,
+      "issue_type": "金额不符：价税合计 620000.00 元与报销单 640000 元不一致"
+    },
+    {
+      "invoice_no": "INV-2026-090409",
+      "amount_yuan": 319180.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（顺捷办公设备）当日无连号发票，与其 2026-09-16 发票不构成同日连号"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 319180.00 元 = 报销单 EXP-8824 金额 319180 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX81T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "报销单 EXP-8824 尚未支付（状态：双审批中），无跨期问题"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8824",
+      "invoice_code": "031002000221",
+      "invoice_date": "2026-09-15",
+      "seller_name": "顺捷办公设备（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX81T",
+      "expense_amount_yuan": 319180.00,
+      "amount_excl_tax_yuan": 282460.18,
+      "tax_yuan": 36719.82,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090506",
+      "amount_yuan": 520000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（优才人力资源服务）当日无连号发票，与其 2026-09-28 发票不构成同日连号"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 520000.00 元 = 报销单 EXP-8825 金额 520000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX91T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-21 早于支付日 2026-09-24"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8825",
+      "invoice_code": "031002000222",
+      "invoice_date": "2026-09-21",
+      "seller_name": "优才人力资源服务（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QX91T",
+      "expense_amount_yuan": 520000.00,
+      "amount_excl_tax_yuan": 490566.04,
+      "tax_yuan": 29433.96,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090509",
+      "amount_yuan": 318650.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（广联教育培训）当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 318650.00 元 = 报销单 EXP-8826 金额 318650 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QY11T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-26 早于支付日 2026-09-29"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8826",
+      "invoice_code": "031002000223",
+      "invoice_date": "2026-09-26",
+      "seller_name": "广联教育培训（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QY11T",
+      "expense_amount_yuan": 318650.00,
+      "amount_excl_tax_yuan": 300613.21,
+      "tax_yuan": 18036.79,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090601",
+      "amount_yuan": 460000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（立信会计师事务所（特殊普通合伙））当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 460000.00 元 = 报销单 EXP-8827 金额 460000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QY01T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-20 早于支付日 2026-09-23"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8827",
+      "invoice_code": "031002000224",
+      "invoice_date": "2026-09-20",
+      "seller_name": "立信会计师事务所（特殊普通合伙）",
+      "seller_taxid": "91310115MA1K3QY01T",
+      "expense_amount_yuan": 460000.00,
+      "amount_excl_tax_yuan": 433962.26,
+      "tax_yuan": 26037.74,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-090604",
+      "amount_yuan": 300000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（恒泰税务师事务所）2026-09-28 当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 300000.00 元 = 报销单 EXP-8828 金额 300000 元"},
+        {"check_id": "C4", "status": "REVIEW", "detail": "销方税号「91310115MA1K3QY44」仅 17 位（应为 18 位），格式异常，转人工复核"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-09-28 早于支付日 2026-09-30"}
+      ],
+      "result": "REVIEW",
+      "expense_id": "EXP-8828",
+      "invoice_code": "031002000225",
+      "invoice_date": "2026-09-28",
+      "seller_name": "恒泰税务师事务所（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QY44",
+      "expense_amount_yuan": 300000.00,
+      "amount_excl_tax_yuan": 283018.87,
+      "tax_yuan": 16981.13,
+      "issue_type": "税号格式异常：销方税号仅 17 位（应为 18 位），转人工复核"
+    },
+    {
+      "invoice_no": "INV-2026-080114",
+      "amount_yuan": 1420000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（沪江传媒广告）2026-08-25 当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 1420000.00 元 = 报销单 EXP-8829 金额 1420000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QX21T 为 18 位"},
+        {"check_id": "C5", "status": "PASS", "detail": "开票日 2026-08-25 早于支付日 2026-08-26（跨月报销，已归属 2026-08 期间）"}
+      ],
+      "result": "PASS",
+      "expense_id": "EXP-8829",
+      "invoice_code": "031002000226",
+      "invoice_date": "2026-08-25",
+      "seller_name": "沪江传媒广告有限公司",
+      "seller_taxid": "91310115MA1K3QX21T",
+      "expense_amount_yuan": 1420000.00,
+      "amount_excl_tax_yuan": 1339622.64,
+      "tax_yuan": 80377.36,
+      "issue_type": "-"
+    },
+    {
+      "invoice_no": "INV-2026-080605",
+      "amount_yuan": 220000.00,
+      "checks": [
+        {"check_id": "C1", "status": "PASS", "detail": "同销方（恒泰税务师事务所）2026-08-30 当日无连号发票"},
+        {"check_id": "C2", "status": "PASS", "detail": "购买方抬头「星桥科技（上海）有限公司」与报销主体一致"},
+        {"check_id": "C3", "status": "PASS", "detail": "价税合计 220000.00 元 = 报销单 EXP-8840 金额 220000 元"},
+        {"check_id": "C4", "status": "PASS", "detail": "销方税号 91310115MA1K3QY21T 为 18 位"},
+        {"check_id": "C5", "status": "REVIEW", "detail": "开票日期 2026-08-30 晚于支付日期 2026-08-29，跨期发票，转人工复核"}
+      ],
+      "result": "REVIEW",
+      "expense_id": "EXP-8840",
+      "invoice_code": "031002000229",
+      "invoice_date": "2026-08-30",
+      "seller_name": "恒泰税务师事务所（上海）有限公司",
+      "seller_taxid": "91310115MA1K3QY21T",
+      "expense_amount_yuan": 220000.00,
+      "amount_excl_tax_yuan": 207547.17,
+      "tax_yuan": 12452.83,
+      "issue_type": "跨期发票：开票日期（2026-08-30）晚于支付日（2026-08-29）"
+    }
+  ]
+}

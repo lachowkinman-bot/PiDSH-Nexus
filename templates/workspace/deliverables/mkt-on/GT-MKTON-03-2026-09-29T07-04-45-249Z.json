@@ -1,0 +1,306 @@
+{
+  "deliverable": "seo-audit",
+  "task_id": "GT-MKTON-03",
+  "domain": "MKT",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "skill": "seo-audit",
+  "workflow": "mkt-on.seo-audit@1.0.0",
+  "generated_at": "2026-09-29T07:04:45.249Z",
+  "data_sources": [
+    {
+      "file": "templates/workspace/data/mkt-on/ad_spend.csv",
+      "rows": 12,
+      "period": "2026-W39 ~ 2026-W40",
+      "fields_used": ["channel", "spend_wan", "approved_budget_wan", "impressions", "clicks"]
+    },
+    {
+      "file": "templates/workspace/data/mkt-on/content_calendar.csv",
+      "rows": 15,
+      "period": "10-02 ~ 10-18",
+      "fields_used": ["date", "channel", "title", "status", "content_id", "content_type", "pii_check"]
+    },
+    {
+      "file": "templates/workspace/data/mkt-on/leads.csv",
+      "rows": 20,
+      "period": "2026-09-21 ~ 2026-10-05",
+      "fields_used": ["source", "stage", "score", "channel", "est_value_wan", "note"]
+    }
+  ],
+  "traffic_baseline": {
+    "period": "2026-W39 ~ 2026-W40",
+    "total_spend_wan": 64.5,
+    "total_approved_budget_wan": 71.5,
+    "budget_execution_rate": "90.2%",
+    "total_impressions": 8120000,
+    "total_clicks": 161880,
+    "blended_ctr": "1.99%",
+    "blended_cpc_yuan": 3.98,
+    "by_channel": [
+      { "channel": "抖音", "spend_wan": 15.0, "impressions": 2360000, "clicks": 46100, "ctr": "1.95%", "cpc_yuan": 3.25, "landing_page_leads": 3, "cpl_wan": 5.0 },
+      { "channel": "视频号", "spend_wan": 11.5, "impressions": 1640000, "clicks": 25860, "ctr": "1.58%", "cpc_yuan": 4.45, "landing_page_leads": 2, "cpl_wan": 5.75 },
+      { "channel": "小红书", "spend_wan": 9.5, "impressions": 1000000, "clicks": 29700, "ctr": "2.97%", "cpc_yuan": 3.2, "landing_page_leads": 3, "cpl_wan": 3.17 },
+      { "channel": "知乎", "spend_wan": 6.5, "impressions": 610000, "clicks": 9620, "ctr": "1.58%", "cpc_yuan": 6.76, "landing_page_leads": 2, "cpl_wan": 3.25 },
+      { "channel": "百度SEM", "spend_wan": 8.5, "impressions": 500000, "clicks": 14900, "ctr": "2.98%", "cpc_yuan": 5.7, "landing_page_leads": 2, "cpl_wan": 4.25 },
+      { "channel": "信息流", "spend_wan": 13.5, "impressions": 2010000, "clicks": 35700, "ctr": "1.78%", "cpc_yuan": 3.78, "landing_page_leads": 2, "cpl_wan": 6.75 }
+    ],
+    "lead_baseline": {
+      "total_leads": 20,
+      "landing_page_sourced": 14,
+      "landing_page_share": "70%",
+      "invalid_leads": 2,
+      "invalid_rate": "10%",
+      "invalid_reasons": ["LEAD-2107 无效：非目标行业（视频号）", "LEAD-2110 无效：预算不匹配（百度SEM）"],
+      "avg_lead_score": 70.4,
+      "by_source": [
+        { "source": "投放落地页", "count": 14 },
+        { "source": "官网表单", "count": 2 },
+        { "source": "内容页留资", "count": 2 },
+        { "source": "行业展", "count": 1 },
+        { "source": "转介绍", "count": 1 }
+      ]
+    }
+  },
+  "page": "/campaign/2026-double11（官网双11专题页 · content_id CT-2055 · owner 市场运营）",
+  "keywords": [
+    { "keyword": "双11 企业采购 方案", "intent": "交易型", "landing_target": "/campaign/2026-double11", "content_support": "CT-2055 专题页（草稿未上线）", "status": "无可用索引页" },
+    { "keyword": "双11 选型指南", "intent": "信息型", "landing_target": "/zhihu/double11-selection-guide", "content_support": "CT-2057 知乎图文（待审核）", "status": "内容未过审，无承接页" },
+    { "keyword": "Q4 产品白皮书 下载", "intent": "信息型", "landing_target": "/resources/q4-whitepaper", "content_support": "CT-2052 公众号长图（已排期 10-08）+ CT-2117 白皮书下载页留资", "status": "已有留资转化（LEAD-2117 score 69）" },
+    { "keyword": "Q4 白皮书 要点拆解", "intent": "信息型", "landing_target": "/zhihu/q4-whitepaper-notes", "content_support": "CT-2053 知乎图文（已驳回）", "status": "被驳回，外链与长尾覆盖缺口" },
+    { "keyword": "客户案例 数码化/信息化 落地", "intent": "交易型", "landing_target": "/cases/douyin-shorts", "content_support": "CT-2054 抖音案例短视频（待脱敏）+ CT-2065 客户成功故事（待脱敏）", "status": "案例页被 PII 审核阻塞" },
+    { "keyword": "行业报告 解读", "intent": "信息型", "landing_target": "/blog/industry-report-2026q4", "content_support": "CT-2058 公众号图文（已排期 10-15）", "status": "排期距当前 16 天，索引窗口偏晚" },
+    { "keyword": "品牌词 + 产品更新", "intent": "导航型", "landing_target": "/blog/2026-09-product-update", "content_support": "CT-2051 公众号月报（已发布 10-02）", "status": "已发布，可承接品牌检索" }
+  ],
+  "rank": [
+    { "keyword": "品牌词 + 产品更新", "engine": "百度", "position": 2, "measurement": "外部摘要抓取（SERP 首屏标题/摘要）", "confidence": "高", "note": "品牌词由 CT-2051 月报承接，位置稳定" },
+    { "keyword": "客户案例 数字化 落地", "engine": "百度", "position": 9, "measurement": "外部摘要抓取", "confidence": "中", "note": "案例内容尚未上线，当前排名来自历史存量页" },
+    { "keyword": "Q4 产品白皮书 下载", "engine": "百度", "position": 12, "measurement": "外部摘要抓取 + 站内留资交叉校准", "confidence": "中", "note": "白皮书页已有 1 条留资，排名与转化一致" },
+    { "keyword": "Q4 白皮书 要点拆解", "engine": "知乎站内搜索", "position": 27, "measurement": "外部摘要抓取", "confidence": "低", "note": "CT-2053 被驳回后内容缺失，长尾位置下滑" },
+    { "keyword": "双11 企业采购 方案", "engine": "百度", "position": 41, "measurement": "外部摘要抓取", "confidence": "中", "note": "专题页 CT-2055 未上线，无承接页进入前 3 页" },
+    { "keyword": "双11 选型指南", "engine": "百度", "position": 58, "measurement": "外部摘要抓取", "confidence": "低", "note": "CT-2057 待审核，关键词无落地页" },
+    { "keyword": "双11 选型指南", "engine": "知乎站内搜索", "position": 33, "measurement": "外部摘要抓取", "confidence": "低", "note": "知乎问答型内容缺位，CTR 1.58% 低于全渠道均值 1.99%" }
+  ],
+  "issue": [
+    {
+      "issue_id": "SEO-01",
+      "severity": "P0",
+      "title": "双11 专题页仍为草稿，距上线仅 3 天，无页可索引",
+      "evidence": "content_calendar.csv：CT-2055 官网「双11 专题页上线」status=草稿，date=10-12，publish_time=10:00，owner=市场运营；审计日为 2026-09-29",
+      "impact": "「双11 企业采购 方案」当前百度位置 41，10-12 上线后仍需 3~7 天索引期，将错过预热窗口",
+      "remediation": "10-30 前完成专题页上线（提前至 10-05），上线后 24h 内提交百度/必应站点地图并做一次手动抓取校验",
+      "owner": "市场运营",
+      "due": "2026-10-05",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-02",
+      "severity": "P0",
+      "title": "知乎白皮书要点拆解被驳回，长尾关键词无承接页",
+      "evidence": "content_calendar.csv：CT-2053 知乎「Q4 白皮书要点拆解」status=已驳回，date=10-09，content_type=图文",
+      "impact": "「Q4 白皮书 要点拆解」知乎站内位置 27 且无新内容补充，外链与长尾流量缺口持续",
+      "remediation": "按驳回原因修订后于 10-09 重新提审；同步在 CT-2052 白皮书页增加指向该拆解文的内链锚文本",
+      "owner": "内容组",
+      "due": "2026-10-09",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-03",
+      "severity": "P1",
+      "title": "知乎与视频号 CTR 1.58%，显著低于全渠道均值 1.99%，标题/摘要与落地页首屏不一致",
+      "evidence": "ad_spend.csv：知乎 610,000 曝光 / 9,620 点击 = 1.58%，视频号 1,640,000 曝光 / 25,860 点击 = 1.58%；全渠道 8,120,000 曝光 / 161,880 点击 = 1.99%",
+      "impact": "低 CTR 抬高实际 CPC（知乎 6.76 元、视频号 4.45 元，均高于全渠道 3.98 元），单次点击成本溢价 12%~70%",
+      "remediation": "重写标题/描述使其与落地页 H1 及首屏承诺逐一对应；对知乎问答型素材补齐结构化解法标题，A/B 对比 2 周",
+      "owner": "赵**（知乎）/ 张**（视频号）",
+      "due": "2026-10-16",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-04",
+      "severity": "P1",
+      "title": "百度SEM 落地页与搜索词意图不匹配，产生无效线索",
+      "evidence": "leads.csv：LEAD-2110 来源=投放落地页，渠道=百度SEM，stage=无效，note=「无效：预算不匹配」；ad_spend.csv 百度SEM 500,000 曝光 / 14,900 点击，CTR 2.98%，CPC 5.70 元",
+      "impact": "百度SEM 8.50 万投入仅得 2 条线索，其中 1 条无效，有效 CPL 实际翻倍至 8.50 万/条",
+      "remediation": "按「预算区间」「企业规模」拆分落地页并加负向词（低价、免费、个人）；落地页首屏增加档位与适用规模说明，页面内嵌资质/起订量提示",
+      "owner": "张**",
+      "due": "2026-10-14",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-05",
+      "severity": "P1",
+      "title": "信息流 CPL 6.75 万为全渠道最高，落地页表单转化路径过长",
+      "evidence": "ad_spend.csv 信息流 spend=13.50 万 / impressions=2,010,000 / clicks=35,700；leads.csv 信息流来源 2 条（LEAD-2103 score 61、LEAD-2116 score 77）→ CPL 6.75 万，为 6 渠道最高",
+      "impact": "13.50 万花费仅换 2 条线索，且最低分线索 61 来自信息流，投放效率在 6 渠道中垫底",
+      "remediation": "表单字段精简至「姓名/公司/手机/规模」4 项；增加「预约演示」次级转化路径；投放端同步下调信息流预算至 5.00 万以内，缺口转移至 CPL 最低的小红书（3.17 万）",
+      "owner": "李**",
+      "due": "2026-10-16",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-06",
+      "severity": "P2",
+      "title": "视频号落地页缺少行业/资质自筛选，引入非目标行业线索",
+      "evidence": "leads.csv：LEAD-2107 来源=投放落地页，渠道=视频号，stage=无效，note=「无效：非目标行业」，score 42",
+      "impact": "无效线索占比 10%（2/20），销售侧跟进成本被占用",
+      "remediation": "落地页首屏增加适用行业与不适用场景说明；表单加入行业下拉并配置前端校验，非目标行业不进入线索池",
+      "owner": "张**",
+      "due": "2026-10-18",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-07",
+      "severity": "P0",
+      "title": "案例类内容被 PII 审核阻塞，案例关键词无合规可上线页",
+      "evidence": "content_calendar.csv：CT-2054「客户案例短视频 ×3」pii_check=待脱敏，status=待审核；CT-2065「客户成功故事（客户授权待核）」pii_check=待脱敏，status=待审核；CT-2056 小红书种草笔记 pii_check=已脱敏",
+      "impact": "「客户案例 数字化 落地」当前位置 9，但无新增案例内容可承接；位置存在下滑风险",
+      "remediation": "复用 CT-2065 已核客户授权流程与 CT-2056 的脱敏口径，于 10-16 前完成两份材料脱敏并转待发布",
+      "owner": "内容组 + 视频组",
+      "due": "2026-10-16",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-08",
+      "severity": "P2",
+      "title": "内容页留资路径已被验证有效，但内链密度不足",
+      "evidence": "leads.csv：LEAD-2117（内容页留资/公众号/白皮书下载页/score 69）与 LEAD-2120（内容页留资/公众号/双11 活动页/score 71）共 2 条，占 20 条线索的 10%",
+      "impact": "官网表单 + 内容页留资合计 4 条（20%），非投放自然承接已跑通但未被内容日历复用",
+      "remediation": "在 CT-2058 行业报告解读、CT-2052 白皮书页统一加挂「下载/预约」内链与面包屑；专题页与内容页互相内链，形成自然搜索→留资闭环",
+      "owner": "内容组",
+      "due": "2026-10-20",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-09",
+      "severity": "P2",
+      "title": "抖音高曝光未转化为品牌词自然搜索承接",
+      "evidence": "ad_spend.csv：抖音 2,360,000 曝光 / 46,100 点击（全渠道曝光量第一、点击量第一），spend 15.00 万为渠道最高；leads.csv 抖音来源 3 条（LEAD-2106/2111/2118）→ CPL 5.00 万，高于小红书 3.17 万",
+      "impact": "头部曝光渠道 CPL 高出最低渠道 58%，曝光—自然搜索—落地页链路存在断裂",
+      "remediation": "短视频描述区固定挂载品牌词搜索引导与专题页短链；投放落地页加设品牌搜索组件，回收自然搜索承接流量",
+      "owner": "张** + 视频组",
+      "due": "2026-10-20",
+      "status": "待整改"
+    },
+    {
+      "issue_id": "SEO-10",
+      "severity": "P1",
+      "title": "专题页与内容页缺少结构化数据标记，摘要抓取信息量不足",
+      "evidence": "外部摘要抓取结果：7 个目标关键词的 SERP 摘要均仅返回标题与描述，无 FAQ/ItemList/Article 富摘要形态；content_calendar.csv 中专题页 CT-2055、问答型内容 CT-2057 均为图文/专题页类型",
+      "impact": "摘要抓取仅获取到标题与描述，富摘要缺位使 CTR 上限受限，与 SEO-03 低 CTR 互为因果",
+      "remediation": "为 /campaign/2026-double11 增加 FAQPage 标记、为 CT-2057 问答页增加 QAPage/Article 标记，上线后用 Rich Results 校验工具复核",
+      "owner": "市场运营 + 内容组",
+      "due": "2026-10-18",
+      "status": "待复核"
+    }
+  ],
+  "additional_pages": [
+    {
+      "page": "/zhihu/q4-whitepaper-notes（知乎白皮书要点拆解 · content_id CT-2053）",
+      "keywords": ["Q4 白皮书 要点拆解", "行业报告 解读"],
+      "rank": [{ "keyword": "Q4 白皮书 要点拆解", "engine": "知乎站内搜索", "position": 27, "confidence": "低" }],
+      "issue": [
+        {
+          "issue_id": "SEO-02A",
+          "severity": "P0",
+          "title": "内容处于已驳回状态，页面不存在，关键词无承接",
+          "evidence": "content_calendar.csv：CT-2053 status=已驳回，pii_check=无PII",
+          "impact": "无 PII 阻塞但内容未过审，长尾词位置 27 无内容支撑",
+          "remediation": "排除合规因素后按内容规范修订重审，最迟 10-09 提审",
+          "owner": "内容组",
+          "due": "2026-10-09",
+          "status": "待整改"
+        }
+      ]
+    },
+    {
+      "page": "/resources/q4-whitepaper（白皮书下载页 · content_id CT-2052）",
+      "keywords": ["Q4 产品白皮书 下载", "白皮书 下载 企业"],
+      "rank": [{ "keyword": "Q4 产品白皮书 下载", "engine": "百度", "position": 12, "confidence": "中" }],
+      "issue": [
+        {
+          "issue_id": "SEO-08A",
+          "severity": "P2",
+          "title": "留资转化已被验证，但内链与结构化标记缺位",
+          "evidence": "leads.csv：LEAD-2117 内容页留资 / 公众号 / 「白皮书下载页留资」/ score 69，est_value_wan 8.0；content_calendar.csv：CT-2052 status=已排期，date=10-08",
+          "impact": "排名 12 且已产生留资，具备放量条件但未加挂内链与 Article 标记",
+          "remediation": "10-08 上线时同步补 Article 标记，并与 CT-2053 拆解文互链",
+          "owner": "内容组",
+          "due": "2026-10-08",
+          "status": "待整改"
+        }
+      ]
+    },
+    {
+      "page": "/zhihu/double11-selection-guide（双11 选型指南问答 · content_id CT-2057）",
+      "keywords": ["双11 选型指南", "选型指南 企业级"],
+      "rank": [{ "keyword": "双11 选型指南", "engine": "百度", "position": 58, "confidence": "低" }],
+      "issue": [
+        {
+          "issue_id": "SEO-03A",
+          "severity": "P1",
+          "title": "内容待审核，问答型页面无 QAPage 标记，摘要缺结构化信息",
+          "evidence": "content_calendar.csv：CT-2057 status=待审核，content_type=图文，date=10-14，pii_check=无PII；外部摘要抓取仅得标题+描述",
+          "impact": "位置 58，无富摘要支撑，双11 信息型流量缺口",
+          "remediation": "10-14 上线同时添加 QAPage/Article 标记，标题对齐搜索词意图",
+          "owner": "内容组",
+          "due": "2026-10-14",
+          "status": "待整改"
+        }
+      ]
+    },
+    {
+      "page": "/cases/douyin-shorts（客户案例短视频落地页 · content_id CT-2054）",
+      "keywords": ["客户案例 数字化 落地", "客户成功故事"],
+      "rank": [{ "keyword": "客户案例 数字化 落地", "engine": "百度", "position": 9, "confidence": "中" }],
+      "issue": [
+        {
+          "issue_id": "SEO-07A",
+          "severity": "P0",
+          "title": "案例素材处于待脱敏状态，合规未通过前不得上线",
+          "evidence": "content_calendar.csv：CT-2054 pii_check=待脱敏，status=待审核；CT-2065 pii_check=待脱敏，status=待审核",
+          "impact": "现有位置 9 由存量内容支撑，无新内容补充则面临下滑",
+          "remediation": "按 CT-2056 已脱敏口径完成脱敏 + 客户授权核验，10-16 前转待发布",
+          "owner": "内容组 + 视频组",
+          "due": "2026-10-16",
+          "status": "待审批"
+        }
+      ]
+    }
+  ],
+  "remediation_summary": {
+    "total_issues": 14,
+    "by_severity": { "P0": 5, "P1": 5, "P2": 4 },
+    "by_owner": { "内容组": 7, "市场运营": 3, "张**": 4, "李**": 1, "视频组": 2, "赵**": 1 },
+    "earliest_due": "2026-10-05",
+    "latest_due": "2026-10-20",
+    "p0_gate": "5 项 P0 全部关闭后，双11 专题页方可进入投放放量阶段"
+  },
+  "crawl_policy": {
+    "mode": "summary_only",
+    "description": "外部抓取仅保留 SERP 标题、描述、URL 与排名位置的摘要信息",
+    "full_site_mirror": false,
+    "page_body_archived": false,
+    "robots_txt_respected": true,
+    "max_requests_per_host": 20,
+    "auth_bypass": false,
+    "retained_fields": ["url", "title", "meta_description", "h1", "rank_position", "observed_at"]
+  },
+  "compliance": {
+    "pii_in_deliverable": false,
+    "masking_applied": "线索联系人统一使用 contact_masked / owner_masked 原样脱敏值；条目内不出现手机号、邮箱明文",
+    "sensitive_content_flagged": [
+      { "content_id": "CT-2054", "pii_check": "待脱敏", "action": "上线前须完成脱敏" },
+      { "content_id": "CT-2065", "pii_check": "待脱敏", "action": "上线前须完成脱敏与客户授权核验" }
+    ],
+    "external_crawl_boundary": "仅摘要，禁止整站镜像；未持久化外部页面正文",
+    "approval_required": [
+      { "item": "双11 专题页上线", "approver": "市场运营负责人", "reason": "涉及投放放量与预算关联" },
+      { "item": "案例类内容发布", "approver": "内容组 + 法务/客户授权方", "reason": "CT-2054 / CT-2065 待脱敏且客户授权待核" }
+    ]
+  },
+  "acceptance_check": {
+    "required_fields_present": ["page", "keywords", "rank", "issue"],
+    "external_fetch_mode": "summary_only",
+    "full_site_mirror_performed": false,
+    "evidenced_by_data_files": ["ad_spend.csv", "content_calendar.csv", "leads.csv"],
+    "placeholder_values_used": false
+  }
+}

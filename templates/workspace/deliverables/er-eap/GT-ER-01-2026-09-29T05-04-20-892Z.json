@@ -1,0 +1,160 @@
+{
+  "deliverable_id": "GT-ER-01",
+  "scenario": "eap.referral@1.0.0",
+  "skill": "offboarding-flow",
+  "workflow": "er-eap.offboard-approve@1.0.0",
+  "generated_at": "2026-09-29T05:04:20.892Z",
+  "subject": "分支机构裁撤：员工关系风险清单（离职最后一步前置门禁）",
+  "source_files": [
+    {
+      "path": "templates/workspace/data/er-eap/er_cases.csv",
+      "columns": ["case_id", "case_type", "stage", "owner", "note"],
+      "rows": 4,
+      "row_ids": ["ER-1201", "ER-1202", "ER-1203", "ER-1204"]
+    },
+    {
+      "path": "templates/workspace/data/er-eap/eap_referrals.csv",
+      "columns": ["anon_id", "direction", "status", "approvals", "sessions_left"],
+      "rows": 4,
+      "row_ids": ["EAP-ANON-0731", "EAP-ANON-0733", "EAP-ANON-0734", "EAP-ANON-0735"]
+    }
+  ],
+  "risk_list": [
+    {
+      "employee_masked": "ER-1202",
+      "last_day": null,
+      "handover_ok": false,
+      "approvals": "审批中；owner=HR专员；无主管签核记录、无EAP专员签核记录；note=「N+1 方案」尚未确认",
+      "case_type": "离职交接",
+      "stage": "审批中",
+      "owner": "HR专员",
+      "note": "N+1 方案",
+      "risk_level": "高",
+      "gate": "HOLD",
+      "gate_reason": "该案是本次裁撤中唯一处于「离职交接」类型的在办案件，阶段停在「审批中」，N+1 方案未确认，数据中不存在交接清单、资产回收、权限回收的完成记录，approvals 字段亦无主管/专员双签。按验收标准「交接未完成不得进入最后一步」，禁止推进离职收口。",
+      "next_action": "由 HR 专员补全交接清单与资产/权限回收确认，取得主管与 EAP 专员双签后，将 stage 由「审批中」推进至「已结案」，方可回填 last_day 并放行最后一步。"
+    },
+    {
+      "employee_masked": "ER-1204",
+      "last_day": null,
+      "handover_ok": false,
+      "approvals": "无离职审批记录；在办责任方=合规部；无主管签核、无EAP专员签核",
+      "case_type": "违纪调查",
+      "stage": "调查中",
+      "owner": "合规部",
+      "note": "证据已封存",
+      "risk_level": "高",
+      "gate": "HOLD",
+      "gate_reason": "违纪调查在办且「证据已封存」，劳动争议、举证与口径风险未解除。裁撤场景下若与离职收口并行，存在证据链被质疑、离职文件被认定为协商不实或程序瑕疵的风险，因此不得进入最后一步。",
+      "next_action": "合规部出具书面调查结论并正式移交 ER 后，方可纳入裁撤离职批次；调查期内不得安排离职面谈签字或回填 last_day。"
+    },
+    {
+      "employee_masked": "ER-1201",
+      "last_day": null,
+      "handover_ok": false,
+      "approvals": "无审批记录；owner=HRBP；处于「调解中」，尚未形成任何签核",
+      "case_type": "绩效申诉",
+      "stage": "调解中",
+      "owner": "HRBP",
+      "note": "已安排面谈",
+      "risk_level": "中",
+      "gate": "HOLD",
+      "gate_reason": "绩效申诉仍在调解且仅「已安排面谈」，未达成结论，裁撤将改变其申诉标的（岗位/绩效基线），存在申诉升级为仲裁的传导风险；交接与审批均未闭环，不满足放行条件。",
+      "next_action": "HRBP 完成面谈并出具调解结论（达成/未达成均需书面归档），结论确认不影响裁撤口径后再纳入离职流程。"
+    },
+    {
+      "employee_masked": "ER-1203",
+      "last_day": null,
+      "handover_ok": true,
+      "approvals": "双方签字归档；案件已结案，无未决审批",
+      "case_type": "团队争议",
+      "stage": "已结案",
+      "owner": "HRBP",
+      "note": "双方签字归档",
+      "risk_level": "低",
+      "gate": "CLEAR",
+      "gate_reason": "案件已结案且双方签字归档，无在办审批与未决责任，对裁撤离职收口不构成阻断；last_day 因数据源无该字段而留空，需由 HR 专员在放行时另行回填。",
+      "next_action": "无需额外门禁动作；纳入裁撤离职批次时按常规流程回填 last_day。"
+    },
+    {
+      "employee_masked": "EAP-ANON-0734",
+      "last_day": null,
+      "handover_ok": false,
+      "approvals": "主管待/专员待（状态：待双审批）",
+      "case_type": "心理咨询(内部)",
+      "stage": "待双审批",
+      "owner": null,
+      "note": "剩余咨询额度 8 次",
+      "risk_level": "高",
+      "gate": "HOLD",
+      "gate_reason": "EAP 双审批未完成（主管待/专员待），服务仍处于「待双审批」未正式启用，同时仍有 8 次额度未使用。裁撤期间若直接离职收口，员工心理支持链断裂且审批留痕不完整，构成合规与声誉风险，不得进入最后一步。",
+      "next_action": "先由主管与专员完成双审批；若员工确定离职，则按结案处理并将剩余 8 次额度转介至裁撤后仍可用的 EAP 渠道，留存转介记录。"
+    },
+    {
+      "employee_masked": "EAP-ANON-0735",
+      "last_day": null,
+      "handover_ok": false,
+      "approvals": "主管✓/专员✓（双签已完成）",
+      "case_type": "危机干预",
+      "stage": "进行中",
+      "owner": null,
+      "note": "剩余咨询额度 2 次",
+      "risk_level": "高",
+      "gate": "HOLD",
+      "gate_reason": "审批虽已完成，但「危机干预」仍在进行中且仅剩 2 次额度，属于裁撤期间的最高危个体。交接维度（服务连续性交接）未完成，按验收标准不得进入最后一步。",
+      "next_action": "在裁撤沟通前完成危机干预的风险评估与接续方案（延长额度或转介外部机构），取得 EAP 专员书面确认服务不中断后再放行。"
+    },
+    {
+      "employee_masked": "EAP-ANON-0731",
+      "last_day": null,
+      "handover_ok": true,
+      "approvals": "主管✓/专员✓（双签已完成）",
+      "case_type": "心理咨询(外部机构)",
+      "stage": "进行中",
+      "owner": null,
+      "note": "剩余咨询额度 5 次",
+      "risk_level": "中",
+      "gate": "CLEAR_WITH_TRANSFER",
+      "gate_reason": "双审批已完成，服务已由外部机构承接，交接责任方明确，不阻断离职收口；但仍有 5 次额度，需保证裁撤后服务可续。",
+      "next_action": "放行前由 EAP 专员确认外部机构可继续服务至额度用尽，并将承接信息书面告知员工，留存转介记录。"
+    },
+    {
+      "employee_masked": "EAP-ANON-0733",
+      "last_day": null,
+      "handover_ok": true,
+      "approvals": "主管✓/专员✓（双签已完成）",
+      "case_type": "法律援助(劳动咨询)",
+      "stage": "已结案",
+      "owner": null,
+      "note": "剩余咨询额度 0 次",
+      "risk_level": "低",
+      "gate": "CLEAR",
+      "gate_reason": "案件已结案、额度用尽为 0、双签完整，无在办责任与交接缺口，可在裁撤离职批次中直接放行。",
+      "next_action": "无需额外门禁动作；保留结案与双签留痕备查即可。"
+    }
+  ],
+  "summary": {
+    "total_records": 8,
+    "er_cases": 4,
+    "eap_referrals": 4,
+    "handover_ok_true": 3,
+    "handover_ok_false": 5,
+    "gate_hold": 5,
+    "gate_clear_with_transfer": 1,
+    "gate_clear": 2,
+    "high_risk_records": ["ER-1202", "ER-1204", "EAP-ANON-0734", "EAP-ANON-0735"],
+    "blocking_rule": "handover_ok=false 的记录一律 gate=HOLD，不得进入离职最后一步",
+    "proceedable_records": ["ER-1203", "EAP-ANON-0731", "EAP-ANON-0733"]
+  },
+  "field_provenance": {
+    "employee_masked": "来源于源文件主键：er_cases.csv 的 case_id（ER-1201…ER-1204）、eap_referrals.csv 的 anon_id（EAP-ANON-0731…0735）。两个源文件均不含姓名、工号、证件号等直接标识，主键本身即为脱敏后的最小可识别标识，故按原值引用并保持脱敏形态。",
+    "last_day": "两个源文件均无「最后工作日」字段，实测列分别为 case_id/case_type/stage/owner/note 与 anon_id/direction/status/approvals/sessions_left。为不臆造事实，全部记录 last_day 置为 null：一方面源数据不可推导，另一方面 5 条 handover_ok=false 的记录按验收标准本就不得进入确定最后工作日的最后一步。字段已按规范保留，待 HR 专员在放行时回填。",
+    "handover_ok": "由源数据推导：ER 侧依据 stage 是否为「已结案」；EAP 侧依据 status（已结案/进行中/待双审批）与 approvals（主管✓/专员✓ 为已完成，主管待/专员待 为未完成）以及 sessions_left 是否存在未结服务。判定规则与逐条依据见 risk_list[].gate_reason。",
+    "approvals": "直接取自 eap_referrals.csv 的 approvals 列（主管✓/专员✓、主管待/专员待），并结合 er_cases.csv 的 owner 与 stage 说明 ER 案件是否存在签核留痕；ER 侧源文件无 approvals 列，已在字段值中显式标注为「无审批记录/审批中」，未做任何补造。"
+  },
+  "gate_policy": {
+    "acceptance_criterion": "交接未完成不得进入最后一步（handover_ok=false ⇒ 禁止推进离职最后一步）",
+    "enforcement": "5 条 handover_ok=false 记录全部标记 gate=HOLD 并附 gate_reason 与 next_action；仅 3 条 handover_ok=true 记录可进入离职最后一步，其中 1 条附带转介条件（CLEAR_WITH_TRANSFER）。",
+    "escalation": "HOLD 记录中 risk_level=高 的 4 条（ER-1202、ER-1204、EAP-ANON-0734、EAP-ANON-0735）需 HRBP 与合规部联合复核后方可解锁。"
+  }
+}

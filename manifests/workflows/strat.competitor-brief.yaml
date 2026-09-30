@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: strat.competitor-brief@1.0.0
+domain: strat
+description: "竞品动态简报（脱敏摘要口径）"
+trigger:
+  type: command
+  expr: competitor-brief
+nodes:
+  - id: n1
+    type: skill
+    ref: competitor-watch
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "竞品动态简报（脱敏摘要口径）：数据版本 + 产物哈希"
+deliverable:
+  file: competitor-brief-<ts>.json
+  format: json
+  fields:
+    - competitor
+    - move_type
+    - impact
+    - our_response
+  acceptance: "外部检索内容必须经脱敏摘要（禁原文外发）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-competitor-brief

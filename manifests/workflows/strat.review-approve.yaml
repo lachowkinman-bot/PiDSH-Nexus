@@ -1,0 +1,13 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: strat.review-approve@1.0.0
+description: "季度战略复盘生效"
+trigger: { type: command, expr: "review-approve" }
+nodes:
+  - id: n1; type: skill; ref: strategy-decode
+  - id: n2; type: condition; expr: "复盘结论涉及组织与预算变更"
+  - id: n3; type: approval; level: L4; dual: true   # condition 的 then 分支禁止绕过审批直连外部写能力
+  - id: n4; type: tool; ref: cap.excel.panel.write
+  - id: n5; type: audit; record: "季度战略复盘生效 + 审批人 + 依据数据版本"
+check: { expected: "产物与审批单一致", actual_ref: audit/n5, on_fail: rollback }
+hitl_nodes: [n3]
+rollback: { method: savepoint, tag: pre-review-approve }

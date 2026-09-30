@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: rec.jd-draft@1.0.0
+domain: rec
+description: "JD 起草（岗位/要求/薪酬带）"
+trigger:
+  type: command
+  expr: jd-draft
+nodes:
+  - id: n1
+    type: skill
+    ref: jd-gen
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "JD 起草（岗位/要求/薪酬带）：输入参数 + 结果快照"
+deliverable:
+  file: jd-draft-<ts>.json
+  format: json
+  fields:
+    - position
+    - requirements
+    - band
+    - locale
+  acceptance: "薪酬带引用 comp.bands 区间口径"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-jd-draft

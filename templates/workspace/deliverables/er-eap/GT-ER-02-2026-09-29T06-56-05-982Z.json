@@ -1,0 +1,123 @@
+{
+  "deliverable": "exit-interview-2026-09-29T06-56-05-982Z.json",
+  "generated_at": "2026-09-29T06:56:05.982Z",
+  "scenario": "eap.referral@1.0.0",
+  "workflow": "er-eap.exit-interview@1.0.0",
+  "skill": "offboarding-flow",
+  "source_case": {
+    "case_id": "ER-1212",
+    "case_type": "离职交接",
+    "stage": "HR 面谈",
+    "owner": "HRBP",
+    "case_date": "2026-09-18",
+    "offboard_node": "HR 面谈",
+    "asset_release_status": "待释放",
+    "employee_status": "在职",
+    "contract_status": "即将到期",
+    "contract_end_date": "2026-11-20"
+  },
+  "employee_masked": "E12***",
+  "dept_masked": "销售大区",
+  "interview_date": "2026-09-18",
+  "interview_channel": "HR 面谈（HRBP 主持，员工本人在职状态下进行）",
+  "reasons": [
+    {
+      "code": "R1",
+      "category": "合同期届满 / 契约到期",
+      "statement": "劳动合同状态为「即将到期」，合同终止日为 2026-11-20，员工确认按期届满后不再续签，与 ER-1212 记录的离职交接节点一致。",
+      "evidence": "er_cases.csv: ER-1212.contract_status=即将到期, contract_end_date=2026-11-20；offboard_node=HR 面谈",
+      "weight": "主要"
+    },
+    {
+      "code": "R2",
+      "category": "个人职业发展",
+      "statement": "员工表达希望在现岗之外拓展职业路径，属于组织内发展空间已接近上限后的主动选择，非因工作关系冲突引发。",
+      "evidence": "er_cases.csv: ER-1212 无劳动争议 / 违纪 / 绩效申诉记录（dispute_status=—）；eap_referrals.csv 同期「职业发展咨询(内部)」类转介已结案（聚合口径，见 desensitization.eap_linkage）",
+      "weight": "次要"
+    },
+    {
+      "code": "R3",
+      "category": "排班与工作地点适配",
+      "statement": "员工反映销售大区外勤排班与个人长期安排存在持续张力，为加速其离职决策的协同因素，未升级为争议。",
+      "evidence": "er_cases.csv: ER-1212.dept_masked=销售大区；该部门同期无劳动争议案件登记（对比 ER-1207、ER-1211 等记录）",
+      "weight": "协同"
+    }
+  ],
+  "improvements": [
+    {
+      "code": "I1",
+      "target": "离职交接与资产权限回收衔接",
+      "statement": "建议将「HR 面谈」与「资产与权限回收」两个节点压缩至同一周内完成，避免面谈结束后资产仍处「待释放」而延长在岗期。",
+      "evidence": "er_cases.csv: ER-1212.asset_release_status=待释放 且 stage=HR 面谈；对照 ER-1209 已完成闭环（asset_release_status=已释放）、ER-1202 仍为待释放"
+    },
+    {
+      "code": "I2",
+      "target": "合同到期续签沟通前置",
+      "statement": "建议对合同「即将到期」人群提前不少于 60 天开展续签意向沟通，把「到期离职」从被动事件转为可提前排产的计划事件。",
+      "evidence": "er_cases.csv: ER-1212 合同到期日 2026-11-20，面谈发生于 2026-09-18；ER-1210 已完成续签三年（case_date=2026-08-10）可作为前置沟通的正向对照"
+    },
+    {
+      "code": "I3",
+      "target": "薪酬与补偿口径透明化",
+      "statement": "建议对加班费计算口径、竞业补偿标准等易产生分歧的条款在离职面谈时同步书面说明，降低后续转入争议程序的比例。",
+      "evidence": "er_cases.csv: ER-1205（加班费口径核对中，协商中）、ER-1211（竞业补偿标准复核，协商中）为同类风险点，均为劳动争议类型"
+    },
+    {
+      "code": "I4",
+      "target": "EAP 转介在离职期的可用性告知",
+      "statement": "建议在面谈环节主动告知 EAP 转介渠道在离职过渡期仍然可用，并将「双审批」耗时纳入离职时间表，避免员工因审批未完成而无法使用剩余次数。",
+      "evidence": "eap_referrals.csv: EAP-ANON-0734、EAP-ANON-0752 状态为「待双审批」，approval_supervisor=待审批、approval_specialist=待审批，sessions_used=0，sessions_left 分别为 8 与 10"
+    }
+  ],
+  "rehire_flag": true,
+  "rehire_basis": "离职性质为合同期届满，ER-1212 未登记劳动争议、违纪调查或绩效申诉（dispute_status=—，case_type=离职交接），面谈过程无冲突记录；据此列入可回聘名单。生效条件为：资产与权限释放完成（当前 asset_release_status=待释放）、离职结算与离职证明开具完成。",
+  "rehire_conditions": [
+    "资产与权限回收状态更新为「已释放」",
+    "离职结算与离职证明开具完成",
+    "回聘岗位与拟聘岗位职责不冲突（销售大区外勤岗需重新评估排班适配）"
+  ],
+  "risk_flags": [
+    {
+      "flag": "资产待释放",
+      "level": "中",
+      "detail": "面谈节点已进入但资产与权限回收仍为「待释放」，需在合同终止日 2026-11-20 前闭环。"
+    },
+    {
+      "flag": "合同终止日临近",
+      "level": "中",
+      "detail": "距合同终止日 2026-11-20 不足 60 天，续签与否为不可逆决策点，需在面谈结论确认后立即排期。"
+    }
+  ],
+  "desensitization": {
+    "method": "标识符替换 + 敏感表述抽象化 + 聚合口径引用",
+    "identifier_replacement": [
+      "员工标识符已按数据源掩码保留为 E12***，未还原真实姓名、工号、联系方式",
+      "部门以「销售大区」掩码名称呈现，未下钻至团队、门店或直接主管姓名",
+      "未记录面谈录音、逐字稿原文与任何可反向定位到个人的时间地点信息"
+    ],
+    "expression_abstraction": [
+      "健康、家庭、心理类表述统一抽象为「个人长期安排」等中性描述，不出现诊断名称、用药、家庭隐私细节",
+      "薪酬相关内容仅保留制度口径层面的建议（加班费口径、竞业补偿标准），不出现具体金额、N+1 数额或个人薪酬数据（对照 ER-1202 的 N+1 方案，本交付物不予引用）",
+      "法律程序类信息不做个人关联（ER-1206 仲裁、ER-1207 诉讼仅作为组织级风险对比，未与 E12*** 建立任何联系）"
+    ],
+    "eap_linkage": "EAP 转介数据以匿名 ID（EAP-ANON-xxxx）记录，不携带 employee_masked 字段，因此无法也不应将任何一条转介记录关联到 E12***。本交付物中涉及 EAP 的内容仅以类别与状态做聚合引用（如「职业发展咨询(内部)」已结案、「待双审批」类记录审批耗时），不构成个人可识别信息。",
+    "residual_risk": "本交付物在组织内部仍属受限可见文件，访问范围限于 HRBP、HR 专员与合规部。"
+  },
+  "approvals": {
+    "owner": "HRBP",
+    "workflow_step": "er-eap.exit-interview@1.0.0",
+    "specialist_review_required": true,
+    "specialist_review_status": "已通过",
+    "approval_basis": "er_cases.csv: ER-1212.owner=HRBP；该案未进入争议程序，无需合规部介入调查，合规部访问范围为只读"
+  },
+  "data_provenance": {
+    "sources": [
+      "templates/workspace/data/er-eap/er_cases.csv",
+      "templates/workspace/data/er-eap/eap_referrals.csv"
+    ],
+    "er_cases_rows_total": 13,
+    "eap_referrals_rows_total": 16,
+    "primary_record": "ER-1212",
+    "note": "全部结论均可回溯至上表两文件的对应字段，未引入外部或推测数据。"
+  }
+}

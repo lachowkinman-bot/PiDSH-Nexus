@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: sales.win-review@1.0.0
+domain: sales
+description: "赢单复盘（打法沉淀）"
+trigger:
+  type: command
+  expr: win-review
+nodes:
+  - id: n1
+    type: skill
+    ref: win-review
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "赢单复盘（打法沉淀）：数据版本 + 产物哈希"
+deliverable:
+  file: win-review-<ts>.json
+  format: json
+  fields:
+    - opportunity
+    - amount_k
+    - win_factors
+    - playbook_update
+  acceptance: "结论可追溯到商机记录"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-win-review

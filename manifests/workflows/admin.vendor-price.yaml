@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: admin.vendor-price@1.0.0
+domain: admin
+description: "供应商比价报告（三家原则）"
+trigger:
+  type: command
+  expr: vendor-price
+nodes:
+  - id: n1
+    type: skill
+    ref: purchase-compare
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "供应商比价报告（三家原则）：数据版本 + 产物哈希"
+deliverable:
+  file: vendor-price-<ts>.json
+  format: json
+  fields:
+    - item
+    - quotes
+    - lowest
+    - chosen
+  acceptance: "不足三家须说明理由"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-vendor-price

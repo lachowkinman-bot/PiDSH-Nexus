@@ -1,0 +1,13 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: eap.referral-approve@1.0.0
+description: "EAP 转介双审批+匿名化"
+trigger: { type: command, expr: "referral-approve" }
+nodes:
+  - id: n1; type: skill; ref: eap-referral
+  - id: n2; type: condition; expr: "转介建议发出前"
+  - id: n3; type: approval; level: L4; dual: true   # condition 的 then 分支禁止绕过审批直连外部写能力
+  - id: n4; type: tool; ref: cap.excel.panel.write
+  - id: n5; type: audit; record: "EAP 转介双审批+匿名化 + 审批人 + 依据数据版本"
+check: { expected: "产物与审批单一致", actual_ref: audit/n5, on_fail: rollback }
+hitl_nodes: [n3]
+rollback: { method: savepoint, tag: pre-referral-approve }

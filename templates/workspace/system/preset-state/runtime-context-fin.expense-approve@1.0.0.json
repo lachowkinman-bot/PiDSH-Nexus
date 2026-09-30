@@ -1,0 +1,18 @@
+{
+ "applied_at": "2026-09-28T06:44:45.884Z",
+ "scene_id": "fin.expense-approve@1.0.0",
+ "domain": "FIN",
+ "permission": {
+  "min_level": "L4",
+  "dual_approval": false
+ },
+ "redact": [
+  "bank_account",
+  "invoice_taxid"
+ ],
+ "memory_exclude": [],
+ "workflows": [
+  "workflows/fin.expense-approve.yaml",
+  "workflows/fin.monthly-report.yaml"
+ ]
+}

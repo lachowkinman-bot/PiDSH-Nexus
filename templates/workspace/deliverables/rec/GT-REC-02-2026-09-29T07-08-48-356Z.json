@@ -1,0 +1,148 @@
+{
+  "task_id": "GT-REC-02",
+  "scenario": "rec.funnel-weekly@1.0.0",
+  "skill": "jd-gen",
+  "workflow": "rec.resume-forward@1.0.0",
+  "generated_at": "2026-09-29T07:08:48.356Z",
+  "candidate_masked": "陈****",
+  "candidate_ref": "C004",
+  "target": "前端工程师",
+  "redact_fields": [
+    "candidate_phone",
+    "candidate_idcard",
+    "candidate_id",
+    "offer_salary",
+    "note"
+  ],
+  "approver": "李**（HRD）",
+  "approver_role": "人力资源总监（HRD）",
+  "approval_status": "pending",
+  "approval_basis": "C004 为前端工程师岗位终面评估人：IV007 终面（2026-10-09 10:00，李**，HRD）评分 91、result=pass，评估意见“价值观匹配，建议发 offer”。按 rec.resume-forward 流程，候选人简历外发（发至用人部门/HRD 审批）必须先经 HRD 审批确认脱敏结果。",
+  "jd": {
+    "position": "前端工程师",
+    "department": "研发中心",
+    "location": "深圳",
+    "employment_type": "全职",
+    "headcount": 2,
+    "open_since": "2026-W37",
+    "experience_required": "3-5 年前端开发经验",
+    "education_required": "本科及以上",
+    "salary_note": "薪资面议，不写入对外发布版本",
+    "responsibilities": [
+      "负责公司核心 Web 产品的前端架构设计与功能开发，保障交付质量与迭代效率。",
+      "主导页面性能优化（首屏加载、渲染性能、包体积治理），推动核心性能指标达成目标。",
+      "与产品、设计、后端协作完成需求评审、技术方案设计、联调与上线。",
+      "沉淀前端工程规范与公共组件库，参与代码评审与团队技术支持。",
+      "参与前端技术选型与架构演进，保障系统可维护性与可扩展性。"
+    ],
+    "requirements": [
+      "本科及以上学历，计算机及相关专业优先。",
+      "3-5 年前端开发经验，具备完整项目从设计到上线的落地经验。",
+      "熟练掌握 HTML/CSS/JavaScript/TypeScript，理解浏览器渲染与网络机制。",
+      "熟练使用至少一种主流前端框架（React / Vue）及其生态，理解组件化与状态管理。",
+      "具备性能优化与前端工程化（构建、CI、监控）实践经验。",
+      "具备良好的沟通协作与问题定位能力，可独立推动跨团队事项落地。"
+    ],
+    "preferred": [
+      "有中大型 To B / To C 系统的架构治理经验。",
+      "有前端监控、灰度发布或微前端实践经验。",
+      "有开源贡献或技术社区分享经历。"
+    ],
+    "sourcing_channels": "内推、BOSS直聘、官网招聘页（依据本周期在招渠道表现）"
+  },
+  "jd_generation_basis": {
+    "position_demand": "前端工程师在 pipeline 中同时在评 3 人（C004 offer、C006 first、C013 first），岗位缺口与面试资源占用均处于活跃状态，需固化对外 JD 以保证各渠道口径一致。",
+    "calibration_from_interviews": [
+      "IV005 一面（孙**，前端组长）评分 88：工程基础扎实、性能优化经验好 → JD 写入“性能优化”硬性要求。",
+      "IV006 二面（周**，技术负责人）评分 90：架构理解到位 → JD 写入“架构选型与演进”职责。",
+      "IV007 终面（李**，HRD）评分 91、pass → JD 写入“协作与推动落地”软性要求。"
+    ],
+    "calibration_from_candidate_profile": "通过候选人画像反推用人标准：本科、技术栈为 Web 前端、经验区间 4-5 年（C004 4 年、C006 5 年），故学历要求设为本科及以上、经验区间设为 3-5 年。"
+  },
+  "forward_package": {
+    "audience": "用人部门（研发中心前端组）+ HRD 审批留档",
+    "candidate_masked": "陈****",
+    "position": "前端工程师",
+    "stage": "offer",
+    "education": "本科",
+    "exp_years": 4,
+    "composite_score": 91,
+    "source": "内推",
+    "interview_history": [
+      { "interview_id": "IV005", "round": "first", "interviewer": "孙**", "score": 88, "result": "pass", "comment": "工程基础扎实，性能优化经验好" },
+      { "interview_id": "IV006", "round": "second", "interviewer": "周**", "score": 90, "result": "pass", "comment": "架构理解到位" },
+      { "interview_id": "IV007", "round": "final", "interviewer": "李**", "score": 91, "result": "pass", "comment": "价值观匹配，建议发 offer" }
+    ],
+    "redacted_in_payload": [
+      "candidate_phone",
+      "candidate_idcard",
+      "candidate_id",
+      "offer_salary",
+      "note"
+    ],
+    "pending_approval_from": "李**（HRD）"
+  },
+  "compliance": {
+    "gate_rule": "未脱敏外发 = 一票否决",
+    "verdict": "PASS",
+    "masking_completeness": {
+      "result": "pass",
+      "detail": "外发件中所有姓名字段均为掩码形态（候选人 陈****，面试官 孙**/周**/李**），未出现任何完整自然人姓名。"
+    },
+    "pii_scan": {
+      "result": "pass",
+      "detail": "candidate_phone（原值 135****4321）、candidate_idcard（原值 4403**********4567）整列从外发件移除，仅保留在内部掩码视图，不外发。",
+      "removed_fields": ["candidate_phone", "candidate_idcard"]
+    },
+    "restricted_business_data": {
+      "result": "pass",
+      "detail": "offer_salary（25000）与内部流转备注 note（“Offer 已发，待候选人确认”）不外发，薪资仅在线下面谈环节传递。"
+    },
+    "discrimination_scan": {
+      "result": "pass",
+      "checked_dimensions": ["性别", "年龄", "婚育", "户籍", "地域", "民族", "宗教", "残障", "外貌"],
+      "hits": [],
+      "detail": "JD 中不含与岗位胜任力无关的限制性条款；学历与经验要求均与岗位职责直接相关且可验证。"
+    },
+    "jd_accuracy": {
+      "result": "pass",
+      "detail": "JD 职责与要求均由本周期真实面试评价反推校准，未夸大职级、未承诺薪资与编制以外的条件（在招编制 2 人）。"
+    }
+  },
+  "risks": [
+    {
+      "id": "R1",
+      "level": "high",
+      "type": "offer_dropout",
+      "detail": "C004 offer_status=sent、onboard_status=pending，候选人尚未确认 Offer；简历外发与审批若延迟，存在候选人流失风险。",
+      "suggested_action": "HRD 审批通过后 24 小时内完成用人部门同步并跟进候选人答复。"
+    },
+    {
+      "id": "R2",
+      "level": "medium",
+      "type": "scheduling_conflict",
+      "detail": "前端岗面试排期冲突：IV008（C006）与 IV019（C013）面试官同为孙**，时段均为 2026-10-06 11:00，面试官资源冲突。",
+      "suggested_action": "重排 C013 一面时段，避免与 C006 共用同一面试官同一时段。"
+    },
+    {
+      "id": "R3",
+      "level": "medium",
+      "type": "channel_quality",
+      "detail": "渠道销售岗 C005（赵****，大专/3 年，招聘网站来源）渠道背景待核实；同期 funnel 显示初筛通过率 35%、面试通过率 12%，渠道有效性需持续观察。",
+      "suggested_action": "对外发布 JD 时统一岗位口径，优先投入内推与猎头渠道。"
+    }
+  ],
+  "evidence": {
+    "files_read": [
+      "templates/workspace/data/rec/candidates.csv",
+      "templates/workspace/data/rec/funnel.csv",
+      "templates/workspace/data/rec/interviews.csv"
+    ],
+    "key_records": [
+      "candidates.csv: C004,陈****,前端工程师,offer,内推,本科,4 年,score=91,offer_salary=25000,offer_status=sent,onboard_status=pending",
+      "interviews.csv: IV005/IV006/IV007 三轮均 pass，终面由 HRD 李** 评估并建议发 offer",
+      "funnel.csv: 2026-W40 简历投递 486 → 初筛通过 172（35%）→ 面试通过 58（12%）→ offer 发放 21（4%）→ 入职 17（3%）"
+    ],
+    "data_as_of": "2026-09-29T07:08:48.356Z"
+  }
+}

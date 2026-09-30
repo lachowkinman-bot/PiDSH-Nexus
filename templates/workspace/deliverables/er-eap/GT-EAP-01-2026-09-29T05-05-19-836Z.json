@@ -1,0 +1,114 @@
+{
+  "deliverable": "eap-referral-2026-09-29T05-05-19-836Z.json",
+  "task_id": "GT-EAP-01",
+  "skill": "eap-referral",
+  "workflow": "er-eap.eap-referral@1.0.0",
+  "domain": "ER",
+  "generated_at": "2026-09-29T05:05:19.836Z",
+  "source": {
+    "file": "templates/workspace/data/er-eap/eap_referrals.csv",
+    "columns": ["anon_id", "direction", "status", "approvals", "sessions_left"],
+    "record_count": 4
+  },
+  "anon_id": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "status": "进行中"
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "status": "已结案"
+    },
+    {
+      "anon_id": "EAP-ANON-0734",
+      "status": "待双审批"
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "status": "进行中"
+    }
+  ],
+  "direction": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "direction": "心理咨询(外部机构)"
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "direction": "法律援助(劳动咨询)"
+    },
+    {
+      "anon_id": "EAP-ANON-0734",
+      "direction": "心理咨询(内部)"
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "direction": "危机干预"
+    }
+  ],
+  "approvals": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "supervisor_approval": "已批准",
+      "specialist_approval": "已批准",
+      "dual_approval": "已完成",
+      "raw": "主管✓/专员✓"
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "supervisor_approval": "已批准",
+      "specialist_approval": "已批准",
+      "dual_approval": "已完成",
+      "raw": "主管✓/专员✓"
+    },
+    {
+      "anon_id": "EAP-ANON-0734",
+      "supervisor_approval": "待批准",
+      "specialist_approval": "待批准",
+      "dual_approval": "未完成",
+      "raw": "主管待/专员待"
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "supervisor_approval": "已批准",
+      "specialist_approval": "已批准",
+      "dual_approval": "已完成",
+      "raw": "主管✓/专员✓"
+    }
+  ],
+  "sessions": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "sessions_left": 5,
+      "session_state": "剩余 5 次，继续按外部机构心理咨询转介执行"
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "sessions_left": 0,
+      "session_state": "剩余 0 次，转介服务已用尽并结案，不再追加次数"
+    },
+    {
+      "anon_id": "EAP-ANON-0734",
+      "sessions_left": 8,
+      "session_state": "剩余 8 次，处于待双审批状态，未获双审批前不得启动服务"
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "sessions_left": 2,
+      "session_state": "剩余 2 次，危机干预类，余量最低需优先续接与评估"
+    }
+  ],
+  "summary": {
+    "total_referrals": 4,
+    "dual_approved": 3,
+    "pending_dual_approval": 1,
+    "total_sessions_left": 15,
+    "directions": ["心理咨询(外部机构)", "法律援助(劳动咨询)", "心理咨询(内部)", "危机干预"],
+    "gate_decision": "EAP-ANON-0734 因双审批未完成（主管待/专员待），转介建议保持挂起，不进入服务启动；其余 3 条双审批齐备。"
+  },
+  "compliance": {
+    "anonymization": "输出仅含匿名编号 EAP-ANON-*，未写入姓名、工号、部门、联系方式、HRBP/合规部等任何直接或间接个人标识",
+    "network": "禁网：本次执行未发起任何外部网络请求，未调用外部模型或外部接口，仅基于本地 CSV 与本地落盘",
+    "memory_layer": "禁入记忆层：本次结果仅写入交付物文件，未写入任何长期记忆、向量库或跨会话记忆"
+  }
+}

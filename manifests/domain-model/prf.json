@@ -1,0 +1,939 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "prf",
+ "label": "绩效 PRF",
+ "scene_ids": [
+  "prf.calibration@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": true,
+ "redact_fields": [
+  "review_score",
+  "review_note"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.419Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/prf.calibration.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/prf/",
+  "doc": "docs/preset-design/prf.md"
+ },
+ "tables": [
+  {
+   "file": "calibration.csv",
+   "rows": 16,
+   "columns": [
+    "employee_masked",
+    "dept",
+    "manager_grade",
+    "calibrated_grade",
+    "delta_note",
+    "self_score",
+    "mgr_score",
+    "final_score",
+    "cycle",
+    "status"
+   ],
+   "pii_likely": [
+    "employee_masked"
+   ]
+  },
+  {
+   "file": "kpi.csv",
+   "rows": 16,
+   "columns": [
+    "kpi",
+    "target",
+    "actual",
+    "rate",
+    "period",
+    "employee_masked",
+    "dept",
+    "position",
+    "weight",
+    "status"
+   ],
+   "pii_likely": [
+    "employee_masked"
+   ]
+  }
+ ],
+ "skills": [
+  {
+   "name": "kpi-track",
+   "file": "templates/skills-domain/prf/SKILL-kpi-track.md"
+  },
+  {
+   "name": "calibration-analysis",
+   "file": "templates/skills-domain/prf/SKILL-calibration-analysis.md"
+  },
+  {
+   "name": "goal-cascade",
+   "file": "templates/skills-domain/prf/SKILL-goal-cascade.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "prf.calibration-approve@1.0.0",
+   "kind": "approve",
+   "description": "绩效校准（双审批）",
+   "skill": "calibration-analysis",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "calibration-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "绩效校准（双审批） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "绩效校准（双审批）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "calibration-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "manager_grade",
+     "calibrated_grade",
+     "approvals"
+    ],
+    "acceptance": "校准纪要禁入记忆层"
+   }
+  },
+  {
+   "id": "prf.cascade-report@1.0.0",
+   "kind": "report",
+   "description": "目标分解报告（公司→部门→人）",
+   "skill": "goal-cascade",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "goal-cascade"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "目标分解报告（公司→部门→人）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "cascade-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "level",
+     "owner_masked",
+     "goal",
+     "weight"
+    ],
+    "acceptance": "权重合计必须 = 100%"
+   }
+  },
+  {
+   "id": "prf.kpi-tracking@1.0.0",
+   "kind": "report",
+   "description": "KPI 追踪（实际 vs 目标）",
+   "skill": "kpi-track",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "kpi-track"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "KPI 追踪（实际 vs 目标）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "kpi-tracking-<ts>.json",
+    "format": "json",
+    "fields": [
+     "kpi",
+     "target",
+     "actual",
+     "rate"
+    ],
+    "acceptance": "数据可追溯 kpi.csv"
+   }
+  },
+  {
+   "id": "prf.review-cycle@1.0.0",
+   "kind": "calc",
+   "description": "考核周期发起（模板下发）",
+   "skill": "kpi-track",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "kpi-track"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "考核周期发起（模板下发）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "review-cycle-<ts>.json",
+    "format": "json",
+    "fields": [
+     "cycle",
+     "template",
+     "targets",
+     "deadline"
+    ],
+    "acceptance": "全员覆盖校验（无遗漏人）"
+   }
+  },
+  {
+   "id": "prf.one-on-one@1.0.0",
+   "kind": "report",
+   "description": "一对一沟通纪要（结构化）",
+   "skill": "goal-cascade",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "goal-cascade"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "一对一沟通纪要（结构化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "one-on-one-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "topics",
+     "actions",
+     "next_date"
+    ],
+    "acceptance": "纪要默认不入记忆层"
+   }
+  },
+  {
+   "id": "prf.grade-distribution@1.0.0",
+   "kind": "report",
+   "description": "等级分布与强制分布比对",
+   "skill": "calibration-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "calibration-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "等级分布与强制分布比对：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "grade-distribution-<ts>.json",
+    "format": "json",
+    "fields": [
+     "grade",
+     "count",
+     "pct",
+     "target_pct"
+    ],
+    "acceptance": "偏离强制分布线 >5pct 标红"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-PRF-01",
+   "input": "生成本季度 KPI 追踪与预警清单",
+   "expected_output": "reports/prf/gt-01.md",
+   "skill": null,
+   "scene": "prf.calibration@1.0.0"
+  },
+  {
+   "id": "GT-PRF-02",
+   "input": "输出校准会议材料（分布+离散度）",
+   "expected_output": "reports/prf/gt-02.md",
+   "skill": null,
+   "scene": "prf.calibration@1.0.0"
+  },
+  {
+   "id": "GT-PRF-03",
+   "input": "把部门目标分解到岗位并生成追踪表",
+   "expected_output": "reports/prf/gt-03.md",
+   "skill": null,
+   "scene": "prf.calibration@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/prf",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/prf/t/calibration",
+   "type": "table",
+   "title": "calibration.csv",
+   "table": "calibration",
+   "file": "calibration.csv"
+  },
+  {
+   "route": "#/prf/t/kpi",
+   "type": "table",
+   "title": "kpi.csv",
+   "table": "kpi",
+   "file": "kpi.csv"
+  },
+  {
+   "route": "#/prf/w/calibration-approve",
+   "type": "workflow",
+   "title": "绩效校准（双审批）",
+   "workflow": "prf.calibration-approve@1.0.0"
+  },
+  {
+   "route": "#/prf/w/cascade-report",
+   "type": "workflow",
+   "title": "目标分解报告（公司→部门→人）",
+   "workflow": "prf.cascade-report@1.0.0"
+  },
+  {
+   "route": "#/prf/w/kpi-tracking",
+   "type": "workflow",
+   "title": "KPI 追踪（实际 vs 目标）",
+   "workflow": "prf.kpi-tracking@1.0.0"
+  },
+  {
+   "route": "#/prf/w/review-cycle",
+   "type": "workflow",
+   "title": "考核周期发起（模板下发）",
+   "workflow": "prf.review-cycle@1.0.0"
+  },
+  {
+   "route": "#/prf/w/one-on-one",
+   "type": "workflow",
+   "title": "一对一沟通纪要（结构化）",
+   "workflow": "prf.one-on-one@1.0.0"
+  },
+  {
+   "route": "#/prf/w/grade-distribution",
+   "type": "workflow",
+   "title": "等级分布与强制分布比对",
+   "workflow": "prf.grade-distribution@1.0.0"
+  },
+  {
+   "route": "#/prf/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": ".1 字段级数据字典",
+   "blocks": [
+    {
+     "heading": "1.1.1 `kpi.csv`（KPI 追踪表，L2）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "kpi",
+         "string",
+         "是",
+         "指标名（如 新签销售额(万)/客户续约率/需求交付准时率/人效指数）。同名指标可跨员工复用，靠 `employee_masked` 区分"
+        ],
+        [
+         "target",
+         "number",
+         "是",
+         "周期目标值；百分比类指标以 92 表示 92%，金额类以万为单位（表头单位见 `kpi` 括号）"
+        ],
+        [
+         "actual",
+         "number",
+         "是",
+         "周期实际值，与 `target` 同口径"
+        ],
+        [
+         "rate",
+         "number",
+         "是",
+         "达成率 = `actual / target × 100`，保留 1 位小数；见 §9 V8"
+        ],
+        [
+         "period",
+         "string",
+         "是",
+         "周期简写（本批 Q4）。完整周期标识见 `calibration.csv.cycle`（Q4-2026），本季度二者一一对应"
+        ],
+        [
+         "employee_masked",
+         "string",
+         "是",
+         "〔追加列〕员工脱敏工号 `EMP-****NN`，与 `calibration.csv.employee_masked` 同源可 join；全表为合成 ID"
+        ],
+        [
+         "dept",
+         "string",
+         "是",
+         "〔追加列〕所属部门，须与 `calibration.csv` 同一员工的 `dept` 一致"
+        ],
+        [
+         "position",
+         "string",
+         "是",
+         "〔追加列〕岗位名（如 客户经理/后端工程师），用于目标分解到岗位（GT-PRF-03）"
+        ],
+        [
+         "weight",
+         "number",
+         "是",
+         "〔追加列〕该指标在本员工本周期内的权重（%）；同一 `employee_masked` 下 `weight` 合计必须 = 100，见 §9 V4"
+        ],
+        [
+         "status",
+         "string",
+         "是",
+         "〔追加列〕追踪预警状态：`on_track` / `at_risk` / `behind`（词表对齐 OKR_STATUS，未新增全局枚举）；阈值见 §9 V9"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "1.1.2 `calibration.csv`（校准与考评结果表，L4）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "employee_masked",
+         "string",
+         "是",
+         "员工脱敏工号 `EMP-****NN`；同一周期内唯一（本表 16 行 = 16 人），合成员标识"
+        ],
+        [
+         "dept",
+         "string",
+         "是",
+         "所属部门（销售部/研发部/市场部/财务部/行政部）"
+        ],
+        [
+         "manager_grade",
+         "enum",
+         "已校准行必填",
+         "主管评分档位（S/A/B/C/D），等于 `final_score` 按 §4.3 阈值映射的结果；即在途/申诉前不得由人工直填"
+        ],
+        [
+         "calibrated_grade",
+         "enum",
+         "校准后必填",
+         "校准会议调整后等级（S/A/B/C/D）。为强制分布（§9 V5/V6）与等级分布比对（`prf.grade-distribution`）的统计口径字段"
+        ],
+        [
+         "delta_note",
+         "string",
+         "否",
+         "校准调整说明（= scene 的 `review_note`，脱敏字段）。`超出：*` 表示上调、`下调：*` 表示下调、`一致*` 表示维持"
+        ],
+        [
+         "self_score",
+         "number",
+         "否",
+         "〔追加列〕员工自评 0-100，整数；= scene 的 `review_score` 之一"
+        ],
+        [
+         "mgr_score",
+         "number",
+         "否",
+         "〔追加列〕主管评分 0-100，整数；= scene 的 `review_score` 之一"
+        ],
+        [
+         "final_score",
+         "number",
+         "否",
+         "〔追加列〕终评 = `self_score × 20% + mgr_score × 80%`，保留 1 位（可配 30/70，见 §9 V3）；= scene 的 `review_score` 之一"
+        ],
+        [
+         "cycle",
+         "string",
+         "是",
+         "〔追加列〕考核周期标识（Q4-2026），与 `kpi.csv.period`（Q4）对应"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "〔追加列〕考评状态机当前态：`pending_self` / `pending_mgr` / `pending_confirm` / `done` / `appeal`，见 §4.1"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "档位",
+        "人数",
+        "实测占比",
+        "强制分布线",
+        "偏离",
+        "校验结论"
+       ],
+       "rows": [
+        [
+         "S",
+         "1",
+         "7.1%",
+         "展示项",
+         "—",
+         "展示"
+        ],
+        [
+         "A 档（S+A）",
+         "5",
+         "35.7%",
+         "≤ 20%",
+         "+15.7pct",
+         "**超限 · 红色预警**"
+        ],
+        [
+         "B",
+         "4",
+         "28.6%",
+         "≤ 40%",
+         "−11.4pct",
+         "标红（偏离 >5pct）"
+        ],
+        [
+         "C",
+         "4",
+         "28.6%",
+         "展示项",
+         "—",
+         "展示"
+        ],
+        [
+         "D",
+         "1",
+         "7.1%",
+         "展示项",
+         "—",
+         "展示"
+        ],
+        [
+         "合计",
+         "14",
+         "100.0%",
+         "—",
+         "—",
+         "—"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/prf.md#§1"
+  },
+  "4": {
+   "title": ". 状态机",
+   "blocks": [
+    {
+     "heading": "4.1 绩效考评状态机（PERF_STATUS，5 态）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "含义",
+        "迁入条件",
+        "迁出",
+        "可操作角色"
+       ],
+       "rows": [
+        [
+         "`pending_self`",
+         "待自评",
+         "周期进入 `self_eval`，系统为该员工生成考评记录",
+         "→ `pending_mgr`（员工提交自评，`self_score` 必填 0-100）",
+         "employee（本人）"
+        ],
+        [
+         "`pending_mgr`",
+         "待主管评分",
+         "自评已提交",
+         "→ `pending_confirm`（主管提交 `mgr_score`，系统算出 `manager_grade` 与 `final_score`）",
+         "直属主管 / hr"
+        ],
+        [
+         "`pending_confirm`",
+         "待 HR 终评确认",
+         "主管评分已提交",
+         "→ `done`（HR 终评确认；校准结果生效并通知）",
+         "hr / admin"
+        ],
+        [
+         "`done`",
+         "已完成",
+         "HR 确认终评；定级、分布校验完成",
+         "→ `appeal`（员工在窗口期内申诉）",
+         "hr / admin（重开需审计）"
+        ],
+        [
+         "`appeal`",
+         "已申诉",
+         "员工对终评/等级提出申诉（`done` 后且在申诉窗口内）",
+         "→ `done`（HR 复核，结论为「已维持」或「已改判」；已改判须回写 `calibrated_grade` 与 `delta_note`）",
+         "hr / admin + 员工发起"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 考核周期状态机（CYCLE_STAGE，6 阶段）",
+     "tables": [
+      {
+       "header": [
+        "阶段",
+        "含义",
+        "迁入条件",
+        "该阶段允许的动作"
+       ],
+       "rows": [
+        [
+         "`goal_setting`",
+         "目标设定",
+         "周期创建（`prf.review-cycle` 下发模板）",
+         "目标分解（`prf.cascade-report`）、权重分配校验（合计=100）"
+        ],
+        [
+         "`executing`",
+         "执行",
+         "目标设定完成并确认",
+         "KPI 追踪与预警（`prf.kpi-tracking`）"
+        ],
+        [
+         "`self_eval`",
+         "自评",
+         "到达周期截止；系统为全员生成考评记录（`pending_self`）",
+         "员工提交自评（0-100）"
+        ],
+        [
+         "`supervisor_eval`",
+         "上级评",
+         "自评截止",
+         "主管评分（0-100）→ 生成 `final_score` 与 `manager_grade`"
+        ],
+        [
+         "`calibration`",
+         "校准",
+         "主管评分截止",
+         "校准会议（`prf.calibration-approve` 双审批）、等级分布比对（`prf.grade-distribution`）、强制分布校验"
+        ],
+        [
+         "`completed`",
+         "完成",
+         "校准结果双审批通过并确认终评",
+         "结果通知、面谈（`prf.one-on-one`）、申诉窗口受理"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.3 绩效等级阈值（GRADE）",
+     "tables": [
+      {
+       "header": [
+        "等级",
+        "终评 `final_score` 区间",
+        "强制分布线",
+        "说明"
+       ],
+       "rows": [
+        [
+         "S",
+         "≥ 90",
+         "计入 A 档（S+A ≤ 20%）",
+         "卓越"
+        ],
+        [
+         "A",
+         "80 ≤ score < 90",
+         "计入 A 档",
+         "优秀"
+        ],
+        [
+         "B",
+         "70 ≤ score < 80",
+         "≤ 40%",
+         "达标"
+        ],
+        [
+         "C",
+         "60 ≤ score < 70",
+         "展示项",
+         "待改进，进入 PIP 观察"
+        ],
+        [
+         "D",
+         "< 60",
+         "展示项",
+         "不合格，强制 PIP + 影响调薪"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/prf.md#§4"
+  },
+  "5": {
+   "title": ". 审批链",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "节点",
+        "角色（默认约定）",
+        "级别",
+        "是否双审批",
+        "动作",
+        "审计留痕"
+       ],
+       "rows": [
+        [
+         "`prf.calibration-approve` · n3（第 1 签）",
+         "HRD（人力资源负责人）",
+         "L4",
+         "**是**（串行两签，两签齐备方可生效）",
+         "通过 → 第 2 签；驳回 → 终止并回滚 savepoint `pre-calibration-approve`",
+         "审批人 + 时间 + 依据数据版本"
+        ],
+        [
+         "`prf.calibration-approve` · n3（第 2 签）",
+         "业务分管高管（默认；与薪酬联动场景可配 CFO）",
+         "L4",
+         "**是**",
+         "通过 → n4 写入 `calibration-approve-<ts>.json`，校准结果生效并通知",
+         "审批人 + 时间 + 产物哈希"
+        ],
+        [
+         "`prf.calibration-approve` · n5",
+         "系统（audit）",
+         "—",
+         "—",
+         "落审计：审批人 + 依据数据版本 + 产物哈希",
+         "审计事件（不可篡改）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**无需审批的 5 条**（`cascade-report` / `kpi-tracking` / `review-cycle` / `one-on-one` / `grade-distribution`）`hitl_nodes` 为空，落点为各自 audit 节点，属「读/算/报」类，不产生对外生效动作。",
+      "**终评确认（`pending_confirm → done`）与校准结果生效共用同一条双审批链**：校准结果一旦生效即进入 `completed`，其后仅申诉复核可改判。",
+      "**强制分布超限时的审批约束**：校准结果若触发 A 档 >20% 红警，不得直接生效，须回调等级后重新提交双审批。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/prf.md#§5"
+  },
+  "9": {
+   "title": ". 校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "编号",
+        "规则",
+        "口径 / 阈值",
+        "违规处置",
+        "命中本批 seed"
+       ],
+       "rows": [
+        [
+         "V1",
+         "自评取值范围",
+         "`self_score ∈ [0, 100]` 整数",
+         "拒绝提交（`pending_self` 不可推进）",
+         "15 行已填，全部合规"
+        ],
+        [
+         "V2",
+         "主管评分取值范围",
+         "`mgr_score ∈ [0, 100]` 整数",
+         "拒绝提交（`pending_mgr` 不可推进）",
+         "14 行已填，全部合规"
+        ],
+        [
+         "V3",
+         "终评加权",
+         "`final_score = round(self_score×20% + mgr_score×80%, 1)`；可配 30/70（`self_score×30% + mgr_score×70%`）",
+         "不一致即阻断写入并要求重算",
+         "14 行全部一致（如 `EMP-****12`：78×0.2+76×0.8=76.4）"
+        ],
+        [
+         "V4",
+         "权重合计",
+         "同一 `employee_masked` 下 `kpi.csv.weight` 合计 = 100%；`cascade-report` 交付物同规则",
+         "阻断交付（acceptance 硬门槛）",
+         "7 名员工全部 = 100"
+        ],
+        [
+         "V5",
+         "强制分布上限",
+         "统计口径 = `calibrated_grade` 非空行；**A 档（S+A）占比 ≤ 20%，B 占比 ≤ 40%**",
+         "超限 → 红色预警「超限」，校准结果不得生效，须回调等级并重新双审批",
+         "**A 档 35.7% > 20% → 超限红警**；B 28.6% ≤ 40% 合规"
+        ],
+        [
+         "V6",
+         "偏离标红",
+         "`",
+         "pct − target_pct",
+         "> 5pct` → 标红（`target_pct`：A 档 20%、B 40%）",
+         "标红提示，需在校准会议上给出说明",
+         "A 档 +15.7pct 标红；B −11.4pct 标红"
+        ],
+        [
+         "V7",
+         "校准后不可直接改分",
+         "`calibrated_grade` 一经双审批生效，禁止直接编辑 `self_score`/`mgr_score`/`final_score`/`calibrated_grade`",
+         "仅可通过申诉复核（`done → appeal → done`）「维持/改判」路径变更，且改判须留 `delta_note` 与审计",
+         "本批 2 行 `appeal` 走此路径"
+        ],
+        [
+         "V8",
+         "达成率一致性",
+         "`rate = round(actual / target × 100, 1)`",
+         "不一致行标为脏数据，不参与预警分级",
+         "16 行全部一致"
+        ],
+        [
+         "V9",
+         "预警分级阈值",
+         "`rate ≥ 95 → on_track`；`80 ≤ rate < 95 → at_risk`；`rate < 80 → behind`",
+         "`behind` 红色预警并进入 GT-PRF-01 置顶清单",
+         "`behind` 1 行；`at_risk` 5 行；`on_track` 10 行"
+        ],
+        [
+         "V10",
+         "等级自动映射",
+         "`manager_grade` 必须等于 `final_score` 按 §4.3 阈值映射结果，禁止人工直填",
+         "不一致即阻断",
+         "14 行全部一致"
+        ],
+        [
+         "V11",
+         "全员覆盖",
+         "`prf.review-cycle` 须为全部在职员工生成考评记录，无遗漏人（acceptance 硬门槛）",
+         "缺员不允许进入 `self_eval`",
+         "本批 16 人 / 16 行，覆盖完整"
+        ],
+        [
+         "V12",
+         "纪要禁入记忆层",
+         "校准纪要、一对一纪要不得写入记忆层；敏感字段过 `redact_gate`",
+         "写入即视为违规，审计告警",
+         "两条 workflow acceptance 覆盖"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/prf.md#§9"
+  }
+ },
+ "gaps": []
+}

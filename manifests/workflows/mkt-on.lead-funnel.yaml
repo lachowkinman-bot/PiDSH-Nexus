@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-on.lead-funnel@1.0.0
+domain: mkt-on
+description: "线索漏斗周报（阶段转化）"
+trigger:
+  type: command
+  expr: lead-funnel
+nodes:
+  - id: n1
+    type: skill
+    ref: seo-audit
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "线索漏斗周报（阶段转化）：数据版本 + 产物哈希"
+deliverable:
+  file: lead-funnel-<ts>.json
+  format: json
+  fields:
+    - stage
+    - count
+    - conversion_pct
+    - week
+  acceptance: "线索手机号/邮箱仅掩码口径"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-lead-funnel

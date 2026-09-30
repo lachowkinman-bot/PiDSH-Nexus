@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: cmp.audit-trail@1.0.0
+domain: cmp
+description: "审计留痕月报（覆盖率）"
+trigger:
+  type: command
+  expr: audit-trail
+nodes:
+  - id: n1
+    type: skill
+    ref: policy-checklist
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "审计留痕月报（覆盖率）：数据版本 + 产物哈希"
+deliverable:
+  file: audit-trail-<ts>.json
+  format: json
+  fields:
+    - scope
+    - events
+    - coverage_pct
+    - gaps
+  acceptance: "关键动作覆盖率 ≥95%"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-audit-trail

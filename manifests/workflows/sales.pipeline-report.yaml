@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: sales.pipeline-report@1.0.0
+domain: sales
+description: "管道周报（阶段×金额）"
+trigger:
+  type: command
+  expr: pipeline-report
+nodes:
+  - id: n1
+    type: skill
+    ref: quota-dashboard
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "管道周报（阶段×金额）：数据版本 + 产物哈希"
+deliverable:
+  file: pipeline-report-<ts>.json
+  format: json
+  fields:
+    - stage
+    - count
+    - amount_k
+    - week
+  acceptance: "金额单位万元，可追溯 pipeline.csv"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-pipeline-report

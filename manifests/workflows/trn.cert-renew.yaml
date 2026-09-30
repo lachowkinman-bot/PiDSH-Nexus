@@ -1,0 +1,38 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: trn.cert-renew@1.0.0
+domain: trn
+description: "证书复审/换证审批"
+trigger:
+  type: command
+  expr: cert-renew
+nodes:
+  - id: n1
+    type: skill
+    ref: hour-stats
+  - id: n2
+    type: condition
+    expr: "证书复审/换证审批 触发对外/生效动作"
+  - id: n3
+    type: approval
+    level: L4
+    dual: true
+  - id: n4
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n5
+    type: audit
+    record: "证书复审/换证审批：审批人 + 依据数据版本 + 产物哈希"
+deliverable:
+  file: cert-renew-<ts>.json
+  format: json
+  fields:
+    - certificate
+    - holder_masked
+    - renew_fee
+    - approver
+  acceptance: "岗位强依赖证书过期未续 = 上岗拦截"
+hitl_nodes:
+  - n3
+rollback:
+  method: savepoint
+  tag: pre-cert-renew

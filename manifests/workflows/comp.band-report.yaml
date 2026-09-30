@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: comp.band-report@1.0.0
+domain: comp
+description: "带宽偏离报告（区间口径）"
+trigger:
+  type: command
+  expr: band-report
+nodes:
+  - id: n1
+    type: skill
+    ref: band-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "带宽偏离报告（区间口径）：数据版本 + 产物哈希"
+deliverable:
+  file: band-report-<ts>.json
+  format: json
+  fields:
+    - band
+    - headcount
+    - above_p75
+    - below_p25
+  acceptance: "不出现任何个体原值"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-band-report

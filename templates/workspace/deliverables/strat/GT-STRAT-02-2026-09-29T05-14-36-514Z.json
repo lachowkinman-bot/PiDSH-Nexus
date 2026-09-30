@@ -1,0 +1,154 @@
+{
+  "deliverable_id": "GT-STRAT-02",
+  "scenario": "strat.quarterly-review@1.0.0",
+  "skill": "biz-analysis",
+  "workflow": "strat.weekly-report@1.0.0",
+  "generated_at": "2026-09-29T05:14:36.514Z",
+  "week": "2026-W39~W42（月度汇总区间，共 4 个完整周）",
+  "revenue_wan": 5310,
+  "orders": 1301,
+  "risks": [
+    {
+      "id": "RISK-W41-ROI",
+      "level": "high",
+      "title": "W41 投放 ROI 周环比 -7%，直接拖累单周营收与订单",
+      "evidence": "weekly.csv 第 4 行（W41）risk_note=「投放ROI 周环比 -7%（市场部复盘）」；W41 revenue_wan=1194、orders=295、new_customers=38",
+      "impact": "W41 营收环比 -158 万元（-11.69%），订单环比 -43 单（-12.71%），新客环比 -7 人（-15.56%），为月度内唯一显著负向单周",
+      "trace": "data/strat/weekly.csv:4"
+    },
+    {
+      "id": "RISK-W39-COLLECT",
+      "level": "medium",
+      "title": "华南经销商回款延迟，现金流存在时点风险",
+      "evidence": "weekly.csv 第 2 行（W39）risk_note=「华南经销商回款延迟（行政跟进）」；W39 revenue_wan=1286、orders=312、new_customers=41",
+      "impact": "回款延迟不影响收入确认口径，但影响经营性现金流时点；与 OKR「KR2 客户续约率 92%」当前 68% 进度叠加，渠道资金链为需持续监控项",
+      "trace": "data/strat/weekly.csv:2"
+    },
+    {
+      "id": "RISK-OKR-KR3",
+      "level": "medium",
+      "title": "客单价提升 KR 进度滞后，营收增长质量依赖单量而非单价",
+      "evidence": "okr.csv 第 4 行：华南区营收增长 / KR3 客单价 +18% / progress_pct=25 / Q4",
+      "impact": "月度客单价 4.08 万元/单（5310/1301），四周区间 4.00~4.15 万元/单，单价端几乎无抬升；营收增量主要来自单量，KR3 达成压力集中在 Q4 尾段",
+      "trace": "data/strat/okr.csv:4"
+    },
+    {
+      "id": "RISK-OKR-KR1",
+      "level": "low",
+      "title": "新客增长 KR 落后于营收 KR，月度新客 176 人未达节奏",
+      "evidence": "okr.csv 第 2 行：KR1 新客数 +30% / progress_pct=42；weekly.csv 新客合计 41+45+38+52=176 人，周均 44 人",
+      "impact": "KR1 进度 42% 为华南区营收增长三项目标中第二低，新客获取节奏需在 W43 起加码",
+      "trace": "data/strat/okr.csv:2"
+    }
+  ],
+  "next_actions": [
+    {
+      "id": "ACT-01",
+      "owner": "市场部",
+      "deadline": "2026-10-02",
+      "action": "完成 W41 投放 ROI -7% 的归因复盘，输出渠道级 ROI 拆解与预算再分配方案，重点修复 W41 的线索量缺口（-43 单）",
+      "linked_risk": "RISK-W41-ROI"
+    },
+    {
+      "id": "ACT-02",
+      "owner": "行政 / 财务",
+      "deadline": "2026-10-06",
+      "action": "闭环华南经销商回款延迟事项，出具逐户回款计划表并纳入周度现金流看板",
+      "linked_risk": "RISK-W39-COLLECT"
+    },
+    {
+      "id": "ACT-03",
+      "owner": "产品商业化",
+      "deadline": "2026-10-09",
+      "action": "针对客单价 KR3（当前 25%）交付定价/套餐结构提升方案，目标把单周客单价从 4.15 万元/单推升至 4.5 万元/单以上",
+      "linked_risk": "RISK-OKR-KR3"
+    },
+    {
+      "id": "ACT-04",
+      "owner": "销售VP / 客户成功部",
+      "deadline": "2026-10-09",
+      "action": "以 W42 的最佳单周为基线（营收 1478 万元、订单 356 单、新客 52 人）复制打法，锁定 W43 营收不低于 1450 万元，并推进续约率 KR2 从 68% 向 92% 收敛",
+      "linked_risk": "RISK-OKR-KR1"
+    }
+  ],
+  "metrics": {
+    "period_weeks": ["W39", "W40", "W41", "W42"],
+    "revenue_wan_by_week": {
+      "W39": 1286,
+      "W40": 1352,
+      "W41": 1194,
+      "W42": 1478
+    },
+    "orders_by_week": {
+      "W39": 312,
+      "W40": 338,
+      "W41": 295,
+      "W42": 356
+    },
+    "new_customers_by_week": {
+      "W39": 41,
+      "W40": 45,
+      "W41": 38,
+      "W42": 52
+    },
+    "new_customers_total": 176,
+    "avg_weekly_revenue_wan": 1327.5,
+    "avg_order_value_wan": 4.08,
+    "revenue_wow_pct": {
+      "W40_vs_W39": 5.13,
+      "W41_vs_W40": -11.69,
+      "W42_vs_W41": 23.79
+    },
+    "orders_wow_pct": {
+      "W40_vs_W39": 8.33,
+      "W41_vs_W40": -12.71,
+      "W42_vs_W41": 20.68
+    },
+    "peak_week": "W42",
+    "trough_week": "W41",
+    "month_over_month_note": "W42 营收较 W39 提升 14.93%，月末单周为月度峰值"
+  },
+  "anomaly_attribution": [
+    {
+      "anomaly": "W41 营收/订单/新客同步下滑",
+      "magnitude": "营收 -158 万元（-11.69%）、订单 -43 单（-12.71%）、新客 -7 人（-15.56%）",
+      "attribution": "投放 ROI 周环比 -7%，获客漏斗前端效率下降，属渠道投放效率问题而非需求端收缩；三指标同向同幅下滑，指向单一投放变量驱动",
+      "trace": "data/strat/weekly.csv:4"
+    },
+    {
+      "anomaly": "W39 华南经销商回款延迟",
+      "magnitude": "未造成收入缺口（W39 营收 1286 万元、订单 312 单均高于 W41），风险落在现金流时点",
+      "attribution": "渠道端资金周转延迟，与行政跟进流程相关；因不改变收入确认，故归类为现金流风险而非营收异动",
+      "trace": "data/strat/weekly.csv:2"
+    },
+    {
+      "anomaly": "W42 单周强势反弹并创月度新高",
+      "magnitude": "营收 1478 万元（+23.79%）、订单 356 单（+20.68%）、新客 52 人，均为四周最高",
+      "attribution": "W41 投放复盘动作见效叠加月末冲量，且 W42 无风险记录（risk_note=-），说明投放效率与回款跟进双双回到正常区间",
+      "trace": "data/strat/weekly.csv:5"
+    }
+  ],
+  "data_sources": [
+    {
+      "file": "templates/workspace/data/strat/weekly.csv",
+      "rows_used": "第 2-5 行（W39、W40、W41、W42）",
+      "fields_used": "week, revenue_wan, orders, new_customers, risk_note"
+    },
+    {
+      "file": "templates/workspace/data/strat/okr.csv",
+      "rows_used": "第 2-6 行（华南区营收增长 3 项 KR、组织效能提升 2 项 KR）",
+      "fields_used": "objective, kr, progress_pct, quarter, owner"
+    }
+  ],
+  "acceptance_check": {
+    "required_fields_present": ["week", "revenue_wan", "orders", "risks", "next_actions"],
+    "row_level_traceable": true,
+    "traceability_note": "revenue_wan=5310=1286+1352+1194+1478（weekly.csv 第 2-5 行 revenue_wan 求和）；orders=1301=312+338+295+356（同 4 行 orders 求和）"
+  },
+  "approval": {
+    "status": "pending_human_review",
+    "required_approver": "销售VP / 战略运营负责人",
+    "reason": "交付物包含经营敏感指标（营收、订单、渠道回款、OKR 进度），对外引用前需人工审批",
+    "desensitization": "本交付物为内部经营分析口径，未包含客户名称、个人身份信息、银行账户及合同金额明细；经销商回款事项仅以「华南经销商」聚合表述"
+  }
+}

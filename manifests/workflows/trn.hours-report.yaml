@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: trn.hours-report@1.0.0
+domain: trn
+description: "学时统计（人/部门口径）"
+trigger:
+  type: command
+  expr: hours-report
+nodes:
+  - id: n1
+    type: skill
+    ref: hour-stats
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "学时统计（人/部门口径）：数据版本 + 产物哈希"
+deliverable:
+  file: hours-report-<ts>.json
+  format: json
+  fields:
+    - dept
+    - planned_h
+    - completed_h
+    - rate
+  acceptance: "学时数字可追溯 courses.csv"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-hours-report

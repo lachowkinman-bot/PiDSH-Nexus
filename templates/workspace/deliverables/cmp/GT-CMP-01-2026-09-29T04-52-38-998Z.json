@@ -1,0 +1,190 @@
+{
+  "policy": {
+    "policy_id": "CMP-PR-EMP-HANDBOOK",
+    "policy_name": "员工手册合规审查（含数据与个人信息章节）",
+    "scope": "员工考勤与人事管理、数据管理、个人信息保护、采购合规四类制度条款",
+    "review_type": "政策合规 Checklist 审查",
+    "review_date": "2026-09-29",
+    "reviewer_role": "安全合规部 / 法务部 联合审查",
+    "source_files": [
+      "templates/workspace/data/cmp/policy_checklist.csv",
+      "templates/workspace/data/cmp/pipia.csv"
+    ],
+    "criteria": [
+      "条款是否明确责任部门与复查日期（Requirement 可追溯）",
+      "条款是否有对应控制措施（Control 可执行）",
+      "条款是否有留痕证据（Evidence 可核验）",
+      "条款是否已发布并由责任部门确认（Release 可闭环）"
+    ]
+  },
+  "items": [
+    {
+      "id": "PR-01",
+      "policy_section": "劳动用工制度",
+      "item": "加班与调休条款",
+      "status": "合规",
+      "owner": "人力资源部",
+      "review_date": "2026-09-12",
+      "requirement": "员工手册须明确加班申请、时长上限与调休折算规则，保障工时合规",
+      "control": "加班事前审批流 + 考勤系统自动比对 + 月度工时超限预警",
+      "evidence": "2026-09-12 人力资源部复核记录，条款文本与考勤系统规则一致",
+      "release": "已发布生效",
+      "release_status": "verified",
+      "chain_complete": true,
+      "residual_risk": "低",
+      "linked_process": null,
+      "note": "条款、控制、证据、发布四个环节均可追溯，未关联 PIPIA 高风险流程。"
+    },
+    {
+      "id": "PR-02",
+      "policy_section": "数据管理制度",
+      "item": "数据出境评估",
+      "status": "待整改",
+      "owner": "法务部",
+      "review_date": "2026-10-30",
+      "requirement": "涉及数据对外提供的场景须完成出境安全评估并留存评估结论后方可执行",
+      "control": "出境场景台账登记 + 安全评估报告归档 + 出境前法务审批卡点",
+      "evidence": "评估报告尚未归档，法务部已登记整改任务但未提交完成证据",
+      "release": "整改计划于 2026-10-30 前完成评估归档",
+      "release_status": "planned",
+      "chain_complete": true,
+      "residual_risk": "中",
+      "linked_process": "客户线索营销外呼",
+      "note": "Requirement 与控制措施已明确，Evidence 缺失导致 Release 未闭环，为本次审查主要整改项。"
+    },
+    {
+      "id": "PR-03",
+      "policy_section": "个人信息保护",
+      "item": "PIPIA 年度评估",
+      "status": "进行中",
+      "owner": "安全合规部",
+      "review_date": "2026-11-15",
+      "requirement": "处理敏感个人信息（含人脸等生物识别信息）须通过年度个人信息保护影响评估",
+      "control": "PIPIA 年度评估矩阵 + 残留风险定级 + 高风险流程专项复查排期",
+      "evidence": "PIPIA 台账已建立（员工考勤人脸识别、客户线索营销外呼、EAP 匿名咨询三项），评估结论待出具",
+      "release": "2026-11-15 前出具评估结论并完成高风险流程复查",
+      "release_status": "planned",
+      "chain_complete": true,
+      "residual_risk": "中",
+      "linked_process": "员工考勤人脸识别",
+      "note": "员工考勤人脸识别初始风险为高、残留风险为中，复查排期 2026-12-01，需与 PIPIA 结论同步发布。"
+    },
+    {
+      "id": "PR-04",
+      "policy_section": "采购合规",
+      "item": "供应商准入审查",
+      "status": "合规",
+      "owner": "采购部",
+      "review_date": "2026-09-28",
+      "requirement": "新增供应商须完成资质与合规准入审查，并将数据安全条款纳入合同",
+      "control": "供应商准入清单 + 资质原件核验 + 合同合规模板强制引用",
+      "evidence": "2026-09-28 采购部准入审查记录完整，准入清单与合同条款一致",
+      "release": "已发布生效",
+      "release_status": "verified",
+      "chain_complete": true,
+      "residual_risk": "低",
+      "linked_process": null,
+      "note": "准入与合同条款双留痕，审查闭环。"
+    }
+  ],
+  "pass_rate": {
+    "value": 0.5,
+    "numerator": 2,
+    "denominator": 4,
+    "unit": "ratio",
+    "formula": "合规条款数 / 受检条款总数 = 2 / 4",
+    "by_status": {
+      "合规": 2,
+      "待整改": 1,
+      "进行中": 1
+    },
+    "chain_complete_rate": {
+      "value": 1.0,
+      "numerator": 4,
+      "denominator": 4,
+      "comment": "4 条条款的 Requirement→Control→Evidence→Release 链路均已可在台账中追溯，但 PR-02、PR-03 的 Release 处于 planned 状态，未完成闭环"
+    }
+  },
+  "gaps": [
+    {
+      "gap_id": "GAP-01",
+      "item_ref": "PR-02",
+      "policy_section": "数据管理制度",
+      "description": "数据出境评估报告未归档，证据环节缺失，出境流程缺少法务审批留痕",
+      "severity": "中",
+      "residual_risk": "中",
+      "root_cause": "整改任务已登记但未指定完成时限内的交付责任人，评估报告无归档位置",
+      "impact": "云文档与营销场景若发生数据对外提供，无法证明已完成出境安全评估",
+      "remediation": "2026-10-30 前由法务部提交出境安全评估报告并归档，在数据出境审批流中固化评估结论为上挂条件",
+      "owner": "法务部",
+      "due_date": "2026-10-30",
+      "status": "待整改",
+      "release_gate": "评估报告归档编号回填后视为闭环"
+    },
+    {
+      "gap_id": "GAP-02",
+      "item_ref": "PR-03",
+      "policy_section": "个人信息保护",
+      "description": "PIPIA 年度评估结论未出具，员工考勤人脸识别残留风险为中且未随评估同步复查",
+      "severity": "高",
+      "residual_risk": "中",
+      "root_cause": "PIPIA 台账已建但评估结论与高风险流程复查排期（2026-12-01）未与制度发布节点对齐",
+      "impact": "生物识别类敏感个人信息处理合法性依据不完整，存在个人权益与监管合规暴露",
+      "remediation": "2026-11-15 前出具 PIPIA 评估结论，并将员工考勤人脸识别的残留风险复查提前至评估结论发布同一批次",
+      "owner": "安全合规部",
+      "due_date": "2026-11-15",
+      "status": "进行中",
+      "release_gate": "PIPIA 评估结论发布且人脸识别流程复查记录归档"
+    },
+    {
+      "gap_id": "GAP-03",
+      "item_ref": "PR-02,PR-03",
+      "policy_section": "跨章节一致性",
+      "description": "两条未闭环条款的下游流程（客户线索营销外呼、员工考勤人脸识别）未在员工手册中标注对应的 PIPIA 引用编号",
+      "severity": "中",
+      "residual_risk": "低",
+      "root_cause": "员工手册制度文本与 PIPIA 台账未建立交叉引用字段",
+      "impact": "条款修订时无法快速定位受影响的个人信息处理活动，易造成评估漏项",
+      "remediation": "在员工手册数据与个人信息章节增加 PIPIA 台账引用编号字段，由安全合规部在 2026-11-15 评估结论出具时同步回填",
+      "owner": "安全合规部",
+      "due_date": "2026-11-15",
+      "status": "待整改",
+      "release_gate": "手册章节内出现有效 PIPIA 引用编号并通过复核"
+    }
+  ],
+  "risk_context": [
+    {
+      "process": "员工考勤人脸识别",
+      "risk_level": "高",
+      "residual_risk": "中",
+      "next_review": "2026-12-01",
+      "owner": "安全合规部",
+      "relation": "PR-03 个人信息保护条款的直接适用对象"
+    },
+    {
+      "process": "客户线索营销外呼",
+      "risk_level": "中",
+      "residual_risk": "低",
+      "next_review": "2027-01-10",
+      "owner": "市场部",
+      "relation": "PR-02 数据出境评估的潜在出境场景来源"
+    },
+    {
+      "process": "EAP 匿名咨询",
+      "risk_level": "高",
+      "residual_risk": "低",
+      "next_review": "2027-03-01",
+      "owner": "EAP专员",
+      "relation": "PR-03 个人信息保护条款适用对象，残留风险已降至低"
+    }
+  ],
+  "summary": {
+    "total_items": 4,
+    "compliant": 2,
+    "pending_remediation": 1,
+    "in_progress": 1,
+    "open_gaps": 3,
+    "highest_gap_severity": "高",
+    "overall_conclusion": "员工手册受检 4 条条款的 Requirement→Release 链路均完整可追溯，通过率 50%；劳动用工与采购合规两条已闭环，数据出境评估与 PIPIA 年度评估两条因证据缺失或结论未出具而停留在 planned 阶段，构成 3 项整改缺口，须在 2026-10-30 与 2026-11-15 两个节点前关闭。"
+  }
+}

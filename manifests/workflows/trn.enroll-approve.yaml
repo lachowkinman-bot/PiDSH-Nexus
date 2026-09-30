@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: trn.enroll-approve@1.0.0
+domain: trn
+description: "报名确认（名额/前置课校验）"
+trigger:
+  type: command
+  expr: enroll-approve
+nodes:
+  - id: n1
+    type: skill
+    ref: course-schedule
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "报名确认（名额/前置课校验）：输入参数 + 结果快照"
+deliverable:
+  file: enroll-approve-<ts>.json
+  format: json
+  fields:
+    - course
+    - employee_masked
+    - prereq_ok
+    - seats_left
+  acceptance: "前置课未修直接拒绝"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-enroll-approve

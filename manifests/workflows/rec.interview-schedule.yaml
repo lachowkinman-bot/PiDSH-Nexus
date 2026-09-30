@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: rec.interview-schedule@1.0.0
+domain: rec
+description: "面试安排（ interviewer 冲突检测）"
+trigger:
+  type: command
+  expr: interview-schedule
+nodes:
+  - id: n1
+    type: skill
+    ref: interview-summary
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "面试安排（ interviewer 冲突检测）：输入参数 + 结果快照"
+deliverable:
+  file: interview-schedule-<ts>.json
+  format: json
+  fields:
+    - candidate_masked
+    - slot
+    - interviewers
+    - mode
+  acceptance: "同一面试官同时段冲突须标红"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-interview-schedule

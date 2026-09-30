@@ -1,0 +1,301 @@
+{
+  "deliverable_id": "GT-SALES-03",
+  "report_name": "大区业绩达成看板（pipeline-report）",
+  "scenario": "sales.quote-approval@1.0.0",
+  "workflow": "sales.pipeline-report@1.0.0",
+  "executing_skill": "quota-dashboard",
+  "domain": "SALES",
+  "generated_at": "2026-09-29T07:10:28.020Z",
+  "week": "2026-W42",
+  "period": "2026-Q4",
+  "amount_unit": "万元",
+  "amount_unit_note": "验收标准要求金额单位为万元；源文件 templates/workspace/data/sales/pipeline.csv 的 amount_k 列为千元，报表 amount_k 字段已按 1万元=10千元 换算，原始千元值另存于 amount_raw_k 以便逐条回溯。",
+  "sources": [
+    {
+      "file": "templates/workspace/data/sales/pipeline.csv",
+      "rows": 20,
+      "snapshot_updated_at": "2026-10-12",
+      "used_for": "stage / count / amount_k / 大区 / 负责人 / 概率 / 赢输单"
+    },
+    {
+      "file": "templates/workspace/data/sales/targets.csv",
+      "rows": 12,
+      "snapshot_updated_at": "2026-10-12",
+      "used_for": "大区quota与负责人目标（2026-Q4）"
+    },
+    {
+      "file": "templates/workspace/data/sales/quotes.csv",
+      "rows": 15,
+      "snapshot_updated_at": "2026-10-12",
+      "used_for": "报价审批状态与折扣风险（quota-dashboard 审批视图）"
+    }
+  ],
+  "summary": {
+    "opportunity_count": 20,
+    "pipeline_amount_k": 1579.0,
+    "pipeline_amount_raw_k": 15790,
+    "quota_amount_k": 2660.0,
+    "attainment_pct": 59.4,
+    "gap_amount_k": 1081.0,
+    "weighted_forecast_amount_k": 747.7,
+    "weighted_attainment_pct": 28.1,
+    "win_count": 2,
+    "lost_count": 2,
+    "win_rate_pct_by_count": 50.0,
+    "win_rate_pct_by_amount": 63.2,
+    "regions_covered": 5,
+    "owners_covered": 12
+  },
+  "stages": [
+    {
+      "stage": "线索",
+      "count": 3,
+      "amount_k": 95.0,
+      "amount_raw_k": 950,
+      "week": "2026-W42",
+      "weighted_amount_k": 9.5,
+      "avg_probability_pct": 10,
+      "share_of_pipeline_pct": 6.0,
+      "regions": [
+        { "region": "华东", "count": 1, "amount_k": 38.0, "amount_raw_k": 380 },
+        { "region": "华北", "count": 2, "amount_k": 57.0, "amount_raw_k": 570 }
+      ],
+      "source_opportunity_ids": ["OPP-2026-0104", "OPP-2026-0114", "OPP-2026-0119"]
+    },
+    {
+      "stage": "接触",
+      "count": 4,
+      "amount_k": 224.0,
+      "amount_raw_k": 2240,
+      "week": "2026-W42",
+      "weighted_amount_k": 44.8,
+      "avg_probability_pct": 20,
+      "share_of_pipeline_pct": 14.2,
+      "regions": [
+        { "region": "华东", "count": 1, "amount_k": 18.0, "amount_raw_k": 180 },
+        { "region": "华北", "count": 1, "amount_k": 135.0, "amount_raw_k": 1350 },
+        { "region": "华中", "count": 1, "amount_k": 26.0, "amount_raw_k": 260 },
+        { "region": "华南", "count": 1, "amount_k": 45.0, "amount_raw_k": 450 }
+      ],
+      "source_opportunity_ids": ["OPP-2026-0102", "OPP-2026-0112", "OPP-2026-0118", "OPP-2026-0120"]
+    },
+    {
+      "stage": "报价",
+      "count": 3,
+      "amount_k": 145.0,
+      "amount_raw_k": 1450,
+      "week": "2026-W42",
+      "weighted_amount_k": 87.0,
+      "avg_probability_pct": 60,
+      "share_of_pipeline_pct": 9.2,
+      "regions": [
+        { "region": "华东", "count": 2, "amount_k": 73.0, "amount_raw_k": 730 },
+        { "region": "华北", "count": 1, "amount_k": 72.0, "amount_raw_k": 720 }
+      ],
+      "source_opportunity_ids": ["OPP-2026-0101", "OPP-2026-0105", "OPP-2026-0113"]
+    },
+    {
+      "stage": "方案",
+      "count": 3,
+      "amount_k": 570.0,
+      "amount_raw_k": 5700,
+      "week": "2026-W42",
+      "weighted_amount_k": 228.0,
+      "avg_probability_pct": 40,
+      "share_of_pipeline_pct": 36.1,
+      "regions": [
+        { "region": "华东", "count": 2, "amount_k": 360.0, "amount_raw_k": 3600 },
+        { "region": "西南", "count": 1, "amount_k": 210.0, "amount_raw_k": 2100 }
+      ],
+      "source_opportunity_ids": ["OPP-2026-0106", "OPP-2026-0108", "OPP-2026-0115"]
+    },
+    {
+      "stage": "谈判",
+      "count": 3,
+      "amount_k": 203.0,
+      "amount_raw_k": 2030,
+      "week": "2026-W42",
+      "weighted_amount_k": 162.4,
+      "avg_probability_pct": 80,
+      "share_of_pipeline_pct": 12.9,
+      "regions": [
+        { "region": "华东", "count": 1, "amount_k": 85.0, "amount_raw_k": 850 },
+        { "region": "华南", "count": 1, "amount_k": 54.0, "amount_raw_k": 540 },
+        { "region": "华中", "count": 1, "amount_k": 64.0, "amount_raw_k": 640 }
+      ],
+      "source_opportunity_ids": ["OPP-2026-0107", "OPP-2026-0109", "OPP-2026-0116"]
+    },
+    {
+      "stage": "赢单",
+      "count": 2,
+      "amount_k": 216.0,
+      "amount_raw_k": 2160,
+      "week": "2026-W42",
+      "weighted_amount_k": 216.0,
+      "avg_probability_pct": 100,
+      "share_of_pipeline_pct": 13.7,
+      "regions": [
+        { "region": "华东", "count": 1, "amount_k": 66.0, "amount_raw_k": 660 },
+        { "region": "华南", "count": 1, "amount_k": 150.0, "amount_raw_k": 1500 }
+      ],
+      "contract_nos": ["HT-2026-0421", "HT-2026-0427"],
+      "source_opportunity_ids": ["OPP-2026-0103", "OPP-2026-0110"]
+    },
+    {
+      "stage": "输单",
+      "count": 2,
+      "amount_k": 126.0,
+      "amount_raw_k": 1260,
+      "week": "2026-W42",
+      "weighted_amount_k": 0.0,
+      "avg_probability_pct": 0,
+      "share_of_pipeline_pct": 8.0,
+      "regions": [
+        { "region": "华南", "count": 1, "amount_k": 96.0, "amount_raw_k": 960 },
+        { "region": "华中", "count": 1, "amount_k": 30.0, "amount_raw_k": 300 }
+      ],
+      "lost_reasons": [
+        { "opportunity_id": "OPP-2026-0111", "region": "华南", "reason": "预算冻结" },
+        { "opportunity_id": "OPP-2026-0117", "region": "华中", "reason": "竞品低价" }
+      ],
+      "source_opportunity_ids": ["OPP-2026-0111", "OPP-2026-0117"]
+    }
+  ],
+  "regions": [
+    {
+      "region": "华东",
+      "count": 8,
+      "amount_k": 640.0,
+      "amount_raw_k": 6400,
+      "quota_amount_k": 900.0,
+      "attainment_pct": 71.1,
+      "gap_amount_k": 260.0,
+      "week": "2026-W42",
+      "stage_mix": [
+        { "stage": "线索", "count": 1, "amount_k": 38.0 },
+        { "stage": "接触", "count": 1, "amount_k": 18.0 },
+        { "stage": "报价", "count": 2, "amount_k": 73.0 },
+        { "stage": "方案", "count": 2, "amount_k": 360.0 },
+        { "stage": "谈判", "count": 1, "amount_k": 85.0 },
+        { "stage": "赢单", "count": 1, "amount_k": 66.0 }
+      ]
+    },
+    {
+      "region": "华南",
+      "count": 4,
+      "amount_k": 345.0,
+      "amount_raw_k": 3450,
+      "quota_amount_k": 600.0,
+      "attainment_pct": 57.5,
+      "gap_amount_k": 255.0,
+      "week": "2026-W42",
+      "stage_mix": [
+        { "stage": "接触", "count": 1, "amount_k": 45.0 },
+        { "stage": "谈判", "count": 1, "amount_k": 54.0 },
+        { "stage": "赢单", "count": 1, "amount_k": 150.0 },
+        { "stage": "输单", "count": 1, "amount_k": 96.0 }
+      ]
+    },
+    {
+      "region": "华北",
+      "count": 4,
+      "amount_k": 264.0,
+      "amount_raw_k": 2640,
+      "quota_amount_k": 520.0,
+      "attainment_pct": 50.8,
+      "gap_amount_k": 256.0,
+      "week": "2026-W42",
+      "stage_mix": [
+        { "stage": "线索", "count": 2, "amount_k": 57.0 },
+        { "stage": "接触", "count": 1, "amount_k": 135.0 },
+        { "stage": "报价", "count": 1, "amount_k": 72.0 }
+      ]
+    },
+    {
+      "region": "西南",
+      "count": 1,
+      "amount_k": 210.0,
+      "amount_raw_k": 2100,
+      "quota_amount_k": 280.0,
+      "attainment_pct": 75.0,
+      "gap_amount_k": 70.0,
+      "week": "2026-W42",
+      "stage_mix": [
+        { "stage": "方案", "count": 1, "amount_k": 210.0 }
+      ]
+    },
+    {
+      "region": "华中",
+      "count": 3,
+      "amount_k": 120.0,
+      "amount_raw_k": 1200,
+      "quota_amount_k": 360.0,
+      "attainment_pct": 33.3,
+      "gap_amount_k": 240.0,
+      "week": "2026-W42",
+      "stage_mix": [
+        { "stage": "接触", "count": 1, "amount_k": 26.0 },
+        { "stage": "谈判", "count": 1, "amount_k": 64.0 },
+        { "stage": "输单", "count": 1, "amount_k": 30.0 }
+      ]
+    }
+  ],
+  "owners": [
+    { "owner_masked": "王****", "region": "华东", "count": 3, "amount_k": 228.0, "amount_raw_k": 2280, "target_amount_k": 350.0, "attainment_pct": 65.1, "week": "2026-W42" },
+    { "owner_masked": "李****", "region": "华东", "count": 3, "amount_k": 134.0, "amount_raw_k": 1340, "target_amount_k": 280.0, "attainment_pct": 47.9, "week": "2026-W42" },
+    { "owner_masked": "陈****", "region": "华东", "count": 1, "amount_k": 240.0, "amount_raw_k": 2400, "target_amount_k": 160.0, "attainment_pct": 150.0, "week": "2026-W42" },
+    { "owner_masked": "徐****", "region": "华东", "count": 1, "amount_k": 38.0, "amount_raw_k": 380, "target_amount_k": 110.0, "attainment_pct": 34.5, "week": "2026-W42" },
+    { "owner_masked": "赵****", "region": "华南", "count": 2, "amount_k": 204.0, "amount_raw_k": 2040, "target_amount_k": 280.0, "attainment_pct": 72.9, "week": "2026-W42" },
+    { "owner_masked": "郑****", "region": "华南", "count": 1, "amount_k": 96.0, "amount_raw_k": 960, "target_amount_k": 190.0, "attainment_pct": 50.5, "week": "2026-W42" },
+    { "owner_masked": "冯****", "region": "华南", "count": 1, "amount_k": 45.0, "amount_raw_k": 450, "target_amount_k": 130.0, "attainment_pct": 34.6, "week": "2026-W42" },
+    { "owner_masked": "张****", "region": "华北", "count": 2, "amount_k": 144.0, "amount_raw_k": 1440, "target_amount_k": 300.0, "attainment_pct": 48.0, "week": "2026-W42" },
+    { "owner_masked": "刘****", "region": "华北", "count": 2, "amount_k": 120.0, "amount_raw_k": 1200, "target_amount_k": 220.0, "attainment_pct": 54.5, "week": "2026-W42" },
+    { "owner_masked": "周****", "region": "西南", "count": 1, "amount_k": 210.0, "amount_raw_k": 2100, "target_amount_k": 280.0, "attainment_pct": 75.0, "week": "2026-W42" },
+    { "owner_masked": "吴****", "region": "华中", "count": 1, "amount_k": 64.0, "amount_raw_k": 640, "target_amount_k": 200.0, "attainment_pct": 32.0, "week": "2026-W42" },
+    { "owner_masked": "孙****", "region": "华中", "count": 2, "amount_k": 56.0, "amount_raw_k": 560, "target_amount_k": 160.0, "attainment_pct": 35.0, "week": "2026-W42" }
+  ],
+  "quote_approval": {
+    "source": "templates/workspace/data/sales/quotes.csv",
+    "quote_count": 15,
+    "total_amount_k": 1457.2,
+    "status_breakdown": [
+      { "status": "待审批", "count": 6, "amount_k": 774.1 },
+      { "status": "已批准", "count": 2, "amount_k": 256.7 },
+      { "status": "已审批", "count": 1, "amount_k": 89.5 },
+      { "status": "已发出", "count": 2, "amount_k": 158.6 },
+      { "status": "已驳回", "count": 2, "amount_k": 133.4 },
+      { "status": "草稿", "count": 2, "amount_k": 44.9 }
+    ],
+    "pending_approvals": [
+      { "quote_id": "QT-3301", "customer_masked": "某制造集团", "amount_k": 46.8, "discount_pct": 8, "approval_route": "双审批", "risk": "成交价低于底价 48.00 万元，已转报价审批" },
+      { "quote_id": "QT-3305", "customer_masked": "某教育集团", "amount_k": 51.0, "discount_pct": 15, "approval_route": "双审批+CFO加签", "risk": "折扣达 15% 须 CFO 加签" },
+      { "quote_id": "QT-3307", "customer_masked": "某跨境电商公司", "amount_k": 41.4, "discount_pct": 10, "approval_route": "双审批", "risk": "折扣达 10% 触发双审批" },
+      { "quote_id": "QT-3308", "customer_masked": "某智慧园区运营方", "amount_k": 336.0, "discount_pct": 16, "approval_route": "双审批+CFO加签", "risk": "本季最大单，回款条款偏离标准模板，待 CFO 加签" },
+      { "quote_id": "QT-3313", "customer_masked": "某白酒集团", "amount_k": 180.6, "discount_pct": 14, "approval_route": "双审批", "risk": "客户要求降低预付比例，回款条款偏离" },
+      { "quote_id": "QT-3314", "customer_masked": "某轨道交通集团", "amount_k": 118.3, "discount_pct": 9, "approval_route": "一级授权", "risk": "一级授权内待销售负责人签批" }
+    ],
+    "cfo_countersign_pending": { "count": 2, "amount_k": 387.0, "quote_ids": ["QT-3305", "QT-3308"] },
+    "below_floor_quotes": { "count": 1, "quote_ids": ["QT-3301"], "note": "QT-3301 成交价 46.8 万元低于底价 48.00 万元" },
+    "terms_deviation_count": 4,
+    "terms_deviation_quote_ids": ["QT-3308", "QT-3310", "QT-3312", "QT-3313"],
+    "rejected_quotes": [
+      { "quote_id": "QT-3311", "amount_k": 63.2, "reason": "毛利率低于产品线红线，驳回重报" },
+      { "quote_id": "QT-3312", "amount_k": 70.2, "reason": "折扣 22% 超低价叠加月结30天非标回款条款" }
+    ]
+  },
+  "data_quality": {
+    "row_count_pipeline": 20,
+    "row_count_targets": 12,
+    "row_count_quotes": 15,
+    "count_reconciliation": "各 stage count 合计 20 = pipeline.csv 行数；amount_raw_k 合计 15790 千元 = 各 stage 原始金额之和。",
+    "amount_reconciliation": "各 stage amount_k 合计 1579.0 万元 = 15790 千元 / 10，与 pipeline.csv amount_k 列求和一致。",
+    "target_reconciliation": "targets.csv 各负责人 owner_target_wan 按大区求和 = region_quota_wan：华东 900 / 华南 600 / 华北 520 / 西南 280 / 华中 360，合计 2660 万元。",
+    "rounding_note": "share_of_pipeline_pct 与 attainment_pct 保留 1 位小数，分项四舍五入后合计与 100% 存在 ±0.1 的尾差。"
+  },
+  "privacy": {
+    "masking": "客户名称、联系人、销售负责人均沿用源文件脱敏格式（某**集团 / 张****），报表不做任何还原。",
+    "pii_removed": ["联系人真实姓名", "客户主体全称", "联系方式"],
+    "retained_identifiers": ["opportunity_id", "customer_id", "quote_id", "contract_no"],
+    "approval_gate": "报表为只读分析产物，不含对外发送动作；如用于大区经营会分发，需销售运营负责人审批后下发。"
+  }
+}

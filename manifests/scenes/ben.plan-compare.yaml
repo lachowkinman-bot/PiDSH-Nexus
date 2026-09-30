@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: ben.plan-compare@1.0.0
+domain: BEN
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.single
+  - cap.redact.all
+data_assets:
+  - name: benefits-plan.xlsx
+    level: L2
+    pii_fields: []
+  - name: health-checkups.xlsx
+    level: L4
+    pii_fields: [health_data]
+skills: [plan-compare, checkup-report, flex-benefit]
+workflows: [workflows/ben.vendor-compare.yaml, workflows/ben.checkup-report.yaml]
+policies:
+  permission:
+    min_level: L4
+    dual_approval: false
+  redact:
+    fields: [health_data, insurance_id]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/ben/README.md]
+golden_tasks:
+  - id: GT-BEN-01
+    input: "生成三套福利方案比选矩阵"
+    expected_plan: "见 docs/preset-design/ben.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L4"
+    expected_output: reports/ben/gt-01.md
+    expected_files: [data/ben/benefits-plan.xlsx, data/ben/health-checkups.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-BEN-02
+    input: "体检数据脱敏聚合报告（只出分布）"
+    expected_plan: "见 docs/preset-design/ben.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L4"
+    expected_output: reports/ben/gt-02.md
+    expected_files: [data/ben/benefits-plan.xlsx, data/ben/health-checkups.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-BEN-03
+    input: "弹性福利积分测算与模拟"
+    expected_plan: "见 docs/preset-design/ben.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.single]
+    expected_permission: "L4"
+    expected_output: reports/ben/gt-03.md
+    expected_files: [data/ben/benefits-plan.xlsx, data/ben/health-checkups.xlsx]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：健康数据 L4 禁入记忆层；报告只出聚合分布。

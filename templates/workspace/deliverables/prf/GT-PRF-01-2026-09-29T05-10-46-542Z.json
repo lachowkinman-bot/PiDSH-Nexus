@@ -1,0 +1,112 @@
+{
+  "taskId": "GT-PRF-01",
+  "scene": "prf.calibration@1.0.0",
+  "skill": "kpi-track",
+  "workflow": "prf.kpi-tracking@1.0.0",
+  "domain": "PRF",
+  "period": "Q4",
+  "generatedAt": "2026-09-29T05:10:46.542Z",
+  "sourceFiles": [
+    "templates/workspace/data/prf/kpi.csv",
+    "templates/workspace/data/prf/calibration.csv"
+  ],
+  "kpiSummary": {
+    "total": 4,
+    "achieved": 1,
+    "warning": 3,
+    "averageRate": 94.25,
+    "achievementRate": 25.0
+  },
+  "items": [
+    {
+      "kpi": "新签销售额(万)",
+      "target": 4800,
+      "actual": 3912,
+      "rate": 81.5,
+      "period": "Q4",
+      "unit": "万元",
+      "gap": -888,
+      "status": "预警",
+      "warningLevel": "高风险",
+      "judgement": "实际值低于目标，缺口 888 万元，达成率 81.5%，为四项指标中最低，需重点预警。",
+      "source": "templates/workspace/data/prf/kpi.csv"
+    },
+    {
+      "kpi": "客户续约率",
+      "target": 92,
+      "actual": 89.6,
+      "rate": 97.4,
+      "period": "Q4",
+      "unit": "%",
+      "gap": -2.4,
+      "status": "预警",
+      "warningLevel": "中风险",
+      "judgement": "实际续约率 89.6%，低于目标 2.4 个百分点，达成率 97.4%，接近达标线。",
+      "source": "templates/workspace/data/prf/kpi.csv"
+    },
+    {
+      "kpi": "需求交付准时率",
+      "target": 90,
+      "actual": 93.2,
+      "rate": 103.6,
+      "period": "Q4",
+      "unit": "%",
+      "gap": 3.2,
+      "status": "达标",
+      "warningLevel": "无",
+      "judgement": "实际准时率 93.2%，超出目标 3.2 个百分点，达成率 103.6%，为本季度唯一达标指标。",
+      "source": "templates/workspace/data/prf/kpi.csv"
+    },
+    {
+      "kpi": "人效指数",
+      "target": 110,
+      "actual": 104,
+      "rate": 94.5,
+      "period": "Q4",
+      "unit": "指数",
+      "gap": -6,
+      "status": "预警",
+      "warningLevel": "中风险",
+      "judgement": "实际人效指数 104，低于目标 6 点，达成率 94.5%，未达标。",
+      "source": "templates/workspace/data/prf/kpi.csv"
+    }
+  ],
+  "warningList": [
+    {
+      "kpi": "新签销售额(万)",
+      "rate": 81.5,
+      "warningLevel": "高风险",
+      "action": "核查大单pipeline转化与签约节奏，补充区域销售资源并制定季度末冲刺方案。"
+    },
+    {
+      "kpi": "客户续约率",
+      "rate": 97.4,
+      "warningLevel": "中风险",
+      "action": "对到期前 60 天内客户启动续约沟通与流失风险回访，重点覆盖续约意向不明客户。"
+    },
+    {
+      "kpi": "人效指数",
+      "rate": 94.5,
+      "warningLevel": "中风险",
+      "action": "复核人均产出口径与项目人力投入结构，压缩低效工时占用。"
+    }
+  ],
+  "calibrationReference": {
+    "source": "templates/workspace/data/prf/calibration.csv",
+    "headcount": 5,
+    "alignedCount": 1,
+    "upwardAdjustedCount": 2,
+    "downwardAdjustedCount": 2,
+    "alignmentRate": 20.0,
+    "notes": [
+      "销售部 EMP-****12 由 B+ 上调至 A-，原因：大单突破。",
+      "研发部 EMP-****35 维持 A，校准一致。",
+      "市场部 EMP-****07 由 C+ 下调至 C。",
+      "财务部 EMP-****51 由 B 上调至 B+，原因：跨部门支持。",
+      "行政部 EMP-****29 由 B- 下调至 C+，原因：两次客诉。"
+    ],
+    "interpretation": "校准一致率 20%，5 人中 4 人发生调整，说明初评与校准委员会口径差异较大；销售部上调与行政部下调形成对冲，需在下周期加强评级标准宣贯。"
+  },
+  "conclusion": "Q4 四项 KPI 中仅需求交付准时率达标（103.6%），新签销售额达成率最低（81.5%）为高风险项；结合校准数据 20% 的一致率，业绩压力与评级口径偏差同时存在，建议同步推进销售冲刺与评级标准统一。",
+  "traceability": "全部 KPI 数值抽取自 templates/workspace/data/prf/kpi.csv 的 kpi/target/actual/rate 列；校准信息抽取自 templates/workspace/data/prf/calibration.csv。"
+}

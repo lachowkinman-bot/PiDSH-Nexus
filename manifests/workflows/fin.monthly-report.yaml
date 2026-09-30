@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: fin.monthly-report@1.0.0
+domain: fin
+description: "月度财报（分级输出）"
+trigger:
+  type: command
+  expr: monthly-report
+nodes:
+  - id: n1
+    type: skill
+    ref: budget-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "月度财报（分级输出）：数据版本 + 产物哈希"
+deliverable:
+  file: monthly-report-<ts>.json
+  format: json
+  fields:
+    - period
+    - revenue_wan
+    - cost_wan
+    - net_wan
+  acceptance: "财报数字 A 级可溯（凭证级）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-monthly-report

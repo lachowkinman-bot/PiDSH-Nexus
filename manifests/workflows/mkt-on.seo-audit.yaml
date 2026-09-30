@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: mkt-on.seo-audit@1.0.0
+domain: mkt-on
+description: "SEO 诊断（收录/关键词）"
+trigger:
+  type: command
+  expr: seo-audit
+nodes:
+  - id: n1
+    type: skill
+    ref: seo-audit
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "SEO 诊断（收录/关键词）：数据版本 + 产物哈希"
+deliverable:
+  file: seo-audit-<ts>.json
+  format: json
+  fields:
+    - page
+    - keywords
+    - rank
+    - issue
+  acceptance: "外部抓取仅摘要，禁整站镜像"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-seo-audit

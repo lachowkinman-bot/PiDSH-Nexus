@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "scripts": {
+    "build:delivery": "node scripts/build-delivery.mjs",
+    "verify:deliveries": "node scripts/verify-delivery-matrix.mjs",
+    "verify:delivery-ui": "node scripts/verify-delivery-ui.mjs",
+    "verify:app": "node scripts/verify-app.mjs",
+    "build:app": "node scripts/build-app.mjs"
+  },
+  "dependencies": {
+    "docx": "9.5.1",
+    "exceljs": "4.4.0",
+    "marked": "15.0.12",
+    "pdfkit": "0.17.2",
+    "playwright-core": "^1.63.0"
+  },
+  "devDependencies": {
+    "adm-zip": "0.5.16",
+    "esbuild": "0.25.9",
+    "pdfjs-dist": "6.3.289"
+  }
+}

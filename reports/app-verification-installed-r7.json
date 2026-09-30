@@ -1,0 +1,1541 @@
+{
+ "at": "2026-09-30T01:31:38.531Z",
+ "base": "http://127.0.0.1:3080",
+ "total": 45,
+ "pass": 45,
+ "results": [
+  {
+   "area": "端点",
+   "item": "壳进程",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "场景端点",
+   "pass": 14,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "域端点",
+   "pass": {
+    "strat": [
+     "OKR 目标填写表单",
+     "季度 KR 追踪看板",
+     "竞品动态卡"
+    ],
+    "mkt-on": [
+     "内容日历看板",
+     "投放 ROI 卡",
+     "线索漏斗图（PII 脱敏列）"
+    ],
+    "mkt-off": [
+     "活动台账表",
+     "物料合规审查工作流卡片",
+     "经销商条款摘要卡"
+    ],
+    "sales": [
+     "CRM 管道看板",
+     "报价审批 DAG 视图",
+     "赢单复盘卡"
+    ],
+    "fin": [
+     "报销单表单（可提交）",
+     "预算执行图",
+     "月报分级出数开关"
+    ],
+    "rec": [
+     "候选人看板（脱敏列）",
+     "面试安排表",
+     "简历外发审批入口"
+    ],
+    "trn": [
+     "课程目录",
+     "学时统计图",
+     "证书到期拦截提醒卡"
+    ],
+    "prf": [
+     "OKR/KPI 填写表单",
+     "校准分布图（双审批入口）",
+     "目标分解树"
+    ],
+    "comp": [
+     "薪酬带宽偏离图（区间口径）",
+     "调薪双审批队列",
+     "redact_gate 状态条"
+    ],
+    "ben": [
+     "福利方案比选矩阵",
+     "体检脱敏聚合卡",
+     "弹性积分计算器"
+    ],
+    "admin": [
+     "采购比价表",
+     "资产台账",
+     "用印申请表（强制 HITL 按钮）"
+    ],
+    "cmp": [
+     "制度审查 checklist",
+     "PIPIA 清单",
+     "证据链五级视图"
+    ],
+    "er-eap": [
+     "离职流程步骤条",
+     "EAP 转介表单（匿名化+双审批+禁网指示）"
+    ],
+    "F7-offline": [
+     "离线模式指示页（公网禁用状态）"
+    ],
+    "F8-upgrade": [
+     "升级与回退入口（tools-versions 视图+回退按钮）"
+    ],
+    "F11-selfcheck": [
+     "安装自检报告页（哈希/版本/十要素骨架）"
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "当前 preset",
+   "pass": {
+    "current": "admin.procurement@1.0.0",
+    "applied_at": "2026-09-29T07:20:57.156Z"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "审计端点",
+   "pass": {
+    "stats": {
+     "plugin.apply": 8,
+     "deliverable.package.create": 23,
+     "tool.register": 4
+    },
+    "tail": [
+     {
+      "ts": "2026-09-30T00:50:04.816Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 22,
+      "deliveryTool": "deferred"
+     },
+     {
+      "ts": "2026-09-30T00:50:34.776Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 22,
+      "deliveryTool": "deferred"
+     },
+     {
+      "ts": "2026-09-30T00:50:57.823Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20260930-005057636-def97282",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20260930-005057636-def97282/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T00:56:54.161Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 22,
+      "deliveryTool": "deferred"
+     },
+     {
+      "ts": "2026-09-30T00:57:02.828Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20260930-005702039-3d51e1fa",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20260930-005702039-3d51e1fa/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:08:04.574Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 22,
+      "deliveryTool": "deferred"
+     },
+     {
+      "ts": "2026-09-30T01:08:16.339Z",
+      "action": "deliverable.package.create",
+      "domain": "er-eap",
+      "run_id": "20260930-010816144-28cbcbc0",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/er-eap/20260930-010816144-28cbcbc0/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:09:58.502Z",
+      "action": "deliverable.package.create",
+      "domain": "strat",
+      "run_id": "20260930-010958333-15a7a275",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/strat/20260930-010958333-15a7a275/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:10:14.154Z",
+      "action": "deliverable.package.create",
+      "domain": "strat",
+      "run_id": "20260930-011014032-8f2fe92b",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/strat/20260930-011014032-8f2fe92b/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:11:08.952Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20260930-011108863-19a313bb",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20260930-011108863-19a313bb/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:14:04.198Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "routes": 22,
+      "deliveryTool": "deferred"
+     },
+     {
+      "ts": "2026-09-30T01:14:04.203Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T01:15:02.379Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T01:15:02.416Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T01:15:14.715Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T01:15:14.750Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T01:15:18.809Z",
+      "action": "deliverable.package.create",
+      "domain": "admin",
+      "run_id": "20260930-011518760-3ff59b9c",
+      "formats": [
+       "md",
+       "docx"
+      ],
+      "manifest": "deliverables/admin/20260930-011518760-3ff59b9c/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:28:22.484Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T01:28:22.676Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T01:28:41.379Z",
+      "action": "deliverable.package.create",
+      "domain": "strat",
+      "run_id": "20260930-012841153-1147adbc",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/strat/20260930-012841153-1147adbc/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:28:49.338Z",
+      "action": "deliverable.package.create",
+      "domain": "strat",
+      "run_id": "20260930-012849197-a805c2db",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/strat/20260930-012849197-a805c2db/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:29:00.484Z",
+      "action": "deliverable.package.create",
+      "domain": "mkt-on",
+      "run_id": "20260930-012900317-11ab282c",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/mkt-on/20260930-012900317-11ab282c/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:29:11.450Z",
+      "action": "deliverable.package.create",
+      "domain": "mkt-off",
+      "run_id": "20260930-012911236-c766beea",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/mkt-off/20260930-012911236-c766beea/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:29:22.507Z",
+      "action": "deliverable.package.create",
+      "domain": "sales",
+      "run_id": "20260930-012922326-d767bd96",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/sales/20260930-012922326-d767bd96/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:29:33.361Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20260930-012933191-2a161a24",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20260930-012933191-2a161a24/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:29:44.197Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20260930-012944040-1d2d2344",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20260930-012944040-1d2d2344/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:29:55.179Z",
+      "action": "deliverable.package.create",
+      "domain": "trn",
+      "run_id": "20260930-012955013-70f3f189",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/trn/20260930-012955013-70f3f189/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:30:06.203Z",
+      "action": "deliverable.package.create",
+      "domain": "prf",
+      "run_id": "20260930-013006050-afa27742",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/prf/20260930-013006050-afa27742/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:30:17.101Z",
+      "action": "deliverable.package.create",
+      "domain": "comp",
+      "run_id": "20260930-013016977-3410d9bc",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/comp/20260930-013016977-3410d9bc/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:30:28.022Z",
+      "action": "deliverable.package.create",
+      "domain": "ben",
+      "run_id": "20260930-013027891-6304ef91",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/ben/20260930-013027891-6304ef91/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:30:38.941Z",
+      "action": "deliverable.package.create",
+      "domain": "admin",
+      "run_id": "20260930-013038824-ca6a860a",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/admin/20260930-013038824-ca6a860a/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:30:49.875Z",
+      "action": "deliverable.package.create",
+      "domain": "cmp",
+      "run_id": "20260930-013049742-aecb2f25",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/cmp/20260930-013049742-aecb2f25/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:31:00.696Z",
+      "action": "deliverable.package.create",
+      "domain": "er-eap",
+      "run_id": "20260930-013100582-ff81a7ed",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/er-eap/20260930-013100582-ff81a7ed/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:31:15.610Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20260930-013115531-b2a640bf",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20260930-013115531-b2a640bf/manifest.json"
+     },
+     {
+      "ts": "2026-09-30T01:31:25.459Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20260930-013125379-828700f3",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20260930-013125379-828700f3/manifest.json"
+     }
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "交付物端点",
+   "pass": {
+    "admin": [
+     {
+      "file": "GT-ADMIN-03-2026-09-29T06-48-20-282Z.json",
+      "bytes": 16400,
+      "mtime": "2026-09-29T06:48:58.000Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T06-47-47-993Z.json",
+      "bytes": 15238,
+      "mtime": "2026-09-29T06:48:18.000Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T06-47-32-080Z.json",
+      "bytes": 3586,
+      "mtime": "2026-09-29T06:47:46.000Z"
+     },
+     {
+      "file": "GT-ADMIN-03-2026-09-29T05-00-18-979Z.json",
+      "bytes": 12592,
+      "mtime": "2026-09-29T05:00:44.000Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T05-00-04-613Z.json",
+      "bytes": 3633,
+      "mtime": "2026-09-29T05:00:16.000Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T04-59-42-681Z.json",
+      "bytes": 5906,
+      "mtime": "2026-09-29T05:00:02.000Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T04-59-18-092Z.json",
+      "bytes": 4693,
+      "mtime": "2026-09-29T04:59:32.000Z"
+     },
+     {
+      "file": "GT-ADMIN-03-2026-09-29T04-50-57-255Z.json",
+      "bytes": 7180,
+      "mtime": "2026-09-29T04:51:14.000Z"
+     },
+     {
+      "file": "GT-ADMIN-02-2026-09-29T04-50-43-741Z.json",
+      "bytes": 4391,
+      "mtime": "2026-09-29T04:50:56.000Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T04-50-14-389Z.json",
+      "bytes": 4465,
+      "mtime": "2026-09-29T04:50:42.000Z"
+     },
+     {
+      "file": "GT-ADMIN-01-2026-09-29T04-49-34-248Z.json",
+      "bytes": 5919,
+      "mtime": "2026-09-29T04:49:54.000Z"
+     }
+    ],
+    "ben": [
+     {
+      "file": "GT-BEN-03-2026-09-29T06-50-15-615Z.json",
+      "bytes": 6597,
+      "mtime": "2026-09-29T06:50:38.000Z"
+     },
+     {
+      "file": "GT-BEN-02-2026-09-29T06-49-42-819Z.json",
+      "bytes": 9465,
+      "mtime": "2026-09-29T06:50:14.000Z"
+     },
+     {
+      "file": "GT-BEN-01-2026-09-29T06-49-00-085Z.json",
+      "bytes": 15732,
+      "mtime": "2026-09-29T06:49:40.000Z"
+     },
+     {
+      "file": "GT-BEN-03-2026-09-29T05-01-31-454Z.json",
+      "bytes": 2547,
+      "mtime": "2026-09-29T05:01:48.000Z"
+     },
+     {
+      "file": "GT-BEN-02-2026-09-29T05-01-10-392Z.json",
+      "bytes": 5101,
+      "mtime": "2026-09-29T05:01:30.000Z"
+     },
+     {
+      "file": "GT-BEN-01-2026-09-29T05-00-47-353Z.json",
+      "bytes": 4238,
+      "mtime": "2026-09-29T05:01:08.000Z"
+     },
+     {
+      "file": "GT-BEN-03-2026-09-29T04-52-22-950Z.json",
+      "bytes": 3363,
+      "mtime": "2026-09-29T04:52:36.000Z"
+     },
+     {
+      "file": "GT-BEN-02-2026-09-29T04-51-55-815Z.json",
+      "bytes": 5781,
+      "mtime": "2026-09-29T04:52:22.000Z"
+     },
+     {
+      "file": "GT-BEN-01-2026-09-29T04-51-16-089Z.json",
+      "bytes": 7078,
+      "mtime": "2026-09-29T04:51:54.000Z"
+     }
+    ],
+    "cmp": [
+     {
+      "file": "GT-CMP-03-2026-09-29T06-51-51-309Z.json",
+      "bytes": 48837,
+      "mtime": "2026-09-29T06:53:10.000Z"
+     },
+     {
+      "file": "GT-CMP-02-2026-09-29T06-51-18-708Z.json",
+      "bytes": 17178,
+      "mtime": "2026-09-29T06:51:48.000Z"
+     },
+     {
+      "file": "GT-CMP-01-2026-09-29T06-50-39-958Z.json",
+      "bytes": 22696,
+      "mtime": "2026-09-29T06:51:16.000Z"
+     },
+     {
+      "file": "GT-CMP-03-2026-09-29T05-02-32-497Z.json",
+      "bytes": 12299,
+      "mtime": "2026-09-29T05:03:06.000Z"
+     },
+     {
+      "file": "GT-CMP-02-2026-09-29T05-02-14-349Z.json",
+      "bytes": 5082,
+      "mtime": "2026-09-29T05:02:30.000Z"
+     },
+     {
+      "file": "GT-CMP-01-2026-09-29T05-01-49-529Z.json",
+      "bytes": 9153,
+      "mtime": "2026-09-29T05:02:12.000Z"
+     },
+     {
+      "file": "GT-CMP-03-2026-09-29T04-53-21-765Z.json",
+      "bytes": 10949,
+      "mtime": "2026-09-29T04:54:36.000Z"
+     },
+     {
+      "file": "GT-CMP-02-2026-09-29T04-53-02-425Z.json",
+      "bytes": 5995,
+      "mtime": "2026-09-29T04:53:20.000Z"
+     },
+     {
+      "file": "GT-CMP-01-2026-09-29T04-52-38-998Z.json",
+      "bytes": 8769,
+      "mtime": "2026-09-29T04:53:00.000Z"
+     }
+    ],
+    "comp": [
+     {
+      "file": "GT-COMP-03-2026-09-29T06-55-14-320Z.json",
+      "bytes": 5890,
+      "mtime": "2026-09-29T06:55:44.000Z"
+     },
+     {
+      "file": "GT-COMP-02-2026-09-29T06-54-02-537Z.json",
+      "bytes": 18345,
+      "mtime": "2026-09-29T06:55:12.000Z"
+     },
+     {
+      "file": "GT-COMP-01-2026-09-29T06-53-21-024Z.json",
+      "bytes": 15412,
+      "mtime": "2026-09-29T06:53:56.000Z"
+     },
+     {
+      "file": "comp-queue-approve-2026-09-29T05-55-06.json",
+      "bytes": 3257,
+      "mtime": "2026-09-29T05:55:06.000Z"
+     },
+     {
+      "file": "comp-salary-adjust-2026-09-29T05-54-38.json",
+      "bytes": 2479,
+      "mtime": "2026-09-29T05:54:38.000Z"
+     },
+     {
+      "file": "comp-queue-approve-2026-09-29T05-41-49.json",
+      "bytes": 2808,
+      "mtime": "2026-09-29T05:41:48.000Z"
+     },
+     {
+      "file": "comp-salary-adjust-2026-09-29T05-38-19.json",
+      "bytes": 2789,
+      "mtime": "2026-09-29T05:38:18.000Z"
+     },
+     {
+      "file": "comp-queue-approve-2026-09-29T05-24-38.json",
+      "bytes": 2230,
+      "mtime": "2026-09-29T05:24:38.000Z"
+     },
+     {
+      "file": "comp-salary-adjust-2026-09-29T05-24-23.json",
+      "bytes": 3202,
+      "mtime": "2026-09-29T05:24:22.000Z"
+     },
+     {
+      "file": "GT-COMP-03-2026-09-29T05-03-49-718Z.json",
+      "bytes": 5029,
+      "mtime": "2026-09-29T05:04:18.000Z"
+     },
+     {
+      "file": "GT-COMP-02-2026-09-29T05-03-26-445Z.json",
+      "bytes": 4732,
+      "mtime": "2026-09-29T05:03:48.000Z"
+     },
+     {
+      "file": "GT-COMP-01-2026-09-29T05-03-07-428Z.json",
+      "bytes": 7188,
+      "mtime": "2026-09-29T05:03:24.000Z"
+     },
+     {
+      "file": "GT-COMP-03-2026-09-29T04-55-28-983Z.json",
+      "bytes": 3642,
+      "mtime": "2026-09-29T04:56:10.000Z"
+     },
+     {
+      "file": "GT-COMP-02-2026-09-29T04-55-06-552Z.json",
+      "bytes": 5254,
+      "mtime": "2026-09-29T04:55:28.000Z"
+     },
+     {
+      "file": "GT-COMP-01-2026-09-29T04-54-49-022Z.json",
+      "bytes": 4384,
+      "mtime": "2026-09-29T04:55:04.000Z"
+     }
+    ],
+    "er-eap": [
+     {
+      "file": "GT-EAP-01-2026-09-29T06-56-35-280Z.json",
+      "bytes": 8487,
+      "mtime": "2026-09-29T06:56:58.000Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T06-56-05-982Z.json",
+      "bytes": 7363,
+      "mtime": "2026-09-29T06:56:32.000Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T06-55-46-834Z.json",
+      "bytes": 4443,
+      "mtime": "2026-09-29T06:56:04.000Z"
+     },
+     {
+      "file": "er-eap-eap-referral-2026-09-29T05-58-00.json",
+      "bytes": 2179,
+      "mtime": "2026-09-29T05:58:00.000Z"
+     },
+     {
+      "file": "er-eap-eap-referral-2026-09-29T05-42-38.json",
+      "bytes": 3140,
+      "mtime": "2026-09-29T05:42:38.000Z"
+     },
+     {
+      "file": "er-eap-eap-referral-2026-09-29T05-25-01.json",
+      "bytes": 2173,
+      "mtime": "2026-09-29T05:25:00.000Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T05-20-42-635Z.json",
+      "bytes": 6941,
+      "mtime": "2026-09-29T05:21:04.000Z"
+     },
+     {
+      "file": "offboard-approve-2026-09-29T05-19-41-146Z.json",
+      "bytes": 8134,
+      "mtime": "2026-09-29T05:20:40.000Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T05-19-41-146Z.json",
+      "bytes": 8134,
+      "mtime": "2026-09-29T05:20:28.000Z"
+     },
+     {
+      "file": "GT-EAP-01-2026-09-29T05-05-19-836Z.json",
+      "bytes": 3529,
+      "mtime": "2026-09-29T05:05:52.000Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T05-04-52-853Z.json",
+      "bytes": 5580,
+      "mtime": "2026-09-29T05:05:10.000Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T05-04-20-892Z.json",
+      "bytes": 9601,
+      "mtime": "2026-09-29T05:04:50.000Z"
+     },
+     {
+      "file": "GT-EAP-01-2026-09-29T04-57-40-883Z.json",
+      "bytes": 2318,
+      "mtime": "2026-09-29T04:57:52.000Z"
+     },
+     {
+      "file": "GT-ER-02-2026-09-29T04-57-19-200Z.json",
+      "bytes": 5103,
+      "mtime": "2026-09-29T04:57:40.000Z"
+     },
+     {
+      "file": "GT-ER-01-2026-09-29T04-56-12-593Z.json",
+      "bytes": 7289,
+      "mtime": "2026-09-29T04:57:12.000Z"
+     }
+    ],
+    "fin": [
+     {
+      "file": "r6-acceptance-2026-09-29T11-39-44.json",
+      "bytes": 128,
+      "mtime": "2026-09-29T11:39:44.496Z"
+     },
+     {
+      "file": "GT-FIN-03-2026-09-29T06-58-54-406Z.json",
+      "bytes": 23936,
+      "mtime": "2026-09-29T06:59:56.000Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T06-58-03-839Z.json",
+      "bytes": 15446,
+      "mtime": "2026-09-29T06:58:52.000Z"
+     },
+     {
+      "file": "GT-FIN-01-2026-09-29T06-56-59-441Z.json",
+      "bytes": 17760,
+      "mtime": "2026-09-29T06:57:52.000Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T05-21-06-382Z.json",
+      "bytes": 6457,
+      "mtime": "2026-09-29T05:21:34.000Z"
+     },
+     {
+      "file": "GT-FIN-03-2026-09-29T05-07-14-371Z.json",
+      "bytes": 8414,
+      "mtime": "2026-09-29T05:07:50.000Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T05-06-39-073Z.json",
+      "bytes": 8445,
+      "mtime": "2026-09-29T05:07:10.000Z"
+     },
+     {
+      "file": "GT-FIN-01-2026-09-29T05-05-54-049Z.json",
+      "bytes": 11224,
+      "mtime": "2026-09-29T05:06:36.000Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T05-04-28.json",
+      "bytes": 3068,
+      "mtime": "2026-09-29T05:04:28.000Z"
+     },
+     {
+      "file": "GT-FIN-02-2026-09-29T04-58-23-895Z.json",
+      "bytes": 6005,
+      "mtime": "2026-09-29T04:58:48.000Z"
+     },
+     {
+      "file": "GT-FIN-01-2026-09-29T04-57-53-819Z.json",
+      "bytes": 6690,
+      "mtime": "2026-09-29T04:58:22.000Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T04-32-23.json",
+      "bytes": 2183,
+      "mtime": "2026-09-29T04:32:22.000Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T03-53-22.json",
+      "bytes": 2183,
+      "mtime": "2026-09-29T03:53:22.000Z"
+     },
+     {
+      "file": "expense-approve-2026-09-29T03-44-17.json",
+      "bytes": 204,
+      "mtime": "2026-09-29T03:44:16.000Z"
+     },
+     {
+      "file": "fin-expense-approve-2026-09-29T03-44-17.json",
+      "bytes": 2257,
+      "mtime": "2026-09-29T03:44:16.000Z"
+     }
+    ],
+    "mkt-off": [
+     {
+      "file": "GT-MKTOFF-03-2026-09-29T07-01-49-176Z.json",
+      "bytes": 20792,
+      "mtime": "2026-09-29T07:02:52.000Z"
+     },
+     {
+      "file": "GT-MKTOFF-02-2026-09-29T07-00-40-303Z.json",
+      "bytes": 16153,
+      "mtime": "2026-09-29T07:01:46.000Z"
+     },
+     {
+      "file": "GT-MKTOFF-01-2026-09-29T07-00-08-071Z.json",
+      "bytes": 11931,
+      "mtime": "2026-09-29T07:00:38.000Z"
+     },
+     {
+      "file": "GT-MKTOFF-03-2026-09-29T05-08-52-346Z.json",
+      "bytes": 6034,
+      "mtime": "2026-09-29T05:09:12.000Z"
+     },
+     {
+      "file": "GT-MKTOFF-02-2026-09-29T05-08-20-687Z.json",
+      "bytes": 6732,
+      "mtime": "2026-09-29T05:08:50.000Z"
+     },
+     {
+      "file": "GT-MKTOFF-01-2026-09-29T05-07-51-119Z.json",
+      "bytes": 8098,
+      "mtime": "2026-09-29T05:08:20.000Z"
+     }
+    ],
+    "mkt-on": [
+     {
+      "file": "GT-MKTON-03-2026-09-29T07-04-45-249Z.json",
+      "bytes": 19602,
+      "mtime": "2026-09-29T07:05:40.000Z"
+     },
+     {
+      "file": "GT-MKTON-02-2026-09-29T07-03-22-451Z.json",
+      "bytes": 2172,
+      "mtime": "2026-09-29T07:04:44.000Z"
+     },
+     {
+      "file": "GT-MKTON-01-2026-09-29T07-02-53-475Z.json",
+      "bytes": 5313,
+      "mtime": "2026-09-29T07:03:20.000Z"
+     },
+     {
+      "file": "GT-MKTON-02-2026-09-29T05-21-39-113Z.json",
+      "bytes": 4077,
+      "mtime": "2026-09-29T05:22:12.000Z"
+     },
+     {
+      "file": "GT-MKTON-03-2026-09-29T05-10-22-293Z.json",
+      "bytes": 8696,
+      "mtime": "2026-09-29T05:10:44.000Z"
+     },
+     {
+      "file": "GT-MKTON-02-2026-09-29T05-09-52-898Z.json",
+      "bytes": 5937,
+      "mtime": "2026-09-29T05:10:18.000Z"
+     },
+     {
+      "file": "GT-MKTON-01-2026-09-29T05-09-13-422Z.json",
+      "bytes": 6278,
+      "mtime": "2026-09-29T05:09:44.000Z"
+     },
+     {
+      "file": "publish-approve-2026-09-29T05-09-13-422Z.json",
+      "bytes": 6277,
+      "mtime": "2026-09-29T05:09:44.000Z"
+     }
+    ],
+    "prf": [
+     {
+      "file": "GT-PRF-03-2026-09-29T07-07-06-439Z.json",
+      "bytes": 3090,
+      "mtime": "2026-09-29T07:08:12.000Z"
+     },
+     {
+      "file": "GT-PRF-02-2026-09-29T07-06-09-876Z.json",
+      "bytes": 20696,
+      "mtime": "2026-09-29T07:07:04.000Z"
+     },
+     {
+      "file": "GT-PRF-01-2026-09-29T07-05-41-618Z.json",
+      "bytes": 10216,
+      "mtime": "2026-09-29T07:06:02.000Z"
+     },
+     {
+      "file": "GT-PRF-03-2026-09-29T05-11-33-097Z.json",
+      "bytes": 5387,
+      "mtime": "2026-09-29T05:12:06.000Z"
+     },
+     {
+      "file": "GT-PRF-02-2026-09-29T05-11-02-034Z.json",
+      "bytes": 9933,
+      "mtime": "2026-09-29T05:11:30.000Z"
+     },
+     {
+      "file": "GT-PRF-01-2026-09-29T05-10-46-542Z.json",
+      "bytes": 4044,
+      "mtime": "2026-09-29T05:11:00.000Z"
+     }
+    ],
+    "rec": [
+     {
+      "file": "GT-REC-03-2026-09-29T07-09-28-934Z.json",
+      "bytes": 4231,
+      "mtime": "2026-09-29T07:09:44.000Z"
+     },
+     {
+      "file": "GT-REC-02-2026-09-29T07-08-48-356Z.json",
+      "bytes": 7814,
+      "mtime": "2026-09-29T07:09:20.000Z"
+     },
+     {
+      "file": "GT-REC-01-2026-09-29T07-08-14-859Z.json",
+      "bytes": 7047,
+      "mtime": "2026-09-29T07:08:40.000Z"
+     },
+     {
+      "file": "rec-funnel-weekly-2026-09-29T05-53-54.json",
+      "bytes": 2113,
+      "mtime": "2026-09-29T05:53:54.000Z"
+     },
+     {
+      "file": "rec-funnel-weekly-2026-09-29T05-37-29.json",
+      "bytes": 2442,
+      "mtime": "2026-09-29T05:37:28.000Z"
+     },
+     {
+      "file": "rec-funnel-weekly-2026-09-29T05-23-38.json",
+      "bytes": 1937,
+      "mtime": "2026-09-29T05:23:38.000Z"
+     },
+     {
+      "file": "GT-REC-03-2026-09-29T05-12-52-279Z.json",
+      "bytes": 7101,
+      "mtime": "2026-09-29T05:13:12.000Z"
+     },
+     {
+      "file": "GT-REC-02-2026-09-29T05-12-25-811Z.json",
+      "bytes": 5765,
+      "mtime": "2026-09-29T05:12:50.000Z"
+     },
+     {
+      "file": "GT-REC-01-2026-09-29T05-12-08-640Z.json",
+      "bytes": 3491,
+      "mtime": "2026-09-29T05:12:24.000Z"
+     }
+    ],
+    "sales": [
+     {
+      "file": "GT-SALES-03-2026-09-29T07-10-28-020Z.json",
+      "bytes": 14004,
+      "mtime": "2026-09-29T07:11:26.000Z"
+     },
+     {
+      "file": "pipeline-report-2026-09-29T07-10-28-020Z.json",
+      "bytes": 14004,
+      "mtime": "2026-09-29T07:11:26.000Z"
+     },
+     {
+      "file": "GT-SALES-02-2026-09-29T07-09-58-793Z.json",
+      "bytes": 7837,
+      "mtime": "2026-09-29T07:10:26.000Z"
+     },
+     {
+      "file": "GT-SALES-01-2026-09-29T07-09-45-421Z.json",
+      "bytes": 869,
+      "mtime": "2026-09-29T07:09:58.000Z"
+     },
+     {
+      "file": "GT-SALES-03-2026-09-29T05-13-58-518Z.json",
+      "bytes": 3610,
+      "mtime": "2026-09-29T05:14:16.000Z"
+     },
+     {
+      "file": "GT-SALES-02-2026-09-29T05-13-38-012Z.json",
+      "bytes": 4242,
+      "mtime": "2026-09-29T05:13:56.000Z"
+     },
+     {
+      "file": "GT-SALES-01-2026-09-29T05-13-23-186Z.json",
+      "bytes": 1370,
+      "mtime": "2026-09-29T05:13:36.000Z"
+     },
+     {
+      "file": "sales-quote-calc-2026-09-29T03-40-08.json",
+      "bytes": 2186,
+      "mtime": "2026-09-29T03:40:08.000Z"
+     },
+     {
+      "file": "selftest-2026-09-29T03-39-00.json",
+      "bytes": 140,
+      "mtime": "2026-09-29T03:39:00.000Z"
+     }
+    ],
+    "strat": [
+     {
+      "file": "GT-STRAT-03-2026-09-29T07-13-57-352Z.json",
+      "bytes": 6588,
+      "mtime": "2026-09-29T07:14:16.000Z"
+     },
+     {
+      "file": "GT-STRAT-02-2026-09-29T07-13-00-974Z.json",
+      "bytes": 13172,
+      "mtime": "2026-09-29T07:13:54.000Z"
+     },
+     {
+      "file": "GT-STRAT-01-2026-09-29T07-11-40-940Z.json",
+      "bytes": 20620,
+      "mtime": "2026-09-29T07:12:50.000Z"
+     },
+     {
+      "file": "strat-weekly-report-2026-09-29T05-58-23.json",
+      "bytes": 3246,
+      "mtime": "2026-09-29T05:58:22.000Z"
+     },
+     {
+      "file": "strat-weekly-report-2026-09-29T05-43-16.json",
+      "bytes": 2559,
+      "mtime": "2026-09-29T05:43:16.000Z"
+     },
+     {
+      "file": "strat-weekly-report-2026-09-29T05-25-30.json",
+      "bytes": 2356,
+      "mtime": "2026-09-29T05:25:30.000Z"
+     },
+     {
+      "file": "GT-STRAT-03-2026-09-29T05-15-14-398Z.json",
+      "bytes": 5654,
+      "mtime": "2026-09-29T05:15:40.000Z"
+     },
+     {
+      "file": "GT-STRAT-02-2026-09-29T05-14-36-514Z.json",
+      "bytes": 6972,
+      "mtime": "2026-09-29T05:15:12.000Z"
+     },
+     {
+      "file": "GT-STRAT-01-2026-09-29T05-14-17-957Z.json",
+      "bytes": 6700,
+      "mtime": "2026-09-29T05:14:34.000Z"
+     }
+    ],
+    "tools": [],
+    "trn": [
+     {
+      "file": "GT-TRN-03-2026-09-29T07-15-25-640Z.json",
+      "bytes": 8326,
+      "mtime": "2026-09-29T07:16:02.000Z"
+     },
+     {
+      "file": "GT-TRN-02-2026-09-29T07-14-46-894Z.json",
+      "bytes": 7371,
+      "mtime": "2026-09-29T07:15:16.000Z"
+     },
+     {
+      "file": "GT-TRN-01-2026-09-29T07-14-18-490Z.json",
+      "bytes": 10404,
+      "mtime": "2026-09-29T07:14:44.000Z"
+     },
+     {
+      "file": "GT-TRN-03-2026-09-29T05-16-27-966Z.json",
+      "bytes": 2115,
+      "mtime": "2026-09-29T05:16:40.000Z"
+     },
+     {
+      "file": "GT-TRN-02-2026-09-29T05-16-09-804Z.json",
+      "bytes": 3011,
+      "mtime": "2026-09-29T05:16:26.000Z"
+     },
+     {
+      "file": "GT-TRN-01-2026-09-29T05-15-42-791Z.json",
+      "bytes": 5027,
+      "mtime": "2026-09-29T05:16:02.000Z"
+     }
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工作流库",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "按钮清零表",
+   "pass": [
+    {
+     "id": "preset-apply",
+     "label": "选/用（apply）",
+     "route": "POST /workbench/api/apply",
+     "audit": "preset.apply"
+    },
+    {
+     "id": "preset-save",
+     "label": "存（save）",
+     "route": "POST /workbench/api/save",
+     "audit": "preset.save"
+    },
+    {
+     "id": "preset-switch",
+     "label": "切（switch）",
+     "route": "POST /workbench/api/switch",
+     "audit": "preset.switch"
+    },
+    {
+     "id": "preset-new",
+     "label": "新建（派生 Scene）",
+     "route": "POST /workbench/api/preset-new",
+     "audit": "preset.new"
+    },
+    {
+     "id": "preset-edit",
+     "label": "编辑当前 preset",
+     "route": "POST /workbench/api/preset-edit",
+     "audit": "preset.edit"
+    },
+    {
+     "id": "gt-engine",
+     "label": "跑一次 GT（经引擎）",
+     "route": "POST /workbench/api/engine-run",
+     "audit": "engine.run"
+    },
+    {
+     "id": "wf-run",
+     "label": "工作流·发起",
+     "route": "POST /workbench/api/workflow-run",
+     "audit": "workflow.run + deliverable.create"
+    },
+    {
+     "id": "domain-submit",
+     "label": "域表单·提交",
+     "route": "POST /workbench/api/submit",
+     "audit": "deliverable.create"
+    },
+    {
+     "id": "f7-check",
+     "label": "F7 网络自检",
+     "route": "GET /workbench/api/scenes",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-tools",
+     "label": "F8 查看 tools-versions",
+     "route": "GET /workbench/api/tools-versions",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-rollback",
+     "label": "F8 回退演练（dry-run）",
+     "route": "POST /workbench/api/rollback-dryrun",
+     "audit": "rollback.dryrun"
+    },
+    {
+     "id": "f11-report",
+     "label": "F11 自检报告",
+     "route": "GET /workbench/api/audit",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "delivery-all",
+     "label": "生成全部交付格式",
+     "route": "POST /workbench/api/deliver",
+     "audit": "deliverable.package.create"
+    },
+    {
+     "id": "delivery-format",
+     "label": "生成单格式交付物",
+     "route": "POST /workbench/api/deliver",
+     "audit": "deliverable.package.create"
+    }
+   ],
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工具版本",
+   "pass": {
+    "content": "(missing)"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 表/行",
+   "pass": true,
+   "note": "tables=2 rows=30"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 表/行",
+   "pass": true,
+   "note": "tables=3 rows=42"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=4"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 表/行",
+   "pass": true,
+   "note": "tables=4 rows=75"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 表/行",
+   "pass": true,
+   "note": "tables=3 rows=50"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=28"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 表/行",
+   "pass": true,
+   "note": "tables=3 rows=44"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 表/行",
+   "pass": true,
+   "note": "tables=2 rows=29"
+  },
+  {
+   "area": "action",
+   "item": "buttons 清零表条目数",
+   "pass": true,
+   "note": "count=14"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景→技能→工作流一致性",
+   "pass": true,
+   "note": "LINT PASS gt_entries=42 gt_unique=39 domains=12 violations=0"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景引用工作流均存在",
+   "pass": true,
+   "note": "workflows=78"
+  },
+  {
+   "area": "勾稽",
+   "item": "数据字典↔落地表一致性",
+   "pass": true,
+   "note": "CHECK_DONE tables=46 issues=0 → reports/data-consistency.csv"
+  },
+  {
+   "area": "勾稽",
+   "item": "交付物↔审计(deliverable create)",
+   "pass": true,
+   "note": "deliverables=505 audit_create=7"
+  },
+  {
+   "area": "勾稽",
+   "item": "引擎调用可追溯(tokens/stop)",
+   "pass": true,
+   "note": "engine.run=0 deterministic_mode=true（聊天通道由 delivery-ui/chat 验收单独取证）"
+  },
+  {
+   "area": "交付",
+   "item": "驾驶舱交付中心入口",
+   "pass": true,
+   "note": "http=200 bytes=296225"
+  },
+  {
+   "area": "交付",
+   "item": "HTTP 生成 md+pdf",
+   "pass": true,
+   "note": "http=200 run=20260930-013138433-acde49ea"
+  },
+  {
+   "area": "交付",
+   "item": "PDF 下载",
+   "pass": true,
+   "note": "http=200 bytes=83753"
+  },
+  {
+   "area": "交付",
+   "item": "交付包列表",
+   "pass": true,
+   "note": "http=200 count=5"
+  }
+ ]
+}

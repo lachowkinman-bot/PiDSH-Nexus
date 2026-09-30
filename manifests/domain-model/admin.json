@@ -1,0 +1,939 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "admin",
+ "label": "行政 ADMIN",
+ "scene_ids": [
+  "admin.procurement@1.0.0"
+ ],
+ "level": "L3",
+ "dual_approval": false,
+ "redact_fields": [
+  "seal_record",
+  "procurement_price"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.404Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/admin.procurement.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/admin/",
+  "doc": "docs/preset-design/admin.md"
+ },
+ "tables": [
+  {
+   "file": "assets.csv",
+   "rows": 18,
+   "columns": [
+    "asset_id",
+    "asset",
+    "holder_masked",
+    "location",
+    "status",
+    "category",
+    "sn",
+    "price_yuan",
+    "dept",
+    "purchase_ref",
+    "acquired_date",
+    "last_event"
+   ],
+   "pii_likely": [
+    "holder_masked"
+   ]
+  },
+  {
+   "file": "purchases.csv",
+   "rows": 16,
+   "columns": [
+    "item",
+    "vendor_masked",
+    "unit_price_yuan",
+    "lead_days",
+    "selected",
+    "request_id",
+    "request_dept",
+    "qty",
+    "amount_yuan",
+    "budget_ok",
+    "quote_date",
+    "order_status",
+    "note"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "purchase-compare",
+   "file": "templates/skills-domain/admin/SKILL-purchase-compare.md"
+  },
+  {
+   "name": "asset-inventory",
+   "file": "templates/skills-domain/admin/SKILL-asset-inventory.md"
+  },
+  {
+   "name": "meeting-minutes",
+   "file": "templates/skills-domain/admin/SKILL-meeting-minutes.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "admin.purchase-approve@1.0.0",
+   "kind": "approve",
+   "description": "采购审批（DAG + 预算校验）",
+   "skill": "purchase-compare",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "purchase-compare"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "采购审批（DAG + 预算校验） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "采购审批（DAG + 预算校验）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "purchase-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "qty",
+     "amount_wan",
+     "budget_ok",
+     "approvals"
+    ],
+    "acceptance": "预算不足直接阻断；用印强制人工"
+   }
+  },
+  {
+   "id": "admin.seal-request@1.0.0",
+   "kind": "approve",
+   "description": "用印申请（强制人工放行）",
+   "skill": "meeting-minutes",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "meeting-minutes"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "用印申请（强制人工放行） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "用印申请（强制人工放行）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "seal-request-<ts>.json",
+    "format": "json",
+    "fields": [
+     "doc",
+     "seal_type",
+     "copies",
+     "keeper_confirm"
+    ],
+    "acceptance": "用印禁自动放行（必须人工确认）"
+   }
+  },
+  {
+   "id": "admin.asset-inventory@1.0.0",
+   "kind": "report",
+   "description": "资产盘点（在用/维修/闲置）",
+   "skill": "asset-inventory",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "asset-inventory"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "资产盘点（在用/维修/闲置）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "asset-inventory-<ts>.json",
+    "format": "json",
+    "fields": [
+     "asset_id",
+     "status",
+     "holder_masked",
+     "location"
+    ],
+    "acceptance": "与 assets.csv 勾稽"
+   }
+  },
+  {
+   "id": "admin.meeting-minutes@1.0.0",
+   "kind": "calc",
+   "description": "会议纪要（决议/待办/责任人）",
+   "skill": "meeting-minutes",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "meeting-minutes"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "会议纪要（决议/待办/责任人）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "meeting-minutes-<ts>.json",
+    "format": "json",
+    "fields": [
+     "meeting",
+     "decisions",
+     "todos",
+     "owners"
+    ],
+    "acceptance": "待办必须带责任人与期限"
+   }
+  },
+  {
+   "id": "admin.supply-order@1.0.0",
+   "kind": "calc",
+   "description": "办公用品下单（比价后）",
+   "skill": "asset-inventory",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "asset-inventory"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "办公用品下单（比价后）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "supply-order-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "vendor_masked",
+     "qty",
+     "amount_yuan"
+    ],
+    "acceptance": "必须引用比价结论（最低价或说明）"
+   }
+  },
+  {
+   "id": "admin.vendor-price@1.0.0",
+   "kind": "report",
+   "description": "供应商比价报告（三家原则）",
+   "skill": "purchase-compare",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "purchase-compare"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "供应商比价报告（三家原则）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "vendor-price-<ts>.json",
+    "format": "json",
+    "fields": [
+     "item",
+     "quotes",
+     "lowest",
+     "chosen"
+    ],
+    "acceptance": "不足三家须说明理由"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-ADMIN-01",
+   "input": "生成办公用品采购比价与审批单",
+   "expected_output": "reports/admin/gt-01.md",
+   "skill": null,
+   "scene": "admin.procurement@1.0.0"
+  },
+  {
+   "id": "GT-ADMIN-02",
+   "input": "输出季度资产盘点差异表",
+   "expected_output": "reports/admin/gt-02.md",
+   "skill": null,
+   "scene": "admin.procurement@1.0.0"
+  },
+  {
+   "id": "GT-ADMIN-03",
+   "input": "生成会议纪要并跟踪待办",
+   "expected_output": "reports/admin/gt-03.md",
+   "skill": null,
+   "scene": "admin.procurement@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/admin",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/admin/t/assets",
+   "type": "table",
+   "title": "assets.csv",
+   "table": "assets",
+   "file": "assets.csv"
+  },
+  {
+   "route": "#/admin/t/purchases",
+   "type": "table",
+   "title": "purchases.csv",
+   "table": "purchases",
+   "file": "purchases.csv"
+  },
+  {
+   "route": "#/admin/w/purchase-approve",
+   "type": "workflow",
+   "title": "采购审批（DAG + 预算校验）",
+   "workflow": "admin.purchase-approve@1.0.0"
+  },
+  {
+   "route": "#/admin/w/seal-request",
+   "type": "workflow",
+   "title": "用印申请（强制人工放行）",
+   "workflow": "admin.seal-request@1.0.0"
+  },
+  {
+   "route": "#/admin/w/asset-inventory",
+   "type": "workflow",
+   "title": "资产盘点（在用/维修/闲置）",
+   "workflow": "admin.asset-inventory@1.0.0"
+  },
+  {
+   "route": "#/admin/w/meeting-minutes",
+   "type": "workflow",
+   "title": "会议纪要（决议/待办/责任人）",
+   "workflow": "admin.meeting-minutes@1.0.0"
+  },
+  {
+   "route": "#/admin/w/supply-order",
+   "type": "workflow",
+   "title": "办公用品下单（比价后）",
+   "workflow": "admin.supply-order@1.0.0"
+  },
+  {
+   "route": "#/admin/w/vendor-price",
+   "type": "workflow",
+   "title": "供应商比价报告（三家原则）",
+   "workflow": "admin.vendor-price@1.0.0"
+  },
+  {
+   "route": "#/admin/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "assets.csv",
+         "L2",
+         "—（scene 声明 `pii_fields: []`）；表内含掩码使用人字段 `holder_masked`（工号掩码，不可还原）",
+         "18",
+         "固定资产台账：资产编码/名称/使用人/位置/状态/分类/SN/购置价/归属部门/采购来源/入库日/最近事件；含 2 条离职释放后的闲置资产"
+        ],
+        [
+         "purchases.csv",
+         "L2",
+         "—（scene 声明 `pii_fields: []`）；表内含供应商代号 `vendor_masked`（非真名）",
+         "16",
+         "采购比价台账：同一 `request_id` 多供应商报价（三家原则）、单价/交期/中选标记/金额/预算判定/采购单状态，覆盖 GT-ADMIN-01 可验证比价"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "声明侧",
+        "落地侧",
+        "级别"
+       ],
+       "rows": [
+        [
+         "scene `data_assets` 的 asset-register.xlsx / type-dict 的 asset-register",
+         "assets.csv",
+         "L2"
+        ],
+        [
+         "scene `data_assets` 的 purchase-requests.xlsx / type-dict 的 purchase-requests",
+         "purchases.csv",
+         "L2"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "表头英文小写下划线、UTF-8、逗号分隔；两张表**均保留原始表头列且未删改**，仅追加列（追加列已逐字段写入 §1.1）。",
+      "每表数据行 ≥10（§15.4 校验下限），本页行数以上表为准（不含表头）。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "asset_id",
+         "string",
+         "是",
+         "资产编码，唯一，格式 `AST-####`（参照 §3.2.25 code(AST-xxxx)）；原始列"
+        ],
+        [
+         "asset",
+         "string",
+         "是",
+         "资产名称（含属性/位置备注，如\"投影仪(会议室A)\"）；原始列"
+        ],
+        [
+         "holder_masked",
+         "string",
+         "是",
+         "使用人工号掩码（保留 `E`+2 位数字，其余 `***`，如 `E10***`）；共享资产固定为 `公共`；闲置/报废资产必须为 `公共`；原始列"
+        ],
+        [
+         "location",
+         "string",
+         "是",
+         "存放位置/工位/仓库（如\"A栋3层会议室A\"\"研发部工位\"\"行政仓库\"）；原始列"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "资产状态：在用 / 闲置 / 维修中 / 已报废（枚举与迁移见 §4）；原始列"
+        ],
+        [
+         "category",
+         "enum",
+         "是",
+         "资产分类：IT设备 / 办公设备 / 办公家具 / 办公用品；追加列（对应参照 §3.2.25 cat）"
+        ],
+        [
+         "sn",
+         "string",
+         "否",
+         "设备序列号（掩码口径 `SN-XXnn***`）；追加列（对应参照 §3.2.25 sn）"
+        ],
+        [
+         "price_yuan",
+         "number",
+         "否",
+         "购置单价（元，整数）；与同 `purchase_ref` 中选报价行一致（§9 V-AD-06）；追加列（对应参照 §3.2.25 price）"
+        ],
+        [
+         "dept",
+         "enum",
+         "是",
+         "归属部门（词表：行政部/研发部/销售部/财务部/市场部/人力资源部），与 purchases.request_dept 同词表；追加列（对应参照 §3.2.25 user 的部门口径）"
+        ],
+        [
+         "purchase_ref",
+         "string",
+         "否",
+         "采购来源：取值=`purchases.item`（如\"办公笔记本×20\"）；历史批次/非采购入库为空；追加列"
+        ],
+        [
+         "acquired_date",
+         "date",
+         "否",
+         "入库/入账日期（`YYYY-MM-DD`）；采购入库行=对应单据 `order_status=已入库` 的入库日；追加列"
+        ],
+        [
+         "last_event",
+         "string",
+         "否",
+         "最近状态事件（含工单/流程号，是离职释放、报修、报废、盘点的追溯证据）；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "item",
+         "string",
+         "是",
+         "采购项，格式\"名称×数量\"（如\"办公笔记本×20\"），同组比价各行一致；原始列"
+        ],
+        [
+         "vendor_masked",
+         "string",
+         "是",
+         "供应商代号（供应商A/B/C/D，真名受 redact_gate 约束不外发）；原始列"
+        ],
+        [
+         "unit_price_yuan",
+         "number",
+         "是",
+         "该供应商单价（元，整数）；原始列（属 procurement_price 脱敏域）"
+        ],
+        [
+         "lead_days",
+         "number",
+         "是",
+         "交付周期（自然日）；原始列"
+        ],
+        [
+         "selected",
+         "enum",
+         "是",
+         "中选标记：No / Yes(最低价) / Yes(单一来源)；同一 `request_id` 恰一行 Yes；原始列"
+        ],
+        [
+         "request_id",
+         "string",
+         "是",
+         "采购申请单号（如 `PR-2026-Q3-001`），同一单号的多行构成一组可验证比价；追加列"
+        ],
+        [
+         "request_dept",
+         "enum",
+         "是",
+         "申请部门（与 assets.dept 同词表）；追加列"
+        ],
+        [
+         "qty",
+         "number",
+         "是",
+         "数量（与 item 中\"×数量\"一致）；追加列"
+        ],
+        [
+         "amount_yuan",
+         "number",
+         "是",
+         "该报价总额 = qty × unit_price_yuan（元，整数）；追加列"
+        ],
+        [
+         "budget_ok",
+         "enum",
+         "是",
+         "部门预算是否足额：Yes / No；No 触发审批阻断（§9 V-AD-04）；追加列"
+        ],
+        [
+         "quote_date",
+         "date",
+         "是",
+         "报价日期（`YYYY-MM-DD`）；追加列"
+        ],
+        [
+         "order_status",
+         "enum",
+         "是",
+         "采购单状态：草稿 / 待审批 / 已批准 / 已驳回 / 已入库（迁移见 §4）；追加列"
+        ],
+        [
+         "note",
+         "string",
+         "否",
+         "说明（中选理由/单一来源说明/驳回原因/入库日），字段内不使用英文逗号；追加列"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/admin.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 资产（ASSET_STATUS，参照 §3.3 枚举名：inuse/idle/repairing/scrapped）",
+     "tables": [
+      {
+       "header": [
+        "枚举（CSV 落值）",
+        "标识符",
+        "含义",
+        "台账证据"
+       ],
+       "rows": [
+        [
+         "在用",
+         "inuse",
+         "已领用/公共在用",
+         "`holder_masked` 为掩码或 `公共`，`last_event` 有领用/盘点记录"
+        ],
+        [
+         "闲置",
+         "idle",
+         "退库/离职释放后可再分配",
+         "`holder_masked=公共`，`last_event` 含\"离职释放（流程号，使用人已清空）\"或退库记录"
+        ],
+        [
+         "维修中",
+         "repairing",
+         "报修在途",
+         "`last_event` 含维修工单号（样例 AST-0113 / WX-2026-0916）"
+        ],
+        [
+         "已报废",
+         "scrapped",
+         "报废审批通过，账实退出",
+         "`last_event` 含报废审批号（样例 AST-0131 / BF-2026-0905）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "迁移",
+        "触发",
+        "落账副作用"
+       ],
+       "rows": [
+        [
+         "在用 → 闲置",
+         "离职流程完成（ER 域钩子）；到期退库",
+         "status=闲置；holder_masked 清空为\"公共\"；last_event 追加释放记录"
+        ],
+        [
+         "闲置 → 在用",
+         "再分配/新领用",
+         "status=在用；holder_masked=工号掩码；location 更新"
+        ],
+        [
+         "在用 → 维修中",
+         "报修受理",
+         "status=维修中；last_event 记工单号"
+        ],
+        [
+         "维修中 → 在用",
+         "修复验收",
+         "status=在用；last_event 记验收结果"
+        ],
+        [
+         "维修中 / 闲置 → 已报废",
+         "报废审批通过",
+         "status=已报废；holder_masked=公共；last_event 记审批号（不可逆）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 采购单（purchases.order_status）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "进入条件",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "草稿",
+         "需求登记、尚未完成比价",
+         "待审批",
+         "同 `request_id` 行 <3 且 `note` 未说明单一来源时不得前进"
+        ],
+        [
+         "待审批",
+         "比价完成（≥3 家，或已说明单一来源）",
+         "已批准 / 已驳回",
+         "恰一行 `selected=Yes(...)`；`budget_ok=No` 只能走向已驳回"
+        ],
+        [
+         "已批准",
+         "审批通过（金额阈值与双审批规则见 §5）",
+         "已入库 / 已驳回",
+         "`approvals ≥1`（单笔 ≥5 万元须 ≥2）；`budget_ok=Yes`"
+        ],
+        [
+         "已驳回",
+         "预算不足 / 比价不合规 / 审批驳回",
+         "补件后回到待审批",
+         "`note` 必填驳回原因（样例 PR-2026-Q3-006）"
+        ],
+        [
+         "已入库",
+         "收货验收入账",
+         "—（终态）",
+         "assets 新增行（`purchase_ref`=item、`acquired_date`=入库日、`price_yuan`=中选单价）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.3 用印（参照 §4.12 四节点流程）",
+     "tables": [
+      {
+       "header": [
+        "状态",
+        "进入条件",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "待审批",
+         "提交申请（文件/用印类型/份数）",
+         "已批准（或驳回后重新提交）",
+         "seal-request-n3 待办；申请单字段 doc/seal_type/copies"
+        ],
+        [
+         "已批准",
+         "四级节点通过且 `keeper_confirm=true`",
+         "归档（终态）",
+         "`keeper_confirm=true`；audit n5（审批人+数据版本+产物哈希）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "流程实例状态（FLOW_STATUS：running / done / rejected / cancelled）与单据状态解耦：流程 `done` 后由 after_complete 钩子回写单据状态（不双向依赖）。",
+      "公告联动枚举（工作台实体，非本域 CSV）：NOTICE_STATUS = draft / published（参照 §3.3），用印完成触发的公示草稿为 draft，人工发布置 published。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/admin.md#§4"
+  },
+  "5": {
+   "title": "审批链（节点-角色-双审批-金额阈值）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "流程",
+        "节点链",
+        "审批角色",
+        "双审批",
+        "金额/条件阈值",
+        "manifest 落点"
+       ],
+       "rows": [
+        [
+         "采购（admin.purchase-approve）",
+         "申请提交 → purchase-compare 比价 → 预算校验（budget_ok）→ 审批 → 入库",
+         "申请部门负责人 →（阈值满足时）行政负责人 + 财务负责人",
+         "单笔中选总额 ≥ 50,000 元：双审批；< 50,000 元：单审批（行政负责人）",
+         "预算不足（budget_ok=No）无条件阻断；比价不足三家且无说明阻断",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ],
+        [
+         "用印（admin.seal-request）",
+         "提交申请（文件/类型/份数）→ 部门负责人审批 → 行政初审 → 授权人盖章",
+         "部门负责人 → 行政专员 → 印章保管人",
+         "任何用印均须双审批落点 + 保管人人工确认（keeper_confirm）",
+         "无金额豁免：任何用印动作强制 HITL，禁自动放行",
+         "n3 approval（L4 + `dual:true`）+ `keeper_confirm` 字段"
+        ],
+        [
+         "领用/用品下单（admin.supply-order）",
+         "引用比价结论 → 下单 → 领用登记",
+         "资产/用品管理员（登记人）",
+         "无审批节点；聚合金额 ≥ 50,000 元转采购审批（上表第一行，走 L4 双审批）",
+         "必须引用 `selected=Yes(最低价)` 或说明理由",
+         "无 approval 节点（calc，hitl_nodes 为空）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "场景基线 `policies.permission.dual_approval=false`、`min_level=L3` 为**域默认**；上表两条 approve 工作流在流程级升格为 L4 双审批（与 workflow YAML 一致），规则单调加严、不放松。",
+      "50,000 元为本文档细化阈值（manifest 未写死数值）；定制时必须与 scene/workflow 配置保持同一数值并只允许加严。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/admin.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定",
+        "失败处理"
+       ],
+       "rows": [
+        [
+         "V-AD-01 资产编码唯一",
+         "`asset_id` 非空、唯一、匹配 `^AST-\\d{4}$`；追加行按序号递增",
+         "FAIL：重复/格式错行不得入账"
+        ],
+        [
+         "V-AD-02 采购三家比价完整性",
+         "同 `request_id` 行数 ≥3 且恰一行 `selected=Yes(最低价)`；行数 <3 时 `note` 必须写明单一来源理由；行数 <3 且 `order_status ∈ {已批准, 已入库}`",
+         "FAIL：阻断审批；缺理由的单一来源转人工说明"
+        ],
+        [
+         "V-AD-03 金额阈值触发审批",
+         "单 `request_id` 中选总额（qty × 最低单价）≥50,000 元 → `approvals` ≥2（L4 双审批）；<50,000 元 → ≥1",
+         "FAIL：未达人数不得置已批准"
+        ],
+        [
+         "V-AD-04 预算硬约束",
+         "`budget_ok=No` 时 `order_status` 不得为 已批准/已入库",
+         "FAIL：立即阻断并回退单据状态"
+        ],
+        [
+         "V-AD-05 使用人与部门一致性",
+         "`holder_masked≠公共` 时 `dept` 必属部门词表；`purchase_ref` 非空时 `dept` 必须等于该采购的 `request_dept`；闲置/已报废行 `holder_masked` 必须为 `公共`",
+         "FAIL：行标记\"归属不明\"并转人工核对"
+        ],
+        [
+         "V-AD-06 金额勾稽",
+         "`amount_yuan = qty × unit_price_yuan`（逐行）；`purchase_ref` 非空时 `assets.price_yuan` = 该采购中选行 `unit_price_yuan`",
+         "FAIL：金额不一致行不得入账"
+        ],
+        [
+         "V-AD-07 状态枚举合法",
+         "`assets.status ∈ {在用, 闲置, 维修中, 已报废}`；`purchases.order_status ∈ {草稿, 待审批, 已批准, 已驳回, 已入库}`",
+         "FAIL：非法枚举值拒绝写入"
+        ],
+        [
+         "V-AD-08 用印人工放行",
+         "`keeper_confirm=true` 才可置 已批准；`seal_record` / `procurement_price` 出域前必须过 redact_gate",
+         "FAIL：禁放行；redact_gate 未命中即出域＝一票否决"
+        ],
+        [
+         "V-AD-09 会议待办完整性",
+         "todos 每条含 owner 与期限",
+         "FAIL：缺项不得输出纪要"
+        ],
+        [
+         "V-AD-10 离职释放闭环",
+         "`last_event` 含\"离职释放\"的行必须 status=闲置、holder_masked=公共、且事件含流程号",
+         "FAIL：闭环缺失转 ER 域核对"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/admin.md#§9"
+  }
+ },
+ "gaps": []
+}

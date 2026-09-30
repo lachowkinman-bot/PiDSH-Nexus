@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: strat.org-inventory@1.0.0
+domain: strat
+description: "组织盘点（关键岗位/继任）"
+trigger:
+  type: command
+  expr: org-inventory
+nodes:
+  - id: n1
+    type: skill
+    ref: biz-analysis
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "组织盘点（关键岗位/继任）：数据版本 + 产物哈希"
+deliverable:
+  file: org-inventory-<ts>.json
+  format: json
+  fields:
+    - position
+    - incumbent_masked
+    - successor_masked
+    - risk_level
+  acceptance: "人员字段一律掩码（Type-Dict L4 口径）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-org-inventory

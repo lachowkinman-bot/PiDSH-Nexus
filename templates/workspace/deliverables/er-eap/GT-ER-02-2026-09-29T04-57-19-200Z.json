@@ -1,0 +1,121 @@
+{
+  "task_id": "GT-ER-02",
+  "scenario": "eap.referral@1.0.0",
+  "business_domain": "ER",
+  "skill": "offboarding-flow",
+  "workflow": "er-eap.offboard-approve@1.0.0",
+  "generated_at": "2026-09-29T04:57:19.200Z",
+  "employee_masked": "E***2（离职交接案件 ER-1202，员工姓名未出现在数据源字段中，按脱敏要求不做任何还原）",
+  "case_ref": "ER-1202",
+  "case_type": "离职交接",
+  "case_stage": "审批中",
+  "case_owner": "HR专员",
+  "case_note": "N+1 方案",
+  "last_day": null,
+  "last_day_status": "数据源未提供具体日期：er_cases.csv 中 ER-1202 仅有备注「N+1 方案」，未落地最后工作日；空值表示事实缺失，而非占位。",
+  "handover_ok": false,
+  "handover_status": "交接未完成",
+  "handover_evidence": [
+    {
+      "source": "templates/workspace/data/er-eap/er_cases.csv",
+      "line": "ER-1202,离职交接,审批中,HR专员,N+1 方案",
+      "reading": "交接流程仍停留在「审批中」，未出现任何已完成/已归档状态，视为交接未闭环。"
+    },
+    {
+      "source": "templates/workspace/data/er-eap/er_cases.csv",
+      "line": "ER-1203,团队争议,已结案,HRBP,双方签字归档",
+      "reading": "对照样本：只有「已结案 + 双方签字归档」才构成交接闭环证据，ER-1202 不具备该证据。"
+    }
+  ],
+  "approvals": [
+    {
+      "approver_role": "HR专员",
+      "scope": "离职交接 ER-1202",
+      "status": "审批中",
+      "is_final": false,
+      "evidence": "er_cases.csv: ER-1202 stage=审批中, owner=HR专员"
+    },
+    {
+      "approver_role": "主管",
+      "scope": "关联 EAP 支持项 EAP-ANON-0731（心理咨询·外部机构）",
+      "status": "已通过",
+      "is_final": true,
+      "evidence": "eap_referrals.csv: EAP-ANON-0731 approvals=主管✓/专员✓"
+    },
+    {
+      "approver_role": "专员",
+      "scope": "关联 EAP 支持项 EAP-ANON-0731（心理咨询·外部机构）",
+      "status": "已通过",
+      "is_final": true,
+      "evidence": "eap_referrals.csv: EAP-ANON-0731 approvals=主管✓/专员✓"
+    }
+  ],
+  "approval_summary": "关联 EAP 转介双审批已齐备（主管✓/专员✓），但离职交接本体 ER-1202 自身仍为「审批中」，审批链未收敛，不具备放行条件。",
+  "linked_eap_referrals": [
+    {
+      "anon_id": "EAP-ANON-0731",
+      "direction": "心理咨询(外部机构)",
+      "status": "进行中",
+      "approvals": "主管✓/专员✓",
+      "sessions_left": 5,
+      "note": "支持仍在进行中，离职面谈纪要需回避具体咨询内容。"
+    },
+    {
+      "anon_id": "EAP-ANON-0733",
+      "direction": "法律援助(劳动咨询)",
+      "status": "已结案",
+      "approvals": "主管✓/专员✓",
+      "sessions_left": 0,
+      "note": "与 N+1 方案沟通相关，已结案。"
+    },
+    {
+      "anon_id": "EAP-ANON-0735",
+      "direction": "危机干预",
+      "status": "进行中",
+      "approvals": "主管✓/专员✓",
+      "sessions_left": 2,
+      "note": "高敏感项，纪要中仅保留「已转介、进行中」的状态，不记录任何过程细节。"
+    }
+  ],
+  "interview_minutes_structured": {
+    "masking_level": "匿名化（anon_id 保留、员工标识掩码、咨询内容与原文表述一律不入库）",
+    "topics": [
+      {
+        "topic": "离职原因（结构化归因）",
+        "category": "职业发展/薪酬包（N+1 方案）",
+        "detail_level": "仅记录归因类别与是否已进入法律咨询，不记录个人陈述原文",
+        "follow_up": "由 HR专员在审批完成后按 N+1 方案口径统一对外"
+      },
+      {
+        "topic": "心理与法律支持对接",
+        "category": "EAP 转介状态",
+        "detail_level": "记录转介编号、方向、状态、剩余次数，不记录会话内容",
+        "follow_up": "EAP-ANON-0731（剩 5 次）、EAP-ANON-0735（剩 2 次）仍在进行中，未结项，不作归档动作"
+      },
+      {
+        "topic": "交接事项",
+        "category": "知识与资产移交",
+        "detail_level": "当前无任何已完成证据，保持未完成状态",
+        "follow_up": "需补充交接清单签署后方可解除闸门"
+      }
+    ],
+    "sensitive_items_suppressed": [
+      "面谈逐字稿与原始表述",
+      "危机干预 EAP-ANON-0735 的过程与评估内容",
+      "劳动法律咨询 EAP-ANON-0733 的具体咨询意见",
+      "员工真实姓名、联系方式、工号等直接标识"
+    ]
+  },
+  "final_step": {
+    "step_name": "离职结论确认与面谈纪要归档",
+    "executed": false,
+    "blocked": true,
+    "blocked_reason": "验收标准「交接未完成不得进入最后一步」：ER-1202 仍处于「审批中」，handover_ok=false，故最后一步被拦截，仅产出结构化纪要与审批留痕。"
+  },
+  "acceptance_check": {
+    "rule": "handover_ok=true 才允许执行最后一步",
+    "handover_ok": false,
+    "final_step_allowed": false,
+    "result": "通过（闸门按未完成状态正确拦截）"
+  }
+}

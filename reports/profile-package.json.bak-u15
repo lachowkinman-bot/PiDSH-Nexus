@@ -1,0 +1,19 @@
+{
+  "name": "dsh-profile-web",
+  "private": true,
+  "dependencies": {
+    "@workbench/client-ui": "link:F:/Pi_DSH_workplace/universal-workbench-3.0/workbench-ui-plugin",
+    "pi-redact-all": "file:F:/Pi_DSH_workplace/universal-workbench-3.0/offline/npm/pi-redact-all-0.2.1.tgz",
+    "pi2dsh": "file:F:/Pi_DSH_workplace/universal-workbench-3.0/offline/npm/pi2dsh-0.25.2.tgz"
+  },
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "@workbench/client-ui",
+        "pi2dsh"
+      ]
+    }
+  }
+}

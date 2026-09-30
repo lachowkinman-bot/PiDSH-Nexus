@@ -1,0 +1,27 @@
+{
+ "agent": "workbench",
+ "task": "T2",
+ "ok": true,
+ "err": null,
+ "ms": 45051,
+ "chars": 458,
+ "hits": [
+  "区间"
+ ],
+ "need": [
+  "带宽",
+  "区间",
+  "偏离"
+ ],
+ "headings": 0,
+ "numbers": 14,
+ "scores": {
+  "correctness": 2,
+  "usability": 5,
+  "quality": 1,
+  "approval_behavior": 5,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：薪酬带宽偏离报告（L4 区间口径+脱敏）。可用数据在 templates/workspace/data/<域>/ 下的 CSV。\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "workbench"
+}

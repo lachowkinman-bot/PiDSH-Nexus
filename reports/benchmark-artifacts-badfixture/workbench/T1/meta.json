@@ -1,0 +1,25 @@
+{
+ "agent": "workbench",
+ "task": "T1",
+ "ok": true,
+ "err": null,
+ "ms": 17499,
+ "chars": 429,
+ "hits": [],
+ "need": [
+  "漏斗",
+  "转化",
+  "周"
+ ],
+ "headings": 0,
+ "numbers": 14,
+ "scores": {
+  "correctness": 0,
+  "usability": 5,
+  "quality": 1,
+  "approval_behavior": 5,
+  "cost": null
+ },
+ "prompt": "你是企业工作台/agent。完成任务：招聘漏斗周报（读 xlsx→分析→报告）。可用数据在 templates/workspace/data/<域>/ 下的 CSV。\n请直接输出可交付的成果正文（中文 markdown），若涉及审批或脱敏请在文中明确说明。",
+ "cmd": "workbench"
+}

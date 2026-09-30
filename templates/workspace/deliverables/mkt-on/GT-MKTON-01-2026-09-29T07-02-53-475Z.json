@@ -1,0 +1,177 @@
+{
+  "task_id": "GT-MKTON-01",
+  "scenario": "mkt-on.content-publish@1.0.0",
+  "skill": "content-gen",
+  "workflow": "mkt-on.publish-approve@1.0.0",
+  "generated_at": "2026-09-29T07:02:53.475Z",
+  "title": "客户案例短视频 ×3（抖音，双11 预热期）",
+  "content_id": "CT-2054",
+  "content_type": "短视频",
+  "channel": "抖音",
+  "publish_at": "2026-10-10T19:00:00+08:00",
+  "pii_check": "待脱敏",
+  "redact_required": true,
+  "redact_status": "pending",
+  "redact_items": [
+    "客户公司全称与品牌 Logo",
+    "出镜客户真实姓名、职务与工牌信息",
+    "画面/字幕中的手机号、微信号、企业邮箱",
+    "后台截图内的订单号、联系人姓名与联系方式"
+  ],
+  "approver": "内容组",
+  "approver_role": "内容审核负责人（publish-approve 工作流审批人）",
+  "owner": "视频组",
+  "calendar_week": "2026-W41",
+  "calendar_range": "2026-10-05 ~ 2026-10-11",
+  "calendar_draft": [
+    {
+      "content_id": "CT-2055",
+      "date": "2026-10-12",
+      "channel": "官网",
+      "title": "双11 专题页上线",
+      "content_type": "专题页",
+      "publish_time": "10:00",
+      "status": "草稿",
+      "owner": "市场运营",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2056",
+      "date": "2026-10-13",
+      "channel": "小红书",
+      "title": "双11 种草笔记合集",
+      "content_type": "图文",
+      "publish_time": "12:00",
+      "status": "草稿",
+      "owner": "内容组",
+      "pii_check": "已脱敏"
+    },
+    {
+      "content_id": "CT-2057",
+      "date": "2026-10-14",
+      "channel": "知乎",
+      "title": "双11 选型指南问答",
+      "content_type": "图文",
+      "publish_time": "15:00",
+      "status": "待审核",
+      "owner": "内容组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2058",
+      "date": "2026-10-15",
+      "channel": "公众号",
+      "title": "行业报告解读",
+      "content_type": "图文",
+      "publish_time": "10:00",
+      "status": "已排期",
+      "owner": "内容组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2059",
+      "date": "2026-10-16",
+      "channel": "抖音",
+      "title": "双11 预热短视频",
+      "content_type": "短视频",
+      "publish_time": "19:00",
+      "status": "草稿",
+      "owner": "视频组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2060",
+      "date": "2026-10-16",
+      "channel": "小红书",
+      "title": "达人合作笔记投放",
+      "content_type": "图文",
+      "publish_time": "12:00",
+      "status": "草稿",
+      "owner": "内容组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2061",
+      "date": "2026-10-16",
+      "channel": "小红书",
+      "title": "用户 UGC 合集",
+      "content_type": "图文",
+      "publish_time": "12:00",
+      "status": "草稿",
+      "owner": "内容组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2062",
+      "date": "2026-10-17",
+      "channel": "视频号",
+      "title": "产品直播答疑",
+      "content_type": "直播",
+      "publish_time": "20:00",
+      "status": "待审核",
+      "owner": "活动组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2063",
+      "date": "2026-10-18",
+      "channel": "视频号",
+      "title": "直播预告",
+      "content_type": "短视频",
+      "publish_time": "20:00",
+      "status": "待审核",
+      "owner": "活动组",
+      "pii_check": "无PII"
+    },
+    {
+      "content_id": "CT-2064",
+      "date": "2026-10-18",
+      "channel": "视频号",
+      "title": "产品功能短剧",
+      "content_type": "短视频",
+      "publish_time": "20:30",
+      "status": "草稿",
+      "owner": "视频组",
+      "pii_check": "无PII"
+    }
+  ],
+  "blocked_items": [
+    {
+      "content_id": "CT-2053",
+      "date": "2026-10-09",
+      "channel": "知乎",
+      "title": "Q4 白皮书要点拆解",
+      "status": "已驳回",
+      "reason": "审核未通过，需内容组返工后重新提交，不进入本次发布审批"
+    },
+    {
+      "content_id": "CT-2054",
+      "date": "2026-10-10",
+      "channel": "抖音",
+      "title": "客户案例短视频 ×3",
+      "status": "待审核",
+      "reason": "含客户 PII 素材，pii_check=待脱敏，必须先完成 redact 方可提交发布审批"
+    }
+  ],
+  "market_context": {
+    "ad_spend_current_week": "2026-W40",
+    "ad_spend_total_wan": 34.0,
+    "approved_budget_total_wan": 37.5,
+    "budget_utilization": "90.7%",
+    "avg_ctr": "2.03%",
+    "top_ctr_channels": ["小红书 3.0%", "百度SEM 3.0%", "抖音 2.0%"],
+    "leads_total": 20,
+    "leads_valid": 18,
+    "leads_invalid": 2,
+    "leads_pipeline_value_wan": 259.0,
+    "content_page_leads": [
+      {"lead_id": "LEAD-2117", "channel": "公众号", "note": "白皮书下载页留资", "est_value_wan": 8.0},
+      {"lead_id": "LEAD-2120", "channel": "公众号", "note": "双11 活动页留资", "est_value_wan": 15.0}
+    ]
+  },
+  "acceptance": {
+    "rule": "含 PII 的素材必须 redact 后才可发布",
+    "compliant": false,
+    "gate": "发布前置门禁：CT-2054 完成脱敏并由内容组复核通过后，方可放行 publish_at=2026-10-10T19:00:00+08:00"
+  }
+}

@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: trn.course-schedule@1.0.0
+domain: trn
+description: "排期（讲师/场地冲突检测）"
+trigger:
+  type: command
+  expr: course-schedule
+nodes:
+  - id: n1
+    type: skill
+    ref: course-schedule
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "排期（讲师/场地冲突检测）：输入参数 + 结果快照"
+deliverable:
+  file: course-schedule-<ts>.json
+  format: json
+  fields:
+    - course
+    - date
+    - trainer
+    - room
+  acceptance: "冲突自动标红并建议备选"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-course-schedule

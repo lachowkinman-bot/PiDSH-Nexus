@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: sales.target-split@1.0.0
+domain: sales
+description: "销售目标分解（区→人）"
+trigger:
+  type: command
+  expr: target-split
+nodes:
+  - id: n1
+    type: skill
+    ref: quota-dashboard
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "销售目标分解（区→人）：输入参数 + 结果快照"
+deliverable:
+  file: target-split-<ts>.json
+  format: json
+  fields:
+    - region
+    - owner_masked
+    - target_wan
+    - quarter
+  acceptance: "合计必须等于区目标"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-target-split

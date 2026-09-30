@@ -1,0 +1,57 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: strat.quarterly-review@1.0.0
+domain: STRAT
+industry_overlay: null            # 首批 0 个；后续按 P1-4 只扩 1 个行业试点
+required_capabilities:
+  - cap.excel.panel
+  - cap.approval.multi
+  - cap.redact.all
+data_assets:
+  - name: okr_master.xlsx
+    level: L2
+    pii_fields: []
+  - name: comp-review-merged.xlsx
+    level: L4
+    pii_fields: [salary_merged]
+skills: [strategy-decode, biz-analysis, competitor-watch]
+workflows: [workflows/strat.review-approve.yaml, workflows/strat.weekly-report.yaml]
+policies:
+  permission:
+    min_level: L4
+    dual_approval: true
+  redact:
+    fields: [salary_merged, ma_terms]
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: [seeds/strat/README.md]
+golden_tasks:
+  - id: GT-STRAT-01
+    input: "把 2026 年度战略拆解为 Q4 季度 KR 并生成追踪表"
+    expected_plan: "见 docs/preset-design/strat.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/strat/gt-01.md
+    expected_files: [data/strat/okr_master.xlsx, data/strat/comp-review-merged.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-STRAT-02
+    input: "汇总本月经营周报并给出三大异动归因"
+    expected_plan: "见 docs/preset-design/strat.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/strat/gt-02.md
+    expected_files: [data/strat/okr_master.xlsx, data/strat/comp-review-merged.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+  - id: GT-STRAT-03
+    input: "生成竞品季度动态脱敏摘要（禁含未公开财务）"
+    expected_plan: "见 docs/preset-design/strat.md 任务分解"
+    expected_tools: [cap.excel.panel, cap.approval.multi]
+    expected_permission: "L4+双审批"
+    expected_output: reports/strat/gt-03.md
+    expected_files: [data/strat/okr_master.xlsx, data/strat/comp-review-merged.xlsx]
+    expected_audit: "读/算/写审计事件 + 双审批记录"
+    expected_quality: "结论可溯源到 sheet/row 级证据"
+# 特殊约束：合并薪酬盘点数据仅在 L4 命名空间；竞品检索走脱敏摘要。

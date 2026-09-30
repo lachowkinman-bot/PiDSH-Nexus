@@ -1,0 +1,991 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "comp",
+ "label": "薪酬 COMP",
+ "scene_ids": [
+  "comp.salary-review@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": true,
+ "redact_fields": [
+  "salary",
+  "bank_account",
+  "id_number"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.410Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/comp.salary-review.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/comp/",
+  "doc": "docs/preset-design/comp.md"
+ },
+ "tables": [
+  {
+   "file": "adjust_queue.csv",
+   "rows": 16,
+   "columns": [
+    "employee_masked",
+    "current_band",
+    "proposed_band",
+    "reason",
+    "status",
+    "approvals",
+    "current_salary_range_wan",
+    "proposed_salary_range_wan",
+    "adjust_pct_range",
+    "effective_month",
+    "batch"
+   ],
+   "pii_likely": [
+    "employee_masked"
+   ]
+  },
+  {
+   "file": "bands.csv",
+   "rows": 12,
+   "columns": [
+    "band",
+    "p25_wan",
+    "p50_wan",
+    "p75_wan",
+    "zone"
+   ],
+   "pii_likely": []
+  }
+ ],
+ "skills": [
+  {
+   "name": "band-analysis",
+   "file": "templates/skills-domain/comp/SKILL-band-analysis.md"
+  },
+  {
+   "name": "payroll-recon",
+   "file": "templates/skills-domain/comp/SKILL-payroll-recon.md"
+  },
+  {
+   "name": "compa-ratio",
+   "file": "templates/skills-domain/comp/SKILL-compa-ratio.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "comp.salary-adjust@1.0.0",
+   "kind": "approve",
+   "description": "调薪审批（双审批 + redact_gate）",
+   "skill": "band-analysis",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "band-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "调薪审批（双审批 + redact_gate） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "调薪审批（双审批 + redact_gate）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "salary-adjust-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "band_from",
+     "band_to",
+     "approvals"
+    ],
+    "acceptance": "个体薪酬只出区间；redact_gate 强制"
+   }
+  },
+  {
+   "id": "comp.band-report@1.0.0",
+   "kind": "report",
+   "description": "带宽偏离报告（区间口径）",
+   "skill": "band-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "band-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "带宽偏离报告（区间口径）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "band-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "band",
+     "headcount",
+     "above_p75",
+     "below_p25"
+    ],
+    "acceptance": "不出现任何个体原值"
+   }
+  },
+  {
+   "id": "comp.payroll-recon@1.0.0",
+   "kind": "report",
+   "description": "payroll 对账（应发 vs 实发）",
+   "skill": "payroll-recon",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "payroll-recon"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "payroll 对账（应发 vs 实发）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "payroll-recon-<ts>.json",
+    "format": "json",
+    "fields": [
+     "period",
+     "headcount",
+     "gross_diff",
+     "items"
+    ],
+    "acceptance": "差异 >0.5% 逐项列出"
+   }
+  },
+  {
+   "id": "comp.compa-ratio@1.0.0",
+   "kind": "report",
+   "description": "CR 指数报告（人/带宽）",
+   "skill": "compa-ratio",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "compa-ratio"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "CR 指数报告（人/带宽）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "compa-ratio-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "band",
+     "cr",
+     "zone"
+    ],
+    "acceptance": "CR 仅区间展示（0.8–1.2 分档）"
+   }
+  },
+  {
+   "id": "comp.queue-approve@1.0.0",
+   "kind": "approve",
+   "description": "调薪队列批量审批（HRD+CFO）",
+   "skill": "compa-ratio",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "compa-ratio"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "调薪队列批量审批（HRD+CFO） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "调薪队列批量审批（HRD+CFO）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "queue-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "batch",
+     "items",
+     "total_impact_wan",
+     "approvals"
+    ],
+    "acceptance": "批量影响 >50 万/年 加签 CEO"
+   }
+  },
+  {
+   "id": "comp.cost-projection@1.0.0",
+   "kind": "calc",
+   "description": "调薪包成本测算（区间口径）",
+   "skill": "payroll-recon",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "payroll-recon"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "调薪包成本测算（区间口径）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "cost-projection-<ts>.json",
+    "format": "json",
+    "fields": [
+     "scenario",
+     "pct",
+     "cost_impact_wan",
+     "note"
+    ],
+    "acceptance": "测算不含个体原值"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-COMP-01",
+   "input": "分析调薪提案与带宽偏离并生成报告",
+   "expected_output": "reports/comp/gt-01.md",
+   "skill": null,
+   "scene": "comp.salary-review@1.0.0"
+  },
+  {
+   "id": "GT-COMP-02",
+   "input": "payroll 与发放明细对账出差异表",
+   "expected_output": "reports/comp/gt-02.md",
+   "skill": null,
+   "scene": "comp.salary-review@1.0.0"
+  },
+  {
+   "id": "GT-COMP-03",
+   "input": "输出 CR 比率分布（区间口径）",
+   "expected_output": "reports/comp/gt-03.md",
+   "skill": null,
+   "scene": "comp.salary-review@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/comp",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/comp/t/adjust_queue",
+   "type": "table",
+   "title": "adjust_queue.csv",
+   "table": "adjust_queue",
+   "file": "adjust_queue.csv"
+  },
+  {
+   "route": "#/comp/t/bands",
+   "type": "table",
+   "title": "bands.csv",
+   "table": "bands",
+   "file": "bands.csv"
+  },
+  {
+   "route": "#/comp/w/salary-adjust",
+   "type": "workflow",
+   "title": "调薪审批（双审批 + redact_gate）",
+   "workflow": "comp.salary-adjust@1.0.0"
+  },
+  {
+   "route": "#/comp/w/band-report",
+   "type": "workflow",
+   "title": "带宽偏离报告（区间口径）",
+   "workflow": "comp.band-report@1.0.0"
+  },
+  {
+   "route": "#/comp/w/payroll-recon",
+   "type": "workflow",
+   "title": "payroll 对账（应发 vs 实发）",
+   "workflow": "comp.payroll-recon@1.0.0"
+  },
+  {
+   "route": "#/comp/w/compa-ratio",
+   "type": "workflow",
+   "title": "CR 指数报告（人/带宽）",
+   "workflow": "comp.compa-ratio@1.0.0"
+  },
+  {
+   "route": "#/comp/w/queue-approve",
+   "type": "workflow",
+   "title": "调薪队列批量审批（HRD+CFO）",
+   "workflow": "comp.queue-approve@1.0.0"
+  },
+  {
+   "route": "#/comp/w/cost-projection",
+   "type": "workflow",
+   "title": "调薪包成本测算（区间口径）",
+   "workflow": "comp.cost-projection@1.0.0"
+  },
+  {
+   "route": "#/comp/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": ".1 字段级数据字典",
+   "blocks": [
+    {
+     "heading": "1.1.1 `bands.csv`（12 行）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "`band`",
+         "string",
+         "是",
+         "职级代码，枚举 P1-P9 / M1-M3（对齐参照 §3.2.19 的 `level`）"
+        ],
+        [
+         "`p25_wan`",
+         "number",
+         "是",
+         "带宽下限量（分位 P25），单位：万元/年。对应参照 §3.2.19 的 `min`"
+        ],
+        [
+         "`p50_wan`",
+         "number",
+         "是",
+         "带宽中位（P50），CR/调薪校验基准。对应参照的 `mid`"
+        ],
+        [
+         "`p75_wan`",
+         "number",
+         "是",
+         "带宽上限（P75）。对应参照的 `max`"
+        ],
+        [
+         "`zone`",
+         "string",
+         "是",
+         "带宽族：`基准`（P 系专业带）/`管理带`（M 系）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "1.1.2 `adjust_queue.csv`（16 行）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "`employee_masked`",
+         "string",
+         "是",
+         "员工掩码 ID（`EMP-****NN`）。**禁原值**；与 prf/ben 域同 ID 保持跨域可对齐"
+        ],
+        [
+         "`current_band`",
+         "string",
+         "是",
+         "调薪前职级，外键 → `bands.band`"
+        ],
+        [
+         "`proposed_band`",
+         "string",
+         "是",
+         "调薪后职级，外键 → `bands.band`"
+        ],
+        [
+         "`reason`",
+         "string",
+         "是",
+         "事由：晋升 / 绩效调薪 / 普调 / 特别调薪 / 超带宽校准 / 异动调薪 / 转正调薪（对齐参照 §3.2.20 的 `type`）"
+        ],
+        [
+         "`status`",
+         "enum",
+         "是",
+         "调薪单状态：`草稿`/`待审批`/`已通过`/`已生效`/`已驳回`（§4.1）"
+        ],
+        [
+         "`approvals`",
+         "string",
+         "是",
+         "双审批进度：`HRD✓/CFO✓`、`HRD✓/CFO待`、`HRD待/CFO待`、`HRD✗/CFO待`；草稿为 `-`"
+        ],
+        [
+         "`current_salary_range_wan`",
+         "string",
+         "是",
+         "调整前薪资**区间**（`a~b`，万元/年，宽度 ≥4）。禁单值"
+        ],
+        [
+         "`proposed_salary_range_wan`",
+         "string",
+         "是",
+         "调整后薪资**区间**（同上）。带宽越界校验的直接依据（§9.1）"
+        ],
+        [
+         "`adjust_pct_range`",
+         "string",
+         "是",
+         "申报调薪幅度区间（`a%~b%`，可为负）。与区间中点幅度须自洽（§9.3）"
+        ],
+        [
+         "`effective_month`",
+         "string",
+         "是",
+         "生效月 `YYYY-MM`；草稿/驳回为 `-`"
+        ],
+        [
+         "`batch`",
+         "string",
+         "是",
+         "审批批次号 `BATCH-<年><季>-<序号>`，`comp.queue-approve` 的聚合单位"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "参照实体/字段",
+        "本域落地",
+        "口径差异"
+       ],
+       "rows": [
+        [
+         "`salaryGrades.level / min / mid / max`",
+         "`bands.band / p25_wan / p50_wan / p75_wan`",
+         "分位命名（P25/P50/P75）替代 min/mid/max，语义等价"
+        ],
+        [
+         "`adjustments.empId / type / before / after / pct / reason / status / effectiveDate / approver`",
+         "`adjust_queue.employee_masked / reason / current_salary_range_wan / proposed_salary_range_wan / adjust_pct_range / reason / status / effective_month / approvals`",
+         "`before/after` 降级为**区间**；`effectiveDate` 降级为**月粒度**；`approver` 升为双审批进度串"
+        ],
+        [
+         "`payrollRuns.items{social,fund,tax,gross,net}`",
+         "不落盘（仅 reports/ 区间口径输出）",
+         "个体金额禁止入表（§9.2）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/comp.md#§1"
+  },
+  "4": {
+   "title": ". 状态机",
+   "blocks": [
+    {
+     "heading": "4.1 调薪单（ADJ_STATUS，对齐参照 §3.3）",
+     "tables": [
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "守卫",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "`草稿 → 待审批`",
+         "HR 提交 / 晋升流程联动创建后提交",
+         "提案区间不越界，或越界但附特批依据（§9.1）",
+         "`status` 变更 + `batch` 赋予 + audit 事件"
+        ],
+        [
+         "`待审批 → 已通过`",
+         "双审批齐备：`HRD✓` 且 `CFO✓`",
+         "L4 + dual 不可绕过；批内影响 >50 万/年 须加签 CEO",
+         "`approvals` 串 + 审批人 + 依据数据版本"
+        ],
+        [
+         "`已通过 → 已生效`",
+         "到达 `effective_month` 且被下期薪酬核算引用",
+         "生效月不得早于当前核算周期",
+         "`effective_month` + payroll 引用记录"
+        ],
+        [
+         "`待审批 → 已驳回`",
+         "任一审批人 `✗`，或带宽越界未获特批",
+         "驳回须记录原因",
+         "`approvals`（HRD✗/CFO待）+ audit"
+        ],
+        [
+         "回滚",
+         "交付物/落盘异常",
+         "savepoint 回退",
+         "`pre-salary-adjust` / `pre-queue-approve` 快照"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 薪酬核算（PAY_STATUS，对齐参照 §3.3）",
+     "tables": [
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "守卫",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "`草稿 → 待审批`",
+         "月度核算 run 完成、社保/公积金/个税自动算毕",
+         "逐人勾稽 `gross = net + social + fund + tax`（§9.4）",
+         "核算 run 版本 + 公式快照"
+        ],
+        [
+         "`待审批 → 已发放`",
+         "双审批通过且过发放日",
+         "L4 + dual；发放前 `redact_gate` 复核",
+         "审批人 + 发放批次 + 产物哈希"
+        ],
+        [
+         "`待审批 → 已驳回`",
+         "对账差异 >0.5% 未澄清 / 审批 ✗",
+         "差异项逐项列出",
+         "`payroll-recon.items` + audit"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/comp.md#§4"
+  },
+  "5": {
+   "title": ". 审批链",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "事项",
+        "节点",
+        "角色",
+        "级别",
+        "双审批",
+        "说明"
+       ],
+       "rows": [
+        [
+         "单人调薪（`comp.salary-adjust`）",
+         "n2 条件 → n3 审批",
+         "① HRD ② CFO",
+         "L4",
+         "是（`dual: true`）",
+         "两个审批节点串行；任一人 ✗ 即 `已驳回`；审批件只载区间（`band_from/band_to` + 区间字段）"
+        ],
+        [
+         "调薪队列批量（`comp.queue-approve`）",
+         "n2 条件 → n3 审批",
+         "① HRD ② CFO（③ CEO 条件加签）",
+         "L4",
+         "是",
+         "批量影响 >50 万/年 加签 CEO；`total_impact_wan` 为区间测算值"
+        ],
+        [
+         "薪酬核算/发放",
+         "核算 run 审批链",
+         "① HR 复核 ② 财务/CFO",
+         "L4",
+         "是",
+         "与 §4.2 状态机绑定；发放前 redact_gate 复核"
+        ],
+        [
+         "季度关账调薪包（`strat.quarter-close` 联动）",
+         "跨域审批",
+         "HRD + CFO",
+         "L4",
+         "是",
+         "调薪包触发 COMP 域双审批联动（`comp_package_flag`）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**提案层**：进入审批队列的每条提案，薪资只以 `current_salary_range_wan` / `proposed_salary_range_wan` / `adjust_pct_range` 形式存在；无单值薪资字段可传。",
+      "**审批层**：审批人看到的是「职级带宽（p25/p50/p75）+ 提案区间 + 越界标记 + 批内影响区间」；越界提案必须在此节点留特批依据，否则不得置 `已通过`。",
+      "**闸门层**：`redact_gate` 在 n2 条件之前**物理前置**——未脱敏内容不进入审批载荷，更不出域；这是 scene 的特殊约束（\"个体薪酬永不越过闸门流向公网/外部工具\"）。",
+      "**留痕层**：audit 只记录 审批人 + 依据数据版本 + 产物哈希，不落个体金额。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/comp.md#§5"
+  },
+  "9": {
+   "title": ". 校验规则",
+   "blocks": [
+    {
+     "heading": "9.1 带宽上下限校验",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定式",
+        "动作"
+       ],
+       "rows": [
+        [
+         "区间合法性",
+         "`p25_wan < p50_wan < p75_wan`（bands 每行）",
+         "违例即数据不可用"
+        ],
+        [
+         "提案越界（超上限）",
+         "`max(proposed_salary_range_wan) > bands[proposed_band].p75_wan`",
+         "标记\"越界·超上限\"；强制双审批 + 特批依据，否则 `已驳回`"
+        ],
+        [
+         "提案越界（低于下限）",
+         "`min(proposed_salary_range_wan) < bands[proposed_band].p25_wan`",
+         "标记\"越界·低于下限\"；同上"
+        ],
+        [
+         "在带内",
+         "`p25 ≤ min ≤ max ≤ p75`",
+         "常规双审批路径"
+        ],
+        [
+         "职级外键",
+         "`current_band`、`proposed_band` ∈ `bands.band`",
+         "悬空即校验失败"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "记录",
+        "目标带宽 `p25/p50/p75`",
+        "提案区间（万元/年）",
+        "判定"
+       ],
+       "rows": [
+        [
+         "`EMP-****51`",
+         "P4 = 28/36/46",
+         "48~54",
+         "**越界·超上限**（48 > 46，整段在带外）"
+        ],
+        [
+         "`EMP-****88`",
+         "P6 = 60/80/105",
+         "58~68",
+         "**越界·低于下限**（58 < 60）"
+        ],
+        [
+         "`EMP-****46`",
+         "P5 = 42/55/70",
+         "66~76",
+         "**越界·超上限**（76 > 70）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.2 区间口径（禁止个体明文）",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定",
+        "动作"
+       ],
+       "rows": [
+        [
+         "区间格式",
+         "薪资字段匹配 `^\\d+(\\.\\d+)?~\\d+(\\.\\d+)?$`，幅度字段匹配 `^-?\\d+%~-?\\d+%$`",
+         "不符即 DENY"
+        ],
+        [
+         "最小宽度",
+         "薪资区间宽度 ≥ 4（万元/年）；幅度区间跨度 ≥ 3 个百分点",
+         "过窄视为可还原个体 → `redact_gate` 拦截"
+        ],
+        [
+         "单值禁令",
+         "reports/、交付物、审批件、审计记录中不得出现可还原到个体的单值薪资",
+         "一票否决（对齐 `rec.resume-forward` 的\"未脱敏外发 = 一票否决\"强度）"
+        ],
+        [
+         "输出白名单",
+         "允许：带宽值、区间、分档（CR zone）、聚合数（headcount/above_p75/below_p25/cost_impact_wan）",
+         "—"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.3 调薪幅度上限",
+     "tables": [
+      {
+       "header": [
+        "事由",
+        "幅度上限（区间上沿）",
+        "超限动作"
+       ],
+       "rows": [
+        [
+         "普调",
+         "≤10%",
+         "强制升级审批"
+        ],
+        [
+         "绩效调薪",
+         "≤15%",
+         "强制升级审批"
+        ],
+        [
+         "特别调薪（关键保留）",
+         "≤20%",
+         "强制升级审批"
+        ],
+        [
+         "转正调薪",
+         "≤15%",
+         "强制升级审批"
+        ],
+        [
+         "异动调薪（调岗）",
+         "≤45%",
+         "加签 CEO"
+        ],
+        [
+         "晋升调薪（含跨级）",
+         "≤55%",
+         "加签 CEO"
+        ],
+        [
+         "超带宽校准（含下调）",
+         "绝对值 ≤20%",
+         "必须双审批 + 特批依据"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "CSV `reason` 取值",
+        "校验类别"
+       ],
+       "rows": [
+        [
+         "晋升答辩通过 / 管理岗晋升 / 储备干部晋升 / 总监晋任",
+         "晋升调薪"
+        ],
+        [
+         "绩效调薪（A 等）/ 绩效调薪（B 等）",
+         "绩效调薪"
+        ],
+        [
+         "普调（年度）/ 带宽内调薪",
+         "普调"
+        ],
+        [
+         "特别调薪（关键保留）/ 特别调薪（补贴并入）/ 关键人才保留 / 长期激励校准",
+         "特别调薪"
+        ],
+        [
+         "异动-调岗至平台组",
+         "异动调薪"
+        ],
+        [
+         "超带宽校准 / 超带宽校准（低于下限）",
+         "超带宽校准"
+        ],
+        [
+         "转正调薪",
+         "转正调薪"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.4 社保/公积金/个税计算口径与公式",
+     "tables": [
+      {
+       "header": [
+        "项",
+        "公式",
+        "说明"
+       ],
+       "rows": [
+        [
+         "应发 `gross`",
+         "`基本 + 岗位 + 绩效 + 补贴 (+加班费 − 缺勤扣)`",
+         "定薪四件套（参照 §3.2.18 定薪）"
+        ],
+        [
+         "社保 `social`",
+         "`基薪 × 10.5%`",
+         "PRD E2：社保（基薪 10.5%）"
+        ],
+        [
+         "公积金 `fund`",
+         "`基薪 × 7%`",
+         "PRD E2：公积金（7%）"
+        ],
+        [
+         "应纳税所得额",
+         "`gross − social − fund − 起征点(5000/月) − 专项附加扣除`",
+         "累计预扣法口径"
+        ],
+        [
+         "个税 `tax`",
+         "累计预扣：`(累计应纳税所得额 × 预扣率 − 速算扣除数) − 已预扣税额`",
+         "分级累进"
+        ],
+        [
+         "实发 `net`",
+         "`gross − social − fund − tax`",
+         "—"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.5 其他数据级校验",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "说明"
+       ],
+       "rows": [
+        [
+         "状态-审批一致",
+         "`status=已通过/已生效` ⇒ `approvals` 必须含 `HRD✓` 且 `CFO✓`；`status=草稿` ⇒ `approvals=-`"
+        ],
+        [
+         "生效月一致",
+         "`status=已生效` ⇒ `effective_month` ≤ 当前核算月；`已通过` ⇒ 可为未来月"
+        ],
+        [
+         "批次一致性",
+         "同一 `batch` 内不得混用不同 `zone` 的职级族之外语义；`queue-approve` 聚合按 `batch` 分组"
+        ],
+        [
+         "跨域 ID 可对齐",
+         "`employee_masked` 与 prf/ben 域同名 ID 可直接关联（不含原值）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/comp.md#§9"
+  }
+ },
+ "gaps": []
+}

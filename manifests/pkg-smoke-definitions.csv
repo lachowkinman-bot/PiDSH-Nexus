@@ -1,0 +1,25 @@
+pkg,kind,l3_invocation,ui_entry
+@deepseek-ai/dsh,engine,dsh --version 且>=0.1.2,no
+pi2dsh,bridge,重启 dsh 后 Pi 命令列表出现,no
+dsh-better-sidebar,ui,硬刷新后侧边栏出现且文件树展开,yes
+dsh-plugin,ui,插件中心打开且可搜索,yes
+pi-hermes-memory,memory,跨会话偏好召回,no
+pi-approval-guardian,approval,越界写拦截并停问,no
+pi-redact-all,security,文件读取输出 REDACTED,no
+pi-mcp-adapter,connector,MCP server 连接+工具列出,no
+dsh-excel-panel,ui,真实 xlsx 打开且公式可见,yes
+dsh-docs-panel,ui,Docs 标签打开,yes
+@rmrdeveloper/sideroom-pi,ui-hitl,todo 看板出现+澄清对话框,yes
+pi-stats-footer,observability,页脚状态行 token 非空,yes
+dsh-undo-savepoint,recovery,快照回退演练,no
+@tintinweb/pi-subagents,orchestration,并行任务双结果汇总,no
+pi-dag-core,orchestration,DAG 依赖顺序执行,no
+graph-memory,knowledge,种子注入后召回≥80%,no
+@mutmutco/pi-plugin,approval-multi,低风险自动过/高风险二确,no
+pi-deepseek-search,research,搜索返回结果（L3/L4 禁送）,no
+pi-queue-steer-factory,observability,队列显示三态,no
+pi-loop-mode,autonomy,命令可用即可（默认禁用）,no
+@anionex/dsh-vision-toolkit,ocr,图片识别返回文字,no
+@ychris12138/dsh-usage-stats,cost,用量面板数据非空,no
+@changfenhuang/dsh-annotation,review,选中文字可批注,no
+dsh-network-settings,network,诊断面板打开（1.0 boot 崩溃-缺陷台账）,yes

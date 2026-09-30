@@ -1,0 +1,167 @@
+{
+  "task_id": "GT-BEN-03",
+  "scenario": "ben.plan-compare@1.0.0",
+  "skill": "flex-benefit",
+  "workflow": "ben.points-calc@1.0.0",
+  "generated_at": "2026-09-29T06:50:15.615Z",
+  "plan_year": 2026,
+  "points_unit": "弹性福利积分（1 分 = 1 元权益额度）",
+  "negative_remaining_policy": "拦截：remaining < 0 的模拟不予通过，不生成可用福利配置",
+  "employee_masked": "EMP-****88",
+  "dept_masked": "财务部",
+  "points_total": 1600,
+  "selected": [
+    {
+      "plan_id": "BEN-P01",
+      "plan": "升级商保(家属)",
+      "points": 1200,
+      "state": "已申请(2026-02 提交,未核销)",
+      "category": "商业保险",
+      "tier": "升级"
+    },
+    {
+      "plan_id": "BEN-P02",
+      "plan": "高端体检套餐",
+      "points": 900,
+      "state": "模拟加选",
+      "category": "健康体检",
+      "tier": "升级"
+    }
+  ],
+  "points_used_committed": 1200,
+  "selected_points_total": 2100,
+  "remaining": -500,
+  "intercepted": true,
+  "block_reason": "已占用 1200 分 + 拟选 900 分 = 2100 分，超过年度额度 1600 分，剩余 -500 分，触发负分拦截，本次模拟不通过。",
+  "simulations": [
+    {
+      "sim_id": "SIM-01",
+      "employee_masked": "EMP-****88",
+      "dept_masked": "财务部",
+      "points_total": 1600,
+      "committed_points": 1200,
+      "selected": [
+        { "plan_id": "BEN-P01", "plan": "升级商保(家属)", "points": 1200, "state": "已申请" },
+        { "plan_id": "BEN-P02", "plan": "高端体检套餐", "points": 900, "state": "模拟加选" }
+      ],
+      "selected_points_total": 2100,
+      "remaining": -500,
+      "intercepted": true,
+      "verdict": "拦截",
+      "reason": "超出年度额度 500 分"
+    },
+    {
+      "sim_id": "SIM-02",
+      "employee_masked": "EMP-****88",
+      "dept_masked": "财务部",
+      "points_total": 1600,
+      "committed_points": 1200,
+      "selected": [
+        { "plan_id": "BEN-P01", "plan": "升级商保(家属)", "points": 1200, "state": "已申请" },
+        { "plan_id": "BEN-P07", "plan": "基础体检套餐", "points": 400, "state": "模拟加选" }
+      ],
+      "selected_points_total": 1600,
+      "remaining": 0,
+      "intercepted": false,
+      "verdict": "通过",
+      "reason": "用尽额度，剩余 0 分，边界合法"
+    },
+    {
+      "sim_id": "SIM-03",
+      "employee_masked": "EMP-****88",
+      "dept_masked": "财务部",
+      "points_total": 1600,
+      "committed_points": 1200,
+      "selected": [
+        { "plan_id": "BEN-P01", "plan": "升级商保(家属)", "points": 1200, "state": "已申请" },
+        { "plan_id": "BEN-P09", "plan": "意外险(全年)", "points": 200, "state": "模拟加选" }
+      ],
+      "selected_points_total": 1400,
+      "remaining": 200,
+      "intercepted": false,
+      "verdict": "通过",
+      "reason": "额度内，剩余 200 分"
+    },
+    {
+      "sim_id": "SIM-04",
+      "employee_masked": "EMP-****88",
+      "dept_masked": "财务部",
+      "points_total": 1600,
+      "committed_points": 1200,
+      "selected": [
+        { "plan_id": "BEN-P01", "plan": "升级商保(家属)", "points": 1200, "state": "已申请" },
+        { "plan_id": "BEN-P08", "plan": "尊享体检套餐(含家属)", "points": 1500, "state": "模拟加选" }
+      ],
+      "selected_points_total": 2700,
+      "remaining": -1100,
+      "intercepted": true,
+      "verdict": "拦截",
+      "reason": "超出年度额度 1100 分；该套餐仍在比选中(未采纳)，亦不可直接配置"
+    },
+    {
+      "sim_id": "SIM-05",
+      "employee_masked": "EMP-****07",
+      "dept_masked": "市场部",
+      "points_total": 600,
+      "committed_points": 300,
+      "selected": [
+        { "plan_id": "BEN-P03", "plan": "弹性健身", "points": 300, "state": "已申请(部分额度)" },
+        { "plan_id": "BEN-P04", "plan": "EAP心理支持", "points": 300, "state": "模拟加选" }
+      ],
+      "selected_points_total": 600,
+      "remaining": 0,
+      "intercepted": false,
+      "verdict": "通过",
+      "reason": "额度内刚好用尽，无负分"
+    },
+    {
+      "sim_id": "SIM-06",
+      "employee_masked": "EMP-****61",
+      "dept_masked": "财务部",
+      "points_total": 200,
+      "committed_points": 150,
+      "selected": [
+        { "plan_id": "BEN-P09", "plan": "意外险(全年)", "points": 150, "state": "已申请(部分额度)" },
+        { "plan_id": "BEN-P11", "plan": "心理咨询加购包", "points": 450, "state": "模拟加选" }
+      ],
+      "selected_points_total": 600,
+      "remaining": -400,
+      "intercepted": true,
+      "verdict": "拦截",
+      "reason": "超出年度额度 400 分；该加购包仍在比选中(未采纳)"
+    },
+    {
+      "sim_id": "SIM-07",
+      "employee_masked": "EMP-****44",
+      "dept_masked": "行政部",
+      "points_total": 900,
+      "committed_points": 0,
+      "selected": [
+        { "plan_id": "BEN-P02", "plan": "高端体检套餐", "points": 900, "state": "已驳回(占用已释放)" }
+      ],
+      "selected_points_total": 900,
+      "remaining": 0,
+      "intercepted": false,
+      "verdict": "通过",
+      "reason": "驳回申请不占用积分，剩余 900 分可重新配置（需重新提单）"
+    }
+  ],
+  "data_sources": [
+    "templates/workspace/data/ben/plans.csv",
+    "templates/workspace/data/ben/usage.csv",
+    "templates/workspace/data/ben/checkup_distribution.csv"
+  ],
+  "data_quality_notes": [
+    "usage.csv 中 points_used 为已占用积分，points_total 为该员工年度积分额度；剩余 = points_total - points_used。",
+    "EMP-****07 选用 BEN-P03(年度 600 分) 但仅占用 300 分，属部分额度使用，测算按实际占用 300 分计。",
+    "EMP-****61 选用 BEN-P09(年度 200 分) 但仅占用 150 分，测算按实际占用 150 分计。",
+    "EMP-****44 状态为已驳回，该记录占用积分按 0 计，额度 900 分可释放。",
+    "比选中/草稿方案（BEN-P06/P08/P10/P11/P14）尚未采纳，仅作模拟对比，不可用于正式配置。",
+    "checkup_distribution.csv 中 50岁以上-骨密度 suppression_flag=suppressed(n<5)，异常率不出分，测算不引用该分母。"
+  ],
+  "compliance": {
+    "masking": "员工号、理赔号、供应商均以 **** 掩码呈现，明细不含可识别个人信息",
+    "approval": "负分模拟一律拦截，通过结论需由福利管理员在积分额度内人工确认后生效",
+    "intersection": "积分测算不得与体检异常率明细做个人级反推，体检数据仅用于群体方案推荐"
+  }
+}

@@ -1,0 +1,1116 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "ben",
+ "label": "福利 BEN",
+ "scene_ids": [
+  "ben.plan-compare@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": false,
+ "redact_fields": [
+  "health_data",
+  "insurance_id"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.407Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/ben.plan-compare.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/ben/",
+  "doc": "docs/preset-design/ben.md"
+ },
+ "tables": [
+  {
+   "file": "checkup_distribution.csv",
+   "rows": 16,
+   "columns": [
+    "year",
+    "age_band",
+    "item_category",
+    "examined_count",
+    "abnormal_count",
+    "abnormal_rate_pct",
+    "suppression_flag",
+    "note"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "plans.csv",
+   "rows": 14,
+   "columns": [
+    "plan",
+    "points_per_year",
+    "covers",
+    "provider_masked",
+    "plan_id",
+    "category",
+    "tier",
+    "comparison_group",
+    "eligible_group",
+    "cost_per_person_yuan",
+    "enrolled_count",
+    "satisfaction_score",
+    "status",
+    "effective_year"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "usage.csv",
+   "rows": 14,
+   "columns": [
+    "employee_masked",
+    "points_used",
+    "plan",
+    "remaining",
+    "usage_id",
+    "plan_id",
+    "dept_masked",
+    "status",
+    "applied_month",
+    "settled_month",
+    "points_total",
+    "claim_masked",
+    "claim_type",
+    "claim_days",
+    "claim_amount_range_yuan"
+   ],
+   "pii_likely": [
+    "employee_masked",
+    "claim_masked"
+   ]
+  }
+ ],
+ "skills": [
+  {
+   "name": "plan-compare",
+   "file": "templates/skills-domain/ben/SKILL-plan-compare.md"
+  },
+  {
+   "name": "checkup-report",
+   "file": "templates/skills-domain/ben/SKILL-checkup-report.md"
+  },
+  {
+   "name": "flex-benefit",
+   "file": "templates/skills-domain/ben/SKILL-flex-benefit.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "ben.vendor-compare@1.0.0",
+   "kind": "approve",
+   "description": "方案比选（DAG：商保/体检/弹性）",
+   "skill": "plan-compare",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "plan-compare"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "方案比选（DAG：商保/体检/弹性） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "方案比选（DAG：商保/体检/弹性）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "vendor-compare-<ts>.json",
+    "format": "json",
+    "fields": [
+     "category",
+     "vendors",
+     "points",
+     "winner"
+    ],
+    "acceptance": "健康数据 L4 禁入记忆层"
+   }
+  },
+  {
+   "id": "ben.checkup-report@1.0.0",
+   "kind": "report",
+   "description": "体检报告聚合（脱敏）",
+   "skill": "checkup-report",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "checkup-report"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "体检报告聚合（脱敏）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "checkup-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "abnormal_items",
+     "followup",
+     "year"
+    ],
+    "acceptance": "个体健康指标不出原值，仅建议"
+   }
+  },
+  {
+   "id": "ben.points-calc@1.0.0",
+   "kind": "calc",
+   "description": "弹性积分测算（年度额度）",
+   "skill": "flex-benefit",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "flex-benefit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "弹性积分测算（年度额度）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "points-calc-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "points_total",
+     "selected",
+     "remaining"
+    ],
+    "acceptance": "剩余分可为负拦截"
+   }
+  },
+  {
+   "id": "ben.plan-enroll@1.0.0",
+   "kind": "approve",
+   "description": "方案投保/变更审批",
+   "skill": "plan-compare",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "plan-compare"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "方案投保/变更审批 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "方案投保/变更审批：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "plan-enroll-<ts>.json",
+    "format": "json",
+    "fields": [
+     "employee_masked",
+     "plan",
+     "effective_date",
+     "approver"
+    ],
+    "acceptance": "家属信息仅掩码"
+   }
+  },
+  {
+   "id": "ben.claim-review@1.0.0",
+   "kind": "report",
+   "description": "理赔协办周报（时效/结案）",
+   "skill": "checkup-report",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "checkup-report"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "理赔协办周报（时效/结案）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "claim-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "claim_masked",
+     "type",
+     "days",
+     "status"
+    ],
+    "acceptance": "理赔金额仅区间"
+   }
+  },
+  {
+   "id": "ben.annual-survey@1.0.0",
+   "kind": "report",
+   "description": "年度福利满意度调查（聚合）",
+   "skill": "flex-benefit",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "flex-benefit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "年度福利满意度调查（聚合）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "annual-survey-<ts>.json",
+    "format": "json",
+    "fields": [
+     "dimension",
+     "score",
+     "n",
+     "verbatim_theme"
+    ],
+    "acceptance": "开放题经脱敏聚合"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-BEN-01",
+   "input": "生成三套福利方案比选矩阵",
+   "expected_output": "reports/ben/gt-01.md",
+   "skill": null,
+   "scene": "ben.plan-compare@1.0.0"
+  },
+  {
+   "id": "GT-BEN-02",
+   "input": "体检数据脱敏聚合报告（只出分布）",
+   "expected_output": "reports/ben/gt-02.md",
+   "skill": null,
+   "scene": "ben.plan-compare@1.0.0"
+  },
+  {
+   "id": "GT-BEN-03",
+   "input": "弹性福利积分测算与模拟",
+   "expected_output": "reports/ben/gt-03.md",
+   "skill": null,
+   "scene": "ben.plan-compare@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/ben",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/ben/t/checkup_distribution",
+   "type": "table",
+   "title": "checkup_distribution.csv",
+   "table": "checkup_distribution",
+   "file": "checkup_distribution.csv"
+  },
+  {
+   "route": "#/ben/t/plans",
+   "type": "table",
+   "title": "plans.csv",
+   "table": "plans",
+   "file": "plans.csv"
+  },
+  {
+   "route": "#/ben/t/usage",
+   "type": "table",
+   "title": "usage.csv",
+   "table": "usage",
+   "file": "usage.csv"
+  },
+  {
+   "route": "#/ben/w/vendor-compare",
+   "type": "workflow",
+   "title": "方案比选（DAG：商保/体检/弹性）",
+   "workflow": "ben.vendor-compare@1.0.0"
+  },
+  {
+   "route": "#/ben/w/checkup-report",
+   "type": "workflow",
+   "title": "体检报告聚合（脱敏）",
+   "workflow": "ben.checkup-report@1.0.0"
+  },
+  {
+   "route": "#/ben/w/points-calc",
+   "type": "workflow",
+   "title": "弹性积分测算（年度额度）",
+   "workflow": "ben.points-calc@1.0.0"
+  },
+  {
+   "route": "#/ben/w/plan-enroll",
+   "type": "workflow",
+   "title": "方案投保/变更审批",
+   "workflow": "ben.plan-enroll@1.0.0"
+  },
+  {
+   "route": "#/ben/w/claim-review",
+   "type": "workflow",
+   "title": "理赔协办周报（时效/结案）",
+   "workflow": "ben.claim-review@1.0.0"
+  },
+  {
+   "route": "#/ben/w/annual-survey",
+   "type": "workflow",
+   "title": "年度福利满意度调查（聚合）",
+   "workflow": "ben.annual-survey@1.0.0"
+  },
+  {
+   "route": "#/ben/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": ".1 字段级数据字典",
+   "blocks": [
+    {
+     "heading": "1.1.1 `plans.csv`（14 行）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "`plan`",
+         "string",
+         "是",
+         "方案名（中文展示名，全域唯一）；usage.plan 与本列逐字一致"
+        ],
+        [
+         "`points_per_year`",
+         "number",
+         "是",
+         "年度积分额度（分/人·年），正整数；弹性福利测算的额度上限（§9.3）"
+        ],
+        [
+         "`covers`",
+         "string",
+         "是",
+         "保障/覆盖范围（`+` 连接的覆盖项，如 `门诊+住院+体检`）；比选\"覆盖\"维度的取值"
+        ],
+        [
+         "`provider_masked`",
+         "string",
+         "是",
+         "供应商掩码名（`某保险公司`/`某体检机构`/`某运动平台`/`某EAP机构`/`某口腔机构`/`某出行平台`）；**禁供应商实名与合同号**"
+        ],
+        [
+         "`plan_id`",
+         "string",
+         "是",
+         "方案主键 `BEN-Pnn`，唯一；usage.plan_id 的外键指向本列"
+        ],
+        [
+         "`category`",
+         "enum",
+         "是",
+         "福利类别：商业保险 / 健康体检 / 弹性健身 / 心理支持 / 齿科 / 通勤支持（比选组内类别必须一致，§9.2）"
+        ],
+        [
+         "`tier`",
+         "enum",
+         "是",
+         "档位：基础 / 升级 / 尊享（同组内的档次梯度，支撑\"同维度多方案对照\"）"
+        ],
+        [
+         "`comparison_group`",
+         "string",
+         "是",
+         "比选组 ID `GRP-<类别码>-<年>`；单一方案类目记 `-`（无同维对照）"
+        ],
+        [
+         "`eligible_group`",
+         "string",
+         "是",
+         "适用人群：全员 / 本人 / 本人+家属1人 / 本人+家属2人（家属口径与 §5\"家属信息仅掩码\"配套）"
+        ],
+        [
+         "`cost_per_person_yuan`",
+         "number",
+         "是",
+         "人均年度成本（元/人·年）；与积分额度的换算系数 = 本列 / `points_per_year`，须落在 1.5–2.5（§9.3）"
+        ],
+        [
+         "`enrolled_count`",
+         "number",
+         "是",
+         "本年度参保/选购人数；`草稿`/`比选中`/`已弃用` 行必须为 0（§9.5）"
+        ],
+        [
+         "`satisfaction_score`",
+         "number",
+         "否",
+         "最近一次年度满意度得分（1–5，一位小数）；`草稿`/`比选中` 记 `-`（尚无调查样本）"
+        ],
+        [
+         "`status`",
+         "enum",
+         "是",
+         "方案状态：草稿 / 比选中 / 已采纳 / 已弃用（§4.1）"
+        ],
+        [
+         "`effective_year`",
+         "number",
+         "是",
+         "生效年度（2026）；跨年度方案须新增行（append-only）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "1.1.2 `usage.csv`（14 行）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "`employee_masked`",
+         "string",
+         "是",
+         "员工掩码标识 `EMP-****NN`。**禁原值**；与 comp/prf/er-eap 域同 ID 可跨域对齐（§6）"
+        ],
+        [
+         "`points_used`",
+         "number",
+         "是",
+         "已消耗积分（≥0）；必须 ≤ `points_total`（超额度即拦截，§9.3）"
+        ],
+        [
+         "`plan`",
+         "string",
+         "是",
+         "所选方案名，外键（展示口径）→ `plans.plan`，须逐字一致"
+        ],
+        [
+         "`remaining`",
+         "number",
+         "是",
+         "剩余积分 = `points_total − points_used`（≥0）；**不得以 0 掩盖负值**（§9.3/§10）"
+        ],
+        [
+         "`usage_id`",
+         "string",
+         "是",
+         "使用记录主键 `BEN-Unnn`，唯一"
+        ],
+        [
+         "`plan_id`",
+         "ref",
+         "是",
+         "→ `plans.plan_id` 外键；禁止孤儿行，且所引方案必须 `status=已采纳`（§9.5）"
+        ],
+        [
+         "`dept_masked`",
+         "string",
+         "是",
+         "归属部门（部门粒度，不构成个人可回溯信息）"
+        ],
+        [
+         "`status`",
+         "enum",
+         "是",
+         "使用状态：已申请 / 已核销 / 已驳回（§4.2）"
+        ],
+        [
+         "`applied_month`",
+         "string",
+         "是",
+         "申请月 `YYYY-MM`"
+        ],
+        [
+         "`settled_month`",
+         "string",
+         "否",
+         "核销月 `YYYY-MM`；`已申请`/`已驳回` 记 `-`"
+        ],
+        [
+         "`points_total`",
+         "number",
+         "是",
+         "年度积分总额，必须等于所引方案的 `plans.points_per_year`（积分测算口径，§9.3）"
+        ],
+        [
+         "`claim_masked`",
+         "string",
+         "否",
+         "理赔协办掩码单号 `CLM-****NN`；仅参保类方案的已核销行填写，其余 `-`"
+        ],
+        [
+         "`claim_type`",
+         "enum",
+         "否",
+         "险种**结算类别**：门诊 / 住院 / 意外 / 齿科；**禁诊断、病种、检查指标、药品明细**（§9.4）"
+        ],
+        [
+         "`claim_days`",
+         "number",
+         "否",
+         "协办结案时效（自然日，≥0）；未结案记 `-`"
+        ],
+        [
+         "`claim_amount_range_yuan`",
+         "string",
+         "否",
+         "理赔金额**区间**（`a~b`，元，下沿 ≥100 且宽度 ≥1000）；**禁单值**（对齐 `ben.claim-review` 验收\"理赔金额仅区间\"）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "1.1.3 `checkup_distribution.csv`（16 行）",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "`year`",
+         "number",
+         "是",
+         "体检年度（2026）"
+        ],
+        [
+         "`age_band`",
+         "enum",
+         "是",
+         "年龄段：20-29岁 / 30-39岁 / 40-49岁 / 50岁以上（**聚合分组**，非出生日期）"
+        ],
+        [
+         "`item_category`",
+         "enum",
+         "是",
+         "体检项目类别：血压 / 血脂 / 血糖 / 骨密度（**类别标签**，不含检查数值与结论）"
+        ],
+        [
+         "`examined_count`",
+         "number",
+         "是",
+         "该年龄段接受该项目检查人数（聚合分母 n）"
+        ],
+        [
+         "`abnormal_count`",
+         "number",
+         "是",
+         "异常检出计数（聚合分子，≤ `examined_count`）"
+        ],
+        [
+         "`abnormal_rate_pct`",
+         "number",
+         "否",
+         "异常检出率（%，一位小数，= `abnormal_count / examined_count × 100`）；`suppression_flag=suppressed` 时记 `-`"
+        ],
+        [
+         "`suppression_flag`",
+         "enum",
+         "是",
+         "`normal` / `suppressed`（`examined_count < 5` 即抑制，不出分防反推，§9.1）"
+        ],
+        [
+         "`note`",
+         "string",
+         "否",
+         "备注（加项说明/抑制原因），不含个体信息"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "参照实体/字段",
+        "本域落地",
+        "口径差异"
+       ],
+       "rows": [
+        [
+         "PRD §3.7-G7 员工关怀（节日/生日/福利关怀记录）",
+         "`plans.csv`（方案目录）+ `usage.csv`（个人申领记录）",
+         "关怀记录细化为\"方案—积分—核销\"三段可核账口径"
+        ],
+        [
+         "参照无体检实体（PRD 仅\"入职材料含体检\"）",
+         "`checkup_distribution.csv`（年龄段 × 项目类别聚合）",
+         "本域**只接聚合统计**，不接个体体检报告；个体结果留在外部体检机构系统"
+        ],
+        [
+         "Workbench §3.2.4 `employees.gender/dept` 等",
+         "`usage.dept_masked`",
+         "只保留部门粒度，员工标识降级为掩码"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/ben.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 福利方案（`plans.status`）",
+     "tables": [
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "守卫",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "`草稿 → 比选中`",
+         "方案进入 `comparison_group` 比选（组内 ≥2 方案）",
+         "组内类别一致、成本与覆盖非空（§9.2）",
+         "`comparison_group` 赋予 + `status` 变更 + audit 事件"
+        ],
+        [
+         "`比选中 → 已采纳`",
+         "`ben.vendor-compare` 胜出 或 `ben.plan-enroll` 投保审批通过",
+         "n3 L4 双审批齐备；年度预算增量 >20 万元/年 加签 CEO（§5）",
+         "`status=已采纳` + `approvals` + 依据数据版本"
+        ],
+        [
+         "`比选中 → 已弃用`",
+         "比选落败或年度评审不通过",
+         "须记录落败维度（成本/覆盖/满意度）",
+         "`status` 变更 + audit"
+        ],
+        [
+         "`已采纳 → 已弃用`",
+         "年度评审下架 / 供应商变更 / 参保归零",
+         "已有参保行须先结清（usage 对应行置 `已核销`）",
+         "`status` + `enrolled_count=0`"
+        ],
+        [
+         "回滚",
+         "交付物/落盘异常",
+         "savepoint 回退",
+         "`pre-vendor-compare` / `pre-plan-enroll` 快照"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "4.2 员工福利使用（`usage.status`）",
+     "tables": [
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "守卫",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "`已申请 → 已核销`",
+         "积分扣减校验通过且方案已生效",
+         "`points_used ≤ points_total = plans.points_per_year`；`remaining = points_total − points_used ≥ 0`，负值即拦截（对齐 `ben.points-calc` 验收）",
+         "`status`/`settled_month` 回填 + `points_used`/`remaining`"
+        ],
+        [
+         "`已申请 → 已驳回`",
+         "名额已满、材料不符或超年度额度",
+         "`points_used` 必须归 0，`remaining` 回到 `points_total`",
+         "`status=已驳回` + audit（驳回原因必填）"
+        ],
+        [
+         "回滚",
+         "交付物/落盘异常",
+         "savepoint 回退",
+         "`pre-points-calc` 快照"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/ben.md#§4"
+  },
+  "5": {
+   "title": "审批链",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "事项",
+        "节点",
+        "角色（双审批，两名不同审批人）",
+        "级别",
+        "是否双审批",
+        "阈值与说明"
+       ],
+       "rows": [
+        [
+         "方案采纳/比选定稿（`ben.vendor-compare`）",
+         "n2 条件 → n3 审批",
+         "甲：HR 福利负责人；乙：财务负责人",
+         "L4",
+         "是（`dual: true`）",
+         "年度预算增量 >20 万元/年 加签 CEO；审批件只载 `category/vendors/points/winner`（不含个体使用明细）"
+        ],
+        [
+         "方案投保/变更（`ben.plan-enroll`）",
+         "n2 条件 → n3 审批",
+         "甲：HR 福利负责人；乙：HRD",
+         "L4",
+         "是（`dual: true`）",
+         "家属参保为高敏动作：家属信息仅掩码（`E1***` 形态），不得载入姓名/证件/关系明细"
+        ],
+        [
+         "弹性积分测算（`ben.points-calc`）",
+         "无审批节点（kind=calc）",
+         "—",
+         "L4",
+         "否",
+         "不是审批而是**硬闸门**：`remaining < 0` 即拦截，不出交付物（§9.3）"
+        ],
+        [
+         "体检聚合报告（`ben.checkup-report`）",
+         "无审批节点（kind=report）",
+         "—",
+         "L4",
+         "否",
+         "输出前过 `redact_gate` + n<5 抑制；个体健康字段命中即一票否决（§9.1/§9.4）"
+        ],
+        [
+         "理赔协办周报（`ben.claim-review`）",
+         "无审批节点（kind=report）",
+         "—",
+         "L4",
+         "否",
+         "理赔金额仅区间；涉对外理赔材料外发时回到 `ben.plan-enroll` 走双审批"
+        ],
+        [
+         "年度满意度调查（`ben.annual-survey`）",
+         "无审批节点（kind=report）",
+         "—",
+         "L4",
+         "否",
+         "聚合 n<5 抑制；开放题只出主题标签（`verbatim_theme`），禁原文"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "**域级 vs 节点级**：scene `permission.dual_approval: false` 是域级基线（普通报表任务免双审批）；**任何对外/生效动作在节点级升到 L4 + 双审批**（§3 的 n3），与 rec 域同构造。",
+      "角色映射为落地建议（scene/工作流未钉角色名，按 ROLES/caps 配置）；阈值 >20 万元/年为基线建议值。",
+      "审批留痕：`audit/n5` 记录审批人 + 依据数据版本 + 产物哈希；驳回原因必填；批复件与产物不一致即 `on_fail=rollback`。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/ben.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "9.1 体检数据只出分布（聚合口径 + n<5 抑制）",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定式",
+        "动作"
+       ],
+       "rows": [
+        [
+         "聚合口径",
+         "体检数据只能以 `age_band × item_category` 聚合形态出现；表内不得存在员工标识列/个体结果列",
+         "出现个体行即一票否决（§9.4）"
+        ],
+        [
+         "计数自洽",
+         "`abnormal_count ≤ examined_count`；`abnormal_rate_pct = abnormal_count / examined_count × 100`（±0.1pp）",
+         "违例即数据不可用"
+        ],
+        [
+         "n<5 抑制",
+         "`examined_count < 5 ⇒ suppression_flag=suppressed` 且 `abnormal_rate_pct=-`",
+         "未抑制即 FAIL（防反推）"
+        ],
+        [
+         "分组下钻限制",
+         "报告不得按部门/职级/性别等更细维度交叉（避免反推到个体）",
+         "越细维度即 DENY"
+        ],
+        [
+         "对外禁令",
+         "体检类产物不得出域/入记忆层/公网外发（与 er-eap 同纪律）",
+         "命中即一票否决"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.2 方案比选维度完整性",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定式",
+        "动作"
+       ],
+       "rows": [
+        [
+         "组内规模",
+         "`comparison_group ≠ -` ⇒ 组内 ≥2 行（`GRP-COM-2026` 2 行、`GRP-FIT-2026` 2 行、`GRP-EAP-2026` 2 行、`GRP-INS-2026` 3 行、`GRP-CHK-2026` 3 行）",
+         "单行组即 FAIL（应记 `-`）"
+        ],
+        [
+         "组内同质",
+         "组内 `category` 必须一致（`GRP-INS-2026` 全为 商业保险，`GRP-CHK-2026` 全为 健康体检）",
+         "混类别即 FAIL"
+        ],
+        [
+         "维度齐全",
+         "组内每行 `points_per_year`/`cost_per_person_yuan`/`covers`/`tier` 非空；比选矩阵须覆盖 成本 / 覆盖 / 满意度 三维",
+         "缺维度的 winner 判定无效"
+        ],
+        [
+         "基线要求",
+         "winner 判定要求组内 ≥1 行 `status=已采纳`；无基线组（`GRP-COM-2026`）只出对照不出 winner",
+         "违反即视为越权结论"
+        ],
+        [
+         "溯源",
+         "winner 与每个对照值可下钻到 `plan_id` 行（含 `provider_masked`、`enrolled_count`）",
+         "无溯源即 FAIL"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.3 弹性福利积分测算口径",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定式",
+        "动作"
+       ],
+       "rows": [
+        [
+         "额度来源唯一",
+         "`usage.points_total = plans[usage.plan_id].points_per_year`（14 行全部成立）",
+         "不符即数据不可用"
+        ],
+        [
+         "余量恒等式",
+         "`remaining = points_total − points_used`，且 `remaining ≥ 0`；**禁止以 0 掩盖负值**",
+         "负值即拦截（`ben.points-calc` 验收：剩余分可为负拦截）"
+        ],
+        [
+         "积分-成本系数",
+         "`cost_per_person_yuan / points_per_year ∈ [1.5, 2.5]`，且同 `category` 组内一致（商业保险 2.2 / 健康体检 2.0 / 弹性健身 1.8 / 心理支持 2.4 / 齿科 1.6 / 通勤支持 1.5）",
+         "越界即预算口径不可用"
+        ],
+        [
+         "状态-字段一致",
+         "`已申请` ⇒ `settled_month=-` 且理赔四字段（`claim_masked/claim_type/claim_days/claim_amount_range_yuan`）全 `-`；`已核销` ⇒ `settled_month` 非空；`已驳回` ⇒ `points_used=0` 且 `remaining=points_total`",
+         "违例即拒写"
+        ],
+        [
+         "方案可选择性",
+         "`usage.plan_id` 所引方案必须 `status=已采纳`（草稿/比选中/已弃用不可被选购）",
+         "孤儿或不可选方案即 FAIL"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.4 个人健康字段禁明文",
+     "tables": [
+      {
+       "header": [
+        "层级",
+        "禁令",
+        "判据"
+       ],
+       "rows": [
+        [
+         "数据层",
+         "`checkup_distribution.csv` 只有聚合列；任何新增个人健康字段须先过 Type-Dict 扩项 + 隐私评审",
+         "表头正则扫描 + 行级抽样"
+        ],
+        [
+         "使用层",
+         "`usage.claim_type` 仅险种结算类别（门诊/住院/意外/齿科）；**禁诊断、病种、检查指标、药品明细**",
+         "字段值白名单"
+        ],
+        [
+         "交付层",
+         "报告/交付物/审批件中不得出现个体健康原值与可反推的小样本（n<5）",
+         "`redact_gate` 命中日志 + n 值成对校验"
+        ],
+        [
+         "记忆层",
+         "健康数据不入图（`pii_allowed=false`），仅聚合统计节点",
+         "记忆面板排除 + 写入日志"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    },
+    {
+     "heading": "9.5 其他数据级校验",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "说明"
+       ],
+       "rows": [
+        [
+         "外键完整性",
+         "`usage.plan_id → plans.plan_id` 必须命中；`usage.plan ↔ plans.plan` 逐字一致；禁止孤儿行"
+        ],
+        [
+         "状态-字段一致",
+         "见 §4.1（方案）与 §9.3（使用）两条；`已弃用 ⇒ enrolled_count=0`"
+        ],
+        [
+         "主键唯一",
+         "`plan_id`（14 个）、`usage_id`（14 个）、`claim_masked`（4 个，仅核销行）唯一；掩码后不得用于唯一性判定以外的反查"
+        ],
+        [
+         "家属口径",
+         "`eligible_group` 含家属的方案，其参保/理赔记录不得落家属个人信息（仅掩码 + 关系类别）"
+        ],
+        [
+         "格式与编码",
+         "UTF-8（无 BOM）、LF、表头英文小写下划线、逗号分隔；空值统一 `-`；金额区间格式 `^\\d+~\\d+$`"
+        ],
+        [
+         "数据一致性",
+         "本文件 §1/§1.1 的文件名、行数（14/14/16）与字段须与 `templates/workspace/data/ben/*.csv` 逐表一致（`scripts/data-consistency-check.mjs`；xlsx/csv 同名归一化）"
+        ],
+        [
+         "跨域 ID 可对齐",
+         "`employee_masked` 与 comp/prf/er-eap 同 ID 可直接关联（不含原值）"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/ben.md#§9"
+  }
+ },
+ "gaps": []
+}

@@ -1,0 +1,112 @@
+{
+  "deliverable_id": "GT-PRF-03",
+  "scenario": "prf.calibration@1.0.0",
+  "skill": "goal-cascade",
+  "workflow": "prf.cascade-report@1.0.0",
+  "generated_at": "2026-09-29T05:11:33.097Z",
+  "period": "Q4",
+  "source_data": [
+    "templates/workspace/data/prf/kpi.csv",
+    "templates/workspace/data/prf/calibration.csv"
+  ],
+  "summary": {
+    "record_count": 5,
+    "total_weight": 100,
+    "weight_unit": "%",
+    "weight_sum_check": "PASS",
+    "acceptance_rule": "权重合计必须 = 100%"
+  },
+  "records": [
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****12",
+      "goal": "承接公司新签销售额目标4800万（Q4实际3912万、达成率81.5%），负责收口888万缺口：大客户新单签约不低于640万、存量客户二次开发不低于248万，并完成3家战略客户年度框架协议续签，确保Q4末新签累计达成率回升至100%。",
+      "weight": 30,
+      "dept": "销售部",
+      "job_post": "大客户销售与渠道管理岗（部门负责人岗）",
+      "parent_goal": "公司级：新签销售额4800万 / 达成率81.5%",
+      "metric": "新签销售额(万)",
+      "target": 4800,
+      "actual": 3912,
+      "rate": 81.5,
+      "calibration_basis": "校准由B+上调至A-（超出：大单突破）",
+      "tracking_status": "缺口预警",
+      "next_review": "2026-10-15"
+    },
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****35",
+      "goal": "承接需求交付准时率≥90%目标（Q4实际93.2%、达成103.6%）并关闭人效缺口：维持交付准时率不低于95%，推动需求评审一次通过率提升，使在岗人效指数由104提升至110，返工工时压降不低于8%。",
+      "weight": 25,
+      "dept": "研发部",
+      "job_post": "交付项目管理岗（部门负责人岗）",
+      "parent_goal": "公司级：需求交付准时率90% / 人效指数110",
+      "metric": "需求交付准时率(%)",
+      "target": 90,
+      "actual": 93.2,
+      "rate": 103.6,
+      "calibration_basis": "校准A（一致）",
+      "tracking_status": "达标维持，人效待补",
+      "next_review": "2026-10-15"
+    },
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****07",
+      "goal": "承接新签销售的线索供给责任：Q4新增有效商机线索不低于1200条、线索转商机率不低于18%，支撑销售部888万新签缺口收口；单线索获取成本（CPL）环比下降5%，并按周同步线索质量复盘。",
+      "weight": 15,
+      "dept": "市场部",
+      "job_post": "市场与线索运营岗",
+      "parent_goal": "公司级：新签销售额4800万（线索供给侧）",
+      "metric": "有效线索量与转商机率",
+      "target": 1200,
+      "actual": null,
+      "rate": null,
+      "calibration_basis": "校准由C+下调至C（一致）",
+      "tracking_status": "新设跟踪项",
+      "next_review": "2026-10-15"
+    },
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****51",
+      "goal": "承接人效指数110目标与费用管控责任：Q4销售费用率不高于预算上限，月度经营分析报告按期出具率100%，并完成销售部与研发部的跨部门预算调剂，保障新签攻坚与交付资源到位。",
+      "weight": 15,
+      "dept": "财务部",
+      "job_post": "经营分析与成本管控岗",
+      "parent_goal": "公司级：人效指数110 / 费用与预算管控",
+      "metric": "月度经营分析按期率与费用率",
+      "target": 100,
+      "actual": null,
+      "rate": null,
+      "calibration_basis": "校准由B上调至B+（超出：跨部门支持）",
+      "tracking_status": "新设跟踪项",
+      "next_review": "2026-10-15"
+    },
+    {
+      "level": "岗位",
+      "owner_masked": "EMP-****29",
+      "goal": "承接客户续约率92%目标（Q4实际89.6%、达成97.4%）：负责客诉闭环率100%、客诉响应时长不超过4小时，杜绝重复客诉（针对本季两次客诉形成整改闭环），同步保障销售与研发一线行政支持及时率不低于98%。",
+      "weight": 15,
+      "dept": "行政部",
+      "job_post": "客户服务与行政保障岗",
+      "parent_goal": "公司级：客户续约率92% / 服务保障",
+      "metric": "客户续约率(%)",
+      "target": 92,
+      "actual": 89.6,
+      "rate": 97.4,
+      "calibration_basis": "校准由B-下调至C+（下调：两次客诉）",
+      "tracking_status": "整改跟踪",
+      "next_review": "2026-10-15"
+    }
+  ],
+  "weight_allocation_rationale": "按KPI达成缺口与校准结论分配权重：销售部新签达成率81.5%为最大缺口且校准上调，给30%；研发部交付按时达标但人效指数94.5%存在缺口，给25%；市场部（线索供给支撑新签）、财务部（人效与费用管控）、行政部（续约与客诉整改）各15%，合计100%。",
+  "risks": [
+    "新签销售额缺口888万，需销售部与市场部按周联动，否则Q4整体目标不可达",
+    "人效指数104低于目标110，研发与财务需共同压降返工与无效工时",
+    "行政部两次客诉已导致校准下调，若客诉闭环未在10月完成将影响续约率"
+  ],
+  "approval": {
+    "status": "PENDING_HUMAN_APPROVAL",
+    "reason": "校准等级与岗位权重涉及绩效结果与激励，需部门负责人及HRBP复核后生效",
+    "approver_role": "PRF域负责人 / HRBP"
+  }
+}

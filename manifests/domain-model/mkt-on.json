@@ -1,0 +1,967 @@
+{
+ "$schema": "domain-model/v1",
+ "domain": "mkt-on",
+ "label": "营销（线上）MKT-ON",
+ "scene_ids": [
+  "mkt-on.content-publish@1.0.0"
+ ],
+ "level": "L4",
+ "dual_approval": false,
+ "redact_fields": [
+  "lead_phone",
+  "lead_idcard"
+ ],
+ "memory": {
+  "pii_allowed": false,
+  "exclude": []
+ },
+ "generated_at": "2026-09-29T09:49:54.418Z",
+ "sources": {
+  "scenes": [
+   "manifests/scenes/mkt-on.content-publish.yaml"
+  ],
+  "workflows": "manifests/workflows/index.json",
+  "data": "templates/workspace/data/mkt-on/",
+  "doc": "docs/preset-design/mkt-on.md"
+ },
+ "tables": [
+  {
+   "file": "ad_spend.csv",
+   "rows": 12,
+   "columns": [
+    "channel",
+    "week",
+    "spend_wan",
+    "approved_budget_wan",
+    "impressions",
+    "clicks",
+    "owner"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "content_calendar.csv",
+   "rows": 15,
+   "columns": [
+    "date",
+    "channel",
+    "title",
+    "status",
+    "owner",
+    "content_id",
+    "content_type",
+    "publish_time",
+    "pii_check"
+   ],
+   "pii_likely": []
+  },
+  {
+   "file": "leads.csv",
+   "rows": 20,
+   "columns": [
+    "lead_id",
+    "source",
+    "stage",
+    "score",
+    "contact_masked",
+    "channel",
+    "created_at",
+    "est_value_wan",
+    "owner_masked",
+    "note"
+   ],
+   "pii_likely": [
+    "contact_masked"
+   ]
+  }
+ ],
+ "skills": [
+  {
+   "name": "content-gen",
+   "file": "templates/skills-domain/mkt-on/SKILL-content-gen.md"
+  },
+  {
+   "name": "ad-analysis",
+   "file": "templates/skills-domain/mkt-on/SKILL-ad-analysis.md"
+  },
+  {
+   "name": "seo-audit",
+   "file": "templates/skills-domain/mkt-on/SKILL-seo-audit.md"
+  }
+ ],
+ "workflows": [
+  {
+   "id": "mkt-on.publish-approve@1.0.0",
+   "kind": "approve",
+   "description": "内容发布审批（L4 强审批 + 脱敏）",
+   "skill": "content-gen",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "content-gen"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "内容发布审批（L4 强审批 + 脱敏） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "内容发布审批（L4 强审批 + 脱敏）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "publish-approve-<ts>.json",
+    "format": "json",
+    "fields": [
+     "title",
+     "channel",
+     "publish_at",
+     "pii_check",
+     "approver"
+    ],
+    "acceptance": "含 PII 的素材必须 redact 后才可发布"
+   }
+  },
+  {
+   "id": "mkt-on.campaign-report@1.0.0",
+   "kind": "report",
+   "description": "投放周报（渠道×ROI）",
+   "skill": "ad-analysis",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "ad-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "投放周报（渠道×ROI）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "campaign-report-<ts>.json",
+    "format": "json",
+    "fields": [
+     "channel",
+     "spend_wan",
+     "leads",
+     "roi",
+     "week"
+    ],
+    "acceptance": "ROI 数字可追溯到 data/mkt-on/leads.csv"
+   }
+  },
+  {
+   "id": "mkt-on.content-calendar@1.0.0",
+   "kind": "calc",
+   "description": "内容日历排期（两周滚动）",
+   "skill": "content-gen",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "content-gen"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "内容日历排期（两周滚动）：输入参数 + 结果快照"
+    }
+   ],
+   "deliverable": {
+    "file": "content-calendar-<ts>.json",
+    "format": "json",
+    "fields": [
+     "date",
+     "channel",
+     "title",
+     "status"
+    ],
+    "acceptance": "排期冲突（同日同渠道）须标红"
+   }
+  },
+  {
+   "id": "mkt-on.lead-funnel@1.0.0",
+   "kind": "report",
+   "description": "线索漏斗周报（阶段转化）",
+   "skill": "seo-audit",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "seo-audit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "线索漏斗周报（阶段转化）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "lead-funnel-<ts>.json",
+    "format": "json",
+    "fields": [
+     "stage",
+     "count",
+     "conversion_pct",
+     "week"
+    ],
+    "acceptance": "线索手机号/邮箱仅掩码口径"
+   }
+  },
+  {
+   "id": "mkt-on.seo-audit@1.0.0",
+   "kind": "report",
+   "description": "SEO 诊断（收录/关键词）",
+   "skill": "seo-audit",
+   "approval": null,
+   "hitl_nodes": [],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "seo-audit"
+    },
+    {
+     "id": "n2",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n3",
+     "type": "audit",
+     "record": "SEO 诊断（收录/关键词）：数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "seo-audit-<ts>.json",
+    "format": "json",
+    "fields": [
+     "page",
+     "keywords",
+     "rank",
+     "issue"
+    ],
+    "acceptance": "外部抓取仅摘要，禁整站镜像"
+   }
+  },
+  {
+   "id": "mkt-on.ad-spend-review@1.0.0",
+   "kind": "approve",
+   "description": "投放加预算审批（阈值触发）",
+   "skill": "ad-analysis",
+   "approval": {
+    "node": "n3",
+    "level": "L4",
+    "dual": true
+   },
+   "hitl_nodes": [
+    "n3"
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "type": "skill",
+     "ref": "ad-analysis"
+    },
+    {
+     "id": "n2",
+     "type": "condition",
+     "expr": "投放加预算审批（阈值触发） 触发对外/生效动作"
+    },
+    {
+     "id": "n3",
+     "type": "approval",
+     "level": "L4",
+     "dual": true
+    },
+    {
+     "id": "n4",
+     "type": "tool",
+     "ref": "cap.excel.panel.write"
+    },
+    {
+     "id": "n5",
+     "type": "audit",
+     "record": "投放加预算审批（阈值触发）：审批人 + 依据数据版本 + 产物哈希"
+    }
+   ],
+   "deliverable": {
+    "file": "ad-spend-review-<ts>.json",
+    "format": "json",
+    "fields": [
+     "channel",
+     "current_spend_wan",
+     "increment_wan",
+     "expected_roi"
+    ],
+    "acceptance": "单周加预算 >10 万触发双审批"
+   }
+  }
+ ],
+ "golden_tasks": [
+  {
+   "id": "GT-MKTON-01",
+   "input": "生成本周内容日历草稿并提交发布审批",
+   "expected_output": "reports/mkt-on/gt-01.md",
+   "skill": null,
+   "scene": "mkt-on.content-publish@1.0.0"
+  },
+  {
+   "id": "GT-MKTON-02",
+   "input": "分析上周投放数据并输出渠道 ROI 报告",
+   "expected_output": "reports/mkt-on/gt-02.md",
+   "skill": null,
+   "scene": "mkt-on.content-publish@1.0.0"
+  },
+  {
+   "id": "GT-MKTON-03",
+   "input": "对落地页做 SEO 诊断并生成整改清单",
+   "expected_output": "reports/mkt-on/gt-03.md",
+   "skill": null,
+   "scene": "mkt-on.content-publish@1.0.0"
+  }
+ ],
+ "pages": [
+  {
+   "route": "#/mkt-on",
+   "type": "overview",
+   "title": "域概览"
+  },
+  {
+   "route": "#/mkt-on/t/ad_spend",
+   "type": "table",
+   "title": "ad_spend.csv",
+   "table": "ad_spend",
+   "file": "ad_spend.csv"
+  },
+  {
+   "route": "#/mkt-on/t/content_calendar",
+   "type": "table",
+   "title": "content_calendar.csv",
+   "table": "content_calendar",
+   "file": "content_calendar.csv"
+  },
+  {
+   "route": "#/mkt-on/t/leads",
+   "type": "table",
+   "title": "leads.csv",
+   "table": "leads",
+   "file": "leads.csv"
+  },
+  {
+   "route": "#/mkt-on/w/publish-approve",
+   "type": "workflow",
+   "title": "内容发布审批（L4 强审批 + 脱敏）",
+   "workflow": "mkt-on.publish-approve@1.0.0"
+  },
+  {
+   "route": "#/mkt-on/w/campaign-report",
+   "type": "workflow",
+   "title": "投放周报（渠道×ROI）",
+   "workflow": "mkt-on.campaign-report@1.0.0"
+  },
+  {
+   "route": "#/mkt-on/w/content-calendar",
+   "type": "workflow",
+   "title": "内容日历排期（两周滚动）",
+   "workflow": "mkt-on.content-calendar@1.0.0"
+  },
+  {
+   "route": "#/mkt-on/w/lead-funnel",
+   "type": "workflow",
+   "title": "线索漏斗周报（阶段转化）",
+   "workflow": "mkt-on.lead-funnel@1.0.0"
+  },
+  {
+   "route": "#/mkt-on/w/seo-audit",
+   "type": "workflow",
+   "title": "SEO 诊断（收录/关键词）",
+   "workflow": "mkt-on.seo-audit@1.0.0"
+  },
+  {
+   "route": "#/mkt-on/w/ad-spend-review",
+   "type": "workflow",
+   "title": "投放加预算审批（阈值触发）",
+   "workflow": "mkt-on.ad-spend-review@1.0.0"
+  },
+  {
+   "route": "#/mkt-on/settings",
+   "type": "settings",
+   "title": "域设置"
+  }
+ ],
+ "sections": {
+  "1": {
+   "title": "数据字典（总表）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "文件",
+        "级别",
+        "PII 字段",
+        "行数",
+        "说明"
+       ],
+       "rows": [
+        [
+         "content_calendar.csv",
+         "L2",
+         "—（scene 声明 `content_calendar.xlsx, L2, pii_fields: []`）",
+         "15",
+         "内容日历（两周滚动，2026-10-05~10-18 及 W40 周转存行）：原 5 列（日期/渠道/标题/状态/负责人）+ 追加 4 列（内容 ID/内容形态/发布时间/脱敏标记）；同渠道同日冲突埋点 2 组"
+        ],
+        [
+         "leads.csv",
+         "L3",
+         "contact_masked（手机号或邮箱的**掩码列**，不可还原；掩码前值不入库）",
+         "20",
+         "线索主表（获客管道）：原 5 列（线索 ID/来源/阶段/评分/掩码联系方式）+ 追加 5 列（线上渠道/创建日/预估商机金额/跟进人掩码/备注）；承载 scene 声明的 `lead_phone`（掩码落地）"
+        ],
+        [
+         "ad_spend.csv",
+         "L3",
+         "—",
+         "12",
+         "投放花费周表（渠道 × ISO 周，2026-W39/W40）：花费/批准预算/曝光/点击/负责人。**非 scene 数据资产**（本域扩展表，供 GT-MKTON-02 渠道 ROI 的分母取证），级别保守定 L3（渠道花费与预算属经营敏感）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "声明侧",
+        "落地侧",
+        "级别"
+       ],
+       "rows": [
+        [
+         "scene `data_assets` 的 content-calendar.xlsx / type-dict 的 `mkt-on, content-calendar, table, L2, none`",
+         "content_calendar.csv（同名归一化：连字符 ↔ 下划线）",
+         "L2"
+        ],
+        [
+         "scene `data_assets` 的 leads-pipeline.xlsx / type-dict 的 `mkt-on, leads-pipeline, table, L3, lead_phone`",
+         "leads.csv",
+         "L3"
+        ],
+        [
+         "（无 scene 声明；GT-MKTON-02 投放 ROI 分母取证需要）",
+         "ad_spend.csv",
+         "L3（保守继承）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "表头英文小写下划线、UTF-8、逗号分隔、字段内不使用英文逗号；空值统一写 `-`；渠道取值统一取 `CHANNEL` 词表（见 §9 V-MKT-09），三表同词表。",
+      "`content_calendar.csv` 原 5 列、`leads.csv` 原 5 列的**列名与列序均未删改**，仅追加列（追加列已逐字段写入 §1.1）；原有 5 行 content_calendar、5 行 leads 的既有 5 列取值逐字保留。",
+      "每表数据行 ≥12（本页行数以上表为准，不含表头）；行数为实测值：content_calendar 15 / leads 20 / ad_spend 12。",
+      "**口径恒等式**（由数据保证，§9 V-MKT-03/V-MKT-08 逐项校验）：`leads.created_at` 的 ISO 周与 `ad_spend.week` 对齐；渠道 ROI 的分子 `Σleads.est_value_wan(渠道,周)` 与分母 `ad_spend.spend_wan(渠道,周)` 同渠道同周；`ad_spend.spend_wan ≤ approved_budget_wan`。"
+     ]
+    },
+    {
+     "heading": "§1.1 字段级数据字典",
+     "tables": [
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "lead_id",
+         "string",
+         "是",
+         "线索 ID，唯一主键，格式 `LEAD-####`（LEAD-2101~LEAD-2120 连续编号）；原始列"
+        ],
+        [
+         "source",
+         "enum",
+         "是",
+         "来源方式：官网表单 / 投放落地页 / 内容页留资 / 行业展 / 转介绍（前 3 类为线上来源，后 2 类为线下来源）；原始列"
+        ],
+        [
+         "stage",
+         "enum",
+         "是",
+         "线索阶段，枚举见 §4.2，落地存中文展示值：新线索 / 接触中 / 报价中 / 已赢单 / 无效；原始列"
+        ],
+        [
+         "score",
+         "number",
+         "是",
+         "线索评分 0-100（整数），决定 `est_value_wan` 分档；原始列"
+        ],
+        [
+         "contact_masked",
+         "string",
+         "是",
+         "手机号或邮箱的**掩码列**（二选一）：手机 `138****2341`（前 3 后 4）、邮箱 `chen****@corp.com`（本地名前缀 + 星号）；掩码前值不得入库/出域/入记忆层；原始列，对应 redact 口径 `lead_phone`"
+        ],
+        [
+         "channel",
+         "enum",
+         "是",
+         "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键"
+        ],
+        [
+         "created_at",
+         "date",
+         "是",
+         "线索创建日 `YYYY-MM-DD`；ISO 周用于 lead-funnel 与 ROI 归因（W39：2101~2110；W40：2111~2117；W41：2118~2120）；追加列"
+        ],
+        [
+         "est_value_wan",
+         "number",
+         "是",
+         "预估商机金额（**万元**，1 位小数），由 `score` 分档生成（§9 V-MKT-03）；`stage=无效` 时为 0.0；追加列，是渠道 ROI 的分子"
+        ],
+        [
+         "owner_masked",
+         "string",
+         "是",
+         "跟进人掩码（姓 + `**`，如 `张**`）；本表 PII 字段声明为 `lead_phone`，故不得落跟进人全名；追加列"
+        ],
+        [
+         "note",
+         "string",
+         "否",
+         "运营注记（无效原因、来源说明、跨域联动标记等）；无则 `-`；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "date",
+         "string",
+         "是",
+         "排期日 `MM-DD`（基线年 2026，简写口径；导入时按基线年补全为 `YYYY-MM-DD`）；原始列。覆盖 2026-W40~W42，窗口为两周滚动（10-05~10-18）+ W40 周转存行（10-02）"
+        ],
+        [
+         "channel",
+         "enum",
+         "是",
+         "发布渠道，取 `CHANNEL` 词表（本表实际取值：公众号/视频号/抖音/小红书/知乎/官网）；原始列，与 leads.channel、ad_spend.channel 同词表"
+        ],
+        [
+         "title",
+         "string",
+         "是",
+         "内容标题（禁虚假承诺话术，见 §9 V-MKT-06）；原始列"
+        ],
+        [
+         "status",
+         "enum",
+         "是",
+         "内容状态，枚举见 §4.1：草稿 / 待审核 / 已排期 / 已驳回 / 已发布；原始列"
+        ],
+        [
+         "owner",
+         "enum",
+         "是",
+         "责任组：内容组 / 视频组 / 活动组 / 市场运营；原始列"
+        ],
+        [
+         "content_id",
+         "string",
+         "是",
+         "内容 ID，唯一主键，格式 `CT-####`（CT-2051~CT-2065）；追加列，是发布审批与跨域复用的证据键"
+        ],
+        [
+         "content_type",
+         "enum",
+         "是",
+         "内容形态：图文 / 长图 / 短视频 / 专题页 / 直播；追加列"
+        ],
+        [
+         "publish_time",
+         "string",
+         "是",
+         "计划发布时间 `HH:mm`（同日同渠道冲突判定不看时刻，只看 日期+渠道，见 §9 V-MKT-02）；追加列"
+        ],
+        [
+         "pii_check",
+         "enum",
+         "是",
+         "素材脱敏标记：无PII / 待脱敏 / 已脱敏。`待脱敏` 的素材**不得**置 `已排期/已发布`，须过 `redact_gate` 后改 `已脱敏` 才可发布（§5/§9 V-MKT-07）；追加列"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "字段名",
+        "类型",
+        "必填",
+        "说明"
+       ],
+       "rows": [
+        [
+         "channel",
+         "enum",
+         "是",
+         "投放渠道，取 `CHANNEL` 词表（本表实际取值：抖音/视频号/小红书/知乎/百度SEM/信息流）；与 leads.channel 同词表"
+        ],
+        [
+         "week",
+         "string",
+         "是",
+         "ISO 周 `YYYY-Www`（2026-W39 / 2026-W40）；W40 为基线日所在周的**上周**（GT-MKTON-02 报告期），W39 为环比周"
+        ],
+        [
+         "spend_wan",
+         "number",
+         "是",
+         "当周实际花费（**万元**，2 位小数）；W40 合计 34.00、W39 合计 30.50"
+        ],
+        [
+         "approved_budget_wan",
+         "number",
+         "是",
+         "当周批准预算（**万元**，2 位小数）；`spend_wan > approved_budget_wan` 即超包，须转 `mkt-on.ad-spend-review`"
+        ],
+        [
+         "impressions",
+         "number",
+         "是",
+         "曝光量（平台只读口径，整数）"
+        ],
+        [
+         "clicks",
+         "number",
+         "是",
+         "点击量（平台只读口径，整数）；CPC 由 `spend_wan × 10000 / clicks` 派生，不落列"
+        ],
+        [
+         "owner",
+         "string",
+         "是",
+         "渠道投放负责人（掩码名，如 `张**`），与 leads.owner_masked 同一责任人词表"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/mkt-on.md#§1"
+  },
+  "4": {
+   "title": "状态机",
+   "blocks": [
+    {
+     "heading": "4.1 内容（content_calendar.status，CONTENT_STATUS）",
+     "tables": [
+      {
+       "header": [
+        "状态（CSV 落值）",
+        "标识符",
+        "等价口径",
+        "允许后继",
+        "证据字段"
+       ],
+       "rows": [
+        [
+         "草稿",
+         "draft",
+         "草稿",
+         "待审核",
+         "内容未提交；`content_id` 已分配"
+        ],
+        [
+         "待审核",
+         "pending",
+         "**待审批**",
+         "已排期 / 已驳回",
+         "`pii_check ≠ 待脱敏` 才可提交（V-MKT-07）；命中审批链 n3"
+        ],
+        [
+         "已排期",
+         "scheduled",
+         "审批通过、待发布",
+         "已发布",
+         "审批件 `publish-approve-<ts>.json` 落 approver + 依据数据版本 + 产物哈希"
+        ],
+        [
+         "已驳回",
+         "rejected",
+         "已驳回",
+         "草稿（修改重提）",
+         "驳回原因必填并写入 audit n5"
+        ],
+        [
+         "已发布",
+         "published",
+         "已发布",
+         "—（终态）",
+         "`publish_at` 已到并触发发布；跨域复用（mkt-off 物料）以此为触发（§6）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "迁移只经唯一函数 `setStatus(entity, to, by)` 并写操作日志（参照参照文档 §8.3）；流程实例状态（running/done/rejected/cancelled）与内容状态**解耦**，流程 done 后由 after_complete 钩子回写。",
+      "本快照分布（15 行）：已发布 1 / 已排期 2 / 待审核 5 / 草稿 6 / 已驳回 1。",
+      "**禁止**：`待脱敏` 素材越过 redact_gate 前进；`已驳回` 原地改写为 `已排期`（须回 `草稿` 重提并留痕）。"
+     ]
+    },
+    {
+     "heading": "4.2 线索（leads.stage，LEAD_STAGE）",
+     "tables": [
+      {
+       "header": [
+        "枚举值",
+        "标识符",
+        "进入条件",
+        "允许后继"
+       ],
+       "rows": [
+        [
+         "新线索",
+         "new",
+         "表单/落地页/内容页留资入库（初始态）",
+         "接触中 / 无效"
+        ],
+        [
+         "接触中",
+         "contacted",
+         "首次触达完成（对齐任务口径\"已联系\"）",
+         "报价中 / 无效"
+        ],
+        [
+         "报价中",
+         "quoting",
+         "需求与预算确认，进入报价/商机阶段",
+         "已赢单 / 无效"
+        ],
+        [
+         "已赢单",
+         "converted",
+         "成交并回写，触发 sales 商机联动（§6）",
+         "—（终态）"
+        ],
+        [
+         "无效",
+         "invalid",
+         "画像不符/失联/预算不匹配等，`note` 必填原因",
+         "—（终态）"
+        ]
+       ]
+      },
+      {
+       "header": [
+        "迁移",
+        "触发条件",
+        "证据/门槛"
+       ],
+       "rows": [
+        [
+         "新线索 → 接触中",
+         "首次触达记录",
+         "`owner_masked` 已分配；（可选）`score ≥ 60` 建议阈值"
+        ],
+        [
+         "接触中 → 报价中",
+         "需求/预算确认",
+         "进入商机评估；`est_value_wan` 分档已生成"
+        ],
+        [
+         "报价中 → 已赢单",
+         "成交回写",
+         "证据字段：lead_id / channel / est_value_wan / owner_masked（转 sales）"
+        ],
+        [
+         "任意非终态 → 无效",
+         "画像不符/失联决策",
+         "`note` 必填无效原因；`est_value_wan` 置 0.0（不进入 ROI 分子）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "本快照分布（20 行）：新线索 10 / 接触中 5 / 报价中 2 / 已赢单 1 / 无效 2；无效埋点 LEAD-2107（非目标行业）、LEAD-2110（预算不匹配），用于 ROI 分子归零与漏斗口径验证。",
+      "**禁止**：跳级推进（如 新线索→报价中）、越级建立商机、已赢单/无效 改写回主链（须重开线索记录并留痕）。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/mkt-on.md#§4"
+  },
+  "5": {
+   "title": "审批链（节点-角色-双审批-阈值）",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "流程",
+        "节点链",
+        "审批角色（建议映射）",
+        "双审批",
+        "金额/条件阈值",
+        "manifest 落点"
+       ],
+       "rows": [
+        [
+         "内容发布（mkt-on.publish-approve）",
+         "提交 → content-gen 生成/整理素材 → 条件判定（是否对外） → L4 审批 → 写产物 → 审计",
+         "内容负责人 → 市场负责人（含 PII 素材时加签合规/cmp）",
+         "**是**（`dual:true`）",
+         "域基线：一切对外发布均 L4 双人；**含 PII 素材（pii_check=待脱敏）未过 redact_gate = 一票否决**；`publish_at` 落在法定节假日/敏感日须加签",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ],
+        [
+         "投放加预算（mkt-on.ad-spend-review）",
+         "投放数据只读分析 → 条件判定（阈值） → L4 审批 → 写产物 → 审计",
+         "增长投放负责人 → 市场负责人；累计加预算超季度渠道包 10% 时加签 CFO",
+         "**是**（`dual:true`）",
+         "acceptance 原文\"单周加预算 >10 万触发双审批\"：`increment_wan > 10` 必须双人；`spend_wan > approved_budget_wan` 先走本流程才可继续投放",
+         "n3 approval（L4 + `dual:true`，hitl_nodes=[n3]）"
+        ]
+       ]
+      }
+     ],
+     "bullets": [
+      "场景基线 `policies.permission.min_level=L4`、`dual_approval=false` 为**域默认**；两条 approve 工作流在流程级升格为 L4 双审批（与 workflow YAML 一致），规则**单调加严、不放松**。",
+      "**PII 素材发布闸门（硬规则）**：`content_calendar.pii_check` 为 `待脱敏` 的内容（样例 CT-2054 客户案例短视频、CT-2065 客户成功故事）必须先经 `redact_gate`（gate=redact_gate，字段口径 `lead_phone`；落地掩码见 §9 V-MKT-01）改成 `已脱敏`，才允许 n3 审批通过；审批件 `pii_check` 字段必须回写最终结论。未脱敏先发 = 一票否决并留痕。",
+      "驳回路径：驳回→流程 rejected，内容落回 `草稿`，驳回原因必填并写入 audit n5；rollback savepoint 分别为 `pre-publish-approve`、`pre-ad-spend-review`。",
+      "角色映射为落地建议（scene/工作流未钉角色，按 ROLES/caps 配置）；10 万元为 manifest acceptance 原文阈值，不得放松。"
+     ]
+    }
+   ],
+   "source": "docs/preset-design/mkt-on.md#§5"
+  },
+  "9": {
+   "title": "校验规则",
+   "blocks": [
+    {
+     "heading": "(本节)",
+     "tables": [
+      {
+       "header": [
+        "规则",
+        "判定",
+        "失败处理"
+       ],
+       "rows": [
+        [
+         "V-MKT-01 线索 PII 掩码口径",
+         "`contact_masked` 只允许两种形态：手机 `^1[3-9]\\d\\*{4}\\d{4}$`（如 `138****2341`）；邮箱 本地名保留 ≤4 字符 + 连续星号（≥3）+ `@域名`（如 `chen****@corp.com`、`a***@corp.com`）。**完整手机号/邮箱、可还原到个人的明文一律禁止**；报告只引 `lead_id`",
+         "FAIL：出现完整值或非掩码形态即拒写，并记 redact 违规（一票否决）"
+        ],
+        [
+         "V-MKT-02 排期冲突标红",
+         "同 `date` + 同 `channel` 出现 ≥2 条排期即冲突，必须标红并重排（workflow acceptance 原文）",
+         "FAIL：冲突未标红视为报告不合格；样例埋点 CT-2060/CT-2061（10-16 小红书）、CT-2063/CT-2064（10-18 视频号）"
+        ],
+        [
+         "V-MKT-03 ROI 可追溯与分档一致",
+         "`roi = Σleads.est_value_wan(渠道,周) ÷ ad_spend.spend_wan(渠道,周)`；分子必须能逐行回指 leads.csv 行（channel + created_at + est_value_wan）；`est_value_wan` 必须与 `score` 分档一致：≥85→30.0；70~84→15.0；55~69→8.0；<55→3.0；`stage=无效`→0.0",
+         "FAIL：分子无行级证据或分档不符即拒出数；禁用外部补数、禁用倒轧"
+        ],
+        [
+         "V-MKT-04 外部抓取仅摘要",
+         "SEO 诊断的外部抓取只允许标题/描述/排名摘要级内容，**禁整站镜像、禁全量归档、禁携带线索 PII 出境**",
+         "FAIL：超范围抓取即中止任务并登记 capability-gap"
+        ],
+        [
+         "V-MKT-05 必填与唯一",
+         "leads：lead_id / source / stage / score / contact_masked / channel / created_at / est_value_wan / owner_masked；content_calendar：date / channel / title / status / owner / content_id / content_type / publish_time / pii_check；ad_spend：全部 7 列。`lead_id`、`content_id` 唯一",
+         "缺失即拒写并提示\"请填写必填项\"；重复即拒写并提示\"已存在\""
+        ],
+        [
+         "V-MKT-06 枚举与话术",
+         "`stage` ∈ {新线索,接触中,报价中,已赢单,无效}；`status` ∈ {草稿,待审核,已排期,已驳回,已发布}；`channel` ∈ CHANNEL 词表；内容标题禁虚假承诺/绝对化用语（广告法口径）",
+         "FAIL：非法枚举值拒写；违规话术退回 content-gen 重写"
+        ],
+        [
+         "V-MKT-07 发布前脱敏闸门",
+         "`pii_check=待脱敏` 的内容不得置 `已排期/已发布`；发布审批件 `pii_check` 必须为 `无PII` 或 `已脱敏`；`approver` 非空且双人",
+         "FAIL：未脱敏先发 = 一票否决（acceptance 原文：含 PII 的素材必须 redact 后才可发布）"
+        ],
+        [
+         "V-MKT-08 投放预算与阈值",
+         "`spend_wan ≤ approved_budget_wan`；单周加预算 `increment_wan > 10` 万元必须双审批（acceptance 原文）；`spend_wan / approved_budget_wan > 1` 须先走 `mkt-on.ad-spend-review`",
+         "FAIL：超包未审批不得继续投放；审批人数不足不得置 approved"
+        ],
+        [
+         "V-MKT-09 渠道口径一致",
+         "三表 `channel` 取值同属 CHANNEL 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）`channel` 记 `-`；跨表连接禁出现同渠道异名",
+         "FAIL：异名即视为口径不一致，先改数据再出报告"
+        ],
+        [
+         "V-MKT-10 数值范围",
+         "`score` 0-100 整数；`est_value_wan ∈ {0.0, 3.0, 8.0, 15.0, 30.0}`；`spend_wan`/`approved_budget_wan` ≥0 且 2 位小数；`impressions`/`clicks` 为正整数且 `clicks ≤ impressions`",
+         "FAIL：越界拒写并退回修正"
+        ],
+        [
+         "V-MKT-11 交付验收",
+         "campaign-report 的 ROI 必须给出 (文件, 行, 列) 证据；lead-funnel 只出掩码与计数；ad-spend-review 阈值命中必须双审批；产物落 `reports/mkt-on/` 并写\"数据版本 + 产物哈希\"",
+         "FAIL：无证据链或绕过审批 → 判定不合格"
+        ]
+       ]
+      }
+     ],
+     "bullets": []
+    }
+   ],
+   "source": "docs/preset-design/mkt-on.md#§9"
+  }
+ },
+ "gaps": []
+}

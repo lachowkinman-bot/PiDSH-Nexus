@@ -1,0 +1,150 @@
+{
+  "deliverable_id": "GT-SALES-02",
+  "workflow": "sales.win-review@1.0.0",
+  "scenario": "sales.quote-approval@1.0.0",
+  "skill": "win-review",
+  "review_period": "2026-10",
+  "data_as_of": "2026-10-12",
+  "generated_at": "2026-09-29T07:09:58.793Z",
+  "opportunity": [
+    {
+      "opportunity_id": "OPP-2026-0103",
+      "opportunity_name": "商机-C（物流集团）",
+      "customer": "某物流集团",
+      "customer_id": "CUST-003",
+      "region": "华东",
+      "owner": "王****",
+      "amount_k": 660,
+      "close_date": "2026-10-12",
+      "close_month": "2026-10",
+      "probability_pct": 100,
+      "source": "转介绍",
+      "contract_no": "HT-2026-0421",
+      "quote_id": "QT-3303",
+      "quote_discount_pct": 12,
+      "quote_total_k": 895,
+      "quote_floor_k": 820,
+      "approval_route": "双审批",
+      "payment_terms": "30%预付+70%验收",
+      "win_factors": [
+        "转介绍渠道带来的高信任起点，客户决策链短，赢单周期内无竞争对手介入记录",
+        "旗舰版×2+培训的组合方案匹配物流集团多网点标准化需求，配置复杂度低",
+        "12%折扣未击穿底价82万（成交89.5万，高于底价7.5万），报价在双审批通道内一次通过"
+      ],
+      "post_win_action": "交付启动会与回款跟踪"
+    },
+    {
+      "opportunity_id": "OPP-2026-0110",
+      "opportunity_name": "商机-J（智能制造）",
+      "customer": "某智能制造股份公司",
+      "customer_id": "CUST-010",
+      "region": "华南",
+      "owner": "赵****",
+      "amount_k": 1500,
+      "close_date": "2026-10-08",
+      "close_month": "2026-10",
+      "probability_pct": 100,
+      "source": "转介绍",
+      "contract_no": "HT-2026-0427",
+      "quote_id": "QT-3310",
+      "quote_discount_pct": 11,
+      "quote_total_k": 1466,
+      "quote_floor_k": 1350,
+      "approval_route": "双审批",
+      "payment_terms": "20%预付+40%发货+40%验收",
+      "terms_deviation": "偏离标准模板（标准为30%预付+70%验收），已通过双审批放行",
+      "win_factors": [
+        "转介绍渠道延续本月赢单来源特征，客户对方案与实施能力的信任成本显著降低",
+        "旗舰版×4+实施+培训的高配组合对齐智能制造产线场景，单笔金额1500k为本月最大赢单",
+        "11%折扣仍高于底价135万，以尾款后置（40%验收）换取客户预算审批通过，商务让步可控"
+      ],
+      "post_win_action": "交付排期与验收，同步跟踪偏离条款下的回款节点"
+    }
+  ],
+  "amount_k": 2160,
+  "win_count": 2,
+  "win_factors": [
+    {
+      "factor": "转介绍渠道是本月唯一产出赢单的来源",
+      "evidence": "2026-10 两笔赢单 OPP-2026-0103、OPP-2026-0110 的 source 字段均为「转介绍」；同期同来源另有 OPP-2026-0111、OPP-2026-0117 两笔输单，当月来源赢单占比 2/4",
+      "impact": "正相关，建议作为下季度重点投放来源"
+    },
+    {
+      "factor": "报价折扣严格锚定底价，未出现击穿底价成交",
+      "evidence": "QT-3303 折扣12%成交89.5万 > 底价82万；QT-3310 折扣11%成交146.6万 > 底价135万；反例 QT-3312（折扣22%、70.2万低于底价85万）已被驳回并最终输单 OPP-2026-0111",
+      "impact": "正相关，折扣与底价双控机制有效"
+    },
+    {
+      "factor": "大额方案的商务让步以回款条件结构调整替代价格让步",
+      "evidence": "QT-3310 支付条款由标准 30%预付+70%验收 调整为 20%预付+40%发货+40%验收，terms_deviation 标记为「偏离」，但折扣仅11%，价格未破底线",
+      "impact": "正相关，但需在交付阶段锁定回款风险"
+    },
+    {
+      "factor": "高复杂度/高价项目在本月未闭环，赢单集中于中等金额区间",
+      "evidence": "本月赢单金额 660k 与 1500k；金额 2100k 的 OPP-2026-0115、2400k 的 OPP-2026-0108、1350k 的 OPP-2026-0112 均停留在方案/接触阶段，对应报价 QT-3313、QT-3308 仍为待审批",
+      "impact": "负相关，超大单转化周期长，需单独设置推进节奏"
+    }
+  ],
+  "playbook_update": [
+    {
+      "id": "PB-01",
+      "change": "新增「转介绍赢单通道」标准动作：对转介绍来源商机在首次接触后48小时内完成方案初稿，并复用客户背书材料",
+      "reason": "2026-10 赢单100%来自转介绍（OPP-2026-0103、OPP-2026-0110），该来源具备最短信任路径",
+      "owner_role": "销售负责人",
+      "effective_from": "2026-11"
+    },
+    {
+      "id": "PB-02",
+      "change": "报价审批前置自检：提交前必须比对 discount_floor_wan，凡低于底价或毛利率触线一律走双审批/CFO加签，禁止先报后审",
+      "reason": "QT-3312（超低价+月结30天非标回款）与 QT-3311（毛利率低于产品线红线）被驳回，OPP-2026-0111 因预算冻结输单，前置校验可减少无效流转",
+      "owner_role": "报价申请人/销售运营",
+      "effective_from": "2026-11"
+    },
+    {
+      "id": "PB-03",
+      "change": "回款条款让步须与折扣让步互斥：同一报价单中若 terms_deviation 为「偏离」，则折扣不得超过10%且必须CFO加签",
+      "reason": "QT-3310 以回款后置换取11%折扣并成交1500k，验证该路径可行但需约束上限；QT-3308（16%折扣+偏离条款，3360k）仍在待审批，需按同一规则收敛",
+      "owner_role": "商务/财务",
+      "effective_from": "2026-11"
+    },
+    {
+      "id": "PB-04",
+      "change": "复盘数据口径修正：赢单金额以合同额/报价成交额为准，pipeline.amount_k 与 quotes.total_wan 需在月结时对账",
+      "reason": "OPP-2026-0103 amount_k=660 与 QT-3303 成交 895k 差异235k；OPP-2026-0110 amount_k=1500 与 QT-3310 成交1466k 差异34k，存在口径不一致风险",
+      "owner_role": "销售运营/CRM管理员",
+      "effective_from": "2026-11"
+    }
+  ],
+  "pipeline_context": {
+    "month_won_amount_k": 2160,
+    "month_lost_count": 2,
+    "month_lost_amount_k": 1260,
+    "close_rate_this_month": 0.5,
+    "open_weighted_pipeline_k": 5317,
+    "region_target_wan_q4": {
+      "华东": 900,
+      "华南": 600,
+      "华北": 520,
+      "西南": 280,
+      "华中": 360
+    },
+    "won_region_distribution_k": {
+      "华东": 660,
+      "华南": 1500
+    }
+  },
+  "evidence": [
+    "pipeline.csv: OPP-2026-0103 (stage=赢单, amount_k=660, source=转介绍, contract_no=HT-2026-0421)",
+    "pipeline.csv: OPP-2026-0110 (stage=赢单, amount_k=1500, source=转介绍, contract_no=HT-2026-0427)",
+    "pipeline.csv: OPP-2026-0111 (stage=输单, lost_reason=预算冻结), OPP-2026-0117 (stage=输单, lost_reason=竞品低价)",
+    "quotes.csv: QT-3303 (discount_pct=12, total_wan=89.5, discount_floor_wan=82.00, status=已审批)",
+    "quotes.csv: QT-3310 (discount_pct=11, total_wan=146.6, discount_floor_wan=135.00, terms_deviation=偏离)",
+    "quotes.csv: QT-3311 (status=已驳回, note=毛利率低于产品线红线), QT-3312 (status=已驳回, note=超低价叠加非标回款条款)",
+    "targets.csv: 2026-Q4 区域配额与销售个人目标（华东900万含王****350万，华南600万含赵****280万）"
+  ],
+  "compliance": {
+    "masking": "客户名称、联系人、销售姓名均使用数据源中的脱敏形态（某制造集团/张****），交付物未还原或引入任何真实个人身份信息与联系方式",
+    "approval_status": "本月两笔赢单对应的报价均已完成双审批；QT-3310 的条款偏离已记录并放行，本复盘仅做事实归因，不改变任何已生效审批结论",
+    "review_scope": "仅使用 pipeline.csv / quotes.csv / targets.csv 三个数据文件，结论均可回溯至 opportunity_id / quote_id / contract_no"
+  }
+}

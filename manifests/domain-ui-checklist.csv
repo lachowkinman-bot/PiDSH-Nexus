@@ -1,0 +1,17 @@
+domain,required_distinct_ui_elements,evidence
+strat,OKR 目标填写表单;季度 KR 追踪看板;竞品动态卡,ui-walkthrough/domain-strat.png + 表单提交留证
+mkt-on,内容日历看板;投放 ROI 卡;线索漏斗图（PII 脱敏列）,ui-walkthrough/domain-mkt-on.png
+mkt-off,活动台账表;物料合规审查工作流卡片;经销商条款摘要卡,ui-walkthrough/domain-mkt-off.png
+sales,CRM 管道看板;报价审批 DAG 视图;赢单复盘卡,ui-walkthrough/domain-sales.png
+fin,报销单表单（可提交）;预算执行图;月报分级出数开关,ui-walkthrough/domain-fin.png
+rec,候选人看板（脱敏列）;面试安排表;简历外发审批入口,ui-walkthrough/domain-rec.png
+trn,课程目录;学时统计图;证书到期拦截提醒卡,ui-walkthrough/domain-trn.png
+prf,OKR/KPI 填写表单;校准分布图（双审批入口）;目标分解树,ui-walkthrough/domain-prf.png
+comp,薪酬带宽偏离图（区间口径）;调薪双审批队列;redact_gate 状态条,ui-walkthrough/domain-comp.png
+ben,福利方案比选矩阵;体检脱敏聚合卡;弹性积分计算器,ui-walkthrough/domain-ben.png
+admin,采购比价表;资产台账;用印申请表（强制 HITL 按钮）,ui-walkthrough/domain-admin.png
+cmp,制度审查 checklist;PIPIA 清单;证据链五级视图,ui-walkthrough/domain-cmp.png
+er-eap,离职流程步骤条;EAP 转介表单（匿名化+双审批+禁网指示）,ui-walkthrough/domain-er-eap.png
+F7-offline,离线模式指示页（公网禁用状态）,ui-walkthrough/F7-offline.png
+F8-upgrade,升级与回退入口（tools-versions 视图+回退按钮）,ui-walkthrough/F8-upgrade.png
+F11-selfcheck,安装自检报告页（哈希/版本/十要素骨架）,ui-walkthrough/F11-selfcheck.png

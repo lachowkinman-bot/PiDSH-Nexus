@@ -1,0 +1,9 @@
+format,primary_package,alternative,system_tool,verify_command,note
+pptx,dsh-ppt@0.5.0(HTML放映+可编辑PPTX+演讲备注),dsh-office-tools@1.0.4(md-exporter路由),pandoc,任务"把本报告转成10页PPTX"产出.pptx且可编辑,dsh-ppt peer 与锁定 dsh 兼容
+xlsx,dsh-excel-panel@0.6.1(真实xlsx面板),dsh-univer-office@0.3.5(表格+文档+幻灯片+多维表格统一运行时),—,真实结构xlsx打开且公式可见且可编辑,拒绝CSV冒充(010-02口径)
+docx,dsh-office-tools@1.0.4(Word创建/读取),md-exporter(Python) + pandoc,pandoc,任务"生成周报docx"产出可打开.docx,office-word-mcp 为备选MCP路由
+html,dsh-ppt(HTML放映)+dsh-genui@0.2.1(动态UI),pi-markdown-preview@0.19.0(MD预览),—,生成单页HTML且浏览器可开,genui peer 命中锁定 dsh
+md,原生(全链路),markitdown-mcp(Python: PDF/DOCX/PPTX/XLSX→MD),—,任意产物可逆出 .md,npm markitdown 占位包已弃用
+pdf,@joemccann/pi-pdf@1.0.1(12工具),pandoc + md-exporter + excel-to-pdf-mcp,—,生成A4版式PDF且可检索,旧scope peer-装时 --legacy-peer-deps
+video,ffmpeg+yt-dlp(下载/剪辑/转码/字幕/合成讲解视频),dsh-ppt HTML放映→录屏路由,ffmpeg/yt-dlp,产出.mp4且可播放时长>10s,无npm视频生成包-cap.doc.video-gen登记扩展位(V8)
+chart,dsh-vision-toolkit(P1)+md-exporter(PNG/SVG),—,—,图表嵌入报告可渲染,SVG优先

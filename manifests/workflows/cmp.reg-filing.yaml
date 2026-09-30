@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: cmp.reg-filing@1.0.0
+domain: cmp
+description: "监管报送清单与截止提醒"
+trigger:
+  type: command
+  expr: reg-filing
+nodes:
+  - id: n1
+    type: skill
+    ref: evidence-pack
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "监管报送清单与截止提醒：输入参数 + 结果快照"
+deliverable:
+  file: reg-filing-<ts>.json
+  format: json
+  fields:
+    - filing
+    - authority
+    - deadline
+    - days_left
+  acceptance: "7 天内到期必须置顶"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-reg-filing

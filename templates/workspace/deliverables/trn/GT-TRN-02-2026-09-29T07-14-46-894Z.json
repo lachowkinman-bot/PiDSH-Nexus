@@ -1,0 +1,117 @@
+{
+  "report_id": "GT-TRN-02",
+  "scenario": "trn.plan-approve@1.0.0",
+  "skill": "hour-stats",
+  "workflow": "trn.hours-report@1.0.0",
+  "generated_at": "2026-09-29T07:14:46.894Z",
+  "period": {
+    "label": "2026 年上半年",
+    "source_file": "templates/workspace/data/trn/courses.csv",
+    "scope_rule": "status in {进行中, 已结束}：本报告期内已开班实施或已结课的课程；status=报名中 的课程尚未开班，计入后续周期，不计入上半年学时。",
+    "unit": "人·学时",
+    "planned_formula": "sum(hours * enrolled) per dept",
+    "completed_formula": "sum(completed_h * enrolled) per dept",
+    "rate_formula": "completed_h_total / planned_h_total"
+  },
+  "dept": "全公司合计",
+  "planned_h": 2612,
+  "completed_h": 2040,
+  "rate": 0.781,
+  "rate_pct": 78.1,
+  "target_rate": 0.8,
+  "target_rate_pct": 80.0,
+  "pass": false,
+  "by_dept": [
+    {
+      "dept": "安全环保部",
+      "planned_h": 1320,
+      "completed_h": 804,
+      "rate": 0.6091,
+      "rate_pct": 60.91
+    },
+    {
+      "dept": "生产制造部",
+      "planned_h": 344,
+      "completed_h": 288,
+      "rate": 0.8372,
+      "rate_pct": 83.72
+    },
+    {
+      "dept": "工程部",
+      "planned_h": 516,
+      "completed_h": 516,
+      "rate": 1.0,
+      "rate_pct": 100.0
+    },
+    {
+      "dept": "财务部",
+      "planned_h": 240,
+      "completed_h": 240,
+      "rate": 1.0,
+      "rate_pct": 100.0
+    },
+    {
+      "dept": "行政后勤部",
+      "planned_h": 192,
+      "completed_h": 192,
+      "rate": 1.0,
+      "rate_pct": 100.0
+    }
+  ],
+  "h1_calendar_strict": {
+    "label": "按自然日历口径（开课日期在 2026-01-01 至 2026-06-30 之间的课程）",
+    "dept": "生产制造部",
+    "planned_h": 120,
+    "completed_h": 120,
+    "rate": 1.0,
+    "rate_pct": 100.0,
+    "courses": [
+      "电动叉车安全操作"
+    ]
+  },
+  "traceability": {
+    "source": "templates/workspace/data/trn/courses.csv",
+    "columns_used": ["course", "dept", "hours", "enrolled", "completed_h", "status", "approver", "next_session"],
+    "rows": [
+      {"course": "特种作业安全操作", "dept": "安全环保部", "hours": 8, "enrolled": 36, "completed_h": 4, "planned_h": 288, "completed_h_total": 144, "status": "进行中", "next_session": "09-28", "approver": "A1***"},
+      {"course": "焊接与热切割作业", "dept": "生产制造部", "hours": 8, "enrolled": 28, "completed_h": 6, "planned_h": 224, "completed_h_total": 168, "status": "进行中", "next_session": "10-06", "approver": "A1***"},
+      {"course": "危化品安全管理", "dept": "安全环保部", "hours": 6, "enrolled": 44, "completed_h": 3, "planned_h": 264, "completed_h_total": 132, "status": "进行中", "next_session": "10-06", "approver": "A1***"},
+      {"course": "安全员 B 证考前培训", "dept": "安全环保部", "hours": 16, "enrolled": 18, "completed_h": 8, "planned_h": 288, "completed_h_total": 144, "status": "进行中", "next_session": "10-15", "approver": "A2***"},
+      {"course": "安全员 C 证考前培训", "dept": "安全环保部", "hours": 16, "enrolled": 12, "completed_h": 8, "planned_h": 192, "completed_h_total": 96, "status": "进行中", "next_session": "10-15", "approver": "A2***"},
+      {"course": "电动叉车安全操作", "dept": "生产制造部", "hours": 4, "enrolled": 30, "completed_h": 4, "planned_h": 120, "completed_h_total": 120, "status": "已结束", "next_session": "06-18", "approver": "A1***"},
+      {"course": "高处作业安全操作", "dept": "工程部", "hours": 6, "enrolled": 26, "completed_h": 6, "planned_h": 156, "completed_h_total": 156, "status": "已结束", "next_session": "07-09", "approver": "A1***"},
+      {"course": "一级建造师继续教育", "dept": "工程部", "hours": 24, "enrolled": 15, "completed_h": 24, "planned_h": 360, "completed_h_total": 360, "status": "已结束", "next_session": "08-20", "approver": "A2***"},
+      {"course": "注册安全工程师继续教育", "dept": "安全环保部", "hours": 24, "enrolled": 12, "completed_h": 24, "planned_h": 288, "completed_h_total": 288, "status": "已结束", "next_session": "08-27", "approver": "A2***"},
+      {"course": "注册会计师继续教育", "dept": "财务部", "hours": 24, "enrolled": 10, "completed_h": 24, "planned_h": 240, "completed_h_total": 240, "status": "已结束", "next_session": "09-03", "approver": "A2***"},
+      {"course": "消防安全与应急处置", "dept": "行政后勤部", "hours": 4, "enrolled": 48, "completed_h": 4, "planned_h": 192, "completed_h_total": 192, "status": "已结束", "next_session": "09-10", "approver": "A1***"}
+    ],
+    "excluded_rows": [
+      {"course": "新员工入职", "dept": "人力资源部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期"},
+      {"course": "合规与信息安全", "dept": "法务合规部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期"},
+      {"course": "销售进阶谈判", "dept": "销售部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期"},
+      {"course": "管理者 First 30 天", "dept": "人力资源部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期"},
+      {"course": "数据安全与隐私保护", "dept": "信息技术部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期"},
+      {"course": "项目管理实战", "dept": "工程部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期；且 approver 为空，计划未获审批"},
+      {"course": "客户服务与投诉处理", "dept": "销售部", "status": "报名中", "completed_h": 0, "reason": "未开班，计入后续周期"}
+    ]
+  },
+  "findings": [
+    "全公司已实施课程学时达标率 78.1%（2040/2612 人·学时），低于 80% 管理目标线 1.9 个百分点。",
+    "安全环保部是唯一显著未达标部门：60.91%（804/1320），缺口 516 人·学时，占全公司缺口的 90.2%，主因两门 16 学时的考前培训（安全员 B/C 证）与特种作业、危化品课程均处于进行中，仅完成一半。",
+    "生产制造部 83.72%（288/344），达标但受焊接与热切割作业（6/8 学时）未结课影响。",
+    "工程部、财务部、行政后勤部达标率 100%，对应课程均已结课且完成学时等于计划学时。",
+    "项目管理实战（工程部、12.8 万元预算）approver 字段为空，计划尚未获审批，不建议纳入本期学时考核基数。"
+  ],
+  "approval": {
+    "required": true,
+    "reason": "本报告作为 trn.plan-approve@1.0.0 的输入证据，用于学时达标情况核定与后续培训计划审批。",
+    "approvers_in_source": ["A1***", "A2***"],
+    "pending": ["A1***", "A2***"],
+    "unescaped_approver_rows": ["项目管理实战"],
+    "note": "报告仅为统计口径输出，不代替审批结论；达标率低于目标线的部门需补充整改计划后再行审批。"
+  },
+  "masking": {
+    "policy": "源数据中的持证人、审批人、讲师标识均以掩码形式保留（E2***、A1***、T5***、CERT-****-0007），交付物不包含任何可还原的自然人身份信息。",
+    "fields_masked": ["holder_masked", "approver", "cert_id", "trainer"]
+  }
+}

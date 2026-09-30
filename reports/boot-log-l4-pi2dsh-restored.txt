@@ -1,0 +1,879 @@
+[dsh-smooth-stream] plugin loaded! mode=typewriter preset=balanced seed=80cps scroll=48px/s maxScroll=1000px/s
+[dsh-excel-chat] plugin loaded
+[dsh-cost-meter] 已加载,账本:F:\Pi_DSH_workplace\universal-workbench-3.0\.dsh-home\storages\cost-meter\ledger.json
+[dsh-docs-panel] 已加载
+[dsh-docs-panel] /docs-panel/api 路由已注册
+[hub] routes mounted (profile=web, loader=provided)
+[pi2dsh] loaded pi2dsh-builtins: 0 tools, 1 commands, 0 skill roots
+[dsh-notifier/store] state 文件权限过宽（666，应为 600），尝试收紧: F:\Pi_DSH_workplace\universal-workbench-3.0\.dsh-home/dsh-notifier/state.json
+[dsh-notifier] 未配置任何可用渠道（已跳过 0 个配置项），事件推送与 notify 工具将无操作；可在 DSH Native Control Surface 或 profile 配置 channels
+[dsh-notifier/admin:server] admin 管理台已监听 127.0.0.1:8104（仅本机回环，永不绑公网）
+dsh-pocket: auto-restore check | 自动恢复检查：读取上次隧道状态
+
+未检测到飞书 / Lark 应用凭据，进入扫码创建向导。
+
+[pi2dsh engine] cannot read dsh-memory-plugin/package.json (Unexpected token '﻿', "﻿{
+    "n"... is not valid JSON); skipping
+请使用飞书 / Lark App 扫描以下二维码，创建或选择 PersonalAgent 应用：
+
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█ ▄▄▄▄▄ █ ▄█▀ ▀ ▀█▀ ▀█▀█  ▄ ▀▄ ▄█▄ █▀ ▄▄█▄▀ ▀██ ▄▄▄▄▄ █
+█ █   █ █ ▄▀▄▀▄▄▄▄▄▄▄ ▄▀ █▄██▄ ▄ ▄  ▀▄▄▀█ ▄▀▄▀█ █   █ █
+█ █▄▄▄█ █▀▀ █▄██▄▀▄▀  █▄▄ ▄▄▄   ▀█ ▀▄▀█▄▀█▀ ███ █▄▄▄█ █
+█▄▄▄▄▄▄▄█▄▀▄█▄█ █▄█▄▀▄█ ▀ █▄█ ▀▄▀ ▀ █▄▀ █▄▀▄▀▄█▄▄▄▄▄▄▄█
+█▄ ▀█▄▄▄██▄▄▀▀▀▀▀▀▀ ▀ ▄█▄ ▄▄ ▄ ▀▄  ▄▄ █▀ █▀ █▀▀█▄█    █
+█▄▀▀▀█▀▄██▄▄█▀ ▄▄█▀█▄█▀ ▄█▀▄▀▄ ▄▄ ▄ ██▄▄█▄▄▄  ▄▀█▀ █▀ █
+█▀ ██ █▄▄▀▀  █▀ ▀▄ ▄█▀ ▀▄  ▀▀▀▀ █  ▄▄▄▄▀▄█▀▀█▀ ▄▀▄  ███
+███▀█▄ ▄█▄▄█ ▀▀███▀   ▄ ▀▄ ▄▄ ███ ▀█ █▀█ ▄▀▄▀█▄   ▄▄█ █
+█▀ █▄▀▄▄▀██▀▄█▄ ▄█▄▀▄▄██  ▄▄▄█▀ █▄▄▄  █ ▄█   ▀ █▄▄▀▀▀▀█
+█▄██ ▄▄▄▀█▄▄█ █▄▀  █▀ ▄▄▄█ ▄▀ ▄▄  ▄▀█▄▄ ▄█ ▄▀ ▄█▀  █▀ █
+█ █▄▀█ ▄  ▄█▄▀▄▄▀▄▀▄▄▀▄▀ ▀▄▀▄▀▀ ▀  █▄▄█▀▀▀▀▀▀▀ █ ▄ ▄▄██
+██▀ █▄█▄▀█▀▄▄▄▄ ▄ ▄██▄▀█ ▄█▄█▄▀ █▀██▄▀██ ▄▄█ ▀▀█ ▀█▄█ █
+█▄▀▀▀ ▄▄▄ ▄ █▀▀▀▀▀▀ ▀ ▄▄  ▄▄▄ ▄▀▀▄ █▀ █▀ ▀ ▀▄ ▄▄▄  ▀▀▀█
+█▀▀█  █▄█  ▀▄▀▄█▄██▄▄█ ▀▄ █▄█   ▀▀ ▄█▀█  ▄  ▄ █▄█  █▀ █
+█▄▄▄▄  ▄▄▄▀█▀██▄▀▄ ▄▄▀█▀ ▄▄▄▄▄▄ █▄ █  █▀ ▀ ▀█  ▄▄ ▄▄▄██
+█  ▀█▄▀▄██▀█▄█▀█▄ ▀  ▀▄  ▀▄██▀█▄▀▀▄▀▀▀ █ ▄█▄█▀█▄▄ ▄▄█ █
+██▀█  ▀▄▄█ █▀█▄ ▄█▄▀▄▄▀█ ▄▀▄█▄▀▀▀▄▄▄▄ █ ▄▀▄  ▄▀▄   ▀▀▀█
+██▄█  ▄▄▀▀ █▀▀▀▀▀ ▄▀▀ █▀ ▀ ▀▄▀▀▄ ▀▀▀▀█ ▄█▀ ▄▀▀█ █▄ █▀ █
+█▀▀▄ █▀▄  ▄ ▀▄▀ ▀▄▄▄ ▀▄▀█▄▄▄█▄  █  ▄▄ ▄▀ ▀  ▄▄▀▀▀▀▄▄█▄█
+██▀  █▄▄ ▀▀▄█ ▄ ▀ ▄█▄ ▀█ ▄ █▀▀▀██ ▀▀▀ █▄ ▄█▀▄ ▀▄██ ▄█ █
+█▄▀▀▄▀█▄▀▀ ▄▄ ▀▀▀▀▀ ▀ ▄▄▀▄ ▄▄█ ▀▀▄ ▄ ▄▄▀ █ ▀▄▀ █   ▀█▀█
+█▄ ▀▄▄▄▄  █▀█▄██▄█▀█▄█▀▀▄▄▄██▀ ▄ ▀ ▄▀▄▄▀█▄▄▄ █▀▄▄█ ▄█ █
+████▄██▄█ ▀ ▄▄▀▀▀▄▄▄▄▀▄▀▀ ▄▄▄  ▀▀ ▀▄ ▄█▀ ▀▀▀▄ ▄▄▄ ███▄█
+█ ▄▄▄▄▄ █▀ ███▄▀▄▀▀ █▄▄ █ █▄█ ▄ █▀█ ▀   ███ ▀ █▄█  ▄█ █
+█ █   █ █▄▄▀▀   ▄█▄▀▄▄▀██ ▄  ▄ ▀▄▄▀█ ▄█▀ █▀   ▄ ▄▄▀▀█▄█
+█ █▄▄▄█ █▀▀▄▄█▀▀▀ ▄ ▀ ▄ ▄ ▀ █▄▀  ▀▀  ██▄ ▄ ▄▄█▄ ▀█ █▀▀█
+█▄▄▄▄▄▄▄█▄▄▄▄▄███▄█▄██▄█▄▄█▄▄█▄▄▄▄██▄▄▄▄▄█▄███▄▄█▄██▄██
+
+
+二维码有效期约 60 分钟。
+也可以直接在浏览器打开：https://open.feishu.cn/page/launcher?user_code=DTSK-G3DW&from=sdk&source=node-sdk%2Fdsh-lark-bot&tp=sdk&addons=H4sIAAAAAAAACqtWSk7MyUlKTM4uVrKqVsosSc0tVrKKVkpOLErRS0wuyczP0yspykxPTy1Siq2tBQCF74hqLwAAAA
+
+[pi2dsh engine] preparing 79 Pi package(s): @agentskit/doc-bridge, @agimon-ai/doompi-autostop, @agimon-ai/doompi-grep, @agimon-ai/doompi-read, @akagilnc/pi-workflow-roles, @amaster.ai/pi-memory-mem0, @companion-ai/feynman, @dietrichgebert/ponytail, @ff-labs/pi-fff, @goofansu/pi-stuff, @gotgenes/pi-permission-system, @henryqw/pi-subagent, @juicesharp/rpiv-ask-user-question, @juicesharp/rpiv-todo, @langchain/langsmith-pi-extension, @langfuse/pi-observability-plugin, @moyai/pi-session-hoarder, @mutmutco/pi-plugin, @narumitw/pi-btw, @narumitw/pi-goal, @narumitw/pi-plan-mode, @narumitw/pi-usage, @plannotator/pi-extension, @raindrop-ai/pi-agent, @rmrdeveloper/sideroom-pi, @tintinweb/pi-subagents, @trim21/personal-pi-extensions, agent-comms, bigpowers, billion-context-pi, cc-safety-net, composio-x-pi, confluence-cli, context-mode, gentle-pi, pi-advisor-flow, pi-agent-pi-markitdown, pi-agents, pi-aimail, pi-ansicat, pi-approval-guardian, pi-archive, pi-background-tasks, pi-btw, pi-cc-extensions, pi-claude-bridge, pi-dag-core, pi-deepseek-search, pi-devops-tools, pi-fabric, pi-feishu-notify, pi-goal-x, pi-google-services, pi-hermes-memory, pi-intercom, pi-lens, pi-list-tools, pi-llm-wiki, pi-loop-mode, pi-maestro-flow, pi-markdown-preview, pi-mcp-adapter, pi-mcp-extension, pi-memento, pi-memory, pi-powerline-footer, pi-prompt-template-model, pi-provider-litellm, pi-psql, pi-queue-steer-factory, pi-redact-all, pi-simplify, pi-slack-bot, pi-stats-footer, pi-subagents, pi-vault-mind, pi-web-access, pi-web-ui, pi-workspaces
+[pi2dsh] loaded @agentskit/doc-bridge: 0 tools, 0 commands, 5 skill roots (host anchor)
+bili-native-dsh: request sent DIRECT (uncompressed) — https://openrouter.ai/api/v1/models is not a recognized model endpoint, so bili did not route it through the proxy. bili only compresses known protocol paths (/chat/completions, /v1/messages, /responses, …); a custom-wire endpoint needs its own support.
+[pi2dsh] loaded @akagilnc/pi-workflow-roles: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @amaster.ai/pi-memory-mem0: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool hf_repo_files: $.properties.repoType.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool hf_repo_read_file: $.properties.repoType.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool feynman_science_database_search: $.properties.sort.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded @companion-ai/feynman: 10 tools, 16 commands, 1 skill roots (host anchor)
+[pi2dsh] loaded @dietrichgebert/ponytail: 0 tools, 6 commands, 1 skill roots (host anchor)
+[pi2dsh] Pi flag --fff-mode uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --fff-frecency-db uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --fff-history-db uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --fff-enable-root-scan uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --fff-enable-home-scan uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --fff-follow-symlinks uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --fff-warn-home-scan uses its default only; DSH CLI registration is unsupported
+[pi2dsh] tool ffgrep: $.properties.exclude.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool fffind: $.properties.exclude.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded @ff-labs/pi-fff: 2 tools, 3 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @goofansu/pi-stuff: 0 tools, 2 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @gotgenes/pi-permission-system: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool ask_user_question: $.properties.questions.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.header.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.options.items.properties.label.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @juicesharp/rpiv-ask-user-question: 1 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] tool todo: $.properties.status.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.metadata.patternProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @juicesharp/rpiv-todo: 1 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @langchain/langsmith-pi-extension: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @langfuse/pi-observability-plugin: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @moyai/pi-session-hoarder: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @mutmutco/pi-plugin: 0 tools, 0 commands, 3 skill roots (host anchor)
+[pi2dsh] tool goal_complete: $.properties.goal_id.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_complete: $.properties.goal_id.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_complete: $.properties.summary.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_complete: $.properties.summary.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.goal_id.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.goal_id.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.evidence.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.evidence.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_blocked: $.properties.repeated_turns.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_wait: $.properties.goal_id.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_wait: $.properties.goal_id.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_wait: $.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_wait: $.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_wait: $.properties.resume_after_ms.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_wait: $.properties.resume_after_ms.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @narumitw/pi-goal: 3 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool plan_mode_question: $.properties.questions.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan_mode_question: $.properties.questions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan_mode_question: $.properties.questions.items.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan_mode_question: $.properties.questions.items.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan_mode_complete: $.properties.plan.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan_mode_complete: $.properties.plan.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @narumitw/pi-plan-mode: 2 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded @narumitw/pi-usage: 0 tools, 2 commands, 0 skill roots (host anchor)
+[pi2dsh] Pi flag --plan uses its default only; DSH CLI registration is unsupported
+[pi2dsh] tool plannotator_mark_done: $.properties.step.multipleOf: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @plannotator/pi-extension: 2 tools, 4 commands, 1 skill roots (host anchor)
+[raindrop-ai/pi-agent] [info] Loading @raindrop-ai/pi-agent v0.2.4
+[raindrop-ai/pi-agent] [warn] RAINDROP_WRITE_KEY not set and no local Workshop daemon detected — Raindrop tracing disabled. Set RAINDROP_WRITE_KEY for cloud, or RAINDROP_LOCAL_WORKSHOP_URL / RAINDROP_LOCAL_DEBUGGER for local-only mode.
+[pi2dsh] loaded @raindrop-ai/pi-agent: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] tool sideroom_ask: $.properties.questions.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.label.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.options.items.properties.label.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.selectionMode.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.recommendationIndex.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.recommendedIndices.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_ask: $.properties.questions.items.properties.recommendedIndices.items.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_todo: $.properties.action.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool sideroom_todo: $.properties.items.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_todo: $.properties.items.items.properties.status.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool sideroom_todo: $.properties.patches.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool sideroom_todo: $.properties.patches.items.properties.status.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded @rmrdeveloper/sideroom-pi: 3 tools, 0 commands, 2 skill roots (host anchor)
+[pi2dsh] Pi flag --subagents-workflow-file uses its default only; DSH CLI registration is unsupported
+[pi2dsh] tool Agent: $.properties.max_turns.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool Agent: $.properties.isolation.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool SubagentWorkflow: $.properties.script.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool SubagentWorkflow: $.properties.resumeFromRunId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @tintinweb/pi-subagents: 4 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool Grep: $.properties.output_mode.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool TodoWrite: $.properties.todos.items.properties.content.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool TodoWrite: $.properties.todos.items.properties.activeForm.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool AskUserQuestion: $.properties.questions.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool AskUserQuestion: $.properties.questions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool AskUserQuestion: $.properties.questions.items.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool AskUserQuestion: $.properties.questions.items.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool read: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded @trim21/personal-pi-extensions: 21 tools, 21 commands, 2 skill roots (host anchor)
+[pi2dsh] loaded agent-comms: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] tool bigpowers_skill: $.properties.action.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded bigpowers: 1 tools, 81 commands, 1 skill roots (host anchor)
+[pi2dsh] tool compress: $.properties.content.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool acp_status: $.properties.scope.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool acp_status: $.properties.view.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool acp_status: $.properties.sort.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool acp_cache: $.properties.detail.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded billion-context-pi: 5 tools, 9 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded cc-safety-net: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool composio_claim: $.properties.email.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_search_tools: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_search_tools: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_search_tools: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_get_tool_schemas: $.properties.toolSlugs.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_get_tool_schemas: $.properties.toolSlugs.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_execute_tool: $.properties.slug.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_execute_tool: $.properties.account.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_manage_connections: $.properties.app.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_manage_connections: $.properties.alias.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_multi_execute_tool: $.properties.tools.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_multi_execute_tool: $.properties.tools.items.properties.slug.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_multi_execute_tool: $.properties.account.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_accounts: $.properties.app.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_remember_account: $.properties.app.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_remember_account: $.properties.account.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_remember_account: $.properties.label.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_trigger_types: $.properties.app.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_trigger_types: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_trigger_types: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_trigger_types: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_get_trigger_type_schema: $.properties.slug.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_create_trigger: $.properties.slug.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_create_trigger: $.properties.account.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_triggers: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_triggers: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_list_triggers: $.properties.triggerTypeSlug.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool composio_delete_trigger: $.properties.triggerId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool save_automation_definition: $.properties.name.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool save_automation_definition: $.properties.triggerId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool save_automation_definition: $.properties.triggerSlug.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool save_automation_definition: $.properties.instructions.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool save_automation_definition: $.properties.filePath.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded composio-x-pi: 18 tools, 2 commands, 0 skill roots (host anchor)
+[pi2dsh] tool confluence_read: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_search: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_search: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_search: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_search: $.properties.start.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_search: $.properties.start.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_info: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_spaces: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_spaces: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_children: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_children: $.properties.maxDepth.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_children: $.properties.maxDepth.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_export: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_export: $.properties.destination.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_export: $.properties.file.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_export: $.properties.maxDepth.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_export: $.properties.maxDepth.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_convert: $.properties.inputFile.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_convert: $.properties.outputFile.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_find: $.properties.title.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_find: $.properties.space.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_versions: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_comments: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_comments: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_comments: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_comments: $.properties.start.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_comments: $.properties.start.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_comments: $.properties.location.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_attachments: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_attachments: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_attachments: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_attachments: $.properties.pattern.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_attachments: $.properties.destination.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_list: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_list: $.properties.start.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_list: $.properties.start.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_list: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_list: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_get: $.properties.pageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool confluence_property_get: $.properties.key.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded confluence-cli: 13 tools, 0 commands, 1 skill roots (host anchor)
+[pi2dsh] loaded context-mode: 0 tools, 2 commands, 2 skill roots (host anchor)
+[pi2dsh] tool ask_user_choice: $.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_choice: $.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.header.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask_user_question: $.properties.questions.items.properties.options.items.properties.label.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool codegraph: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool codegraph: $.properties.query.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool codegraph: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool codegraph: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent_run: $.properties.research_selection.properties.documentation.properties.extensions.additionalProperties: schema-valued form widened to true
+[pi2dsh] tool subagent_run: $.properties.research_selection.properties.open-web.properties.extensions.additionalProperties: schema-valued form widened to true
+[pi2dsh] tool subagent_run: $.properties.remediation.properties.plan.properties.editPaths.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent_run: $.properties.remediation.properties.plan.properties.commands.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent_run: $.properties.remediation.properties.plan.properties.commands.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent_continue: $.properties.research_selection.properties.documentation.properties.extensions.additionalProperties: schema-valued form widened to true
+[pi2dsh] tool subagent_continue: $.properties.research_selection.properties.open-web.properties.extensions.additionalProperties: schema-valued form widened to true
+[pi2dsh] tool subagent_continue: $.properties.remediation.properties.plan.properties.editPaths.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent_continue: $.properties.remediation.properties.plan.properties.commands.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent_continue: $.properties.remediation.properties.plan.properties.commands.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] Pi flag --gentle-sdd-change uses its default only; DSH CLI registration is unsupported
+[pi2dsh] tool gentle_review_scope: $.properties.manifest.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_scope: $.properties.sha256.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_scope: $.properties.cursor.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_capture_group: $.properties.lineageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_capture_group: $.properties.collectBindings.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_capture_group: $.properties.collectBindings.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_capture: $.properties.lineageId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_capture: $.properties.collectBinding.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool gentle_review_capture: $.properties.correctionLines.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] Pi flag --pretty-fff-home-scan uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --pretty-fff-root-scan uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --no-skill-registry uses its default only; DSH CLI registration is unsupported
+[pi2dsh] loaded gentle-pi: 28 tools, 31 commands, 4 skill roots (host anchor)
+[pi2dsh] tool ask_advisor: $.properties.gitContext.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded pi-advisor-flow: 2 tools, 5 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-agent-pi-markitdown: 1 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool workflow_create: $.properties.params.patternProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxDepth.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxParallelism.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxIterations.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxAgents.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxTurns.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxAgentDuration.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxDuration.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxTokens.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.budgets.properties.maxCost.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_create: $.properties.scope.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_list: $.properties.status.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_list: $.properties.cursor.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_list: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_list: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_inspect: $.properties.cursor.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_inspect: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_inspect: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_result: $.properties.view.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_result: $.properties.cursor.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_result: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool workflow_result: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-agents: 5 tools, 5 commands, 0 skill roots (host anchor)
+[pi-aimail] identity pi/unknown
+[pi2dsh] tool send_mail: $.properties.cc.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool send_mail: $.properties.attachments.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool send_mail: $.properties.message_id.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool manage_contacts: $.properties.action.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool manage_contacts: $.properties.address.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool manage_contacts: $.properties.direction.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool manage_contacts: $.properties.direction.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool contact_profile: $.properties.address.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool contact_profile: $.properties.name.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_mail: $.properties.query.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_mail: $.properties.scope.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_mail: $.properties.scope.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool search_mail: $.properties.since.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_mail: $.properties.until.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_mail: $.properties.from.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_mail: $.properties.limit.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board_task_list: $.properties.status.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board_task_list: $.properties.assignee.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board_heartbeat: $.properties.note.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board_members: $.properties.email.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board_roles: $.properties.role.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool activate_address_code: $.properties.gateway_url.~optional: constraint is not enforced by DSH and was dropped
+[pi-aimail] registered 15 mail tools + local inbound receiver
+[pi2dsh] loaded pi-aimail: 15 tools, 0 commands, 0 skill roots (host anchor)
+[pi-aimail] inbound listening on http://127.0.0.1:9101/aimail/inbound
+[dsh-task-board] session/list failed; treating the host session roster as unknown TypertGatewayError: typert gateway: session/list: active Service "sessionController" is unavailable
+    at Proxy.prepareInvocation (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh-api-gateway/lib/index.js:959:34)
+    at async Proxy.invoke (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh-api-gateway/lib/index.js:719:30)
+    at async HostExecutionRunner.listRunning (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@linxin666/dsh-client-ui-task-board/lib/index.js:3156:21)
+    at async TaskBoardHostService.pollSessions (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@linxin666/dsh-client-ui-task-board/lib/index.js:3814:19) {
+  code: 'gateway/service-unavailable',
+  details: { endpoint: 'session/list' },
+  isDSHRemoteError: true,
+  endpoint: 'session/list',
+  field: undefined
+}
+[pi-aimail] no aimail system yet — aimail CLI not found ('aimail') — run bootstrap first (run the aimail bootstrap first, then retry)
+[pi2dsh] loaded pi-ansicat: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-approval-guardian: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-archive: 0 tools, 4 commands, 0 skill roots (host anchor)
+[pi2dsh] tool fusion_reason: $.properties.prompt.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_investigate: $.properties.objective.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_investigate: $.properties.background.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_investigate: $.properties.deliverable.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_investigate: $.properties.scope.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_investigate: $.properties.constraints.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.objective.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.background.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.deliverable.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.scope.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.constraints.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.sources.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.sources.items.properties.url.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_research: $.properties.sources.items.properties.purpose.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.objective.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.background.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.changeSummary.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.scope.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.scope.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.acceptanceCriteria.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.acceptanceCriteria.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.verification.properties.evidence.items.properties.check.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.verification.properties.evidence.items.properties.outcome.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.verification.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.knownLimitations.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fusion_validate: $.properties.exclusions.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-background-tasks: 11 tools, 10 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-btw: 0 tools, 10 commands, 1 skill roots (host anchor)
+claude-bridge: no models available from pi-ai's anthropic catalog — update @earendil-works/pi-ai (requires >=0.85.0)
+[pi2dsh] Pi provider "claude-bridge" registered as a native DSH llm route
+[pi2dsh] loaded pi-claude-bridge: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-dag-core: 6 tools, 1 commands, 1 skill roots (host anchor)
+[pi2dsh] loaded pi-deepseek-search: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] tool db_relation: $.properties.relationType.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-devops-tools: 7 tools, 1 commands, 2 skill roots (host anchor)
+[pi2dsh] Pi provider "jev" registered as a native DSH llm route
+[pi2dsh] tool fabric_exec: $.properties.payloads.patternProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fabric_exec: $.properties.resultFormat.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool fabric_exec: $.properties.tokenBudget.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fabric_exec: $.properties.agentBudget.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fabric_exec: $.properties.timeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fabric_exec: $.properties.display.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded pi-fabric: 1 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-feishu-notify: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool get_goal: $.properties.section.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_goal: $.properties.cursor.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool create_goal: $.properties.mode.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool create_goal: $.properties.token_budget.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.status.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[0].properties.next_action.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[0].properties.next_action.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[1].properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[1].properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[1].properties.polling.properties.interval_seconds.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[1].properties.polling.properties.interval_seconds.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[1].properties.polling.properties.max_checks.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.continuation.oneOf[1].properties.polling.properties.max_checks.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.attempted_actions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal: $.properties.attempted_actions.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal_task: $.properties.status.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal_task: $.properties.updates.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool update_goal_task: $.properties.updates.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_question: $.properties.recommended.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal_questionnaire: $.properties.questions.items.properties.recommended.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool propose_goal_draft: $.properties.token_budget.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool propose_goal_draft: $.properties.token_budget.oneOf[0].minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-goal-x: 8 tools, 16 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-google-services: 0 tools, 0 commands, 1 skill roots (host anchor)
+[pi2dsh] tool memory_add: $.properties.category.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool skill_manage: $.properties.scope.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool session_search: $.properties.role.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool session_search: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool session_search: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool session_search: $.properties.snippetChars.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool session_search: $.properties.snippetChars.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool memory_search: $.properties.target.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool memory_search: $.properties.category.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-hermes-memory: 6 tools, 10 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-intercom: 1 tools, 3 commands, 1 skill roots (host anchor)
+[pi2dsh] loaded pi-lens: 13 tools, 9 commands, 2 skill roots (host anchor)
+[pi2dsh] Pi flag --list-tools uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --tools-filter uses its default only; DSH CLI registration is unsupported
+[pi2dsh] Pi flag --show-tool uses its default only; DSH CLI registration is unsupported
+[pi2dsh] loaded pi-list-tools: 0 tools, 2 commands, 0 skill roots (host anchor)
+[pi2dsh] tool wiki_search: $.properties.type.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool wiki_lint: $.properties.mode.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool wiki_log_event: $.properties.actor.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-llm-wiki: 8 tools, 3 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-loop-mode: 0 tools, 3 commands, 1 skill roots (host anchor)
+[pi2dsh] tool ssh: $.properties.targetId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.targetId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.targetId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.command.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.command.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.cwd.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.cwd.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.timeout.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.timeout.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.tool.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.tool.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.args.patternProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.args.maxProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.categories.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.categories.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.categories.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.todoIds.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.todoIds.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.todoIds.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.todoIds.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.objective.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.objective.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.agent.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.agent.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.requestId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.requestId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.sessionId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.sessionId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.jobId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.jobId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.tail.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ssh: $.properties.tail.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] Pi provider "devin" supports OAuth — log in with /login devin
+[pi2dsh] Pi provider "devin" registered as a native DSH llm route
+[pi2dsh] tool describe_image: $.properties.image_path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool describe_image: $.properties.prompt.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] Pi flag --mcp-config uses its default only; DSH CLI registration is unsupported
+[pi2dsh] tool maestro: $.properties.maxTurns.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool maestro: $.properties.concurrency.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool maestro: $.properties.timeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal: $.properties.acceptance.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool goal: $.properties.acceptance.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask-user-question: $.properties.questions.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask-user-question: $.properties.questions.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask-user-question: $.properties.questions.items.properties.options.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ask-user-question: $.properties.questions.items.properties.options.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.allOf: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.subject.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.skills.items.properties.name.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.resourceUris.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.resourceUris.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.resourceUris.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.nextSteps.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.nextSteps.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.nextSteps.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.items.properties.path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.items.properties.path.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.items.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.items.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.items.properties.when.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.handoff.properties.files.items.properties.when.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updateFields.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.subject.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.skills.items.properties.name.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.resourceUris.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.resourceUris.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.resourceUris.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.nextSteps.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.nextSteps.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.nextSteps.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.items.properties.path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.items.properties.path.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.items.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.items.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.items.properties.when.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.handoff.properties.files.items.properties.when.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.tasks.items.properties.blockedBy.items.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.offset.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.offset.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.ids.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.ids.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.ids.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.id.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.subject.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.skills.items.properties.name.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.resourceUris.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.resourceUris.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.resourceUris.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.nextSteps.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.nextSteps.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.nextSteps.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.items.properties.path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.items.properties.path.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.items.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.items.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.items.properties.when.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.handoff.properties.files.items.properties.when.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool todo: $.properties.updates.items.properties.updateFields.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan-update: $.properties.expectedRevision.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool plan-decompose: $.properties.planHandoffKey.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool lsp: $.properties.line.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool lsp: $.properties.timeout.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool lsp: $.properties.timeout.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool lsp: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool lsp: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool lsp: $.properties.offset.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.allOf: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.viewport.properties.width.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.viewport.properties.height.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.viewport.properties.scale.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.viewport.properties.scale.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.code.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.request_id.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.timeout.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool browser: $.properties.timeout.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.allOf: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.template_path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.window_id.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.region.properties.width.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.region.properties.height.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.control_ref.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.max_depth.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.max_depth.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.max_results.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.max_results.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.duration_ms.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.duration_ms.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.magnitude.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.magnitude.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.keys.minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.keys.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.keys.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.text.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.interval_ms.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.interval_ms.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.langs.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.langs.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.confidence.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.confidence.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.iou_threshold.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.iou_threshold.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.threshold.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.threshold.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.timeout_ms.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool computer_use: $.properties.timeout_ms.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_tool_bm25: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_tool_bm25: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool search_tool_bm25: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.platform.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.model.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.extra_sources.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.extra_sources.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.providers.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.timeout.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.timeout.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.evidence_dir.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.max_output_bytes.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool smart_search: $.properties.max_output_bytes.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool source_check: $.properties.claim.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool source_check: $.properties.num_sources.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool source_check: $.properties.num_sources.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ffgrep: $.properties.pattern.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ffgrep: $.properties.context.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ffgrep: $.properties.context.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ffgrep: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool ffgrep: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fffind: $.properties.pattern.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fffind: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fffind: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.taskId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.taskId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.taskId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.title.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.title.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.description.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool board: $.properties.description.oneOf[0].maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.acceptanceCriteria.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.acceptanceCriteria.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.acceptanceCriteria.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.priority.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool board: $.properties.labels.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.labels.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.labels.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.labels.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.dependencyIds.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.dependencyIds.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.dependencyIds.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.dependencyIds.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.status.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool board: $.properties.phase.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool board: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.cursor.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.expectedRevision.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.claimGeneration.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.leaseTtlMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.sessionId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.sessionId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.sessionId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.memberId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.memberId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.memberId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.todoIds.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.todoIds.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.todoIds.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.todoIds.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.summary.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.summary.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.resourceUris.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.resourceUris.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.resourceUris.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.resourceUris.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.query.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.query.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.summary.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.summary.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.nextSteps.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.nextSteps.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.nextSteps.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.items.properties.path.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.items.properties.path.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.items.properties.reason.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.items.properties.reason.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.items.properties.when.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.files.items.properties.when.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.resourceUris.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.resourceUris.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.resourceUris.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.resourceUris.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.uniqueItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.items.properties.workspaceId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.items.properties.workspaceId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.items.properties.workspaceId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.items.properties.taskId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.items.properties.taskId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool board: $.properties.handoff.properties.taskReferences.items.properties.taskId.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] extension entry failed and was skipped (matching Pi's per-extension error isolation): src/extension/index.ts: Pi tool parameters must use an object-root TypeBox schema
+[pi2dsh] loaded pi-maestro-flow: 25 tools, 29 commands, 75 skill roots (host anchor)
+[pi2dsh] tool preview_export: $.properties.fontSizePx.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool preview_export: $.properties.fontSizePx.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-markdown-preview: 1 tools, 4 commands, 0 skill roots (host anchor)
+[pi2dsh] Pi flag --mcp-config uses its default only; DSH CLI registration is unsupported
+[pi2dsh] tool mcpScript: $.properties.timeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool mcp: $.properties.args.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool mcp: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool mcp: $.properties.offset.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-mcp-adapter: 2 tools, 2 commands, 1 skill roots (host anchor)
+[pi2dsh] loaded pi-mcp-extension: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] tool memento_guide: $.properties.topic.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] loaded pi-memento: 4 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] tool memory_write: $.properties.mode.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool memory_forget: $.properties.target.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool memory_search: $.properties.mode.~optional: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-memory: 7 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-powerline-footer: 0 tools, 9 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-prompt-template-model: 0 tools, 2 commands, 1 skill roots (host anchor)
+[pi2dsh] Pi provider "litellm" supports OAuth — log in with /login litellm
+[pi2dsh] Pi provider "litellm" registered as a native DSH llm route
+[pi2dsh] loaded pi-provider-litellm: 3 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] model catalog refresh for Pi provider "litellm" failed (its registry entries stay static): LiteLLM model discovery requires a credential
+[pi2dsh] loaded pi-psql: 0 tools, 0 commands, 53 skill roots (host anchor)
+[pi2dsh] loaded pi-queue-steer-factory: 0 tools, 3 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-redact-all: 0 tools, 2 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-simplify: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-slack-bot: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-stats-footer: 0 tools, 0 commands, 0 skill roots (host anchor)
+[pi2dsh] tool subagent: $.properties.extensionBindings.maxProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.action.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.laneId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.laneId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.index.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.childId.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.childId.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lines.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lines.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.additional.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.thinking.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.on.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.mission.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.config.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.workflow.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.args.maxProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.workflowScript.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.workflowScriptPath.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.globalConcurrencyLimit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.maxSubagentSpawnsPerRun.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.version.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.version.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.key.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.key.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.decision.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.claims.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.claims.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.expectedOutput.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.preflight.properties.lanes.items.properties.independence.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.version.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.version.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.key.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.key.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.key.pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.sourceRef.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.sourceRef.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.claims.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.claims.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.claims.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.outputPaths.maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.outputPaths.items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.lane.properties.outputPaths.items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.timeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.maxRuntimeMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.checkpointBeforeDeadlineMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.checkpointBeforeDeadlineMs.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.toolTimeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.toolBudget.properties.soft.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.toolBudget.properties.hard.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.toolBudget.properties.block.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.toolBudget.properties.block.oneOf[0].minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.toolBudget.properties.block.oneOf[0].items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.usageBudget.minProperties: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.usageBudget.properties.tokens.properties.soft.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.usageBudget.properties.tokens.properties.hard.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.usageBudget.properties.costUsd.properties.soft.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.usageBudget.properties.costUsd.properties.hard.exclusiveMinimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.machine.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.machine.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.control.properties.needsAttentionAfterMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.control.properties.activeNoticeAfterMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.control.properties.activeNoticeAfterTurns.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.control.properties.activeNoticeAfterTokens.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.control.properties.failedToolAttemptsBeforeAttention.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.output.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.skill.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.outputSchema.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.agentContract.properties.version.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.agentContract.properties.version.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.acceptance.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.acceptance.oneOf[1].deprecated: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.acceptance.oneOf[2].pattern: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.gate.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool subagent: $.properties.gate.oneOf[0].minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.gate.oneOf[1].properties.command.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool subagent: $.properties.gate.oneOf[1].properties.timeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool bg_wait: $.properties.timeoutMs.minimum: constraint is not enforced by DSH and was dropped
+[pi-subagents] Could not verify the running Pi installation; F:\Pi_DSH_workplace\universal-workbench-3.0\.dsh-home\profiles\web\node_modules\@earendil-works\pi-coding-agent is not confirmed to be the host that owns this session; keeping subagent eagerly available.
+[pi2dsh] loaded pi-subagents: 2 tools, 25 commands, 3 skill roots (host anchor)
+[pi2dsh] loaded pi-vault-mind: 0 tools, 0 commands, 3 skill roots (host anchor)
+[pi2dsh] tool web_search: $.properties.numResults.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool web_search: $.properties.numResults.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool web_search: $.properties.provider.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool web_search: $.properties.provider.oneOf[1].minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool source_check: $.properties.numResults.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool source_check: $.properties.numResults.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool source_check: $.properties.provider.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool source_check: $.properties.provider.oneOf[1].minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fetch_content: $.properties.frames.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fetch_content: $.properties.frames.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool fetch_content: $.properties.auth.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool get_search_content: $.properties.queryIndex.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.urlIndex.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.offset.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.limit.minimum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.limit.maximum: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.findText.anyOf: converted to DSH exact-one oneOf semantics
+[pi2dsh] tool get_search_content: $.properties.findText.oneOf[0].minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.findText.oneOf[0].maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.findText.oneOf[1].minItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.findText.oneOf[1].maxItems: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.findText.oneOf[1].items.minLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] tool get_search_content: $.properties.findText.oneOf[1].items.maxLength: constraint is not enforced by DSH and was dropped
+[pi2dsh] loaded pi-web-access: 5 tools, 4 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-web-ui: 0 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh] loaded pi-workspaces: 7 tools, 1 commands, 0 skill roots (host anchor)
+[pi2dsh host] failed to mount @agimon-ai/doompi-autostop: every Pi extension entry failed to load:
+- dist/extensions/pi.mjs: The composed Doom Cordis host is unavailable. Ensure cordisHost is the first extension.
+[pi2dsh host] failed to mount @agimon-ai/doompi-grep: every Pi extension entry failed to load:
+- dist/extensions/pi.mjs: The composed Doom Cordis host is unavailable. Ensure cordisHost is the first extension.
+[pi2dsh host] failed to mount @agimon-ai/doompi-read: every Pi extension entry failed to load:
+- dist/extensions/pi.mjs: The composed Doom Cordis host is unavailable. Ensure cordisHost is the first extension.
+[pi2dsh host] failed to mount @henryqw/pi-subagent: every Pi extension entry failed to load:
+- extensions/subagent.ts: Ephemeral Subagent executor requires active Pi (PI_CODING_AGENT=true and process title pi or pi-rpc).
+[pi2dsh host] failed to mount @narumitw/pi-btw: every Pi extension entry failed to load:
+- dist/index.ts: Class extends value undefined is not a constructor or null
+[pi2dsh host] failed to mount pi-cc-extensions: every Pi extension entry failed to load:
+- extensions/index.ts: Cannot read properties of undefined (reading 'prototype')
+dsh: warning: 8 entries did not activate
+llm-pi-ai (@deepseek-ai/dsh-llm-pi-ai): failed to import
+attachment-local (@deepseek-ai/dsh-attachment-local): failed to import
+session-controller (@deepseek-ai/dsh-api-session-controller): pending (waiting for services: attachments, fileUploads)
+file-upload (@deepseek-ai/dsh-client-file-upload): pending (waiting for service: attachments)
+ui-deliverables (@deepseek-ai/dsh-client-ui-deliverables): pending (waiting for service: sessionController)
+modlens (@liustack/modlens): pending (waiting for service: attachments)
+dsh-sentry (dsh-sentry): SentryApiError: Invalid Sentry configuration: token or SENTRY_AUTH_TOKEN is required.
+    at configError (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sentry/lib/config.js:75:12)
+    at validateResolvedConfig (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sentry/lib/config.js:31:15)
+    at resolveConfig (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sentry/lib/config.js:18:12)
+    at new apply (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sentry/lib/index.js:38:22)
+    at Fiber.execute (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/offline/node/node-v24.21.0-win-x64/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/cordis/lib/index.js:1068:24)
+    at file:///F:/Pi_DSH_workplace/universal-workbench-3.0/offline/node/node-v24.21.0-win-x64/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/cordis/lib/index.js:1142:34
+    at file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/#dsh-sentry
+    at file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/#include
+dsh-sonarqube (dsh-sonarqube): SonarQubeApiError: Invalid SonarQube configuration: baseUrl or SONARQUBE_URL is required.
+    at configError (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sonarqube/lib/config.js:58:12)
+    at validateResolvedConfig (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sonarqube/lib/config.js:22:15)
+    at resolveConfig (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sonarqube/lib/config.js:12:12)
+    at createSonarQubeClient (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sonarqube/lib/client.js:115:32)
+    at new apply (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/dsh-sonarqube/lib/index.js:33:20)
+    at Fiber.execute (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/offline/node/node-v24.21.0-win-x64/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/cordis/lib/index.js:1068:24)
+    at file:///F:/Pi_DSH_workplace/universal-workbench-3.0/offline/node/node-v24.21.0-win-x64/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/cordis/lib/index.js:1142:34
+    at file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/#dsh-sonarqube
+    at file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/#include
+dsh web: http://127.0.0.1:3812/?token=fCkirYiBUeNfUzHI9TNNiyKkSv6xCvQ8rU3SkaXkE70
+[dsh-task-board] session/list failed; treating the host session roster as unknown TypertGatewayError: typert gateway: session/list: active Service "sessionController" is unavailable
+    at Proxy.prepareInvocation (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh-api-gateway/lib/index.js:959:34)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processTimers (node:internal/timers:615:9)
+    at async Proxy.invoke (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh-api-gateway/lib/index.js:719:30)
+    at async HostExecutionRunner.listRunning (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@linxin666/dsh-client-ui-task-board/lib/index.js:3156:21)
+    at async TaskBoardHostService.pollSessions (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@linxin666/dsh-client-ui-task-board/lib/index.js:3814:19) {
+  code: 'gateway/service-unavailable',
+  details: { endpoint: 'session/list' },
+  isDSHRemoteError: true,
+  endpoint: 'session/list',
+  field: undefined
+}
+[dsh-task-board] session/list failed; treating the host session roster as unknown TypertGatewayError: typert gateway: session/list: active Service "sessionController" is unavailable
+    at Proxy.prepareInvocation (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh-api-gateway/lib/index.js:959:34)
+    at async Proxy.invoke (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh-api-gateway/lib/index.js:719:30)
+    at async HostExecutionRunner.listRunning (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@linxin666/dsh-client-ui-task-board/lib/index.js:3156:21)
+    at async TaskBoardHostService.pollSessions (file:///F:/Pi_DSH_workplace/universal-workbench-3.0/.dsh-home/profiles/web/node_modules/@linxin666/dsh-client-ui-task-board/lib/index.js:3814:19) {
+  code: 'gateway/service-unavailable',
+  details: { endpoint: 'session/list' },
+  isDSHRemoteError: true,
+  endpoint: 'session/list',
+  field: undefined
+}

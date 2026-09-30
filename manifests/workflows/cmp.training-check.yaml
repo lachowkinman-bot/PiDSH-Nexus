@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: cmp.training-check@1.0.0
+domain: cmp
+description: "合规培训完成度核查"
+trigger:
+  type: command
+  expr: training-check
+nodes:
+  - id: n1
+    type: skill
+    ref: pipia-list
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "合规培训完成度核查：数据版本 + 产物哈希"
+deliverable:
+  file: training-check-<ts>.json
+  format: json
+  fields:
+    - dept
+    - required
+    - completed
+    - rate
+  acceptance: "必修未完成 >5% 上报管理层"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-training-check

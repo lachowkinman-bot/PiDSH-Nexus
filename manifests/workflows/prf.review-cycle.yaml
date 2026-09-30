@@ -1,0 +1,30 @@
+apiVersion: workbench.pi-dsh/v1
+workflow_id: prf.review-cycle@1.0.0
+domain: prf
+description: "考核周期发起（模板下发）"
+trigger:
+  type: command
+  expr: review-cycle
+nodes:
+  - id: n1
+    type: skill
+    ref: kpi-track
+  - id: n2
+    type: tool
+    ref: cap.excel.panel.write
+  - id: n3
+    type: audit
+    record: "考核周期发起（模板下发）：输入参数 + 结果快照"
+deliverable:
+  file: review-cycle-<ts>.json
+  format: json
+  fields:
+    - cycle
+    - template
+    - targets
+    - deadline
+  acceptance: "全员覆盖校验（无遗漏人）"
+hitl_nodes:
+rollback:
+  method: savepoint
+  tag: pre-review-cycle
