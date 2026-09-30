@@ -277,3 +277,9 @@
 1. **主壳左上角字标仍是 `deepseek HARNESS`**：官方品牌在**预构建客户端 bundle** 内且槽位"声明即独占"；已试 `disabled` 行 / bundle 顺序 / DOM 替换三条路径均不生效，实验已全部撤回（repo 与出货 runtime 的 `client.js` sha 一致 `12F7CABC…`）。下一轮需构建期替换官方客户端产物或找到客户端插件构建缓存失效点。
 2. `dsh-task-board` 网关降级（`session/list` 定义被收回 → 名册自动发现关闭，面板本身可用）。
 3. 首启仍存两条可关闭的一次性提示（better-sidebar 简化建议、usage-stats 额度横条建议），非阻塞。
+
+### E. 交接（按 AGENTS.md 强制规则，12:40 更新）
+
+- 权威交接入口（系统临时目录，不入库、无凭据）：`%TEMP%\handoff-pids-nexus-r9-2026-09-30.md`。
+- 内容：30 秒定位 / 已实测状态表 / **下一 session 任务队列 T1-T5（含已试无效路径与验收判据）** / 已锁定决策（勿重开）/ 硬约束与事故坑 / 工作纪律 / 关键文件与命令索引 / 建议 skills / 新 session 开场提示词。
+- 与其它产物不重复：验收全表在 `reports/r9-desktop-refresh.md`，支持包选型在 `reports/support-adoption-3.0.md`，过程与撤回记录在本文件 §八/§九。
