@@ -47,6 +47,9 @@ Source: "..\..\..\offline\node\node-v24.21.0-win-x64\node_modules\npm\*"; DestDi
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\node_modules\corepack\*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64\node_modules\corepack"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\node_modules\pnpm\*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64\node_modules\pnpm"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\offline-3.0\runtime-web.zip"; DestDir: "{app}\offline-3.0"; Flags: ignoreversion
+; runtime 构建标识必须随包分发：缺失会让 Tauri 判定"安装包不完整"并阻断启动（2026-09-30 R9 修复，
+; 旧版缺此文件 → ensure_runtime 把"无期望值"当作已就绪，旧 profile 永远不刷新，模块全缺）。
+Source: "..\..\..\offline-3.0\runtime-web.build-id"; DestDir: "{app}\offline-3.0"; Flags: ignoreversion
 Source: "..\..\..\scripts\*"; DestDir: "{app}\scripts"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\templates\*"; DestDir: "{app}\templates"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\manifests\*"; DestDir: "{app}\manifests"; Flags: recursesubdirs ignoreversion
@@ -58,7 +61,12 @@ Source: "..\..\..\app.html"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\..\workbench-ui-plugin\*"; DestDir: "{app}\workbench-ui-plugin"; Excludes: "node_modules"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\src\*"; DestDir: "{app}\src"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\assets\*"; DestDir: "{app}\assets"; Flags: recursesubdirs ignoreversion
-; .dsh-home profile 不入安装包：目标机由 postinstall 的 workbench.ps1 install 初始化（装引擎+P0/P1 插件）
+; .dsh-home profile 不入安装包：目标机由 postinstall 的 workbench.ps1 install 从 runtime-web.zip 解压刷新
+
+[InstallDelete]
+; 旧品牌快捷方式（改名 PiDSH Nexus）：升级时清理，避免桌面上残留指向旧 logo 的入口
+Type: files; Name: "{autodesktop}\Universal Workbench.lnk"
+Type: files; Name: "{autoprograms}\Universal Workbench.lnk"
 
 [Icons]
 ; {autodesktop}/{autoprograms} 随 PrivilegesRequired 自动映射（lowest → 当前用户桌面/开始菜单），
@@ -67,8 +75,9 @@ Name: "{autodesktop}\PiDSH Nexus"; Filename: "{app}\UniversalWorkbench.exe"; Wor
 Name: "{autoprograms}\PiDSH Nexus"; Filename: "{app}\UniversalWorkbench.exe"; WorkingDir: "{app}"
 
 [Run]
-Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{app}\scripts\workbench.ps1"" -Cmd install"; WorkingDir: "{app}"; Description: "离线安装 DSH 引擎、pnpm 与插件（含工作台插件，全用随包 tarball，无网）"; Flags: postinstall skipifsilent runhidden
+Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{app}\scripts\workbench.ps1"" -Cmd install"; WorkingDir: "{app}"; Description: "从随包 runtime 解压工作台运行环境（含 60 个模块，无网可完成）"; Flags: postinstall skipifsilent runhidden
 Filename: "powershell.exe"; Parameters: "-ExecutionPolicy Bypass -File ""{app}\scripts\workbench.ps1"" -Cmd verify"; WorkingDir: "{app}"; Description: "首启自检（十要素矩阵骨架 + runner-probe）"; Flags: postinstall skipifsilent runhidden
+Filename: "{sys}\ie4uinit.exe"; Parameters: "-show"; WorkingDir: "{app}"; Description: "刷新 Windows 图标缓存（避免旧 logo 残留）"; Flags: postinstall skipifsilent runhidden
 
 [Code]
 // 安装前：若无 Node ≥22.19 则静默安装 offline/node 下的 msi（F1 离线安装）

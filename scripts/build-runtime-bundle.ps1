@@ -2,6 +2,10 @@ $ErrorActionPreference = 'Stop'
 $root = (Get-Item $PSScriptRoot).Parent.FullName
 Set-Location $root
 
+# 0) 由固定清单生成 package.json（缺离线 tar 包即失败，不静默降级）
+node scripts/gen-runtime-manifest.mjs
+if ($LASTEXITCODE -ne 0) { throw "生成 runtime 清单失败 exit=$LASTEXITCODE" }
+
 function Assert-UnderRoot([string]$Path, [string]$Label) {
   $resolved = [IO.Path]::GetFullPath($Path)
   $prefix = [IO.Path]::GetFullPath($root + [IO.Path]::DirectorySeparatorChar)
@@ -56,6 +60,8 @@ Copy-Item -LiteralPath (Join-Path $runtime 'package.json') -Destination $profile
 if (Test-Path (Join-Path $runtime 'package-lock.json')) {
   Copy-Item -LiteralPath (Join-Path $runtime 'package-lock.json') -Destination $profileStage -Force
 }
+# 出厂 profile patch：预置「内测声明已确认」（升级时由 ensure_runtime 合并保留）
+Copy-Item -LiteralPath (Join-Path $root 'templates/runtime/cordis.patch.yml') -Destination (Join-Path $profileStage 'cordis.patch.yml') -Force
 & robocopy (Join-Path $runtime 'node_modules') (Join-Path $profileStage 'node_modules') /E /NFL /NDL /NJH /NJS /NP | Out-Null
 $copyExit = $LASTEXITCODE
 if ($copyExit -ge 8) { throw "复制 runtime node_modules 失败 robocopy=$copyExit" }
@@ -65,7 +71,9 @@ $buildFiles = @(
   (Join-Path $root 'workbench-ui-plugin/lib/index.js'),
   (Join-Path $root 'workbench-ui-plugin/lib/client.js'),
   (Join-Path $root 'workbench-ui-plugin/lib/delivery-service.cjs'),
-  (Join-Path $root 'manifests/runtime-web.package.json')
+  (Join-Path $root 'manifests/runtime-web.package.json'),
+  (Join-Path $root 'manifests/runtime-bundles.json'),
+  (Join-Path $root 'templates/runtime/cordis.patch.yml')
 )
 $fingerprint = ($buildFiles | ForEach-Object {
   "$_`n$((Get-FileHash -Algorithm SHA256 -LiteralPath $_).Hash)"

@@ -56,46 +56,150 @@ fn node_and_dsh(root: &Path) -> Result<(PathBuf, PathBuf), String> {
     Err("缺少 DSH 引擎；runtime-web.zip 未解压且便携 Node 未安装引擎".to_string())
 }
 
-fn ensure_runtime(root: &Path) -> Result<(), String> {
-    let profile = root.join(".dsh-home/profiles/web/package.json");
-    let build_file = root.join("offline-3.0/runtime-web.build-id");
-    let marker_file = root.join(".dsh-home/profiles/web/runtime-build.json");
-    let expected = fs::read_to_string(&build_file).ok().map(|value| value.trim().to_string());
-    let installed = fs::read_to_string(&marker_file).ok()
+fn read_build_id(marker: &Path) -> Option<String> {
+    fs::read_to_string(marker)
+        .ok()
         .and_then(|value| serde_json::from_str::<serde_json::Value>(&value).ok())
-        .and_then(|value| value.get("build_id").and_then(|item| item.as_str()).map(str::to_string));
-    if profile.is_file() {
-        if expected.is_none() || expected == installed {
-            return Ok(());
-        }
+        .and_then(|value| {
+            value
+                .get("build_id")
+                .and_then(|item| item.as_str())
+                .map(str::to_string)
+        })
+}
+
+/// UTC 时间戳（yyyyMMdd-HHmmss），仅用于把旧 profile 备份成唯一目录名。
+fn utc_stamp() -> String {
+    let secs = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|value| value.as_secs())
+        .unwrap_or(0);
+    let days = (secs / 86_400) as i64;
+    let rest = secs % 86_400;
+    let z = days + 719_468;
+    let era = if z >= 0 { z } else { z - 146_096 } / 146_097;
+    let doe = z - era * 146_097;
+    let yoe = (doe - doe / 1_460 + doe / 36_524 - doe / 146_096) / 365;
+    let y = yoe + era * 400;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let d = doy - (153 * mp + 2) / 5 + 1;
+    let m = if mp < 10 { mp + 3 } else { mp - 9 };
+    let year = if m <= 2 { y + 1 } else { y };
+    format!(
+        "{year:04}{m:02}{d:02}-{:02}{:02}{:02}",
+        rest / 3600,
+        (rest % 3600) / 60,
+        rest % 60
+    )
+}
+
+/// 把出厂 patch（内测声明预置确认）合并进用户已有 patch：用户已确认过则原样保留。
+fn merge_preset_patch(live: &Path, preset_text: &str) -> Result<(), String> {
+    let existing = fs::read_to_string(live).unwrap_or_default();
+    if existing.contains("welcomeNoticeVersion") {
+        return Ok(());
     }
-    let archive = root.join("offline-3.0/runtime-web.zip");
-    if !archive.is_file() {
-        if profile.is_file() {
-            return Ok(());
-        }
-        return Err(format!("缺少离线 runtime：{}", archive.display()));
-    }
+    let merged = if existing.trim().is_empty() {
+        preset_text.to_string()
+    } else {
+        format!("{}\n{}", existing.trim_end(), preset_text)
+    };
+    fs::write(live, merged).map_err(|e| format!("无法写入 profile patch：{e}"))
+}
+
+/// 用随包 runtime 刷新 profile：备份旧 profile → 解压到暂存 → 原子换入 → 合并 patch。
+/// 任一步失败都会把旧 profile 还原回去，绝不留下半损状态。
+fn refresh_runtime(root: &Path, archive: &Path, expected: &str) -> Result<(), String> {
     let dsh_home = root.join(".dsh-home");
     fs::create_dir_all(&dsh_home).map_err(|e| format!("无法创建 DSH_HOME：{e}"))?;
+    let profile = dsh_home.join("profiles/web");
+    let stage = dsh_home.join(".runtime-stage");
+    let _ = fs::remove_dir_all(&stage);
+    fs::create_dir_all(&stage).map_err(|e| format!("无法创建暂存目录：{e}"))?;
+
     let mut command = Command::new("tar.exe");
-    command
-        .args(["-xf"])
-        .arg(&archive)
-        .arg("-C")
-        .arg(&dsh_home);
+    command.args(["-xf"]).arg(archive).arg("-C").arg(&stage);
     #[cfg(windows)]
     command.creation_flags(CREATE_NO_WINDOW);
     let status = command
         .status()
         .map_err(|e| format!("无法解压离线 runtime：{e}"))?;
     if !status.success() {
+        let _ = fs::remove_dir_all(&stage);
         return Err(format!("离线 runtime 解压失败：exit={status}"));
     }
-    if !profile.is_file() {
-        return Err("离线 runtime 解压后缺少 profiles/web/package.json".to_string());
+    let staged_profile = stage.join("profiles/web");
+    if !staged_profile.join("package.json").is_file()
+        || !staged_profile
+            .join("node_modules/@deepseek-ai/dsh/lib/bin.js")
+            .is_file()
+    {
+        let _ = fs::remove_dir_all(&stage);
+        return Err("离线 runtime 内容不完整（缺 profiles/web/package.json 或 DSH 引擎）".to_string());
     }
+
+    let backup = root.join(format!(".dsh-home.pre-r9-{}", utc_stamp()));
+    let preset_text = fs::read_to_string(staged_profile.join("cordis.patch.yml")).unwrap_or_default();
+    let had_profile = profile.is_dir();
+    if had_profile {
+        fs::rename(&profile, &backup).map_err(|e| format!("无法备份旧 profile：{e}"))?;
+    }
+    let install = (|| -> Result<(), String> {
+        if let Some(parent) = profile.parent() {
+            fs::create_dir_all(parent).map_err(|e| format!("无法创建 profiles 目录：{e}"))?;
+        }
+        fs::rename(&staged_profile, &profile).map_err(|e| format!("无法换入新 profile：{e}"))?;
+        let live_patch = profile.join("cordis.patch.yml");
+        if had_profile {
+            let old_patch = backup.join("cordis.patch.yml");
+            if old_patch.is_file() {
+                fs::copy(&old_patch, &live_patch)
+                    .map_err(|e| format!("无法沿用用户 patch：{e}"))?;
+            }
+        }
+        merge_preset_patch(&live_patch, &preset_text)?;
+        let marker = serde_json::json!({ "build_id": expected, "refreshed_at": utc_stamp() });
+        fs::write(profile.join("runtime-build.json"), marker.to_string())
+            .map_err(|e| format!("无法写入 runtime 标记：{e}"))?;
+        Ok(())
+    })();
+    if let Err(error) = install {
+        let _ = fs::remove_dir_all(&profile);
+        if had_profile {
+            let _ = fs::rename(&backup, &profile);
+        }
+        let _ = fs::remove_dir_all(&stage);
+        return Err(format!("runtime 刷新失败（已回滚到旧 profile）：{error}"));
+    }
+    let _ = fs::remove_dir_all(&stage);
     Ok(())
+}
+
+/// 三态判定：①无 build-id → 阻断（安装包不完整）；②已就绪 → 跳过；③缺失/不一致 → 强制刷新。
+fn ensure_runtime(root: &Path) -> Result<(), String> {
+    let build_file = root.join("offline-3.0/runtime-web.build-id");
+    let expected = fs::read_to_string(&build_file)
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| {
+            format!(
+                "缺少 runtime 构建标识（安装包不完整，请用最新安装包覆盖安装）：{}",
+                build_file.display()
+            )
+        })?;
+    let profile = root.join(".dsh-home/profiles/web");
+    let engine = profile.join("node_modules/@deepseek-ai/dsh/lib/bin.js");
+    let installed = read_build_id(&profile.join("runtime-build.json"));
+    if engine.is_file() && installed.as_deref() == Some(expected.as_str()) {
+        return Ok(());
+    }
+    let archive = root.join("offline-3.0/runtime-web.zip");
+    if !archive.is_file() {
+        return Err(format!("缺少离线 runtime：{}", archive.display()));
+    }
+    refresh_runtime(root, &archive, &expected)
 }
 
 fn http_ready(port: u16, path: &str) -> bool {

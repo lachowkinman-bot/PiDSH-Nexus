@@ -47,6 +47,57 @@ function Write-Gap([string]$pkg,[string]$tier,[string]$reason,[string]$elem,[str
   Set-Content -Encoding UTF8 -Path $p -Value $line
 }
 
+# —— 安全断言：递归删除/移动前必须确认目标在 DSH_HOME 内（2026-09-30 事故后纪律）——
+function Assert-UnderDshHome([string]$Path,[string]$DshHome){
+  $p = [IO.Path]::GetFullPath($Path)
+  $h = [IO.Path]::GetFullPath($DshHome)
+  if (-not $p.StartsWith($h, [StringComparison]::OrdinalIgnoreCase)) { throw "拒绝操作 DSH_HOME 之外的路径：$p" }
+  return $p
+}
+
+# —— runtime 刷新：备份旧 profile → 解压到暂存 → 原子换入 → 合并出厂 patch（R9）——
+function Invoke-RuntimeRefresh([string]$Archive,[string]$BuildId,[string]$DshHome,[string]$Root){
+  $ErrorActionPreference = 'Continue'
+  $profile = Assert-UnderDshHome (Join-Path $DshHome 'profiles/web') $DshHome
+  $stage = Assert-UnderDshHome (Join-Path $DshHome '.runtime-stage') $DshHome
+  if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
+  New-Item -ItemType Directory -Force -Path $stage | Out-Null
+  & tar.exe -xf $Archive -C $stage
+  if ($LASTEXITCODE -ne 0) { Remove-Item -LiteralPath $stage -Recurse -Force -ErrorAction SilentlyContinue; return $LASTEXITCODE }
+  $staged = Join-Path $stage 'profiles/web'
+  if (-not (Test-Path (Join-Path $staged 'package.json'))) {
+    Remove-Item -LiteralPath $stage -Recurse -Force -ErrorAction SilentlyContinue
+    return 2
+  }
+  $backup = Join-Path $Root ('.dsh-home.pre-r9-' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
+  $hadProfile = Test-Path -LiteralPath $profile
+  if ($hadProfile) { Move-Item -LiteralPath $profile -Destination $backup }
+  try {
+    New-Item -ItemType Directory -Force -Path (Split-Path $profile) | Out-Null
+    Move-Item -LiteralPath $staged -Destination $profile
+    $live = Join-Path $profile 'cordis.patch.yml'
+    $presetText = if (Test-Path $live) { Get-Content -Raw $live } else { '' }
+    if ($hadProfile) {
+      $oldPatch = Join-Path $backup 'cordis.patch.yml'
+      if (Test-Path -LiteralPath $oldPatch) { Copy-Item -LiteralPath $oldPatch -Destination $live -Force }
+    }
+    $existing = if (Test-Path -LiteralPath $live) { Get-Content -Raw $live } else { '' }
+    if ($existing -notmatch 'welcomeNoticeVersion') {
+      $merged = if ([string]::IsNullOrWhiteSpace($existing)) { $presetText } else { $existing.TrimEnd() + "`n" + $presetText }
+      Set-Content -LiteralPath $live -Value $merged -Encoding UTF8
+    }
+    $marker = @{ build_id = $BuildId; refreshed_at = (Get-Date).ToUniversalTime().ToString('o') } | ConvertTo-Json
+    Set-Content -LiteralPath (Join-Path $profile 'runtime-build.json') -Value $marker -Encoding UTF8
+  } catch {
+    if (Test-Path -LiteralPath $profile) { Remove-Item -LiteralPath $profile -Recurse -Force -ErrorAction SilentlyContinue }
+    if ($hadProfile) { Move-Item -LiteralPath $backup -Destination $profile }
+    Remove-Item -LiteralPath $stage -Recurse -Force -ErrorAction SilentlyContinue
+    return 3
+  }
+  Remove-Item -LiteralPath $stage -Recurse -Force -ErrorAction SilentlyContinue
+  return 0
+}
+
 switch ($Cmd) {
 
 'fetch' {
@@ -109,8 +160,8 @@ switch ($Cmd) {
   $runtimeNeedsExtract = (-not (Test-Path $runtimeEntry)) -or ($expectedBuild -and $expectedBuild -ne $installedBuild)
   if ($runtimeNeedsExtract -and (Test-Path $runtimeArchive)) {
     New-Item -ItemType Directory -Force -Path $env:DSH_HOME | Out-Null
-    & tar.exe -xf $runtimeArchive -C $env:DSH_HOME
-    $runtimeExtractExit = $LASTEXITCODE
+    # R9：不再直接覆盖解压——改为「备份旧 profile → 暂存解压 → 原子换入 → 合并出厂 patch」，失败自动回滚
+    $runtimeExtractExit = Invoke-RuntimeRefresh $runtimeArchive $expectedBuild $env:DSH_HOME $Root
   } else { $runtimeExtractExit = 0 }
   $installedBuild = if (Test-Path $runtimeMarker) {
     try { (Get-Content -Raw $runtimeMarker | ConvertFrom-Json).build_id } catch { '' }
