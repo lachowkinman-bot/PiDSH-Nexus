@@ -1,0 +1,1617 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "admin",
+  "label": "行政 ADMIN",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "assets.csv:acquired_date",
+      "entity": "assets.csv",
+      "field": "acquired_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2025-11-20",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "入库/入账日期（`YYYY-MM-DD`）；采购入库行=对应单据 `order_status=已入库` 的入库日；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:acquired_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:asset",
+      "entity": "assets.csv",
+      "field": "asset",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "投影仪(会议室A)",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "资产名称（含属性/位置备注，如\"投影仪(会议室A)\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:asset"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:asset_id",
+      "entity": "assets.csv",
+      "field": "asset_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "AST-0101",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "资产编码，唯一，格式 `AST-####`（参照 §3.2.25 code(AST-xxxx)）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:asset_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:category",
+      "entity": "assets.csv",
+      "field": "category",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "办公设备",
+        "IT设备",
+        "办公家具"
+      ],
+      "constraints": [],
+      "example": "办公设备",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "资产分类：IT设备 / 办公设备 / 办公家具 / 办公用品；追加列（对应参照 §3.2.25 cat）",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:category"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:dept",
+      "entity": "assets.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "行政部",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "归属部门（词表：行政部/研发部/销售部/财务部/市场部/人力资源部），与 purchases.request_dept 同词表；追加列（对应参照 §3.2.25 user 的部门口径）",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:holder_masked",
+      "entity": "assets.csv",
+      "field": "holder_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "公共",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "使用人工号掩码（保留 `E`+2 位数字，其余 `***`，如 `E10***`）；共享资产固定为 `公共`；闲置/报废资产必须为 `公共`；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:holder_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:last_event",
+      "entity": "assets.csv",
+      "field": "last_event",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-25 季度盘点在用",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "最近状态事件（含工单/流程号，是离职释放、报修、报废、盘点的追溯证据）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:last_event"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:location",
+      "entity": "assets.csv",
+      "field": "location",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "A栋3层会议室A",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "存放位置/工位/仓库（如\"A栋3层会议室A\"\"研发部工位\"\"行政仓库\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:location"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:price_yuan",
+      "entity": "assets.csv",
+      "field": "price_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 799
+        },
+        {
+          "kind": "maximum",
+          "value": 6580
+        }
+      ],
+      "example": "4800",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "购置单价（元，整数）；与同 `purchase_ref` 中选报价行一致（§9 V-AD-06）；追加列（对应参照 §3.2.25 price）",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:price_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:purchase_ref",
+      "entity": "assets.csv",
+      "field": "purchase_ref",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "会议室投影仪×2",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购来源：取值=`purchases.item`（如\"办公笔记本×20\"）；历史批次/非采购入库为空；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:purchase_ref"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:sn",
+      "entity": "assets.csv",
+      "field": "sn",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SN-EP01***",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "设备序列号（掩码口径 `SN-XXnn***`）；追加列（对应参照 §3.2.25 sn）",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:sn"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "assets.csv:status",
+      "entity": "assets.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "在用",
+        "维修中",
+        "闲置",
+        "已报废"
+      ],
+      "constraints": [],
+      "example": "在用",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "资产状态：在用 / 闲置 / 维修中 / 已报废（枚举与迁移见 §4）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/assets.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:amount_yuan",
+      "entity": "purchases.csv",
+      "field": "amount_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 8400
+        },
+        {
+          "kind": "maximum",
+          "value": 142000
+        }
+      ],
+      "example": "136000",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该报价总额 = qty × unit_price_yuan（元，整数）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:amount_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:budget_ok",
+      "entity": "purchases.csv",
+      "field": "budget_ok",
+      "physical_type": "csv",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "Yes",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "部门预算是否足额：Yes / No；No 触发审批阻断（§9 V-AD-04）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:budget_ok"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:item",
+      "entity": "purchases.csv",
+      "field": "item",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "办公笔记本×20",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购项，格式\"名称×数量\"（如\"办公笔记本×20\"），同组比价各行一致；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:item"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:lead_days",
+      "entity": "purchases.csv",
+      "field": "lead_days",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "天",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3
+        },
+        {
+          "kind": "maximum",
+          "value": 30
+        }
+      ],
+      "example": "7",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "交付周期（自然日）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:lead_days"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:note",
+      "entity": "purchases.csv",
+      "field": "note",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "三家比价；未中选；2026-09-20 入库",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "说明（中选理由/单一来源说明/驳回原因/入库日），字段内不使用英文逗号；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:order_status",
+      "entity": "purchases.csv",
+      "field": "order_status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已入库",
+        "已批准",
+        "待审批",
+        "已驳回"
+      ],
+      "constraints": [],
+      "example": "已入库",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购单状态：草稿 / 待审批 / 已批准 / 已驳回 / 已入库（迁移见 §4）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:order_status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:qty",
+      "entity": "purchases.csv",
+      "field": "qty",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 1
+        },
+        {
+          "kind": "maximum",
+          "value": 40
+        }
+      ],
+      "example": "20",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数量（与 item 中\"×数量\"一致）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:qty"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:quote_date",
+      "entity": "purchases.csv",
+      "field": "quote_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-10",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价日期（`YYYY-MM-DD`）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:quote_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:request_dept",
+      "entity": "purchases.csv",
+      "field": "request_dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "研发部",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "申请部门（与 assets.dept 同词表）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:request_dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:request_id",
+      "entity": "purchases.csv",
+      "field": "request_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "PR-2026-Q3-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购申请单号（如 `PR-2026-Q3-001`），同一单号的多行构成一组可验证比价；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:request_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:selected",
+      "entity": "purchases.csv",
+      "field": "selected",
+      "physical_type": "csv",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "No",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "中选标记：No / Yes(最低价) / Yes(单一来源)；同一 `request_id` 恰一行 Yes；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:selected"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:unit_price_yuan",
+      "entity": "purchases.csv",
+      "field": "unit_price_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 799
+        },
+        {
+          "kind": "maximum",
+          "value": 12000
+        }
+      ],
+      "example": "6800",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该供应商单价（元，整数）；原始列（属 procurement_price 脱敏域）",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:unit_price_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "purchases.csv:vendor_masked",
+      "entity": "purchases.csv",
+      "field": "vendor_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "供应商A",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "供应商代号（供应商A/B/C/D，真名受 redact_gate 约束不外发）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:admin/purchases.csv",
+          "field:vendor_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:admin.asset-inventory@1.0.0:asset_id",
+      "entity": "workflow_output/admin.asset-inventory",
+      "field": "asset_id",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "资产编码，唯一，格式 `AST-####`（参照 §3.2.25 code(AST-xxxx)）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.asset-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.asset-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.asset-inventory@1.0.0:holder_masked",
+      "entity": "workflow_output/admin.asset-inventory",
+      "field": "holder_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "使用人工号掩码（保留 `E`+2 位数字，其余 `***`，如 `E10***`）；共享资产固定为 `公共`；闲置/报废资产必须为 `公共`；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.asset-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.asset-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.asset-inventory@1.0.0:location",
+      "entity": "workflow_output/admin.asset-inventory",
+      "field": "location",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "存放位置/工位/仓库（如\"A栋3层会议室A\"\"研发部工位\"\"行政仓库\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.asset-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.asset-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.asset-inventory@1.0.0:status",
+      "entity": "workflow_output/admin.asset-inventory",
+      "field": "status",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/assets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "资产状态：在用 / 闲置 / 维修中 / 已报废（枚举与迁移见 §4）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.asset-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.asset-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.meeting-minutes@1.0.0:decisions",
+      "entity": "workflow_output/admin.meeting-minutes",
+      "field": "decisions",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.meeting-minutes@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.meeting-minutes@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.meeting-minutes@1.0.0:meeting",
+      "entity": "workflow_output/admin.meeting-minutes",
+      "field": "meeting",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.meeting-minutes@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.meeting-minutes@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.meeting-minutes@1.0.0:owners",
+      "entity": "workflow_output/admin.meeting-minutes",
+      "field": "owners",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.meeting-minutes@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.meeting-minutes@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.meeting-minutes@1.0.0:todos",
+      "entity": "workflow_output/admin.meeting-minutes",
+      "field": "todos",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.meeting-minutes@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.meeting-minutes@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.purchase-approve@1.0.0:amount_wan",
+      "entity": "workflow_output/admin.purchase-approve",
+      "field": "amount_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.purchase-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.purchase-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.purchase-approve@1.0.0:approvals",
+      "entity": "workflow_output/admin.purchase-approve",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.purchase-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.purchase-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.purchase-approve@1.0.0:budget_ok",
+      "entity": "workflow_output/admin.purchase-approve",
+      "field": "budget_ok",
+      "physical_type": "json",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "部门预算是否足额：Yes / No；No 触发审批阻断（§9 V-AD-04）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.purchase-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.purchase-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.purchase-approve@1.0.0:item",
+      "entity": "workflow_output/admin.purchase-approve",
+      "field": "item",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购项，格式\"名称×数量\"（如\"办公笔记本×20\"），同组比价各行一致；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.purchase-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.purchase-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.purchase-approve@1.0.0:qty",
+      "entity": "workflow_output/admin.purchase-approve",
+      "field": "qty",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数量（与 item 中\"×数量\"一致）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.purchase-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.purchase-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.seal-request@1.0.0:copies",
+      "entity": "workflow_output/admin.seal-request",
+      "field": "copies",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.seal-request@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.seal-request@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.seal-request@1.0.0:doc",
+      "entity": "workflow_output/admin.seal-request",
+      "field": "doc",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.seal-request@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.seal-request@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.seal-request@1.0.0:keeper_confirm",
+      "entity": "workflow_output/admin.seal-request",
+      "field": "keeper_confirm",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.seal-request@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.seal-request@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.seal-request@1.0.0:seal_type",
+      "entity": "workflow_output/admin.seal-request",
+      "field": "seal_type",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.seal-request@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.seal-request@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.supply-order@1.0.0:amount_yuan",
+      "entity": "workflow_output/admin.supply-order",
+      "field": "amount_yuan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该报价总额 = qty × unit_price_yuan（元，整数）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.supply-order@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.supply-order@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.supply-order@1.0.0:item",
+      "entity": "workflow_output/admin.supply-order",
+      "field": "item",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购项，格式\"名称×数量\"（如\"办公笔记本×20\"），同组比价各行一致；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.supply-order@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.supply-order@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.supply-order@1.0.0:qty",
+      "entity": "workflow_output/admin.supply-order",
+      "field": "qty",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数量（与 item 中\"×数量\"一致）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.supply-order@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.supply-order@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.supply-order@1.0.0:vendor_masked",
+      "entity": "workflow_output/admin.supply-order",
+      "field": "vendor_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "供应商代号（供应商A/B/C/D，真名受 redact_gate 约束不外发）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.supply-order@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.supply-order@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.vendor-price@1.0.0:chosen",
+      "entity": "workflow_output/admin.vendor-price",
+      "field": "chosen",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.vendor-price@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.vendor-price@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.vendor-price@1.0.0:item",
+      "entity": "workflow_output/admin.vendor-price",
+      "field": "item",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "admin/purchases.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "采购项，格式\"名称×数量\"（如\"办公笔记本×20\"），同组比价各行一致；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.vendor-price@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.vendor-price@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.vendor-price@1.0.0:lowest",
+      "entity": "workflow_output/admin.vendor-price",
+      "field": "lowest",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.vendor-price@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.vendor-price@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:admin.vendor-price@1.0.0:quotes",
+      "entity": "workflow_output/admin.vendor-price",
+      "field": "quotes",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:admin.vendor-price@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "admin.vendor-price@1.0.0"
+      ]
+    }
+  ]
+}

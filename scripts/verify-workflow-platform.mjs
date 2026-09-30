@@ -34,7 +34,23 @@ const platform = createWorkbenchPlatform({
   deliverDomain: (options) => delivery.deliverDomain(options),
 });
 
+platform.upsertOperator({
+  id: 'QA-BIZ-01',
+  displayName: 'QA 业务审批人',
+  roles: ['业务负责人', '部门负责人', '招聘负责人', '财务负责人'],
+});
+platform.upsertOperator({
+  id: 'QA-RISK-01',
+  displayName: 'QA 风险审批人',
+  roles: ['风险负责人', '合规负责人', 'HRD', 'CFO'],
+});
+
 const definitions = platform.definitions();
+const allRequiredRoles = [...new Set(definitions.flatMap((item) =>
+  item.stages.flatMap((stage) => stage.requiredRoles || []),
+))];
+platform.upsertOperator({ id: 'QA-BIZ-01', displayName: 'QA 业务审批人', roles: allRequiredRoles });
+platform.upsertOperator({ id: 'QA-RISK-01', displayName: 'QA 风险审批人', roles: allRequiredRoles });
 record('definitions.count', definitions.length === 78, `count=${definitions.length}`);
 record(
   'definitions.stages',
@@ -71,6 +87,7 @@ record('workflow.normal.strategy', platform.metrics({ domain: noApproval.domain 
 
 const approval = definitions.find((item) => item.dual && item.hitl_nodes?.length);
 if (!approval) throw new Error('找不到双审批工作流');
+const approvalStage = approval.stages.find((stage) => stage.type === 'approval');
 let approvalInstance = platform.start({ workflowId: approval.workflow_id, payload: payloadFor(approval) });
 approvalInstance = await platform.act({
   id: approvalInstance.id,
@@ -83,19 +100,19 @@ try {
   await platform.act({
     id: approvalInstance.id,
     action: 'approve',
-    role: 'HRD',
-    operator: 'QA-01',
+    role: approvalStage.requiredRoles?.[0] || '业务负责人',
+    operatorId: 'QA-RISK-01',
     comment: 'QA approve',
   });
   await platform.act({
     id: approvalInstance.id,
     action: 'approve',
-    role: 'HRD',
-    operator: 'QA-01',
+    role: approvalStage.requiredRoles?.[0] || '业务负责人',
+    operatorId: 'QA-RISK-01',
     comment: 'QA duplicate approve',
   });
 } catch (error) {
-  sameApproverBlocked = /双审批/.test(String(error.message || error));
+  sameApproverBlocked = /双审批|同一操作者/.test(String(error.message || error));
 }
 record('workflow.approval.duplicate-blocked', sameApproverBlocked, `workflow=${approval.workflow_id}`);
 
@@ -108,15 +125,15 @@ approvalInstance = await platform.act({
 await platform.act({
   id: approvalInstance.id,
   action: 'approve',
-  role: '业务负责人',
-  operator: 'QA-BIZ-01',
+  role: approvalStage.requiredRoles?.[0] || '业务负责人',
+  operatorId: 'QA-BIZ-01',
   comment: '业务通过',
 });
 approvalInstance = await platform.act({
   id: approvalInstance.id,
   action: 'approve',
-  role: '风险负责人',
-  operator: 'QA-RISK-01',
+  role: approvalStage.requiredRoles?.[1] || '风险负责人',
+  operatorId: 'QA-RISK-01',
   comment: '风险通过',
 });
 record('workflow.approval.complete', approvalInstance.status === 'completed', `status=${approvalInstance.status}`);
@@ -187,14 +204,13 @@ for (const definition of definitions) {
     });
     let approvalIndex = 0;
     while (item.status === 'awaiting_approval' && approvalIndex < 2) {
-      const roles = approvalIndex === 0
-        ? ['业务负责人', '部门负责人', '招聘负责人', '财务负责人']
-        : ['风险负责人', '合规负责人', 'HRD', 'CFO'];
+      const approvalStage = definition.stages.find((stage) => stage.type === 'approval');
+      const roles = approvalStage?.requiredRoles || (approvalIndex === 0 ? ['业务负责人'] : ['风险负责人']);
       item = await platform.act({
         id: item.id,
         action: 'approve',
-        role: roles[approvalIndex],
-        operator: `QA-MATRIX-${approvalIndex + 1}`,
+        role: roles[approvalIndex] || roles[0],
+        operatorId: approvalIndex === 0 ? 'QA-BIZ-01' : 'QA-RISK-01',
         comment: '矩阵验收审批通过',
       });
       approvalIndex += 1;

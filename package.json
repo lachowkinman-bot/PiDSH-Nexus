@@ -10,6 +10,12 @@
     "verify:shell-writes": "node scripts/verify-shell-writes.mjs",
     "verify:workbench-ui": "node scripts/verify-workbench-ui-v4.mjs",
     "skills:enrich": "node scripts/enrich-domain-skills.mjs",
+    "design:build": "node scripts/build-domain-work-design.mjs",
+    "design:verify": "node scripts/verify-domain-work-design.mjs",
+    "capabilities:build": "node scripts/build-runtime-capabilities.mjs",
+    "capabilities:verify": "node scripts/verify-runtime-capabilities.mjs",
+    "verify:workflow-contracts": "node scripts/verify-workflow-contracts-v2.mjs",
+    "verify:workflow-delivery": "node scripts/verify-workflow-delivery-matrix.mjs",
     "build:app": "node scripts/build-app.mjs"
   },
   "dependencies": {

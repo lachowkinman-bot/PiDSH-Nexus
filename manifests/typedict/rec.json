@@ -1,0 +1,2370 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "rec",
+  "label": "招聘 REC",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "candidates.csv:candidate_id",
+      "entity": "candidates.csv",
+      "field": "candidate_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "C001",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "候选人 ID（`C` + 3 位），唯一主键；interviews.cand_id 的外键指向本列",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:candidate_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:candidate_idcard",
+      "entity": "candidates.csv",
+      "field": "candidate_idcard",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "masked_pattern",
+          "value": "********XXXX"
+        }
+      ],
+      "example": "4403**********1234",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "身份证号（PII）。落地值为脱敏形态 `4403**********1234`（前 4 后 4，中间 10 星）；完整值不得出域",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:candidate_idcard"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:candidate_masked",
+      "entity": "candidates.csv",
+      "field": "candidate_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "张****",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "姓名掩码（姓 + `**`），唯一展示标识；原始姓名不入库",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:candidate_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:candidate_phone",
+      "entity": "candidates.csv",
+      "field": "candidate_phone",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "masked_pattern",
+          "value": "1XX****XXXX"
+        }
+      ],
+      "example": "138****5678",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "手机号（PII）。落地值为脱敏形态 `138****5678`（前 3 后 4，中间 4 星）；完整值不得出域",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:candidate_phone"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:education",
+      "entity": "candidates.csv",
+      "field": "education",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "本科",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "大专/本科/硕士/博士",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:education"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:exp_years",
+      "entity": "candidates.csv",
+      "field": "exp_years",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 1
+        },
+        {
+          "kind": "maximum",
+          "value": 9
+        }
+      ],
+      "example": "8",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "工作年限（0-40，整数）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:exp_years"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:interview_at",
+      "entity": "candidates.csv",
+      "field": "interview_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-02 14:00",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "下一场（或最近一场关键）面试时间，格式 `YYYY-MM-DD HH:mm`；无则 `-`",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:interview_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:note",
+      "entity": "candidates.csv",
+      "field": "note",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "大客户资源匹配，复试待评",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "运营注记（淘汰原因、冲突提示、联动待办等）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:offer_salary",
+      "entity": "candidates.csv",
+      "field": "offer_salary",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 21000
+        },
+        {
+          "kind": "maximum",
+          "value": 25000
+        }
+      ],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "定薪（元/月），须落在 comp.bands 区间内；未发放为 `-`",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:offer_salary"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:offer_status",
+      "entity": "candidates.csv",
+      "field": "offer_status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "-",
+        "sent",
+        "accepted"
+      ],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "`-` / sent 已发送 / accepted 已接受 / declined 已放弃",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:offer_status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:onboard_status",
+      "entity": "candidates.csv",
+      "field": "onboard_status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "-",
+        "pending",
+        "done"
+      ],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "`-` / pending 待入职 / done 已入职",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:onboard_status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:position",
+      "entity": "candidates.csv",
+      "field": "position",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售经理",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "应聘岗位名（对齐职位表 title；本域职位表未落地，暂按岗位名引用）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:position"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:score",
+      "entity": "candidates.csv",
+      "field": "score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 62
+        },
+        {
+          "kind": "maximum",
+          "value": 91
+        }
+      ],
+      "example": "84",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "已完成轮次的最新面试评分（0-100）；无已评轮次为 `-`",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:source",
+      "entity": "candidates.csv",
+      "field": "source",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "猎头",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "来源渠道：猎头/内推/官网/招聘网站/BOSS直聘/猎聘/校招（对齐 PRD B8 渠道口径）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:source"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:stage",
+      "entity": "candidates.csv",
+      "field": "stage",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "second",
+        "screening",
+        "offer",
+        "first",
+        "final",
+        "rejected",
+        "talent",
+        "hired"
+      ],
+      "constraints": [],
+      "example": "second",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "候选人阶段，枚举见 §4.1，落地存英文枚举值（screening/first/second/final/offer/hired/rejected/talent）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:stage"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "candidates.csv:summary",
+      "entity": "candidates.csv",
+      "field": "summary",
+      "physical_type": "csv",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "good",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "面试摘要徽标：good/medium/bad（看板卡片字段）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/candidates.csv",
+          "field:summary"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "funnel.csv:conversion_pct",
+      "entity": "funnel.csv",
+      "field": "conversion_pct",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3
+        },
+        {
+          "kind": "maximum",
+          "value": 100
+        }
+      ],
+      "example": "100",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/funnel.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "以当周「简历投递」为基期 100 的累计转化率（占比口径，非段间转化），引用时须区分",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/funnel.csv",
+          "field:conversion_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "funnel.csv:count",
+      "entity": "funnel.csv",
+      "field": "count",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 15
+        },
+        {
+          "kind": "maximum",
+          "value": 486
+        }
+      ],
+      "example": "452",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/funnel.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该周该阶段人数",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/funnel.csv",
+          "field:count"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "funnel.csv:stage",
+      "entity": "funnel.csv",
+      "field": "stage",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "简历投递",
+        "初筛通过",
+        "面试通过",
+        "offer发放",
+        "入职"
+      ],
+      "constraints": [],
+      "example": "简历投递",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "候选人阶段，枚举见 §4.1，落地存英文枚举值（screening/first/second/final/offer/hired/rejected/talent）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/funnel.csv",
+          "field:stage"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "funnel.csv:week",
+      "entity": "funnel.csv",
+      "field": "week",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-W38",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/funnel.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "ISO 周（2026-W38/W39/W40）。追加列：原有 3 列列名保持不变",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/funnel.csv",
+          "field:week"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:cand_id",
+      "entity": "interviews.csv",
+      "field": "cand_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "C001",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "→ candidates.candidate_id 外键；禁止孤儿行（见 §9）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:cand_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:comment",
+      "entity": "interviews.csv",
+      "field": "comment",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "行业理解与沟通好，大客户资源可迁移",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "评语与结论（脱敏后写入，不含候选人 PII）",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:comment"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:interview_at",
+      "entity": "interviews.csv",
+      "field": "interview_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-28 14:00",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "下一场（或最近一场关键）面试时间，格式 `YYYY-MM-DD HH:mm`；无则 `-`",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:interview_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:interview_id",
+      "entity": "interviews.csv",
+      "field": "interview_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "IV001",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "面试记录 ID（`IV` + 3 位），唯一主键",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:interview_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:interviewer",
+      "entity": "interviews.csv",
+      "field": "interviewer",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "陈**",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "面试官掩码名（姓 + `**`）。本表 PII 字段声明为空，故不得落面试官全名",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:interviewer"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:interviewer_role",
+      "entity": "interviews.csv",
+      "field": "interviewer_role",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售总监",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "面试官角色：销售总监/HRD/技术负责人/前端组长/数据负责人/招聘负责人/财务经理",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:interviewer_role"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:mode",
+      "entity": "interviews.csv",
+      "field": "mode",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "现场",
+        "视频"
+      ],
+      "constraints": [],
+      "example": "现场",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "现场/视频/电话",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:mode"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:result",
+      "entity": "interviews.csv",
+      "field": "result",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "pass",
+        "pending",
+        "fail"
+      ],
+      "constraints": [],
+      "example": "pass",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "面试结果，枚举见 §4.2：pending 待定 / pass 通过 / fail 未通过",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:result"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:round",
+      "entity": "interviews.csv",
+      "field": "round",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "first",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "first 初试 / second 复试 / final 终面",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:round"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "interviews.csv:score",
+      "entity": "interviews.csv",
+      "field": "score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 62
+        },
+        {
+          "kind": "maximum",
+          "value": 91
+        }
+      ],
+      "example": "84",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "已完成轮次的最新面试评分（0-100）；无已评轮次为 `-`",
+      "lineage": {
+        "upstream": [
+          "dataset:rec/interviews.csv",
+          "field:score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:rec.funnel-weekly@1.0.0:conversion_pct",
+      "entity": "workflow_output/rec.funnel-weekly",
+      "field": "conversion_pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/funnel.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "以当周「简历投递」为基期 100 的累计转化率（占比口径，非段间转化），引用时须区分",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.funnel-weekly@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.funnel-weekly@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.funnel-weekly@1.0.0:count",
+      "entity": "workflow_output/rec.funnel-weekly",
+      "field": "count",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/funnel.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该周该阶段人数",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.funnel-weekly@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.funnel-weekly@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.funnel-weekly@1.0.0:source",
+      "entity": "workflow_output/rec.funnel-weekly",
+      "field": "source",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "来源渠道：猎头/内推/官网/招聘网站/BOSS直聘/猎聘/校招（对齐 PRD B8 渠道口径）",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.funnel-weekly@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.funnel-weekly@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.funnel-weekly@1.0.0:stage",
+      "entity": "workflow_output/rec.funnel-weekly",
+      "field": "stage",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "候选人阶段，枚举见 §4.1，落地存英文枚举值（screening/first/second/final/offer/hired/rejected/talent）",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.funnel-weekly@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.funnel-weekly@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.funnel-weekly@1.0.0:week",
+      "entity": "workflow_output/rec.funnel-weekly",
+      "field": "week",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/funnel.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "ISO 周（2026-W38/W39/W40）。追加列：原有 3 列列名保持不变",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.funnel-weekly@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.funnel-weekly@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:candidate_masked",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "candidate_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "姓名掩码（姓 + `**`），唯一展示标识；原始姓名不入库",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:conflicts",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "conflicts",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:interviewers",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "interviewers",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:mode",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "mode",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/interviews.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "现场/视频/电话",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:question_bank_id",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "question_bank_id",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": true,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:scorecard_id",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "scorecard_id",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.interview-schedule@1.0.0:slot",
+      "entity": "workflow_output/rec.interview-schedule",
+      "field": "slot",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.interview-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.interview-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.jd-draft@1.0.0:band",
+      "entity": "workflow_output/rec.jd-draft",
+      "field": "band",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.jd-draft@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.jd-draft@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.jd-draft@1.0.0:competencies",
+      "entity": "workflow_output/rec.jd-draft",
+      "field": "competencies",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.jd-draft@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.jd-draft@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.jd-draft@1.0.0:locale",
+      "entity": "workflow_output/rec.jd-draft",
+      "field": "locale",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.jd-draft@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.jd-draft@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.jd-draft@1.0.0:mission",
+      "entity": "workflow_output/rec.jd-draft",
+      "field": "mission",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.jd-draft@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.jd-draft@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.jd-draft@1.0.0:position",
+      "entity": "workflow_output/rec.jd-draft",
+      "field": "position",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "应聘岗位名（对齐职位表 title；本域职位表未落地，暂按岗位名引用）",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.jd-draft@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.jd-draft@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.jd-draft@1.0.0:requirements",
+      "entity": "workflow_output/rec.jd-draft",
+      "field": "requirements",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.jd-draft@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.jd-draft@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:approvals",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:candidate_masked",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "candidate_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "姓名掩码（姓 + `**`），唯一展示标识；原始姓名不入库",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:feedback_summary",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "feedback_summary",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:interview_scores",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "interview_scores",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:offer_band",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "offer_band",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:position",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "position",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "应聘岗位名（对齐职位表 title；本域职位表未落地，暂按岗位名引用）",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:proposed_range",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "proposed_range",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.offer-approve@1.0.0:risk_flags",
+      "entity": "workflow_output/rec.offer-approve",
+      "field": "risk_flags",
+      "physical_type": "json",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.offer-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.offer-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:candidate_masked",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "candidate_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "姓名掩码（姓 + `**`），唯一展示标识；原始姓名不入库",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:due",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "due",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:goals_30_60_90",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "goals_30_60_90",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:item",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "item",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:owner",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "owner",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:retention_90d",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "retention_90d",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:start_date",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "start_date",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.onboarding-check@1.0.0:status",
+      "entity": "workflow_output/rec.onboarding-check",
+      "field": "status",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.onboarding-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.onboarding-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:approver",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "approver",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:candidate_masked",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "candidate_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "姓名掩码（姓 + `**`），唯一展示标识；原始姓名不入库",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:criteria_results",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "criteria_results",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:match_score",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "match_score",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:position",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "position",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "rec/candidates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "应聘岗位名（对齐职位表 title；本域职位表未落地，暂按岗位名引用）",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:redact_fields",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "redact_fields",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:resume_evidence",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "resume_evidence",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:rec.resume-forward@1.0.0:target",
+      "entity": "workflow_output/rec.resume-forward",
+      "field": "target",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:rec.resume-forward@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "rec.resume-forward@1.0.0"
+      ]
+    }
+  ]
+}

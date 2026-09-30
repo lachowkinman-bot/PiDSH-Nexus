@@ -11,13 +11,21 @@ import { execFileSync } from 'node:child_process';
 const ROOT = process.cwd();
 const argv = process.argv.slice(2);
 const argOf = (k) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : null; };
-const BASE = argOf('--base') || process.env.WORKBENCH_BASE || 'http://127.0.0.1:3810';
+const URL_ARG = argOf('--url') || process.env.WORKBENCH_URL || '';
+const URL_OBJ = URL_ARG ? new URL(URL_ARG) : null;
+const BASE = URL_OBJ ? URL_OBJ.origin : (argOf('--base') || process.env.WORKBENCH_BASE || 'http://127.0.0.1:3810');
+const TOKEN = URL_OBJ ? URL_OBJ.searchParams.get('token') : null;
 const OUT = argOf('--out') || 'reports/app-verification.json';
 console.log(`# verify-app BASE=${BASE} OUT=${OUT}`);
 const results = [];
 const rec = (area, item, pass, note) => { results.push({ area, item, pass, note: String(note ?? '') }); console.log(`${pass ? 'PASS' : 'FAIL'}  ${area.padEnd(12)} ${item.padEnd(42)} ${note ?? ''}`); };
-const get = async (p) => { try { const r = await fetch(BASE + p, { signal: AbortSignal.timeout(60000) }); const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch { /* 非 JSON 端点 */ } return { code: r.status, json: j, text: t }; } catch (e) { return { code: 0, err: e.message, json: null, text: '' }; } };
-const post = async (p, body) => { try { const r = await fetch(BASE + p, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(180000) }); const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch { /* 非 JSON 端点 */ } return { code: r.status, json: j, text: t }; } catch (e) { return { code: 0, err: e.message, json: null, text: '' }; } };
+function endpoint(p) {
+  const url = new URL(p, BASE);
+  if (TOKEN) url.searchParams.set('token', TOKEN);
+  return url.toString();
+}
+const get = async (p) => { try { const r = await fetch(endpoint(p), { signal: AbortSignal.timeout(60000) }); const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch { /* 非 JSON 端点 */ } return { code: r.status, json: j, text: t }; } catch (e) { return { code: 0, err: e.message, json: null, text: '' }; } };
+const post = async (p, body) => { try { const r = await fetch(endpoint(p), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(180000) }); const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch { /* 非 JSON 端点 */ } return { code: r.status, json: j, text: t }; } catch (e) { return { code: 0, err: e.message, json: null, text: '' }; } };
 
 // ① 壳健康 + 核心端点
 for (const [name, p, probe] of [

@@ -1,0 +1,1702 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "cmp",
+  "label": "合规 CMP",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "pipia.csv:approval_dual",
+      "entity": "pipia.csv",
+      "field": "approval_dual",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "主管✓/DPO✓",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "双审批展示口径：`主管✓/DPO✓`（已通过）、`主管待/DPO待`（待审批）、`主管✓/DPO待`（部分通过）；未启动为 `—`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:approval_dual"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:assessed_at",
+      "entity": "pipia.csv",
+      "field": "assessed_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-08-20",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "PIPIA 结论出具日；`assessment_status≠已出结论` 时为 `—`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:assessed_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:assessment_status",
+      "entity": "pipia.csv",
+      "field": "assessment_status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已出结论",
+        "评估中",
+        "待评"
+      ],
+      "constraints": [],
+      "example": "已出结论",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "PIPIA 评估状态：待评 / 评估中 / 已出结论（迁移见 §4.3）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:assessment_status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:check_ref",
+      "entity": "pipia.csv",
+      "field": "check_ref",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CHK-2026-007",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "→ `policy_checklist.check_id` 外键（本表风险项与检查项的口径对应，禁孤儿引用）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:check_ref"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:data_categories",
+      "entity": "pipia.csv",
+      "field": "data_categories",
+      "physical_type": "csv",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "生物识别信息；考勤记录",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "涉及个人信息类别（**类别标签**，多项用 `；` 分隔，如\"生物识别信息；考勤记录\"）；不承载任何具体个人数据；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:data_categories"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:dept_masked",
+      "entity": "pipia.csv",
+      "field": "dept_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "DEPT-SEC-***",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "责任部门脱敏码 `DEPT-<职能>-***`（如 `DEPT-SEC-***`），部门标识不落实名；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:dept_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:launch_gate",
+      "entity": "pipia.csv",
+      "field": "launch_gate",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "可上线",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "上线闸门：可上线 / 禁止上线 / 待评审；**高风险且 `residual_downgraded=否` 一律\"禁止上线\"**（§5/§9 V-CMP-05）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:launch_gate"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:legal_basis",
+      "entity": "pipia.csv",
+      "field": "legal_basis",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "《个人信息保护法》第 26、55 条",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "法条引用（《法律名》第 N 条；多项用 `；` 分隔），**不合规/待整改项必填**（§9 V-CMP-01）；追加列（参照 §3.2.24 legalBasis）",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:legal_basis"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:mitigation",
+      "entity": "pipia.csv",
+      "field": "mitigation",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "闸机侧改为特征值本地比对；原始图像不留存",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "风险缓释措施（**工作底稿口径 `audit_working_papers`**：出域/入报告前必过 `redact_gate`）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:mitigation"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:next_review",
+      "entity": "pipia.csv",
+      "field": "next_review",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-12-01",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "下次复评日 `YYYY-MM-DD`（高风险 ≤6 个月、中风险 ≤9 个月、低风险 ≤12 个月，§9 V-CMP-07）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:next_review"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:owner",
+      "entity": "pipia.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "安全合规部",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "整改/归口部门（合成部门名，**非个人**）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:pipia_id",
+      "entity": "pipia.csv",
+      "field": "pipia_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "PIPIA-2026-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "评估编号，主键，`PIPIA-YYYY-###`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:pipia_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:process",
+      "entity": "pipia.csv",
+      "field": "process",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "员工考勤人脸识别",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "个人信息处理活动名称（如\"员工考勤人脸识别\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:process"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:residual_downgraded",
+      "entity": "pipia.csv",
+      "field": "residual_downgraded",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "是",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "降级是否**已完成验证**：是 / 否 / 不适用（不适用=初始即低风险）；判定规则见 §9 V-CMP-05；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:residual_downgraded"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:residual_risk",
+      "entity": "pipia.csv",
+      "field": "residual_risk",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [
+        "中",
+        "低",
+        "高"
+      ],
+      "constraints": [],
+      "example": "中",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "**残余**风险等级：高 / 中 / 低（评估中为初步值，已出结论为结论值）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:residual_risk"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:risk_level",
+      "entity": "pipia.csv",
+      "field": "risk_level",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "高",
+        "中",
+        "低"
+      ],
+      "constraints": [],
+      "example": "高",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "**初始**风险等级：高 / 中 / 低（未施缓释前的固有风险）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:risk_level"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipia.csv:risk_status",
+      "entity": "pipia.csv",
+      "field": "risk_status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已闭环",
+        "处理中",
+        "待处理"
+      ],
+      "constraints": [],
+      "example": "已闭环",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "风险事件状态：待处理 / 处理中 / 已闭环（对应参照 RISK_STATUS open/doing/closed，迁移见 §4.2）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/pipia.csv",
+          "field:risk_status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:category",
+      "entity": "policy_checklist.csv",
+      "field": "category",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "劳动用工",
+        "数据保护",
+        "个人信息保护",
+        "采购合规",
+        "信息安全",
+        "劳动权益",
+        "反舞弊",
+        "职业健康安全",
+        "财税合规"
+      ],
+      "constraints": [],
+      "example": "劳动用工",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "检查类别（9 类，参照 §3.2.24）：劳动用工 / 劳动权益 / 数据保护 / 个人信息保护 / 信息安全 / 采购合规 / 反舞弊 / 职业健康安全 / 财税合规；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:category"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:check_id",
+      "entity": "policy_checklist.csv",
+      "field": "check_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CHK-2026-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "检查项编号，主键，`CHK-YYYY-###`，编号不复用；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:check_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:closed_date",
+      "entity": "policy_checklist.csv",
+      "field": "closed_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "—",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "整改复验关闭日（对应 §4.1\"待整改→合规\"迁移完成）；未关闭为 `—`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:closed_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:evidence_ref",
+      "entity": "policy_checklist.csv",
+      "field": "evidence_ref",
+      "physical_type": "csv",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EVP-2026-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "证据引用：`EVP-YYYY-###` = `cmp.evidence-pack` 证据包编号（审计级可追溯锚点，§9 V-CMP-04）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:evidence_ref"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:finding",
+      "entity": "policy_checklist.csv",
+      "field": "finding",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-08 抽样 30 人加班与调休登记完整；无欠休",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "发现项/检查结论（工作底稿口径：只写制度、系统与流程事实，**禁写姓名/工号/联系方式**）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:finding"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:item",
+      "entity": "policy_checklist.csv",
+      "field": "item",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "加班与调休条款",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "检查项（条款级颗粒度，如\"加班与调休条款\"\"敏感个人信息单独同意\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:item"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:legal_basis",
+      "entity": "policy_checklist.csv",
+      "field": "legal_basis",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "《劳动法》第 44 条",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "法条引用（《法律名》第 N 条；多项用 `；` 分隔），**不合规/待整改项必填**（§9 V-CMP-01）；追加列（参照 §3.2.24 legalBasis）",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:legal_basis"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:level",
+      "entity": "policy_checklist.csv",
+      "field": "level",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "中",
+        "高",
+        "低"
+      ],
+      "constraints": [],
+      "example": "中",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "检查项风险等级：高 / 中 / 低；决定整改时限（§9 V-CMP-03）；追加列（参照 §3.2.24 level）",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:level"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:owner",
+      "entity": "policy_checklist.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "人力资源部",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "整改/归口部门（合成部门名，**非个人**）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:policy",
+      "entity": "policy_checklist.csv",
+      "field": "policy",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "劳动用工制度",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "制度/政策名称（如\"劳动用工制度\"\"个人信息保护\"\"数据管理制度\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:policy"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:rectify_deadline",
+      "entity": "policy_checklist.csv",
+      "field": "rectify_deadline",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "—",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "整改完成期限 = `review_date` + 等级时限（高 ≤30 天 / 中 ≤60 天 / 低 ≤90 天）；合规项为 `—`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:rectify_deadline"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:review_date",
+      "entity": "policy_checklist.csv",
+      "field": "review_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-12",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "本次检查实施日（待整改/不合规项即发现日）；整改时限自该日起算（§9 V-CMP-03）；原始列（语义口径修正见 §10.7）",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:review_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:reviewer_masked",
+      "entity": "policy_checklist.csv",
+      "field": "reviewer_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "E1***",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "检查/复核人掩码 `E<n>***`（不可还原，不得回填工号/姓名，§9 V-CMP-12）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:reviewer_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "policy_checklist.csv:status",
+      "entity": "policy_checklist.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "合规",
+        "待整改",
+        "不合规"
+      ],
+      "constraints": [],
+      "example": "合规",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "合规项状态：合规 / 待整改 / 不合规（对应参照 CHECK_STATUS compliant/pending/noncompliant，迁移见 §4.1）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:cmp/policy_checklist.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:cmp.audit-trail@1.0.0:coverage_pct",
+      "entity": "workflow_output/cmp.audit-trail",
+      "field": "coverage_pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.audit-trail@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.audit-trail@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.audit-trail@1.0.0:events",
+      "entity": "workflow_output/cmp.audit-trail",
+      "field": "events",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.audit-trail@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.audit-trail@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.audit-trail@1.0.0:gaps",
+      "entity": "workflow_output/cmp.audit-trail",
+      "field": "gaps",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.audit-trail@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.audit-trail@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.audit-trail@1.0.0:scope",
+      "entity": "workflow_output/cmp.audit-trail",
+      "field": "scope",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.audit-trail@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.audit-trail@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.evidence-pack@1.0.0:case",
+      "entity": "workflow_output/cmp.evidence-pack",
+      "field": "case",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.evidence-pack@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.evidence-pack@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.evidence-pack@1.0.0:evidence_items",
+      "entity": "workflow_output/cmp.evidence-pack",
+      "field": "evidence_items",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.evidence-pack@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.evidence-pack@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.evidence-pack@1.0.0:hashes",
+      "entity": "workflow_output/cmp.evidence-pack",
+      "field": "hashes",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.evidence-pack@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.evidence-pack@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.evidence-pack@1.0.0:packaged_at",
+      "entity": "workflow_output/cmp.evidence-pack",
+      "field": "packaged_at",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.evidence-pack@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.evidence-pack@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.pipia-review@1.0.0:approvals",
+      "entity": "workflow_output/cmp.pipia-review",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.pipia-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.pipia-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.pipia-review@1.0.0:process",
+      "entity": "workflow_output/cmp.pipia-review",
+      "field": "process",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "个人信息处理活动名称（如\"员工考勤人脸识别\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.pipia-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.pipia-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.pipia-review@1.0.0:residual",
+      "entity": "workflow_output/cmp.pipia-review",
+      "field": "residual",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.pipia-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.pipia-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.pipia-review@1.0.0:risk_level",
+      "entity": "workflow_output/cmp.pipia-review",
+      "field": "risk_level",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/pipia.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "**初始**风险等级：高 / 中 / 低（未施缓释前的固有风险）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.pipia-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.pipia-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.policy-review@1.0.0:gaps",
+      "entity": "workflow_output/cmp.policy-review",
+      "field": "gaps",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.policy-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.policy-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.policy-review@1.0.0:items",
+      "entity": "workflow_output/cmp.policy-review",
+      "field": "items",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.policy-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.policy-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.policy-review@1.0.0:pass_rate",
+      "entity": "workflow_output/cmp.policy-review",
+      "field": "pass_rate",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.policy-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.policy-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.policy-review@1.0.0:policy",
+      "entity": "workflow_output/cmp.policy-review",
+      "field": "policy",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "cmp/policy_checklist.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "制度/政策名称（如\"劳动用工制度\"\"个人信息保护\"\"数据管理制度\"）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.policy-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.policy-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.reg-filing@1.0.0:authority",
+      "entity": "workflow_output/cmp.reg-filing",
+      "field": "authority",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.reg-filing@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.reg-filing@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.reg-filing@1.0.0:days_left",
+      "entity": "workflow_output/cmp.reg-filing",
+      "field": "days_left",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "天",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.reg-filing@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.reg-filing@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.reg-filing@1.0.0:deadline",
+      "entity": "workflow_output/cmp.reg-filing",
+      "field": "deadline",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.reg-filing@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.reg-filing@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.reg-filing@1.0.0:filing",
+      "entity": "workflow_output/cmp.reg-filing",
+      "field": "filing",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.reg-filing@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.reg-filing@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.training-check@1.0.0:completed",
+      "entity": "workflow_output/cmp.training-check",
+      "field": "completed",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.training-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.training-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.training-check@1.0.0:dept",
+      "entity": "workflow_output/cmp.training-check",
+      "field": "dept",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.training-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.training-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.training-check@1.0.0:rate",
+      "entity": "workflow_output/cmp.training-check",
+      "field": "rate",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.training-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.training-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:cmp.training-check@1.0.0:required",
+      "entity": "workflow_output/cmp.training-check",
+      "field": "required",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:cmp.training-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "cmp.training-check@1.0.0"
+      ]
+    }
+  ]
+}

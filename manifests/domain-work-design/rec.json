@@ -1,0 +1,4064 @@
+{
+  "schema": "pids-nexus/domain-work-design/v1",
+  "domain": "rec",
+  "label": "招聘 REC",
+  "level": "L3",
+  "north_star": "招聘质量、速度与 90 天留存",
+  "contributes_to": [
+    "KR-TALENT",
+    "KR-CAPABILITY"
+  ],
+  "modules": [
+    {
+      "id": "demand-planning",
+      "name": "需求与招聘标准",
+      "outcome": "把战略和组织缺口转成岗位标准与招聘节奏",
+      "benchmark_refs": [
+        "HR-OPEN",
+        "SCHEMA-JOBPOSTING"
+      ],
+      "items": [
+        {
+          "id": "rec-jd-draft",
+          "name": "JD 与岗位能力模型",
+          "outcome": "岗位职责、能力、薪酬带和评价口径一致",
+          "owner_role": "招聘负责人/用人经理",
+          "frequency": "按岗位需求",
+          "workflow": {
+            "id": "rec.jd-draft@1.0.0",
+            "description": "JD 与岗位能力模型（薪酬带引用）",
+            "kind": "calc",
+            "skill": "jd-gen",
+            "trigger": {
+              "type": "command",
+              "expr": "jd-draft"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "jd-gen"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "JD 与岗位能力模型（薪酬带引用）：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "jd-draft-<ts>.json",
+              "format": "json",
+              "fields": [
+                "position",
+                "mission",
+                "requirements",
+                "competencies",
+                "band",
+                "locale"
+              ],
+              "acceptance": "薪酬带引用 comp.bands；能力项与岗位 KR 对应"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "position",
+                "mission",
+                "requirements",
+                "competencies",
+                "band",
+                "locale"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 position、mission、requirements、competencies、band、locale 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "rec-jd-draft-INPUT-REQUIRED",
+                "rec-jd-draft-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "candidates.csv",
+                "funnel.csv",
+                "interviews.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "薪酬带引用 comp.bands；能力项与岗位 KR 对应；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 candidate_phone、candidate_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "rec-jd-draft-DOMAIN-RULE",
+                "rec-jd-draft-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 jd-gen 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "rec-jd-draft-LLM-SCHEMA",
+                "rec-jd-draft-LLM-EVIDENCE",
+                "rec-jd-draft-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：薪酬带引用 comp.bands；能力项与岗位 KR 对应；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "rec-jd-draft-QUALITY-EVIDENCE",
+                "rec-jd-draft-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "rec-jd-draft-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "rec-jd-draft-DELIVERY-MANIFEST",
+                "rec-jd-draft-DELIVERY-FORMATS",
+                "rec-jd-draft-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“招聘质量、速度与 90 天留存”并链接 KR-TALENT、KR-CAPABILITY；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "rec-jd-draft-OUTCOME-LINEAGE",
+                "rec-jd-draft-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "rec-jd-draft-STRATEGY-WRITEBACK",
+                "rec-jd-draft-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "rec-jd-draft-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(position,mission,requirements,competencies,band,locale)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "薪酬带引用 comp.bands；能力项与岗位 KR 对应",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "HR-OPEN|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "rec-jd-draft-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "薪酬带引用 comp.bands",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-jd-draft-ACCEPT-2",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "能力项与岗位 KR 对应",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|SCHEMA-JOBPOSTING"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/output",
+            "typedict_ref": "manifests/typedict/rec.json",
+            "source_tables": [
+              "candidates.csv",
+              "funnel.csv",
+              "interviews.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "candidate_phone",
+              "candidate_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "招聘质量、速度与 90 天留存",
+            "KR-TALENT",
+            "KR-CAPABILITY"
+          ],
+          "benchmark_refs": [
+            "HR-OPEN",
+            "SCHEMA-JOBPOSTING"
+          ]
+        },
+        {
+          "id": "rec-funnel-weekly",
+          "name": "招聘漏斗与留存复盘",
+          "outcome": "按渠道和阶段优化质量、速度与 90 天留存",
+          "owner_role": "招聘负责人",
+          "frequency": "每周/每月",
+          "workflow": {
+            "id": "rec.funnel-weekly@1.0.0",
+            "description": "渠道与留存漏斗复盘（投递→90 天）",
+            "kind": "report",
+            "skill": "funnel-analysis",
+            "trigger": {
+              "type": "command",
+              "expr": "funnel-weekly"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "funnel-analysis"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "渠道与留存漏斗复盘（投递→90 天）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "funnel-weekly-<ts>.json",
+              "format": "json",
+              "fields": [
+                "week",
+                "stage",
+                "count",
+                "conversion_pct",
+                "source"
+              ],
+              "acceptance": "阶段人数守恒；候选人 PII 仅掩码"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "week",
+                "stage",
+                "count",
+                "conversion_pct",
+                "source"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 week、stage、count、conversion_pct、source 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "rec-funnel-weekly-INPUT-REQUIRED",
+                "rec-funnel-weekly-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "candidates.csv",
+                "funnel.csv",
+                "interviews.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "阶段人数守恒；候选人 PII 仅掩码；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 candidate_phone、candidate_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "rec-funnel-weekly-DOMAIN-RULE",
+                "rec-funnel-weekly-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 funnel-analysis 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "rec-funnel-weekly-LLM-SCHEMA",
+                "rec-funnel-weekly-LLM-EVIDENCE",
+                "rec-funnel-weekly-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：阶段人数守恒；候选人 PII 仅掩码；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "rec-funnel-weekly-QUALITY-EVIDENCE",
+                "rec-funnel-weekly-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "rec-funnel-weekly-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "rec-funnel-weekly-DELIVERY-MANIFEST",
+                "rec-funnel-weekly-DELIVERY-FORMATS",
+                "rec-funnel-weekly-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“招聘质量、速度与 90 天留存”并链接 KR-TALENT、KR-CAPABILITY；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "rec-funnel-weekly-OUTCOME-LINEAGE",
+                "rec-funnel-weekly-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "招聘负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "rec-funnel-weekly-STRATEGY-WRITEBACK",
+                "rec-funnel-weekly-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(week,stage,count,conversion_pct,source)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "阶段人数守恒；候选人 PII 仅掩码",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "HR-OPEN|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "rec-funnel-weekly-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "阶段人数守恒",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-funnel-weekly-ACCEPT-2",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "候选人 PII 仅掩码",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|SCHEMA-JOBPOSTING"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/output",
+            "typedict_ref": "manifests/typedict/rec.json",
+            "source_tables": [
+              "candidates.csv",
+              "funnel.csv",
+              "interviews.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "candidate_phone",
+              "candidate_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "招聘质量、速度与 90 天留存",
+            "KR-TALENT",
+            "KR-CAPABILITY"
+          ],
+          "benchmark_refs": [
+            "HR-OPEN",
+            "SCHEMA-JOBPOSTING"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "selection-operations",
+      "name": "筛选与面试运营",
+      "outcome": "用证据完成筛选、邀约和结构化面试",
+      "benchmark_refs": [
+        "HR-OPEN",
+        "NIST-PRIVACY",
+        "NIST-AI-RMF"
+      ],
+      "items": [
+        {
+          "id": "rec-resume-forward",
+          "name": "简历解析、筛选与外发",
+          "outcome": "证据、匹配、脱敏和外发审批完整",
+          "owner_role": "招聘专员",
+          "frequency": "按候选人批次",
+          "workflow": {
+            "id": "rec.resume-forward@1.0.0",
+            "description": "简历解析、筛选评价与外发审批",
+            "kind": "approve",
+            "skill": "resume-screening",
+            "trigger": {
+              "type": "command",
+              "expr": "resume-forward"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "resume-screening"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "简历解析、筛选评价与外发审批 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "简历解析、筛选评价与外发审批：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "resume-forward-<ts>.json",
+              "format": "json",
+              "fields": [
+                "candidate_masked",
+                "position",
+                "target",
+                "resume_evidence",
+                "criteria_results",
+                "match_score",
+                "redact_fields",
+                "approver"
+              ],
+              "acceptance": "未脱敏外发 = 一票否决；每项评价必须有证据"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L3",
+              "dual": true,
+              "required_roles": [
+                "招聘专员",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "candidate_masked",
+                "position",
+                "target",
+                "resume_evidence",
+                "criteria_results",
+                "match_score",
+                "redact_fields",
+                "approver"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 candidate_masked、position、target、resume_evidence、criteria_results、match_score、redact_fields、approver 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "rec-resume-forward-INPUT-REQUIRED",
+                "rec-resume-forward-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "candidates.csv",
+                "funnel.csv",
+                "interviews.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "未脱敏外发 = 一票否决；每项评价必须有证据；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 candidate_phone、candidate_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "rec-resume-forward-DOMAIN-RULE",
+                "rec-resume-forward-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 resume-screening 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "rec-resume-forward-LLM-SCHEMA",
+                "rec-resume-forward-LLM-EVIDENCE",
+                "rec-resume-forward-LLM-PII"
+              ],
+              "benchmark_refs": [
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：未脱敏外发 = 一票否决；每项评价必须有证据；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "rec-resume-forward-QUALITY-EVIDENCE",
+                "rec-resume-forward-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "rec-resume-forward-APPROVAL-IDENTITY",
+                "rec-resume-forward-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "rec-resume-forward-DELIVERY-MANIFEST",
+                "rec-resume-forward-DELIVERY-FORMATS",
+                "rec-resume-forward-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“招聘质量、速度与 90 天留存”并链接 KR-TALENT、KR-CAPABILITY；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "rec-resume-forward-OUTCOME-LINEAGE",
+                "rec-resume-forward-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "招聘专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "rec-resume-forward-STRATEGY-WRITEBACK",
+                "rec-resume-forward-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "rec-resume-forward-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(candidate_masked,position,target,resume_evidence,criteria_results,match_score,redact_fields,approver)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "未脱敏外发 = 一票否决；每项评价必须有证据",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|NIST-AI-RMF|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "rec-resume-forward-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "未脱敏外发 = 一票否决",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|NIST-AI-RMF|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-resume-forward-ACCEPT-2",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "每项评价必须有证据",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|NIST-AI-RMF|SCHEMA-JOBPOSTING"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/output",
+            "typedict_ref": "manifests/typedict/rec.json",
+            "source_tables": [
+              "candidates.csv",
+              "funnel.csv",
+              "interviews.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "candidate_phone",
+              "candidate_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "招聘质量、速度与 90 天留存",
+            "KR-TALENT",
+            "KR-CAPABILITY"
+          ],
+          "benchmark_refs": [
+            "HR-OPEN",
+            "NIST-PRIVACY",
+            "NIST-AI-RMF",
+            "SCHEMA-JOBPOSTING"
+          ]
+        },
+        {
+          "id": "rec-interview-schedule",
+          "name": "面试安排、题库与评分卡",
+          "outcome": "能力覆盖、无冲突、评分锚点明确",
+          "owner_role": "招聘专员/面试官",
+          "frequency": "按面试批次",
+          "workflow": {
+            "id": "rec.interview-schedule@1.0.0",
+            "description": "面试安排、针对性题库与评分卡",
+            "kind": "calc",
+            "skill": "interview-design",
+            "trigger": {
+              "type": "command",
+              "expr": "interview-schedule"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "interview-design"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "面试安排、针对性题库与评分卡：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "interview-schedule-<ts>.json",
+              "format": "json",
+              "fields": [
+                "candidate_masked",
+                "slot",
+                "interviewers",
+                "mode",
+                "question_bank_id",
+                "scorecard_id",
+                "conflicts"
+              ],
+              "acceptance": "面试官冲突须标红；题库覆盖全部能力项"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "candidate_masked",
+                "slot",
+                "interviewers",
+                "mode",
+                "question_bank_id",
+                "scorecard_id",
+                "conflicts"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 candidate_masked、slot、interviewers、mode、question_bank_id、scorecard_id、conflicts 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "rec-interview-schedule-INPUT-REQUIRED",
+                "rec-interview-schedule-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "candidates.csv",
+                "funnel.csv",
+                "interviews.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "面试官冲突须标红；题库覆盖全部能力项；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 candidate_phone、candidate_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "rec-interview-schedule-DOMAIN-RULE",
+                "rec-interview-schedule-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 interview-design 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "rec-interview-schedule-LLM-SCHEMA",
+                "rec-interview-schedule-LLM-EVIDENCE",
+                "rec-interview-schedule-LLM-PII"
+              ],
+              "benchmark_refs": [
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：面试官冲突须标红；题库覆盖全部能力项；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "rec-interview-schedule-QUALITY-EVIDENCE",
+                "rec-interview-schedule-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "rec-interview-schedule-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "rec-interview-schedule-DELIVERY-MANIFEST",
+                "rec-interview-schedule-DELIVERY-FORMATS",
+                "rec-interview-schedule-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“招聘质量、速度与 90 天留存”并链接 KR-TALENT、KR-CAPABILITY；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "rec-interview-schedule-OUTCOME-LINEAGE",
+                "rec-interview-schedule-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "招聘专员/面试官",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "rec-interview-schedule-STRATEGY-WRITEBACK",
+                "rec-interview-schedule-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(candidate_masked,slot,interviewers,mode,question_bank_id,scorecard_id,conflicts)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "面试官冲突须标红；题库覆盖全部能力项",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|NIST-AI-RMF|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "rec-interview-schedule-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "面试官冲突须标红",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|NIST-AI-RMF|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-interview-schedule-ACCEPT-2",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "题库覆盖全部能力项",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|NIST-AI-RMF|SCHEMA-JOBPOSTING"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/output",
+            "typedict_ref": "manifests/typedict/rec.json",
+            "source_tables": [
+              "candidates.csv",
+              "funnel.csv",
+              "interviews.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "candidate_phone",
+              "candidate_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "招聘质量、速度与 90 天留存",
+            "KR-TALENT",
+            "KR-CAPABILITY"
+          ],
+          "benchmark_refs": [
+            "HR-OPEN",
+            "NIST-PRIVACY",
+            "NIST-AI-RMF",
+            "SCHEMA-JOBPOSTING"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hiring-closure",
+      "name": "录用、入职与成效",
+      "outcome": "让面试反馈、Offer、入职和成效闭环",
+      "benchmark_refs": [
+        "HR-OPEN",
+        "NIST-PRIVACY"
+      ],
+      "items": [
+        {
+          "id": "rec-offer-approve",
+          "name": "面试反馈综合与 Offer 双审批",
+          "outcome": "录用证据充分、薪酬合规、双审批完成",
+          "owner_role": "用人经理/HRD",
+          "frequency": "按候选人",
+          "workflow": {
+            "id": "rec.offer-approve@1.0.0",
+            "description": "面试反馈综合、Offer 建议与双审批",
+            "kind": "approve",
+            "skill": "offer-evaluation",
+            "trigger": {
+              "type": "command",
+              "expr": "offer-approve"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "offer-evaluation"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "面试反馈综合、Offer 建议与双审批 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "面试反馈综合、Offer 建议与双审批：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "offer-approve-<ts>.json",
+              "format": "json",
+              "fields": [
+                "candidate_masked",
+                "position",
+                "feedback_summary",
+                "interview_scores",
+                "risk_flags",
+                "offer_band",
+                "proposed_range",
+                "approvals"
+              ],
+              "acceptance": "缺少用户面试反馈不得终审；超 P75 必须双审批"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L3",
+              "dual": true,
+              "required_roles": [
+                "用人经理",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "candidate_masked",
+                "position",
+                "feedback_summary",
+                "interview_scores",
+                "risk_flags",
+                "offer_band",
+                "proposed_range",
+                "approvals"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 candidate_masked、position、feedback_summary、interview_scores、risk_flags、offer_band、proposed_range、approvals 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "rec-offer-approve-INPUT-REQUIRED",
+                "rec-offer-approve-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "candidates.csv",
+                "funnel.csv",
+                "interviews.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "缺少用户面试反馈不得终审；超 P75 必须双审批；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 candidate_phone、candidate_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "rec-offer-approve-DOMAIN-RULE",
+                "rec-offer-approve-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 offer-evaluation 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "rec-offer-approve-LLM-SCHEMA",
+                "rec-offer-approve-LLM-EVIDENCE",
+                "rec-offer-approve-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：缺少用户面试反馈不得终审；超 P75 必须双审批；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "rec-offer-approve-QUALITY-EVIDENCE",
+                "rec-offer-approve-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "rec-offer-approve-APPROVAL-IDENTITY",
+                "rec-offer-approve-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "rec-offer-approve-DELIVERY-MANIFEST",
+                "rec-offer-approve-DELIVERY-FORMATS",
+                "rec-offer-approve-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“招聘质量、速度与 90 天留存”并链接 KR-TALENT、KR-CAPABILITY；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "rec-offer-approve-OUTCOME-LINEAGE",
+                "rec-offer-approve-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "用人经理/HRD",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "rec-offer-approve-STRATEGY-WRITEBACK",
+                "rec-offer-approve-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "rec-offer-approve-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(candidate_masked,position,feedback_summary,interview_scores,risk_flags,offer_band,proposed_range,approvals)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "缺少用户面试反馈不得终审；超 P75 必须双审批",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "rec-offer-approve-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-offer-approve-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "缺少用户面试反馈不得终审",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "draft_requires_owner_confirmation",
+              "id": "rec-offer-approve-ACCEPT-2",
+              "kind": "policy_threshold",
+              "severity": "blocking",
+              "expression": "超 P75 必须双审批",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|SCHEMA-JOBPOSTING"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/output",
+            "typedict_ref": "manifests/typedict/rec.json",
+            "source_tables": [
+              "candidates.csv",
+              "funnel.csv",
+              "interviews.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "candidate_phone",
+              "candidate_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "招聘质量、速度与 90 天留存",
+            "KR-TALENT",
+            "KR-CAPABILITY"
+          ],
+          "benchmark_refs": [
+            "HR-OPEN",
+            "NIST-PRIVACY",
+            "SCHEMA-JOBPOSTING"
+          ]
+        },
+        {
+          "id": "rec-onboarding-check",
+          "name": "入职任务与 30/60/90 天成效",
+          "outcome": "阻断项完成且招聘质量回写战略指标",
+          "owner_role": "HRBP/用人经理",
+          "frequency": "按入职批次",
+          "workflow": {
+            "id": "rec.onboarding-check@1.0.0",
+            "description": "入职任务、30/60/90 天成效与招聘质量",
+            "kind": "report",
+            "skill": "onboarding-plan",
+            "trigger": {
+              "type": "command",
+              "expr": "onboarding-check"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "onboarding-plan"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "入职任务、30/60/90 天成效与招聘质量：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "onboarding-check-<ts>.json",
+              "format": "json",
+              "fields": [
+                "candidate_masked",
+                "start_date",
+                "item",
+                "owner",
+                "due",
+                "status",
+                "goals_30_60_90",
+                "retention_90d"
+              ],
+              "acceptance": "阻断项完成；未到 90 天不得伪造留存结果"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "candidate_masked",
+                "start_date",
+                "item",
+                "owner",
+                "due",
+                "status",
+                "goals_30_60_90",
+                "retention_90d"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 candidate_masked、start_date、item、owner、due、status、goals_30_60_90、retention_90d 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "rec-onboarding-check-INPUT-REQUIRED",
+                "rec-onboarding-check-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "candidates.csv",
+                "funnel.csv",
+                "interviews.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "阻断项完成；未到 90 天不得伪造留存结果；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 candidate_phone、candidate_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "rec-onboarding-check-DOMAIN-RULE",
+                "rec-onboarding-check-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 onboarding-plan 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "rec-onboarding-check-LLM-SCHEMA",
+                "rec-onboarding-check-LLM-EVIDENCE",
+                "rec-onboarding-check-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：阻断项完成；未到 90 天不得伪造留存结果；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "rec-onboarding-check-QUALITY-EVIDENCE",
+                "rec-onboarding-check-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "rec-onboarding-check-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "rec-onboarding-check-DELIVERY-MANIFEST",
+                "rec-onboarding-check-DELIVERY-FORMATS",
+                "rec-onboarding-check-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“招聘质量、速度与 90 天留存”并链接 KR-TALENT、KR-CAPABILITY；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "rec-onboarding-check-OUTCOME-LINEAGE",
+                "rec-onboarding-check-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "HRBP/用人经理",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "rec-onboarding-check-STRATEGY-WRITEBACK",
+                "rec-onboarding-check-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(candidate_masked,start_date,item,owner,due,status,goals_30_60_90,retention_90d)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "阻断项完成；未到 90 天不得伪造留存结果",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "rec-onboarding-check-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "rec-onboarding-check-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "阻断项完成",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|SCHEMA-JOBPOSTING"
+            },
+            {
+              "status": "draft_requires_owner_confirmation",
+              "id": "rec-onboarding-check-ACCEPT-2",
+              "kind": "policy_threshold",
+              "severity": "blocking",
+              "expression": "未到 90 天不得伪造留存结果",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "HR-OPEN|NIST-PRIVACY|SCHEMA-JOBPOSTING"
+            }
+          ],
+          "cross_domain_effects": [
+            {
+              "event_id": "training.onboarding.plan",
+              "target_domain": "trn",
+              "trigger_stage": "strategy_rollup",
+              "payload_key": "backupPlanId",
+              "anonymous_key": "person_key",
+              "delivery": "append_only_event",
+              "idempotency_key": "training.onboarding.plan:0:${instance_id}",
+              "on_fail": "retain_outbox_and_retry"
+            },
+            {
+              "event_id": "performance.onboarding.goals",
+              "target_domain": "prf",
+              "trigger_stage": "strategy_rollup",
+              "payload_key": "goalSetId",
+              "anonymous_key": "person_key",
+              "delivery": "append_only_event",
+              "idempotency_key": "performance.onboarding.goals:1:${instance_id}",
+              "on_fail": "retain_outbox_and_retry"
+            },
+            {
+              "event_id": "admin.onboarding.equipment",
+              "target_domain": "admin",
+              "trigger_stage": "strategy_rollup",
+              "payload_key": "assetAssignmentId",
+              "anonymous_key": "person_key",
+              "delivery": "append_only_event",
+              "idempotency_key": "admin.onboarding.equipment:2:${instance_id}",
+              "on_fail": "retain_outbox_and_retry"
+            }
+          ],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/output",
+            "typedict_ref": "manifests/typedict/rec.json",
+            "source_tables": [
+              "candidates.csv",
+              "funnel.csv",
+              "interviews.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "candidate_phone",
+              "candidate_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "招聘质量、速度与 90 天留存",
+            "KR-TALENT",
+            "KR-CAPABILITY"
+          ],
+          "benchmark_refs": [
+            "HR-OPEN",
+            "NIST-PRIVACY",
+            "SCHEMA-JOBPOSTING"
+          ]
+        }
+      ]
+    }
+  ],
+  "benchmark_refs": [
+    "BPMN20",
+    "JSONSCHEMA202012",
+    "OPENAPI321",
+    "TABLESCHEMA1",
+    "OPENLINEAGE153",
+    "GREATEXPECTATIONS",
+    "NIST-PRIVACY",
+    "NIST-AI-RMF",
+    "HR-OPEN",
+    "SCHEMA-JOBPOSTING"
+  ]
+}

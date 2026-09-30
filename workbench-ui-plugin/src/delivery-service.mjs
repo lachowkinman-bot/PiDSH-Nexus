@@ -342,7 +342,7 @@ th{background:#e6eef8}code{font-family:Consolas,monospace;word-break:break-all}
 </html>`;
 }
 
-async function writeXlsx(file, primary, tables, metrics) {
+async function writeXlsx(file, primary, tables, metrics, workflowId) {
   const workbook = new ExcelJS.Workbook();
   workbook.creator = 'Universal Workbench';
   workbook.created = new Date();
@@ -354,6 +354,7 @@ async function writeXlsx(file, primary, tables, metrics) {
     { header: '公式', key: 'formula', width: 24 },
   ];
   summary.addRow({ label: '源文件', value: primary.name, formula: '' });
+  summary.addRow({ label: '工作流', value: workflowId, formula: '' });
   for (const metric of metrics) summary.addRow({ label: metric.label, value: metric.value, formula: '' });
   const calcIndex = summary.rowCount + 1;
   summary.addRow({ label: '公式校验（行数）', value: 0, formula: `=COUNTA(A:A)-2` });
@@ -450,7 +451,7 @@ function writePdf(file, profile, report, tables, fontFile) {
     const font = 'cjk';
     doc.font(font).fontSize(21).text(profile.title, { align: 'center' });
     doc.moveDown(0.5);
-    doc.fontSize(10).fillColor('#52606d').text(`域：${profile.label}  |  生成时间：${new Date().toISOString()}`, { align: 'center' });
+    doc.fontSize(10).fillColor('#52606d').text(`域：${profile.label}  |  工作流：${profile.workflow_id}  |  生成时间：${new Date().toISOString()}`, { align: 'center' });
     doc.moveDown(1.5).fillColor('#172033');
     doc.fontSize(14).text('数据资产');
     doc.moveDown(0.4);
@@ -591,6 +592,7 @@ export function createDeliveryService({ root, workspaceRoot, audit = () => {} })
     const workflowId = options.workflowId || profile.workflow_id;
     const model = loadDomainModel(bundleDir, domain);
     const workflow = loadWorkflow(bundleDir, workflowId);
+    const deliveryProfile = { ...profile, workflow_id: workflow.workflow_id };
     const tables = readSourceTables(dataDir, domain, profile);
     const generatedAt = new Date().toISOString();
     const stamp = generatedAt.replace(/[-:.]/g, '').replace('T', '-').replace('Z', '');
@@ -599,7 +601,7 @@ export function createDeliveryService({ root, workspaceRoot, audit = () => {} })
     fs.mkdirSync(domainDir, { recursive: true });
     const tempDir = fs.mkdtempSync(path.join(domainDir, '.tmp-'));
     const finalDir = path.join(domainDir, runId);
-    const report = buildReport(domain, profile, model, workflow, tables, generatedAt);
+    const report = buildReport(domain, deliveryProfile, model, workflow, tables, generatedAt);
     const artifacts = [];
     try {
       if (requestedFormats.includes('md')) {
@@ -614,26 +616,26 @@ export function createDeliveryService({ root, workspaceRoot, audit = () => {} })
       }
       if (requestedFormats.includes('html')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.html);
-        fs.writeFileSync(file, renderHtml(profile.title, report.markdown), 'utf8');
+        fs.writeFileSync(file, renderHtml(deliveryProfile.title, report.markdown), 'utf8');
         artifacts.push(artifactRecord(workspaceDir, file, 'html'));
       }
       if (requestedFormats.includes('xlsx')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.xlsx);
-        await writeXlsx(file, tables[0], tables, report.metrics);
+        await writeXlsx(file, tables[0], tables, report.metrics, workflow.workflow_id);
         artifacts.push(artifactRecord(workspaceDir, file, 'xlsx'));
       }
       if (requestedFormats.includes('docx')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.docx);
-        await writeDocx(file, profile, report, tables);
+        await writeDocx(file, deliveryProfile, report, tables);
         artifacts.push(artifactRecord(workspaceDir, file, 'docx'));
       }
       if (requestedFormats.includes('pptx')) {
-        await writePptx(bundleDir, tempDir, profile, report, tables);
+        await writePptx(bundleDir, tempDir, deliveryProfile, report, tables);
         artifacts.push(artifactRecord(workspaceDir, path.join(tempDir, FILE_BY_FORMAT.pptx), 'pptx'));
       }
       if (requestedFormats.includes('pdf')) {
         const file = path.join(tempDir, FILE_BY_FORMAT.pdf);
-        await writePdf(file, profile, report, tables, fontFile);
+        await writePdf(file, deliveryProfile, report, tables, fontFile);
         artifacts.push(artifactRecord(workspaceDir, file, 'pdf'));
       }
       const publishedArtifacts = artifacts.map((item) => {
@@ -651,8 +653,8 @@ export function createDeliveryService({ root, workspaceRoot, audit = () => {} })
         schema: 'universal-workbench/delivery-package/v1',
         run_id: runId,
         domain,
-        label: profile.label,
-        title: options.title || profile.title,
+        label: deliveryProfile.label,
+        title: options.title || deliveryProfile.title,
         workflow_id: workflow.workflow_id,
         generated_at: generatedAt,
         formats: requestedFormats,

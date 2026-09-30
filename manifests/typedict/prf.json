@@ -1,0 +1,1457 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "prf",
+  "label": "绩效 PRF",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "calibration.csv:calibrated_grade",
+      "entity": "calibration.csv",
+      "field": "calibrated_grade",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "A",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "校准会议调整后等级（S/A/B/C/D）。为强制分布（§9 V5/V6）与等级分布比对（`prf.grade-distribution`）的统计口径字段",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:calibrated_grade"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:cycle",
+      "entity": "calibration.csv",
+      "field": "cycle",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "Q4-2026",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕考核周期标识（Q4-2026），与 `kpi.csv.period`（Q4）对应",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:cycle"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:delta_note",
+      "entity": "calibration.csv",
+      "field": "delta_note",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "超出：大单突破",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "校准调整说明（= scene 的 `review_note`，脱敏字段）。`超出：*` 表示上调、`下调：*` 表示下调、`一致*` 表示维持",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:delta_note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:dept",
+      "entity": "calibration.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕所属部门，须与 `calibration.csv` 同一员工的 `dept` 一致",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:employee_masked",
+      "entity": "calibration.csv",
+      "field": "employee_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EMP-****12",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "〔追加列〕员工脱敏工号 `EMP-****NN`，与 `calibration.csv.employee_masked` 同源可 join；全表为合成 ID",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:employee_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:final_score",
+      "entity": "calibration.csv",
+      "field": "final_score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 61.4
+        },
+        {
+          "kind": "maximum",
+          "value": 88.8
+        }
+      ],
+      "example": "76.4",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕终评 = `self_score × 20% + mgr_score × 80%`，保留 1 位（可配 30/70，见 §9 V3）；= scene 的 `review_score` 之一",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:final_score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:manager_grade",
+      "entity": "calibration.csv",
+      "field": "manager_grade",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "B",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "主管评分档位（S/A/B/C/D），等于 `final_score` 按 §4.3 阈值映射的结果；即在途/申诉前不得由人工直填",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:manager_grade"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:mgr_score",
+      "entity": "calibration.csv",
+      "field": "mgr_score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 61
+        },
+        {
+          "kind": "maximum",
+          "value": 88
+        }
+      ],
+      "example": "76",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕主管评分 0-100，整数；= scene 的 `review_score` 之一",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:mgr_score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:self_score",
+      "entity": "calibration.csv",
+      "field": "self_score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 63
+        },
+        {
+          "kind": "maximum",
+          "value": 92
+        }
+      ],
+      "example": "78",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕员工自评 0-100，整数；= scene 的 `review_score` 之一",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:self_score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "calibration.csv:status",
+      "entity": "calibration.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "done",
+        "appeal",
+        "pending_confirm",
+        "pending_mgr",
+        "pending_self"
+      ],
+      "constraints": [],
+      "example": "done",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕追踪预警状态：`on_track` / `at_risk` / `behind`（词表对齐 OKR_STATUS，未新增全局枚举）；阈值见 §9 V9",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/calibration.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:actual",
+      "entity": "kpi.csv",
+      "field": "actual",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3.05
+        },
+        {
+          "kind": "maximum",
+          "value": 3912
+        }
+      ],
+      "example": "3912",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "周期实际值，与 `target` 同口径",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:actual"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:dept",
+      "entity": "kpi.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕所属部门，须与 `calibration.csv` 同一员工的 `dept` 一致",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:employee_masked",
+      "entity": "kpi.csv",
+      "field": "employee_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EMP-****12",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "〔追加列〕员工脱敏工号 `EMP-****NN`，与 `calibration.csv.employee_masked` 同源可 join；全表为合成 ID",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:employee_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:kpi",
+      "entity": "kpi.csv",
+      "field": "kpi",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "新签销售额(万)",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "指标名（如 新签销售额(万)/客户续约率/需求交付准时率/人效指数）。同名指标可跨员工复用，靠 `employee_masked` 区分",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:kpi"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:period",
+      "entity": "kpi.csv",
+      "field": "period",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "Q4",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "周期简写（本批 Q4）。完整周期标识见 `calibration.csv.cycle`（Q4-2026），本季度二者一一对应",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:period"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:position",
+      "entity": "kpi.csv",
+      "field": "position",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "客户经理",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕岗位名（如 客户经理/后端工程师），用于目标分解到岗位（GT-PRF-03）",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:position"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:rate",
+      "entity": "kpi.csv",
+      "field": "rate",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 75
+        },
+        {
+          "kind": "maximum",
+          "value": 103.6
+        }
+      ],
+      "example": "81.5",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "达成率 = `actual / target × 100`，保留 1 位小数；见 §9 V8",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:rate"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:status",
+      "entity": "kpi.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "at_risk",
+        "on_track",
+        "behind"
+      ],
+      "constraints": [],
+      "example": "at_risk",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕追踪预警状态：`on_track` / `at_risk` / `behind`（词表对齐 OKR_STATUS，未新增全局枚举）；阈值见 §9 V9",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:target",
+      "entity": "kpi.csv",
+      "field": "target",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3.2
+        },
+        {
+          "kind": "maximum",
+          "value": 4800
+        }
+      ],
+      "example": "4800",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "周期目标值；百分比类指标以 92 表示 92%，金额类以万为单位（表头单位见 `kpi` 括号）",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:target"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "kpi.csv:weight",
+      "entity": "kpi.csv",
+      "field": "weight",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 20
+        },
+        {
+          "kind": "maximum",
+          "value": 70
+        }
+      ],
+      "example": "50",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕该指标在本员工本周期内的权重（%）；同一 `employee_masked` 下 `weight` 合计必须 = 100，见 §9 V4",
+      "lineage": {
+        "upstream": [
+          "dataset:prf/kpi.csv",
+          "field:weight"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:prf.calibration-approve@1.0.0:approvals",
+      "entity": "workflow_output/prf.calibration-approve",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.calibration-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.calibration-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.calibration-approve@1.0.0:calibrated_grade",
+      "entity": "workflow_output/prf.calibration-approve",
+      "field": "calibrated_grade",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "校准会议调整后等级（S/A/B/C/D）。为强制分布（§9 V5/V6）与等级分布比对（`prf.grade-distribution`）的统计口径字段",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.calibration-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.calibration-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.calibration-approve@1.0.0:employee_masked",
+      "entity": "workflow_output/prf.calibration-approve",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "〔追加列〕员工脱敏工号 `EMP-****NN`，与 `calibration.csv.employee_masked` 同源可 join；全表为合成 ID",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.calibration-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.calibration-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.calibration-approve@1.0.0:manager_grade",
+      "entity": "workflow_output/prf.calibration-approve",
+      "field": "manager_grade",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "主管评分档位（S/A/B/C/D），等于 `final_score` 按 §4.3 阈值映射的结果；即在途/申诉前不得由人工直填",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.calibration-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.calibration-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.cascade-report@1.0.0:goal",
+      "entity": "workflow_output/prf.cascade-report",
+      "field": "goal",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.cascade-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.cascade-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.cascade-report@1.0.0:level",
+      "entity": "workflow_output/prf.cascade-report",
+      "field": "level",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.cascade-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.cascade-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.cascade-report@1.0.0:owner_masked",
+      "entity": "workflow_output/prf.cascade-report",
+      "field": "owner_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.cascade-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.cascade-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.cascade-report@1.0.0:weight",
+      "entity": "workflow_output/prf.cascade-report",
+      "field": "weight",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕该指标在本员工本周期内的权重（%）；同一 `employee_masked` 下 `weight` 合计必须 = 100，见 §9 V4",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.cascade-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.cascade-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.grade-distribution@1.0.0:count",
+      "entity": "workflow_output/prf.grade-distribution",
+      "field": "count",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.grade-distribution@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.grade-distribution@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.grade-distribution@1.0.0:grade",
+      "entity": "workflow_output/prf.grade-distribution",
+      "field": "grade",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.grade-distribution@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.grade-distribution@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.grade-distribution@1.0.0:pct",
+      "entity": "workflow_output/prf.grade-distribution",
+      "field": "pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.grade-distribution@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.grade-distribution@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.grade-distribution@1.0.0:target_pct",
+      "entity": "workflow_output/prf.grade-distribution",
+      "field": "target_pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.grade-distribution@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.grade-distribution@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.kpi-tracking@1.0.0:actual",
+      "entity": "workflow_output/prf.kpi-tracking",
+      "field": "actual",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "周期实际值，与 `target` 同口径",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.kpi-tracking@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.kpi-tracking@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.kpi-tracking@1.0.0:kpi",
+      "entity": "workflow_output/prf.kpi-tracking",
+      "field": "kpi",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "指标名（如 新签销售额(万)/客户续约率/需求交付准时率/人效指数）。同名指标可跨员工复用，靠 `employee_masked` 区分",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.kpi-tracking@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.kpi-tracking@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.kpi-tracking@1.0.0:rate",
+      "entity": "workflow_output/prf.kpi-tracking",
+      "field": "rate",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "达成率 = `actual / target × 100`，保留 1 位小数；见 §9 V8",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.kpi-tracking@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.kpi-tracking@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.kpi-tracking@1.0.0:target",
+      "entity": "workflow_output/prf.kpi-tracking",
+      "field": "target",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/kpi.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "周期目标值；百分比类指标以 92 表示 92%，金额类以万为单位（表头单位见 `kpi` 括号）",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.kpi-tracking@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.kpi-tracking@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.one-on-one@1.0.0:actions",
+      "entity": "workflow_output/prf.one-on-one",
+      "field": "actions",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.one-on-one@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.one-on-one@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.one-on-one@1.0.0:employee_masked",
+      "entity": "workflow_output/prf.one-on-one",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "〔追加列〕员工脱敏工号 `EMP-****NN`，与 `calibration.csv.employee_masked` 同源可 join；全表为合成 ID",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.one-on-one@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.one-on-one@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.one-on-one@1.0.0:next_date",
+      "entity": "workflow_output/prf.one-on-one",
+      "field": "next_date",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.one-on-one@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.one-on-one@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.one-on-one@1.0.0:topics",
+      "entity": "workflow_output/prf.one-on-one",
+      "field": "topics",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.one-on-one@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.one-on-one@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.review-cycle@1.0.0:cycle",
+      "entity": "workflow_output/prf.review-cycle",
+      "field": "cycle",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "prf/calibration.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "〔追加列〕考核周期标识（Q4-2026），与 `kpi.csv.period`（Q4）对应",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.review-cycle@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.review-cycle@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.review-cycle@1.0.0:deadline",
+      "entity": "workflow_output/prf.review-cycle",
+      "field": "deadline",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.review-cycle@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.review-cycle@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.review-cycle@1.0.0:targets",
+      "entity": "workflow_output/prf.review-cycle",
+      "field": "targets",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.review-cycle@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.review-cycle@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:prf.review-cycle@1.0.0:template",
+      "entity": "workflow_output/prf.review-cycle",
+      "field": "template",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:prf.review-cycle@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "prf.review-cycle@1.0.0"
+      ]
+    }
+  ]
+}

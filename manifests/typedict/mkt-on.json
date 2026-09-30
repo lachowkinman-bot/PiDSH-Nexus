@@ -1,0 +1,1692 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "mkt-on",
+  "label": "营销（线上）MKT-ON",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "ad_spend.csv:approved_budget_wan",
+      "entity": "ad_spend.csv",
+      "field": "approved_budget_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3.5
+        },
+        {
+          "kind": "maximum",
+          "value": 9
+        }
+      ],
+      "example": "8.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周批准预算（**万元**，2 位小数）；`spend_wan > approved_budget_wan` 即超包，须转 `mkt-on.ad-spend-review`",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:approved_budget_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "ad_spend.csv:channel",
+      "entity": "ad_spend.csv",
+      "field": "channel",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "抖音",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:channel"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "ad_spend.csv:clicks",
+      "entity": "ad_spend.csv",
+      "field": "clicks",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 4500
+        },
+        {
+          "kind": "maximum",
+          "value": 24800
+        }
+      ],
+      "example": "21300",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "点击量（平台只读口径，整数）；CPC 由 `spend_wan × 10000 / clicks` 派生，不落列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:clicks"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "ad_spend.csv:impressions",
+      "entity": "ad_spend.csv",
+      "field": "impressions",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 240000
+        },
+        {
+          "kind": "maximum",
+          "value": 1240000
+        }
+      ],
+      "example": "1120000",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "曝光量（平台只读口径，整数）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:impressions"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "ad_spend.csv:owner",
+      "entity": "ad_spend.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "张**",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "责任组：内容组 / 视频组 / 活动组 / 市场运营；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "ad_spend.csv:spend_wan",
+      "entity": "ad_spend.csv",
+      "field": "spend_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3
+        },
+        {
+          "kind": "maximum",
+          "value": 8
+        }
+      ],
+      "example": "7.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周实际花费（**万元**，2 位小数）；W40 合计 34.00、W39 合计 30.50",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:spend_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "ad_spend.csv:week",
+      "entity": "ad_spend.csv",
+      "field": "week",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-W39",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周 `YYYY-Www`（2026-W39 / 2026-W40）；W40 为基线日所在周的**上周**（GT-MKTON-02 报告期），W39 为环比周",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/ad_spend.csv",
+          "field:week"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:channel",
+      "entity": "content_calendar.csv",
+      "field": "channel",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "公众号",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:channel"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:content_id",
+      "entity": "content_calendar.csv",
+      "field": "content_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CT-2051",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容 ID，唯一主键，格式 `CT-####`（CT-2051~CT-2065）；追加列，是发布审批与跨域复用的证据键",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:content_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:content_type",
+      "entity": "content_calendar.csv",
+      "field": "content_type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "图文",
+        "长图",
+        "短视频",
+        "专题页",
+        "直播"
+      ],
+      "constraints": [],
+      "example": "图文",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容形态：图文 / 长图 / 短视频 / 专题页 / 直播；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:content_type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:date",
+      "entity": "content_calendar.csv",
+      "field": "date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "10-02",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "排期日 `MM-DD`（基线年 2026，简写口径；导入时按基线年补全为 `YYYY-MM-DD`）；原始列。覆盖 2026-W40~W42，窗口为两周滚动（10-05~10-18）+ W40 周转存行（10-02）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:owner",
+      "entity": "content_calendar.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "内容组",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "责任组：内容组 / 视频组 / 活动组 / 市场运营；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:pii_check",
+      "entity": "content_calendar.csv",
+      "field": "pii_check",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "无PII",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "素材脱敏标记：无PII / 待脱敏 / 已脱敏。`待脱敏` 的素材**不得**置 `已排期/已发布`，须过 `redact_gate` 后改 `已脱敏` 才可发布（§5/§9 V-MKT-07）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:pii_check"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:publish_time",
+      "entity": "content_calendar.csv",
+      "field": "publish_time",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "09:30",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "计划发布时间 `HH:mm`（同日同渠道冲突判定不看时刻，只看 日期+渠道，见 §9 V-MKT-02）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:publish_time"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:status",
+      "entity": "content_calendar.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已发布",
+        "已排期",
+        "已驳回",
+        "待审核",
+        "草稿"
+      ],
+      "constraints": [],
+      "example": "已发布",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容状态，枚举见 §4.1：草稿 / 待审核 / 已排期 / 已驳回 / 已发布；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "content_calendar.csv:title",
+      "entity": "content_calendar.csv",
+      "field": "title",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "9 月产品更新月报",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容标题（禁虚假承诺话术，见 §9 V-MKT-06）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/content_calendar.csv",
+          "field:title"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:channel",
+      "entity": "leads.csv",
+      "field": "channel",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "官网",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:channel"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:contact_masked",
+      "entity": "leads.csv",
+      "field": "contact_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "138****2341",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "手机号或邮箱的**掩码列**（二选一）：手机 `138****2341`（前 3 后 4）、邮箱 `chen****@corp.com`（本地名前缀 + 星号）；掩码前值不得入库/出域/入记忆层；原始列，对应 redact 口径 `lead_phone`",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:contact_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:created_at",
+      "entity": "leads.csv",
+      "field": "created_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-21",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线索创建日 `YYYY-MM-DD`；ISO 周用于 lead-funnel 与 ROI 归因（W39：2101~2110；W40：2111~2117；W41：2118~2120）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:created_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:est_value_wan",
+      "entity": "leads.csv",
+      "field": "est_value_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 30
+        }
+      ],
+      "example": "15.0",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "预估商机金额（**万元**，1 位小数），由 `score` 分档生成（§9 V-MKT-03）；`stage=无效` 时为 0.0；追加列，是渠道 ROI 的分子",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:est_value_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:lead_id",
+      "entity": "leads.csv",
+      "field": "lead_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "LEAD-2101",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线索 ID，唯一主键，格式 `LEAD-####`（LEAD-2101~LEAD-2120 连续编号）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:lead_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:note",
+      "entity": "leads.csv",
+      "field": "note",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "运营注记（无效原因、来源说明、跨域联动标记等）；无则 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:owner_masked",
+      "entity": "leads.csv",
+      "field": "owner_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "李**",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "跟进人掩码（姓 + `**`，如 `张**`）；本表 PII 字段声明为 `lead_phone`，故不得落跟进人全名；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:owner_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:score",
+      "entity": "leads.csv",
+      "field": "score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 42
+        },
+        {
+          "kind": "maximum",
+          "value": 91
+        }
+      ],
+      "example": "72",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线索评分 0-100（整数），决定 `est_value_wan` 分档；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:source",
+      "entity": "leads.csv",
+      "field": "source",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "官网表单",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "来源方式：官网表单 / 投放落地页 / 内容页留资 / 行业展 / 转介绍（前 3 类为线上来源，后 2 类为线下来源）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:source"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "leads.csv:stage",
+      "entity": "leads.csv",
+      "field": "stage",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "新线索",
+        "接触中",
+        "报价中",
+        "已赢单",
+        "无效"
+      ],
+      "constraints": [],
+      "example": "新线索",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线索阶段，枚举见 §4.2，落地存中文展示值：新线索 / 接触中 / 报价中 / 已赢单 / 无效；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-on/leads.csv",
+          "field:stage"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:mkt-on.ad-spend-review@1.0.0:channel",
+      "entity": "workflow_output/mkt-on.ad-spend-review",
+      "field": "channel",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.ad-spend-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.ad-spend-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.ad-spend-review@1.0.0:current_spend_wan",
+      "entity": "workflow_output/mkt-on.ad-spend-review",
+      "field": "current_spend_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.ad-spend-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.ad-spend-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.ad-spend-review@1.0.0:expected_roi",
+      "entity": "workflow_output/mkt-on.ad-spend-review",
+      "field": "expected_roi",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.ad-spend-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.ad-spend-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.ad-spend-review@1.0.0:increment_wan",
+      "entity": "workflow_output/mkt-on.ad-spend-review",
+      "field": "increment_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.ad-spend-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.ad-spend-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.campaign-report@1.0.0:channel",
+      "entity": "workflow_output/mkt-on.campaign-report",
+      "field": "channel",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.campaign-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.campaign-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.campaign-report@1.0.0:leads",
+      "entity": "workflow_output/mkt-on.campaign-report",
+      "field": "leads",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.campaign-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.campaign-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.campaign-report@1.0.0:roi",
+      "entity": "workflow_output/mkt-on.campaign-report",
+      "field": "roi",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.campaign-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.campaign-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.campaign-report@1.0.0:spend_wan",
+      "entity": "workflow_output/mkt-on.campaign-report",
+      "field": "spend_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周实际花费（**万元**，2 位小数）；W40 合计 34.00、W39 合计 30.50",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.campaign-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.campaign-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.campaign-report@1.0.0:week",
+      "entity": "workflow_output/mkt-on.campaign-report",
+      "field": "week",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周 `YYYY-Www`（2026-W39 / 2026-W40）；W40 为基线日所在周的**上周**（GT-MKTON-02 报告期），W39 为环比周",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.campaign-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.campaign-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.content-calendar@1.0.0:channel",
+      "entity": "workflow_output/mkt-on.content-calendar",
+      "field": "channel",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.content-calendar@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.content-calendar@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.content-calendar@1.0.0:date",
+      "entity": "workflow_output/mkt-on.content-calendar",
+      "field": "date",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "排期日 `MM-DD`（基线年 2026，简写口径；导入时按基线年补全为 `YYYY-MM-DD`）；原始列。覆盖 2026-W40~W42，窗口为两周滚动（10-05~10-18）+ W40 周转存行（10-02）",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.content-calendar@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.content-calendar@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.content-calendar@1.0.0:status",
+      "entity": "workflow_output/mkt-on.content-calendar",
+      "field": "status",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容状态，枚举见 §4.1：草稿 / 待审核 / 已排期 / 已驳回 / 已发布；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.content-calendar@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.content-calendar@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.content-calendar@1.0.0:title",
+      "entity": "workflow_output/mkt-on.content-calendar",
+      "field": "title",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容标题（禁虚假承诺话术，见 §9 V-MKT-06）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.content-calendar@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.content-calendar@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.lead-funnel@1.0.0:conversion_pct",
+      "entity": "workflow_output/mkt-on.lead-funnel",
+      "field": "conversion_pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.lead-funnel@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.lead-funnel@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.lead-funnel@1.0.0:count",
+      "entity": "workflow_output/mkt-on.lead-funnel",
+      "field": "count",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.lead-funnel@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.lead-funnel@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.lead-funnel@1.0.0:stage",
+      "entity": "workflow_output/mkt-on.lead-funnel",
+      "field": "stage",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/leads.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线索阶段，枚举见 §4.2，落地存中文展示值：新线索 / 接触中 / 报价中 / 已赢单 / 无效；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.lead-funnel@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.lead-funnel@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.lead-funnel@1.0.0:week",
+      "entity": "workflow_output/mkt-on.lead-funnel",
+      "field": "week",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周 `YYYY-Www`（2026-W39 / 2026-W40）；W40 为基线日所在周的**上周**（GT-MKTON-02 报告期），W39 为环比周",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.lead-funnel@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.lead-funnel@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.publish-approve@1.0.0:approver",
+      "entity": "workflow_output/mkt-on.publish-approve",
+      "field": "approver",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.publish-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.publish-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.publish-approve@1.0.0:channel",
+      "entity": "workflow_output/mkt-on.publish-approve",
+      "field": "channel",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/ad_spend.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "线上获客渠道，取 `CHANNEL` 词表（公众号/视频号/抖音/小红书/知乎/官网/百度SEM/信息流）；线下来源（行业展/转介绍）为 `-`；追加列，是 campaign-report 渠道口径与跨表连接的键",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.publish-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.publish-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.publish-approve@1.0.0:pii_check",
+      "entity": "workflow_output/mkt-on.publish-approve",
+      "field": "pii_check",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "素材脱敏标记：无PII / 待脱敏 / 已脱敏。`待脱敏` 的素材**不得**置 `已排期/已发布`，须过 `redact_gate` 后改 `已脱敏` 才可发布（§5/§9 V-MKT-07）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.publish-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.publish-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.publish-approve@1.0.0:publish_at",
+      "entity": "workflow_output/mkt-on.publish-approve",
+      "field": "publish_at",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.publish-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.publish-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.publish-approve@1.0.0:title",
+      "entity": "workflow_output/mkt-on.publish-approve",
+      "field": "title",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-on/content_calendar.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "内容标题（禁虚假承诺话术，见 §9 V-MKT-06）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.publish-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.publish-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.seo-audit@1.0.0:issue",
+      "entity": "workflow_output/mkt-on.seo-audit",
+      "field": "issue",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.seo-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.seo-audit@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.seo-audit@1.0.0:keywords",
+      "entity": "workflow_output/mkt-on.seo-audit",
+      "field": "keywords",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.seo-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.seo-audit@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.seo-audit@1.0.0:page",
+      "entity": "workflow_output/mkt-on.seo-audit",
+      "field": "page",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.seo-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.seo-audit@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-on.seo-audit@1.0.0:rank",
+      "entity": "workflow_output/mkt-on.seo-audit",
+      "field": "rank",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-on.seo-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-on.seo-audit@1.0.0"
+      ]
+    }
+  ]
+}

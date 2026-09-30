@@ -1,0 +1,2000 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "ben",
+  "label": "福利 BEN",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "checkup_distribution.csv:abnormal_count",
+      "entity": "checkup_distribution.csv",
+      "field": "abnormal_count",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 2
+        },
+        {
+          "kind": "maximum",
+          "value": 27
+        }
+      ],
+      "example": "5",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:abnormal_count"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:abnormal_rate_pct",
+      "entity": "checkup_distribution.csv",
+      "field": "abnormal_rate_pct",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 6.5
+        },
+        {
+          "kind": "maximum",
+          "value": 52.4
+        }
+      ],
+      "example": "8.1",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:abnormal_rate_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:age_band",
+      "entity": "checkup_distribution.csv",
+      "field": "age_band",
+      "physical_type": "csv",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "20-29岁",
+        "30-39岁",
+        "40-49岁",
+        "50岁以上"
+      ],
+      "constraints": [],
+      "example": "20-29岁",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:age_band"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:examined_count",
+      "entity": "checkup_distribution.csv",
+      "field": "examined_count",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3
+        },
+        {
+          "kind": "maximum",
+          "value": 118
+        }
+      ],
+      "example": "62",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:examined_count"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:item_category",
+      "entity": "checkup_distribution.csv",
+      "field": "item_category",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "血压",
+        "血脂",
+        "血糖",
+        "骨密度"
+      ],
+      "constraints": [],
+      "example": "血压",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:item_category"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:note",
+      "entity": "checkup_distribution.csv",
+      "field": "note",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:suppression_flag",
+      "entity": "checkup_distribution.csv",
+      "field": "suppression_flag",
+      "physical_type": "csv",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "boolean",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "normal",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:suppression_flag"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "checkup_distribution.csv:year",
+      "entity": "checkup_distribution.csv",
+      "field": "year",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 2026
+        },
+        {
+          "kind": "maximum",
+          "value": 2026
+        }
+      ],
+      "example": "2026",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/checkup_distribution.csv",
+          "field:year"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:category",
+      "entity": "plans.csv",
+      "field": "category",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "商业保险",
+        "健康体检",
+        "弹性健身",
+        "心理支持",
+        "齿科",
+        "通勤支持"
+      ],
+      "constraints": [],
+      "example": "商业保险",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:category"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:comparison_group",
+      "entity": "plans.csv",
+      "field": "comparison_group",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "GRP-INS-2026",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:comparison_group"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:cost_per_person_yuan",
+      "entity": "plans.csv",
+      "field": "cost_per_person_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 440
+        },
+        {
+          "kind": "maximum",
+          "value": 5720
+        }
+      ],
+      "example": "3520",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:cost_per_person_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:covers",
+      "entity": "plans.csv",
+      "field": "covers",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "门诊+住院+体检",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:covers"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:effective_year",
+      "entity": "plans.csv",
+      "field": "effective_year",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:effective_year"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:eligible_group",
+      "entity": "plans.csv",
+      "field": "eligible_group",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "本人+家属1人",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:eligible_group"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:enrolled_count",
+      "entity": "plans.csv",
+      "field": "enrolled_count",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 342
+        }
+      ],
+      "example": "126",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:enrolled_count"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:plan",
+      "entity": "plans.csv",
+      "field": "plan",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "升级商保(家属)",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:plan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:plan_id",
+      "entity": "plans.csv",
+      "field": "plan_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "BEN-P01",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:plan_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:points_per_year",
+      "entity": "plans.csv",
+      "field": "points_per_year",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 200
+        },
+        {
+          "kind": "maximum",
+          "value": 2600
+        }
+      ],
+      "example": "1600",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:points_per_year"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:provider_masked",
+      "entity": "plans.csv",
+      "field": "provider_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "某保险公司",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:provider_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:satisfaction_score",
+      "entity": "plans.csv",
+      "field": "satisfaction_score",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3.9
+        },
+        {
+          "kind": "maximum",
+          "value": 4.6
+        }
+      ],
+      "example": "4.5",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:satisfaction_score"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:status",
+      "entity": "plans.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已采纳",
+        "比选中",
+        "已弃用",
+        "草稿"
+      ],
+      "constraints": [],
+      "example": "已采纳",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "plans.csv:tier",
+      "entity": "plans.csv",
+      "field": "tier",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "升级",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/plans.csv",
+          "field:tier"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:applied_month",
+      "entity": "usage.csv",
+      "field": "applied_month",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-01",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:applied_month"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:claim_amount_range_yuan",
+      "entity": "usage.csv",
+      "field": "claim_amount_range_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "3000~8000",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:claim_amount_range_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:claim_days",
+      "entity": "usage.csv",
+      "field": "claim_days",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "天",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 3
+        },
+        {
+          "kind": "maximum",
+          "value": 9
+        }
+      ],
+      "example": "6",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:claim_days"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:claim_masked",
+      "entity": "usage.csv",
+      "field": "claim_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CLM-****01",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:claim_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:claim_type",
+      "entity": "usage.csv",
+      "field": "claim_type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "住院",
+        "-",
+        "门诊",
+        "意外",
+        "齿科"
+      ],
+      "constraints": [],
+      "example": "住院",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:claim_type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:dept_masked",
+      "entity": "usage.csv",
+      "field": "dept_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:dept_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:employee_masked",
+      "entity": "usage.csv",
+      "field": "employee_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EMP-****12",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:employee_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:plan",
+      "entity": "usage.csv",
+      "field": "plan",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "升级商保(家属)",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:plan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:plan_id",
+      "entity": "usage.csv",
+      "field": "plan_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "BEN-P01",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:plan_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:points_total",
+      "entity": "usage.csv",
+      "field": "points_total",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 200
+        },
+        {
+          "kind": "maximum",
+          "value": 1600
+        }
+      ],
+      "example": "1600",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:points_total"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:points_used",
+      "entity": "usage.csv",
+      "field": "points_used",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 1450
+        }
+      ],
+      "example": "1450",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:points_used"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:remaining",
+      "entity": "usage.csv",
+      "field": "remaining",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 900
+        }
+      ],
+      "example": "150",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:remaining"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:settled_month",
+      "entity": "usage.csv",
+      "field": "settled_month",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-02",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:settled_month"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:status",
+      "entity": "usage.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已核销",
+        "已申请",
+        "已驳回"
+      ],
+      "constraints": [],
+      "example": "已核销",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "usage.csv:usage_id",
+      "entity": "usage.csv",
+      "field": "usage_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "BEN-U001",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:ben/usage.csv",
+          "field:usage_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:ben.annual-survey@1.0.0:dimension",
+      "entity": "workflow_output/ben.annual-survey",
+      "field": "dimension",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.annual-survey@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.annual-survey@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.annual-survey@1.0.0:n",
+      "entity": "workflow_output/ben.annual-survey",
+      "field": "n",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.annual-survey@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.annual-survey@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.annual-survey@1.0.0:score",
+      "entity": "workflow_output/ben.annual-survey",
+      "field": "score",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.annual-survey@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.annual-survey@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.annual-survey@1.0.0:verbatim_theme",
+      "entity": "workflow_output/ben.annual-survey",
+      "field": "verbatim_theme",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.annual-survey@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.annual-survey@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.checkup-report@1.0.0:abnormal_items",
+      "entity": "workflow_output/ben.checkup-report",
+      "field": "abnormal_items",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.checkup-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.checkup-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.checkup-report@1.0.0:employee_masked",
+      "entity": "workflow_output/ben.checkup-report",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.checkup-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.checkup-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.checkup-report@1.0.0:followup",
+      "entity": "workflow_output/ben.checkup-report",
+      "field": "followup",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.checkup-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.checkup-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.checkup-report@1.0.0:year",
+      "entity": "workflow_output/ben.checkup-report",
+      "field": "year",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/checkup_distribution.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.checkup-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.checkup-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.claim-review@1.0.0:claim_masked",
+      "entity": "workflow_output/ben.claim-review",
+      "field": "claim_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.claim-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.claim-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.claim-review@1.0.0:days",
+      "entity": "workflow_output/ben.claim-review",
+      "field": "days",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "天",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.claim-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.claim-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.claim-review@1.0.0:status",
+      "entity": "workflow_output/ben.claim-review",
+      "field": "status",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.claim-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.claim-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.claim-review@1.0.0:type",
+      "entity": "workflow_output/ben.claim-review",
+      "field": "type",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.claim-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.claim-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.plan-enroll@1.0.0:approver",
+      "entity": "workflow_output/ben.plan-enroll",
+      "field": "approver",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.plan-enroll@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.plan-enroll@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.plan-enroll@1.0.0:effective_date",
+      "entity": "workflow_output/ben.plan-enroll",
+      "field": "effective_date",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.plan-enroll@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.plan-enroll@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.plan-enroll@1.0.0:employee_masked",
+      "entity": "workflow_output/ben.plan-enroll",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.plan-enroll@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.plan-enroll@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.plan-enroll@1.0.0:plan",
+      "entity": "workflow_output/ben.plan-enroll",
+      "field": "plan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.plan-enroll@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.plan-enroll@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.points-calc@1.0.0:employee_masked",
+      "entity": "workflow_output/ben.points-calc",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.points-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.points-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.points-calc@1.0.0:points_total",
+      "entity": "workflow_output/ben.points-calc",
+      "field": "points_total",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.points-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.points-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.points-calc@1.0.0:remaining",
+      "entity": "workflow_output/ben.points-calc",
+      "field": "remaining",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/usage.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.points-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.points-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.points-calc@1.0.0:selected",
+      "entity": "workflow_output/ben.points-calc",
+      "field": "selected",
+      "physical_type": "json",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.points-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.points-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.vendor-compare@1.0.0:category",
+      "entity": "workflow_output/ben.vendor-compare",
+      "field": "category",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "ben/plans.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.vendor-compare@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.vendor-compare@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.vendor-compare@1.0.0:points",
+      "entity": "workflow_output/ben.vendor-compare",
+      "field": "points",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.vendor-compare@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.vendor-compare@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.vendor-compare@1.0.0:vendors",
+      "entity": "workflow_output/ben.vendor-compare",
+      "field": "vendors",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.vendor-compare@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.vendor-compare@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:ben.vendor-compare@1.0.0:winner",
+      "entity": "workflow_output/ben.vendor-compare",
+      "field": "winner",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:ben.vendor-compare@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY"
+        ]
+      },
+      "used_by_workflows": [
+        "ben.vendor-compare@1.0.0"
+      ]
+    }
+  ]
+}

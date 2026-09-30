@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pids-nexus:schema:domain-work-design:v1",
+  "title": "PiDSH Nexus Domain Work Design",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "domain", "label", "level", "north_star", "contributes_to", "modules", "benchmark_refs"],
+  "properties": {
+    "schema": { "const": "pids-nexus/domain-work-design/v1" },
+    "domain": { "type": "string", "minLength": 1 },
+    "label": { "type": "string", "minLength": 1 },
+    "level": { "enum": ["L1", "L2", "L3", "L4"] },
+    "north_star": { "type": "string", "minLength": 1 },
+    "contributes_to": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "benchmark_refs": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "outcome", "benchmark_refs", "items"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "outcome": { "type": "string", "minLength": 1 },
+          "benchmark_refs": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+                "required": ["id", "name", "outcome", "owner_role", "frequency", "workflow", "stages", "business_rules", "cross_domain_effects", "data_contract", "controls", "metrics", "benchmark_refs"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "name": { "type": "string", "minLength": 1 },
+                "outcome": { "type": "string", "minLength": 1 },
+                "owner_role": { "type": "string", "minLength": 1 },
+                "frequency": { "type": "string", "minLength": 1 },
+                "workflow": {
+                  "type": "object",
+                  "required": ["id", "description", "kind", "skill", "trigger", "nodes", "deliverable"],
+                  "properties": {
+                    "id": { "type": "string", "minLength": 1 },
+                    "description": { "type": "string", "minLength": 1 },
+                    "kind": { "type": "string", "minLength": 1 },
+                    "skill": { "type": "string", "minLength": 1 },
+                    "trigger": { "type": "object" },
+                    "nodes": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+                    "deliverable": {
+                      "type": "object",
+                      "required": ["file", "format", "fields", "acceptance"],
+                      "properties": {
+                        "file": { "type": "string", "minLength": 1 },
+                        "format": { "type": "string", "minLength": 1 },
+                        "fields": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+                        "acceptance": { "type": "string", "minLength": 1 }
+                      }
+                    },
+                    "approval": { "type": ["object", "null"] }
+                  }
+                },
+                "stages": {
+                  "type": "array",
+                  "minItems": 7,
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "type", "name", "owner_role", "entry_criteria", "inputs", "outputs", "input_contract_ref", "output_contract_ref", "standard", "gate", "evidence", "on_fail", "timeout_seconds", "retry_policy", "idempotency_key", "ui_help", "failure_severity", "rule_refs"],
+                    "properties": {
+                      "id": { "type": "string", "minLength": 1 },
+                      "type": { "type": "string", "minLength": 1 },
+                      "name": { "type": "string", "minLength": 1 },
+                      "owner_role": { "type": "string", "minLength": 1 },
+                      "entry_criteria": { "type": "string", "minLength": 1 },
+                      "inputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                      "outputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                      "input_contract_ref": { "type": "string", "minLength": 1 },
+                      "output_contract_ref": { "type": "string", "minLength": 1 },
+                      "standard": { "type": "string", "minLength": 1 },
+                      "gate": { "type": "string", "minLength": 1 },
+                      "evidence": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                      "on_fail": { "type": "string", "minLength": 1 },
+                      "timeout_seconds": { "type": "integer", "minimum": 1 },
+                      "retry_policy": { "type": "object" },
+                      "idempotency_key": { "type": "string", "minLength": 1 },
+                      "ui_help": { "type": "string", "minLength": 1 },
+                      "failure_severity": { "enum": ["warning", "blocking", "critical"] },
+                      "rule_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                      "benchmark_refs": { "type": "array", "items": { "type": "string" } }
+                    }
+                  }
+                },
+                "business_rules": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "kind", "severity", "expression", "evidence", "source"],
+                    "properties": {
+                      "id": { "type": "string", "minLength": 1 },
+                      "kind": { "enum": ["invariant", "domain_rule", "policy_threshold", "policy"] },
+                      "severity": { "enum": ["info", "warning", "blocking", "critical"] },
+                      "expression": { "type": "string", "minLength": 1 },
+                      "evidence": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                      "source": { "type": "string", "minLength": 1 },
+                      "status": { "type": "string" }
+                    }
+                  }
+                },
+                "cross_domain_effects": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["event_id", "target_domain", "trigger_stage", "payload_key", "anonymous_key", "delivery", "idempotency_key", "on_fail"],
+                    "properties": {
+                      "event_id": { "type": "string", "minLength": 1 },
+                      "target_domain": { "type": "string", "minLength": 1 },
+                      "trigger_stage": { "type": "string", "minLength": 1 },
+                      "payload_key": { "type": "string", "minLength": 1 },
+                      "anonymous_key": { "type": "string", "minLength": 1 },
+                      "delivery": { "type": "string", "minLength": 1 },
+                      "idempotency_key": { "type": "string", "minLength": 1 },
+                      "on_fail": { "type": "string", "minLength": 1 }
+                    }
+                  }
+                },
+                "data_contract": {
+                  "type": "object",
+                  "required": ["input_schema_ref", "output_schema_ref", "typedict_ref", "source_tables", "source_refs_required"],
+                  "properties": {
+                    "input_schema_ref": { "type": "string" },
+                    "output_schema_ref": { "type": "string" },
+                    "typedict_ref": { "type": "string" },
+                    "source_tables": { "type": "array", "items": { "type": "string" } },
+                    "source_refs_required": { "const": true }
+                  }
+                },
+                "controls": { "type": "object" },
+                "metrics": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+                "benchmark_refs": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

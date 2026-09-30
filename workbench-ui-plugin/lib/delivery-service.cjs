@@ -241406,7 +241406,7 @@ th{background:#e6eef8}code{font-family:Consolas,monospace;word-break:break-all}
 <body><main>${body}</main></body>
 </html>`;
 }
-async function writeXlsx(file, primary, tables, metrics) {
+async function writeXlsx(file, primary, tables, metrics, workflowId) {
   const workbook = new import_exceljs.default.Workbook();
   workbook.creator = "Universal Workbench";
   workbook.created = /* @__PURE__ */ new Date();
@@ -241418,6 +241418,7 @@ async function writeXlsx(file, primary, tables, metrics) {
     { header: "\u516C\u5F0F", key: "formula", width: 24 }
   ];
   summary.addRow({ label: "\u6E90\u6587\u4EF6", value: primary.name, formula: "" });
+  summary.addRow({ label: "\u5DE5\u4F5C\u6D41", value: workflowId, formula: "" });
   for (const metric of metrics) summary.addRow({ label: metric.label, value: metric.value, formula: "" });
   const calcIndex = summary.rowCount + 1;
   summary.addRow({ label: "\u516C\u5F0F\u6821\u9A8C\uFF08\u884C\u6570\uFF09", value: 0, formula: `=COUNTA(A:A)-2` });
@@ -241510,7 +241511,7 @@ function writePdf(file, profile, report, tables, fontFile) {
     const font = "cjk";
     doc.font(font).fontSize(21).text(profile.title, { align: "center" });
     doc.moveDown(0.5);
-    doc.fontSize(10).fillColor("#52606d").text(`\u57DF\uFF1A${profile.label}  |  \u751F\u6210\u65F6\u95F4\uFF1A${(/* @__PURE__ */ new Date()).toISOString()}`, { align: "center" });
+    doc.fontSize(10).fillColor("#52606d").text(`\u57DF\uFF1A${profile.label}  |  \u5DE5\u4F5C\u6D41\uFF1A${profile.workflow_id}  |  \u751F\u6210\u65F6\u95F4\uFF1A${(/* @__PURE__ */ new Date()).toISOString()}`, { align: "center" });
     doc.moveDown(1.5).fillColor("#172033");
     doc.fontSize(14).text("\u6570\u636E\u8D44\u4EA7");
     doc.moveDown(0.4);
@@ -241640,6 +241641,7 @@ function createDeliveryService({ root, workspaceRoot, audit = () => {
     const workflowId = options2.workflowId || profile.workflow_id;
     const model = loadDomainModel(bundleDir, domain);
     const workflow = loadWorkflow(bundleDir, workflowId);
+    const deliveryProfile = { ...profile, workflow_id: workflow.workflow_id };
     const tables = readSourceTables(dataDir, domain, profile);
     const generatedAt = (/* @__PURE__ */ new Date()).toISOString();
     const stamp = generatedAt.replace(/[-:.]/g, "").replace("T", "-").replace("Z", "");
@@ -241648,7 +241650,7 @@ function createDeliveryService({ root, workspaceRoot, audit = () => {
     import_node_fs.default.mkdirSync(domainDir, { recursive: true });
     const tempDir = import_node_fs.default.mkdtempSync(import_node_path.default.join(domainDir, ".tmp-"));
     const finalDir = import_node_path.default.join(domainDir, runId);
-    const report = buildReport(domain, profile, model, workflow, tables, generatedAt);
+    const report = buildReport(domain, deliveryProfile, model, workflow, tables, generatedAt);
     const artifacts = [];
     try {
       if (requestedFormats.includes("md")) {
@@ -241663,26 +241665,26 @@ function createDeliveryService({ root, workspaceRoot, audit = () => {
       }
       if (requestedFormats.includes("html")) {
         const file = import_node_path.default.join(tempDir, FILE_BY_FORMAT.html);
-        import_node_fs.default.writeFileSync(file, renderHtml(profile.title, report.markdown), "utf8");
+        import_node_fs.default.writeFileSync(file, renderHtml(deliveryProfile.title, report.markdown), "utf8");
         artifacts.push(artifactRecord(workspaceDir, file, "html"));
       }
       if (requestedFormats.includes("xlsx")) {
         const file = import_node_path.default.join(tempDir, FILE_BY_FORMAT.xlsx);
-        await writeXlsx(file, tables[0], tables, report.metrics);
+        await writeXlsx(file, tables[0], tables, report.metrics, workflow.workflow_id);
         artifacts.push(artifactRecord(workspaceDir, file, "xlsx"));
       }
       if (requestedFormats.includes("docx")) {
         const file = import_node_path.default.join(tempDir, FILE_BY_FORMAT.docx);
-        await writeDocx(file, profile, report, tables);
+        await writeDocx(file, deliveryProfile, report, tables);
         artifacts.push(artifactRecord(workspaceDir, file, "docx"));
       }
       if (requestedFormats.includes("pptx")) {
-        await writePptx(bundleDir, tempDir, profile, report, tables);
+        await writePptx(bundleDir, tempDir, deliveryProfile, report, tables);
         artifacts.push(artifactRecord(workspaceDir, import_node_path.default.join(tempDir, FILE_BY_FORMAT.pptx), "pptx"));
       }
       if (requestedFormats.includes("pdf")) {
         const file = import_node_path.default.join(tempDir, FILE_BY_FORMAT.pdf);
-        await writePdf(file, profile, report, tables, fontFile);
+        await writePdf(file, deliveryProfile, report, tables, fontFile);
         artifacts.push(artifactRecord(workspaceDir, file, "pdf"));
       }
       const publishedArtifacts = artifacts.map((item) => {
@@ -241700,8 +241702,8 @@ function createDeliveryService({ root, workspaceRoot, audit = () => {
         schema: "universal-workbench/delivery-package/v1",
         run_id: runId,
         domain,
-        label: profile.label,
-        title: options2.title || profile.title,
+        label: deliveryProfile.label,
+        title: options2.title || deliveryProfile.title,
         workflow_id: workflow.workflow_id,
         generated_at: generatedAt,
         formats: requestedFormats,

@@ -1,0 +1,1368 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "comp",
+  "label": "薪酬 COMP",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "adjust_queue.csv:adjust_pct_range",
+      "entity": "adjust_queue.csv",
+      "field": "adjust_pct_range",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "25%~32%",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:adjust_pct_range"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:approvals",
+      "entity": "adjust_queue.csv",
+      "field": "approvals",
+      "physical_type": "csv",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "HRD✓/CFO待",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:approvals"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:batch",
+      "entity": "adjust_queue.csv",
+      "field": "batch",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "BATCH-2026Q4-A",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:batch"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:current_band",
+      "entity": "adjust_queue.csv",
+      "field": "current_band",
+      "physical_type": "csv",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "P4",
+        "P5",
+        "P3",
+        "P6",
+        "P2",
+        "M1",
+        "P7",
+        "P8",
+        "P9",
+        "M2",
+        "P1"
+      ],
+      "constraints": [],
+      "example": "P4",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:current_band"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:current_salary_range_wan",
+      "entity": "adjust_queue.csv",
+      "field": "current_salary_range_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "34~40",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:current_salary_range_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:effective_month",
+      "entity": "adjust_queue.csv",
+      "field": "effective_month",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-11",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:effective_month"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:employee_masked",
+      "entity": "adjust_queue.csv",
+      "field": "employee_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EMP-****12",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:employee_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:proposed_band",
+      "entity": "adjust_queue.csv",
+      "field": "proposed_band",
+      "physical_type": "csv",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "P5",
+        "P4",
+        "P6",
+        "P3",
+        "M2",
+        "P7",
+        "P8",
+        "P9",
+        "M3",
+        "P1"
+      ],
+      "constraints": [],
+      "example": "P5",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:proposed_band"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:proposed_salary_range_wan",
+      "entity": "adjust_queue.csv",
+      "field": "proposed_salary_range_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "44~52",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:proposed_salary_range_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:reason",
+      "entity": "adjust_queue.csv",
+      "field": "reason",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "晋升答辩通过",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:reason"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "adjust_queue.csv:status",
+      "entity": "adjust_queue.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "待审批",
+        "已通过",
+        "草稿",
+        "已生效",
+        "已驳回"
+      ],
+      "constraints": [],
+      "example": "待审批",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/adjust_queue.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "bands.csv:band",
+      "entity": "bands.csv",
+      "field": "band",
+      "physical_type": "csv",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6",
+        "P7",
+        "P8",
+        "P9",
+        "M1",
+        "M2",
+        "M3"
+      ],
+      "constraints": [],
+      "example": "P1",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/bands.csv",
+          "field:band"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "bands.csv:p25_wan",
+      "entity": "bands.csv",
+      "field": "p25_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 8
+        },
+        {
+          "kind": "maximum",
+          "value": 120
+        }
+      ],
+      "example": "8",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/bands.csv",
+          "field:p25_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "bands.csv:p50_wan",
+      "entity": "bands.csv",
+      "field": "p50_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 10
+        },
+        {
+          "kind": "maximum",
+          "value": 158
+        }
+      ],
+      "example": "10",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/bands.csv",
+          "field:p50_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "bands.csv:p75_wan",
+      "entity": "bands.csv",
+      "field": "p75_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 13
+        },
+        {
+          "kind": "maximum",
+          "value": 210
+        }
+      ],
+      "example": "13",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/bands.csv",
+          "field:p75_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "bands.csv:zone",
+      "entity": "bands.csv",
+      "field": "zone",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "基准",
+        "管理带"
+      ],
+      "constraints": [],
+      "example": "基准",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "dataset:comp/bands.csv",
+          "field:zone"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:comp.band-report@1.0.0:above_p75",
+      "entity": "workflow_output/comp.band-report",
+      "field": "above_p75",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.band-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.band-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.band-report@1.0.0:band",
+      "entity": "workflow_output/comp.band-report",
+      "field": "band",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.band-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.band-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.band-report@1.0.0:below_p25",
+      "entity": "workflow_output/comp.band-report",
+      "field": "below_p25",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.band-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.band-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.band-report@1.0.0:headcount",
+      "entity": "workflow_output/comp.band-report",
+      "field": "headcount",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.band-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.band-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.compa-ratio@1.0.0:band",
+      "entity": "workflow_output/comp.compa-ratio",
+      "field": "band",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.compa-ratio@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.compa-ratio@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.compa-ratio@1.0.0:cr",
+      "entity": "workflow_output/comp.compa-ratio",
+      "field": "cr",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.compa-ratio@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.compa-ratio@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.compa-ratio@1.0.0:employee_masked",
+      "entity": "workflow_output/comp.compa-ratio",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.compa-ratio@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.compa-ratio@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.compa-ratio@1.0.0:zone",
+      "entity": "workflow_output/comp.compa-ratio",
+      "field": "zone",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/bands.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.compa-ratio@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.compa-ratio@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.cost-projection@1.0.0:cost_impact_wan",
+      "entity": "workflow_output/comp.cost-projection",
+      "field": "cost_impact_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.cost-projection@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.cost-projection@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.cost-projection@1.0.0:note",
+      "entity": "workflow_output/comp.cost-projection",
+      "field": "note",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.cost-projection@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.cost-projection@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.cost-projection@1.0.0:pct",
+      "entity": "workflow_output/comp.cost-projection",
+      "field": "pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.cost-projection@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.cost-projection@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.cost-projection@1.0.0:scenario",
+      "entity": "workflow_output/comp.cost-projection",
+      "field": "scenario",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.cost-projection@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.cost-projection@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.payroll-recon@1.0.0:gross_diff",
+      "entity": "workflow_output/comp.payroll-recon",
+      "field": "gross_diff",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.payroll-recon@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.payroll-recon@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.payroll-recon@1.0.0:headcount",
+      "entity": "workflow_output/comp.payroll-recon",
+      "field": "headcount",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.payroll-recon@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.payroll-recon@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.payroll-recon@1.0.0:items",
+      "entity": "workflow_output/comp.payroll-recon",
+      "field": "items",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.payroll-recon@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.payroll-recon@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.payroll-recon@1.0.0:period",
+      "entity": "workflow_output/comp.payroll-recon",
+      "field": "period",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.payroll-recon@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.payroll-recon@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.queue-approve@1.0.0:approvals",
+      "entity": "workflow_output/comp.queue-approve",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.queue-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.queue-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.queue-approve@1.0.0:batch",
+      "entity": "workflow_output/comp.queue-approve",
+      "field": "batch",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.queue-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.queue-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.queue-approve@1.0.0:items",
+      "entity": "workflow_output/comp.queue-approve",
+      "field": "items",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.queue-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.queue-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.queue-approve@1.0.0:total_impact_wan",
+      "entity": "workflow_output/comp.queue-approve",
+      "field": "total_impact_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.queue-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.queue-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.salary-adjust@1.0.0:approvals",
+      "entity": "workflow_output/comp.salary-adjust",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.salary-adjust@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.salary-adjust@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.salary-adjust@1.0.0:band_from",
+      "entity": "workflow_output/comp.salary-adjust",
+      "field": "band_from",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.salary-adjust@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.salary-adjust@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.salary-adjust@1.0.0:band_to",
+      "entity": "workflow_output/comp.salary-adjust",
+      "field": "band_to",
+      "physical_type": "json",
+      "logical_type": "object",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.salary-adjust@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.salary-adjust@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:comp.salary-adjust@1.0.0:employee_masked",
+      "entity": "workflow_output/comp.salary-adjust",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "comp/adjust_queue.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:comp.salary-adjust@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "comp.salary-adjust@1.0.0"
+      ]
+    }
+  ]
+}

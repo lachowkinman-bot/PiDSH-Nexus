@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pids-nexus:schema:typedict:v1",
+  "title": "PiDSH Nexus Type Dictionary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "domain", "label", "source_standard", "fields"],
+  "properties": {
+    "schema": { "const": "pids-nexus/typedict/v1" },
+    "domain": { "type": "string", "minLength": 1 },
+    "label": { "type": "string", "minLength": 1 },
+    "source_standard": { "type": "string", "minLength": 1 },
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "entity", "field", "physical_type", "logical_type", "format", "semantic_type", "unit", "nullable", "enum_values", "constraints", "example", "foreign_key", "required", "source", "pii", "level", "description", "lineage", "used_by_workflows"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "entity": { "type": "string", "minLength": 1 },
+          "field": { "type": "string", "minLength": 1 },
+          "physical_type": { "type": "string", "minLength": 1 },
+          "logical_type": { "enum": ["string", "number", "integer", "boolean", "array", "object"] },
+          "format": { "type": ["string", "null"] },
+          "semantic_type": { "type": "string", "minLength": 1 },
+          "unit": { "type": "string" },
+          "nullable": { "type": "boolean" },
+          "enum_values": { "type": "array", "items": { "type": "string" } },
+          "constraints": { "type": "array", "items": { "type": "object" } },
+          "example": { "type": "string" },
+          "foreign_key": { "type": ["object", "null"] },
+          "required": { "type": "boolean" },
+          "source": { "type": "string", "minLength": 1 },
+          "pii": { "type": "boolean" },
+          "level": { "enum": ["L1", "L2", "L3", "L4"] },
+          "description": { "type": "string" },
+          "lineage": {
+            "type": "object",
+            "required": ["upstream", "downstream"],
+            "properties": {
+              "upstream": { "type": "array", "items": { "type": "string" } },
+              "downstream": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "used_by_workflows": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        }
+      }
+    }
+  }
+}

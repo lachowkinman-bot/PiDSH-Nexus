@@ -20,6 +20,8 @@ export const DOMAIN_IDS = [
 
 const DELIVERY_FORMATS = ['md', 'csv', 'html', 'xlsx', 'docx', 'pptx', 'pdf'];
 const BACKUP_LIMIT = 30;
+const APPROVAL_KEY_FILE = ['config', 'identity', 'approval.key'];
+const OPERATORS_FILE = ['config', 'identity', 'operators.json'];
 const PII_PATTERNS = [
   { id: 'phone_cn', re: /(?<!\d)1[3-9]\d{9}(?!\d)/g },
   { id: 'idcard_cn', re: /(?<!\d)\d{17}[\dXx](?!\d)/g },
@@ -74,6 +76,148 @@ function sha256File(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }
 
+function canonicalJson(value) {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function approvalKey(workspaceRoot) {
+  const file = path.join(workspaceRoot, ...APPROVAL_KEY_FILE);
+  if (!fs.existsSync(file)) {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, `${crypto.randomBytes(32).toString('base64')}\n`, { encoding: 'utf8', mode: 0o600 });
+    try {
+      fs.chmodSync(file, 0o600);
+    } catch {
+      // Windows ACLs are inherited from the user workspace; POSIX mode is best effort.
+    }
+  }
+  const encoded = fs.readFileSync(file, 'utf8').trim();
+  const key = Buffer.from(encoded, 'base64');
+  if (key.length < 32) throw new Error('审批签名密钥损坏');
+  return key;
+}
+
+function operatorsPath(workspaceRoot) {
+  return path.join(workspaceRoot, ...OPERATORS_FILE);
+}
+
+function defaultOperators() {
+  return {
+    schema: 'pids-nexus/operator-registry/v1',
+    updated_at: now(),
+    operators: [
+      {
+        id: 'LOCAL-OWNER',
+        display_name: '本机管理员',
+        roles: ['系统管理员'],
+        status: 'active',
+        created_at: now(),
+      },
+    ],
+  };
+}
+
+function loadOperators(workspaceRoot) {
+  const file = operatorsPath(workspaceRoot);
+  const registry = readJson(file, null);
+  if (registry && Array.isArray(registry.operators)) return registry;
+  const created = defaultOperators();
+  writeJsonAtomic(file, created);
+  return created;
+}
+
+function saveOperators(workspaceRoot, registry) {
+  registry.updated_at = now();
+  writeJsonAtomic(operatorsPath(workspaceRoot), registry);
+  return registry;
+}
+
+function migrateLegacyApprovals(workspaceRoot) {
+  const instancesRoot = path.join(workspaceRoot, 'instances');
+  if (!fs.existsSync(instancesRoot)) return { migrated: 0 };
+  const candidates = [];
+  for (const entry of fs.readdirSync(instancesRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const file = path.join(instancesRoot, entry.name, 'instance.json');
+    const instance = readJson(file);
+    if (!instance || !Array.isArray(instance.approvals) || !instance.approvals.length) continue;
+    if (instance.approvals.some((record) => !record.signature || !record.operator_id)) candidates.push({ file, instance });
+  }
+  if (!candidates.length) return { migrated: 0 };
+  const backup = path.join(workspaceRoot, 'backups', `${stamp()}-r12-approval-migration`);
+  fs.mkdirSync(backup, { recursive: true });
+  fs.cpSync(instancesRoot, path.join(backup, 'instances'), { recursive: true });
+  for (const { file, instance } of candidates) {
+    instance.legacy_approvals = [
+      ...(instance.legacy_approvals || []),
+      ...instance.approvals.map((record) => ({ ...record, migration: 'r12_unsigned_legacy_record' })),
+    ];
+    instance.approvals = [];
+    instance.approval_integrity = 'legacy_unverified';
+    instance.requires_reapproval = ['approved', 'completed'].includes(instance.status);
+    writeJsonAtomic(file, instance);
+  }
+  appendAudit(workspaceRoot, 'approval.migration.r12', {
+    migrated_instances: candidates.length,
+    backup: path.relative(workspaceRoot, backup),
+  });
+  return { migrated: candidates.length, backup: path.relative(workspaceRoot, backup) };
+}
+
+function signingMaterial(workspaceRoot) {
+  const key = approvalKey(workspaceRoot);
+  return {
+    key,
+    key_id: crypto.createHash('sha256').update(key).digest('hex').slice(0, 16),
+  };
+}
+
+function approvalDraftHash(instance) {
+  return sha256Text(canonicalJson({
+    workflow_id: instance.workflow_id,
+    instance_id: instance.id,
+    input: instance.input || {},
+    analysis: instance.analysis || null,
+    quality: instance.quality || null,
+  }));
+}
+
+function approvalSignature(instance, record, key) {
+  const signed = {
+    workflow_id: instance.workflow_id,
+    instance_id: instance.id,
+    revision: record.revision,
+    data_version: record.data_version,
+    artifact_hash: record.artifact_hash,
+    operator_id: record.operator_id,
+    operator_name: record.operator_name,
+    role: record.role,
+    decision: record.decision,
+    comment: record.comment,
+    at: record.at,
+    key_id: record.key_id,
+  };
+  return crypto.createHmac('sha256', key).update(canonicalJson(signed)).digest('hex');
+}
+
+function assertApprovalIntegrity(workspaceRoot, instance) {
+  if (!Array.isArray(instance.approvals) || !instance.approvals.length) return true;
+  const { key } = signingMaterial(workspaceRoot);
+  for (const record of instance.approvals) {
+    if (!record.signature || !record.operator_id) throw new Error('审批记录缺少可信签名');
+    const expected = approvalSignature(instance, record, key);
+    const actual = String(record.signature);
+    if (actual.length !== expected.length || !crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected))) {
+      throw new Error(`审批记录签名校验失败：${record.operator_id || 'unknown'}`);
+    }
+  }
+  return true;
+}
+
 function toPosix(value) {
   return String(value).replace(/\\/g, '/');
 }
@@ -110,6 +254,7 @@ export function ensureWorkspace({ bundleRoot, workspaceRoot }) {
   const dirs = [
     workspaceDir,
     path.join(workspaceDir, 'config'),
+    path.join(workspaceDir, 'config', 'identity'),
     path.join(workspaceDir, 'data'),
     path.join(workspaceDir, 'imports'),
     path.join(workspaceDir, 'instances'),
@@ -119,6 +264,9 @@ export function ensureWorkspace({ bundleRoot, workspaceRoot }) {
     path.join(workspaceDir, 'backups'),
   ];
   for (const dir of dirs) fs.mkdirSync(dir, { recursive: true });
+  approvalKey(workspaceDir);
+  loadOperators(workspaceDir);
+  migrateLegacyApprovals(workspaceDir);
 
   const marker = path.join(workspaceDir, '.workspace.json');
   if (!fs.existsSync(marker)) {
@@ -309,6 +457,7 @@ function createBackup(workspaceRoot, reason, traceId) {
         if (entry.isDirectory()) visit(full);
         else if (entry.isFile()) {
           const relative = toPosix(path.relative(workspaceRoot, full));
+          if (relative === 'config/identity/approval.key') continue;
           const target = path.join(backupDir, relative);
           fs.mkdirSync(path.dirname(target), { recursive: true });
           fs.copyFileSync(full, target);
@@ -374,7 +523,62 @@ function defaultStageCopy(domain) {
   };
 }
 
-function buildStages(workflow) {
+function buildStages(workflow, bundleRoot) {
+  const designFile = path.join(bundleRoot, 'manifests', 'domain-work-design', `${workflow.domain}.json`);
+  const design = readJson(designFile);
+  const designedItem = design?.modules
+    ?.flatMap((module) => module.items)
+    ?.find((item) => item.workflow?.id === workflow.workflow_id);
+  if (!designedItem) throw new Error(`工作流缺少模块/事项设计：${workflow.workflow_id}`);
+  const typeMap = {
+    data_intake: 'intake',
+    rule_gate: 'rule',
+    llm_task: 'llm',
+    quality_gate: 'quality',
+    human_approval: 'approval',
+    no_human_approval: 'rule',
+    writeback_and_delivery: 'publish',
+    outcome_evaluation: 'outcome',
+    strategy_writeback: 'strategy',
+  };
+  const designedStages = designedItem.stages.map((stage) => ({
+    id: stage.id,
+    type: typeMap[stage.type] || stage.type,
+    title: stage.name,
+    required: true,
+    standard: stage.standard,
+    gate: stage.gate,
+    on_fail: stage.on_fail,
+    skill: stage.type === 'llm_task' ? workflow.skill : undefined,
+    approvalCount: stage.type === 'human_approval' ? (workflow.dual || workflow.approval?.dual ? 2 : 1) : undefined,
+    node: stage.type === 'human_approval' ? (workflow.approval?.node || (workflow.hitl_nodes || [])[0] || 'n3') : undefined,
+    requiredRoles: stage.type === 'human_approval'
+      ? (workflow.approval?.required_roles || (workflow.dual || workflow.approval?.dual ? ['业务负责人', '风险负责人'] : ['业务负责人']))
+      : undefined,
+    status: stage.id === 'intake' ? 'ready' : 'pending',
+    started_at: null,
+    finished_at: null,
+    error: null,
+  }));
+  if (!designedStages.some((stage) => stage.id === 'strategy_rollup')) {
+    designedStages.push({
+      id: 'strategy_rollup',
+      type: 'strategy',
+      title: '回写战略指标与决策证据',
+      required: true,
+      standard: `回写 ${workflow.domain} 北极星指标、贡献 KR、数据版本和证据引用。`,
+      gate: 'metric_lineage_and_data_freshness',
+      on_fail: 'mark_outcome_pending',
+      status: 'pending',
+      started_at: null,
+      finished_at: null,
+      error: null,
+    });
+  }
+  return designedStages;
+}
+
+function buildLegacyStages(workflow) {
   const copy = DOMAIN_STAGE_COPY[workflow.domain] || defaultStageCopy(workflow.domain);
   const approvalRequired = (workflow.hitl_nodes || []).length > 0 || Boolean(workflow.approval);
   const approvalCount = workflow.dual || workflow.approval?.dual ? 2 : 1;
@@ -596,7 +800,7 @@ async function publishStage(context, workflow, instance) {
     '',
     '## 审批',
     '',
-    ...(instance.approvals || []).map((item) => `- ${item.role} / ${item.operator}：${item.decision}（${item.at}）`),
+    ...(instance.approvals || []).map((item) => `- ${item.role} / ${item.operator_name || item.operator_id}：${item.decision}（${item.at}，签名 ${String(item.signature || '').slice(0, 12)}…）`),
     '',
   ].join('\n'), 'utf8');
   const artifacts = [resultFile, reportFile].map((file) => ({
@@ -746,6 +950,7 @@ function listInstances(workspaceRoot, filters = {}) {
   for (const id of listInstanceIds(workspaceRoot)) {
     const instance = readJson(instanceFile(workspaceRoot, id));
     if (!instance) continue;
+    assertApprovalIntegrity(workspaceRoot, instance);
     if (filters.workflowId && instance.workflow_id !== filters.workflowId) continue;
     if (filters.domain && instance.domain !== filters.domain) continue;
     if (filters.status && instance.status !== filters.status) continue;
@@ -866,12 +1071,74 @@ export function listWorkflowDefinitions(context) {
   const index = workflowIndex(context.bundleRoot);
   return index.workflows.map((workflow) => ({
     ...workflow,
-    stages: buildStages(workflow),
+    stages: buildStages(workflow, context.bundleRoot),
   }));
 }
 
+export function getDomainWorkDesign(context, domain = null) {
+  const root = path.join(context.bundleRoot, 'manifests', 'domain-work-design');
+  const index = readJson(path.join(root, 'index.json'), null);
+  if (!index) throw new Error('领域工作设计索引缺失，请先运行 design:build');
+  if (!domain) return index;
+  const item = readJson(path.join(root, `${safeSegment(domain, 'domain')}.json`), null);
+  if (!item) throw new Error(`领域工作设计缺失：${domain}`);
+  return item;
+}
+
+export function listOperators(context) {
+  const registry = loadOperators(context.workspaceRoot);
+  return {
+    schema: registry.schema,
+    updated_at: registry.updated_at,
+    operators: registry.operators.map((operator) => ({
+      id: operator.id,
+      display_name: operator.display_name,
+      roles: [...(operator.roles || [])],
+      status: operator.status,
+      created_at: operator.created_at,
+    })),
+  };
+}
+
+export function upsertOperator(context, body = {}) {
+  const id = safeId(body.id || body.operatorId, 'operatorId').toUpperCase();
+  const displayName = String(body.displayName || body.display_name || id).trim().slice(0, 80);
+  const roles = [...new Set((Array.isArray(body.roles) ? body.roles : String(body.roles || '').split(','))
+    .map((role) => String(role).trim())
+    .filter(Boolean))].slice(0, 24);
+  const status = ['active', 'disabled'].includes(body.status) ? body.status : 'active';
+  if (!displayName) throw new Error('操作者名称必填');
+  if (!roles.length) throw new Error('操作者至少需要一个角色');
+  if (roles.includes('*') && id !== 'LOCAL-OWNER') throw new Error('仅 LOCAL-OWNER 可拥有通配角色');
+  const registry = loadOperators(context.workspaceRoot);
+  const existing = registry.operators.find((operator) => operator.id === id);
+  if (existing) {
+    existing.display_name = displayName;
+    existing.roles = roles;
+    existing.status = status;
+    existing.updated_at = now();
+  } else {
+    registry.operators.push({
+      id,
+      display_name: displayName,
+      roles,
+      status,
+      created_at: now(),
+    });
+  }
+  if (!registry.operators.some((operator) => operator.status === 'active' && operator.id === 'LOCAL-OWNER')) {
+    registry.operators.unshift(defaultOperators().operators[0]);
+  }
+  saveOperators(context.workspaceRoot, registry);
+  appendAudit(context.workspaceRoot, 'identity.operator.upsert', { operator_id: id, roles, status });
+  context.audit?.('identity.operator.upsert', { operator_id: id, roles, status });
+  return listOperators(context);
+}
+
 export function getInstance(context, id) {
-  return loadInstance(context.workspaceRoot, id);
+  const instance = loadInstance(context.workspaceRoot, id);
+  assertApprovalIntegrity(context.workspaceRoot, instance);
+  return instance;
 }
 
 export function resolveInstanceArtifact(context, id, relativeFile) {
@@ -918,7 +1185,7 @@ export function startInstance(context, body = {}) {
     quality: null,
     approvals: [],
     artifacts: [],
-    stages: buildStages(workflow),
+    stages: buildStages(workflow, context.bundleRoot),
     backup: { id: path.basename(backup.dir), files: backup.fileCount, bytes: backup.bytes },
     last_error: null,
   };
@@ -947,21 +1214,46 @@ function approve(context, workflow, instance, body) {
   if (!approvalStage) throw new Error('该工作流不需要人工审批');
   const decision = String(body.decision || 'approved').toLowerCase();
   const role = String(body.role || '').trim();
-  const operator = String(body.operator || '').trim();
+  const operatorId = String(body.operatorId || body.operator_id || '').trim();
+  const legacyOperator = String(body.operator || '').trim();
   const comment = String(body.comment || '').trim();
   if (!role) throw new Error('审批角色必填');
-  if (!operator) throw new Error('操作者签名必填');
+  if (!operatorId && !legacyOperator) throw new Error('操作者身份必填');
   if (decision === 'rejected' && !comment) throw new Error('驳回必须填写原因');
   if (!['approved', 'rejected'].includes(decision)) throw new Error('审批决定必须是 approved 或 rejected');
+  const registry = loadOperators(context.workspaceRoot);
+  const normalizedLegacy = legacyOperator ? legacyOperator.toUpperCase() : '';
+  const operator = registry.operators.find((item) =>
+    item.id === (operatorId || normalizedLegacy).toUpperCase()
+    || item.display_name === legacyOperator);
+  if (!operator) throw new Error('审批操作者未在本地身份注册表中登记');
+  if (operator.status !== 'active') throw new Error('审批操作者已停用');
+  if (!(operator.roles || []).includes('*') && !(operator.roles || []).includes(role)) {
+    throw new Error(`操作者 ${operator.id} 不具备角色：${role}`);
+  }
+  if (Array.isArray(approvalStage.requiredRoles) && approvalStage.requiredRoles.length
+    && !approvalStage.requiredRoles.includes(role)) {
+    throw new Error(`审批角色不在流程授权范围：${role}`);
+  }
+  if (instance.approvals.some((item) => item.operator_id === operator.id)) {
+    throw new Error('同一操作者不能在同一实例中重复完成多级审批');
+  }
+  const { key, key_id } = signingMaterial(context.workspaceRoot);
   const record = {
+    workflow_id: instance.workflow_id,
+    instance_id: instance.id,
+    revision: Number(instance.revision || 0) + 1,
+    data_version: instance.data_version,
+    artifact_hash: approvalDraftHash(instance),
+    operator_id: operator.id,
+    operator_name: operator.display_name,
     role,
-    operator,
     decision,
     comment,
     at: now(),
-    data_version: instance.data_version,
-    artifact_hash: instance.artifacts.length ? instance.artifacts[instance.artifacts.length - 1].sha256 : null,
+    key_id,
   };
+  record.signature = approvalSignature(instance, record, key);
   instance.approvals.push(record);
   if (decision === 'rejected') {
     approvalStage.status = 'rejected';
@@ -973,7 +1265,7 @@ function approve(context, workflow, instance, body) {
   const required = approvalStage.approvalCount || 1;
   const approved = instance.approvals.filter((item) => item.decision === 'approved');
   const uniqueRoles = new Set(approved.map((item) => item.role));
-  const uniqueOperators = new Set(approved.map((item) => item.operator));
+  const uniqueOperators = new Set(approved.map((item) => item.operator_id));
   if (approved.length < required) {
     instance.status = 'awaiting_approval';
     return instance;
@@ -990,6 +1282,7 @@ function approve(context, workflow, instance, body) {
 export async function actInstance(context, body = {}) {
   const id = safeId(body.id || body.instanceId, 'instanceId');
   const instance = loadInstance(context.workspaceRoot, id);
+  assertApprovalIntegrity(context.workspaceRoot, instance);
   const workflow = findWorkflow(context.bundleRoot, instance.workflow_id);
   const model = domainModel(context.bundleRoot, instance.domain);
   const action = String(body.action || '').trim();
@@ -1010,10 +1303,13 @@ export async function actInstance(context, body = {}) {
     instance.last_error = null;
     next = await runUntilBlocked(context, workflow, model, instance);
   } else if (action === 'approve' || action === 'reject') {
-    next = await runUntilBlocked(context, workflow, model, approve(context, workflow, instance, {
+    const approved = approve(context, workflow, instance, {
       ...body,
       decision: action === 'reject' ? 'rejected' : (body.decision || 'approved'),
-    }));
+    });
+    next = approved.status === 'rejected'
+      ? saveInstance(context.workspaceRoot, approved)
+      : await runUntilBlocked(context, workflow, model, approved);
   } else if (action === 'archive') {
     instance.status = 'archived';
     next = saveInstance(context.workspaceRoot, instance);
@@ -1075,6 +1371,9 @@ export function createWorkbenchPlatform(options) {
     metrics: (query = {}) => listMetrics(context, query),
     backups: () => listBackups(context),
     definitions: () => listWorkflowDefinitions(context),
+    workDesign: (domain) => getDomainWorkDesign(context, domain),
+    operators: () => listOperators(context),
+    upsertOperator: (body) => upsertOperator(context, body),
     listInstances: (query = {}) => listInstances(workspaceRoot, query),
     getInstance: (id) => getInstance(context, id),
     resolveInstanceArtifact: (id, file) => resolveInstanceArtifact(context, id, file),

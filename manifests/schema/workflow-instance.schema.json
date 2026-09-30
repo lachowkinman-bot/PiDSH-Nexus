@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pids-nexus:schema:workflow-instance:v2",
+  "title": "PiDSH Nexus WorkflowInstance",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "id", "workflow_id", "domain", "status", "created_at", "updated_at", "revision", "data_version", "input", "approvals", "artifacts", "stages"],
+  "properties": {
+    "schema": { "const": "pids-nexus/workflow-instance/v2" },
+    "id": { "type": "string", "minLength": 1 },
+    "workflow_id": { "type": "string", "minLength": 1 },
+    "domain": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["intake", "ready", "running", "blocked", "blocked_model", "awaiting_approval", "approved", "rejected", "completed", "archived", "failed"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "data_version": { "type": "string", "minLength": 8 },
+    "input": { "type": "object" },
+    "approvals": { "type": "array", "items": { "$ref": "urn:pids-nexus:schema:approval-record:v2" } },
+    "artifacts": { "type": "array", "items": { "type": "object" } },
+    "stages": { "type": "array", "minItems": 8, "items": { "$ref": "urn:pids-nexus:schema:stage-run:v2" } }
+  }
+}

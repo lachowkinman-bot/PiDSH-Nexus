@@ -1,0 +1,124 @@
+{
+  "schema": "pids-nexus/domain-work-design-validation/v1",
+  "generated_at": "2026-09-30T10:35:29.609Z",
+  "pass": true,
+  "passed": 21,
+  "total": 21,
+  "records": [
+    {
+      "id": "index.counts",
+      "pass": true,
+      "note": "{\"schema\":\"pids-nexus/domain-work-design-index/v1\",\"generated_at\":\"2026-09-30T10:35:28.403Z\",\"domains\":13,\"modules\":39,\"work_items\":78,\"workflows\":78,\"typedict_fields\":737,\"contracts\":78,\"business_rules\":1444,\"benchmark_mappings\":22,\"terms\":737,\"lineage_edges\":1487,\"cross_domain_events\":7,\"workflow_test_cases\":546}"
+    },
+    {
+      "id": "domains.count",
+      "pass": true,
+      "note": "domains=13"
+    },
+    {
+      "id": "modules.count",
+      "pass": true,
+      "note": "modules=39"
+    },
+    {
+      "id": "workflow.coverage",
+      "pass": true,
+      "note": "mapped=78 missing= duplicates="
+    },
+    {
+      "id": "workflow.count",
+      "pass": true,
+      "note": "mapped=78 unique=78"
+    },
+    {
+      "id": "work_item.unique",
+      "pass": true,
+      "note": "item_ids=78"
+    },
+    {
+      "id": "module.unique",
+      "pass": true,
+      "note": "module_ids=39"
+    },
+    {
+      "id": "stages.standards",
+      "pass": true,
+      "note": "issues=0"
+    },
+    {
+      "id": "rules.closed_loop",
+      "pass": true,
+      "note": "issues=0"
+    },
+    {
+      "id": "contracts.integrity",
+      "pass": true,
+      "note": "issues=0"
+    },
+    {
+      "id": "typedict.integrity",
+      "pass": true,
+      "note": "issues=0"
+    },
+    {
+      "id": "benchmark.refs",
+      "pass": true,
+      "note": "issues=0"
+    },
+    {
+      "id": "schema.files",
+      "pass": true,
+      "note": "schema refs present"
+    },
+    {
+      "id": "global.artifacts",
+      "pass": true,
+      "note": "global v2 artifacts present"
+    },
+    {
+      "id": "term.mapping",
+      "pass": true,
+      "note": "terms=737 fields=737"
+    },
+    {
+      "id": "lineage.integrity",
+      "pass": true,
+      "note": "edges=1487"
+    },
+    {
+      "id": "cross-domain.events",
+      "pass": true,
+      "note": "events=7 issues=0"
+    },
+    {
+      "id": "workflow.test.matrix",
+      "pass": true,
+      "note": "cases=546"
+    },
+    {
+      "id": "policy.thresholds.explicit",
+      "pass": true,
+      "note": "rules=1444"
+    },
+    {
+      "id": "benchmark.mapping",
+      "pass": true,
+      "note": "sources=22"
+    },
+    {
+      "id": "typedict.csv.count",
+      "pass": true,
+      "note": "rows=737 expected=737"
+    }
+  ],
+  "issues": {
+    "missing_workflows": [],
+    "duplicate_workflows": [],
+    "stage_problems": [],
+    "rule_problems": [],
+    "contract_problems": [],
+    "typedict_problems": [],
+    "benchmark_problems": [],
+    "event_problems": []
+  }
+}

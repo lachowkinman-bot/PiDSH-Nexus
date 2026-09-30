@@ -1,0 +1,5345 @@
+{
+  "schema": "pids-nexus/workflow-contracts/v1",
+  "domain": "er-eap",
+  "source_standards": [
+    "JSONSCHEMA202012",
+    "TABLESCHEMA1",
+    "BPMN20",
+    "OPENLINEAGE153"
+  ],
+  "contracts": {
+    "er-eap.dispute-case@1.0.0": {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "module_id": "case-management",
+      "work_item_id": "er-eap-dispute-case",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case_id",
+          "type",
+          "stage",
+          "evidence_refs"
+        ],
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "description": "案件编号，主键，形如 ER-XXXX；编号不复用"
+          },
+          "type": {
+            "type": "string",
+            "description": "type"
+          },
+          "stage": {
+            "type": "string",
+            "description": "台账处理阶段（案件维度）：调查中 / 调解中 / 协商中 / 审批中 / HR 面谈 / 仲裁 / 诉讼 / 已完成 / 已结案"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "evidence_refs"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case_id",
+              "type",
+              "stage",
+              "evidence_refs"
+            ],
+            "properties": {
+              "case_id": {
+                "type": "string",
+                "description": "案件编号，主键，形如 ER-XXXX；编号不复用"
+              },
+              "type": {
+                "type": "string",
+                "description": "type"
+              },
+              "stage": {
+                "type": "string",
+                "description": "台账处理阶段（案件维度）：调查中 / 调解中 / 协商中 / 审批中 / HR 面谈 / 仲裁 / 诉讼 / 已完成 / 已结案"
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "evidence_refs"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "证据引用指向 evidence-pack",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(case_id,type,stage,evidence_refs)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "证据引用指向 evidence-pack",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SHRM-HR-QA|NIST-PRIVACY|EAPA"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "er-eap-dispute-case-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-dispute-case-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "证据引用指向 evidence-pack",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SHRM-HR-QA|NIST-PRIVACY|EAPA"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case_id",
+              "type",
+              "stage",
+              "evidence_refs",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "case_id": {
+                "type": "string",
+                "description": "案件编号，主键，形如 ER-XXXX；编号不复用"
+              },
+              "type": {
+                "type": "string",
+                "description": "type"
+              },
+              "stage": {
+                "type": "string",
+                "description": "台账处理阶段（案件维度）：调查中 / 调解中 / 协商中 / 审批中 / HR 面谈 / 仲裁 / 诉讼 / 已完成 / 已结案"
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "evidence_refs"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.dispute-case@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 case_id、type、stage、evidence_refs 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "证据引用指向 evidence-pack；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 disciplinary_detail、eap_content、health_mental 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 dispute-ops 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：证据引用指向 evidence-pack；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“案件闭环、留存与组织健康”并链接 KR-TALENT、KR-CAPABILITY、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "er-eap.exit-interview@1.0.0": {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "module_id": "case-management",
+      "work_item_id": "er-eap-exit-interview",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "employee_masked",
+          "reasons",
+          "improvements",
+          "rehire_flag"
+        ],
+        "properties": {
+          "employee_masked": {
+            "type": "string",
+            "description": "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "reasons"
+          },
+          "improvements": {
+            "type": "string",
+            "description": "improvements"
+          },
+          "rehire_flag": {
+            "type": "boolean",
+            "description": "rehire_flag"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "employee_masked",
+              "reasons",
+              "improvements",
+              "rehire_flag"
+            ],
+            "properties": {
+              "employee_masked": {
+                "type": "string",
+                "description": "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "reasons"
+              },
+              "improvements": {
+                "type": "string",
+                "description": "improvements"
+              },
+              "rehire_flag": {
+                "type": "boolean",
+                "description": "rehire_flag"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "敏感表述经脱敏",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(employee_masked,reasons,improvements,rehire_flag)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "敏感表述经脱敏",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SHRM-HR-QA|NIST-PRIVACY|EAPA"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "er-eap-exit-interview-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-exit-interview-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "敏感表述经脱敏",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SHRM-HR-QA|NIST-PRIVACY|EAPA"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "employee_masked",
+              "reasons",
+              "improvements",
+              "rehire_flag",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "employee_masked": {
+                "type": "string",
+                "description": "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "reasons"
+              },
+              "improvements": {
+                "type": "string",
+                "description": "improvements"
+              },
+              "rehire_flag": {
+                "type": "boolean",
+                "description": "rehire_flag"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.exit-interview@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 employee_masked、reasons、improvements、rehire_flag 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "敏感表述经脱敏；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 disciplinary_detail、eap_content、health_mental 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 offboarding-flow 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：敏感表述经脱敏；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“案件闭环、留存与组织健康”并链接 KR-TALENT、KR-CAPABILITY、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "er-eap.offboard-approve@1.0.0": {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "module_id": "offboarding",
+      "work_item_id": "er-eap-offboard-approve",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "employee_masked",
+          "last_day",
+          "handover_ok",
+          "approvals"
+        ],
+        "properties": {
+          "employee_masked": {
+            "type": "string",
+            "description": "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+          },
+          "last_day": {
+            "type": "string",
+            "format": "date",
+            "description": "last_day"
+          },
+          "handover_ok": {
+            "type": "boolean",
+            "description": "handover_ok"
+          },
+          "approvals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "employee_masked",
+              "last_day",
+              "handover_ok",
+              "approvals"
+            ],
+            "properties": {
+              "employee_masked": {
+                "type": "string",
+                "description": "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+              },
+              "last_day": {
+                "type": "string",
+                "format": "date",
+                "description": "last_day"
+              },
+              "handover_ok": {
+                "type": "boolean",
+                "description": "handover_ok"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "交接未完成不得进入最后一步",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(employee_masked,last_day,handover_ok,approvals)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "交接未完成不得进入最后一步",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "BPMN20|ISO-55000"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "er-eap-offboard-approve-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-APPROVAL-IDENTITY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+          "evidence": [
+            "approval_records",
+            "operator_registry"
+          ],
+          "source": "BPMN20"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-APPROVAL-BINDING",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+          "evidence": [
+            "approval_records"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-offboard-approve-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "交接未完成不得进入最后一步",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "BPMN20|ISO-55000"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "employee_masked",
+              "last_day",
+              "handover_ok",
+              "approvals",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "employee_masked": {
+                "type": "string",
+                "description": "当事人掩码标识 `E<序号>***`（不得回填工号/姓名/手机号）"
+              },
+              "last_day": {
+                "type": "string",
+                "format": "date",
+                "description": "last_day"
+              },
+              "handover_ok": {
+                "type": "boolean",
+                "description": "handover_ok"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:approval:input",
+            "title": "人工审批 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:approval:output",
+            "title": "人工审批 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_records",
+              "rejection_reason_or_approval_hash"
+            ],
+            "properties": {
+              "approval_records": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rejection_reason_or_approval_hash": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.offboard-approve@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 employee_masked、last_day、handover_ok、approvals 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "交接未完成不得进入最后一步；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 disciplinary_detail、eap_content、health_mental 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 offboarding-flow 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：交接未完成不得进入最后一步；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "human_approval",
+          "standard": "审批等级 L4；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+          "gate": "distinct_identity_role_and_operator"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“案件闭环、留存与组织健康”并链接 KR-TALENT、KR-CAPABILITY、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "er-eap.eap-referral@1.0.0": {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "module_id": "employee-care",
+      "work_item_id": "er-eap-eap-referral",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anon_id",
+          "direction",
+          "approvals",
+          "sessions"
+        ],
+        "properties": {
+          "anon_id": {
+            "type": "string",
+            "description": "匿名转介编号，主键，形如 `EAP-ANON-XXXX`；与真实身份的映射表分离存放于 EAP 独立命名空间，工作台内不可反查"
+          },
+          "direction": {
+            "type": "string",
+            "description": "转介方向（**类别标签**，禁写内容/机构实名/人名）：心理咨询(外部机构) / 心理咨询(内部) / 法律援助(劳动咨询) / 危机干预 / 健康管理(外部机构) / 家庭与照护(外部机构) / 职业发展咨询(内部)"
+          },
+          "approvals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+          },
+          "sessions": {
+            "type": "integer",
+            "description": "sessions"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "anon_id",
+              "direction",
+              "approvals",
+              "sessions"
+            ],
+            "properties": {
+              "anon_id": {
+                "type": "string",
+                "description": "匿名转介编号，主键，形如 `EAP-ANON-XXXX`；与真实身份的映射表分离存放于 EAP 独立命名空间，工作台内不可反查"
+              },
+              "direction": {
+                "type": "string",
+                "description": "转介方向（**类别标签**，禁写内容/机构实名/人名）：心理咨询(外部机构) / 心理咨询(内部) / 法律援助(劳动咨询) / 危机干预 / 健康管理(外部机构) / 家庭与照护(外部机构) / 职业发展咨询(内部)"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+              },
+              "sessions": {
+                "type": "integer",
+                "description": "sessions"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "输出仅匿名编号；禁网；禁入记忆层",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(anon_id,direction,approvals,sessions)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "输出仅匿名编号；禁网；禁入记忆层",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "er-eap-eap-referral-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-APPROVAL-IDENTITY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+          "evidence": [
+            "approval_records",
+            "operator_registry"
+          ],
+          "source": "BPMN20"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-APPROVAL-BINDING",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+          "evidence": [
+            "approval_records"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "输出仅匿名编号",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-ACCEPT-2",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "禁网",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-eap-referral-ACCEPT-3",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "禁入记忆层",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "anon_id",
+              "direction",
+              "approvals",
+              "sessions",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "anon_id": {
+                "type": "string",
+                "description": "匿名转介编号，主键，形如 `EAP-ANON-XXXX`；与真实身份的映射表分离存放于 EAP 独立命名空间，工作台内不可反查"
+              },
+              "direction": {
+                "type": "string",
+                "description": "转介方向（**类别标签**，禁写内容/机构实名/人名）：心理咨询(外部机构) / 心理咨询(内部) / 法律援助(劳动咨询) / 危机干预 / 健康管理(外部机构) / 家庭与照护(外部机构) / 职业发展咨询(内部)"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "双审批展示口径：`主管✓/专员✓`（已通过）、`主管待/专员待`（待审批）、`主管✓/专员✗`（已驳回）"
+              },
+              "sessions": {
+                "type": "integer",
+                "description": "sessions"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:approval:input",
+            "title": "人工审批 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:approval:output",
+            "title": "人工审批 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_records",
+              "rejection_reason_or_approval_hash"
+            ],
+            "properties": {
+              "approval_records": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rejection_reason_or_approval_hash": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.eap-referral@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 anon_id、direction、approvals、sessions 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "输出仅匿名编号；禁网；禁入记忆层；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 disciplinary_detail、eap_content、health_mental 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 eap-referral 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：输出仅匿名编号；禁网；禁入记忆层；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "human_approval",
+          "standard": "审批等级 L4；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+          "gate": "distinct_identity_role_and_operator"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“案件闭环、留存与组织健康”并链接 KR-TALENT、KR-CAPABILITY、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "er-eap.anon-report@1.0.0": {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "module_id": "employee-care",
+      "work_item_id": "er-eap-anon-report",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "month",
+          "total_referrals",
+          "by_direction",
+          "sessions"
+        ],
+        "properties": {
+          "month": {
+            "type": "string",
+            "description": "month"
+          },
+          "total_referrals": {
+            "type": "number",
+            "description": "total_referrals"
+          },
+          "by_direction": {
+            "type": "string",
+            "description": "by_direction"
+          },
+          "sessions": {
+            "type": "integer",
+            "description": "sessions"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "month",
+              "total_referrals",
+              "by_direction",
+              "sessions"
+            ],
+            "properties": {
+              "month": {
+                "type": "string",
+                "description": "month"
+              },
+              "total_referrals": {
+                "type": "number",
+                "description": "total_referrals"
+              },
+              "by_direction": {
+                "type": "string",
+                "description": "by_direction"
+              },
+              "sessions": {
+                "type": "integer",
+                "description": "sessions"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "仅聚合数字，无任何个体字段",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(month,total_referrals,by_direction,sessions)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "仅聚合数字，无任何个体字段",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "er-eap-anon-report-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-anon-report-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "仅聚合数字，无任何个体字段",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "month",
+              "total_referrals",
+              "by_direction",
+              "sessions",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "month": {
+                "type": "string",
+                "description": "month"
+              },
+              "total_referrals": {
+                "type": "number",
+                "description": "total_referrals"
+              },
+              "by_direction": {
+                "type": "string",
+                "description": "by_direction"
+              },
+              "sessions": {
+                "type": "integer",
+                "description": "sessions"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.anon-report@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 month、total_referrals、by_direction、sessions 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "仅聚合数字，无任何个体字段；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 disciplinary_detail、eap_content、health_mental 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 eap-referral 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：仅聚合数字，无任何个体字段；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“案件闭环、留存与组织健康”并链接 KR-TALENT、KR-CAPABILITY、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "er-eap.wellbeing-check@1.0.0": {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "module_id": "employee-care",
+      "work_item_id": "er-eap-wellbeing-check",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dimension",
+          "score",
+          "n",
+          "trend"
+        ],
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "description": "dimension"
+          },
+          "score": {
+            "type": "number",
+            "description": "score"
+          },
+          "n": {
+            "type": "integer",
+            "description": "n"
+          },
+          "trend": {
+            "type": "string",
+            "description": "trend"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dimension",
+              "score",
+              "n",
+              "trend"
+            ],
+            "properties": {
+              "dimension": {
+                "type": "string",
+                "description": "dimension"
+              },
+              "score": {
+                "type": "number",
+                "description": "score"
+              },
+              "n": {
+                "type": "integer",
+                "description": "n"
+              },
+              "trend": {
+                "type": "string",
+                "description": "trend"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "n<5 不出分（防反推）",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(dimension,score,n,trend)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "n<5 不出分（防反推）",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "er-eap-wellbeing-check-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "er-eap-wellbeing-check-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "draft_requires_owner_confirmation",
+          "id": "er-eap-wellbeing-check-ACCEPT-1",
+          "kind": "policy_threshold",
+          "severity": "blocking",
+          "expression": "n<5 不出分（防反推）",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "EAPA|NIST-PRIVACY"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dimension",
+              "score",
+              "n",
+              "trend",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "dimension": {
+                "type": "string",
+                "description": "dimension"
+              },
+              "score": {
+                "type": "number",
+                "description": "score"
+              },
+              "n": {
+                "type": "integer",
+                "description": "n"
+              },
+              "trend": {
+                "type": "string",
+                "description": "trend"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:er-eap:er-eap.wellbeing-check@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 dimension、score、n、trend 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "n<5 不出分（防反推）；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 disciplinary_detail、eap_content、health_mental 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 eap-referral 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：n<5 不出分（防反推）；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“案件闭环、留存与组织健康”并链接 KR-TALENT、KR-CAPABILITY、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-TALENT、KR-CAPABILITY、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    }
+  }
+}

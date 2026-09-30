@@ -466,7 +466,8 @@
           "id": "memory.archive",
           "label": "查看档案记忆",
           "kind": "click",
-          "tier": "local",
+        "tier": "external",
+        "precondition": "mnemon_ready",
           "selectors": ["档案"],
           "read": ["archive_memory"],
           "evidence": ["screenshot", "memory_count"]
@@ -475,7 +476,8 @@
           "id": "memory.space",
           "label": "查看记忆空间",
           "kind": "click",
-          "tier": "local",
+        "tier": "external",
+        "precondition": "mnemon_ready",
           "selectors": ["记忆空间"],
           "read": ["memory_spaces"],
           "evidence": ["screenshot", "provider_state"]

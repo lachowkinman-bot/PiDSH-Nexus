@@ -1,0 +1,3910 @@
+{
+  "schema": "pids-nexus/domain-work-design/v1",
+  "domain": "admin",
+  "label": "行政 ADMIN",
+  "level": "L3",
+  "north_star": "资产利用、采购节约与服务 SLA",
+  "contributes_to": [
+    "KR-REV",
+    "KR-CONTROL"
+  ],
+  "modules": [
+    {
+      "id": "procurement",
+      "name": "采购与供应商管理",
+      "outcome": "用三家比价、预算和入库闭环控制成本",
+      "benchmark_refs": [
+        "ISO-55000",
+        "COSO-ERM"
+      ],
+      "items": [
+        {
+          "id": "admin-vendor-price",
+          "name": "供应商比价",
+          "outcome": "报价、最低价、预算和选择理由一致",
+          "owner_role": "采购负责人",
+          "frequency": "按采购申请",
+          "workflow": {
+            "id": "admin.vendor-price@1.0.0",
+            "description": "供应商比价报告（三家原则）",
+            "kind": "report",
+            "skill": "purchase-compare",
+            "trigger": {
+              "type": "command",
+              "expr": "vendor-price"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "purchase-compare"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "供应商比价报告（三家原则）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "vendor-price-<ts>.json",
+              "format": "json",
+              "fields": [
+                "item",
+                "quotes",
+                "lowest",
+                "chosen"
+              ],
+              "acceptance": "不足三家须说明理由"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "item",
+                "quotes",
+                "lowest",
+                "chosen"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 item、quotes、lowest、chosen 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "admin-vendor-price-INPUT-REQUIRED",
+                "admin-vendor-price-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "assets.csv",
+                "purchases.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "不足三家须说明理由；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 seal_record、procurement_price 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "admin-vendor-price-DOMAIN-RULE",
+                "admin-vendor-price-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 purchase-compare 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "admin-vendor-price-LLM-SCHEMA",
+                "admin-vendor-price-LLM-EVIDENCE",
+                "admin-vendor-price-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：不足三家须说明理由；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "admin-vendor-price-QUALITY-EVIDENCE",
+                "admin-vendor-price-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "admin-vendor-price-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "admin-vendor-price-DELIVERY-MANIFEST",
+                "admin-vendor-price-DELIVERY-FORMATS",
+                "admin-vendor-price-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“资产利用、采购节约与服务 SLA”并链接 KR-REV、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "admin-vendor-price-OUTCOME-LINEAGE",
+                "admin-vendor-price-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "采购负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-REV、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "admin-vendor-price-STRATEGY-WRITEBACK",
+                "admin-vendor-price-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "admin-vendor-price-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(item,quotes,lowest,chosen)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "不足三家须说明理由",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "admin-vendor-price-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-vendor-price-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "不足三家须说明理由",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.vendor-price@1.0.0/output",
+            "typedict_ref": "manifests/typedict/admin.json",
+            "source_tables": [
+              "assets.csv",
+              "purchases.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "seal_record",
+              "procurement_price"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "资产利用、采购节约与服务 SLA",
+            "KR-REV",
+            "KR-CONTROL"
+          ],
+          "benchmark_refs": [
+            "ISO-55000",
+            "COSO-ERM"
+          ]
+        },
+        {
+          "id": "admin-purchase-approve",
+          "name": "采购审批",
+          "outcome": "预算、数量和授权链完整",
+          "owner_role": "行政/财务负责人",
+          "frequency": "按采购申请",
+          "workflow": {
+            "id": "admin.purchase-approve@1.0.0",
+            "description": "采购审批（DAG + 预算校验）",
+            "kind": "approve",
+            "skill": "purchase-compare",
+            "trigger": {
+              "type": "command",
+              "expr": "purchase-approve"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "purchase-compare"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "采购审批（DAG + 预算校验） 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "采购审批（DAG + 预算校验）：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "purchase-approve-<ts>.json",
+              "format": "json",
+              "fields": [
+                "item",
+                "qty",
+                "amount_wan",
+                "budget_ok",
+                "approvals"
+              ],
+              "acceptance": "预算不足直接阻断；用印强制人工"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L3",
+              "dual": true,
+              "required_roles": [
+                "行政",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "item",
+                "qty",
+                "amount_wan",
+                "budget_ok",
+                "approvals"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 item、qty、amount_wan、budget_ok、approvals 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "admin-purchase-approve-INPUT-REQUIRED",
+                "admin-purchase-approve-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "assets.csv",
+                "purchases.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "预算不足直接阻断；用印强制人工；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 seal_record、procurement_price 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "admin-purchase-approve-DOMAIN-RULE",
+                "admin-purchase-approve-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 purchase-compare 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "admin-purchase-approve-LLM-SCHEMA",
+                "admin-purchase-approve-LLM-EVIDENCE",
+                "admin-purchase-approve-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：预算不足直接阻断；用印强制人工；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "admin-purchase-approve-QUALITY-EVIDENCE",
+                "admin-purchase-approve-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "admin-purchase-approve-APPROVAL-IDENTITY",
+                "admin-purchase-approve-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "admin-purchase-approve-DELIVERY-MANIFEST",
+                "admin-purchase-approve-DELIVERY-FORMATS",
+                "admin-purchase-approve-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“资产利用、采购节约与服务 SLA”并链接 KR-REV、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "admin-purchase-approve-OUTCOME-LINEAGE",
+                "admin-purchase-approve-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "行政/财务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-REV、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "admin-purchase-approve-STRATEGY-WRITEBACK",
+                "admin-purchase-approve-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(item,qty,amount_wan,budget_ok,approvals)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "预算不足直接阻断；用印强制人工",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "admin-purchase-approve-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "预算不足直接阻断",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-purchase-approve-ACCEPT-2",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "用印强制人工",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/output",
+            "typedict_ref": "manifests/typedict/admin.json",
+            "source_tables": [
+              "assets.csv",
+              "purchases.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "seal_record",
+              "procurement_price"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "资产利用、采购节约与服务 SLA",
+            "KR-REV",
+            "KR-CONTROL"
+          ],
+          "benchmark_refs": [
+            "ISO-55000",
+            "COSO-ERM"
+          ]
+        },
+        {
+          "id": "admin-supply-order",
+          "name": "用品下单",
+          "outcome": "引用比价结果并正确登记数量和金额",
+          "owner_role": "行政专员",
+          "frequency": "按补货批次",
+          "workflow": {
+            "id": "admin.supply-order@1.0.0",
+            "description": "办公用品下单（比价后）",
+            "kind": "calc",
+            "skill": "asset-inventory",
+            "trigger": {
+              "type": "command",
+              "expr": "supply-order"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "asset-inventory"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "办公用品下单（比价后）：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "supply-order-<ts>.json",
+              "format": "json",
+              "fields": [
+                "item",
+                "vendor_masked",
+                "qty",
+                "amount_yuan"
+              ],
+              "acceptance": "必须引用比价结论（最低价或说明）"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "item",
+                "vendor_masked",
+                "qty",
+                "amount_yuan"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 item、vendor_masked、qty、amount_yuan 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "admin-supply-order-INPUT-REQUIRED",
+                "admin-supply-order-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "assets.csv",
+                "purchases.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "必须引用比价结论（最低价或说明）；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 seal_record、procurement_price 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "admin-supply-order-DOMAIN-RULE",
+                "admin-supply-order-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 asset-inventory 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "admin-supply-order-LLM-SCHEMA",
+                "admin-supply-order-LLM-EVIDENCE",
+                "admin-supply-order-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：必须引用比价结论（最低价或说明）；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "admin-supply-order-QUALITY-EVIDENCE",
+                "admin-supply-order-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "admin-supply-order-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "admin-supply-order-DELIVERY-MANIFEST",
+                "admin-supply-order-DELIVERY-FORMATS",
+                "admin-supply-order-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“资产利用、采购节约与服务 SLA”并链接 KR-REV、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "admin-supply-order-OUTCOME-LINEAGE",
+                "admin-supply-order-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "行政专员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-REV、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "admin-supply-order-STRATEGY-WRITEBACK",
+                "admin-supply-order-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "admin-supply-order-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(item,vendor_masked,qty,amount_yuan)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "必须引用比价结论（最低价或说明）",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "admin-supply-order-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-supply-order-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "必须引用比价结论（最低价或说明）",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-55000|COSO-ERM"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.supply-order@1.0.0/output",
+            "typedict_ref": "manifests/typedict/admin.json",
+            "source_tables": [
+              "assets.csv",
+              "purchases.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "seal_record",
+              "procurement_price"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "资产利用、采购节约与服务 SLA",
+            "KR-REV",
+            "KR-CONTROL"
+          ],
+          "benchmark_refs": [
+            "ISO-55000",
+            "COSO-ERM"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "asset-lifecycle",
+      "name": "资产全生命周期",
+      "outcome": "让采购、分配、盘点、维修和报废闭环",
+      "benchmark_refs": [
+        "ISO-55000"
+      ],
+      "items": [
+        {
+          "id": "admin-asset-inventory",
+          "name": "资产盘点与差异处理",
+          "outcome": "账实一致、使用人和状态可追溯",
+          "owner_role": "资产管理员",
+          "frequency": "季度/年度",
+          "workflow": {
+            "id": "admin.asset-inventory@1.0.0",
+            "description": "资产盘点（在用/维修/闲置）",
+            "kind": "report",
+            "skill": "asset-inventory",
+            "trigger": {
+              "type": "command",
+              "expr": "asset-inventory"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "asset-inventory"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "资产盘点（在用/维修/闲置）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "asset-inventory-<ts>.json",
+              "format": "json",
+              "fields": [
+                "asset_id",
+                "status",
+                "holder_masked",
+                "location"
+              ],
+              "acceptance": "与 assets.csv 勾稽"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "asset_id",
+                "status",
+                "holder_masked",
+                "location"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 asset_id、status、holder_masked、location 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "admin-asset-inventory-INPUT-REQUIRED",
+                "admin-asset-inventory-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "assets.csv",
+                "purchases.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "与 assets.csv 勾稽；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 seal_record、procurement_price 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "admin-asset-inventory-DOMAIN-RULE",
+                "admin-asset-inventory-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 asset-inventory 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "admin-asset-inventory-LLM-SCHEMA",
+                "admin-asset-inventory-LLM-EVIDENCE",
+                "admin-asset-inventory-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：与 assets.csv 勾稽；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "admin-asset-inventory-QUALITY-EVIDENCE",
+                "admin-asset-inventory-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "admin-asset-inventory-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "admin-asset-inventory-DELIVERY-MANIFEST",
+                "admin-asset-inventory-DELIVERY-FORMATS",
+                "admin-asset-inventory-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“资产利用、采购节约与服务 SLA”并链接 KR-REV、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "admin-asset-inventory-OUTCOME-LINEAGE",
+                "admin-asset-inventory-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "资产管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-REV、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "admin-asset-inventory-STRATEGY-WRITEBACK",
+                "admin-asset-inventory-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(asset_id,status,holder_masked,location)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "与 assets.csv 勾稽",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "ISO-55000"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "admin-asset-inventory-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-asset-inventory-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "与 assets.csv 勾稽",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-55000"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/output",
+            "typedict_ref": "manifests/typedict/admin.json",
+            "source_tables": [
+              "assets.csv",
+              "purchases.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "seal_record",
+              "procurement_price"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "资产利用、采购节约与服务 SLA",
+            "KR-REV",
+            "KR-CONTROL"
+          ],
+          "benchmark_refs": [
+            "ISO-55000"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "workplace-services",
+      "name": "用印与会议服务",
+      "outcome": "让高风险动作留痕、会议决议可跟踪",
+      "benchmark_refs": [
+        "ISO-41001",
+        "BPMN20"
+      ],
+      "items": [
+        {
+          "id": "admin-seal-request",
+          "name": "用印申请",
+          "outcome": "用印材料、次数和保管人确认完整",
+          "owner_role": "印章管理员",
+          "frequency": "按用印事件",
+          "workflow": {
+            "id": "admin.seal-request@1.0.0",
+            "description": "用印申请（强制人工放行）",
+            "kind": "approve",
+            "skill": "meeting-minutes",
+            "trigger": {
+              "type": "command",
+              "expr": "seal-request"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "meeting-minutes"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "用印申请（强制人工放行） 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "用印申请（强制人工放行）：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "seal-request-<ts>.json",
+              "format": "json",
+              "fields": [
+                "doc",
+                "seal_type",
+                "copies",
+                "keeper_confirm"
+              ],
+              "acceptance": "用印禁自动放行（必须人工确认）"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L3",
+              "dual": true,
+              "required_roles": [
+                "印章管理员",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "doc",
+                "seal_type",
+                "copies",
+                "keeper_confirm"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 doc、seal_type、copies、keeper_confirm 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "admin-seal-request-INPUT-REQUIRED",
+                "admin-seal-request-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "assets.csv",
+                "purchases.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "用印禁自动放行（必须人工确认）；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 seal_record、procurement_price 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "admin-seal-request-DOMAIN-RULE",
+                "admin-seal-request-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 meeting-minutes 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "admin-seal-request-LLM-SCHEMA",
+                "admin-seal-request-LLM-EVIDENCE",
+                "admin-seal-request-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：用印禁自动放行（必须人工确认）；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "admin-seal-request-QUALITY-EVIDENCE",
+                "admin-seal-request-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "admin-seal-request-APPROVAL-IDENTITY",
+                "admin-seal-request-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "admin-seal-request-DELIVERY-MANIFEST",
+                "admin-seal-request-DELIVERY-FORMATS",
+                "admin-seal-request-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“资产利用、采购节约与服务 SLA”并链接 KR-REV、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "admin-seal-request-OUTCOME-LINEAGE",
+                "admin-seal-request-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "印章管理员",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-REV、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "admin-seal-request-STRATEGY-WRITEBACK",
+                "admin-seal-request-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "admin-seal-request-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(doc,seal_type,copies,keeper_confirm)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "用印禁自动放行（必须人工确认）",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "ISO-41001|BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "admin-seal-request-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-seal-request-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "用印禁自动放行（必须人工确认）",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-41001|BPMN20"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/output",
+            "typedict_ref": "manifests/typedict/admin.json",
+            "source_tables": [
+              "assets.csv",
+              "purchases.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "seal_record",
+              "procurement_price"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "资产利用、采购节约与服务 SLA",
+            "KR-REV",
+            "KR-CONTROL"
+          ],
+          "benchmark_refs": [
+            "ISO-41001",
+            "BPMN20"
+          ]
+        },
+        {
+          "id": "admin-meeting-minutes",
+          "name": "会议纪要与待办",
+          "outcome": "决议、责任人、期限和状态明确",
+          "owner_role": "行政/会议秘书",
+          "frequency": "按会议",
+          "workflow": {
+            "id": "admin.meeting-minutes@1.0.0",
+            "description": "会议纪要（决议/待办/责任人）",
+            "kind": "calc",
+            "skill": "meeting-minutes",
+            "trigger": {
+              "type": "command",
+              "expr": "meeting-minutes"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "meeting-minutes"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "会议纪要（决议/待办/责任人）：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "meeting-minutes-<ts>.json",
+              "format": "json",
+              "fields": [
+                "meeting",
+                "decisions",
+                "todos",
+                "owners"
+              ],
+              "acceptance": "待办必须带责任人与期限"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "meeting",
+                "decisions",
+                "todos",
+                "owners"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 meeting、decisions、todos、owners 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "admin-meeting-minutes-INPUT-REQUIRED",
+                "admin-meeting-minutes-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "assets.csv",
+                "purchases.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "待办必须带责任人与期限；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 seal_record、procurement_price 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "admin-meeting-minutes-DOMAIN-RULE",
+                "admin-meeting-minutes-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 meeting-minutes 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "admin-meeting-minutes-LLM-SCHEMA",
+                "admin-meeting-minutes-LLM-EVIDENCE",
+                "admin-meeting-minutes-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：待办必须带责任人与期限；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "admin-meeting-minutes-QUALITY-EVIDENCE",
+                "admin-meeting-minutes-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "admin-meeting-minutes-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "admin-meeting-minutes-DELIVERY-MANIFEST",
+                "admin-meeting-minutes-DELIVERY-FORMATS",
+                "admin-meeting-minutes-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“资产利用、采购节约与服务 SLA”并链接 KR-REV、KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "admin-meeting-minutes-OUTCOME-LINEAGE",
+                "admin-meeting-minutes-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "行政/会议秘书",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-REV、KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "admin-meeting-minutes-STRATEGY-WRITEBACK",
+                "admin-meeting-minutes-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(meeting,decisions,todos,owners)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "待办必须带责任人与期限",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "ISO-41001|BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "admin-meeting-minutes-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "admin-meeting-minutes-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "待办必须带责任人与期限",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "ISO-41001|BPMN20"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.meeting-minutes@1.0.0/output",
+            "typedict_ref": "manifests/typedict/admin.json",
+            "source_tables": [
+              "assets.csv",
+              "purchases.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "seal_record",
+              "procurement_price"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "资产利用、采购节约与服务 SLA",
+            "KR-REV",
+            "KR-CONTROL"
+          ],
+          "benchmark_refs": [
+            "ISO-41001",
+            "BPMN20"
+          ]
+        }
+      ]
+    }
+  ],
+  "benchmark_refs": [
+    "BPMN20",
+    "JSONSCHEMA202012",
+    "OPENAPI321",
+    "TABLESCHEMA1",
+    "OPENLINEAGE153",
+    "GREATEXPECTATIONS",
+    "NIST-PRIVACY",
+    "NIST-AI-RMF",
+    "ISO-55000",
+    "COSO-ERM",
+    "ISO-41001"
+  ]
+}

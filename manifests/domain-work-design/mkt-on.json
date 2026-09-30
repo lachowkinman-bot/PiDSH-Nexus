@@ -1,0 +1,3920 @@
+{
+  "schema": "pids-nexus/domain-work-design/v1",
+  "domain": "mkt-on",
+  "label": "营销（线上）MKT-ON",
+  "level": "L4",
+  "north_star": "合格线索与预计商机价值",
+  "contributes_to": [
+    "KR-PIPE",
+    "KR-REV"
+  ],
+  "modules": [
+    {
+      "id": "content-planning",
+      "name": "内容与发布计划",
+      "outcome": "建立受众、主题、渠道与发布节奏并完成品牌/隐私审批",
+      "benchmark_refs": [
+        "GOOGLE-SEARCH-ESSENTIALS",
+        "NIST-PRIVACY"
+      ],
+      "items": [
+        {
+          "id": "mkt-on-content-calendar",
+          "name": "内容日历与排期",
+          "outcome": "形成无冲突、可执行、可审批的内容计划",
+          "owner_role": "内容负责人",
+          "frequency": "双周滚动",
+          "workflow": {
+            "id": "mkt-on.content-calendar@1.0.0",
+            "description": "内容日历排期（两周滚动）",
+            "kind": "calc",
+            "skill": "content-gen",
+            "trigger": {
+              "type": "command",
+              "expr": "content-calendar"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "content-gen"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "内容日历排期（两周滚动）：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "content-calendar-<ts>.json",
+              "format": "json",
+              "fields": [
+                "date",
+                "channel",
+                "title",
+                "status"
+              ],
+              "acceptance": "排期冲突（同日同渠道）须标红"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "date",
+                "channel",
+                "title",
+                "status"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 date、channel、title、status 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-on-content-calendar-INPUT-REQUIRED",
+                "mkt-on-content-calendar-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "ad_spend.csv",
+                "content_calendar.csv",
+                "leads.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "排期冲突（同日同渠道）须标红；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 lead_phone、lead_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-on-content-calendar-DOMAIN-RULE",
+                "mkt-on-content-calendar-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 content-gen 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-on-content-calendar-LLM-SCHEMA",
+                "mkt-on-content-calendar-LLM-EVIDENCE",
+                "mkt-on-content-calendar-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：排期冲突（同日同渠道）须标红；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-on-content-calendar-QUALITY-EVIDENCE",
+                "mkt-on-content-calendar-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-on-content-calendar-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-on-content-calendar-DELIVERY-MANIFEST",
+                "mkt-on-content-calendar-DELIVERY-FORMATS",
+                "mkt-on-content-calendar-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“合格线索与预计商机价值”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-on-content-calendar-OUTCOME-LINEAGE",
+                "mkt-on-content-calendar-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "内容负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-on-content-calendar-STRATEGY-WRITEBACK",
+                "mkt-on-content-calendar-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(date,channel,title,status)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "排期冲突（同日同渠道）须标红",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-on-content-calendar-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-content-calendar-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "排期冲突（同日同渠道）须标红",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|NIST-PRIVACY"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.content-calendar@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-on.json",
+            "source_tables": [
+              "ad_spend.csv",
+              "content_calendar.csv",
+              "leads.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L4",
+            "redact_fields": [
+              "lead_phone",
+              "lead_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "合格线索与预计商机价值",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "GOOGLE-SEARCH-ESSENTIALS",
+            "NIST-PRIVACY"
+          ]
+        },
+        {
+          "id": "mkt-on-publish-approve",
+          "name": "内容发布审批",
+          "outcome": "确保对外内容通过品牌、法务与隐私门禁",
+          "owner_role": "品牌负责人",
+          "frequency": "按发布批次",
+          "workflow": {
+            "id": "mkt-on.publish-approve@1.0.0",
+            "description": "内容发布审批（L4 强审批 + 脱敏）",
+            "kind": "approve",
+            "skill": "content-gen",
+            "trigger": {
+              "type": "command",
+              "expr": "publish-approve"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "content-gen"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "内容发布审批（L4 强审批 + 脱敏） 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "内容发布审批（L4 强审批 + 脱敏）：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "publish-approve-<ts>.json",
+              "format": "json",
+              "fields": [
+                "title",
+                "channel",
+                "publish_at",
+                "pii_check",
+                "approver"
+              ],
+              "acceptance": "含 PII 的素材必须 redact 后才可发布"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L4",
+              "dual": true,
+              "required_roles": [
+                "品牌负责人",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "title",
+                "channel",
+                "publish_at",
+                "pii_check",
+                "approver"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 title、channel、publish_at、pii_check、approver 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-on-publish-approve-INPUT-REQUIRED",
+                "mkt-on-publish-approve-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "ad_spend.csv",
+                "content_calendar.csv",
+                "leads.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "含 PII 的素材必须 redact 后才可发布；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 lead_phone、lead_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-on-publish-approve-DOMAIN-RULE",
+                "mkt-on-publish-approve-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 content-gen 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-on-publish-approve-LLM-SCHEMA",
+                "mkt-on-publish-approve-LLM-EVIDENCE",
+                "mkt-on-publish-approve-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：含 PII 的素材必须 redact 后才可发布；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-on-publish-approve-QUALITY-EVIDENCE",
+                "mkt-on-publish-approve-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L4；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "mkt-on-publish-approve-APPROVAL-IDENTITY",
+                "mkt-on-publish-approve-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-on-publish-approve-DELIVERY-MANIFEST",
+                "mkt-on-publish-approve-DELIVERY-FORMATS",
+                "mkt-on-publish-approve-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“合格线索与预计商机价值”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-on-publish-approve-OUTCOME-LINEAGE",
+                "mkt-on-publish-approve-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "品牌负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-on-publish-approve-STRATEGY-WRITEBACK",
+                "mkt-on-publish-approve-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(title,channel,publish_at,pii_check,approver)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "含 PII 的素材必须 redact 后才可发布",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-on-publish-approve-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-publish-approve-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "含 PII 的素材必须 redact 后才可发布",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|NIST-PRIVACY"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-on.json",
+            "source_tables": [
+              "ad_spend.csv",
+              "content_calendar.csv",
+              "leads.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L4",
+            "redact_fields": [
+              "lead_phone",
+              "lead_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "合格线索与预计商机价值",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "GOOGLE-SEARCH-ESSENTIALS",
+            "NIST-PRIVACY"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paid-growth",
+      "name": "付费增长与预算控制",
+      "outcome": "用可追溯归因管理渠道预算和 ROI",
+      "benchmark_refs": [
+        "NIST-AI-RMF",
+        "GREATEXPECTATIONS"
+      ],
+      "items": [
+        {
+          "id": "mkt-on-campaign-report",
+          "name": "投放周报与渠道 ROI",
+          "outcome": "识别渠道效率、浪费和预算迁移建议",
+          "owner_role": "增长负责人",
+          "frequency": "每周",
+          "workflow": {
+            "id": "mkt-on.campaign-report@1.0.0",
+            "description": "投放周报（渠道×ROI）",
+            "kind": "report",
+            "skill": "ad-analysis",
+            "trigger": {
+              "type": "command",
+              "expr": "campaign-report"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "ad-analysis"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "投放周报（渠道×ROI）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "campaign-report-<ts>.json",
+              "format": "json",
+              "fields": [
+                "channel",
+                "spend_wan",
+                "leads",
+                "roi",
+                "week"
+              ],
+              "acceptance": "ROI 数字可追溯到 data/mkt-on/leads.csv"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "channel",
+                "spend_wan",
+                "leads",
+                "roi",
+                "week"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 channel、spend_wan、leads、roi、week 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-on-campaign-report-INPUT-REQUIRED",
+                "mkt-on-campaign-report-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "ad_spend.csv",
+                "content_calendar.csv",
+                "leads.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "ROI 数字可追溯到 data/mkt-on/leads.csv；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 lead_phone、lead_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-on-campaign-report-DOMAIN-RULE",
+                "mkt-on-campaign-report-TYPEDICT"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 ad-analysis 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-on-campaign-report-LLM-SCHEMA",
+                "mkt-on-campaign-report-LLM-EVIDENCE",
+                "mkt-on-campaign-report-LLM-PII"
+              ],
+              "benchmark_refs": [
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：ROI 数字可追溯到 data/mkt-on/leads.csv；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-on-campaign-report-QUALITY-EVIDENCE",
+                "mkt-on-campaign-report-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-on-campaign-report-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-on-campaign-report-DELIVERY-MANIFEST",
+                "mkt-on-campaign-report-DELIVERY-FORMATS",
+                "mkt-on-campaign-report-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“合格线索与预计商机价值”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-on-campaign-report-OUTCOME-LINEAGE",
+                "mkt-on-campaign-report-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "增长负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-on-campaign-report-STRATEGY-WRITEBACK",
+                "mkt-on-campaign-report-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(channel,spend_wan,leads,roi,week)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "ROI 数字可追溯到 data/mkt-on/leads.csv",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "NIST-AI-RMF|GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-on-campaign-report-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-campaign-report-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "ROI 数字可追溯到 data/mkt-on/leads.csv",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "NIST-AI-RMF|GREATEXPECTATIONS"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-on.json",
+            "source_tables": [
+              "ad_spend.csv",
+              "content_calendar.csv",
+              "leads.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L4",
+            "redact_fields": [
+              "lead_phone",
+              "lead_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "合格线索与预计商机价值",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "NIST-AI-RMF",
+            "GREATEXPECTATIONS"
+          ]
+        },
+        {
+          "id": "mkt-on-ad-spend-review",
+          "name": "投放加预算审批",
+          "outcome": "在阈值与预期 ROI 约束下调整预算",
+          "owner_role": "市场负责人",
+          "frequency": "按预算事件",
+          "workflow": {
+            "id": "mkt-on.ad-spend-review@1.0.0",
+            "description": "投放加预算审批（阈值触发）",
+            "kind": "approve",
+            "skill": "ad-analysis",
+            "trigger": {
+              "type": "command",
+              "expr": "ad-spend-review"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "ad-analysis"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "投放加预算审批（阈值触发） 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "投放加预算审批（阈值触发）：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "ad-spend-review-<ts>.json",
+              "format": "json",
+              "fields": [
+                "channel",
+                "current_spend_wan",
+                "increment_wan",
+                "expected_roi"
+              ],
+              "acceptance": "单周加预算 >10 万触发双审批"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L4",
+              "dual": true,
+              "required_roles": [
+                "市场负责人",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "channel",
+                "current_spend_wan",
+                "increment_wan",
+                "expected_roi"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 channel、current_spend_wan、increment_wan、expected_roi 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-INPUT-REQUIRED",
+                "mkt-on-ad-spend-review-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "ad_spend.csv",
+                "content_calendar.csv",
+                "leads.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "单周加预算 >10 万触发双审批；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 lead_phone、lead_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-DOMAIN-RULE",
+                "mkt-on-ad-spend-review-TYPEDICT"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 ad-analysis 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-LLM-SCHEMA",
+                "mkt-on-ad-spend-review-LLM-EVIDENCE",
+                "mkt-on-ad-spend-review-LLM-PII"
+              ],
+              "benchmark_refs": [
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：单周加预算 >10 万触发双审批；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-QUALITY-EVIDENCE",
+                "mkt-on-ad-spend-review-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L4；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-APPROVAL-IDENTITY",
+                "mkt-on-ad-spend-review-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-DELIVERY-MANIFEST",
+                "mkt-on-ad-spend-review-DELIVERY-FORMATS",
+                "mkt-on-ad-spend-review-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“合格线索与预计商机价值”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-OUTCOME-LINEAGE",
+                "mkt-on-ad-spend-review-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-on-ad-spend-review-STRATEGY-WRITEBACK",
+                "mkt-on-ad-spend-review-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(channel,current_spend_wan,increment_wan,expected_roi)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "单周加预算 >10 万触发双审批",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "NIST-AI-RMF|GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-on-ad-spend-review-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-ad-spend-review-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "draft_requires_owner_confirmation",
+              "id": "mkt-on-ad-spend-review-ACCEPT-1",
+              "kind": "policy_threshold",
+              "severity": "blocking",
+              "expression": "单周加预算 >10 万触发双审批",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "NIST-AI-RMF|GREATEXPECTATIONS"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.ad-spend-review@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-on.json",
+            "source_tables": [
+              "ad_spend.csv",
+              "content_calendar.csv",
+              "leads.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L4",
+            "redact_fields": [
+              "lead_phone",
+              "lead_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "合格线索与预计商机价值",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "NIST-AI-RMF",
+            "GREATEXPECTATIONS"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acquisition-quality",
+      "name": "线索质量与自然增长",
+      "outcome": "把自然流量和线索质量接回销售管道",
+      "benchmark_refs": [
+        "GOOGLE-SEARCH-ESSENTIALS",
+        "SCHEMA-ORDER"
+      ],
+      "items": [
+        {
+          "id": "mkt-on-lead-funnel",
+          "name": "线索漏斗与质量分析",
+          "outcome": "按来源和阶段识别合格线索瓶颈",
+          "owner_role": "营销运营负责人",
+          "frequency": "每周",
+          "workflow": {
+            "id": "mkt-on.lead-funnel@1.0.0",
+            "description": "线索漏斗周报（阶段转化）",
+            "kind": "report",
+            "skill": "seo-audit",
+            "trigger": {
+              "type": "command",
+              "expr": "lead-funnel"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "seo-audit"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "线索漏斗周报（阶段转化）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "lead-funnel-<ts>.json",
+              "format": "json",
+              "fields": [
+                "stage",
+                "count",
+                "conversion_pct",
+                "week"
+              ],
+              "acceptance": "线索手机号/邮箱仅掩码口径"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "stage",
+                "count",
+                "conversion_pct",
+                "week"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 stage、count、conversion_pct、week 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-on-lead-funnel-INPUT-REQUIRED",
+                "mkt-on-lead-funnel-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "ad_spend.csv",
+                "content_calendar.csv",
+                "leads.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "线索手机号/邮箱仅掩码口径；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 lead_phone、lead_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-on-lead-funnel-DOMAIN-RULE",
+                "mkt-on-lead-funnel-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 seo-audit 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-on-lead-funnel-LLM-SCHEMA",
+                "mkt-on-lead-funnel-LLM-EVIDENCE",
+                "mkt-on-lead-funnel-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：线索手机号/邮箱仅掩码口径；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-on-lead-funnel-QUALITY-EVIDENCE",
+                "mkt-on-lead-funnel-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-on-lead-funnel-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-on-lead-funnel-DELIVERY-MANIFEST",
+                "mkt-on-lead-funnel-DELIVERY-FORMATS",
+                "mkt-on-lead-funnel-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“合格线索与预计商机价值”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-on-lead-funnel-OUTCOME-LINEAGE",
+                "mkt-on-lead-funnel-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-on-lead-funnel-STRATEGY-WRITEBACK",
+                "mkt-on-lead-funnel-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(stage,count,conversion_pct,week)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "线索手机号/邮箱仅掩码口径",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|SCHEMA-ORDER"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-on-lead-funnel-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-lead-funnel-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "线索手机号/邮箱仅掩码口径",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|SCHEMA-ORDER"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-on.json",
+            "source_tables": [
+              "ad_spend.csv",
+              "content_calendar.csv",
+              "leads.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L4",
+            "redact_fields": [
+              "lead_phone",
+              "lead_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "合格线索与预计商机价值",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "GOOGLE-SEARCH-ESSENTIALS",
+            "SCHEMA-ORDER"
+          ]
+        },
+        {
+          "id": "mkt-on-seo-audit",
+          "name": "SEO 技术与内容诊断",
+          "outcome": "形成抓取、索引、内容和结构化数据修复清单",
+          "owner_role": "SEO 负责人",
+          "frequency": "月度/版本发布",
+          "workflow": {
+            "id": "mkt-on.seo-audit@1.0.0",
+            "description": "SEO 诊断（收录/关键词）",
+            "kind": "report",
+            "skill": "seo-audit",
+            "trigger": {
+              "type": "command",
+              "expr": "seo-audit"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "seo-audit"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "SEO 诊断（收录/关键词）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "seo-audit-<ts>.json",
+              "format": "json",
+              "fields": [
+                "page",
+                "keywords",
+                "rank",
+                "issue"
+              ],
+              "acceptance": "外部抓取仅摘要，禁整站镜像"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "page",
+                "keywords",
+                "rank",
+                "issue"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 page、keywords、rank、issue 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-on-seo-audit-INPUT-REQUIRED",
+                "mkt-on-seo-audit-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "ad_spend.csv",
+                "content_calendar.csv",
+                "leads.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "外部抓取仅摘要，禁整站镜像；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 lead_phone、lead_idcard 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-on-seo-audit-DOMAIN-RULE",
+                "mkt-on-seo-audit-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 seo-audit 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-on-seo-audit-LLM-SCHEMA",
+                "mkt-on-seo-audit-LLM-EVIDENCE",
+                "mkt-on-seo-audit-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：外部抓取仅摘要，禁整站镜像；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-on-seo-audit-QUALITY-EVIDENCE",
+                "mkt-on-seo-audit-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-on-seo-audit-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-on-seo-audit-DELIVERY-MANIFEST",
+                "mkt-on-seo-audit-DELIVERY-FORMATS",
+                "mkt-on-seo-audit-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“合格线索与预计商机价值”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-on-seo-audit-OUTCOME-LINEAGE",
+                "mkt-on-seo-audit-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "SEO 负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-on-seo-audit-STRATEGY-WRITEBACK",
+                "mkt-on-seo-audit-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(page,keywords,rank,issue)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "外部抓取仅摘要，禁整站镜像",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|SCHEMA-ORDER"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-on-seo-audit-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-on-seo-audit-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "外部抓取仅摘要，禁整站镜像",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "GOOGLE-SEARCH-ESSENTIALS|SCHEMA-ORDER"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.seo-audit@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-on.json",
+            "source_tables": [
+              "ad_spend.csv",
+              "content_calendar.csv",
+              "leads.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L4",
+            "redact_fields": [
+              "lead_phone",
+              "lead_idcard"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "合格线索与预计商机价值",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "GOOGLE-SEARCH-ESSENTIALS",
+            "SCHEMA-ORDER"
+          ]
+        }
+      ]
+    }
+  ],
+  "benchmark_refs": [
+    "BPMN20",
+    "JSONSCHEMA202012",
+    "OPENAPI321",
+    "TABLESCHEMA1",
+    "OPENLINEAGE153",
+    "GREATEXPECTATIONS",
+    "NIST-PRIVACY",
+    "NIST-AI-RMF",
+    "GOOGLE-SEARCH-ESSENTIALS",
+    "SCHEMA-ORDER"
+  ]
+}

@@ -311,6 +311,16 @@
 - 原地升级保留：session 哨兵与工作区哨兵均在安装器 `/FORCECLOSEAPPLICATIONS` 静默重装后保留，安装器退出码 0。
 - 安装态：`APP_VERIFY 45/45`；严格主壳 `101/102`（唯一未完成项为 PR Board 外部 GitHub 未配置，本地项全绿、未知控件 0）；工作台 UI `6/6`；安全写 `15/15`；交付 UI `23/23`。
 
+## 第十一轮（2026-09-30）：13 域模块/事项/工作流/标准/契约细化
+
+- 按 `grill-me → grilling → domain-modeling` 路径完成设计盘问，结论记录在 `docs/domain-design/GRILL-DECISIONS.md`，术语写入 `CONTEXT.md`，架构决策写入 `ADR-0015`。
+- 新增 `manifests/domain-work-design`、`workflow-contracts`、`typedict`、`schema`，生成 13 域 / 39 模块 / 78 事项 / 78 工作流 / 737 字段 / 78 契约。
+- 新增 `scripts/build-domain-work-design.mjs` 和 `scripts/verify-domain-work-design.mjs`；工作流覆盖、模块唯一性、环节标准、契约字段和基准引用全部强制校验。
+- 新增 `manifests/benchmark-sources.json`，引用 BPMN、JSON Schema、OpenAPI、Frictionless、OpenLineage、Great Expectations、HR Open、Schema.org、xAPI、XBRL、NIST、COSO、WorldatWork、SHRM、Google Search、OpenActive 和 ISO/EAPA 标准。
+- 壳内工作台改为显示模块、事项、责任角色、频率、环节标准、输入/输出契约和 TypeDict 引用。
+- 设计验证 `13/13 PASS`，工作流平台 `19/19 PASS`，层级 UI 旅程 `8/8 PASS`。
+- 上下文接近 90% 时的权威交接：`%TEMP%\handoff-pids-nexus-r11-2026-09-30.md`（未提交 R11 状态、最终构建哈希、安装态待复验项和下一步命令）。
+
 ### B. 本轮不可变边界（用户已锁定）
 
 - T1 品牌字标不改；独立 `app.html` 仅作辅助，壳内 `⟡ 工作台` 为唯一完整工作面。
@@ -326,3 +336,37 @@
 - 首轮主壳盘点把第三方教程弹窗和模块异步加载当成业务控件，产生假失败/假成功。已改为模块专属就绪信号轮询，并把“关闭提示/保留当前显示/开启简化显示”登记为壳级提示控件。
 - `verify-shell-modules.mjs` 首次运行时在第三方面板中串行点击过多只读动作，耗时不可控。已拆分为默认快速盘点与 `--exercise-reads` 显式点击。
 - 真实安装升级后原生壳未拉服务，根因是 PowerShell 5.1 `Set-Content -Encoding UTF8` 给 `compatibility.json` / `runtime-build.json` 写了 BOM，dsh 严格 JSON 解析失败。已改为 .NET `UTF8Encoding(false)` 写入；重建最终 runtime/安装器后，真实 Tauri 壳恢复并在约 50 秒内拉起 3080 服务。
+
+## 第十二轮（2026-09-30）：全能力验收与 13 域工作闭环 V2
+
+### A. 执行清单
+
+- [x] R12 边界冻结：64 个出厂插件；56 个项目 Skill；9 个 Mnemon provider；外部依赖条件真联调；最终一次提交；T1 字标继续暂停。
+- [x] R11 设计门禁：`13/13 PASS`，13 域 / 39 模块 / 78 事项 / 78 工作流 / 737 字段 / 78 契约。
+- [x] R11 隔离 UI 门禁：`8/8 PASS`，含模块层级、无审批流程、双审批、7 格式交付和 1100×700 视口；证据写入 `reports/r11-final-workbench-ui.json`。
+- [x] 主壳严格清单：最终安装态 11 模块 / 1765 控件 / 未知控件 0；`102/102 PASS`。PR Board 未配置仓库按显式外部空态处理，Mnemon 未就绪动作按外部前置条件处理。
+- [x] P1 插件能力矩阵：64 个出厂插件全部有终态；59 个加载，5 个明确不加载；能力验证无 FAIL。
+- [x] P2 Skill 契约矩阵：56/56，43 个业务 Skill 通过模型桩流程，13 个意图路由通过。
+- [x] P3 记忆 provider 矩阵：9/9 有终态；本地 Holographic 通过，8 个三方/Native provider 未配置时显式阻塞。
+- [x] D1 领域设计 V2：阶段级契约、1444 条业务规则、737 术语映射、1487 血缘边、7 跨域事件、546 测试场景、22 标杆映射。
+- [x] D2 本地操作者/HMAC 审批：篡改、跨实例重放、同人多角色、未授权角色和 R11 旧审批迁移均通过。
+- [x] D3 13 域 UI：工作模块、待办与风险、数据台账、审批、交付物、成效复盘、运行记录 7 个域级工作面可导航。
+- [x] V1 插件、Skill、记忆、工作流与文件矩阵：平台 `19/19`、工作流 `549/549`、文件 `546/546`、能力矩阵无 FAIL。
+- [x] V2 最终一次 Git 提交：待执行本节收尾命令。
+
+### B. 当前真源与边界
+
+- R11/R12 工作树将在完整门禁通过后做唯一一次 R12 提交。
+- 安装态 UI 在无模型凭据时按设计进入 `blocked_model`，未伪造成功；完整 UI 旅程使用隔离 QA profile + 显式模型桩完成。
+- 历史 catalog 未随出厂包交付的插件不进入本轮 64 项强门禁。
+
+### C. 最终验收
+
+- 领域设计：`21/21 PASS`；平台回归：`19/19 PASS`。
+- 工作流 V2：`549/549 PASS`；工作流文件：`546/546 PASS`。
+- 增强工作台 UI：`10/10 PASS`；最终安装态主壳：`102/102 PASS`；安装态应用：`45/45 PASS`。
+- 完整证据与条件项：`reports/r12-acceptance-summary.md`。
+- runtime：546,182,470 B / SHA256 `3EB979DDB7EECDB1E60C8A28EA4DE4F3B7BBFEE52FD9B5F105C78E1DD303E452` / build-id `aed9980c6f70777d4613a6e753118bcc1fdf423e95b3f9cad1f644b02c687b4e`。
+- 安装器：589,954,910 B / SHA256 `4DBDCA8509B2D2D5FB7CF840320266093CB6C7E6887BDE0209F270BB15BF8E4A`。
+- 原地升级保留：sessions、storages、credential 哈希、session/workspace 哨兵、审批密钥、操作者注册表、既有实例均保留。
+- 条件阻塞：真实 LLM 与三方云服务未配置凭据，未宣称真实联调通过；T1 字标继续暂停。

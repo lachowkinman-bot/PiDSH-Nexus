@@ -1,0 +1,2022 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "sales",
+  "label": "销售 SALES",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "pipeline.csv:amount_k",
+      "entity": "pipeline.csv",
+      "field": "amount_k",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 90
+        },
+        {
+          "kind": "maximum",
+          "value": 2400
+        }
+      ],
+      "example": "420",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:amount_k"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:close_date",
+      "entity": "pipeline.csv",
+      "field": "close_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "10-20",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "预计/实际成交日 `MM-DD`（源表无年份，保留原样）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:close_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:close_month",
+      "entity": "pipeline.csv",
+      "field": "close_month",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "成交归属月 `YYYY-MM`（2026-10/11/12），管道周报与月报的过滤键；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:close_month"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:contact_masked",
+      "entity": "pipeline.csv",
+      "field": "contact_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "张****",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "客户联系人掩码（姓 + `****`）；真实姓名/手机/邮箱不入库；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:contact_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:contract_no",
+      "entity": "pipeline.csv",
+      "field": "contract_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:contract_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:customer_id",
+      "entity": "pipeline.csv",
+      "field": "customer_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CUST-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "客户匿名代理键（`CUST-###`），不可还原为真实企业；quotes.customer_id 必须与本列一致；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:customer_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:customer_masked",
+      "entity": "pipeline.csv",
+      "field": "customer_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "某制造集团",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:customer_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:lost_reason",
+      "entity": "pipeline.csv",
+      "field": "lost_reason",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "输单原因：预算冻结 / 竞品低价；`stage=输单` 时必填，其余为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:lost_reason"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:next_action",
+      "entity": "pipeline.csv",
+      "field": "next_action",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "报价审批通过后发送客户",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "下一动作（销售跟进指令，脱敏文本，不含客户 PII）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:next_action"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:opportunity",
+      "entity": "pipeline.csv",
+      "field": "opportunity",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "商机-A（制造业）",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机名称（`商机-<字母>（行业）`），展示口径；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:opportunity"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:opportunity_id",
+      "entity": "pipeline.csv",
+      "field": "opportunity_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "OPP-2026-0101",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机 ID（`OPP-YYYY-####`），唯一主键；quotes.opportunity_id 的外键指向本列；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:opportunity_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:owner",
+      "entity": "pipeline.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "王****",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机负责人掩码（姓 + `****`，如 `王****`）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:probability_pct",
+      "entity": "pipeline.csv",
+      "field": "probability_pct",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 100
+        }
+      ],
+      "example": "60",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "阶段默认赢率（%）：线索 10 / 接触 20 / 方案 40 / 报价 60 / 谈判 80 / 赢单 100 / 输单 0；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:probability_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:region",
+      "entity": "pipeline.csv",
+      "field": "region",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华东",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:region"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:source",
+      "entity": "pipeline.csv",
+      "field": "source",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "渠道推荐",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "线索来源：官网表单 / 行业展会 / 投放落地页 / 转介绍 / 渠道推荐 / 陌拜 / CRM导入 / 公开招标（可回写 mkt-on 线索归因，§6）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:source"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:stage",
+      "entity": "pipeline.csv",
+      "field": "stage",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "报价",
+        "接触",
+        "赢单",
+        "线索",
+        "方案",
+        "谈判",
+        "输单"
+      ],
+      "constraints": [],
+      "example": "报价",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机阶段，枚举与迁移见 §4.1（落地值：线索/接触/方案/报价/谈判/赢单/输单）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:stage"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "pipeline.csv:updated_at",
+      "entity": "pipeline.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-12",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数据版本时间戳 `YYYY-MM-DD`，审计「依据数据版本」取该值，全表快照一致（2026-10-12）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/pipeline.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:approval_route",
+      "entity": "quotes.csv",
+      "field": "approval_route",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "双审批",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "审批路由（按折扣档位与底价规则取较严者）：一级授权 / 双审批 / 双审批+CFO加签（§5）；映射 workflow `approvals` 字段（签数 1/2/3）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:approval_route"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:contact_masked",
+      "entity": "quotes.csv",
+      "field": "contact_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "张****",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "客户联系人掩码（姓 + `****`）；真实姓名/手机/邮箱不入库；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:contact_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:contract_no",
+      "entity": "quotes.csv",
+      "field": "contract_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:contract_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:customer_id",
+      "entity": "quotes.csv",
+      "field": "customer_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CUST-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "客户匿名代理键（`CUST-###`），不可还原为真实企业；quotes.customer_id 必须与本列一致；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:customer_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:customer_masked",
+      "entity": "quotes.csv",
+      "field": "customer_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "某制造集团",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:customer_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:discount_floor_wan",
+      "entity": "quotes.csv",
+      "field": "discount_floor_wan",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 11
+        },
+        {
+          "kind": "maximum",
+          "value": 320
+        }
+      ],
+      "example": "48.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该配置的底价（**万元**，2 位小数）。承载 scene redact 字段 `discount_floor`：`total_wan < discount_floor_wan` 即「低于底价」，必须转报价审批（§9 V-SALES-04）；出域仅出「是否低于底价」的结论；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:discount_floor_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:discount_pct",
+      "entity": "quotes.csv",
+      "field": "discount_pct",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 22
+        }
+      ],
+      "example": "8",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:discount_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:items",
+      "entity": "quotes.csv",
+      "field": "items",
+      "physical_type": "csv",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "标准版×3+实施",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "配置明细（`<版本>×<数量>+<附加项>`，如 `旗舰版×2+培训`）；产品版本：标准版/专业版/旗舰版，附加项：实施/培训；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:items"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:list_price_wan",
+      "entity": "quotes.csv",
+      "field": "list_price_wan",
+      "physical_type": "csv",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "50.87",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "目录价合计（**万元**，2 位小数），与 `items` 配置对应；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:list_price_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:note",
+      "entity": "quotes.csv",
+      "field": "note",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "低于底价已转报价审批",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "备注（审批要点/驳回原因/规则命中说明，如「低于底价已转报价审批」「毛利率低于产品线红线驳回重报」）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:opportunity_id",
+      "entity": "quotes.csv",
+      "field": "opportunity_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "OPP-2026-0101",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机 ID（`OPP-YYYY-####`），唯一主键；quotes.opportunity_id 的外键指向本列；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:opportunity_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:payment_terms",
+      "entity": "quotes.csv",
+      "field": "payment_terms",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "30%预付+70%验收",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "拟约定回款条款：30%预付+70%验收（标准模板）/ 20%预付+40%发货+40%验收 / 20%预付+30%发货+50%验收 / 40%预付+60%验收 / 月结30天；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:payment_terms"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:quote_id",
+      "entity": "quotes.csv",
+      "field": "quote_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "QT-3301",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价单号（`QT-####`），唯一主键；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:quote_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:status",
+      "entity": "quotes.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "待审批",
+        "已发出",
+        "已审批",
+        "草稿",
+        "已批准",
+        "已驳回"
+      ],
+      "constraints": [],
+      "example": "待审批",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价单状态，枚举与迁移见 §4.2（草稿/待审批/已批准/已驳回/已发出；既存落地值「已审批」≡「已批准」）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:terms_deviation",
+      "entity": "quotes.csv",
+      "field": "terms_deviation",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "无",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "相对标准回款条款的偏离：无 / 偏离；`偏离` 且已签合同 → 触发 cmp 合规留痕（§6）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:terms_deviation"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:total_wan",
+      "entity": "quotes.csv",
+      "field": "total_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 12
+        },
+        {
+          "kind": "maximum",
+          "value": 336
+        }
+      ],
+      "example": "46.8",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:total_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "quotes.csv:updated_at",
+      "entity": "quotes.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-12",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数据版本时间戳 `YYYY-MM-DD`，审计「依据数据版本」取该值，全表快照一致（2026-10-12）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/quotes.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "targets.csv:owner_masked",
+      "entity": "targets.csv",
+      "field": "owner_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "王****",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/targets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "负责人掩码（姓 + `****`，须能在 pipeline.owner 命中）",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/targets.csv",
+          "field:owner_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "targets.csv:owner_target_wan",
+      "entity": "targets.csv",
+      "field": "owner_target_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 110
+        },
+        {
+          "kind": "maximum",
+          "value": 350
+        }
+      ],
+      "example": "350",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/targets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "负责人季度目标（**万元**）；`Σ(region 内 owner_target_wan) = region_quota_wan`",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/targets.csv",
+          "field:owner_target_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "targets.csv:quarter",
+      "entity": "targets.csv",
+      "field": "quarter",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-Q4",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/targets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "目标周期 `YYYY-Q#`（本快照 2026-Q4）",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/targets.csv",
+          "field:quarter"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "targets.csv:region",
+      "entity": "targets.csv",
+      "field": "region",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华东",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/targets.csv",
+          "field:region"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "targets.csv:region_quota_wan",
+      "entity": "targets.csv",
+      "field": "region_quota_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 280
+        },
+        {
+          "kind": "maximum",
+          "value": 900
+        }
+      ],
+      "example": "900",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/targets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "大区季度目标（**万元**）；同区各行取值必须一致",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/targets.csv",
+          "field:region_quota_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "targets.csv:updated_at",
+      "entity": "targets.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-12",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数据版本时间戳 `YYYY-MM-DD`，审计「依据数据版本」取该值，全表快照一致（2026-10-12）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:sales/targets.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:sales.contract-review@1.0.0:approvals",
+      "entity": "workflow_output/sales.contract-review",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.contract-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.contract-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.contract-review@1.0.0:contract_no",
+      "entity": "workflow_output/sales.contract-review",
+      "field": "contract_no",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.contract-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.contract-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.contract-review@1.0.0:payment_terms",
+      "entity": "workflow_output/sales.contract-review",
+      "field": "payment_terms",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "拟约定回款条款：30%预付+70%验收（标准模板）/ 20%预付+40%发货+40%验收 / 20%预付+30%发货+50%验收 / 40%预付+60%验收 / 月结30天；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.contract-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.contract-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.contract-review@1.0.0:terms_risk",
+      "entity": "workflow_output/sales.contract-review",
+      "field": "terms_risk",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.contract-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.contract-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.pipeline-report@1.0.0:amount_k",
+      "entity": "workflow_output/sales.pipeline-report",
+      "field": "amount_k",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.pipeline-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.pipeline-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.pipeline-report@1.0.0:count",
+      "entity": "workflow_output/sales.pipeline-report",
+      "field": "count",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.pipeline-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.pipeline-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.pipeline-report@1.0.0:stage",
+      "entity": "workflow_output/sales.pipeline-report",
+      "field": "stage",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机阶段，枚举与迁移见 §4.1（落地值：线索/接触/方案/报价/谈判/赢单/输单）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.pipeline-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.pipeline-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.pipeline-report@1.0.0:week",
+      "entity": "workflow_output/sales.pipeline-report",
+      "field": "week",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.pipeline-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.pipeline-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-approve@1.0.0:approvals",
+      "entity": "workflow_output/sales.quote-approve",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-approve@1.0.0:discount_pct",
+      "entity": "workflow_output/sales.quote-approve",
+      "field": "discount_pct",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-approve@1.0.0:quote_id",
+      "entity": "workflow_output/sales.quote-approve",
+      "field": "quote_id",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价单号（`QT-####`），唯一主键；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-approve@1.0.0:total_wan",
+      "entity": "workflow_output/sales.quote-approve",
+      "field": "total_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-calc@1.0.0:customer_masked",
+      "entity": "workflow_output/sales.quote-calc",
+      "field": "customer_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-calc@1.0.0:discount_pct",
+      "entity": "workflow_output/sales.quote-calc",
+      "field": "discount_pct",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-calc@1.0.0:items",
+      "entity": "workflow_output/sales.quote-calc",
+      "field": "items",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "配置明细（`<版本>×<数量>+<附加项>`，如 `旗舰版×2+培训`）；产品版本：标准版/专业版/旗舰版，附加项：实施/培训；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.quote-calc@1.0.0:total_wan",
+      "entity": "workflow_output/sales.quote-calc",
+      "field": "total_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/quotes.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.quote-calc@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.quote-calc@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.target-split@1.0.0:owner_masked",
+      "entity": "workflow_output/sales.target-split",
+      "field": "owner_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/targets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "负责人掩码（姓 + `****`，须能在 pipeline.owner 命中）",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.target-split@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.target-split@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.target-split@1.0.0:quarter",
+      "entity": "workflow_output/sales.target-split",
+      "field": "quarter",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/targets.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "目标周期 `YYYY-Q#`（本快照 2026-Q4）",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.target-split@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.target-split@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.target-split@1.0.0:region",
+      "entity": "workflow_output/sales.target-split",
+      "field": "region",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.target-split@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.target-split@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.target-split@1.0.0:target_wan",
+      "entity": "workflow_output/sales.target-split",
+      "field": "target_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.target-split@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.target-split@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.win-review@1.0.0:amount_k",
+      "entity": "workflow_output/sales.win-review",
+      "field": "amount_k",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.win-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.win-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.win-review@1.0.0:opportunity",
+      "entity": "workflow_output/sales.win-review",
+      "field": "opportunity",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "sales/pipeline.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "商机名称（`商机-<字母>（行业）`），展示口径；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.win-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.win-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.win-review@1.0.0:playbook_update",
+      "entity": "workflow_output/sales.win-review",
+      "field": "playbook_update",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.win-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.win-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:sales.win-review@1.0.0:win_factors",
+      "entity": "workflow_output/sales.win-review",
+      "field": "win_factors",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:sales.win-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "sales.win-review@1.0.0"
+      ]
+    }
+  ]
+}

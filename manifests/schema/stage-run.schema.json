@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pids-nexus:schema:stage-run:v2",
+  "title": "PiDSH Nexus StageRun",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "title", "required", "standard", "gate", "on_fail", "status"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["intake", "rule", "llm", "quality", "approval", "publish", "outcome", "strategy"] },
+    "title": { "type": "string", "minLength": 1 },
+    "required": { "const": true },
+    "standard": { "type": "string", "minLength": 1 },
+    "gate": { "type": "string", "minLength": 1 },
+    "on_fail": { "type": "string", "minLength": 1 },
+    "skill": { "type": "string" },
+    "approvalCount": { "type": "integer", "minimum": 1, "maximum": 2 },
+    "requiredRoles": { "type": "array", "items": { "type": "string" } },
+    "status": { "enum": ["ready", "pending", "running", "passed", "skipped", "awaiting_approval", "rejected", "blocked", "failed"] },
+    "started_at": { "type": ["string", "null"], "format": "date-time" },
+    "finished_at": { "type": ["string", "null"], "format": "date-time" },
+    "error": { "type": ["string", "null"] }
+  }
+}

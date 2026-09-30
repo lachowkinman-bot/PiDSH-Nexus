@@ -64,20 +64,51 @@ async function openWorkbench() {
   await dismiss();
 }
 
+async function ensureOperators() {
+  const base = new URL(URL_ARG);
+  const endpoint = new URL('/workbench/api/operators/upsert', base).toString();
+  for (const operator of [
+    { id: 'QA-BIZ', displayName: 'QA 业务审批人', roles: ['用人经理', '业务负责人', '部门负责人'] },
+    { id: 'QA-RISK', displayName: 'QA 风险审批人', roles: ['风险负责人', 'HRD'] },
+  ]) {
+    const response = await page.request.post(endpoint, { data: operator });
+    if (!response.ok()) throw new Error(`审批身份创建失败：${operator.id} http=${response.status()}`);
+  }
+}
+
 async function openRec() {
   await page.getByRole('button', { name: '13 域工作台', exact: true }).click({ timeout: 10000 });
   await page.getByText('招聘 REC', { exact: false }).first().waitFor({ timeout: 10000 });
   await page.getByText('招聘 REC', { exact: false }).first().click({ timeout: 10000 });
-  await page.getByText('6 条流程', { exact: true }).waitFor({ timeout: 10000 });
+  await page.getByText('工作模块', { exact: true }).waitFor({ timeout: 10000 });
+  await page.getByText('需求与招聘标准', { exact: true }).waitFor({ timeout: 10000 });
   await page.getByText('业务脉搏', { exact: true }).waitFor({ timeout: 10000 });
   await page.waitForTimeout(800);
   await dismiss();
+  const moduleSnapshot = await page.locator('body').innerText();
+  rec('ui.domain.modules-and-items', moduleSnapshot.includes('需求与招聘标准') && moduleSnapshot.includes('JD 与岗位能力模型') && moduleSnapshot.includes('工作事项'), 'module hierarchy visible');
+}
+
+async function verifyDomainClosure() {
+  const details = page.getByText(/查看 \d+ 个环节标准与数据契约/).first();
+  await details.click({ timeout: 10000 });
+  await page.getByText(/输入 Schema：/).first().waitFor({ timeout: 10000 });
+  await page.getByText(/输出 Schema：/).first().waitFor({ timeout: 10000 });
+  await page.getByText(/TypeDict：/).first().waitFor({ timeout: 10000 });
+  await page.getByText(/阶段契约与规则/).first().click({ timeout: 10000 });
+  await page.locator('body').getByText(/条/).first().waitFor({ timeout: 10000 });
+  rec('ui.domain.stage-contracts', true, 'stage schema, TypeDict, and business rules visible');
+  for (const tab of ['待办与风险', '审批', '成效复盘', '数据台账', '交付物', '运行记录', '工作模块']) {
+    await page.getByRole('button', { name: tab, exact: true }).last().click({ timeout: 10000 });
+    await page.waitForTimeout(250);
+  }
+  rec('ui.domain.tabs', true, 'all seven domain surfaces navigable');
 }
 
 async function runWithoutApproval() {
   const card = page.getByText('rec.funnel-weekly@1.0.0', { exact: true }).first();
   await card.waitFor({ timeout: 10000 });
-  await card.locator('xpath=ancestor::div[contains(@style,"border")][1]').getByRole('button', { name: '发起流程' }).click();
+  await card.locator('xpath=ancestor::div[contains(@style,"border")][1]').getByRole('button', { name: '发起工作流' }).click();
   await page.getByRole('button', { name: '填入示例' }).click();
   await page.getByRole('button', { name: '提交输入并校验' }).click();
   await page.getByText('4. 产出与证据', { exact: true }).waitFor({ timeout: 30000 });
@@ -91,21 +122,21 @@ async function runApprovalFlow() {
   await page.getByRole('button', { name: '返回工作流列表' }).click();
   const card = page.getByText('rec.offer-approve@1.0.0', { exact: true }).first();
   await card.waitFor({ timeout: 10000 });
-  await card.locator('xpath=ancestor::div[contains(@style,"border")][1]').getByRole('button', { name: '发起流程' }).click();
+  await card.locator('xpath=ancestor::div[contains(@style,"border")][1]').getByRole('button', { name: '发起工作流' }).click();
   await page.getByRole('button', { name: '填入示例' }).click();
   await page.getByRole('button', { name: '提交输入并校验' }).click();
   await page.getByText('3. 人工审批（角色 + 操作者签名）', { exact: true }).waitFor({ timeout: 30000 });
   rec('ui.workflow.approval.blocked-before-signature', true, 'awaiting approval rendered');
-  const roleInput = page.getByPlaceholder('例如：业务负责人');
-  const operatorInput = page.getByPlaceholder('姓名或工号掩码');
+  const roleInput = page.getByLabel('审批角色');
+  const operatorInput = page.getByLabel('审批操作者');
   const commentInput = page.getByPlaceholder('通过原因；驳回时必填');
-  await roleInput.fill('业务负责人');
-  await operatorInput.fill('QA-BIZ');
+  await operatorInput.selectOption('QA-BIZ');
+  await roleInput.selectOption('业务负责人');
   await commentInput.fill('业务审批通过');
   await page.getByRole('button', { name: '通过', exact: true }).click();
   await page.getByText(/状态 awaiting_approval/).waitFor({ timeout: 15000 });
-  await roleInput.fill('风险负责人');
-  await operatorInput.fill('QA-RISK');
+  await operatorInput.selectOption('QA-RISK');
+  await roleInput.selectOption('风险负责人');
   await commentInput.fill('风险审批通过');
   await page.getByRole('button', { name: '通过', exact: true }).click();
   await page.getByText('4. 产出与证据', { exact: true }).waitFor({ timeout: 30000 });
@@ -117,11 +148,13 @@ async function runApprovalFlow() {
 
 try {
   await openWorkbench();
+  await ensureOperators();
   rec('ui.workbench.open', true, 'strategy dashboard opened');
   await page.screenshot({ path: path.join(SHOTS, 'strategy-overview.png'), fullPage: true });
   await openRec();
   rec('ui.domain.rec.open', true, 'REC domain opened');
   await page.screenshot({ path: path.join(SHOTS, 'rec-domain.png'), fullPage: true });
+  await verifyDomainClosure();
   await runWithoutApproval();
   await runApprovalFlow();
   await page.setViewportSize({ width: 1100, height: 700 });

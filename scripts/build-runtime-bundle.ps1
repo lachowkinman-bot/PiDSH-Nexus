@@ -87,9 +87,21 @@ $buildFiles = @(
   (Join-Path $root 'manifests/shell-module-actions.json'),
   (Join-Path $root 'manifests/runtime-web.package.json'),
   (Join-Path $root 'manifests/runtime-bundles.json'),
+  (Join-Path $root 'manifests/runtime-capabilities.json'),
+  (Join-Path $root 'manifests/business-rules.json'),
+  (Join-Path $root 'manifests/benchmark-mapping.json'),
+  (Join-Path $root 'manifests/lineage.json'),
+  (Join-Path $root 'manifests/cross-domain-events.json'),
+  (Join-Path $root 'manifests/dictionaries/term-dictionary.json'),
+  (Join-Path $root 'manifests/workflow-tests/index.json'),
   (Join-Path $root 'templates/runtime/cordis.patch.yml'),
   (Join-Path $root 'templates/runtime/compatibility.json')
 )
+$buildFiles += Get-ChildItem -LiteralPath (Join-Path $root 'manifests/domain-work-design') -File | Select-Object -ExpandProperty FullName
+$buildFiles += Get-ChildItem -LiteralPath (Join-Path $root 'manifests/workflow-contracts') -File | Select-Object -ExpandProperty FullName
+$buildFiles += Get-ChildItem -LiteralPath (Join-Path $root 'manifests/typedict') -File | Select-Object -ExpandProperty FullName
+$buildFiles += Get-ChildItem -LiteralPath (Join-Path $root 'manifests/schema') -File | Select-Object -ExpandProperty FullName
+$buildFiles += (Join-Path $root 'manifests/benchmark-sources.json')
 $fingerprint = ($buildFiles | ForEach-Object {
   "$_`n$((Get-FileHash -Algorithm SHA256 -LiteralPath $_).Hash)"
 }) -join "`n"

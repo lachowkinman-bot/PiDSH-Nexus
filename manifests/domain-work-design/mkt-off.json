@@ -1,0 +1,3929 @@
+{
+  "schema": "pids-nexus/domain-work-design/v1",
+  "domain": "mkt-off",
+  "label": "营销（线下）MKT-OFF",
+  "level": "L3",
+  "north_star": "活动投入产出比",
+  "contributes_to": [
+    "KR-PIPE",
+    "KR-REV"
+  ],
+  "modules": [
+    {
+      "id": "event-portfolio",
+      "name": "活动组合与立项",
+      "outcome": "选择活动组合并控制预算、场地和签约风险",
+      "benchmark_refs": [
+        "OPENACTIVE",
+        "COSO-ERM"
+      ],
+      "items": [
+        {
+          "id": "mkt-off-event-plan",
+          "name": "活动策划与立项",
+          "outcome": "形成目标、受众、预算、场地和排期一致方案",
+          "owner_role": "活动负责人",
+          "frequency": "按项目",
+          "workflow": {
+            "id": "mkt-off.event-plan@1.0.0",
+            "description": "活动策划案（预算/场地/排期）",
+            "kind": "calc",
+            "skill": "event-plan",
+            "trigger": {
+              "type": "command",
+              "expr": "event-plan"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "event-plan"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "活动策划案（预算/场地/排期）：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "event-plan-<ts>.json",
+              "format": "json",
+              "fields": [
+                "event",
+                "city",
+                "budget_wan",
+                "schedule"
+              ],
+              "acceptance": "预算超部门季度包 20% 触发审批"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "event",
+                "city",
+                "budget_wan",
+                "schedule"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 event、city、budget_wan、schedule 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-off-event-plan-INPUT-REQUIRED",
+                "mkt-off-event-plan-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "dealer_agreements.csv",
+                "events.csv",
+                "materials.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "预算超部门季度包 20% 触发审批；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 dealer_terms 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-off-event-plan-DOMAIN-RULE",
+                "mkt-off-event-plan-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 event-plan 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-off-event-plan-LLM-SCHEMA",
+                "mkt-off-event-plan-LLM-EVIDENCE",
+                "mkt-off-event-plan-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：预算超部门季度包 20% 触发审批；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-off-event-plan-QUALITY-EVIDENCE",
+                "mkt-off-event-plan-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-off-event-plan-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-off-event-plan-DELIVERY-MANIFEST",
+                "mkt-off-event-plan-DELIVERY-FORMATS",
+                "mkt-off-event-plan-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“活动投入产出比”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-off-event-plan-OUTCOME-LINEAGE",
+                "mkt-off-event-plan-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "活动负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-off-event-plan-STRATEGY-WRITEBACK",
+                "mkt-off-event-plan-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(event,city,budget_wan,schedule)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "预算超部门季度包 20% 触发审批",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "OPENACTIVE|COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-off-event-plan-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-plan-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "draft_requires_owner_confirmation",
+              "id": "mkt-off-event-plan-ACCEPT-1",
+              "kind": "policy_threshold",
+              "severity": "blocking",
+              "expression": "预算超部门季度包 20% 触发审批",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|COSO-ERM"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-off.json",
+            "source_tables": [
+              "dealer_agreements.csv",
+              "events.csv",
+              "materials.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "dealer_terms"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "活动投入产出比",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "OPENACTIVE",
+            "COSO-ERM"
+          ]
+        },
+        {
+          "id": "mkt-off-booth-approve",
+          "name": "展位与场地签约审批",
+          "outcome": "在成本和日期约束下完成场地决策",
+          "owner_role": "市场负责人",
+          "frequency": "按签约事件",
+          "workflow": {
+            "id": "mkt-off.booth-approve@1.0.0",
+            "description": "展位/场地签约审批",
+            "kind": "approve",
+            "skill": "event-plan",
+            "trigger": {
+              "type": "command",
+              "expr": "booth-approve"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "event-plan"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "展位/场地签约审批 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "展位/场地签约审批：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "booth-approve-<ts>.json",
+              "format": "json",
+              "fields": [
+                "venue",
+                "cost_wan",
+                "dates",
+                "approver"
+              ],
+              "acceptance": "单场签约 >30 万双审批"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L3",
+              "dual": true,
+              "required_roles": [
+                "市场负责人",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "venue",
+                "cost_wan",
+                "dates",
+                "approver"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 venue、cost_wan、dates、approver 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-off-booth-approve-INPUT-REQUIRED",
+                "mkt-off-booth-approve-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "dealer_agreements.csv",
+                "events.csv",
+                "materials.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "单场签约 >30 万双审批；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 dealer_terms 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-off-booth-approve-DOMAIN-RULE",
+                "mkt-off-booth-approve-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 event-plan 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-off-booth-approve-LLM-SCHEMA",
+                "mkt-off-booth-approve-LLM-EVIDENCE",
+                "mkt-off-booth-approve-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：单场签约 >30 万双审批；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-off-booth-approve-QUALITY-EVIDENCE",
+                "mkt-off-booth-approve-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "mkt-off-booth-approve-APPROVAL-IDENTITY",
+                "mkt-off-booth-approve-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-off-booth-approve-DELIVERY-MANIFEST",
+                "mkt-off-booth-approve-DELIVERY-FORMATS",
+                "mkt-off-booth-approve-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“活动投入产出比”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-off-booth-approve-OUTCOME-LINEAGE",
+                "mkt-off-booth-approve-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "市场负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-off-booth-approve-STRATEGY-WRITEBACK",
+                "mkt-off-booth-approve-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(venue,cost_wan,dates,approver)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "单场签约 >30 万双审批",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "OPENACTIVE|COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-off-booth-approve-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-booth-approve-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "draft_requires_owner_confirmation",
+              "id": "mkt-off-booth-approve-ACCEPT-1",
+              "kind": "policy_threshold",
+              "severity": "blocking",
+              "expression": "单场签约 >30 万双审批",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|COSO-ERM"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.booth-approve@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-off.json",
+            "source_tables": [
+              "dealer_agreements.csv",
+              "events.csv",
+              "materials.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "dealer_terms"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "活动投入产出比",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "OPENACTIVE",
+            "COSO-ERM"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "event-execution",
+      "name": "现场执行与物料控制",
+      "outcome": "确保物料合规、现场执行可控、线索可回收",
+      "benchmark_refs": [
+        "OPENACTIVE",
+        "NIST-PRIVACY"
+      ],
+      "items": [
+        {
+          "id": "mkt-off-material-review",
+          "name": "物料合规与品牌审查",
+          "outcome": "对外物料满足法务、品牌和隐私要求",
+          "owner_role": "品牌/法务负责人",
+          "frequency": "按物料版本",
+          "workflow": {
+            "id": "mkt-off.material-review@1.0.0",
+            "description": "物料合规审查（法务→品牌→归档）",
+            "kind": "approve",
+            "skill": "material-compliance",
+            "trigger": {
+              "type": "command",
+              "expr": "material-review"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "material-compliance"
+              },
+              {
+                "id": "n2",
+                "type": "condition",
+                "expr": "物料合规审查（法务→品牌→归档） 触发对外/生效动作"
+              },
+              {
+                "id": "n3",
+                "type": "approval",
+                "level": "L4",
+                "dual": true
+              },
+              {
+                "id": "n4",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n5",
+                "type": "audit",
+                "record": "物料合规审查（法务→品牌→归档）：审批人 + 依据数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "material-review-<ts>.json",
+              "format": "json",
+              "fields": [
+                "material",
+                "legal_check",
+                "brand_check",
+                "final_status"
+              ],
+              "acceptance": "任一未过即不得外发；外发走审批"
+            },
+            "approval": {
+              "node": "n3",
+              "level": "L3",
+              "dual": true,
+              "required_roles": [
+                "品牌",
+                "风险负责人"
+              ]
+            }
+          },
+          "stages": [
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "material",
+                "legal_check",
+                "brand_check",
+                "final_status"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 material、legal_check、brand_check、final_status 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-off-material-review-INPUT-REQUIRED",
+                "mkt-off-material-review-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "dealer_agreements.csv",
+                "events.csv",
+                "materials.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "任一未过即不得外发；外发走审批；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 dealer_terms 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-off-material-review-DOMAIN-RULE",
+                "mkt-off-material-review-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 material-compliance 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-off-material-review-LLM-SCHEMA",
+                "mkt-off-material-review-LLM-EVIDENCE",
+                "mkt-off-material-review-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：任一未过即不得外发；外发走审批；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-off-material-review-QUALITY-EVIDENCE",
+                "mkt-off-material-review-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 86400,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "从本地身份注册表选择操作者与已授权角色，不能自由填写身份。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "human_approval",
+              "name": "人工审批",
+              "inputs": [
+                "approved_analysis",
+                "data_version",
+                "artifact_hash"
+              ],
+              "outputs": [
+                "approval_records",
+                "rejection_reason_or_approval_hash"
+              ],
+              "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+              "gate": "distinct_identity_role_and_operator",
+              "on_fail": "reject_and_preserve_draft",
+              "rule_refs": [
+                "mkt-off-material-review-APPROVAL-IDENTITY",
+                "mkt-off-material-review-APPROVAL-BINDING"
+              ],
+              "benchmark_refs": [
+                "BPMN20",
+                "NIST-AI-RMF"
+              ]
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-off-material-review-DELIVERY-MANIFEST",
+                "mkt-off-material-review-DELIVERY-FORMATS",
+                "mkt-off-material-review-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“活动投入产出比”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-off-material-review-OUTCOME-LINEAGE",
+                "mkt-off-material-review-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "品牌/法务负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-off-material-review-STRATEGY-WRITEBACK",
+                "mkt-off-material-review-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(material,legal_check,brand_check,final_status)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "任一未过即不得外发；外发走审批",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "OPENACTIVE|NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-off-material-review-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-APPROVAL-IDENTITY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+              "evidence": [
+                "approval_records",
+                "operator_registry"
+              ],
+              "source": "BPMN20"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-APPROVAL-BINDING",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+              "evidence": [
+                "approval_records"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "任一未过即不得外发",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-material-review-ACCEPT-2",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "外发走审批",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|NIST-PRIVACY"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-off.json",
+            "source_tables": [
+              "dealer_agreements.csv",
+              "events.csv",
+              "materials.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "dealer_terms"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "活动投入产出比",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "OPENACTIVE",
+            "NIST-PRIVACY"
+          ]
+        },
+        {
+          "id": "mkt-off-event-roi",
+          "name": "活动 ROI 复盘",
+          "outcome": "比较预算与实际并沉淀可复制的活动经验",
+          "owner_role": "营销运营负责人",
+          "frequency": "活动结束后",
+          "workflow": {
+            "id": "mkt-off.event-roi@1.0.0",
+            "description": "活动 ROI 复盘（预算 vs 实际）",
+            "kind": "report",
+            "skill": "roi-review",
+            "trigger": {
+              "type": "command",
+              "expr": "event-roi"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "roi-review"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "活动 ROI 复盘（预算 vs 实际）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "event-roi-<ts>.json",
+              "format": "json",
+              "fields": [
+                "event",
+                "budget_wan",
+                "actual_wan",
+                "roi",
+                "lessons"
+              ],
+              "acceptance": "数字可追溯到 data/mkt-off/events.csv"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "event",
+                "budget_wan",
+                "actual_wan",
+                "roi",
+                "lessons"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 event、budget_wan、actual_wan、roi、lessons 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-off-event-roi-INPUT-REQUIRED",
+                "mkt-off-event-roi-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "dealer_agreements.csv",
+                "events.csv",
+                "materials.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "数字可追溯到 data/mkt-off/events.csv；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 dealer_terms 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-off-event-roi-DOMAIN-RULE",
+                "mkt-off-event-roi-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 roi-review 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-off-event-roi-LLM-SCHEMA",
+                "mkt-off-event-roi-LLM-EVIDENCE",
+                "mkt-off-event-roi-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：数字可追溯到 data/mkt-off/events.csv；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-off-event-roi-QUALITY-EVIDENCE",
+                "mkt-off-event-roi-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-off-event-roi-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-off-event-roi-DELIVERY-MANIFEST",
+                "mkt-off-event-roi-DELIVERY-FORMATS",
+                "mkt-off-event-roi-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“活动投入产出比”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-off-event-roi-OUTCOME-LINEAGE",
+                "mkt-off-event-roi-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "营销运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-off-event-roi-STRATEGY-WRITEBACK",
+                "mkt-off-event-roi-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(event,budget_wan,actual_wan,roi,lessons)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "数字可追溯到 data/mkt-off/events.csv",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "OPENACTIVE|NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-off-event-roi-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-event-roi-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "数字可追溯到 data/mkt-off/events.csv",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|NIST-PRIVACY"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-off.json",
+            "source_tables": [
+              "dealer_agreements.csv",
+              "events.csv",
+              "materials.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "dealer_terms"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "活动投入产出比",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "OPENACTIVE",
+            "NIST-PRIVACY"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "channel-enablement",
+      "name": "渠道与线索移交",
+      "outcome": "让经销商执行可衡量、线索可归因、隐私可控制",
+      "benchmark_refs": [
+        "OPENACTIVE",
+        "SCHEMA-ORDER"
+      ],
+      "items": [
+        {
+          "id": "mkt-off-vendor-brief",
+          "name": "经销商条款执行简报",
+          "outcome": "识别条款偏离、渠道风险和整改动作",
+          "owner_role": "渠道负责人",
+          "frequency": "月度",
+          "workflow": {
+            "id": "mkt-off.vendor-brief@1.0.0",
+            "description": "经销商简报（条款执行）",
+            "kind": "report",
+            "skill": "material-compliance",
+            "trigger": {
+              "type": "command",
+              "expr": "vendor-brief"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "material-compliance"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "经销商简报（条款执行）：数据版本 + 产物哈希"
+              }
+            ],
+            "deliverable": {
+              "file": "vendor-brief-<ts>.json",
+              "format": "json",
+              "fields": [
+                "dealer_masked",
+                "terms_exec",
+                "sellthrough",
+                "risk"
+              ],
+              "acceptance": "经销商条款 L3 脱敏"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "dealer_masked",
+                "terms_exec",
+                "sellthrough",
+                "risk"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 dealer_masked、terms_exec、sellthrough、risk 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-off-vendor-brief-INPUT-REQUIRED",
+                "mkt-off-vendor-brief-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "dealer_agreements.csv",
+                "events.csv",
+                "materials.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "经销商条款 L3 脱敏；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 dealer_terms 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-off-vendor-brief-DOMAIN-RULE",
+                "mkt-off-vendor-brief-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 material-compliance 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-off-vendor-brief-LLM-SCHEMA",
+                "mkt-off-vendor-brief-LLM-EVIDENCE",
+                "mkt-off-vendor-brief-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：经销商条款 L3 脱敏；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-off-vendor-brief-QUALITY-EVIDENCE",
+                "mkt-off-vendor-brief-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-off-vendor-brief-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-off-vendor-brief-DELIVERY-MANIFEST",
+                "mkt-off-vendor-brief-DELIVERY-FORMATS",
+                "mkt-off-vendor-brief-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“活动投入产出比”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-off-vendor-brief-OUTCOME-LINEAGE",
+                "mkt-off-vendor-brief-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "渠道负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-off-vendor-brief-STRATEGY-WRITEBACK",
+                "mkt-off-vendor-brief-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(dealer_masked,terms_exec,sellthrough,risk)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "经销商条款 L3 脱敏",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "OPENACTIVE|SCHEMA-ORDER"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-off-vendor-brief-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-vendor-brief-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "draft_requires_owner_confirmation",
+              "id": "mkt-off-vendor-brief-ACCEPT-1",
+              "kind": "policy_threshold",
+              "severity": "blocking",
+              "expression": "经销商条款 L3 脱敏",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|SCHEMA-ORDER"
+            }
+          ],
+          "cross_domain_effects": [],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.vendor-brief@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-off.json",
+            "source_tables": [
+              "dealer_agreements.csv",
+              "events.csv",
+              "materials.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "dealer_terms"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "活动投入产出比",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "OPENACTIVE",
+            "SCHEMA-ORDER"
+          ]
+        },
+        {
+          "id": "mkt-off-lead-handoff",
+          "name": "线下线索去重与移交",
+          "outcome": "在脱敏和去重后把线索转为销售机会",
+          "owner_role": "线索运营负责人",
+          "frequency": "按活动批次",
+          "workflow": {
+            "id": "mkt-off.lead-handoff@1.0.0",
+            "description": "线下线索移交销售（去重+脱敏）",
+            "kind": "calc",
+            "skill": "roi-review",
+            "trigger": {
+              "type": "command",
+              "expr": "lead-handoff"
+            },
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "skill",
+                "ref": "roi-review"
+              },
+              {
+                "id": "n2",
+                "type": "tool",
+                "ref": "cap.excel.panel.write"
+              },
+              {
+                "id": "n3",
+                "type": "audit",
+                "record": "线下线索移交销售（去重+脱敏）：输入参数 + 结果快照"
+              }
+            ],
+            "deliverable": {
+              "file": "lead-handoff-<ts>.json",
+              "format": "json",
+              "fields": [
+                "event",
+                "leads",
+                "dedup_pct",
+                "owner"
+              ],
+              "acceptance": "移交前必须过 redact_gate"
+            },
+            "approval": null
+          },
+          "stages": [
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/intake/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/intake/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "intake",
+              "type": "data_intake",
+              "name": "业务输入与资料接收",
+              "inputs": [
+                "event",
+                "leads",
+                "dedup_pct",
+                "owner"
+              ],
+              "outputs": [
+                "validated_input_payload",
+                "source_refs",
+                "file_hashes"
+              ],
+              "standard": "必填字段 event、leads、dedup_pct、owner 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+              "gate": "required_fields_and_upload_safety",
+              "on_fail": "retain_draft_and_request_user_input",
+              "rule_refs": [
+                "mkt-off-lead-handoff-INPUT-REQUIRED",
+                "mkt-off-lead-handoff-SOURCE-TRACEABLE"
+              ]
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/validate/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/validate/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "validate",
+              "type": "rule_gate",
+              "name": "结构与业务规则校验",
+              "inputs": [
+                "validated_input_payload",
+                "dealer_agreements.csv",
+                "events.csv",
+                "materials.csv"
+              ],
+              "outputs": [
+                "validation_report",
+                "normalized_payload"
+              ],
+              "standard": "移交前必须过 redact_gate；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 dealer_terms 只能以掩码或区间形式进入后续阶段。",
+              "gate": "typedict_and_domain_rules",
+              "on_fail": "field_level_error_without_write",
+              "rule_refs": [
+                "mkt-off-lead-handoff-DOMAIN-RULE",
+                "mkt-off-lead-handoff-TYPEDICT"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/llm/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/llm/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 240000,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "manual_after_credentials_restore"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "模型失败会保留草稿并进入 blocked_model；恢复凭据后可从断点继续。",
+              "failure_severity": "blocking",
+              "id": "llm",
+              "type": "llm_task",
+              "name": "LLM 结构化分析与生成",
+              "inputs": [
+                "normalized_payload",
+                "skill_and_policy_version"
+              ],
+              "outputs": [
+                "summary",
+                "findings",
+                "recommendations",
+                "confidence",
+                "evidence_refs"
+              ],
+              "standard": "使用技能 roi-review 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+              "gate": "schema_citation_pii_model_availability",
+              "on_fail": "blocked_model_or_quality_retry",
+              "rule_refs": [
+                "mkt-off-lead-handoff-LLM-SCHEMA",
+                "mkt-off-lead-handoff-LLM-EVIDENCE",
+                "mkt-off-lead-handoff-LLM-PII"
+              ],
+              "benchmark_refs": []
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/quality/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/quality/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "quality",
+              "type": "quality_gate",
+              "name": "质量、证据与一致性复核",
+              "inputs": [
+                "llm_result",
+                "source_refs",
+                "business_metric_definitions"
+              ],
+              "outputs": [
+                "quality_score",
+                "approved_analysis",
+                "redaction_log"
+              ],
+              "standard": "业务验收：移交前必须过 redact_gate；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+              "gate": "Great-Expectations-style_assertions",
+              "on_fail": "retry_then_manual_review",
+              "rule_refs": [
+                "mkt-off-lead-handoff-QUALITY-EVIDENCE",
+                "mkt-off-lead-handoff-QUALITY-CONSISTENCY"
+              ],
+              "benchmark_refs": [
+                "GREATEXPECTATIONS",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/approval/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/approval/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "本流程不生成正式审批件；但外部发送、生效或高风险动作仍会被门禁阻断。",
+              "failure_severity": "blocking",
+              "id": "approval",
+              "type": "no_human_approval",
+              "name": "免人工审批声明",
+              "inputs": [
+                "approved_analysis",
+                "quality_score"
+              ],
+              "outputs": [
+                "approval_policy_evaluation"
+              ],
+              "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+              "gate": "no_external_or_irreversible_action",
+              "on_fail": "escalate_to_human",
+              "rule_refs": [
+                "mkt-off-lead-handoff-NO-APPROVAL-POLICY"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM"
+              ]
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/publish/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/publish/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 600,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "rollback_first"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "publish",
+              "type": "writeback_and_delivery",
+              "name": "业务落盘与交付物生成",
+              "inputs": [
+                "approved_analysis",
+                "approval_records",
+                "source_data_version"
+              ],
+              "outputs": [
+                "instance_result_json",
+                "report_markdown",
+                "7_format_package",
+                "artifact_manifest"
+              ],
+              "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+              "gate": "backup_atomic_write_and_format_validation",
+              "on_fail": "rollback_to_pre_write_snapshot",
+              "rule_refs": [
+                "mkt-off-lead-handoff-DELIVERY-MANIFEST",
+                "mkt-off-lead-handoff-DELIVERY-FORMATS",
+                "mkt-off-lead-handoff-DELIVERY-HASH"
+              ],
+              "benchmark_refs": [
+                "TABLESCHEMA1",
+                "OPENLINEAGE153"
+              ]
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/outcome/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/outcome/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "outcome",
+              "type": "outcome_evaluation",
+              "name": "成效与质量评估",
+              "inputs": [
+                "artifact_manifest",
+                "business_outcome_data"
+              ],
+              "outputs": [
+                "metric_snapshot",
+                "quality_evaluation",
+                "next_actions"
+              ],
+              "standard": "回写域北极星“活动投入产出比”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+              "gate": "metric_lineage_and_data_freshness",
+              "on_fail": "mark_outcome_pending",
+              "rule_refs": [
+                "mkt-off-lead-handoff-OUTCOME-LINEAGE",
+                "mkt-off-lead-handoff-OUTCOME-FRESHNESS"
+              ],
+              "benchmark_refs": [
+                "XBRL",
+                "ISO-30414"
+              ]
+            },
+            {
+              "owner_role": "线索运营负责人",
+              "entry_criteria": "上游阶段通过且实例 revision、策略版本和数据版本可读取",
+              "input_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/strategy_rollup/input",
+              "output_contract_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/stage_contracts/strategy_rollup/output",
+              "evidence": [
+                "source_refs",
+                "file_hashes",
+                "data_version"
+              ],
+              "timeout_seconds": 300,
+              "retry_policy": {
+                "max_attempts": 1,
+                "backoff": "none"
+              },
+              "idempotency_key": "${instance_id}:${stage_id}:${revision}",
+              "ui_help": "按字段说明填写；来源必须引用具体表、文件或上游实例。",
+              "failure_severity": "blocking",
+              "id": "strategy_rollup",
+              "type": "strategy_writeback",
+              "name": "战略回写与下一周期行动",
+              "inputs": [
+                "metric_snapshot",
+                "strategy_model",
+                "instance_evidence"
+              ],
+              "outputs": [
+                "strategy_contribution",
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+              "gate": "strategy_versioned_contribution",
+              "on_fail": "mark_strategy_pending",
+              "rule_refs": [
+                "mkt-off-lead-handoff-STRATEGY-WRITEBACK",
+                "mkt-off-lead-handoff-STRATEGY-VARIANCE"
+              ],
+              "benchmark_refs": [
+                "COSO-ERM",
+                "XBRL"
+              ]
+            }
+          ],
+          "business_rules": [
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-INPUT-REQUIRED",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "all_required(event,leads,dedup_pct,owner)",
+              "evidence": [
+                "validated_input_payload",
+                "source_refs"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-SOURCE-TRACEABLE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "source_refs.length >= 1 && file_hashes.valid",
+              "evidence": [
+                "source_refs",
+                "file_hashes"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-TYPEDICT",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "types_enums_ranges_units_keys_valid",
+              "evidence": [
+                "validation_report",
+                "typedict_ref"
+              ],
+              "source": "TABLESCHEMA1"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-DOMAIN-RULE",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "移交前必须过 redact_gate",
+              "evidence": [
+                "validation_report",
+                "source_refs"
+              ],
+              "source": "OPENACTIVE|SCHEMA-ORDER"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-LLM-SCHEMA",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "model_output.matches(workflow_output_schema)",
+              "evidence": [
+                "model",
+                "prompt_version",
+                "output_schema"
+              ],
+              "source": "JSONSCHEMA202012"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-LLM-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+              "evidence": [
+                "evidence_refs",
+                "confidence"
+              ],
+              "source": "NIST-AI-RMF"
+            },
+            {
+              "status": "invariant",
+              "id": "mkt-off-lead-handoff-LLM-PII",
+              "kind": "policy",
+              "severity": "blocking",
+              "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+              "evidence": [
+                "redaction_log"
+              ],
+              "source": "NIST-PRIVACY"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-QUALITY-EVIDENCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "evidence_refs.every(resolvable)",
+              "evidence": [
+                "quality_score",
+                "source_refs"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-NO-APPROVAL-POLICY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+              "evidence": [
+                "approval_policy_evaluation"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-QUALITY-CONSISTENCY",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "amounts_quantities_rates_funnel_reconcile",
+              "evidence": [
+                "quality_score",
+                "business_metric_definitions"
+              ],
+              "source": "GREATEXPECTATIONS"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-DELIVERY-MANIFEST",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "OPENLINEAGE153"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-DELIVERY-FORMATS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+              "evidence": [
+                "delivery_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-DELIVERY-HASH",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "sha256_before == sha256_after",
+              "evidence": [
+                "artifact_manifest"
+              ],
+              "source": "workflow_contract"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-OUTCOME-LINEAGE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+              "evidence": [
+                "metric_snapshot",
+                "artifact_manifest"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-OUTCOME-FRESHNESS",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+              "evidence": [
+                "business_outcome_data",
+                "quality_evaluation"
+              ],
+              "source": "ISO-30414"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-STRATEGY-WRITEBACK",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "contribution_references_metric_snapshot_and_data_version",
+              "evidence": [
+                "strategy_contribution",
+                "metric_snapshot"
+              ],
+              "source": "COSO-ERM"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-STRATEGY-VARIANCE",
+              "kind": "invariant",
+              "severity": "blocking",
+              "expression": "variance_reason && next_period_actions.length >= 1",
+              "evidence": [
+                "variance_reason",
+                "next_period_actions"
+              ],
+              "source": "XBRL"
+            },
+            {
+              "status": "active",
+              "id": "mkt-off-lead-handoff-ACCEPT-1",
+              "kind": "domain_rule",
+              "severity": "blocking",
+              "expression": "移交前必须过 redact_gate",
+              "evidence": [
+                "validation_report",
+                "quality_score",
+                "artifact_manifest"
+              ],
+              "source": "OPENACTIVE|SCHEMA-ORDER"
+            }
+          ],
+          "cross_domain_effects": [
+            {
+              "event_id": "sales.pipeline.lead",
+              "target_domain": "sales",
+              "trigger_stage": "strategy_rollup",
+              "payload_key": "leadKey",
+              "anonymous_key": "customer_key",
+              "delivery": "append_only_event",
+              "idempotency_key": "sales.pipeline.lead:0:${instance_id}",
+              "on_fail": "retain_outbox_and_retry"
+            }
+          ],
+          "data_contract": {
+            "input_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/input",
+            "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.lead-handoff@1.0.0/output",
+            "typedict_ref": "manifests/typedict/mkt-off.json",
+            "source_tables": [
+              "dealer_agreements.csv",
+              "events.csv",
+              "materials.csv"
+            ],
+            "source_refs_required": true
+          },
+          "controls": {
+            "min_level": "L3",
+            "redact_fields": [
+              "dealer_terms"
+            ],
+            "memory": {
+              "pii_allowed": false,
+              "exclude": []
+            },
+            "backup": "pre_write_snapshot",
+            "audit": "append_only_jsonl"
+          },
+          "metrics": [
+            "活动投入产出比",
+            "KR-PIPE",
+            "KR-REV"
+          ],
+          "benchmark_refs": [
+            "OPENACTIVE",
+            "SCHEMA-ORDER"
+          ]
+        }
+      ]
+    }
+  ],
+  "benchmark_refs": [
+    "BPMN20",
+    "JSONSCHEMA202012",
+    "OPENAPI321",
+    "TABLESCHEMA1",
+    "OPENLINEAGE153",
+    "GREATEXPECTATIONS",
+    "NIST-PRIVACY",
+    "NIST-AI-RMF",
+    "OPENACTIVE",
+    "COSO-ERM",
+    "SCHEMA-ORDER"
+  ]
+}

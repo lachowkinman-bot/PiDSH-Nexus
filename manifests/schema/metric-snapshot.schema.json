@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pids-nexus:schema:metric-snapshot:v1",
+  "title": "PiDSH Nexus MetricSnapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ts", "instance_id", "workflow_id", "domain", "metric", "actual", "unit", "contributes_to", "data_version"],
+  "properties": {
+    "ts": { "type": "string", "format": "date-time" },
+    "instance_id": { "type": "string", "minLength": 1 },
+    "workflow_id": { "type": "string", "minLength": 1 },
+    "domain": { "type": "string", "minLength": 1 },
+    "metric": { "type": "string", "minLength": 1 },
+    "actual": { "type": ["number", "null"] },
+    "unit": { "type": "string" },
+    "contributes_to": { "type": "array", "items": { "type": "string" } },
+    "data_version": { "type": "string", "minLength": 8 },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } }
+  }
+}

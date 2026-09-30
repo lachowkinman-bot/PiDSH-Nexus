@@ -462,6 +462,9 @@ export function makeRoutes() {
     }),
     exact('/workbench/api/workflows', (req, res) => json(res, 200, workflowsIndex())),
     exact('/workbench/api/workflow-definitions', async (req, res) => json(res, 200, (await platformService()).definitions())),
+    exact('/workbench/api/domain-work-design', async (req, res) => json(res, 200, (await platformService()).workDesign(query(req, 'domain') || null))),
+    exact('/workbench/api/operators', async (req, res) => json(res, 200, (await platformService()).operators())),
+    exact('/workbench/api/operators/upsert', async (req, res) => json(res, 200, (await platformService()).upsertOperator(await readBody(req)))),
     exact('/workbench/api/workflow-run', async (req, res) => {
       const b = await readBody(req);
       json(res, 200, runWorkflow(b.id || '', b.payload || {}));

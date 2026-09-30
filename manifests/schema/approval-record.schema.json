@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pids-nexus:schema:approval-record:v2",
+  "title": "PiDSH Nexus ApprovalRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["workflow_id", "instance_id", "revision", "data_version", "artifact_hash", "operator_id", "operator_name", "role", "decision", "comment", "at", "key_id", "signature"],
+  "properties": {
+    "workflow_id": { "type": "string", "minLength": 1 },
+    "instance_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 1 },
+    "data_version": { "type": "string", "minLength": 8 },
+    "artifact_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "operator_id": { "type": "string", "minLength": 1 },
+    "operator_name": { "type": "string", "minLength": 1 },
+    "role": { "type": "string", "minLength": 1 },
+    "decision": { "enum": ["approved", "rejected"] },
+    "comment": { "type": "string" },
+    "at": { "type": "string", "format": "date-time" },
+    "key_id": { "type": "string", "minLength": 8 },
+    "signature": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

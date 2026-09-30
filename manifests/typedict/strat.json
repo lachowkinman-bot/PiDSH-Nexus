@@ -1,0 +1,1867 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "strat",
+  "label": "战略 STRAT",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "okr.csv:baseline_value",
+      "entity": "okr.csv",
+      "field": "baseline_value",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 14800
+        }
+      ],
+      "example": "180",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "基线值（2025Q4 同口径），与 `target_value`、`metric_unit` 构成\"必可量化\"三要素；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:baseline_value"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:confidence",
+      "entity": "okr.csv",
+      "field": "confidence",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "中",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "owner 对达成判断的置信度：高 / 中 / 低（`低` + `at_risk`/`behind` 者为复盘必查清单）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:confidence"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:dept",
+      "entity": "okr.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华南区销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属部门（词表：华南区销售部 / 客户成功部 / 产品与商业化部 / 交付与实施部 / 人力资源部 / 市场部），与 `weekly.dept` 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:dept_code",
+      "entity": "okr.csv",
+      "field": "dept_code",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SL-SC",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "部门码 SL-SC / CS / PD / DL / HR / MK（与 `weekly.dept_code` 一致，用于跨表连接）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:dept_code"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:due_week",
+      "entity": "okr.csv",
+      "field": "due_week",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "W52",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "KR 检查点 ISO 周（W50 双周检查点 / W52 季末），必须 ≥ `weekly.week` 最大值（V-STRAT-07）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:due_week"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:kr",
+      "entity": "okr.csv",
+      "field": "kr",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "KR1 新客数 +30%",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "KR 标题，**必须为\"指标 + 目标值\"形态**（如 `KR1 新客数 +30%`、`KR4 交付周期 ≤30 天`），是可量化校验（V-STRAT-01）的第一道防线；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:kr"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:kr_id",
+      "entity": "okr.csv",
+      "field": "kr_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SC-KR1",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "KR 唯一主键，前缀即 Objective 码：`SC-` 华南区营收增长 / `B-` 组织效能提升 / `PV-` 产品竞争力提升 / `RC-` 竞争应对与经营韧性；`weekly.kr_ref` 外键指向本列；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:kr_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:metric_unit",
+      "entity": "okr.csv",
+      "field": "metric_unit",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "家",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "度量单位：家 / % / 万元 / 万元/人 / 天 / 分 / 个 / 倍 / 项；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:metric_unit"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:objective",
+      "entity": "okr.csv",
+      "field": "objective",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华南区营收增长",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "目标（Objective）名称，同一目标下多条 KR 共用（本快照 4 个：华南区营收增长 / 组织效能提升 / 产品竞争力提升 / 竞争应对与经营韧性）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:objective"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:owner",
+      "entity": "okr.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售VP",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "KR 责任人/责任部门（保留原始口径：销售VP / 客户成功部 / 产品商业化 / HRBP / 各BU负责人；新增行用角色口径 产品VP / 交付负责人 / 市场部负责人）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:progress_pct",
+      "entity": "okr.csv",
+      "field": "progress_pct",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 12
+        },
+        {
+          "kind": "maximum",
+          "value": 100
+        }
+      ],
+      "example": "42",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "季度里程碑加权完成度（0–100 整数），由 KR owner 按月度节奏填报；**非**累计值/目标值的机械比，禁由 weekly 倒算（V-STRAT-06）；状态判定依据见 §4.1；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:progress_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:quarter",
+      "entity": "okr.csv",
+      "field": "quarter",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "Q4",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "目标周期 Q1–Q4（本快照全为 `Q4`，对应 2026Q4，与复盘 `period` 一致，V-STRAT-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:quarter"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:status",
+      "entity": "okr.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "at_risk",
+        "on_track",
+        "behind",
+        "done"
+      ],
+      "constraints": [],
+      "example": "at_risk",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "KR 状态机取值 **on_track / at_risk / behind / done**（阈值与迁移见 §4.1；`done` 必须 `progress_pct=100`）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:target_value",
+      "entity": "okr.csv",
+      "field": "target_value",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 1
+        },
+        {
+          "kind": "maximum",
+          "value": 18056
+        }
+      ],
+      "example": "234",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "季度目标值（与 `kr` 标题中的目标值同口径：如 SC-KR1 baseline 180 家 → target 234 家 = +30%）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:target_value"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "okr.csv:updated_at",
+      "entity": "okr.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-18",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "数据版本时间戳 `YYYY-MM-DD`（本快照 2026-10-18）；审计\"依据数据版本\"取该值；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/okr.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:dept",
+      "entity": "weekly.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华南区销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属部门（词表：华南区销售部 / 客户成功部 / 产品与商业化部 / 交付与实施部 / 人力资源部 / 市场部），与 `weekly.dept` 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:dept_code",
+      "entity": "weekly.csv",
+      "field": "dept_code",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SL-SC",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "部门码 SL-SC / CS / PD / DL / HR / MK（与 `weekly.dept_code` 一致，用于跨表连接）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:dept_code"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:kr_ref",
+      "entity": "weekly.csv",
+      "field": "kr_ref",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SC-KR4;RC-KR1",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "→ `okr.kr_id` 外键，**分号分隔多值**（如 `SC-KR4;SC-KR5;RC-KR3`）：该周异动/风险归因命中的 KR；`status ∈ {at_risk, behind}` 的 KR 必须至少被 1 条**风险行**（`risk_note ≠ -`）命中（V-STRAT-03）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:kr_ref"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:new_customers",
+      "entity": "weekly.csv",
+      "field": "new_customers",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 29
+        },
+        {
+          "kind": "maximum",
+          "value": 52
+        }
+      ],
+      "example": "31",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周新增客户数（家）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:new_customers"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:orders",
+      "entity": "weekly.csv",
+      "field": "orders",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 264
+        },
+        {
+          "kind": "maximum",
+          "value": 356
+        }
+      ],
+      "example": "268",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周订单数（单）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:orders"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:period",
+      "entity": "weekly.csv",
+      "field": "period",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026Q3",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属季度 2026Q3 / 2026Q4，必须与 `week_start` 的 ISO 季度一致；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:period"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:revenue_target_wan",
+      "entity": "weekly.csv",
+      "field": "revenue_target_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 1200
+        },
+        {
+          "kind": "maximum",
+          "value": 1500
+        }
+      ],
+      "example": "1200",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周营收目标（**万元**）：Q3 周 1200 / Q4 周 1500；用于逐周达成率与异动归因，**不得改写为事后目标**；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:revenue_target_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:revenue_wan",
+      "entity": "weekly.csv",
+      "field": "revenue_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 1086
+        },
+        {
+          "kind": "maximum",
+          "value": 1478
+        }
+      ],
+      "example": "1102",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周确认营收（**万元**，整数，华南区口径）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:revenue_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:risk_level",
+      "entity": "weekly.csv",
+      "field": "risk_level",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "中",
+        "无",
+        "高",
+        "低"
+      ],
+      "constraints": [],
+      "example": "中",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "风险等级：无 / 低 / 中 / 高（无风险行 = `无`）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:risk_level"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:risk_note",
+      "entity": "weekly.csv",
+      "field": "risk_note",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "竞品在华南降价 5% 抢单（市场部跟踪）",
+        "-",
+        "深圳大客户验收延期（交付部跟进）",
+        "新品上市延期 2 周（产品部）",
+        "台风致物流中断 2 天（供应链跟进）",
+        "交付人力缺口 2 人（HRBP 跟进）",
+        "回款周期拉长至 68 天（财务协同）",
+        "标杆客户案例授权延迟（法务协同）",
+        "华南经销商回款延迟（行政跟进）",
+        "投放ROI 周环比 -7%（市场部复盘）"
+      ],
+      "constraints": [],
+      "example": "竞品在华南降价 5% 抢单（市场部跟踪）",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "风险摘要，**必附责任方**（如 `投放ROI 周环比 -7%（市场部复盘）`）；无风险写 `-`；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:risk_note"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:risk_owner",
+      "entity": "weekly.csv",
+      "field": "risk_owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "市场部",
+        "-",
+        "交付与实施部",
+        "产品与商业化部",
+        "供应链",
+        "人力资源部",
+        "财务部",
+        "法务与合规",
+        "行政部"
+      ],
+      "constraints": [],
+      "example": "市场部",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "风险跟进责任方（部门/角色：市场部 / 交付与实施部 / 产品与商业化部 / 供应链 / 人力资源部 / 财务部 / 法务与合规 / 行政部），无风险写 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:risk_owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:updated_at",
+      "entity": "weekly.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-18",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "数据版本时间戳 `YYYY-MM-DD`（本快照 2026-10-18）；审计\"依据数据版本\"取该值；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:week",
+      "entity": "weekly.csv",
+      "field": "week",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "W31",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周号 `W31`–`W42`（华南区销售口径，滚动 12 周：Q3 尾 9 周 + Q4 头 3 周）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:week"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:week_end",
+      "entity": "weekly.csv",
+      "field": "week_end",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-08-02",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周结束日（周日）；`week_end − week_start = 6 天`（V-STRAT-05）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:week_end"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "weekly.csv:week_start",
+      "entity": "weekly.csv",
+      "field": "week_start",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-07-27",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周起始日（周一）`YYYY-MM-DD`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:strat/weekly.csv",
+          "field:week_start"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:strat.competitor-brief@1.0.0:competitor",
+      "entity": "workflow_output/strat.competitor-brief",
+      "field": "competitor",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.competitor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.competitor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.competitor-brief@1.0.0:impact",
+      "entity": "workflow_output/strat.competitor-brief",
+      "field": "impact",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.competitor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.competitor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.competitor-brief@1.0.0:move_type",
+      "entity": "workflow_output/strat.competitor-brief",
+      "field": "move_type",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.competitor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.competitor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.competitor-brief@1.0.0:our_response",
+      "entity": "workflow_output/strat.competitor-brief",
+      "field": "our_response",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.competitor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.competitor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.okr-set@1.0.0:kr_list",
+      "entity": "workflow_output/strat.okr-set",
+      "field": "kr_list",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.okr-set@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.okr-set@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.okr-set@1.0.0:objective",
+      "entity": "workflow_output/strat.okr-set",
+      "field": "objective",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "目标（Objective）名称，同一目标下多条 KR 共用（本快照 4 个：华南区营收增长 / 组织效能提升 / 产品竞争力提升 / 竞争应对与经营韧性）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.okr-set@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.okr-set@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.okr-set@1.0.0:owner",
+      "entity": "workflow_output/strat.okr-set",
+      "field": "owner",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "KR 责任人/责任部门（保留原始口径：销售VP / 客户成功部 / 产品商业化 / HRBP / 各BU负责人；新增行用角色口径 产品VP / 交付负责人 / 市场部负责人）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.okr-set@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.okr-set@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.okr-set@1.0.0:quarter",
+      "entity": "workflow_output/strat.okr-set",
+      "field": "quarter",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/okr.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "目标周期 Q1–Q4（本快照全为 `Q4`，对应 2026Q4，与复盘 `period` 一致，V-STRAT-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.okr-set@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.okr-set@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.org-inventory@1.0.0:incumbent_masked",
+      "entity": "workflow_output/strat.org-inventory",
+      "field": "incumbent_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.org-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.org-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.org-inventory@1.0.0:position",
+      "entity": "workflow_output/strat.org-inventory",
+      "field": "position",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.org-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.org-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.org-inventory@1.0.0:risk_level",
+      "entity": "workflow_output/strat.org-inventory",
+      "field": "risk_level",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "风险等级：无 / 低 / 中 / 高（无风险行 = `无`）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.org-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.org-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.org-inventory@1.0.0:successor_masked",
+      "entity": "workflow_output/strat.org-inventory",
+      "field": "successor_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.org-inventory@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.org-inventory@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarter-close@1.0.0:approvals",
+      "entity": "workflow_output/strat.quarter-close",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarter-close@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarter-close@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarter-close@1.0.0:comp_package_flag",
+      "entity": "workflow_output/strat.quarter-close",
+      "field": "comp_package_flag",
+      "physical_type": "json",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "boolean",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarter-close@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarter-close@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarter-close@1.0.0:highlights",
+      "entity": "workflow_output/strat.quarter-close",
+      "field": "highlights",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarter-close@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarter-close@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarter-close@1.0.0:period",
+      "entity": "workflow_output/strat.quarter-close",
+      "field": "period",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属季度 2026Q3 / 2026Q4，必须与 `week_start` 的 ISO 季度一致；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarter-close@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarter-close@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarterly-review@1.0.0:comp_review_flag",
+      "entity": "workflow_output/strat.quarterly-review",
+      "field": "comp_review_flag",
+      "physical_type": "json",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarterly-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarterly-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarterly-review@1.0.0:decision",
+      "entity": "workflow_output/strat.quarterly-review",
+      "field": "decision",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarterly-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarterly-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarterly-review@1.0.0:okr_reached",
+      "entity": "workflow_output/strat.quarterly-review",
+      "field": "okr_reached",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "boolean",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarterly-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarterly-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.quarterly-review@1.0.0:period",
+      "entity": "workflow_output/strat.quarterly-review",
+      "field": "period",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属季度 2026Q3 / 2026Q4，必须与 `week_start` 的 ISO 季度一致；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.quarterly-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.quarterly-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.weekly-report@1.0.0:next_actions",
+      "entity": "workflow_output/strat.weekly-report",
+      "field": "next_actions",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.weekly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.weekly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.weekly-report@1.0.0:orders",
+      "entity": "workflow_output/strat.weekly-report",
+      "field": "orders",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周订单数（单）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.weekly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.weekly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.weekly-report@1.0.0:revenue_wan",
+      "entity": "workflow_output/strat.weekly-report",
+      "field": "revenue_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当周确认营收（**万元**，整数，华南区口径）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.weekly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.weekly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.weekly-report@1.0.0:risks",
+      "entity": "workflow_output/strat.weekly-report",
+      "field": "risks",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.weekly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.weekly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:strat.weekly-report@1.0.0:week",
+      "entity": "workflow_output/strat.weekly-report",
+      "field": "week",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "strat/weekly.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "ISO 周号 `W31`–`W42`（华南区销售口径，滚动 12 周：Q3 尾 9 周 + Q4 头 3 周）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:strat.weekly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV",
+          "KR-PIPE",
+          "KR-TALENT",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "strat.weekly-report@1.0.0"
+      ]
+    }
+  ]
+}

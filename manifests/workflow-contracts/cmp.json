@@ -1,0 +1,5313 @@
+{
+  "schema": "pids-nexus/workflow-contracts/v1",
+  "domain": "cmp",
+  "source_standards": [
+    "JSONSCHEMA202012",
+    "TABLESCHEMA1",
+    "BPMN20",
+    "OPENLINEAGE153"
+  ],
+  "contracts": {
+    "cmp.policy-review@1.0.0": {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "module_id": "policy-control",
+      "work_item_id": "cmp-policy-review",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "policy",
+          "items",
+          "pass_rate",
+          "gaps"
+        ],
+        "properties": {
+          "policy": {
+            "type": "string",
+            "description": "制度/政策名称（如\"劳动用工制度\"\"个人信息保护\"\"数据管理制度\"）；原始列"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "items"
+          },
+          "pass_rate": {
+            "type": "number",
+            "description": "pass_rate"
+          },
+          "gaps": {
+            "type": "string",
+            "description": "gaps"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "policy",
+              "items",
+              "pass_rate",
+              "gaps"
+            ],
+            "properties": {
+              "policy": {
+                "type": "string",
+                "description": "制度/政策名称（如\"劳动用工制度\"\"个人信息保护\"\"数据管理制度\"）；原始列"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "items"
+              },
+              "pass_rate": {
+                "type": "number",
+                "description": "pass_rate"
+              },
+              "gaps": {
+                "type": "string",
+                "description": "gaps"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "Requirement→Release 链完整",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "cmp-policy-review-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(policy,items,pass_rate,gaps)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "Requirement→Release 链完整",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "NIST-PRIVACY|COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "cmp-policy-review-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-policy-review-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "Requirement→Release 链完整",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "NIST-PRIVACY|COSO-ERM"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "policy",
+              "items",
+              "pass_rate",
+              "gaps",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "policy": {
+                "type": "string",
+                "description": "制度/政策名称（如\"劳动用工制度\"\"个人信息保护\"\"数据管理制度\"）；原始列"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "items"
+              },
+              "pass_rate": {
+                "type": "number",
+                "description": "pass_rate"
+              },
+              "gaps": {
+                "type": "string",
+                "description": "gaps"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.policy-review@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 policy、items、pass_rate、gaps 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "Requirement→Release 链完整；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 audit_working_papers 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 policy-checklist 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：Requirement→Release 链完整；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“合规率、风险闭环与审计发现”并链接 KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "cmp.training-check@1.0.0": {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "module_id": "policy-control",
+      "work_item_id": "cmp-training-check",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dept",
+          "required",
+          "completed",
+          "rate"
+        ],
+        "properties": {
+          "dept": {
+            "type": "string",
+            "description": "dept"
+          },
+          "required": {
+            "type": "string",
+            "description": "required"
+          },
+          "completed": {
+            "type": "string",
+            "description": "completed"
+          },
+          "rate": {
+            "type": "number",
+            "description": "rate"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dept",
+              "required",
+              "completed",
+              "rate"
+            ],
+            "properties": {
+              "dept": {
+                "type": "string",
+                "description": "dept"
+              },
+              "required": {
+                "type": "string",
+                "description": "required"
+              },
+              "completed": {
+                "type": "string",
+                "description": "completed"
+              },
+              "rate": {
+                "type": "number",
+                "description": "rate"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "必修未完成 >5% 上报管理层",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "cmp-training-check-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(dept,required,completed,rate)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "必修未完成 >5% 上报管理层",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "NIST-PRIVACY|COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "cmp-training-check-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-training-check-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "draft_requires_owner_confirmation",
+          "id": "cmp-training-check-ACCEPT-1",
+          "kind": "policy_threshold",
+          "severity": "blocking",
+          "expression": "必修未完成 >5% 上报管理层",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "NIST-PRIVACY|COSO-ERM"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "dept",
+              "required",
+              "completed",
+              "rate",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "dept": {
+                "type": "string",
+                "description": "dept"
+              },
+              "required": {
+                "type": "string",
+                "description": "required"
+              },
+              "completed": {
+                "type": "string",
+                "description": "completed"
+              },
+              "rate": {
+                "type": "number",
+                "description": "rate"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.training-check@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 dept、required、completed、rate 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "必修未完成 >5% 上报管理层；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 audit_working_papers 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 pipia-list 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：必修未完成 >5% 上报管理层；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“合规率、风险闭环与审计发现”并链接 KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "cmp.pipia-review@1.0.0": {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "module_id": "privacy-ai",
+      "work_item_id": "cmp-pipia-review",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "process",
+          "risk_level",
+          "residual",
+          "approvals"
+        ],
+        "properties": {
+          "process": {
+            "type": "string",
+            "description": "个人信息处理活动名称（如\"员工考勤人脸识别\"）；原始列"
+          },
+          "risk_level": {
+            "type": "string",
+            "description": "**初始**风险等级：高 / 中 / 低（未施缓释前的固有风险）；原始列"
+          },
+          "residual": {
+            "type": "string",
+            "description": "residual"
+          },
+          "approvals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "approvals"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "process",
+              "risk_level",
+              "residual",
+              "approvals"
+            ],
+            "properties": {
+              "process": {
+                "type": "string",
+                "description": "个人信息处理活动名称（如\"员工考勤人脸识别\"）；原始列"
+              },
+              "risk_level": {
+                "type": "string",
+                "description": "**初始**风险等级：高 / 中 / 低（未施缓释前的固有风险）；原始列"
+              },
+              "residual": {
+                "type": "string",
+                "description": "residual"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "approvals"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "高风险 residual 未降级不得上线",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(process,risk_level,residual,approvals)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "高风险 residual 未降级不得上线",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "NIST-PRIVACY|NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "cmp-pipia-review-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-APPROVAL-IDENTITY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+          "evidence": [
+            "approval_records",
+            "operator_registry"
+          ],
+          "source": "BPMN20"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-APPROVAL-BINDING",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+          "evidence": [
+            "approval_records"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-pipia-review-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "高风险 residual 未降级不得上线",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "NIST-PRIVACY|NIST-AI-RMF"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "process",
+              "risk_level",
+              "residual",
+              "approvals",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "process": {
+                "type": "string",
+                "description": "个人信息处理活动名称（如\"员工考勤人脸识别\"）；原始列"
+              },
+              "risk_level": {
+                "type": "string",
+                "description": "**初始**风险等级：高 / 中 / 低（未施缓释前的固有风险）；原始列"
+              },
+              "residual": {
+                "type": "string",
+                "description": "residual"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "approvals"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:approval:input",
+            "title": "人工审批 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:approval:output",
+            "title": "人工审批 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_records",
+              "rejection_reason_or_approval_hash"
+            ],
+            "properties": {
+              "approval_records": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rejection_reason_or_approval_hash": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.pipia-review@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 process、risk_level、residual、approvals 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "高风险 residual 未降级不得上线；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 audit_working_papers 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 pipia-list 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：高风险 residual 未降级不得上线；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "human_approval",
+          "standard": "审批等级 L4；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+          "gate": "distinct_identity_role_and_operator"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“合规率、风险闭环与审计发现”并链接 KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "cmp.evidence-pack@1.0.0": {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "module_id": "privacy-ai",
+      "work_item_id": "cmp-evidence-pack",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "case",
+          "evidence_items",
+          "hashes",
+          "packaged_at"
+        ],
+        "properties": {
+          "case": {
+            "type": "string",
+            "description": "case"
+          },
+          "evidence_items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "evidence_items"
+          },
+          "hashes": {
+            "type": "string",
+            "description": "hashes"
+          },
+          "packaged_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "packaged_at"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case",
+              "evidence_items",
+              "hashes",
+              "packaged_at"
+            ],
+            "properties": {
+              "case": {
+                "type": "string",
+                "description": "case"
+              },
+              "evidence_items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "evidence_items"
+              },
+              "hashes": {
+                "type": "string",
+                "description": "hashes"
+              },
+              "packaged_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "packaged_at"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "打包后不可增删（append-only）",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(case,evidence_items,hashes,packaged_at)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "打包后不可增删（append-only）",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "NIST-PRIVACY|NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "cmp-evidence-pack-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-APPROVAL-IDENTITY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+          "evidence": [
+            "approval_records",
+            "operator_registry"
+          ],
+          "source": "BPMN20"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-APPROVAL-BINDING",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+          "evidence": [
+            "approval_records"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-evidence-pack-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "打包后不可增删（append-only）",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "NIST-PRIVACY|NIST-AI-RMF"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case",
+              "evidence_items",
+              "hashes",
+              "packaged_at",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "case": {
+                "type": "string",
+                "description": "case"
+              },
+              "evidence_items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "evidence_items"
+              },
+              "hashes": {
+                "type": "string",
+                "description": "hashes"
+              },
+              "packaged_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "packaged_at"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:approval:input",
+            "title": "人工审批 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:approval:output",
+            "title": "人工审批 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_records",
+              "rejection_reason_or_approval_hash"
+            ],
+            "properties": {
+              "approval_records": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rejection_reason_or_approval_hash": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.evidence-pack@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 case、evidence_items、hashes、packaged_at 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "打包后不可增删（append-only）；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 audit_working_papers 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 evidence-pack 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：打包后不可增删（append-only）；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "human_approval",
+          "standard": "审批等级 L4；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+          "gate": "distinct_identity_role_and_operator"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“合规率、风险闭环与审计发现”并链接 KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "cmp.audit-trail@1.0.0": {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "module_id": "audit-regulatory",
+      "work_item_id": "cmp-audit-trail",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scope",
+          "events",
+          "coverage_pct",
+          "gaps"
+        ],
+        "properties": {
+          "scope": {
+            "type": "string",
+            "description": "scope"
+          },
+          "events": {
+            "type": "string",
+            "description": "events"
+          },
+          "coverage_pct": {
+            "type": "number",
+            "description": "coverage_pct"
+          },
+          "gaps": {
+            "type": "string",
+            "description": "gaps"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope",
+              "events",
+              "coverage_pct",
+              "gaps"
+            ],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "description": "scope"
+              },
+              "events": {
+                "type": "string",
+                "description": "events"
+              },
+              "coverage_pct": {
+                "type": "number",
+                "description": "coverage_pct"
+              },
+              "gaps": {
+                "type": "string",
+                "description": "gaps"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "关键动作覆盖率 ≥95%",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(scope,events,coverage_pct,gaps)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "关键动作覆盖率 ≥95%",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "COSO-ERM|XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "cmp-audit-trail-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-audit-trail-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "draft_requires_owner_confirmation",
+          "id": "cmp-audit-trail-ACCEPT-1",
+          "kind": "policy_threshold",
+          "severity": "blocking",
+          "expression": "关键动作覆盖率 ≥95%",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "COSO-ERM|XBRL"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope",
+              "events",
+              "coverage_pct",
+              "gaps",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "scope": {
+                "type": "string",
+                "description": "scope"
+              },
+              "events": {
+                "type": "string",
+                "description": "events"
+              },
+              "coverage_pct": {
+                "type": "number",
+                "description": "coverage_pct"
+              },
+              "gaps": {
+                "type": "string",
+                "description": "gaps"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.audit-trail@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 scope、events、coverage_pct、gaps 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "关键动作覆盖率 ≥95%；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 audit_working_papers 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 policy-checklist 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：关键动作覆盖率 ≥95%；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“合规率、风险闭环与审计发现”并链接 KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "cmp.reg-filing@1.0.0": {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "module_id": "audit-regulatory",
+      "work_item_id": "cmp-reg-filing",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "filing",
+          "authority",
+          "deadline",
+          "days_left"
+        ],
+        "properties": {
+          "filing": {
+            "type": "string",
+            "description": "filing"
+          },
+          "authority": {
+            "type": "string",
+            "description": "authority"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "deadline"
+          },
+          "days_left": {
+            "type": "integer",
+            "description": "days_left"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "filing",
+              "authority",
+              "deadline",
+              "days_left"
+            ],
+            "properties": {
+              "filing": {
+                "type": "string",
+                "description": "filing"
+              },
+              "authority": {
+                "type": "string",
+                "description": "authority"
+              },
+              "deadline": {
+                "type": "string",
+                "format": "date",
+                "description": "deadline"
+              },
+              "days_left": {
+                "type": "integer",
+                "description": "days_left"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "7 天内到期必须置顶",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(filing,authority,deadline,days_left)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "7 天内到期必须置顶",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "COSO-ERM|XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "cmp-reg-filing-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "cmp-reg-filing-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "draft_requires_owner_confirmation",
+          "id": "cmp-reg-filing-ACCEPT-1",
+          "kind": "policy_threshold",
+          "severity": "blocking",
+          "expression": "7 天内到期必须置顶",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "COSO-ERM|XBRL"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "filing",
+              "authority",
+              "deadline",
+              "days_left",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "filing": {
+                "type": "string",
+                "description": "filing"
+              },
+              "authority": {
+                "type": "string",
+                "description": "authority"
+              },
+              "deadline": {
+                "type": "string",
+                "format": "date",
+                "description": "deadline"
+              },
+              "days_left": {
+                "type": "integer",
+                "description": "days_left"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:cmp:cmp.reg-filing@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 filing、authority、deadline、days_left 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "7 天内到期必须置顶；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 audit_working_papers 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 evidence-pack 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：7 天内到期必须置顶；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“合规率、风险闭环与审计发现”并链接 KR-CONTROL；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-CONTROL，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    }
+  }
+}

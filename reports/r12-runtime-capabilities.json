@@ -1,0 +1,2061 @@
+{
+  "schema": "pids-nexus/runtime-capability-verification/v1",
+  "generated_at": "2026-09-30T10:03:59.837Z",
+  "duration_ms": 29823,
+  "profile_root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r10-installed\\.dsh-home\\profiles\\web",
+  "pass": true,
+  "counts": {
+    "total": 173,
+    "pass_local": 146,
+    "pass_live": 0,
+    "blocked_external": 22,
+    "not_applicable": 5,
+    "fail": 0
+  },
+  "records": [
+    {
+      "scope": "plugin",
+      "id": "@deepseek-ai/dsh-base",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.7-rc.2",
+        "source_sha256": null,
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@deepseek-ai/dsh-web-app",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.7-rc.2",
+        "source_sha256": null,
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@workbench/client-ui",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "4.0.0",
+        "source_sha256": null,
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-excel-panel",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.6.1",
+        "source_sha256": "a60a90c605a7598d66e68f9a4a4c308981ffd4c74bda9308200937516877ad69",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-docs-panel",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.1.0",
+        "source_sha256": "64d8ec42ae65a446060e7d67597430ad10636efd0e61b9192b7de953c7e39342",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-undo-savepoint",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.4.9",
+        "source_sha256": "b993f64da90b6c7a0e7a65ac2a87273d9d8b512061cfee542aecbb3f46a9b668",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@ychris12138/dsh-usage-stats",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.3.4",
+        "source_sha256": "4cc5cd1296e99f3236390281c28b856d33fe47f16dbedc7c29edb12ce8e46a25",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@changfenhuang/dsh-annotation",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "1.4.10",
+        "source_sha256": "428e39e14873425ab0602967b8fd4c0fa73c3183865eea63c8646cf070b32d23",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-network-settings",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.3.3",
+        "source_sha256": "5fea490fa46b95e0874b9b3550053e4d44f5b41b77c124c76411514fb11c25c9",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@changfenhuang/dsh-genui",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.11.1",
+        "source_sha256": "177af2419e50b0d1763d8298a00baa56cf888fe4bfff6a00e893e8ec51f5a34f",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@a9i5k4/dsh-auto-memory",
+      "status": "NOT_APPLICABLE",
+      "note": "首启强制向导弹窗（localStorage.tourDismissed 无法随包预置）+ 启动期访问 raw.githubusercontent/npm registry；记忆系统由 dsh-mnemon 提供",
+      "evidence": {
+        "source_sha256": "df259f621671cd940aff07d401b182bd843c9ef0ee7630aca4678021909e015c"
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@linxin666/dsh-client-ui-git-graph",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.4.3",
+        "source_sha256": "7e84a0059100d07c2b007f3afaea42fae9226490b5df622d710a8b7f8a65e419",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@linxin666/dsh-client-ui-skill-explorer",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.4.3",
+        "source_sha256": "1294e7c5b547e196b69434b7381439b27a6b3c3bcf6e660d50be87775d665d17",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@linxin666/dsh-client-ui-task-board",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.4.3",
+        "source_sha256": "b86c49d153c61a928200b0b0c8f6182ed546e8cc063c57f22f944c5a11396025",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@liustack/modsearch",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "5.10.5",
+        "source_sha256": "7c50d07785485e4b9f5fc86de2900f973adb740a0f36809de00fd6221aeeb0cc",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@liustack/modlens",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "3.26.5",
+        "source_sha256": "bb87d1a1d0b8aa1cf620da9df12d742f235d53d7a6a3e21e65ed8352aed50762",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@nanmicoder/dsh-agent-teams",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.21",
+        "source_sha256": "c4d4a2658b7f6a88fe0ea5dac30dee9e9204bcdea73b50f262adbbb86988da3d",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@openviking/dsh-memory-plugin",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：openviking_service",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@steven-wu/dsh-cost-meter",
+      "status": "NOT_APPLICABLE",
+      "note": "dsh-cost-meter@1.7.39 较新",
+      "evidence": {
+        "source_sha256": "261525a7a88ebe2e8f61dc366db603c03e79d2ce7e166852ce4a51d4a3ef7c2d"
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@vectorize-io/hindsight-coding-agents",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：hindsight_service",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@wxg-prc-cpg/dsh-weknora",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：weknora_service",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-auto-memory",
+      "status": "NOT_APPLICABLE",
+      "note": "@a9i5k4/dsh-auto-memory@3.1.7 较新",
+      "evidence": {
+        "source_sha256": "2f264a6a1722f3778252ee0ed6110aaea60968e038877ec88ba348ee04ffe3f8"
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-artifacts",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.1.1",
+        "source_sha256": "f3b2c7479ad9fbe66ee096d5b12b717aa75adbc24613498110944f25fd9689c8",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-background-agents",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.9.12",
+        "source_sha256": "8b836a06b062c5b7b77e8426eded38707aa7e5bef9462cf1e168f7525001f1d0",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-bridge",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.0-rc.17",
+        "source_sha256": "f6fcbd2f99fbe408fa1eeb9a8a3fbbe74b7a3c2043d6324b9128176a551e774e",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-browser",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：browser_runtime",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-builtin-browser",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：browser_runtime",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-config-manager",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.64",
+        "source_sha256": "96e0a3842eedcc21e3ee7bfd9aeef14a1aaea819ff43010361728b29c75a9c61",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-computer-use",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.3.1",
+        "source_sha256": "7415f1a91a44fea7cc795c96d866468215f264c15e4ee446a7f65231d9324426",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-context",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.57.0",
+        "source_sha256": "9f9fa4735ea3d291003e61538855f90ea30a54a4e1136a544d87149bb78d27e1",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-conversation-navigator",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.2.10",
+        "source_sha256": "4fbf4b82a89374d5f90d03049fb69c4c6855702500345326d651b9d1fe3c61a5",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-deja",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.21.2",
+        "source_sha256": "2cf25b0359cc75b3e255b5635d4eec01879baa66a33543fca94d3e3c384134a0",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-cost-meter",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "1.7.39",
+        "source_sha256": "94f4fe528d163a375b2ef97e766c08c9c8500b5f1e3b60c2f132785e66697cea",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-doublecheck",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.9.17",
+        "source_sha256": "b499296e8d412553d81396706626c2cdd7d9fefba7bdbed17266b092a54b40e6",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-excel-chat",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.38.0",
+        "source_sha256": "15938d918d408ce1cd3ddb4f3d2a6decf5c250957ab8f29ecaa1f796c3cba228",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-file-drop",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.3",
+        "source_sha256": "bb69ab69222ab6cf3269aa6e64f3c8e70eb3155ab8d2fc774cf6dc9c24540b99",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-find-plugin",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.4.0",
+        "source_sha256": "39fc2dfd519b53bc71c9d4fb8cb7faa678d2c14ffb77c6df38daf0eedf0b56a0",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-git-graph",
+      "status": "NOT_APPLICABLE",
+      "note": "@linxin666/dsh-client-ui-git-graph@0.4.3 较新",
+      "evidence": {
+        "source_sha256": "3c068e8dec119bd3d45fee364ddc9a3b7de2fa8e788b0eed793ff29b2a4b42fc"
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-genui",
+      "status": "NOT_APPLICABLE",
+      "note": "@changfenhuang/dsh-genui@0.11.1 较新",
+      "evidence": {
+        "source_sha256": "fbbe9c988977bd08c7e40c3b30f10b6bb1941785b65a04f895a0b0380912aa1b"
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-github-workbench",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：github_token",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-github-intelligence",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：github_token",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-im",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：im_credentials",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-inspiration-deck-workshop",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.1.1",
+        "source_sha256": "b18b1cc0c6c7a90c642f949816df8a8da4935f251efabed882636cd774b4a7db",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-lark-bot",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：lark_app_credentials",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-mcp-lens",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：mcp_server",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-library",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.2.16",
+        "source_sha256": "9c9079b44a472d8ae4bca88c0af451402ae9420e0eeb74a4b2ca946807632e36",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-mnemon",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.5.16",
+        "source_sha256": "0ef81f4827fb52265c41f04c5a572d44933b975a456ab9111ac81f0bb490f3b9",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-notifier",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：notification_channel",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-paperclip",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.2.5",
+        "source_sha256": "e676a37075ff0c3b96bea5c6d6973114cc6aef1030fa03342bd09ae1545e82a2",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-plugin-vetting",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.5.6",
+        "source_sha256": "4b49dcc8860879a32ca4cfdc21d847473acd4d08b2f2d69bdc6977cf0a370db8",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-ppt",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.5.0",
+        "source_sha256": "a1b610d79dc11224d6e11fb4d1741df4a66f70a20184b9ba0d62def34e3031a5",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-pr-board",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.11.14",
+        "source_sha256": "5f6c3e71227c8b52070657fa580564f94a29609f27e896079c8d2b7f52e148f9",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-pocket",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：network_optional",
+      "evidence": {
+        "activation_error": null
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-sentry",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：sentry_auth_token",
+      "evidence": {
+        "activation_error": "dsh-sentry (dsh-sentry): SentryApiError: Invalid Sentry configuration: token or SENTRY_AUTH_TOKEN is required."
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-smooth-stream",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.6.1",
+        "source_sha256": "4b8e6474d6c87eba82229f1e8ded489725a9d167e227c46c060bfc2e793140ca",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-skill-picker",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.5.11",
+        "source_sha256": "6e23eee6af6bf25f75762d0c70d82bccfb0eb97425c957e48cfa05f4a7906585",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-sonarqube",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "待配置：sonarqube_url",
+      "evidence": {
+        "activation_error": "dsh-sonarqube (dsh-sonarqube): SonarQubeApiError: Invalid SonarQube configuration: baseUrl or SONARQUBE_URL is required."
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-translate",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.2.16",
+        "source_sha256": "49230471a9fbf287cfb53c4eca0c44ecfb446dcb2f5e09555ddbf4a68feb316c",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-univer-office",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.3.5",
+        "source_sha256": "4d31430f522880b0501b713e57f0b6c97d4d26e4838b53bdd2ba6193d9d85071",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "billion-context",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.1.158",
+        "source_sha256": "6076e9072699c2750a6c5b93bfc9d20b02ae47f5f746184ea3c96f348eb65c5b",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "@shaoshi/dshscan",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.5.0",
+        "source_sha256": "db62d1fb00272fd174cd6d8650a432a25a16103ec11b4f1a4bc78d6c31d70dc5",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "pi2dsh",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,invoke",
+      "evidence": {
+        "version": "0.25.2",
+        "source_sha256": "2b41c9eb6f02293fe7290e22386ac8c9a526e04e895e003b99c58647d66e92f2",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "invoke"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-better-sidebar",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "0.21.1",
+        "source_sha256": "d0960735a41b0c3db478b93a8e0b0319ffab0cc0c82995df9d3d26e4ca692580",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "plugin",
+      "id": "dsh-plugin",
+      "status": "PASS_LOCAL",
+      "note": "已加载；验证范围：installed,loaded,surface,invoke,restart",
+      "evidence": {
+        "version": "1.4.8",
+        "source_sha256": "940cabbf82c8422d80f216519117aec1337d6a77a7204e5cb9265ae4e7b271e5",
+        "surfaces": [
+          "installed",
+          "loaded",
+          "surface",
+          "invoke",
+          "restart"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "ad-analysis",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "admin-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 admin.purchase-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "admin.purchase-approve@1.0.0",
+          "admin.seal-request@1.0.0",
+          "admin.asset-inventory@1.0.0",
+          "admin.meeting-minutes@1.0.0",
+          "admin.supply-order@1.0.0",
+          "admin.vendor-price@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "asset-inventory",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "band-analysis",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.salary-adjust@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "ben-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 ben.vendor-compare@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "ben.vendor-compare@1.0.0",
+          "ben.checkup-report@1.0.0",
+          "ben.points-calc@1.0.0",
+          "ben.plan-enroll@1.0.0",
+          "ben.claim-review@1.0.0",
+          "ben.annual-survey@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "biz-analysis",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.weekly-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "budget-analysis",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.monthly-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "calibration-analysis",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.calibration-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "cert-expiry",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.cert-expiry@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "checkup-report",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.checkup-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "cmp-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 cmp.policy-review@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "cmp.policy-review@1.0.0",
+          "cmp.evidence-pack@1.0.0",
+          "cmp.pipia-review@1.0.0",
+          "cmp.audit-trail@1.0.0",
+          "cmp.training-check@1.0.0",
+          "cmp.reg-filing@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "comp-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 comp.salary-adjust@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "comp.salary-adjust@1.0.0",
+          "comp.band-report@1.0.0",
+          "comp.payroll-recon@1.0.0",
+          "comp.compa-ratio@1.0.0",
+          "comp.queue-approve@1.0.0",
+          "comp.cost-projection@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "compa-ratio",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.compa-ratio@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "competitor-watch",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.competitor-brief@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "content-gen",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "course-schedule",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 3 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.plan-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "dispute-ops",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.dispute-case@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "eap-referral",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 3 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.eap-referral@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "er-eap-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 er-eap.offboard-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "er-eap.offboard-approve@1.0.0",
+          "er-eap.eap-referral@1.0.0",
+          "er-eap.dispute-case@1.0.0",
+          "er-eap.exit-interview@1.0.0",
+          "er-eap.anon-report@1.0.0",
+          "er-eap.wellbeing-check@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "event-plan",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "evidence-pack",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.evidence-pack@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "expense-precheck",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.expense-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "fin-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 fin.expense-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "fin.expense-approve@1.0.0",
+          "fin.monthly-report@1.0.0",
+          "fin.budget-review@1.0.0",
+          "fin.invoice-check@1.0.0",
+          "fin.reimburse-audit@1.0.0",
+          "fin.cashflow-week@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "flex-benefit",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.points-calc@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "funnel-analysis",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "goal-cascade",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.cascade-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "hour-stats",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.hours-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "interview-design",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "interview-summary",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "invoice-check",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.invoice-check@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "jd-gen",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "kpi-track",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.kpi-tracking@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "material-compliance",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "meeting-minutes",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "mkt-off-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 mkt-off.event-roi@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "mkt-off.event-roi@1.0.0",
+          "mkt-off.material-review@1.0.0",
+          "mkt-off.event-plan@1.0.0",
+          "mkt-off.vendor-brief@1.0.0",
+          "mkt-off.booth-approve@1.0.0",
+          "mkt-off.lead-handoff@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "mkt-on-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 mkt-on.publish-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "mkt-on.publish-approve@1.0.0",
+          "mkt-on.campaign-report@1.0.0",
+          "mkt-on.content-calendar@1.0.0",
+          "mkt-on.lead-funnel@1.0.0",
+          "mkt-on.seo-audit@1.0.0",
+          "mkt-on.ad-spend-review@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "offboarding-flow",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.offboard-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "offer-evaluation",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "onboarding-plan",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "payroll-recon",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.payroll-recon@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "pipia-list",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.pipia-review@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "plan-compare",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.vendor-compare@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "policy-checklist",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.policy-review@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "prf-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 prf.calibration-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "prf.calibration-approve@1.0.0",
+          "prf.cascade-report@1.0.0",
+          "prf.kpi-tracking@1.0.0",
+          "prf.review-cycle@1.0.0",
+          "prf.one-on-one@1.0.0",
+          "prf.grade-distribution@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "purchase-compare",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "quota-dashboard",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.pipeline-report@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "quote-calc",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.quote-approve@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "rec-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 rec.funnel-weekly@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "rec.funnel-weekly@1.0.0",
+          "rec.resume-forward@1.0.0",
+          "rec.jd-draft@1.0.0",
+          "rec.interview-schedule@1.0.0",
+          "rec.offer-approve@1.0.0",
+          "rec.onboarding-check@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "resume-screening",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 1 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "roi-review",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "sales-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 sales.quote-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "sales.quote-approve@1.0.0",
+          "sales.win-review@1.0.0",
+          "sales.quote-calc@1.0.0",
+          "sales.pipeline-report@1.0.0",
+          "sales.contract-review@1.0.0",
+          "sales.target-split@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "seo-audit",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "strat-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 strat.quarterly-review@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "strat.quarterly-review@1.0.0",
+          "strat.weekly-report@1.0.0",
+          "strat.okr-set@1.0.0",
+          "strat.competitor-brief@1.0.0",
+          "strat.org-inventory@1.0.0",
+          "strat.quarter-close@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "strategy-decode",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 3 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.quarterly-review@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "trn-intent",
+      "status": "PASS_LOCAL",
+      "note": "意向路由到 trn.plan-approve@1.0.0",
+      "evidence": {
+        "workflow_ids": [
+          "trn.plan-approve@1.0.0",
+          "trn.hours-report@1.0.0",
+          "trn.course-schedule@1.0.0",
+          "trn.cert-expiry@1.0.0",
+          "trn.cert-renew@1.0.0",
+          "trn.enroll-approve@1.0.0"
+        ]
+      }
+    },
+    {
+      "scope": "skill",
+      "id": "win-review",
+      "status": "READY",
+      "note": "契约和 fixture 已生成；由模型桩旅程复验 2 条流程",
+      "evidence": {
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.win-review@1.0.0/output"
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "ad-analysis",
+      "status": "PASS_LOCAL",
+      "note": "mkt-on.campaign-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "asset-inventory",
+      "status": "PASS_LOCAL",
+      "note": "admin.asset-inventory@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "band-analysis",
+      "status": "PASS_LOCAL",
+      "note": "comp.salary-adjust@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "biz-analysis",
+      "status": "PASS_LOCAL",
+      "note": "strat.weekly-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "budget-analysis",
+      "status": "PASS_LOCAL",
+      "note": "fin.monthly-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "calibration-analysis",
+      "status": "PASS_LOCAL",
+      "note": "prf.calibration-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "cert-expiry",
+      "status": "PASS_LOCAL",
+      "note": "trn.cert-expiry@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "checkup-report",
+      "status": "PASS_LOCAL",
+      "note": "ben.checkup-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "compa-ratio",
+      "status": "PASS_LOCAL",
+      "note": "comp.compa-ratio@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "competitor-watch",
+      "status": "PASS_LOCAL",
+      "note": "strat.competitor-brief@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "content-gen",
+      "status": "PASS_LOCAL",
+      "note": "mkt-on.publish-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "course-schedule",
+      "status": "PASS_LOCAL",
+      "note": "trn.plan-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "dispute-ops",
+      "status": "PASS_LOCAL",
+      "note": "er-eap.dispute-case@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "eap-referral",
+      "status": "PASS_LOCAL",
+      "note": "er-eap.eap-referral@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "event-plan",
+      "status": "PASS_LOCAL",
+      "note": "mkt-off.event-plan@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "evidence-pack",
+      "status": "PASS_LOCAL",
+      "note": "cmp.evidence-pack@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "expense-precheck",
+      "status": "PASS_LOCAL",
+      "note": "fin.expense-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "flex-benefit",
+      "status": "PASS_LOCAL",
+      "note": "ben.points-calc@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "funnel-analysis",
+      "status": "PASS_LOCAL",
+      "note": "rec.funnel-weekly@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "goal-cascade",
+      "status": "PASS_LOCAL",
+      "note": "prf.cascade-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "hour-stats",
+      "status": "PASS_LOCAL",
+      "note": "trn.hours-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "interview-design",
+      "status": "PASS_LOCAL",
+      "note": "rec.interview-schedule@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "interview-summary",
+      "status": "PASS_LOCAL",
+      "note": "rec.interview-schedule@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "invoice-check",
+      "status": "PASS_LOCAL",
+      "note": "fin.invoice-check@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "jd-gen",
+      "status": "PASS_LOCAL",
+      "note": "rec.jd-draft@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "kpi-track",
+      "status": "PASS_LOCAL",
+      "note": "prf.kpi-tracking@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "material-compliance",
+      "status": "PASS_LOCAL",
+      "note": "mkt-off.material-review@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "meeting-minutes",
+      "status": "PASS_LOCAL",
+      "note": "admin.seal-request@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "offboarding-flow",
+      "status": "PASS_LOCAL",
+      "note": "er-eap.offboard-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "offer-evaluation",
+      "status": "PASS_LOCAL",
+      "note": "rec.offer-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "onboarding-plan",
+      "status": "PASS_LOCAL",
+      "note": "rec.onboarding-check@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "payroll-recon",
+      "status": "PASS_LOCAL",
+      "note": "comp.payroll-recon@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "pipia-list",
+      "status": "PASS_LOCAL",
+      "note": "cmp.pipia-review@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "plan-compare",
+      "status": "PASS_LOCAL",
+      "note": "ben.vendor-compare@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "policy-checklist",
+      "status": "PASS_LOCAL",
+      "note": "cmp.policy-review@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "purchase-compare",
+      "status": "PASS_LOCAL",
+      "note": "admin.purchase-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "quota-dashboard",
+      "status": "PASS_LOCAL",
+      "note": "sales.pipeline-report@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "quote-calc",
+      "status": "PASS_LOCAL",
+      "note": "sales.quote-approve@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "resume-screening",
+      "status": "PASS_LOCAL",
+      "note": "rec.resume-forward@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "roi-review",
+      "status": "PASS_LOCAL",
+      "note": "mkt-off.event-roi@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "seo-audit",
+      "status": "PASS_LOCAL",
+      "note": "mkt-on.lead-funnel@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "strategy-decode",
+      "status": "PASS_LOCAL",
+      "note": "strat.quarterly-review@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "skill-run",
+      "id": "win-review",
+      "status": "PASS_LOCAL",
+      "note": "sales.win-review@1.0.0 status=completed",
+      "evidence": {
+        "artifacts": 3
+      }
+    },
+    {
+      "scope": "memory",
+      "id": "dsh-mnemon",
+      "status": "PASS_LOCAL",
+      "note": "Runtime / Documents / Memory Spaces 控制面已加载",
+      "evidence": {
+        "tiers": [
+          "runtime",
+          "documents",
+          "memory_spaces"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "mnemon-native",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：mnemon_cli",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete",
+          "relationships"
+        ],
+        "requirements": [
+          "mnemon_cli"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "openviking",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：endpoint,credentials,user_or_account",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "list",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "user_or_account"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "honcho",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：endpoint,credentials,workspace,peer",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "workspace",
+          "peer"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "mem0",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：endpoint,credentials,user_scope",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "user_scope"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "hindsight",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：endpoint,bank_scope,credentials_optional",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "graph"
+        ],
+        "requirements": [
+          "endpoint",
+          "bank_scope",
+          "credentials_optional"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "holographic",
+      "status": "PASS_LOCAL",
+      "note": "本地 hook 已安装；CRUD 由 provider 合约测试覆盖",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "graph",
+          "delete"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "retaindb",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：endpoint,credentials,project,user",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "project",
+          "user"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "byterover",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：brv_cli,knowledge_directory",
+      "evidence": {
+        "capabilities": [
+          "status",
+          "query",
+          "curate"
+        ],
+        "requirements": [
+          "brv_cli",
+          "knowledge_directory"
+        ]
+      }
+    },
+    {
+      "scope": "memory-provider",
+      "id": "supermemory",
+      "status": "BLOCKED_EXTERNAL",
+      "note": "未配置：endpoint,credentials,container",
+      "evidence": {
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "container"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,3306 @@
+{
+  "schema": "pids-nexus/workflow-contract-verification/v2",
+  "generated_at": "2026-09-30T10:09:21.197Z",
+  "workspace_root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r12-contract-1790762645778",
+  "expected_cases": 546,
+  "executed_cases": 546,
+  "passed": 549,
+  "failed": 0,
+  "pass": true,
+  "records": [
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：period"
+    },
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "strat.quarterly-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：week"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "strat.weekly-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：objective"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "strat.okr-set@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：competitor"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "strat.competitor-brief@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：position"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "strat.org-inventory@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：period"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "strat.quarter-close@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：title"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-on.publish-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：channel"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-on.campaign-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：date"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-on.content-calendar@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：stage"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-on.lead-funnel@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：page"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-on.seo-audit@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：channel"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-on.ad-spend-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：event"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-off.event-roi@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：material"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-off.material-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：event"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-off.event-plan@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：dealer_masked"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-off.vendor-brief@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：venue"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-off.booth-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：event"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：quote_id"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：opportunity"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "sales.win-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：customer_masked"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：stage"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：contract_no"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：region"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "sales.target-split@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：expense_id"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "fin.expense-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：period"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "fin.monthly-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：dept"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "fin.budget-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：invoice_no"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "fin.invoice-check@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：sample_size"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "fin.reimburse-audit@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：week"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "fin.cashflow-week@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：week"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：candidate_masked"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "rec.resume-forward@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：position"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "rec.jd-draft@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：candidate_masked"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "rec.interview-schedule@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：candidate_masked"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：candidate_masked"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "rec.onboarding-check@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：course"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "trn.plan-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：dept"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "trn.hours-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：course"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "trn.course-schedule@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：certificate"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "trn.cert-expiry@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：certificate"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "trn.cert-renew@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：course"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "trn.enroll-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "prf.calibration-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：level"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "prf.cascade-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：kpi"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "prf.kpi-tracking@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：cycle"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "prf.review-cycle@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "prf.one-on-one@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：grade"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "prf.grade-distribution@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "comp.salary-adjust@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：band"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "comp.band-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：period"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "comp.payroll-recon@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "comp.compa-ratio@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：batch"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "comp.queue-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：scenario"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "comp.cost-projection@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：category"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "ben.vendor-compare@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "ben.checkup-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "ben.points-calc@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "ben.plan-enroll@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：claim_masked"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "ben.claim-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：dimension"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "ben.annual-survey@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：item"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "admin.purchase-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：doc"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "admin.seal-request@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：asset_id"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "admin.asset-inventory@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：meeting"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "admin.meeting-minutes@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：item"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "admin.supply-order@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：item"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "admin.vendor-price@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：policy"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "cmp.policy-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：case"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "cmp.evidence-pack@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：process"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "cmp.pipia-review@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：scope"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "cmp.audit-trail@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：dept"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "cmp.training-check@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：filing"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "cmp.reg-filing@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "er-eap.offboard-approve@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：anon_id"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "status=rejected"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "同一操作者不能在同一实例中重复完成多级审批"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "er-eap.eap-referral@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：case_id"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "er-eap.dispute-case@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：employee_masked"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "er-eap.exit-interview@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：month"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "er-eap.anon-report@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "normal",
+      "pass": true,
+      "note": "status=completed artifacts=3"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "validation_reject",
+      "pass": true,
+      "note": "缺少必填字段：dimension"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "approval_reject",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "dual_approval_missing",
+      "pass": true,
+      "note": "not_applicable"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "model_failure_resume",
+      "pass": true,
+      "note": "blocked=true final=completed"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "sensitive_egress_block",
+      "pass": true,
+      "note": "LLM 输出命中敏感字段：phone_cn"
+    },
+    {
+      "workflow_id": "er-eap.wellbeing-check@1.0.0",
+      "case_id": "restart_resume",
+      "pass": true,
+      "note": "final=completed"
+    },
+    {
+      "workflow_id": "APPROVAL-INTEGRITY",
+      "case_id": "tamper",
+      "pass": true,
+      "note": "signature rejected"
+    },
+    {
+      "workflow_id": "APPROVAL-INTEGRITY",
+      "case_id": "cross-instance-replay",
+      "pass": true,
+      "note": "signature rejected"
+    },
+    {
+      "workflow_id": "APPROVAL-INTEGRITY",
+      "case_id": "legacy-migration",
+      "pass": true,
+      "note": "legacy=1 backups=1"
+    }
+  ]
+}

@@ -1,0 +1,5334 @@
+{
+  "schema": "pids-nexus/workflow-contracts/v1",
+  "domain": "sales",
+  "source_standards": [
+    "JSONSCHEMA202012",
+    "TABLESCHEMA1",
+    "BPMN20",
+    "OPENLINEAGE153"
+  ],
+  "contracts": {
+    "sales.target-split@1.0.0": {
+      "workflow_id": "sales.target-split@1.0.0",
+      "module_id": "pipeline-planning",
+      "work_item_id": "sales-target-split",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "region",
+          "owner_masked",
+          "target_wan",
+          "quarter"
+        ],
+        "properties": {
+          "region": {
+            "type": "string",
+            "description": "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列"
+          },
+          "owner_masked": {
+            "type": "string",
+            "description": "负责人掩码（姓 + `****`，须能在 pipeline.owner 命中）"
+          },
+          "target_wan": {
+            "type": "string",
+            "description": "target_wan"
+          },
+          "quarter": {
+            "type": "string",
+            "description": "目标周期 `YYYY-Q#`（本快照 2026-Q4）"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "region",
+              "owner_masked",
+              "target_wan",
+              "quarter"
+            ],
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列"
+              },
+              "owner_masked": {
+                "type": "string",
+                "description": "负责人掩码（姓 + `****`，须能在 pipeline.owner 命中）"
+              },
+              "target_wan": {
+                "type": "string",
+                "description": "target_wan"
+              },
+              "quarter": {
+                "type": "string",
+                "description": "目标周期 `YYYY-Q#`（本快照 2026-Q4）"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "合计必须等于区目标",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "sales-target-split-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(region,owner_masked,target_wan,quarter)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "合计必须等于区目标",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "sales-target-split-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-target-split-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "合计必须等于区目标",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "region",
+              "owner_masked",
+              "target_wan",
+              "quarter",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "归属大区：华东 / 华南 / 华北 / 西南 / 华中（与 targets.region 同词表）；追加列"
+              },
+              "owner_masked": {
+                "type": "string",
+                "description": "负责人掩码（姓 + `****`，须能在 pipeline.owner 命中）"
+              },
+              "target_wan": {
+                "type": "string",
+                "description": "target_wan"
+              },
+              "quarter": {
+                "type": "string",
+                "description": "目标周期 `YYYY-Q#`（本快照 2026-Q4）"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.target-split@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 region、owner_masked、target_wan、quarter 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "合计必须等于区目标；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 customer_contract、discount_floor 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 quota-dashboard 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：合计必须等于区目标；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“有效管道与赢单收入”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "sales.pipeline-report@1.0.0": {
+      "workflow_id": "sales.pipeline-report@1.0.0",
+      "module_id": "pipeline-planning",
+      "work_item_id": "sales-pipeline-report",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "count",
+          "amount_k",
+          "week"
+        ],
+        "properties": {
+          "stage": {
+            "type": "string",
+            "description": "商机阶段，枚举与迁移见 §4.1（落地值：线索/接触/方案/报价/谈判/赢单/输单）；原始列"
+          },
+          "count": {
+            "type": "integer",
+            "description": "count"
+          },
+          "amount_k": {
+            "type": "number",
+            "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+          },
+          "week": {
+            "type": "string",
+            "description": "week"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stage",
+              "count",
+              "amount_k",
+              "week"
+            ],
+            "properties": {
+              "stage": {
+                "type": "string",
+                "description": "商机阶段，枚举与迁移见 §4.1（落地值：线索/接触/方案/报价/谈判/赢单/输单）；原始列"
+              },
+              "count": {
+                "type": "integer",
+                "description": "count"
+              },
+              "amount_k": {
+                "type": "number",
+                "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+              },
+              "week": {
+                "type": "string",
+                "description": "week"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "金额单位万元，可追溯 pipeline.csv",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(stage,count,amount_k,week)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "金额单位万元，可追溯 pipeline.csv",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "sales-pipeline-report-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-pipeline-report-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "金额单位万元，可追溯 pipeline.csv",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stage",
+              "count",
+              "amount_k",
+              "week",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "stage": {
+                "type": "string",
+                "description": "商机阶段，枚举与迁移见 §4.1（落地值：线索/接触/方案/报价/谈判/赢单/输单）；原始列"
+              },
+              "count": {
+                "type": "integer",
+                "description": "count"
+              },
+              "amount_k": {
+                "type": "number",
+                "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+              },
+              "week": {
+                "type": "string",
+                "description": "week"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.pipeline-report@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 stage、count、amount_k、week 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "金额单位万元，可追溯 pipeline.csv；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 customer_contract、discount_floor 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 quota-dashboard 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：金额单位万元，可追溯 pipeline.csv；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“有效管道与赢单收入”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "sales.quote-calc@1.0.0": {
+      "workflow_id": "sales.quote-calc@1.0.0",
+      "module_id": "deal-execution",
+      "work_item_id": "sales-quote-calc",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "customer_masked",
+          "items",
+          "discount_pct",
+          "total_wan"
+        ],
+        "properties": {
+          "customer_masked": {
+            "type": "string",
+            "description": "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "配置明细（`<版本>×<数量>+<附加项>`，如 `旗舰版×2+培训`）；产品版本：标准版/专业版/旗舰版，附加项：实施/培训；原始列"
+          },
+          "discount_pct": {
+            "type": "integer",
+            "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+          },
+          "total_wan": {
+            "type": "number",
+            "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "customer_masked",
+              "items",
+              "discount_pct",
+              "total_wan"
+            ],
+            "properties": {
+              "customer_masked": {
+                "type": "string",
+                "description": "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "配置明细（`<版本>×<数量>+<附加项>`，如 `旗舰版×2+培训`）；产品版本：标准版/专业版/旗舰版，附加项：实施/培训；原始列"
+              },
+              "discount_pct": {
+                "type": "integer",
+                "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+              },
+              "total_wan": {
+                "type": "number",
+                "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "低于底价必须转 quote-approve",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "sales-quote-calc-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(customer_masked,items,discount_pct,total_wan)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "低于底价必须转 quote-approve",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SCHEMA-ORDER|NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "sales-quote-calc-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-calc-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "低于底价必须转 quote-approve",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|NIST-AI-RMF"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "customer_masked",
+              "items",
+              "discount_pct",
+              "total_wan",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "customer_masked": {
+                "type": "string",
+                "description": "客户名称掩码（`某<行业>集团` 形态，如 `某物流集团`），与 quotes.customer_masked 同词表；追加列"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "配置明细（`<版本>×<数量>+<附加项>`，如 `旗舰版×2+培训`）；产品版本：标准版/专业版/旗舰版，附加项：实施/培训；原始列"
+              },
+              "discount_pct": {
+                "type": "integer",
+                "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+              },
+              "total_wan": {
+                "type": "number",
+                "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-calc@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 customer_masked、items、discount_pct、total_wan 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "低于底价必须转 quote-approve；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 customer_contract、discount_floor 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 quote-calc 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：低于底价必须转 quote-approve；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“有效管道与赢单收入”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "sales.quote-approve@1.0.0": {
+      "workflow_id": "sales.quote-approve@1.0.0",
+      "module_id": "deal-execution",
+      "work_item_id": "sales-quote-approve",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "quote_id",
+          "total_wan",
+          "discount_pct",
+          "approvals"
+        ],
+        "properties": {
+          "quote_id": {
+            "type": "string",
+            "description": "报价单号（`QT-####`），唯一主键；原始列"
+          },
+          "total_wan": {
+            "type": "number",
+            "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+          },
+          "discount_pct": {
+            "type": "integer",
+            "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+          },
+          "approvals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "approvals"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quote_id",
+              "total_wan",
+              "discount_pct",
+              "approvals"
+            ],
+            "properties": {
+              "quote_id": {
+                "type": "string",
+                "description": "报价单号（`QT-####`），唯一主键；原始列"
+              },
+              "total_wan": {
+                "type": "number",
+                "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+              },
+              "discount_pct": {
+                "type": "integer",
+                "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "approvals"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "折扣 ≥10% 双审批；≥15% 加签 CFO",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "sales-quote-approve-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(quote_id,total_wan,discount_pct,approvals)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "折扣 ≥10% 双审批；≥15% 加签 CFO",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SCHEMA-ORDER|NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "sales-quote-approve-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-APPROVAL-IDENTITY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+          "evidence": [
+            "approval_records",
+            "operator_registry"
+          ],
+          "source": "BPMN20"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-APPROVAL-BINDING",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+          "evidence": [
+            "approval_records"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-quote-approve-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "draft_requires_owner_confirmation",
+          "id": "sales-quote-approve-ACCEPT-1",
+          "kind": "policy_threshold",
+          "severity": "blocking",
+          "expression": "折扣 ≥10% 双审批",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|NIST-AI-RMF"
+        },
+        {
+          "status": "draft_requires_owner_confirmation",
+          "id": "sales-quote-approve-ACCEPT-2",
+          "kind": "policy_threshold",
+          "severity": "blocking",
+          "expression": "≥15% 加签 CFO",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|NIST-AI-RMF"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quote_id",
+              "total_wan",
+              "discount_pct",
+              "approvals",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "quote_id": {
+                "type": "string",
+                "description": "报价单号（`QT-####`），唯一主键；原始列"
+              },
+              "total_wan": {
+                "type": "number",
+                "description": "报价含税合计（**万元**，1 位小数）＝ `round(list_price_wan × (1 − discount_pct/100), 1)`（§9 V-SALES-05）；原始列"
+              },
+              "discount_pct": {
+                "type": "integer",
+                "description": "整单折扣率（%，0–30 有效区间）；审批档位判定阈值键（§5）；原始列"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "approvals"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:approval:input",
+            "title": "人工审批 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:approval:output",
+            "title": "人工审批 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_records",
+              "rejection_reason_or_approval_hash"
+            ],
+            "properties": {
+              "approval_records": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rejection_reason_or_approval_hash": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.quote-approve@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 quote_id、total_wan、discount_pct、approvals 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "折扣 ≥10% 双审批；≥15% 加签 CFO；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 customer_contract、discount_floor 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 quote-calc 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：折扣 ≥10% 双审批；≥15% 加签 CFO；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "human_approval",
+          "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+          "gate": "distinct_identity_role_and_operator"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“有效管道与赢单收入”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "sales.contract-review@1.0.0": {
+      "workflow_id": "sales.contract-review@1.0.0",
+      "module_id": "contract-revenue",
+      "work_item_id": "sales-contract-review",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_no",
+          "terms_risk",
+          "payment_terms",
+          "approvals"
+        ],
+        "properties": {
+          "contract_no": {
+            "type": "string",
+            "description": "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列"
+          },
+          "terms_risk": {
+            "type": "string",
+            "description": "terms_risk"
+          },
+          "payment_terms": {
+            "type": "string",
+            "description": "拟约定回款条款：30%预付+70%验收（标准模板）/ 20%预付+40%发货+40%验收 / 20%预付+30%发货+50%验收 / 40%预付+60%验收 / 月结30天；追加列"
+          },
+          "approvals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "approvals"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "contract_no",
+              "terms_risk",
+              "payment_terms",
+              "approvals"
+            ],
+            "properties": {
+              "contract_no": {
+                "type": "string",
+                "description": "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列"
+              },
+              "terms_risk": {
+                "type": "string",
+                "description": "terms_risk"
+              },
+              "payment_terms": {
+                "type": "string",
+                "description": "拟约定回款条款：30%预付+70%验收（标准模板）/ 20%预付+40%发货+40%验收 / 20%预付+30%发货+50%验收 / 40%预付+60%验收 / 月结30天；追加列"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "approvals"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "回款条款偏离标准必须双审批",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "sales-contract-review-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(contract_no,terms_risk,payment_terms,approvals)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "回款条款偏离标准必须双审批",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "sales-contract-review-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-APPROVAL-IDENTITY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "distinct(operator_id, role) == 2 && all_registered_and_authorized",
+          "evidence": [
+            "approval_records",
+            "operator_registry"
+          ],
+          "source": "BPMN20"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-APPROVAL-BINDING",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "hmac_valid && workflow_id && instance_id && revision && data_version && artifact_hash",
+          "evidence": [
+            "approval_records"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-contract-review-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "回款条款偏离标准必须双审批",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        }
+      ],
+      "cross_domain_effects": [
+        {
+          "event_id": "finance.revenue.recognition",
+          "target_domain": "fin",
+          "trigger_stage": "strategy_rollup",
+          "payload_key": "contractKey",
+          "anonymous_key": "contract_key",
+          "delivery": "append_only_event",
+          "idempotency_key": "finance.revenue.recognition:0:${instance_id}",
+          "on_fail": "retain_outbox_and_retry"
+        }
+      ],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "contract_no",
+              "terms_risk",
+              "payment_terms",
+              "approvals",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "contract_no": {
+                "type": "string",
+                "description": "销售合同号 `HT-YYYY-####`（赢单后回填，与 quotes.contract_no 一致）；非赢单为 `-`；追加列"
+              },
+              "terms_risk": {
+                "type": "string",
+                "description": "terms_risk"
+              },
+              "payment_terms": {
+                "type": "string",
+                "description": "拟约定回款条款：30%预付+70%验收（标准模板）/ 20%预付+40%发货+40%验收 / 20%预付+30%发货+50%验收 / 40%预付+60%验收 / 月结30天；追加列"
+              },
+              "approvals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "approvals"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:approval:input",
+            "title": "人工审批 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:approval:output",
+            "title": "人工审批 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_records",
+              "rejection_reason_or_approval_hash"
+            ],
+            "properties": {
+              "approval_records": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "rejection_reason_or_approval_hash": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.contract-review@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 contract_no、terms_risk、payment_terms、approvals 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "回款条款偏离标准必须双审批；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 customer_contract、discount_floor 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 win-review 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：回款条款偏离标准必须双审批；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "human_approval",
+          "standard": "审批等级 L3；双审批必须两个不同角色和两个不同操作者；签名绑定 workflow、instance、revision、数据版本、草稿哈希、决定和时间。",
+          "gate": "distinct_identity_role_and_operator"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“有效管道与赢单收入”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    },
+    "sales.win-review@1.0.0": {
+      "workflow_id": "sales.win-review@1.0.0",
+      "module_id": "contract-revenue",
+      "work_item_id": "sales-win-review",
+      "input": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:input",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "opportunity",
+          "amount_k",
+          "win_factors",
+          "playbook_update"
+        ],
+        "properties": {
+          "opportunity": {
+            "type": "string",
+            "description": "商机名称（`商机-<字母>（行业）`），展示口径；原始列"
+          },
+          "amount_k": {
+            "type": "number",
+            "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+          },
+          "win_factors": {
+            "type": "string",
+            "description": "win_factors"
+          },
+          "playbook_update": {
+            "type": "string",
+            "format": "date",
+            "description": "playbook_update"
+          },
+          "notes": {
+            "type": "string",
+            "description": "补充业务背景、范围和约束"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "来源表、文件或上游实例引用"
+          },
+          "uploaded_files": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "用户上传文件元数据和哈希"
+          }
+        }
+      },
+      "output": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:output",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "summary",
+          "findings",
+          "recommendations",
+          "confidence",
+          "evidence_refs",
+          "deliverable"
+        ],
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "findings": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object"
+            }
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "redactions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliverable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "opportunity",
+              "amount_k",
+              "win_factors",
+              "playbook_update"
+            ],
+            "properties": {
+              "opportunity": {
+                "type": "string",
+                "description": "商机名称（`商机-<字母>（行业）`），展示口径；原始列"
+              },
+              "amount_k": {
+                "type": "number",
+                "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+              },
+              "win_factors": {
+                "type": "string",
+                "description": "win_factors"
+              },
+              "playbook_update": {
+                "type": "string",
+                "format": "date",
+                "description": "playbook_update"
+              }
+            }
+          }
+        }
+      },
+      "acceptance": "结论可追溯到商机记录",
+      "business_rules": [
+        {
+          "status": "active",
+          "id": "sales-win-review-INPUT-REQUIRED",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "all_required(opportunity,amount_k,win_factors,playbook_update)",
+          "evidence": [
+            "validated_input_payload",
+            "source_refs"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-SOURCE-TRACEABLE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "source_refs.length >= 1 && file_hashes.valid",
+          "evidence": [
+            "source_refs",
+            "file_hashes"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-TYPEDICT",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "types_enums_ranges_units_keys_valid",
+          "evidence": [
+            "validation_report",
+            "typedict_ref"
+          ],
+          "source": "TABLESCHEMA1"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-DOMAIN-RULE",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "结论可追溯到商机记录",
+          "evidence": [
+            "validation_report",
+            "source_refs"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-LLM-SCHEMA",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "model_output.matches(workflow_output_schema)",
+          "evidence": [
+            "model",
+            "prompt_version",
+            "output_schema"
+          ],
+          "source": "JSONSCHEMA202012"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-LLM-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "findings.every(has_evidence_ref) && confidence in [0,1]",
+          "evidence": [
+            "evidence_refs",
+            "confidence"
+          ],
+          "source": "NIST-AI-RMF"
+        },
+        {
+          "status": "invariant",
+          "id": "sales-win-review-LLM-PII",
+          "kind": "policy",
+          "severity": "blocking",
+          "expression": "pii_scan(model_input, model_output, logs, memory, deliverables) == clean",
+          "evidence": [
+            "redaction_log"
+          ],
+          "source": "NIST-PRIVACY"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-QUALITY-EVIDENCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "evidence_refs.every(resolvable)",
+          "evidence": [
+            "quality_score",
+            "source_refs"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-NO-APPROVAL-POLICY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "no_external_send && no_effective_change && no_high_risk_individual_data",
+          "evidence": [
+            "approval_policy_evaluation"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-QUALITY-CONSISTENCY",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "amounts_quantities_rates_funnel_reconcile",
+          "evidence": [
+            "quality_score",
+            "business_metric_definitions"
+          ],
+          "source": "GREATEXPECTATIONS"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-DELIVERY-MANIFEST",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "artifact_manifest.complete && artifacts.every(has_sha256)",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "OPENLINEAGE153"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-DELIVERY-FORMATS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "formats == [md,csv,html,xlsx,docx,pptx,pdf] && reopen_ok",
+          "evidence": [
+            "delivery_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-DELIVERY-HASH",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "sha256_before == sha256_after",
+          "evidence": [
+            "artifact_manifest"
+          ],
+          "source": "workflow_contract"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-OUTCOME-LINEAGE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "metric_snapshot.has_instance_source_and_artifact_refs",
+          "evidence": [
+            "metric_snapshot",
+            "artifact_manifest"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-OUTCOME-FRESHNESS",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "outcome_data_date <= now && maturity_policy_satisfied",
+          "evidence": [
+            "business_outcome_data",
+            "quality_evaluation"
+          ],
+          "source": "ISO-30414"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-STRATEGY-WRITEBACK",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "contribution_references_metric_snapshot_and_data_version",
+          "evidence": [
+            "strategy_contribution",
+            "metric_snapshot"
+          ],
+          "source": "COSO-ERM"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-STRATEGY-VARIANCE",
+          "kind": "invariant",
+          "severity": "blocking",
+          "expression": "variance_reason && next_period_actions.length >= 1",
+          "evidence": [
+            "variance_reason",
+            "next_period_actions"
+          ],
+          "source": "XBRL"
+        },
+        {
+          "status": "active",
+          "id": "sales-win-review-ACCEPT-1",
+          "kind": "domain_rule",
+          "severity": "blocking",
+          "expression": "结论可追溯到商机记录",
+          "evidence": [
+            "validation_report",
+            "quality_score",
+            "artifact_manifest"
+          ],
+          "source": "SCHEMA-ORDER|XBRL"
+        }
+      ],
+      "cross_domain_effects": [],
+      "stage_contracts": {
+        "intake": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:intake:input",
+            "title": "业务输入与资料接收 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "opportunity",
+              "amount_k",
+              "win_factors",
+              "playbook_update",
+              "notes",
+              "source_refs",
+              "uploaded_files"
+            ],
+            "properties": {
+              "opportunity": {
+                "type": "string",
+                "description": "商机名称（`商机-<字母>（行业）`），展示口径；原始列"
+              },
+              "amount_k": {
+                "type": "number",
+                "description": "商机预估金额（**千元**，整数）；折算万元 ÷10（§9 V-SALES-05）；原始列"
+              },
+              "win_factors": {
+                "type": "string",
+                "description": "win_factors"
+              },
+              "playbook_update": {
+                "type": "string",
+                "format": "date",
+                "description": "playbook_update"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "uploaded_files": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:intake:output",
+            "title": "业务输入与资料接收 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_refs",
+              "file_hashes"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "file_hashes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "validate": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:validate:input",
+            "title": "结构与业务规则校验 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validated_input_payload",
+              "source_tables"
+            ],
+            "properties": {
+              "validated_input_payload": {
+                "type": "object"
+              },
+              "source_tables": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:validate:output",
+            "title": "结构与业务规则校验 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "validation_report",
+              "normalized_payload"
+            ],
+            "properties": {
+              "validation_report": {
+                "type": "object"
+              },
+              "normalized_payload": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "llm": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:llm:input",
+            "title": "LLM 结构化分析与生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "normalized_payload",
+              "skill",
+              "policy_version"
+            ],
+            "properties": {
+              "normalized_payload": {
+                "type": "object"
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy_version": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:llm:output",
+            "title": "LLM 结构化分析与生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "summary",
+              "findings",
+              "recommendations",
+              "confidence",
+              "evidence_refs",
+              "redactions"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "findings": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "recommendations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "redactions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "quality": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:quality:input",
+            "title": "质量、证据与一致性复核 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "llm_result",
+              "source_refs",
+              "business_metric_definitions"
+            ],
+            "properties": {
+              "llm_result": {
+                "type": "object"
+              },
+              "source_refs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "business_metric_definitions": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:quality:output",
+            "title": "质量、证据与一致性复核 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quality_score",
+              "approved_analysis",
+              "redaction_log"
+            ],
+            "properties": {
+              "quality_score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "approved_analysis": {
+                "type": "object"
+              },
+              "redaction_log": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "approval": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:approval:input",
+            "title": "免人工审批声明 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "data_version",
+              "artifact_hash"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "data_version": {
+                "type": "string",
+                "minLength": 8
+              },
+              "artifact_hash": {
+                "type": "string",
+                "minLength": 32
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:approval:output",
+            "title": "免人工审批声明 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_policy_evaluation"
+            ],
+            "properties": {
+              "approval_policy_evaluation": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "publish": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:publish:input",
+            "title": "业务落盘与交付物生成 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approved_analysis",
+              "approval_records",
+              "source_data_version"
+            ],
+            "properties": {
+              "approved_analysis": {
+                "type": "object"
+              },
+              "approval_records": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "source_data_version": {
+                "type": "string",
+                "minLength": 8
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:publish:output",
+            "title": "业务落盘与交付物生成 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "instance_result_json",
+              "report_markdown",
+              "format_package",
+              "artifact_manifest"
+            ],
+            "properties": {
+              "instance_result_json": {
+                "type": "object"
+              },
+              "report_markdown": {
+                "type": "string",
+                "minLength": 1
+              },
+              "format_package": {
+                "type": "array",
+                "minItems": 7,
+                "items": {
+                  "type": "object"
+                }
+              },
+              "artifact_manifest": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "outcome": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:outcome:input",
+            "title": "成效与质量评估 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_manifest",
+              "business_outcome_data"
+            ],
+            "properties": {
+              "artifact_manifest": {
+                "type": "object"
+              },
+              "business_outcome_data": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:outcome:output",
+            "title": "成效与质量评估 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "quality_evaluation",
+              "next_actions"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "quality_evaluation": {
+                "type": "object"
+              },
+              "next_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "strategy_rollup": {
+          "input": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:strategy_rollup:input",
+            "title": "战略回写与下一周期行动 input",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metric_snapshot",
+              "strategy_model",
+              "instance_evidence"
+            ],
+            "properties": {
+              "metric_snapshot": {
+                "type": "object"
+              },
+              "strategy_model": {
+                "type": "object"
+              },
+              "instance_evidence": {
+                "type": "object"
+              }
+            }
+          },
+          "output": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "urn:pids-nexus:sales:sales.win-review@1.0.0:stage:strategy_rollup:output",
+            "title": "战略回写与下一周期行动 output",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "strategy_contribution",
+              "variance_reason",
+              "next_period_actions"
+            ],
+            "properties": {
+              "strategy_contribution": {
+                "type": "object"
+              },
+              "variance_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "next_period_actions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "stages": [
+        {
+          "id": "intake",
+          "type": "data_intake",
+          "standard": "必填字段 opportunity、amount_k、win_factors、playbook_update 完整；来源、上传文件、数据版本和文件哈希可追溯。",
+          "gate": "required_fields_and_upload_safety"
+        },
+        {
+          "id": "validate",
+          "type": "rule_gate",
+          "standard": "结论可追溯到商机记录；字段类型、枚举、区间、单位、主外键和血缘必须按 TypeDict 校验。；脱敏字段 customer_contract、discount_floor 只能以掩码或区间形式进入后续阶段。",
+          "gate": "typedict_and_domain_rules"
+        },
+        {
+          "id": "llm",
+          "type": "llm_task",
+          "standard": "使用技能 win-review 和当前策略版本；输出必须符合 JSON Schema，结论逐项引用 evidence_refs，confidence 为 0-1，未知字段、无证据结论和 PII 一律拒绝。",
+          "gate": "schema_citation_pii_model_availability"
+        },
+        {
+          "id": "quality",
+          "type": "quality_gate",
+          "standard": "业务验收：结论可追溯到商机记录；证据引用可解析，金额、数量、比例和阶段人数守恒，结论与指标定义不冲突。",
+          "gate": "Great-Expectations-style_assertions"
+        },
+        {
+          "id": "approval",
+          "type": "no_human_approval",
+          "standard": "仅允许无对外、无生效、无高风险个体数据的流程免审批；策略评估必须留痕，出现对外或不可逆动作时升级人工审批。",
+          "gate": "no_external_or_irreversible_action"
+        },
+        {
+          "id": "publish",
+          "type": "writeback_and_delivery",
+          "standard": "写前备份，原子写入；产物含来源、审批、数据版本和 SHA-256；Markdown/CSV/HTML/XLSX/DOCX/PPTX/PDF 必须通过结构、公式、文本、哈希和重新打开校验。",
+          "gate": "backup_atomic_write_and_format_validation"
+        },
+        {
+          "id": "outcome",
+          "type": "outcome_evaluation",
+          "standard": "回写域北极星“有效管道与赢单收入”并链接 KR-PIPE、KR-REV；结果可下钻到实例、源表和产物，未成熟结果保持 pending。",
+          "gate": "metric_lineage_and_data_freshness"
+        },
+        {
+          "id": "strategy_rollup",
+          "type": "strategy_writeback",
+          "standard": "按 KR 权重回写 KR-PIPE、KR-REV，输出偏差原因、置信度和下一周期行动；禁止手工覆盖来源可追溯的正式数值。",
+          "gate": "strategy_versioned_contribution"
+        }
+      ]
+    }
+  }
+}

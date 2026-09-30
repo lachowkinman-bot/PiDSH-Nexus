@@ -1,0 +1,66 @@
+{
+  "schema": "pids-nexus/workbench-ui-verification/v4",
+  "generated_at": "2026-09-30T10:30:49.094Z",
+  "url": "http://127.0.0.1:3097/?token=***",
+  "pass": true,
+  "passed": 10,
+  "total": 10,
+  "records": [
+    {
+      "id": "ui.workbench.open",
+      "pass": true,
+      "note": "strategy dashboard opened"
+    },
+    {
+      "id": "ui.domain.modules-and-items",
+      "pass": true,
+      "note": "module hierarchy visible"
+    },
+    {
+      "id": "ui.domain.rec.open",
+      "pass": true,
+      "note": "REC domain opened"
+    },
+    {
+      "id": "ui.domain.stage-contracts",
+      "pass": true,
+      "note": "stage schema, TypeDict, and business rules visible"
+    },
+    {
+      "id": "ui.domain.tabs",
+      "pass": true,
+      "note": "all seven domain surfaces navigable"
+    },
+    {
+      "id": "ui.workflow.no-approval.complete",
+      "pass": true,
+      "note": "artifactLinks=9"
+    },
+    {
+      "id": "ui.workflow.approval.blocked-before-signature",
+      "pass": true,
+      "note": "awaiting approval rendered"
+    },
+    {
+      "id": "ui.workflow.approval.complete",
+      "pass": true,
+      "note": "artifactLinks=9"
+    },
+    {
+      "id": "ui.viewport.1100x700",
+      "pass": true,
+      "note": "{\"noHorizontalOverflow\":true,\"workbenchVisible\":true,\"keyButtons\":true}"
+    },
+    {
+      "id": "ui.console.no-page-errors",
+      "pass": true,
+      "note": "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by cf) — register at a different priority to shadow it (lowest renders) | Failed to load resource: the server responded with a status of 405 (Method Not Allowed) | single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by cf) — register at a different priority to shadow it (lowest renders) | Failed to load resource: the server responded with a status of 405 (Method Not Allowed)"
+    }
+  ],
+  "errors": [
+    "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by cf) — register at a different priority to shadow it (lowest renders)",
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)",
+    "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by cf) — register at a different priority to shadow it (lowest renders)",
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)"
+  ]
+}

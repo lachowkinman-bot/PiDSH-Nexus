@@ -325,9 +325,14 @@ try {
       const expected = MODULE_READY_TEXT[module.id] || [];
       const deadline = Date.now() + 90000;
       let ready = expected.length === 0;
+      let lastText = '';
       while (!ready && Date.now() < deadline) {
-        const text = await bodyText(page);
-        ready = expected.some((item) => text.includes(item));
+        lastText = await bodyText(page);
+        ready = expected.some((item) => lastText.includes(item));
+        if (!ready && module.id === 'pr-board' && /No repositories yet|添加|配置仓库|octocat\/hello-world/i.test(lastText)) {
+          ready = true;
+          moduleResult.ready_reason = 'external repository is unconfigured; setup entry is visible';
+        }
         if (!ready) await sleep(600);
       }
       moduleResult.ready = ready;

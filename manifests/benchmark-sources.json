@@ -1,0 +1,204 @@
+{
+  "schema": "pids-nexus/benchmark-sources/v1",
+  "generated_at": "2026-09-30",
+  "sources": [
+    {
+      "id": "BPMN20",
+      "name": "OMG BPMN 2.0",
+      "url": "https://www.omg.org/spec/BPMN/2.0/",
+      "authority": "OMG",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "流程节点、网关、事件、人工任务和审计任务统一显式建模"
+    },
+    {
+      "id": "JSONSCHEMA202012",
+      "name": "JSON Schema 2020-12",
+      "url": "https://json-schema.org/specification",
+      "authority": "JSON Schema",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "输入、LLM 输出、审批记录和交付清单使用可验证 JSON Schema"
+    },
+    {
+      "id": "OPENAPI321",
+      "name": "OpenAPI Specification 3.2.1",
+      "url": "https://spec.openapis.org/oas/latest.html",
+      "authority": "OpenAPI Initiative",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "工作流平台 API 使用语言无关的接口和消息模型描述"
+    },
+    {
+      "id": "TABLESCHEMA1",
+      "name": "Frictionless Table Schema v1",
+      "url": "https://specs.frictionlessdata.io/table-schema/",
+      "authority": "Frictionless Data",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "CSV 字段名、标题、类型、格式、缺失值、主键、外键和约束进入 TypeDict"
+    },
+    {
+      "id": "OPENLINEAGE153",
+      "name": "OpenLineage 1.53 Object Model",
+      "url": "https://openlineage.io/docs/spec/object-model/",
+      "authority": "OpenLineage",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "Job、Run、Input Dataset、Output Dataset、运行状态和设计血缘统一留痕"
+    },
+    {
+      "id": "GREATEXPECTATIONS",
+      "name": "Great Expectations",
+      "url": "https://github.com/great-expectations/great_expectations",
+      "authority": "Fivetran / Great Expectations",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "把数据质量规则设计为可重复执行、可生成文档的 Expectations"
+    },
+    {
+      "id": "HR-OPEN",
+      "name": "HR Open Standards",
+      "url": "https://www.hropenstandards.org/",
+      "authority": "HR Open Standards Consortium",
+      "status": "verified",
+      "applies_to": ["rec", "trn", "prf", "comp", "ben", "er-eap"],
+      "adopted": "人才、岗位、技能、雇佣和 HR 数据交换使用标准词汇与可互操作结构"
+    },
+    {
+      "id": "SCHEMA-JOBPOSTING",
+      "name": "Schema.org JobPosting",
+      "url": "https://schema.org/JobPosting",
+      "authority": "Schema.org",
+      "status": "verified",
+      "applies_to": ["rec"],
+      "adopted": "岗位、地点、雇佣类型、薪酬、福利、技能和申请入口采用公开字段语义"
+    },
+    {
+      "id": "SCHEMA-ORDER",
+      "name": "Schema.org Order",
+      "url": "https://schema.org/Order",
+      "authority": "Schema.org",
+      "status": "verified",
+      "applies_to": ["sales", "fin", "admin"],
+      "adopted": "报价、订单、发票、折扣、付款状态和交付关系采用可互操作概念"
+    },
+    {
+      "id": "OPENACTIVE",
+      "name": "OpenActive Modelling Opportunity Data 2.0",
+      "url": "https://www.openactive.io/modelling-opportunity-data/",
+      "authority": "W3C OpenActive Community Group",
+      "status": "verified",
+      "applies_to": ["mkt-off"],
+      "adopted": "活动、场地、时段、参与条件和事件状态统一建模"
+    },
+    {
+      "id": "XAPI",
+      "name": "Experience API (xAPI)",
+      "url": "https://github.com/adlnet/xAPI-Spec",
+      "authority": "ADL",
+      "status": "verified",
+      "applies_to": ["trn", "prf"],
+      "adopted": "学习经历使用 Actor → Verb → Object 及 Result/Context 记录"
+    },
+    {
+      "id": "XBRL",
+      "name": "XBRL Digital Business Reporting",
+      "url": "https://www.xbrl.org/the-standard/what/an-introduction-to-xbrl/",
+      "authority": "XBRL International",
+      "status": "verified",
+      "applies_to": ["fin", "strat"],
+      "adopted": "财务与经营指标采用可比较、计算机可读、带 taxonomy 语义的报表口径"
+    },
+    {
+      "id": "NIST-PRIVACY",
+      "name": "NIST Privacy Framework",
+      "url": "https://www.nist.gov/privacy-framework",
+      "authority": "NIST",
+      "status": "verified",
+      "applies_to": ["all", "cmp", "ben", "er-eap", "rec", "comp"],
+      "adopted": "个人数据处理以识别、治理、控制、沟通和保护为主线进行风险管理"
+    },
+    {
+      "id": "NIST-AI-RMF",
+      "name": "NIST AI Risk Management Framework",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "authority": "NIST",
+      "status": "verified",
+      "applies_to": ["all"],
+      "adopted": "LLM 环节包含 Govern、Map、Measure、Manage，记录风险、信心、验证和人审"
+    },
+    {
+      "id": "COSO-ERM",
+      "name": "COSO Enterprise Risk Management",
+      "url": "https://www.coso.org/enterprise-risk-management",
+      "authority": "COSO",
+      "status": "verified",
+      "applies_to": ["strat", "cmp", "fin", "admin"],
+      "adopted": "风险与战略、绩效和决策连接，不以风险清单替代战略结果"
+    },
+    {
+      "id": "WORLDATWORK-TOTAL-REWARDS",
+      "name": "WorldatWork Total Rewards",
+      "url": "https://www.worldatwork.org/",
+      "authority": "WorldatWork",
+      "status": "verified",
+      "applies_to": ["comp", "ben", "prf"],
+      "adopted": "薪酬、福利、幸福感和认可作为组合管理，并与留才、绩效和成本联动"
+    },
+    {
+      "id": "SHRM-HR-QA",
+      "name": "SHRM HR Q&As",
+      "url": "https://www.shrm.org/topics-tools/tools/hr-answers",
+      "authority": "SHRM",
+      "status": "verified",
+      "applies_to": ["rec", "prf", "comp", "ben", "er-eap", "trn"],
+      "adopted": "HR 事项保留合规问题、角色责任、证据和可审计决策"
+    },
+    {
+      "id": "GOOGLE-SEARCH-ESSENTIALS",
+      "name": "Google Search Essentials",
+      "url": "https://developers.google.com/search/docs/essentials",
+      "authority": "Google Search Central",
+      "status": "verified",
+      "applies_to": ["mkt-on"],
+      "adopted": "SEO 以技术可抓取、内容有用可靠、反垃圾和结构化数据为主线"
+    },
+    {
+      "id": "ISO-30414",
+      "name": "ISO 30414 Human Capital Reporting",
+      "url": "https://www.iso.org/standard/69338.html",
+      "authority": "ISO",
+      "status": "reference-only",
+      "applies_to": ["strat", "rec", "trn", "prf", "comp", "ben", "er-eap"],
+      "adopted": "人力资本指标分层、口径一致、可比较并支持内部与外部报告"
+    },
+    {
+      "id": "ISO-55000",
+      "name": "ISO 55000 Asset Management",
+      "url": "https://www.iso.org/standard/55089.html",
+      "authority": "ISO",
+      "status": "reference-only",
+      "applies_to": ["admin"],
+      "adopted": "资产全生命周期、价值、风险和绩效闭环"
+    },
+    {
+      "id": "ISO-41001",
+      "name": "ISO 41001 Facility Management",
+      "url": "https://www.iso.org/standard/68021.html",
+      "authority": "ISO",
+      "status": "reference-only",
+      "applies_to": ["admin"],
+      "adopted": "设施管理以组织目标、服务水平、资源和持续改进为主线"
+    },
+    {
+      "id": "EAPA",
+      "name": "Employee Assistance Professionals Association",
+      "url": "https://www.eapassn.org/",
+      "authority": "EAPA",
+      "status": "reference-only",
+      "applies_to": ["er-eap", "ben"],
+      "adopted": "员工援助以保密、自愿、临床适当转介和组织支持为原则"
+    }
+  ]
+}

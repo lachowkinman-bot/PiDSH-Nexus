@@ -1,0 +1,2317 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "mkt-off",
+  "label": "营销（线下）MKT-OFF",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "dealer_agreements.csv:agreement_no",
+      "entity": "dealer_agreements.csv",
+      "field": "agreement_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "DA-2026-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "协议号 `DA-YYYY-###`，供跨域（sales/cmp）取证",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:agreement_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:dealer_id",
+      "entity": "dealer_agreements.csv",
+      "field": "dealer_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "DA-2601",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "经销商台账 ID，唯一主键，格式 `DA-####`（DA-2601~DA-2612 连续编号）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:dealer_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:dealer_masked",
+      "entity": "dealer_agreements.csv",
+      "field": "dealer_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "DEALER-***01",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "经销商标识掩码 `DEALER-***##`（不可还原）；出域/入报告只允许此形态（§9 V-MKTOFF-07）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:dealer_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:dispute_flag",
+      "entity": "dealer_agreements.csv",
+      "field": "dispute_flag",
+      "physical_type": "csv",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "boolean",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "否",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "争议标记：是/否（本快照 2 家为是，须在 `vendor-brief` 的 `risk` 字段显式列出）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:dispute_flag"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:exclusive_flag",
+      "entity": "dealer_agreements.csv",
+      "field": "exclusive_flag",
+      "physical_type": "csv",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "boolean",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "是",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "是否独家区域：是/否（本快照 4 家为是）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:exclusive_flag"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:owner",
+      "entity": "dealer_agreements.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "渠道部",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "责任主体（词表：市场部/渠道部/品牌组/行政支持）；原始列；存量值 `筹备中` 见 §1 存量取值登记",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:period",
+      "entity": "dealer_agreements.csv",
+      "field": "period",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-Q3",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "条款执行期间 `YYYY-Qn`（2026-Q3），与 events.quarter 同域",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:period"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:rebate_pct",
+      "entity": "dealer_agreements.csv",
+      "field": "rebate_pct",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 1.5
+        },
+        {
+          "kind": "maximum",
+          "value": 3
+        }
+      ],
+      "example": "3.0",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "返利比例（%，1 位小数）；金级 3.0 / 银级 2.0 / 普通 1.5",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:rebate_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:region",
+      "entity": "dealer_agreements.csv",
+      "field": "region",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华南",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "区域：华南/华东/华中/西南/华北",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:region"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:sellthrough_pct",
+      "entity": "dealer_agreements.csv",
+      "field": "sellthrough_pct",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 55.7
+        },
+        {
+          "kind": "maximum",
+          "value": 95.1
+        }
+      ],
+      "example": "92.4",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "售罄率（0-100，1 位小数）；<60% 触发滞销提示（§9 V-MKTOFF-09）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:sellthrough_pct"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:terms_digest",
+      "entity": "dealer_agreements.csv",
+      "field": "terms_digest",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "独家区域保护+季度返利",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "**条款要点摘要**（脱敏后形态，如 `独家区域保护+季度返利`）；scene 声明的 `dealer_terms` 原文**不落地、不出域**（§10）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:terms_digest"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:tier",
+      "entity": "dealer_agreements.csv",
+      "field": "tier",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "金级",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "经销商等级：金级/银级/普通（决定返利比例与独家条款口径）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:tier"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "dealer_agreements.csv:updated_at",
+      "entity": "dealer_agreements.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-28",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "数据版本时间戳 `YYYY-MM-DD`，审计\"依据数据版本\"取该值",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/dealer_agreements.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:actual_wan",
+      "entity": "events.csv",
+      "field": "actual_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 168
+        }
+      ],
+      "example": "76",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "实际支出（**万元**，整数）；未发生为 `0`；原始列；`actual_wan > budget_wan` 为超支行（本快照 5 行，最大超支 12.0%）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:actual_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:attendees",
+      "entity": "events.csv",
+      "field": "attendees",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 5000
+        }
+      ],
+      "example": "320",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "现场到场人数；未举办为 `0`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:attendees"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:budget_wan",
+      "entity": "events.csv",
+      "field": "budget_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 18
+        },
+        {
+          "kind": "maximum",
+          "value": 150
+        }
+      ],
+      "example": "80",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "计划预算（**万元**，整数）；原始列；预算超包判定字段（§9 V-MKTOFF-03）",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:budget_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:city",
+      "entity": "events.csv",
+      "field": "city",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "广州",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "举办城市（广州/深圳/佛山/东莞/上海/武汉）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:city"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:dept_quarter_pkg_wan",
+      "entity": "events.csv",
+      "field": "dept_quarter_pkg_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 80
+        },
+        {
+          "kind": "maximum",
+          "value": 400
+        }
+      ],
+      "example": "200",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "该责任主体当季活动包额度（**万元**，整数，按 owner+quarter 取值一致）；预算超包判定基准（§9 V-MKTOFF-03）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:dept_quarter_pkg_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:end_date",
+      "entity": "events.csv",
+      "field": "end_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-07-17",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "结束日期；`end_date ≥ start_date`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:end_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:event",
+      "entity": "events.csv",
+      "field": "event",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华南渠道会",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动名称（合成名称，全场唯一）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:event"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:event_id",
+      "entity": "events.csv",
+      "field": "event_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EV-2601",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动 ID，唯一主键，格式 `EV-YY##`（EV-2601~EV-2616 连续编号）；materials.event_id 的外键指向本列；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:event_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:event_type",
+      "entity": "events.csv",
+      "field": "event_type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "渠道会",
+        "经销商大会",
+        "展会",
+        "答谢会",
+        "发布会",
+        "路演",
+        "快闪店",
+        "沙龙",
+        "开放日",
+        "培训营",
+        "大会"
+      ],
+      "constraints": [],
+      "example": "渠道会",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动类型：发布会/渠道会/经销商大会/展会/答谢会/路演/快闪店/沙龙/开放日/培训营/大会；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:event_type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:leads",
+      "entity": "events.csv",
+      "field": "leads",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 1180
+        }
+      ],
+      "example": "268",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "现场采集线索数（人次）；`执行中`及以前为 `0`（线索在活动结束后结算）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:leads"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:leads_dedup",
+      "entity": "events.csv",
+      "field": "leads_dedup",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 910
+        }
+      ],
+      "example": "231",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "去重后线索数；`leads_dedup ≤ leads`；移交销售（`lead-handoff`）取此列；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:leads_dedup"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:owner",
+      "entity": "events.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "渠道部",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "责任主体（词表：市场部/渠道部/品牌组/行政支持）；原始列；存量值 `筹备中` 见 §1 存量取值登记",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:quarter",
+      "entity": "events.csv",
+      "field": "quarter",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-Q3",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "**预算归属季度** `YYYY-Qn`（本快照全部为 2026-Q3，即活动立项获批的季度；跨季举办的活动仍归属立项季度）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:quarter"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:revenue_wan",
+      "entity": "events.csv",
+      "field": "revenue_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 403.2
+        }
+      ],
+      "example": "144.4",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动带来的可归因收入/意向金额（**万元**，1 位小数）；未结算为 `0`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:revenue_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:roi",
+      "entity": "events.csv",
+      "field": "roi",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 2.4
+        }
+      ],
+      "example": "1.9",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "投入产出比（1 位小数）＝ `revenue_wan ÷ actual_wan`；未结算行为 `0`；原始列；**GT-MKTOFF-03 必填字段，须可追溯到本表行**",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:roi"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:start_date",
+      "entity": "events.csv",
+      "field": "start_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-07-16",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "开始日期；可晚于数据基线日（跨季举办），见 §9 V-MKTOFF-08；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:start_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:status",
+      "entity": "events.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "复盘完成",
+        "策划中",
+        "待审批",
+        "已结束",
+        "执行中"
+      ],
+      "constraints": [],
+      "example": "复盘完成",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动状态，枚举见 §4.1（策划中/待审批/执行中/已结束/复盘完成）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:venue",
+      "entity": "events.csv",
+      "field": "venue",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "广州琶洲会展中心B馆",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "场地名称（合成场馆名，不含真实客户或酒店主体信息）；场地签约审批（`booth-approve`）标的；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:venue"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "events.csv:venue_cost_wan",
+      "entity": "events.csv",
+      "field": "venue_cost_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 6
+        },
+        {
+          "kind": "maximum",
+          "value": 56
+        }
+      ],
+      "example": "38",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "场地/展位签约金额（**万元**，整数）；单场 >30 万元触发双审批（§5，本快照 7 行命中、1 行 30 万元边界）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/events.csv",
+          "field:venue_cost_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:brand_check",
+      "entity": "materials.csv",
+      "field": "brand_check",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "通过",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "品牌项：未审/待改/通过；存量行含违规原因直填值 `字号不合规`（M-2604，等价\"待改\"，原因见 issue_type）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:brand_check"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:channel",
+      "entity": "materials.csv",
+      "field": "channel",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "经销商",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "投放渠道：现场/线上/线下+线上（`线上+现场`）/经销商/定向邀约/媒体/校园；决定外发合规留痕去向（§6）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:channel"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:event_id",
+      "entity": "materials.csv",
+      "field": "event_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EV-2602",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动 ID，唯一主键，格式 `EV-YY##`（EV-2601~EV-2616 连续编号）；materials.event_id 的外键指向本列；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:event_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:external_ready",
+      "entity": "materials.csv",
+      "field": "external_ready",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "yes",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "可外发标记 yes/no；`yes` 当且仅当 `review_status=通过` 且 `legal_check=通过` 且 `brand_check=通过`（§9 V-MKTOFF-04）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:external_ready"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:issue_type",
+      "entity": "materials.csv",
+      "field": "issue_type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "-",
+        "文案绝对化用语",
+        "品牌字号不合规",
+        "抽奖表述不合规",
+        "字幕免责声明待补",
+        "价格比较表述无依据",
+        "证言授权待补"
+      ],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "未通过原因（如 `文案绝对化用语` / `品牌字号不合规` / `价格比较表述无依据` / `证言授权待补`）；通过行为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:issue_type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:legal_check",
+      "entity": "materials.csv",
+      "field": "legal_check",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "通过",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "法务项：未审/待改/通过（\"待改\"＝法务意见要求修改后重审）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:legal_check"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:material",
+      "entity": "materials.csv",
+      "field": "material",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "经销商手册 V5",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "物料名称；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:material"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:material_id",
+      "entity": "materials.csv",
+      "field": "material_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "M-2601",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "物料 ID，唯一主键，格式 `M-####`（M-2601~M-2614 连续编号）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:material_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:owner",
+      "entity": "materials.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "品牌组",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "责任主体（词表：市场部/渠道部/品牌组/行政支持）；原始列；存量值 `筹备中` 见 §1 存量取值登记",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:review_status",
+      "entity": "materials.csv",
+      "field": "review_status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "通过",
+        "审核中",
+        "驳回",
+        "待审"
+      ],
+      "constraints": [],
+      "example": "通过",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "审查状态，枚举见 §4.2（待审/审核中/通过/驳回）；**仅 `通过` 可外发**；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:review_status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:reviewed_at",
+      "entity": "materials.csv",
+      "field": "reviewed_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-05",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "最近一次审查完成日；未审为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:reviewed_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:reviewer_brand",
+      "entity": "materials.csv",
+      "field": "reviewer_brand",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "王**",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "品牌审查人掩码名；未审为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:reviewer_brand"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:reviewer_legal",
+      "entity": "materials.csv",
+      "field": "reviewer_legal",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "李**",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "法务审查人掩码名（姓 + `**`，如 `李**`）；未审为 `-`；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:reviewer_legal"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:type",
+      "entity": "materials.csv",
+      "field": "type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "手册",
+        "易拉宝",
+        "包装",
+        "背板",
+        "邀请函",
+        "主视觉",
+        "视频",
+        "通稿",
+        "单页",
+        "导视",
+        "灯箱",
+        "海报"
+      ],
+      "constraints": [],
+      "example": "手册",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "物料类型：手册/易拉宝/包装/背板/邀请函/主视觉/视频/通稿/单页/导视/灯箱/海报；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "materials.csv:version",
+      "entity": "materials.csv",
+      "field": "version",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "V5",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "版本号 `V#`；驳回后返修须升版重审（§4.2）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:mkt-off/materials.csv",
+          "field:version"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:mkt-off.booth-approve@1.0.0:approver",
+      "entity": "workflow_output/mkt-off.booth-approve",
+      "field": "approver",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.booth-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.booth-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.booth-approve@1.0.0:cost_wan",
+      "entity": "workflow_output/mkt-off.booth-approve",
+      "field": "cost_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.booth-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.booth-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.booth-approve@1.0.0:dates",
+      "entity": "workflow_output/mkt-off.booth-approve",
+      "field": "dates",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.booth-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.booth-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.booth-approve@1.0.0:venue",
+      "entity": "workflow_output/mkt-off.booth-approve",
+      "field": "venue",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "场地名称（合成场馆名，不含真实客户或酒店主体信息）；场地签约审批（`booth-approve`）标的；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.booth-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.booth-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-plan@1.0.0:budget_wan",
+      "entity": "workflow_output/mkt-off.event-plan",
+      "field": "budget_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "计划预算（**万元**，整数）；原始列；预算超包判定字段（§9 V-MKTOFF-03）",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-plan@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-plan@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-plan@1.0.0:city",
+      "entity": "workflow_output/mkt-off.event-plan",
+      "field": "city",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "举办城市（广州/深圳/佛山/东莞/上海/武汉）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-plan@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-plan@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-plan@1.0.0:event",
+      "entity": "workflow_output/mkt-off.event-plan",
+      "field": "event",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动名称（合成名称，全场唯一）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-plan@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-plan@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-plan@1.0.0:schedule",
+      "entity": "workflow_output/mkt-off.event-plan",
+      "field": "schedule",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-plan@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-plan@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-roi@1.0.0:actual_wan",
+      "entity": "workflow_output/mkt-off.event-roi",
+      "field": "actual_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "实际支出（**万元**，整数）；未发生为 `0`；原始列；`actual_wan > budget_wan` 为超支行（本快照 5 行，最大超支 12.0%）",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-roi@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-roi@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-roi@1.0.0:budget_wan",
+      "entity": "workflow_output/mkt-off.event-roi",
+      "field": "budget_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "计划预算（**万元**，整数）；原始列；预算超包判定字段（§9 V-MKTOFF-03）",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-roi@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-roi@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-roi@1.0.0:event",
+      "entity": "workflow_output/mkt-off.event-roi",
+      "field": "event",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动名称（合成名称，全场唯一）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-roi@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-roi@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-roi@1.0.0:lessons",
+      "entity": "workflow_output/mkt-off.event-roi",
+      "field": "lessons",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-roi@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-roi@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.event-roi@1.0.0:roi",
+      "entity": "workflow_output/mkt-off.event-roi",
+      "field": "roi",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "投入产出比（1 位小数）＝ `revenue_wan ÷ actual_wan`；未结算行为 `0`；原始列；**GT-MKTOFF-03 必填字段，须可追溯到本表行**",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.event-roi@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.event-roi@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.lead-handoff@1.0.0:dedup_pct",
+      "entity": "workflow_output/mkt-off.lead-handoff",
+      "field": "dedup_pct",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.lead-handoff@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.lead-handoff@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.lead-handoff@1.0.0:event",
+      "entity": "workflow_output/mkt-off.lead-handoff",
+      "field": "event",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "活动名称（合成名称，全场唯一）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.lead-handoff@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.lead-handoff@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.lead-handoff@1.0.0:leads",
+      "entity": "workflow_output/mkt-off.lead-handoff",
+      "field": "leads",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/events.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "现场采集线索数（人次）；`执行中`及以前为 `0`（线索在活动结束后结算）；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.lead-handoff@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.lead-handoff@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.lead-handoff@1.0.0:owner",
+      "entity": "workflow_output/mkt-off.lead-handoff",
+      "field": "owner",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "责任主体（词表：市场部/渠道部/品牌组/行政支持）；原始列；存量值 `筹备中` 见 §1 存量取值登记",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.lead-handoff@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.lead-handoff@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.material-review@1.0.0:brand_check",
+      "entity": "workflow_output/mkt-off.material-review",
+      "field": "brand_check",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "品牌项：未审/待改/通过；存量行含违规原因直填值 `字号不合规`（M-2604，等价\"待改\"，原因见 issue_type）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.material-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.material-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.material-review@1.0.0:final_status",
+      "entity": "workflow_output/mkt-off.material-review",
+      "field": "final_status",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.material-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.material-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.material-review@1.0.0:legal_check",
+      "entity": "workflow_output/mkt-off.material-review",
+      "field": "legal_check",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "法务项：未审/待改/通过（\"待改\"＝法务意见要求修改后重审）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.material-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.material-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.material-review@1.0.0:material",
+      "entity": "workflow_output/mkt-off.material-review",
+      "field": "material",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/materials.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "物料名称；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.material-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.material-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.vendor-brief@1.0.0:dealer_masked",
+      "entity": "workflow_output/mkt-off.vendor-brief",
+      "field": "dealer_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "mkt-off/dealer_agreements.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "经销商标识掩码 `DEALER-***##`（不可还原）；出域/入报告只允许此形态（§9 V-MKTOFF-07）",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.vendor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.vendor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.vendor-brief@1.0.0:risk",
+      "entity": "workflow_output/mkt-off.vendor-brief",
+      "field": "risk",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.vendor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.vendor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.vendor-brief@1.0.0:sellthrough",
+      "entity": "workflow_output/mkt-off.vendor-brief",
+      "field": "sellthrough",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.vendor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.vendor-brief@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:mkt-off.vendor-brief@1.0.0:terms_exec",
+      "entity": "workflow_output/mkt-off.vendor-brief",
+      "field": "terms_exec",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:mkt-off.vendor-brief@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-PIPE",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "mkt-off.vendor-brief@1.0.0"
+      ]
+    }
+  ]
+}

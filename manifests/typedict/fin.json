@@ -1,0 +1,2326 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "fin",
+  "label": "财务 FIN",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "budget.csv:budget_wan",
+      "entity": "budget.csv",
+      "field": "budget_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 66
+        },
+        {
+          "kind": "maximum",
+          "value": 380
+        }
+      ],
+      "example": "300.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期预算包（**万元**，2 位小数）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:budget_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:dept",
+      "entity": "budget.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属部门（词表：销售部/市场部/研发部/行政部/人力资源部/财务部），与 `budget.dept` 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:dept_code",
+      "entity": "budget.csv",
+      "field": "dept_code",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SL",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "部门码 SL / MK / RD / AD / HR / FN（对齐 `budget.dept_code`，用于跨表连接）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:dept_code"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:net_wan",
+      "entity": "budget.csv",
+      "field": "net_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": -138
+        },
+        {
+          "kind": "maximum",
+          "value": 492
+        }
+      ],
+      "example": "492.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期净额（**万元**，2 位小数）＝ `revenue_wan − used_wan`（成本中心为负值，属预期）；**GT-FIN-02 必填字段 net_wan 的汇总来源**；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:net_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:owner",
+      "entity": "budget.csv",
+      "field": "owner",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "周****",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "部门预算责任人（掩码名，如 `周****`）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:owner"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:period",
+      "entity": "budget.csv",
+      "field": "period",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属期间 `YYYY-MM`（2026-08 / 2026-09），是预算执行月报的过滤键；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:period"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:period_type",
+      "entity": "budget.csv",
+      "field": "period_type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "月度"
+      ],
+      "constraints": [],
+      "example": "月度",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "期间类型：月度（本域仅月度；季度包由 `fin.budget-review` 审议后按月度落地）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:period_type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:remain_wan",
+      "entity": "budget.csv",
+      "field": "remain_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 4
+        },
+        {
+          "kind": "maximum",
+          "value": 38
+        }
+      ],
+      "example": "32.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "预算余额 ＝ `budget_wan − used_wan`（余额不足拦截见 V-FIN-06）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:remain_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:revenue_wan",
+      "entity": "budget.csv",
+      "field": "revenue_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 760
+        }
+      ],
+      "example": "760.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期确认收入（**万元**，2 位小数）；恒等于 `Σrevenue_ledger.amount_yuan(部门,期间)/10000`；**GT-FIN-02 必填字段 revenue_wan 的汇总来源**；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:revenue_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:updated_at",
+      "entity": "budget.csv",
+      "field": "updated_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-30",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "数据版本时间戳 `YYYY-MM-DD`，审计\"依据数据版本\"取该值；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:updated_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "budget.csv:used_wan",
+      "entity": "budget.csv",
+      "field": "used_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 62
+        },
+        {
+          "kind": "maximum",
+          "value": 342
+        }
+      ],
+      "example": "268.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期预算执行数（**万元**，2 位小数）＝成本口径 `cost_wan`；恒等于该部门该期 expenses 明细合计（含在途、不含已驳回），原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/budget.csv",
+          "field:used_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:amount_yuan",
+      "entity": "expenses.csv",
+      "field": "amount_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 820
+        },
+        {
+          "kind": "maximum",
+          "value": 2180000
+        }
+      ],
+      "example": "3860",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "单笔金额（**元**，整数）；与 `invoices.total_yuan` 的比对见 §9 V-FIN-02；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:amount_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:applicant_masked",
+      "entity": "expenses.csv",
+      "field": "applicant_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "张****",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "申请人掩码（姓 + `****`，如 `周****`），掩码前值不入库、不出域、不入记忆层；原始列（对应 redact 口径）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:applicant_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:dept",
+      "entity": "expenses.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属部门（词表：销售部/市场部/研发部/行政部/人力资源部/财务部），与 `budget.dept` 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:dept_code",
+      "entity": "expenses.csv",
+      "field": "dept_code",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SL",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "部门码 SL / MK / RD / AD / HR / FN（对齐 `budget.dept_code`，用于跨表连接）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:dept_code"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:expense_id",
+      "entity": "expenses.csv",
+      "field": "expense_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EXP-8812",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "报销/费用单号，唯一主键，格式 `EXP-####`（EXP-8812~EXP-8840 连续编号）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:expense_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:gl_account",
+      "entity": "expenses.csv",
+      "field": "gl_account",
+      "physical_type": "csv",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "差旅费",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "费用科目：差旅费 / 交通费 / 办公费 / 设备采购 / 市场推广费 / 广告投放费 / 云资源费 / 外包服务费 / 项目直接成本 / 房租物业费 / 招聘服务费 / 员工活动费 / 审计咨询费 / 银行手续费；决定科目基准审批级别；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:gl_account"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:invoice_no",
+      "entity": "expenses.csv",
+      "field": "invoice_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "INV-2026-090112",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "关联发票号 `INV-YYYY-MM######`；在 `invoices.csv` 中命中即为已归档，未命中按 §9 V-FIN-08 列\"待补件\"；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:invoice_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:level",
+      "entity": "expenses.csv",
+      "field": "level",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "L2",
+        "L4",
+        "L3",
+        "L1"
+      ],
+      "constraints": [],
+      "example": "L2",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "审批级别 L1 / L2 / L3 / L4，按\"科目基准级别 + 金额升级\"复合判定（规则见 §5 与 §9 V-FIN-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:level"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:paid_at",
+      "entity": "expenses.csv",
+      "field": "paid_at",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date-time",
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-08",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "支付/报销到账日 `YYYY-MM-DD`；在途行（待预审/待审批/双审批中）为 `-`，是现金流出与状态机的证据字段；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:paid_at"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:period",
+      "entity": "expenses.csv",
+      "field": "period",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属期间 `YYYY-MM`（2026-08 / 2026-09），是预算执行月报的过滤键；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:period"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:reason",
+      "entity": "expenses.csv",
+      "field": "reason",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "差旅-深圳出差",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "事由（科目化描述，含期间批次），用于科目归类与异常解释；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:reason"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "expenses.csv:status",
+      "entity": "expenses.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已批准",
+        "已报销",
+        "双审批中",
+        "待审批"
+      ],
+      "constraints": [],
+      "example": "已批准",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "报销单状态：待预审 / 待审批 / 双审批中 / 已批准 / 已驳回 / 已报销（迁移见 §4.1）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/expenses.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:amount_yuan",
+      "entity": "invoices.csv",
+      "field": "amount_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 796.12
+        },
+        {
+          "kind": "maximum",
+          "value": 2056603.77
+        }
+      ],
+      "example": "3641.51",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "单笔金额（**元**，整数）；与 `invoices.total_yuan` 的比对见 §9 V-FIN-02；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:amount_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:buyer_taxid",
+      "entity": "invoices.csv",
+      "field": "buyer_taxid",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "91310115MA1K3QX09T",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "购买方税号，主体唯一值 `91310115MA1K3QX09T`；与抬头一并构成\"主体一致性\"证据",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:buyer_taxid"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:buyer_title",
+      "entity": "invoices.csv",
+      "field": "buyer_title",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "星桥科技（上海）有限公司",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "购买方抬头，必须等于主体登记名称 `星桥科技（上海）有限公司`，否则 FAIL（V-FIN-04）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:buyer_title"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:check_result",
+      "entity": "invoices.csv",
+      "field": "check_result",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "通过",
+        "FAIL",
+        "疑点"
+      ],
+      "constraints": [],
+      "example": "通过",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "校验结论：通过 / 疑点 / FAIL（映射发票状态机见 §4.2）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:check_result"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:expense_id",
+      "entity": "invoices.csv",
+      "field": "expense_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "EXP-8812",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "报销/费用单号，唯一主键，格式 `EXP-####`（EXP-8812~EXP-8840 连续编号）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:expense_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:invoice_code",
+      "entity": "invoices.csv",
+      "field": "invoice_code",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 31002000211
+        },
+        {
+          "kind": "maximum",
+          "value": 31002000229
+        }
+      ],
+      "example": "031002000211",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "发票代码（12 位数字，如 `031002000211`）；同代码 + 同销方 + 号码连续 = 连号",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:invoice_code"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:invoice_date",
+      "entity": "invoices.csv",
+      "field": "invoice_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-07",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "开票日期 `YYYY-MM-DD`；晚于 `expenses.paid_at` 记跨期发票疑点",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:invoice_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:invoice_no",
+      "entity": "invoices.csv",
+      "field": "invoice_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "INV-2026-090112",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "关联发票号 `INV-YYYY-MM######`；在 `invoices.csv` 中命中即为已归档，未命中按 §9 V-FIN-08 列\"待补件\"；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:invoice_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:issue_type",
+      "entity": "invoices.csv",
+      "field": "issue_type",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "-",
+        "连号：与 INV-2026-090108 同销方同日连号开具，拆分嫌疑（验收标准：连号直接 FAIL）",
+        "连号：与 INV-2026-090107 同销方同日连号开具，拆分嫌疑（验收标准：连号直接 FAIL）",
+        "抬头不一致：购买方名称与报销主体不符（验收标准：抬头不一致直接 FAIL）",
+        "金额不符：价税合计 620000.00 元与报销单 640000 元不一致",
+        "税号格式异常：销方税号仅 17 位（应为 18 位），转人工复核",
+        "跨期发票：开票日期（2026-08-30）晚于支付日（2026-08-29）"
+      ],
+      "constraints": [],
+      "example": "-",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "疑点/失败类型：连号 / 抬头不一致 / 金额不符 / 税号格式异常 / 跨期发票；`通过` 行为 `-`",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:issue_type"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:seller_name",
+      "entity": "invoices.csv",
+      "field": "seller_name",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华程商务旅行服务（上海）有限公司",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "销方名称（合成主体，非真实企业）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:seller_name"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:seller_taxid",
+      "entity": "invoices.csv",
+      "field": "seller_taxid",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "91310115MA1K3QX11T",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "销方纳税人识别号（PII / 敏感标识）。合规值 18 位；样例含 1 条 17 位异常（`91310115MA1K3QY44`，见 V-FIN-01）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:seller_taxid"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:tax_yuan",
+      "entity": "invoices.csv",
+      "field": "tax_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 23.88
+        },
+        {
+          "kind": "maximum",
+          "value": 123396.23
+        }
+      ],
+      "example": "218.49",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "税额（**元**，2 位小数）；`amount_yuan + tax_yuan ≡ total_yuan`（V-FIN-02）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:tax_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "invoices.csv:total_yuan",
+      "entity": "invoices.csv",
+      "field": "total_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 820
+        },
+        {
+          "kind": "maximum",
+          "value": 2180000
+        }
+      ],
+      "example": "3860.00",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "价税合计（**元**，2 位小数）；与 `expenses.amount_yuan` 一致（差异即\"金额不符\"FAIL）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/invoices.csv",
+          "field:total_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:amount_yuan",
+      "entity": "revenue_ledger.csv",
+      "field": "amount_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 600000
+        },
+        {
+          "kind": "maximum",
+          "value": 3200000
+        }
+      ],
+      "example": "3200000",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "单笔金额（**元**，整数）；与 `invoices.total_yuan` 的比对见 §9 V-FIN-02；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:amount_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:contract_no",
+      "entity": "revenue_ledger.csv",
+      "field": "contract_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "HT-2026-0412",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/revenue_ledger.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "销售合同号 `HT-YYYY-####`，供跨域（sales）取证",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:contract_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:customer_masked",
+      "entity": "revenue_ledger.csv",
+      "field": "customer_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "华****科技有限公司",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/revenue_ledger.csv",
+      "pii": true,
+      "level": "L4",
+      "description": "客户名称掩码（如 `华****科技有限公司`），不可还原；真名受 redact_gate 约束",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:customer_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:dept",
+      "entity": "revenue_ledger.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "销售部",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属部门（词表：销售部/市场部/研发部/行政部/人力资源部/财务部），与 `budget.dept` 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:dept_code",
+      "entity": "revenue_ledger.csv",
+      "field": "dept_code",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "SL",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "部门码 SL / MK / RD / AD / HR / FN（对齐 `budget.dept_code`，用于跨表连接）；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:dept_code"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:invoice_no",
+      "entity": "revenue_ledger.csv",
+      "field": "invoice_no",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "INV-2026-090901",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "关联发票号 `INV-YYYY-MM######`；在 `invoices.csv` 中命中即为已归档，未命中按 §9 V-FIN-08 列\"待补件\"；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:invoice_no"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:period",
+      "entity": "revenue_ledger.csv",
+      "field": "period",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属期间 `YYYY-MM`（2026-08 / 2026-09），是预算执行月报的过滤键；追加列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:period"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:recognize_date",
+      "entity": "revenue_ledger.csv",
+      "field": "recognize_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-12",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/revenue_ledger.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "收入确认日 `YYYY-MM-DD`（权责发生时点）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:recognize_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:revenue_id",
+      "entity": "revenue_ledger.csv",
+      "field": "revenue_id",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "R-202609-001",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/revenue_ledger.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "收入确认单号 `R-YYYYMM-###`，唯一主键",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:revenue_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:status",
+      "entity": "revenue_ledger.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "已回款",
+        "已开票",
+        "已确认"
+      ],
+      "constraints": [],
+      "example": "已回款",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "报销单状态：待预审 / 待审批 / 双审批中 / 已批准 / 已驳回 / 已报销（迁移见 §4.1）；原始列",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:tax_rate",
+      "entity": "revenue_ledger.csv",
+      "field": "tax_rate",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0.06
+        },
+        {
+          "kind": "maximum",
+          "value": 0.06
+        }
+      ],
+      "example": "0.06",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/revenue_ledger.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "税率（小数，本域取 0.06）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:tax_rate"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:tax_yuan",
+      "entity": "revenue_ledger.csv",
+      "field": "tax_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 36000
+        },
+        {
+          "kind": "maximum",
+          "value": 192000
+        }
+      ],
+      "example": "192000",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "税额（**元**，2 位小数）；`amount_yuan + tax_yuan ≡ total_yuan`（V-FIN-02）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:tax_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "revenue_ledger.csv:total_yuan",
+      "entity": "revenue_ledger.csv",
+      "field": "total_yuan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 636000
+        },
+        {
+          "kind": "maximum",
+          "value": 3392000
+        }
+      ],
+      "example": "3392000",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/invoices.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "价税合计（**元**，2 位小数）；与 `expenses.amount_yuan` 一致（差异即\"金额不符\"FAIL）",
+      "lineage": {
+        "upstream": [
+          "dataset:fin/revenue_ledger.csv",
+          "field:total_yuan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:fin.budget-review@1.0.0:budget_wan",
+      "entity": "workflow_output/fin.budget-review",
+      "field": "budget_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期预算包（**万元**，2 位小数）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.budget-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.budget-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.budget-review@1.0.0:delta_wan",
+      "entity": "workflow_output/fin.budget-review",
+      "field": "delta_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.budget-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.budget-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.budget-review@1.0.0:dept",
+      "entity": "workflow_output/fin.budget-review",
+      "field": "dept",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属部门（词表：销售部/市场部/研发部/行政部/人力资源部/财务部），与 `budget.dept` 同词表；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.budget-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.budget-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.budget-review@1.0.0:reason",
+      "entity": "workflow_output/fin.budget-review",
+      "field": "reason",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "text",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "事由（科目化描述，含期间批次），用于科目归类与异常解释；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.budget-review@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.budget-review@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.cashflow-week@1.0.0:balance_wan",
+      "entity": "workflow_output/fin.cashflow-week",
+      "field": "balance_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.cashflow-week@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.cashflow-week@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.cashflow-week@1.0.0:in_wan",
+      "entity": "workflow_output/fin.cashflow-week",
+      "field": "in_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.cashflow-week@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.cashflow-week@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.cashflow-week@1.0.0:out_wan",
+      "entity": "workflow_output/fin.cashflow-week",
+      "field": "out_wan",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.cashflow-week@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.cashflow-week@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.cashflow-week@1.0.0:week",
+      "entity": "workflow_output/fin.cashflow-week",
+      "field": "week",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.cashflow-week@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.cashflow-week@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.expense-approve@1.0.0:amount_yuan",
+      "entity": "workflow_output/fin.expense-approve",
+      "field": "amount_yuan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "单笔金额（**元**，整数）；与 `invoices.total_yuan` 的比对见 §9 V-FIN-02；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.expense-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.expense-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.expense-approve@1.0.0:approvals",
+      "entity": "workflow_output/fin.expense-approve",
+      "field": "approvals",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.expense-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.expense-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.expense-approve@1.0.0:expense_id",
+      "entity": "workflow_output/fin.expense-approve",
+      "field": "expense_id",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "报销/费用单号，唯一主键，格式 `EXP-####`（EXP-8812~EXP-8840 连续编号）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.expense-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.expense-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.expense-approve@1.0.0:level",
+      "entity": "workflow_output/fin.expense-approve",
+      "field": "level",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "审批级别 L1 / L2 / L3 / L4，按\"科目基准级别 + 金额升级\"复合判定（规则见 §5 与 §9 V-FIN-05）；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.expense-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.expense-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.invoice-check@1.0.0:amount_yuan",
+      "entity": "workflow_output/fin.invoice-check",
+      "field": "amount_yuan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "单笔金额（**元**，整数）；与 `invoices.total_yuan` 的比对见 §9 V-FIN-02；原始列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.invoice-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.invoice-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.invoice-check@1.0.0:checks",
+      "entity": "workflow_output/fin.invoice-check",
+      "field": "checks",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.invoice-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.invoice-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.invoice-check@1.0.0:invoice_no",
+      "entity": "workflow_output/fin.invoice-check",
+      "field": "invoice_no",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/expenses.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "关联发票号 `INV-YYYY-MM######`；在 `invoices.csv` 中命中即为已归档，未命中按 §9 V-FIN-08 列\"待补件\"；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.invoice-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.invoice-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.invoice-check@1.0.0:result",
+      "entity": "workflow_output/fin.invoice-check",
+      "field": "result",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.invoice-check@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.invoice-check@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.monthly-report@1.0.0:cost_wan",
+      "entity": "workflow_output/fin.monthly-report",
+      "field": "cost_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.monthly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.monthly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.monthly-report@1.0.0:net_wan",
+      "entity": "workflow_output/fin.monthly-report",
+      "field": "net_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期净额（**万元**，2 位小数）＝ `revenue_wan − used_wan`（成本中心为负值，属预期）；**GT-FIN-02 必填字段 net_wan 的汇总来源**；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.monthly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.monthly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.monthly-report@1.0.0:period",
+      "entity": "workflow_output/fin.monthly-report",
+      "field": "period",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "归属期间 `YYYY-MM`（2026-08 / 2026-09），是预算执行月报的过滤键；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.monthly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.monthly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.monthly-report@1.0.0:revenue_wan",
+      "entity": "workflow_output/fin.monthly-report",
+      "field": "revenue_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "fin/budget.csv",
+      "pii": false,
+      "level": "L4",
+      "description": "当期确认收入（**万元**，2 位小数）；恒等于 `Σrevenue_ledger.amount_yuan(部门,期间)/10000`；**GT-FIN-02 必填字段 revenue_wan 的汇总来源**；追加列",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.monthly-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.monthly-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.reimburse-audit@1.0.0:actions",
+      "entity": "workflow_output/fin.reimburse-audit",
+      "field": "actions",
+      "physical_type": "json",
+      "logical_type": "array",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.reimburse-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.reimburse-audit@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.reimburse-audit@1.0.0:issue_rate",
+      "entity": "workflow_output/fin.reimburse-audit",
+      "field": "issue_rate",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.reimburse-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.reimburse-audit@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.reimburse-audit@1.0.0:issues",
+      "entity": "workflow_output/fin.reimburse-audit",
+      "field": "issues",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.reimburse-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.reimburse-audit@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:fin.reimburse-audit@1.0.0:sample_size",
+      "entity": "workflow_output/fin.reimburse-audit",
+      "field": "sample_size",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L4",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:fin.reimburse-audit@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-REV"
+        ]
+      },
+      "used_by_workflows": [
+        "fin.reimburse-audit@1.0.0"
+      ]
+    }
+  ]
+}

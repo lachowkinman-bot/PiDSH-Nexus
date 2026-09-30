@@ -1,0 +1,97 @@
+{
+  "schema": "pids-nexus/cross-domain-events/v1",
+  "generated_at": "2026-09-30T10:35:28.399Z",
+  "events": [
+    {
+      "event_id": "strategy.budget.commitment",
+      "target_domain": "strat",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "initiativeKey",
+      "anonymous_key": "initiative_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "strategy.budget.commitment:0:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "fin",
+      "source_workflow_id": "fin.budget-review@1.0.0",
+      "source_work_item_id": "fin-budget-review"
+    },
+    {
+      "event_id": "sales.pipeline.lead",
+      "target_domain": "sales",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "leadKey",
+      "anonymous_key": "customer_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "sales.pipeline.lead:0:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "mkt-off",
+      "source_workflow_id": "mkt-off.lead-handoff@1.0.0",
+      "source_work_item_id": "mkt-off-lead-handoff"
+    },
+    {
+      "event_id": "comp.adjustment.candidate",
+      "target_domain": "comp",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "personKey",
+      "anonymous_key": "person_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "comp.adjustment.candidate:0:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "prf",
+      "source_workflow_id": "prf.calibration-approve@1.0.0",
+      "source_work_item_id": "prf-calibration-approve"
+    },
+    {
+      "event_id": "training.onboarding.plan",
+      "target_domain": "trn",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "backupPlanId",
+      "anonymous_key": "person_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "training.onboarding.plan:0:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "rec",
+      "source_workflow_id": "rec.onboarding-check@1.0.0",
+      "source_work_item_id": "rec-onboarding-check"
+    },
+    {
+      "event_id": "performance.onboarding.goals",
+      "target_domain": "prf",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "goalSetId",
+      "anonymous_key": "person_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "performance.onboarding.goals:1:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "rec",
+      "source_workflow_id": "rec.onboarding-check@1.0.0",
+      "source_work_item_id": "rec-onboarding-check"
+    },
+    {
+      "event_id": "admin.onboarding.equipment",
+      "target_domain": "admin",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "assetAssignmentId",
+      "anonymous_key": "person_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "admin.onboarding.equipment:2:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "rec",
+      "source_workflow_id": "rec.onboarding-check@1.0.0",
+      "source_work_item_id": "rec-onboarding-check"
+    },
+    {
+      "event_id": "finance.revenue.recognition",
+      "target_domain": "fin",
+      "trigger_stage": "strategy_rollup",
+      "payload_key": "contractKey",
+      "anonymous_key": "contract_key",
+      "delivery": "append_only_event",
+      "idempotency_key": "finance.revenue.recognition:0:${instance_id}",
+      "on_fail": "retain_outbox_and_retry",
+      "source_domain": "sales",
+      "source_workflow_id": "sales.contract-review@1.0.0",
+      "source_work_item_id": "sales-contract-review"
+    }
+  ]
+}

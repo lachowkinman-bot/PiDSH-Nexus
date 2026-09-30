@@ -13,6 +13,8 @@ window.__ModuleLoader__.load({
 		const API = "/workbench/api";
 		const GETOPS = new Set([
 			"strategy/overview",
+			"domain-work-design",
+			"operators",
 			"workflow-definitions",
 			"workflow-instances",
 			"metrics",
@@ -399,10 +401,10 @@ window.__ModuleLoader__.load({
 			return undefined;
 		}
 
-		function WorkflowWizard({ definition, instance, setInstance, refresh, onBack }) {
+		function WorkflowWizard({ definition, instance, setInstance, refresh, onBack, operators = [] }) {
 			const [form, setForm] = useState({});
 			const [role, setRole] = useState("");
-			const [operator, setOperator] = useState("");
+			const [operatorId, setOperatorId] = useState("");
 			const [comment, setComment] = useState("");
 			const [busy, setBusy] = useState("");
 			const [error, setError] = useState("");
@@ -414,6 +416,18 @@ window.__ModuleLoader__.load({
 				}
 				setError("");
 			}, [instance && instance.id]);
+			const activeOperators = operators.filter((item) => item.status === "active");
+			const selectedOperator = activeOperators.find((item) => item.id === operatorId) || activeOperators[0] || null;
+			const requiredRoles = (definition.stages.find((stage) => stage.type === "approval") || {}).requiredRoles || [];
+			const availableRoles = selectedOperator
+				? selectedOperator.roles.includes("*")
+					? requiredRoles
+					: selectedOperator.roles.filter((item) => !requiredRoles.length || requiredRoles.includes(item))
+				: [];
+			useEffect(() => {
+				if (selectedOperator && selectedOperator.id !== operatorId) setOperatorId(selectedOperator.id);
+				if (availableRoles.length && !availableRoles.includes(role)) setRole(availableRoles[0]);
+			}, [selectedOperator && selectedOperator.id, availableRoles.join("|")]);
 
 			const fields = definition.deliverable && definition.deliverable.fields ? definition.deliverable.fields : [];
 			const setField = (key, value) => setForm((previous) => Object.assign({}, previous, { [key]: value }));
@@ -456,14 +470,14 @@ window.__ModuleLoader__.load({
 				id: instance.id,
 				action: "approve",
 				role,
-				operator,
+				operatorId: selectedOperator && selectedOperator.id,
 				comment,
 			}));
 			const reject = () => execute("reject", () => api("workflow-instances/actions", {
 				id: instance.id,
 				action: "reject",
 				role,
-				operator,
+				operatorId: selectedOperator && selectedOperator.id,
 				comment,
 			}));
 
@@ -525,15 +539,21 @@ window.__ModuleLoader__.load({
 					instance.last_error ? h("div", { style: css.bad }, instance.last_error) : null)) : null,
 				instance && instance.status === "awaiting_approval" ? Card("3. 人工审批（角色 + 操作者签名）",
 					h("div", { style: css.grid2 },
-						h("div", { style: css.field }, h("label", { style: css.label }, "审批角色"), Inp(role, setRole, definition.dual ? "例如：业务负责人" : "例如：部门负责人")),
-						h("div", { style: css.field }, h("label", { style: css.label }, "操作者签名"), Inp(operator, setOperator, "姓名或工号掩码")),
+						h("div", { style: css.field }, h("label", { style: css.label }, "审批操作者"), selectedOperator
+							? h("select", { "aria-label": "审批操作者", style: css.input, value: selectedOperator.id, onChange: (event) => { setOperatorId(event.target.value); setRole(""); } },
+								...activeOperators.map((item) => h("option", { key: item.id, value: item.id }, item.display_name + " · " + item.id)))
+							: h("div", { style: css.bad }, "尚未配置可用的本地审批身份，请先在工作台审批中心创建。")),
+						h("div", { style: css.field }, h("label", { style: css.label }, "审批角色"), availableRoles.length
+							? h("select", { "aria-label": "审批角色", style: css.input, value: role, onChange: (event) => setRole(event.target.value) },
+								...availableRoles.map((item) => h("option", { key: item, value: item }, item)))
+							: h("div", { style: css.muted }, "该操作者未分配角色。")),
 						h("div", { style: css.field }, h("label", { style: css.label }, "审批意见"), Area(comment, setComment, "通过原因；驳回时必填"))),
-					h("div", { style: css.row }, Btn("通过", approve, "p", { disabled: !!busy }), Btn("驳回", reject, "d", { disabled: !!busy }))) : null,
+					h("div", { style: css.row }, Btn("通过", approve, "p", { disabled: !!busy || !selectedOperator || !role }), Btn("驳回", reject, "d", { disabled: !!busy || !selectedOperator || !role }))) : null,
 				artifactPanel,
 				error ? h("div", { style: Object.assign({}, css.card, { borderColor: "#fecdca", background: "#fffbfa", color: "#b42318" }) }, error) : null);
 		}
 
-		function DomainDetail({ id, label, color, strategy, definitions, instances, onBack, onRun, refresh }) {
+		function DomainDetail({ id, label, color, strategy, definitions, instances, designs, metrics, onBack, onRun, refresh }) {
 			const [data, setData] = useState(null);
 			const [tab, setTab] = useState("flows");
 			const [importTableName, setImportTableName] = useState("");
@@ -552,7 +572,11 @@ window.__ModuleLoader__.load({
 			const metric = strategy.domains.find((item) => item.domain === id);
 			const domainFlows = definitions.filter((item) => item.domain === id);
 			const domainInstances = instances.filter((item) => item.domain === id);
+			const domainMetrics = metrics.filter((item) => item.domain === id);
 			const latest = domainInstances[0];
+			const design = designs.find((item) => item.domain === id);
+			const actions = domainInstances.filter((item) => !["completed", "archived"].includes(item.status));
+			const risks = domainInstances.filter((item) => ["blocked", "blocked_model", "failed", "rejected"].includes(item.status));
 			const tablePanel = tab === "tables" && data
 				? h("div", null,
 					Card("导入用户数据（CSV 自动备份后原子写入）",
@@ -614,13 +638,101 @@ window.__ModuleLoader__.load({
 						Stat("已完成", domainInstances.filter((item) => item.status === "completed").length))),
 				Card("业务脉搏", h(DomainPulse, { id, domainData: data, metric })),
 				h("div", { style: css.row, marginBottom: "8px" },
-					["flows", "tables", "outputs", "history"].map((name) => Btn({ flows: "6 条流程", tables: "数据台账", outputs: "交付物", history: "运行记录" }[name], () => setTab(name), tab === name ? "p" : null))),
-				tab === "flows" ? h("div", { style: css.grid2 }, ...domainFlows.map((definition) => h("div", { key: definition.workflow_id, style: css.card },
-					h("div", { style: css.row }, h("b", null, definition.description), h("span", { style: css.space }), definition.dual ? Tag("双审批", "warn") : null),
-					h("div", { style: css.muted }, definition.workflow_id),
-					h("div", { style: css.small, margin: "5px 0" }, "交付：" + definition.deliverable.file + "　验收：" + definition.deliverable.acceptance),
-					Btn("发起流程", () => onRun(definition.workflow_id), "p")))) : null,
+					["flows", "actions", "tables", "approvals", "outputs", "outcome", "history"].map((name) => Btn({
+						flows: "工作模块",
+						actions: "待办与风险",
+						tables: "数据台账",
+						approvals: "审批",
+						outputs: "交付物",
+						outcome: "成效复盘",
+						history: "运行记录",
+					}[name], () => setTab(name), tab === name ? "p" : null))),
+				tab === "flows" && design ? h("div", null,
+					...design.modules.map((module) => h("details", {
+						key: module.id,
+						style: css.card,
+						open: true,
+					},
+						h("summary", null, h("b", null, module.name), h("span", { style: css.muted }, "　" + module.items.length + " 个工作事项")),
+						h("div", { style: css.muted, marginTop: "6px" }, module.outcome),
+						h("div", { style: css.grid2, marginTop: "8px" }, ...module.items.map((item) => {
+							const definition = definitions.find((value) => value.workflow_id === item.workflow.id);
+							return h("div", { key: item.id, style: { border: "1px solid #e4e7ec", borderRadius: "8px", padding: "10px", background: "#fff" } },
+								h("div", { style: css.row }, h("b", null, item.name), h("span", { style: css.space }), definition?.dual ? Tag("双审批", "warn") : null),
+								h("div", { style: css.muted }, item.workflow.id),
+								h("div", { style: css.small, margin: "5px 0" }, "责任：" + item.owner_role + "　频率：" + item.frequency),
+								h("div", { style: css.small, marginBottom: "6px" }, "结果：" + item.outcome),
+								h("details", null,
+									h("summary", null, "查看 " + item.stages.length + " 个环节标准与数据契约"),
+									h("div", { style: { marginTop: "6px" } },
+										h("div", { style: css.small }, "输入 Schema：" + item.data_contract.input_schema_ref),
+										h("div", { style: css.small }, "输出 Schema：" + item.data_contract.output_schema_ref),
+										h("div", { style: css.small, marginBottom: "6px" }, "TypeDict：" + item.data_contract.typedict_ref),
+										Table(["环节", "类型", "标准", "门禁", "失败处理"], item.stages.map((stage) => [
+											stage.name,
+											stage.type,
+											stage.standard,
+											stage.gate,
+											stage.on_fail,
+										])),
+										h("details", { style: { marginTop: "6px" } },
+											h("summary", null, "阶段契约与规则（" + item.business_rules.length + " 条）"),
+											Table(["稳定 ID", "类型", "表达式", "状态"], item.business_rules.map((rule) => [
+												rule.id,
+												rule.kind,
+												rule.expression,
+												rule.status || "active",
+											]))),
+										item.cross_domain_effects.length ? h("details", { style: { marginTop: "6px" } },
+											h("summary", null, "跨域副作用（" + item.cross_domain_effects.length + "）"),
+											Table(["事件", "目标域", "匿名键", "失败处理"], item.cross_domain_effects.map((effect) => [
+												effect.event_id,
+												effect.target_domain,
+												effect.anonymous_key,
+												effect.on_fail,
+											]))) : null)),
+								Btn("发起工作流", () => onRun(item.workflow.id), "p", { marginTop: "8px" }));
+						}))))) : null,
+				tab === "flows" && !design ? h("div", { style: css.muted }, "工作模块设计加载中…") : null,
 				tablePanel,
+				tab === "actions" ? h("div", { style: css.grid2 },
+					Card("待办队列", actions.length
+						? Table(["实例", "工作流", "状态", "下一步"], actions.map((item) => [
+							item.id,
+							item.workflow_id,
+							item.status,
+							item.status === "awaiting_approval" ? "进入审批中心完成签名"
+								: item.status === "blocked_model" ? "恢复模型后从断点重试"
+								: "继续运行或补齐输入",
+						]))
+						: h("div", { style: css.muted }, "当前没有待办。")),
+					Card("风险与阻断", risks.length
+						? Table(["实例", "风险", "证据"], risks.map((item) => [
+							item.id,
+							item.status,
+							item.last_error || "查看审计与运行记录",
+						]))
+						: h("div", { style: css.muted }, "当前没有阻断或驳回事项。"))) : null,
+				tab === "approvals" ? Card("本域审批", domainInstances.some((item) => item.status === "awaiting_approval")
+					? Table(["实例", "工作流", "已签", "更新时间"], domainInstances.filter((item) => item.status === "awaiting_approval").map((item) => [
+						item.id,
+						item.workflow_id,
+						item.approvals.filter((approval) => approval.decision === "approved").length,
+						item.updated_at,
+					]))
+					: h("div", { style: css.muted }, "当前没有待审批事项；审批身份可在全局审批中心维护。")) : null,
+				tab === "outcome" ? Card("成效与战略回写", h("div", null,
+					metric ? h("div", null,
+						h("b", null, metric.north_star + "：" + nice(metric.actual) + " " + metric.unit),
+						h("div", { style: css.small }, "战略贡献：" + (metric.contributes_to || []).join("、")),
+						h("div", { style: css.small }, "来源：" + (metric.source || "工作区数据"))) : null,
+					domainMetrics.length ? Table(["指标", "实际值", "单位", "数据版本", "时间"], domainMetrics.slice(0, 50).map((item) => [
+						item.metric,
+						nice(item.actual),
+						item.unit,
+						String(item.data_version || "").slice(0, 12),
+						item.ts || "",
+					])) : h("div", { style: css.muted, marginTop: "8px" }, "尚无成效快照；完成流程后自动回写。"))) : null,
 				tab === "outputs" ? Card("交付物", domainInstances.some((item) => item.artifacts && item.artifacts.length)
 					? h("div", null, ...domainInstances.filter((item) => item.artifacts && item.artifacts.length).map((item) => h("div", { key: item.id, style: { padding: "6px 0", borderBottom: "1px solid #f2f4f7" } },
 						h("b", null, item.id), " ", Tag(item.status, statusTone(item.status)), h("div", { style: css.small }, item.artifacts.map((artifact) => artifact.format.toUpperCase()).join(" / ")))))
@@ -695,12 +807,13 @@ window.__ModuleLoader__.load({
 				blockerCard);
 		}
 
-		function DomainsView({ strategy, definitions, instances, onOpen }) {
+		function DomainsView({ strategy, definitions, instances, designs, onOpen }) {
 			return h("div", null,
 				Card("13 域工作台", h("div", { style: css.muted }, "每个域包含经营路径、6 条流程、数据台账、审批、交付物和复盘。")),
 				h("div", { style: css.grid3 }, ...DOMAIN_ORDER.map(([id, label, color]) => {
 					const metric = strategy.domains.find((item) => item.domain === id);
 					const domainInstances = instances.filter((item) => item.domain === id);
+					const design = designs.find((item) => item.domain === id);
 					return h("button", {
 						key: id,
 						type: "button",
@@ -710,22 +823,53 @@ window.__ModuleLoader__.load({
 						h("div", { style: css.row }, h("b", null, label), h("span", { style: css.space }), Tag(domainInstances.filter((item) => item.status === "awaiting_approval").length + " 待审批")),
 						h("div", { style: css.muted }, metric ? metric.north_star + "：" + nice(metric.actual) + " " + metric.unit : "指标加载中"),
 						h("div", { style: css.small, marginTop: "5px" }, DOMAIN_JOURNEY[id]),
-						h("div", { style: css.row, marginTop: "8px" }, Tag("6 条流程"), Tag(domainInstances.length + " 个实例"), Btn("进入域工作台", () => onOpen(id), "p")));
+						h("div", { style: css.row, marginTop: "8px" }, Tag((design?.modules.length || 3) + " 模块"), Tag((design?.modules.reduce((sum, module) => sum + module.items.length, 0) || 6) + " 事项"), Tag(domainInstances.length + " 个实例"), Btn("进入域工作台", () => onOpen(id), "p")));
 				})));
 		}
 
-		function ApprovalsView({ instances, onOpen }) {
+		function ApprovalsView({ instances, operators, onOpen, onCreateOperator, refresh }) {
 			const pending = instances.filter((item) => item.status === "awaiting_approval");
-			return Card("审批中心（角色 + 操作者签名）", pending.length
-				? Table(["实例", "域", "工作流", "已签", "更新时间", "操作"], pending.map((item) => [
-					item.id,
-					item.domain,
-					item.workflow_id,
-					item.approvals.filter((approval) => approval.decision === "approved").length,
-					item.updated_at,
-					"打开审批",
-				]))
-				: h("div", { style: css.muted }, "当前没有待审批事项。"));
+			const [operatorId, setOperatorId] = useState("");
+			const [displayName, setDisplayName] = useState("");
+			const [roles, setRoles] = useState("");
+			const [error, setError] = useState("");
+			const create = async () => {
+				setError("");
+				try {
+					await onCreateOperator({ id: operatorId, displayName, roles });
+					setOperatorId("");
+					setDisplayName("");
+					setRoles("");
+					await refresh();
+				} catch (caught) {
+					setError(String(caught.message || caught));
+				}
+			};
+			return h("div", null,
+				Card("审批身份（HMAC 签名绑定实例、数据版本和草稿哈希）",
+					operators.length
+						? Table(["操作者", "角色", "状态", "创建时间"], operators.map((item) => [
+							item.id,
+							item.display_name,
+							item.roles.join("、"),
+							item.status,
+						]))
+						: h("div", { style: css.muted }, "尚未登记审批身份。"),
+					h("div", { style: css.grid3, marginTop: "10px" },
+						h("div", { style: css.field }, h("label", { style: css.label }, "操作者 ID"), Inp(operatorId, setOperatorId, "例如：BIZ-001")),
+						h("div", { style: css.field }, h("label", { style: css.label }, "显示名称"), Inp(displayName, setDisplayName, "例如：业务负责人甲")),
+						h("div", { style: css.field }, h("label", { style: css.label }, "角色列表"), Inp(roles, setRoles, "多个角色用逗号分隔"))),
+					h("div", { style: css.row }, Btn("登记/更新审批身份", create, "p", { disabled: !operatorId || !displayName || !roles }), error ? h("span", { style: css.bad }, error) : null)),
+				Card("审批中心（角色 + 操作者签名）", pending.length
+					? Table(["实例", "域", "工作流", "已签", "更新时间", "操作"], pending.map((item) => [
+						item.id,
+						item.domain,
+						item.workflow_id,
+						item.approvals.filter((approval) => approval.decision === "approved").length,
+						item.updated_at,
+						"打开审批",
+					]))
+					: h("div", { style: css.muted }, "当前没有待审批事项。")));
 		}
 
 		function DeliveriesView({ instances, deliveries }) {
@@ -790,11 +934,13 @@ window.__ModuleLoader__.load({
 			const [view, setView] = useState("strategy");
 			const [strategy, setStrategy] = useState({ objective: {}, key_results: [], domains: [], blockers: [], active_instances: 0, completed_instances: 0 });
 			const [definitions, setDefinitions] = useState([]);
+			const [designs, setDesigns] = useState([]);
 			const [instances, setInstances] = useState([]);
 			const [deliveries, setDeliveries] = useState([]);
 			const [audit, setAudit] = useState({ stats: {}, tail: [] });
 			const [metrics, setMetrics] = useState([]);
 			const [backups, setBackups] = useState([]);
+			const [operators, setOperators] = useState([]);
 			const [tools, setTools] = useState(null);
 			const [domain, setDomain] = useState(null);
 			const [workflowId, setWorkflowId] = useState(null);
@@ -803,23 +949,28 @@ window.__ModuleLoader__.load({
 
 			const refresh = useCallback(async () => {
 				try {
-					const [nextStrategy, nextDefinitions, nextInstances, nextDeliveries, nextAudit, nextMetrics, nextBackups, nextTools] = await Promise.all([
+					const [nextStrategy, nextDefinitions, nextDesignIndex, nextInstances, nextDeliveries, nextAudit, nextMetrics, nextBackups, nextOperators, nextTools] = await Promise.all([
 						api("strategy/overview"),
 						api("workflow-definitions"),
+						api("domain-work-design"),
 						api("workflow-instances"),
 						api("deliverables"),
 						api("audit"),
 						api("metrics", null, "limit=200"),
 						api("backups"),
+						api("operators"),
 						api("tools-versions"),
 					]);
+					const nextDesigns = await Promise.all(DOMAIN_ORDER.map(([id]) => api("domain-work-design", null, "domain=" + encodeURIComponent(id))));
 					setStrategy(nextStrategy);
 					setDefinitions(nextDefinitions);
+					setDesigns(nextDesigns);
 					setInstances(nextInstances);
 					setDeliveries(nextDeliveries);
 					setAudit(nextAudit || { stats: {}, tail: [] });
 					setMetrics(nextMetrics || []);
 					setBackups(nextBackups || []);
+					setOperators(nextOperators && Array.isArray(nextOperators.operators) ? nextOperators.operators : []);
 					setTools(nextTools);
 					setError("");
 				} catch (caught) {
@@ -875,7 +1026,7 @@ window.__ModuleLoader__.load({
 							})
 							: Card("正在加载战略总看板", h("div", { style: css.muted }, "正在读取目标、关键结果与 13 域数据…"))
 					) : null,
-					view === "domains" && !domain ? h(DomainsView, { strategy, definitions, instances, onOpen: openDomain }) : null,
+					view === "domains" && !domain ? h(DomainsView, { strategy, definitions, instances, designs, onOpen: openDomain }) : null,
 					view === "domains" && domain && !workflowId ? h(DomainDetail, {
 						id: domain,
 						label: domainMeta ? domainMeta[1] : domain,
@@ -883,6 +1034,8 @@ window.__ModuleLoader__.load({
 						strategy,
 						definitions,
 						instances,
+						designs,
+						metrics,
 						onBack: () => setDomain(null),
 						onRun: openWorkflow,
 						refresh,
@@ -892,9 +1045,16 @@ window.__ModuleLoader__.load({
 						instance,
 						setInstance,
 						refresh,
+						operators,
 						onBack: () => { setWorkflowId(null); setInstance(null); },
 					}) : null,
-					view === "approvals" ? h(ApprovalsView, { instances, onOpen: openInstance }) : null,
+					view === "approvals" ? h(ApprovalsView, {
+						instances,
+						operators,
+						onOpen: openInstance,
+						onCreateOperator: (payload) => api("operators/upsert", payload),
+						refresh,
+					}) : null,
 					view === "deliveries" ? h(DeliveriesView, { instances, deliveries }) : null,
 					view === "audit" ? h(AuditView, { audit, instances, backups, metrics }) : null,
 					view === "system" ? h(SystemView, { tools, backups, onRefresh: refresh }) : null));

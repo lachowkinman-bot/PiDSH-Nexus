@@ -1,0 +1,1658 @@
+{
+  "schema": "pids-nexus/typedict/v1",
+  "domain": "trn",
+  "label": "培训 TRN",
+  "source_standard": "Frictionless Table Schema v1 + JSON Schema 2020-12",
+  "fields": [
+    {
+      "id": "certificates.csv:approver",
+      "entity": "certificates.csv",
+      "field": "approver",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "A3***",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·预算审批人（脱敏工号 `A1***`/`A2***`）；留空 = 未提审或审批在途",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:approver"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:cert_id",
+      "entity": "certificates.csv",
+      "field": "cert_id",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "identifier",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "CERT-****-0007",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·证书编号（假名化 `CERT-****-NNNN`，**PII**，`redact_gate` 强制脱敏后方可出产物）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:cert_id"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:certificate",
+      "entity": "certificates.csv",
+      "field": "certificate",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "特种作业操作证",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "证书/资质名（如 特种作业操作证、安全员B证）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:certificate"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:course",
+      "entity": "certificates.csv",
+      "field": "course",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "特种作业安全操作",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "课程名（业务主键；被 `certificates.course` 与 `prereq` 引用）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:course"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:expire_date",
+      "entity": "certificates.csv",
+      "field": "expire_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-10-14",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "有效期至 `YYYY-MM-DD`（`已续期` 行 = 续期后新效期）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:expire_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:holder_dept",
+      "entity": "certificates.csv",
+      "field": "holder_dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "安全环保部",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·持证人部门（到期拦截按部门聚合的唯一口径）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:holder_dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:holder_masked",
+      "entity": "certificates.csv",
+      "field": "holder_masked",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "E2***",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "持证人（脱敏工号 `E1***`–`E12***`；禁存姓名/身份证）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:holder_masked"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:issue_date",
+      "entity": "certificates.csv",
+      "field": "issue_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2023-10-15",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "首次发证日 `YYYY-MM-DD`",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:issue_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:renew_date",
+      "entity": "certificates.csv",
+      "field": "renew_date",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "2026-09-10",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·最近一次复审/换证生效日（`已续期` 行非空）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:renew_date"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:renew_fee",
+      "entity": "certificates.csv",
+      "field": "renew_fee",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 300
+        },
+        {
+          "kind": "maximum",
+          "value": 420
+        }
+      ],
+      "example": "380",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·换证/复审费用（元）；`已续期`=实际发生，`90天内到期`=预估，其余留空",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:renew_fee"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:required_role",
+      "entity": "certificates.csv",
+      "field": "required_role",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "特种作业岗",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·岗位强依赖（如 特种作业岗/叉车司机岗；**排班拦截**的匹配键）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:required_role"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "certificates.csv:status",
+      "entity": "certificates.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "90天内到期",
+        "有效",
+        "已过期",
+        "已续期"
+      ],
+      "constraints": [],
+      "example": "90天内到期",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·计划/课程状态：报名中 / 进行中 / 已结束（= TRAIN_STATUS，见 §4.1）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/certificates.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:approver",
+      "entity": "courses.csv",
+      "field": "approver",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "A1***",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·预算审批人（脱敏工号 `A1***`/`A2***`）；留空 = 未提审或审批在途",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:approver"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:budget_wan",
+      "entity": "courses.csv",
+      "field": "budget_wan",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0.6
+        },
+        {
+          "kind": "maximum",
+          "value": 12.8
+        }
+      ],
+      "example": "1.2",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·预算（万元）；外部采购课程 >0 即触发 `trn.plan-approve` 审批",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:budget_wan"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:category",
+      "entity": "courses.csv",
+      "field": "category",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "必修",
+        "进阶",
+        "领导力",
+        "技能",
+        "合规"
+      ],
+      "constraints": [],
+      "example": "必修",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "课程分类：必修 / 进阶 / 领导力 / 合规 / 技能（对齐 PRD F2 的 入职/管理/业务/合规/技能 维度）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:category"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:completed_h",
+      "entity": "courses.csv",
+      "field": "completed_h",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 0
+        },
+        {
+          "kind": "maximum",
+          "value": 24
+        }
+      ],
+      "example": "0",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·已完成学时（`报名中`=0；`进行中` 0<completed_h<hours；`已结束`=hours）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:completed_h"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:course",
+      "entity": "courses.csv",
+      "field": "course",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "新员工入职",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "课程名（业务主键；被 `certificates.course` 与 `prereq` 引用）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:course"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:dept",
+      "entity": "courses.csv",
+      "field": "dept",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "人力资源部",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·主办部门（`trn.hours-report` 的部门口径来源）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:dept"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:enrolled",
+      "entity": "courses.csv",
+      "field": "enrolled",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 9
+        },
+        {
+          "kind": "maximum",
+          "value": 57
+        }
+      ],
+      "example": "32",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "已报名人数（校验 `enrolled ≤ seat_cap`）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:enrolled"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:hours",
+      "entity": "courses.csv",
+      "field": "hours",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "小时",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 4
+        },
+        {
+          "kind": "maximum",
+          "value": 24
+        }
+      ],
+      "example": "6",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "计划学时（整数，1–24）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:hours"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:next_session",
+      "entity": "courses.csv",
+      "field": "next_session",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "10-11",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "场次日期 `MM-DD`（数据基线年 2026；`已结束` 行填已结束场次日期）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:next_session"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:pass_rate",
+      "entity": "courses.csv",
+      "field": "pass_rate",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "%",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 78.5
+        },
+        {
+          "kind": "maximum",
+          "value": 95
+        }
+      ],
+      "example": "95.0",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·最近一期通过率 %（保留 1 位小数）；`已结束` 行必填，`进行中/报名中` 行留空",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:pass_rate"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:prereq",
+      "entity": "courses.csv",
+      "field": "prereq",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "无",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·前置课（课程名；无前置填 `无`）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:prereq"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:room",
+      "entity": "courses.csv",
+      "field": "room",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "A201",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·场地（教室号 / `线上直播` / `实训基地` / `外部场地`；与 trainer+日期共同做冲突检测）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:room"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:seat_cap",
+      "entity": "courses.csv",
+      "field": "seat_cap",
+      "physical_type": "csv",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [
+        {
+          "kind": "minimum",
+          "value": 10
+        },
+        {
+          "kind": "maximum",
+          "value": 60
+        }
+      ],
+      "example": "40",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·名额上限（报名确认的上限依据，见 §9 R4）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:seat_cap"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:status",
+      "entity": "courses.csv",
+      "field": "status",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "categorical",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [
+        "报名中",
+        "进行中",
+        "已结束"
+      ],
+      "constraints": [],
+      "example": "报名中",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·计划/课程状态：报名中 / 进行中 / 已结束（= TRAIN_STATUS，见 §4.1）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:status"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "courses.csv:trainer",
+      "entity": "courses.csv",
+      "field": "trainer",
+      "physical_type": "csv",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "T1***",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·讲师（脱敏工号 `T1***`–`T9***`，外部讲师 `EXT-***A`–`EXT-***D`）",
+      "lineage": {
+        "upstream": [
+          "dataset:trn/courses.csv",
+          "field:trainer"
+        ],
+        "downstream": []
+      },
+      "used_by_workflows": []
+    },
+    {
+      "id": "workflow_output:trn.cert-expiry@1.0.0:certificate",
+      "entity": "workflow_output/trn.cert-expiry",
+      "field": "certificate",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "证书/资质名（如 特种作业操作证、安全员B证）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-expiry@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-expiry@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-expiry@1.0.0:days_left",
+      "entity": "workflow_output/trn.cert-expiry",
+      "field": "days_left",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "天",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-expiry@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-expiry@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-expiry@1.0.0:expire_date",
+      "entity": "workflow_output/trn.cert-expiry",
+      "field": "expire_date",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "有效期至 `YYYY-MM-DD`（`已续期` 行 = 续期后新效期）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-expiry@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-expiry@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-expiry@1.0.0:holder_masked",
+      "entity": "workflow_output/trn.cert-expiry",
+      "field": "holder_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "持证人（脱敏工号 `E1***`–`E12***`；禁存姓名/身份证）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-expiry@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-expiry@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-renew@1.0.0:approver",
+      "entity": "workflow_output/trn.cert-renew",
+      "field": "approver",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·预算审批人（脱敏工号 `A1***`/`A2***`）；留空 = 未提审或审批在途",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-renew@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-renew@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-renew@1.0.0:certificate",
+      "entity": "workflow_output/trn.cert-renew",
+      "field": "certificate",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "证书/资质名（如 特种作业操作证、安全员B证）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-renew@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-renew@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-renew@1.0.0:holder_masked",
+      "entity": "workflow_output/trn.cert-renew",
+      "field": "holder_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": true,
+      "level": "L3",
+      "description": "持证人（脱敏工号 `E1***`–`E12***`；禁存姓名/身份证）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-renew@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-renew@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.cert-renew@1.0.0:renew_fee",
+      "entity": "workflow_output/trn.cert-renew",
+      "field": "renew_fee",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·换证/复审费用（元）；`已续期`=实际发生，`90天内到期`=预估，其余留空",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.cert-renew@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.cert-renew@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.course-schedule@1.0.0:course",
+      "entity": "workflow_output/trn.course-schedule",
+      "field": "course",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "课程名（业务主键；被 `certificates.course` 与 `prereq` 引用）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.course-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.course-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.course-schedule@1.0.0:date",
+      "entity": "workflow_output/trn.course-schedule",
+      "field": "date",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": "date",
+      "semantic_type": "temporal",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.course-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.course-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.course-schedule@1.0.0:room",
+      "entity": "workflow_output/trn.course-schedule",
+      "field": "room",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·场地（教室号 / `线上直播` / `实训基地` / `外部场地`；与 trainer+日期共同做冲突检测）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.course-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.course-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.course-schedule@1.0.0:trainer",
+      "entity": "workflow_output/trn.course-schedule",
+      "field": "trainer",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·讲师（脱敏工号 `T1***`–`T9***`，外部讲师 `EXT-***A`–`EXT-***D`）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.course-schedule@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.course-schedule@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.enroll-approve@1.0.0:course",
+      "entity": "workflow_output/trn.enroll-approve",
+      "field": "course",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "课程名（业务主键；被 `certificates.course` 与 `prereq` 引用）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.enroll-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.enroll-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.enroll-approve@1.0.0:employee_masked",
+      "entity": "workflow_output/trn.enroll-approve",
+      "field": "employee_masked",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": true,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.enroll-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.enroll-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.enroll-approve@1.0.0:prereq_ok",
+      "entity": "workflow_output/trn.enroll-approve",
+      "field": "prereq_ok",
+      "physical_type": "json",
+      "logical_type": "boolean",
+      "format": null,
+      "semantic_type": "boolean",
+      "unit": "千元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.enroll-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.enroll-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.enroll-approve@1.0.0:seats_left",
+      "entity": "workflow_output/trn.enroll-approve",
+      "field": "seats_left",
+      "physical_type": "json",
+      "logical_type": "integer",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "个",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.enroll-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.enroll-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.hours-report@1.0.0:completed_h",
+      "entity": "workflow_output/trn.hours-report",
+      "field": "completed_h",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·已完成学时（`报名中`=0；`进行中` 0<completed_h<hours；`已结束`=hours）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.hours-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.hours-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.hours-report@1.0.0:dept",
+      "entity": "workflow_output/trn.hours-report",
+      "field": "dept",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·主办部门（`trn.hours-report` 的部门口径来源）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.hours-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.hours-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.hours-report@1.0.0:planned_h",
+      "entity": "workflow_output/trn.hours-report",
+      "field": "planned_h",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.hours-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.hours-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.hours-report@1.0.0:rate",
+      "entity": "workflow_output/trn.hours-report",
+      "field": "rate",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "measure",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "workflow_input_or_user_upload",
+      "pii": false,
+      "level": "L3",
+      "description": "",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.hours-report@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.hours-report@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.plan-approve@1.0.0:approver",
+      "entity": "workflow_output/trn.plan-approve",
+      "field": "approver",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·预算审批人（脱敏工号 `A1***`/`A2***`）；留空 = 未提审或审批在途",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.plan-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.plan-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.plan-approve@1.0.0:budget_wan",
+      "entity": "workflow_output/trn.plan-approve",
+      "field": "budget_wan",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "money",
+      "unit": "万元",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "追加列·预算（万元）；外部采购课程 >0 即触发 `trn.plan-approve` 审批",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.plan-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.plan-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.plan-approve@1.0.0:course",
+      "entity": "workflow_output/trn.plan-approve",
+      "field": "course",
+      "physical_type": "json",
+      "logical_type": "string",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/certificates.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "课程名（业务主键；被 `certificates.course` 与 `prereq` 引用）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.plan-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.plan-approve@1.0.0"
+      ]
+    },
+    {
+      "id": "workflow_output:trn.plan-approve@1.0.0:hours",
+      "entity": "workflow_output/trn.plan-approve",
+      "field": "hours",
+      "physical_type": "json",
+      "logical_type": "number",
+      "format": null,
+      "semantic_type": "attribute",
+      "unit": "小时",
+      "nullable": false,
+      "enum_values": [],
+      "constraints": [],
+      "example": "",
+      "foreign_key": null,
+      "required": true,
+      "source": "trn/courses.csv",
+      "pii": false,
+      "level": "L3",
+      "description": "计划学时（整数，1–24）",
+      "lineage": {
+        "upstream": [
+          "workflow:trn.plan-approve@1.0.0",
+          "stage:quality"
+        ],
+        "downstream": [
+          "artifact_manifest",
+          "KR-CAPABILITY",
+          "KR-CONTROL"
+        ]
+      },
+      "used_by_workflows": [
+        "trn.plan-approve@1.0.0"
+      ]
+    }
+  ]
+}

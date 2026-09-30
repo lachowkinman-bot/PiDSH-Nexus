@@ -1,0 +1,4659 @@
+{
+  "schema": "pids-nexus/runtime-capabilities/v1",
+  "generated_at": "2026-09-30T10:03:29.856Z",
+  "plugin_scope": {
+    "runtime_total": 64,
+    "loaded": 59,
+    "shipped_not_loaded": 5
+  },
+  "plugins": [
+    {
+      "name": "@deepseek-ai/dsh-base",
+      "version": "0.1.7-rc.2",
+      "source": "builtin",
+      "source_sha256": null,
+      "license": "MIT",
+      "kind": "engine",
+      "capability": "agent_runtime",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@deepseek-ai/dsh-web-app",
+      "version": "0.1.7-rc.2",
+      "source": "builtin",
+      "source_sha256": null,
+      "license": "MIT",
+      "kind": "shell",
+      "capability": "web_shell",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@workbench/client-ui",
+      "version": "4.0.0",
+      "source": "builtin",
+      "source_sha256": null,
+      "license": "Apache-2.0",
+      "kind": "workbench",
+      "capability": "strategy_domain_workbench",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-excel-panel",
+      "version": "0.6.1",
+      "source": "offline/npm/dsh-excel-panel-0.6.1.tgz",
+      "source_sha256": "a60a90c605a7598d66e68f9a4a4c308981ffd4c74bda9308200937516877ad69",
+      "license": null,
+      "kind": "ui",
+      "capability": "spreadsheet_panel",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-docs-panel",
+      "version": "0.1.0",
+      "source": "offline/npm/dsh-docs-panel-0.1.0.tgz",
+      "source_sha256": "64d8ec42ae65a446060e7d67597430ad10636efd0e61b9192b7de953c7e39342",
+      "license": null,
+      "kind": "ui",
+      "capability": "document_panel",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-undo-savepoint",
+      "version": "0.4.9",
+      "source": "offline/npm/dsh-undo-savepoint-0.4.9.tgz",
+      "source_sha256": "b993f64da90b6c7a0e7a65ac2a87273d9d8b512061cfee542aecbb3f46a9b668",
+      "license": null,
+      "kind": "ui",
+      "capability": "snapshot_restore",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "@ychris12138/dsh-usage-stats",
+      "version": "0.3.4",
+      "source": "offline/npm/ychris12138-dsh-usage-stats-0.3.4.tgz",
+      "source_sha256": "4cc5cd1296e99f3236390281c28b856d33fe47f16dbedc7c29edb12ce8e46a25",
+      "license": null,
+      "kind": "tool",
+      "capability": "provider_balance_usage",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@changfenhuang/dsh-annotation",
+      "version": "1.4.10",
+      "source": "offline/npm/changfenhuang-dsh-annotation-1.4.10.tgz",
+      "source_sha256": "428e39e14873425ab0602967b8fd4c0fa73c3183865eea63c8646cf070b32d23",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-network-settings",
+      "version": "0.3.3",
+      "source": "offline/npm/dsh-network-settings-0.3.3.tgz",
+      "source_sha256": "5fea490fa46b95e0874b9b3550053e4d44f5b41b77c124c76411514fb11c25c9",
+      "license": null,
+      "kind": "connector",
+      "capability": "network_diagnostics",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "@changfenhuang/dsh-genui",
+      "version": "0.11.1",
+      "source": "offline/catalog/changfenhuang-dsh-genui-0.11.1.tgz",
+      "source_sha256": "177af2419e50b0d1763d8298a00baa56cf888fe4bfff6a00e893e8ec51f5a34f",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@a9i5k4/dsh-auto-memory",
+      "version": "3.1.7",
+      "source": "offline/catalog/a9i5k4-dsh-auto-memory-3.1.7.tgz",
+      "source_sha256": "df259f621671cd940aff07d401b182bd843c9ef0ee7630aca4678021909e015c",
+      "license": null,
+      "kind": "memory",
+      "capability": "automatic_memory",
+      "loaded": false,
+      "disabled_reason": "首启强制向导弹窗（localStorage.tourDismissed 无法随包预置）+ 启动期访问 raw.githubusercontent/npm registry；记忆系统由 dsh-mnemon 提供",
+      "external_dependencies": [],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "disabled_reason",
+        "replacement_or_isolation"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "memory-integration"
+    },
+    {
+      "name": "@linxin666/dsh-client-ui-git-graph",
+      "version": "0.4.3",
+      "source": "offline/catalog/linxin666-dsh-client-ui-git-graph-0.4.3.tgz",
+      "source_sha256": "7e84a0059100d07c2b007f3afaea42fae9226490b5df622d710a8b7f8a65e419",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@linxin666/dsh-client-ui-skill-explorer",
+      "version": "0.4.3",
+      "source": "offline/catalog/linxin666-dsh-client-ui-skill-explorer-0.4.3.tgz",
+      "source_sha256": "1294e7c5b547e196b69434b7381439b27a6b3c3bcf6e660d50be87775d665d17",
+      "license": null,
+      "kind": "ui",
+      "capability": "ui",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "@linxin666/dsh-client-ui-task-board",
+      "version": "0.4.3",
+      "source": "offline/catalog/linxin666-dsh-client-ui-task-board-0.4.3.tgz",
+      "source_sha256": "b86c49d153c61a928200b0b0c8f6182ed546e8cc063c57f22f944c5a11396025",
+      "license": null,
+      "kind": "ui",
+      "capability": "ui",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "@liustack/modsearch",
+      "version": "5.10.5",
+      "source": "offline/catalog/liustack-modsearch-5.10.5.tgz",
+      "source_sha256": "7c50d07785485e4b9f5fc86de2900f973adb740a0f36809de00fd6221aeeb0cc",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@liustack/modlens",
+      "version": "3.26.5",
+      "source": "offline/catalog/liustack-modlens-3.26.5.tgz",
+      "source_sha256": "bb87d1a1d0b8aa1cf620da9df12d742f235d53d7a6a3e21e65ed8352aed50762",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@nanmicoder/dsh-agent-teams",
+      "version": "0.1.21",
+      "source": "offline/catalog/nanmicoder-dsh-agent-teams-0.1.21.tgz",
+      "source_sha256": "c4d4a2658b7f6a88fe0ea5dac30dee9e9204bcdea73b50f262adbbb86988da3d",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@openviking/dsh-memory-plugin",
+      "version": "0.5.8",
+      "source": "offline/catalog/openviking-dsh-memory-plugin-0.5.8.tgz",
+      "source_sha256": "bbd26782e9c99bc28802a5f1ff2969453a595deb91da218b6b7b88a367c1352f",
+      "license": null,
+      "kind": "memory",
+      "capability": "openviking_memory",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "openviking_service"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "memory-integration"
+    },
+    {
+      "name": "@steven-wu/dsh-cost-meter",
+      "version": "0.1.0-rc.3",
+      "source": "offline/catalog/steven-wu-dsh-cost-meter-0.1.0-rc.3.tgz",
+      "source_sha256": "261525a7a88ebe2e8f61dc366db603c03e79d2ce7e166852ce4a51d4a3ef7c2d",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": false,
+      "disabled_reason": "dsh-cost-meter@1.7.39 较新",
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "disabled_reason",
+        "replacement_or_isolation"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@vectorize-io/hindsight-coding-agents",
+      "version": "0.7.0",
+      "source": "offline/catalog/vectorize-io-hindsight-coding-agents-0.7.0.tgz",
+      "source_sha256": "21461f89a087e618766f83b6a8166d8f91f6dd88f5a063a4e867948a609b45ff",
+      "license": null,
+      "kind": "memory",
+      "capability": "memory",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "hindsight_service"
+      ],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "memory-integration"
+    },
+    {
+      "name": "@wxg-prc-cpg/dsh-weknora",
+      "version": "0.1.0",
+      "source": "offline/catalog/wxg-prc-cpg-dsh-weknora-0.1.0.tgz",
+      "source_sha256": "3c91233ab69944128c1cf0d3ed2c16ef77fbf33d397fafd5e1e3734037b687fe",
+      "license": null,
+      "kind": "memory",
+      "capability": "memory",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "weknora_service"
+      ],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "memory-integration"
+    },
+    {
+      "name": "dsh-auto-memory",
+      "version": "0.3.0",
+      "source": "offline/catalog/dsh-auto-memory-0.3.0.tgz",
+      "source_sha256": "2f264a6a1722f3778252ee0ed6110aaea60968e038877ec88ba348ee04ffe3f8",
+      "license": null,
+      "kind": "memory",
+      "capability": "memory",
+      "loaded": false,
+      "disabled_reason": "@a9i5k4/dsh-auto-memory@3.1.7 较新",
+      "external_dependencies": [],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "disabled_reason",
+        "replacement_or_isolation"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "memory-integration"
+    },
+    {
+      "name": "dsh-artifacts",
+      "version": "0.1.1",
+      "source": "offline/catalog/dsh-artifacts-0.1.1.tgz",
+      "source_sha256": "f3b2c7479ad9fbe66ee096d5b12b717aa75adbc24613498110944f25fd9689c8",
+      "license": null,
+      "kind": "delivery",
+      "capability": "artifact_registry",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-background-agents",
+      "version": "0.9.12",
+      "source": "offline/catalog/dsh-background-agents-0.9.12.tgz",
+      "source_sha256": "8b836a06b062c5b7b77e8426eded38707aa7e5bef9462cf1e168f7525001f1d0",
+      "license": null,
+      "kind": "tool",
+      "capability": "background_jobs",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-bridge",
+      "version": "0.1.0-rc.17",
+      "source": "offline/catalog/dsh-bridge-0.1.0-rc.17.tgz",
+      "source_sha256": "f6fcbd2f99fbe408fa1eeb9a8a3fbbe74b7a3c2043d6324b9128176a551e774e",
+      "license": null,
+      "kind": "connector",
+      "capability": "external_bridge",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-browser",
+      "version": "0.1.0",
+      "source": "offline/catalog/dsh-browser-0.1.0.tgz",
+      "source_sha256": "46817db073bd85e2e2aa97847a9b5fb07d30140c92605ce24e282be648b12570",
+      "license": null,
+      "kind": "connector",
+      "capability": "browser_tools",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "browser_runtime"
+      ],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-builtin-browser",
+      "version": "0.1.22",
+      "source": "offline/catalog/dsh-builtin-browser-0.1.22.tgz",
+      "source_sha256": "9570c056a4af8747a8bc66ced8155c1d210d4a10dd0c0b0292e4600996ecdcac",
+      "license": null,
+      "kind": "connector",
+      "capability": "browser_tools",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "browser_runtime"
+      ],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-config-manager",
+      "version": "0.1.64",
+      "source": "offline/catalog/dsh-config-manager-0.1.64.tgz",
+      "source_sha256": "96e0a3842eedcc21e3ee7bfd9aeef14a1aaea819ff43010361728b29c75a9c61",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-computer-use",
+      "version": "0.3.1",
+      "source": "offline/catalog/dsh-computer-use-0.3.1.tgz",
+      "source_sha256": "7415f1a91a44fea7cc795c96d866468215f264c15e4ee446a7f65231d9324426",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-context",
+      "version": "0.57.0",
+      "source": "offline/catalog/dsh-context-0.57.0.tgz",
+      "source_sha256": "9f9fa4735ea3d291003e61538855f90ea30a54a4e1136a544d87149bb78d27e1",
+      "license": null,
+      "kind": "tool",
+      "capability": "context_insight",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-conversation-navigator",
+      "version": "0.2.10",
+      "source": "offline/catalog/dsh-conversation-navigator-0.2.10.tgz",
+      "source_sha256": "4fbf4b82a89374d5f90d03049fb69c4c6855702500345326d651b9d1fe3c61a5",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-deja",
+      "version": "0.21.2",
+      "source": "offline/catalog/dsh-deja-0.21.2.tgz",
+      "source_sha256": "2cf25b0359cc75b3e255b5635d4eec01879baa66a33543fca94d3e3c384134a0",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-cost-meter",
+      "version": "1.7.39",
+      "source": "offline/catalog/dsh-cost-meter-1.7.39.tgz",
+      "source_sha256": "94f4fe528d163a375b2ef97e766c08c9c8500b5f1e3b60c2f132785e66697cea",
+      "license": null,
+      "kind": "tool",
+      "capability": "usage_and_cost",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-doublecheck",
+      "version": "0.9.17",
+      "source": "offline/catalog/dsh-doublecheck-0.9.17.tgz",
+      "source_sha256": "b499296e8d412553d81396706626c2cdd7d9fefba7bdbed17266b092a54b40e6",
+      "license": null,
+      "kind": "security",
+      "capability": "dual_check",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-excel-chat",
+      "version": "0.38.0",
+      "source": "offline/catalog/dsh-excel-chat-0.38.0.tgz",
+      "source_sha256": "15938d918d408ce1cd3ddb4f3d2a6decf5c250957ab8f29ecaa1f796c3cba228",
+      "license": null,
+      "kind": "delivery",
+      "capability": "delivery",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-file-drop",
+      "version": "0.1.3",
+      "source": "offline/catalog/dsh-file-drop-0.1.3.tgz",
+      "source_sha256": "bb69ab69222ab6cf3269aa6e64f3c8e70eb3155ab8d2fc774cf6dc9c24540b99",
+      "license": null,
+      "kind": "connector",
+      "capability": "file_intake",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-find-plugin",
+      "version": "0.4.0",
+      "source": "offline/catalog/dsh-find-plugin-0.4.0.tgz",
+      "source_sha256": "39fc2dfd519b53bc71c9d4fb8cb7faa678d2c14ffb77c6df38daf0eedf0b56a0",
+      "license": null,
+      "kind": "ui",
+      "capability": "ui",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-git-graph",
+      "version": "0.1.6",
+      "source": "offline/catalog/dsh-git-graph-0.1.6.tgz",
+      "source_sha256": "3c068e8dec119bd3d45fee364ddc9a3b7de2fa8e788b0eed793ff29b2a4b42fc",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": false,
+      "disabled_reason": "@linxin666/dsh-client-ui-git-graph@0.4.3 较新",
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "disabled_reason",
+        "replacement_or_isolation"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-genui",
+      "version": "0.2.1",
+      "source": "offline/catalog/dsh-genui-0.2.1.tgz",
+      "source_sha256": "fbbe9c988977bd08c7e40c3b30f10b6bb1941785b65a04f895a0b0380912aa1b",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": false,
+      "disabled_reason": "@changfenhuang/dsh-genui@0.11.1 较新",
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "disabled_reason",
+        "replacement_or_isolation"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-github-workbench",
+      "version": "0.3.0",
+      "source": "offline/catalog/dsh-github-workbench-0.3.0.tgz",
+      "source_sha256": "5416dbb1d3bfcaf2581c48e9df8d3e9d7abadb1aec44573e54906b7c6502c0b2",
+      "license": null,
+      "kind": "connector",
+      "capability": "connector",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "github_token"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-github-intelligence",
+      "version": "2.9.0",
+      "source": "offline/catalog/dsh-github-intelligence-2.9.0.tgz",
+      "source_sha256": "d2b817740452d8fd2b8f31434c6f4a20e5ab7c1e999ed307f3e18bc44f2730b6",
+      "license": null,
+      "kind": "connector",
+      "capability": "connector",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "github_token"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-im",
+      "version": "1.0.5",
+      "source": "offline/catalog/dsh-im-1.0.5.tgz",
+      "source_sha256": "23875de57a006a5442cc1585071fc7c0e4d5b1dbd782230a31aa8f5c758f9380",
+      "license": null,
+      "kind": "connector",
+      "capability": "connector",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "im_credentials"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-inspiration-deck-workshop",
+      "version": "0.1.1",
+      "source": "offline/catalog/dsh-inspiration-deck-workshop-0.1.1.tgz",
+      "source_sha256": "b18b1cc0c6c7a90c642f949816df8a8da4935f251efabed882636cd774b4a7db",
+      "license": null,
+      "kind": "delivery",
+      "capability": "delivery",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-lark-bot",
+      "version": "0.19.16",
+      "source": "offline/catalog/dsh-lark-bot-0.19.16.tgz",
+      "source_sha256": "924ca66bb8561f2cf6d8201d94fa5586330a06fafb1df84ccb5ea5afdf6c78ef",
+      "license": null,
+      "kind": "connector",
+      "capability": "connector",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "lark_app_credentials"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-mcp-lens",
+      "version": "0.1.0-rc.9",
+      "source": "offline/catalog/dsh-mcp-lens-0.1.0-rc.9.tgz",
+      "source_sha256": "a8e4bf8389d0107379c13c845feb3c7c0c26d4aa3312391640e1fed074d39dbc",
+      "license": null,
+      "kind": "connector",
+      "capability": "mcp_diagnostics",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "mcp_server"
+      ],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-library",
+      "version": "0.2.16",
+      "source": "offline/catalog/dsh-library-0.2.16.tgz",
+      "source_sha256": "9c9079b44a472d8ae4bca88c0af451402ae9420e0eeb74a4b2ca946807632e36",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-mnemon",
+      "version": "0.5.16",
+      "source": "offline/catalog/dsh-mnemon-0.5.16.tgz",
+      "source_sha256": "0ef81f4827fb52265c41f04c5a572d44933b975a456ab9111ac81f0bb490f3b9",
+      "license": null,
+      "kind": "memory",
+      "capability": "three_tier_memory_control_plane",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "memory-integration"
+    },
+    {
+      "name": "dsh-notifier",
+      "version": "0.13.1",
+      "source": "offline/catalog/dsh-notifier-0.13.1.tgz",
+      "source_sha256": "bd8b3424226424d63a5540579c407fa05ba30d446c8942c2c7e0f28e1aa683f3",
+      "license": null,
+      "kind": "connector",
+      "capability": "notification_channels",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "notification_channel"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "connector-or-blocked"
+    },
+    {
+      "name": "dsh-paperclip",
+      "version": "0.2.5",
+      "source": "offline/catalog/dsh-paperclip-0.2.5.tgz",
+      "source_sha256": "e676a37075ff0c3b96bea5c6d6973114cc6aef1030fa03342bd09ae1545e82a2",
+      "license": null,
+      "kind": "delivery",
+      "capability": "delivery",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-plugin-vetting",
+      "version": "0.5.6",
+      "source": "offline/catalog/dsh-plugin-vetting-0.5.6.tgz",
+      "source_sha256": "4b49dcc8860879a32ca4cfdc21d847473acd4d08b2f2d69bdc6977cf0a370db8",
+      "license": null,
+      "kind": "ui",
+      "capability": "plugin_security_review",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-ppt",
+      "version": "0.5.0",
+      "source": "offline/catalog/dsh-ppt-0.5.0.tgz",
+      "source_sha256": "a1b610d79dc11224d6e11fb4d1741df4a66f70a20184b9ba0d62def34e3031a5",
+      "license": null,
+      "kind": "delivery",
+      "capability": "presentation_delivery",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-pr-board",
+      "version": "0.11.14",
+      "source": "offline/catalog/dsh-pr-board-0.11.14.tgz",
+      "source_sha256": "5f6c3e71227c8b52070657fa580564f94a29609f27e896079c8d2b7f52e148f9",
+      "license": null,
+      "kind": "ui",
+      "capability": "pull_request_board",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-pocket",
+      "version": "2.10.6",
+      "source": "offline/catalog/dsh-pocket-2.10.6.tgz",
+      "source_sha256": "3f611b8115d09bf4ed803378bc2e1b81547f7988dbd29c2d1fe241b411f12055",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "network_optional"
+      ],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-sentry",
+      "version": "0.1.0",
+      "source": "offline/catalog/dsh-sentry-0.1.0.tgz",
+      "source_sha256": "079bbcb149b2290e23264cff5f4e84b5f12fd2e0cd47550a77da0f10d7c6eb5c",
+      "license": null,
+      "kind": "security",
+      "capability": "error_monitoring",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "sentry_auth_token"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-smooth-stream",
+      "version": "0.6.1",
+      "source": "offline/catalog/dsh-smooth-stream-0.6.1.tgz",
+      "source_sha256": "4b8e6474d6c87eba82229f1e8ded489725a9d167e227c46c060bfc2e793140ca",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-skill-picker",
+      "version": "0.5.11",
+      "source": "offline/catalog/dsh-skill-picker-0.5.11.tgz",
+      "source_sha256": "6e23eee6af6bf25f75762d0c70d82bccfb0eb97425c957e48cfa05f4a7906585",
+      "license": null,
+      "kind": "ui",
+      "capability": "skill_center",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-sonarqube",
+      "version": "0.1.0",
+      "source": "offline/catalog/dsh-sonarqube-0.1.0.tgz",
+      "source_sha256": "fc3a82c2a86ed08db31b041185b9dbf7de09751a9803abf0300194a5e4aef332",
+      "license": null,
+      "kind": "security",
+      "capability": "code_quality",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [
+        "sonarqube_url"
+      ],
+      "data_level": "L3",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-translate",
+      "version": "0.2.16",
+      "source": "offline/catalog/dsh-translate-0.2.16.tgz",
+      "source_sha256": "49230471a9fbf287cfb53c4eca0c44ecfb446dcb2f5e09555ddbf4a68feb316c",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-univer-office",
+      "version": "0.3.5",
+      "source": "offline/catalog/dsh-univer-office-0.3.5.tgz",
+      "source_sha256": "4d31430f522880b0501b713e57f0b6c97d4d26e4838b53bdd2ba6193d9d85071",
+      "license": null,
+      "kind": "delivery",
+      "capability": "delivery",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "billion-context",
+      "version": "0.1.158",
+      "source": "offline/catalog/billion-context-0.1.158.tgz",
+      "source_sha256": "6076e9072699c2750a6c5b93bfc9d20b02ae47f5f746184ea3c96f348eb65c5b",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "@shaoshi/dshscan",
+      "version": "0.5.0",
+      "source": "offline/catalog/shaoshi-dshscan-0.5.0.tgz",
+      "source_sha256": "db62d1fb00272fd174cd6d8650a432a25a16103ec11b4f1a4bc78d6c31d70dc5",
+      "license": null,
+      "kind": "security",
+      "capability": "security",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "pi2dsh",
+      "version": "0.25.2",
+      "source": "offline/npm/pi2dsh-0.25.2.tgz",
+      "source_sha256": "2b41c9eb6f02293fe7290e22386ac8c9a526e04e895e003b99c58647d66e92f2",
+      "license": null,
+      "kind": "tool",
+      "capability": "tool",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "invoke"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "load-and-probe"
+    },
+    {
+      "name": "dsh-better-sidebar",
+      "version": "0.21.1",
+      "source": "offline/catalog/dsh-better-sidebar-0.21.1.tgz",
+      "source_sha256": "d0960735a41b0c3db478b93a8e0b0319ffab0cc0c82995df9d3d26e4ca692580",
+      "license": null,
+      "kind": "ui",
+      "capability": "ui",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    },
+    {
+      "name": "dsh-plugin",
+      "version": "1.4.8",
+      "source": "offline/npm/dsh-plugin-1.4.8.tgz",
+      "source_sha256": "940cabbf82c8422d80f216519117aec1337d6a77a7204e5cb9265ae4e7b271e5",
+      "license": null,
+      "kind": "ui",
+      "capability": "plugin_center",
+      "loaded": true,
+      "disabled_reason": null,
+      "external_dependencies": [],
+      "data_level": "L2",
+      "expected_surfaces": [
+        "installed",
+        "loaded",
+        "surface",
+        "invoke",
+        "restart"
+      ],
+      "status_policy": "PASS_LOCAL_REQUIRED",
+      "test_case": "ui-surface"
+    }
+  ],
+  "skills": {
+    "total": 56,
+    "business": 43,
+    "intent_routers": 13,
+    "entries": [
+      {
+        "name": "ad-analysis",
+        "domain": "mkt-on",
+        "file": "templates/skills-domain/mkt-on/SKILL-ad-analysis.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "mkt-on.campaign-report@1.0.0",
+          "mkt-on.ad-spend-review@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "channel",
+            "spend_wan",
+            "leads",
+            "roi",
+            "week",
+            "source_refs"
+          ],
+          "properties": {
+            "channel": {
+              "type": "string"
+            },
+            "spend_wan": {
+              "type": "string"
+            },
+            "leads": {
+              "type": "string"
+            },
+            "roi": {
+              "type": "string"
+            },
+            "week": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.campaign-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "channel": "QA",
+          "spend_wan": "QA",
+          "leads": "QA",
+          "roi": "QA",
+          "week": "QA",
+          "source_refs": [
+            "fixture:mkt-on"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "admin-intent",
+        "domain": "admin",
+        "file": "templates/skills-domain/admin/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "admin.purchase-approve@1.0.0",
+          "admin.seal-request@1.0.0",
+          "admin.asset-inventory@1.0.0",
+          "admin.meeting-minutes@1.0.0",
+          "admin.supply-order@1.0.0",
+          "admin.vendor-price@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "purchase-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "asset-inventory",
+        "domain": "admin",
+        "file": "templates/skills-domain/admin/SKILL-asset-inventory.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "admin.asset-inventory@1.0.0",
+          "admin.supply-order@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "asset_id",
+            "status",
+            "holder_masked",
+            "location",
+            "source_refs"
+          ],
+          "properties": {
+            "asset_id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "holder_masked": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.asset-inventory@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "asset_id": "QA",
+          "status": "QA",
+          "holder_masked": "QA",
+          "location": "QA",
+          "source_refs": [
+            "fixture:admin"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "band-analysis",
+        "domain": "comp",
+        "file": "templates/skills-domain/comp/SKILL-band-analysis.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "comp.salary-adjust@1.0.0",
+          "comp.band-report@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "employee_masked",
+            "band_from",
+            "band_to",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "employee_masked": {
+              "type": "string"
+            },
+            "band_from": {
+              "type": "string"
+            },
+            "band_to": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.salary-adjust@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "employee_masked": "QA",
+          "band_from": "QA",
+          "band_to": "QA",
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:comp"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "ben-intent",
+        "domain": "ben",
+        "file": "templates/skills-domain/ben/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "ben.vendor-compare@1.0.0",
+          "ben.checkup-report@1.0.0",
+          "ben.points-calc@1.0.0",
+          "ben.plan-enroll@1.0.0",
+          "ben.claim-review@1.0.0",
+          "ben.annual-survey@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.vendor-compare@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "vendor-compare"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "biz-analysis",
+        "domain": "strat",
+        "file": "templates/skills-domain/strat/SKILL-biz-analysis.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "strat.weekly-report@1.0.0",
+          "strat.org-inventory@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "week",
+            "revenue_wan",
+            "orders",
+            "risks",
+            "next_actions",
+            "source_refs"
+          ],
+          "properties": {
+            "week": {
+              "type": "string"
+            },
+            "revenue_wan": {
+              "type": "string"
+            },
+            "orders": {
+              "type": "string"
+            },
+            "risks": {
+              "type": "string"
+            },
+            "next_actions": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.weekly-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "week": "QA",
+          "revenue_wan": "QA",
+          "orders": "QA",
+          "risks": "QA",
+          "next_actions": "QA",
+          "source_refs": [
+            "fixture:strat"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "budget-analysis",
+        "domain": "fin",
+        "file": "templates/skills-domain/fin/SKILL-budget-analysis.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "fin.monthly-report@1.0.0",
+          "fin.budget-review@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "period",
+            "revenue_wan",
+            "cost_wan",
+            "net_wan",
+            "source_refs"
+          ],
+          "properties": {
+            "period": {
+              "type": "string"
+            },
+            "revenue_wan": {
+              "type": "string"
+            },
+            "cost_wan": {
+              "type": "string"
+            },
+            "net_wan": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.monthly-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "period": "QA",
+          "revenue_wan": "QA",
+          "cost_wan": 1,
+          "net_wan": "QA",
+          "source_refs": [
+            "fixture:fin"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "calibration-analysis",
+        "domain": "prf",
+        "file": "templates/skills-domain/prf/SKILL-calibration-analysis.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "prf.calibration-approve@1.0.0",
+          "prf.grade-distribution@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "employee_masked",
+            "manager_grade",
+            "calibrated_grade",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "employee_masked": {
+              "type": "string"
+            },
+            "manager_grade": {
+              "type": "string"
+            },
+            "calibrated_grade": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.calibration-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "employee_masked": "QA",
+          "manager_grade": "QA",
+          "calibrated_grade": 1,
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:prf"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "cert-expiry",
+        "domain": "trn",
+        "file": "templates/skills-domain/trn/SKILL-cert-expiry.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "trn.cert-expiry@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "certificate",
+            "holder_masked",
+            "expire_date",
+            "days_left",
+            "source_refs"
+          ],
+          "properties": {
+            "certificate": {
+              "type": "string"
+            },
+            "holder_masked": {
+              "type": "string"
+            },
+            "expire_date": {
+              "type": "string"
+            },
+            "days_left": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.cert-expiry@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "certificate": "QA",
+          "holder_masked": "QA",
+          "expire_date": "QA",
+          "days_left": "QA",
+          "source_refs": [
+            "fixture:trn"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "checkup-report",
+        "domain": "ben",
+        "file": "templates/skills-domain/ben/SKILL-checkup-report.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "ben.checkup-report@1.0.0",
+          "ben.claim-review@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "employee_masked",
+            "abnormal_items",
+            "followup",
+            "year",
+            "source_refs"
+          ],
+          "properties": {
+            "employee_masked": {
+              "type": "string"
+            },
+            "abnormal_items": {
+              "type": "string"
+            },
+            "followup": {
+              "type": "string"
+            },
+            "year": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.checkup-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "employee_masked": "QA",
+          "abnormal_items": "QA",
+          "followup": "QA",
+          "year": "QA",
+          "source_refs": [
+            "fixture:ben"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "cmp-intent",
+        "domain": "cmp",
+        "file": "templates/skills-domain/cmp/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "cmp.policy-review@1.0.0",
+          "cmp.evidence-pack@1.0.0",
+          "cmp.pipia-review@1.0.0",
+          "cmp.audit-trail@1.0.0",
+          "cmp.training-check@1.0.0",
+          "cmp.reg-filing@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.policy-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "policy-review"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "comp-intent",
+        "domain": "comp",
+        "file": "templates/skills-domain/comp/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "comp.salary-adjust@1.0.0",
+          "comp.band-report@1.0.0",
+          "comp.payroll-recon@1.0.0",
+          "comp.compa-ratio@1.0.0",
+          "comp.queue-approve@1.0.0",
+          "comp.cost-projection@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.salary-adjust@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "salary-adjust"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "compa-ratio",
+        "domain": "comp",
+        "file": "templates/skills-domain/comp/SKILL-compa-ratio.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "comp.compa-ratio@1.0.0",
+          "comp.queue-approve@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "employee_masked",
+            "band",
+            "cr",
+            "zone",
+            "source_refs"
+          ],
+          "properties": {
+            "employee_masked": {
+              "type": "string"
+            },
+            "band": {
+              "type": "string"
+            },
+            "cr": {
+              "type": "string"
+            },
+            "zone": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.compa-ratio@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "employee_masked": "QA",
+          "band": "QA",
+          "cr": "QA",
+          "zone": "QA",
+          "source_refs": [
+            "fixture:comp"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "competitor-watch",
+        "domain": "strat",
+        "file": "templates/skills-domain/strat/SKILL-competitor-watch.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "strat.competitor-brief@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "competitor",
+            "move_type",
+            "impact",
+            "our_response",
+            "source_refs"
+          ],
+          "properties": {
+            "competitor": {
+              "type": "string"
+            },
+            "move_type": {
+              "type": "string"
+            },
+            "impact": {
+              "type": "string"
+            },
+            "our_response": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.competitor-brief@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "competitor": "QA",
+          "move_type": "QA",
+          "impact": "QA",
+          "our_response": "QA",
+          "source_refs": [
+            "fixture:strat"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "content-gen",
+        "domain": "mkt-on",
+        "file": "templates/skills-domain/mkt-on/SKILL-content-gen.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "mkt-on.publish-approve@1.0.0",
+          "mkt-on.content-calendar@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "channel",
+            "publish_at",
+            "pii_check",
+            "approver",
+            "source_refs"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "channel": {
+              "type": "string"
+            },
+            "publish_at": {
+              "type": "string"
+            },
+            "pii_check": {
+              "type": "string"
+            },
+            "approver": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "title": "QA",
+          "channel": "QA",
+          "publish_at": "QA",
+          "pii_check": "QA",
+          "approver": "QA",
+          "source_refs": [
+            "fixture:mkt-on"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "course-schedule",
+        "domain": "trn",
+        "file": "templates/skills-domain/trn/SKILL-course-schedule.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "trn.plan-approve@1.0.0",
+          "trn.course-schedule@1.0.0",
+          "trn.enroll-approve@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "course",
+            "hours",
+            "budget_wan",
+            "approver",
+            "source_refs"
+          ],
+          "properties": {
+            "course": {
+              "type": "string"
+            },
+            "hours": {
+              "type": "string"
+            },
+            "budget_wan": {
+              "type": "string"
+            },
+            "approver": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.plan-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "course": "QA",
+          "hours": "QA",
+          "budget_wan": "QA",
+          "approver": "QA",
+          "source_refs": [
+            "fixture:trn"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "dispute-ops",
+        "domain": "er-eap",
+        "file": "templates/skills-domain/er-eap/SKILL-dispute-ops.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "er-eap.dispute-case@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "case_id",
+            "type",
+            "stage",
+            "evidence_refs",
+            "source_refs"
+          ],
+          "properties": {
+            "case_id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "stage": {
+              "type": "string"
+            },
+            "evidence_refs": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.dispute-case@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "case_id": "QA",
+          "type": "QA",
+          "stage": "QA",
+          "evidence_refs": "QA",
+          "source_refs": [
+            "fixture:er-eap"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "eap-referral",
+        "domain": "er-eap",
+        "file": "templates/skills-domain/er-eap/SKILL-eap-referral.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "er-eap.eap-referral@1.0.0",
+          "er-eap.anon-report@1.0.0",
+          "er-eap.wellbeing-check@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "anon_id",
+            "direction",
+            "approvals",
+            "sessions",
+            "source_refs"
+          ],
+          "properties": {
+            "anon_id": {
+              "type": "string"
+            },
+            "direction": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "sessions": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.eap-referral@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "anon_id": "QA",
+          "direction": "QA",
+          "approvals": "QA",
+          "sessions": "QA",
+          "source_refs": [
+            "fixture:er-eap"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "er-eap-intent",
+        "domain": "er-eap",
+        "file": "templates/skills-domain/er-eap/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "er-eap.offboard-approve@1.0.0",
+          "er-eap.eap-referral@1.0.0",
+          "er-eap.dispute-case@1.0.0",
+          "er-eap.exit-interview@1.0.0",
+          "er-eap.anon-report@1.0.0",
+          "er-eap.wellbeing-check@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.offboard-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "offboard-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "event-plan",
+        "domain": "mkt-off",
+        "file": "templates/skills-domain/mkt-off/SKILL-event-plan.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "mkt-off.event-plan@1.0.0",
+          "mkt-off.booth-approve@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event",
+            "city",
+            "budget_wan",
+            "schedule",
+            "source_refs"
+          ],
+          "properties": {
+            "event": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "budget_wan": {
+              "type": "string"
+            },
+            "schedule": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-plan@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "event": "QA",
+          "city": "QA",
+          "budget_wan": "QA",
+          "schedule": "QA",
+          "source_refs": [
+            "fixture:mkt-off"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "evidence-pack",
+        "domain": "cmp",
+        "file": "templates/skills-domain/cmp/SKILL-evidence-pack.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "cmp.evidence-pack@1.0.0",
+          "cmp.reg-filing@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "case",
+            "evidence_items",
+            "hashes",
+            "packaged_at",
+            "source_refs"
+          ],
+          "properties": {
+            "case": {
+              "type": "string"
+            },
+            "evidence_items": {
+              "type": "string"
+            },
+            "hashes": {
+              "type": "string"
+            },
+            "packaged_at": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.evidence-pack@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "case": "QA",
+          "evidence_items": "QA",
+          "hashes": "QA",
+          "packaged_at": "QA",
+          "source_refs": [
+            "fixture:cmp"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "expense-precheck",
+        "domain": "fin",
+        "file": "templates/skills-domain/fin/SKILL-expense-precheck.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "fin.expense-approve@1.0.0",
+          "fin.reimburse-audit@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "expense_id",
+            "amount_yuan",
+            "level",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "expense_id": {
+              "type": "string"
+            },
+            "amount_yuan": {
+              "type": "string"
+            },
+            "level": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.expense-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "expense_id": "QA",
+          "amount_yuan": 1,
+          "level": "QA",
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:fin"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "fin-intent",
+        "domain": "fin",
+        "file": "templates/skills-domain/fin/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "fin.expense-approve@1.0.0",
+          "fin.monthly-report@1.0.0",
+          "fin.budget-review@1.0.0",
+          "fin.invoice-check@1.0.0",
+          "fin.reimburse-audit@1.0.0",
+          "fin.cashflow-week@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.expense-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "expense-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "flex-benefit",
+        "domain": "ben",
+        "file": "templates/skills-domain/ben/SKILL-flex-benefit.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "ben.points-calc@1.0.0",
+          "ben.annual-survey@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "employee_masked",
+            "points_total",
+            "selected",
+            "remaining",
+            "source_refs"
+          ],
+          "properties": {
+            "employee_masked": {
+              "type": "string"
+            },
+            "points_total": {
+              "type": "string"
+            },
+            "selected": {
+              "type": "string"
+            },
+            "remaining": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.points-calc@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "employee_masked": "QA",
+          "points_total": "QA",
+          "selected": "QA",
+          "remaining": "QA",
+          "source_refs": [
+            "fixture:ben"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "funnel-analysis",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-funnel-analysis.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.funnel-weekly@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "week",
+            "stage",
+            "count",
+            "conversion_pct",
+            "source",
+            "source_refs"
+          ],
+          "properties": {
+            "week": {
+              "type": "string"
+            },
+            "stage": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            },
+            "conversion_pct": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "week": "QA",
+          "stage": "QA",
+          "count": 1,
+          "conversion_pct": 1,
+          "source": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "goal-cascade",
+        "domain": "prf",
+        "file": "templates/skills-domain/prf/SKILL-goal-cascade.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "prf.cascade-report@1.0.0",
+          "prf.one-on-one@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "owner_masked",
+            "goal",
+            "weight",
+            "source_refs"
+          ],
+          "properties": {
+            "level": {
+              "type": "string"
+            },
+            "owner_masked": {
+              "type": "string"
+            },
+            "goal": {
+              "type": "string"
+            },
+            "weight": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.cascade-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "level": "QA",
+          "owner_masked": "QA",
+          "goal": "QA",
+          "weight": "QA",
+          "source_refs": [
+            "fixture:prf"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "hour-stats",
+        "domain": "trn",
+        "file": "templates/skills-domain/trn/SKILL-hour-stats.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "trn.hours-report@1.0.0",
+          "trn.cert-renew@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dept",
+            "planned_h",
+            "completed_h",
+            "rate",
+            "source_refs"
+          ],
+          "properties": {
+            "dept": {
+              "type": "string"
+            },
+            "planned_h": {
+              "type": "string"
+            },
+            "completed_h": {
+              "type": "string"
+            },
+            "rate": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.hours-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "dept": "QA",
+          "planned_h": "QA",
+          "completed_h": "QA",
+          "rate": 1,
+          "source_refs": [
+            "fixture:trn"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "interview-design",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-interview-design.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.interview-schedule@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate_masked",
+            "slot",
+            "interviewers",
+            "mode",
+            "question_bank_id",
+            "scorecard_id",
+            "conflicts",
+            "source_refs"
+          ],
+          "properties": {
+            "candidate_masked": {
+              "type": "string"
+            },
+            "slot": {
+              "type": "string"
+            },
+            "interviewers": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string"
+            },
+            "question_bank_id": {
+              "type": "string"
+            },
+            "scorecard_id": {
+              "type": "string"
+            },
+            "conflicts": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "candidate_masked": "QA",
+          "slot": "QA",
+          "interviewers": "QA",
+          "mode": "QA",
+          "question_bank_id": "QA",
+          "scorecard_id": 1,
+          "conflicts": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "interview-summary",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-interview-summary.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.interview-schedule@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate_masked",
+            "slot",
+            "interviewers",
+            "mode",
+            "question_bank_id",
+            "scorecard_id",
+            "conflicts",
+            "source_refs"
+          ],
+          "properties": {
+            "candidate_masked": {
+              "type": "string"
+            },
+            "slot": {
+              "type": "string"
+            },
+            "interviewers": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string"
+            },
+            "question_bank_id": {
+              "type": "string"
+            },
+            "scorecard_id": {
+              "type": "string"
+            },
+            "conflicts": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.interview-schedule@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "candidate_masked": "QA",
+          "slot": "QA",
+          "interviewers": "QA",
+          "mode": "QA",
+          "question_bank_id": "QA",
+          "scorecard_id": 1,
+          "conflicts": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "invoice-check",
+        "domain": "fin",
+        "file": "templates/skills-domain/fin/SKILL-invoice-check.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "fin.invoice-check@1.0.0",
+          "fin.cashflow-week@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "invoice_no",
+            "amount_yuan",
+            "checks",
+            "result",
+            "source_refs"
+          ],
+          "properties": {
+            "invoice_no": {
+              "type": "string"
+            },
+            "amount_yuan": {
+              "type": "string"
+            },
+            "checks": {
+              "type": "string"
+            },
+            "result": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/fin.json#fin.invoice-check@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "invoice_no": "QA",
+          "amount_yuan": 1,
+          "checks": "QA",
+          "result": "QA",
+          "source_refs": [
+            "fixture:fin"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "jd-gen",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-jd-gen.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.jd-draft@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "position",
+            "mission",
+            "requirements",
+            "competencies",
+            "band",
+            "locale",
+            "source_refs"
+          ],
+          "properties": {
+            "position": {
+              "type": "string"
+            },
+            "mission": {
+              "type": "string"
+            },
+            "requirements": {
+              "type": "string"
+            },
+            "competencies": {
+              "type": "string"
+            },
+            "band": {
+              "type": "string"
+            },
+            "locale": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.jd-draft@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "position": "QA",
+          "mission": "QA",
+          "requirements": "QA",
+          "competencies": "QA",
+          "band": "QA",
+          "locale": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "kpi-track",
+        "domain": "prf",
+        "file": "templates/skills-domain/prf/SKILL-kpi-track.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "prf.kpi-tracking@1.0.0",
+          "prf.review-cycle@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kpi",
+            "target",
+            "actual",
+            "rate",
+            "source_refs"
+          ],
+          "properties": {
+            "kpi": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            },
+            "actual": {
+              "type": "string"
+            },
+            "rate": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.kpi-tracking@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "kpi": "QA",
+          "target": "QA",
+          "actual": "QA",
+          "rate": 1,
+          "source_refs": [
+            "fixture:prf"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "material-compliance",
+        "domain": "mkt-off",
+        "file": "templates/skills-domain/mkt-off/SKILL-material-compliance.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "mkt-off.material-review@1.0.0",
+          "mkt-off.vendor-brief@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "material",
+            "legal_check",
+            "brand_check",
+            "final_status",
+            "source_refs"
+          ],
+          "properties": {
+            "material": {
+              "type": "string"
+            },
+            "legal_check": {
+              "type": "string"
+            },
+            "brand_check": {
+              "type": "string"
+            },
+            "final_status": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.material-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "material": "QA",
+          "legal_check": "QA",
+          "brand_check": "QA",
+          "final_status": "QA",
+          "source_refs": [
+            "fixture:mkt-off"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "meeting-minutes",
+        "domain": "admin",
+        "file": "templates/skills-domain/admin/SKILL-meeting-minutes.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "admin.seal-request@1.0.0",
+          "admin.meeting-minutes@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "doc",
+            "seal_type",
+            "copies",
+            "keeper_confirm",
+            "source_refs"
+          ],
+          "properties": {
+            "doc": {
+              "type": "string"
+            },
+            "seal_type": {
+              "type": "string"
+            },
+            "copies": {
+              "type": "string"
+            },
+            "keeper_confirm": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.seal-request@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "doc": "QA",
+          "seal_type": "QA",
+          "copies": "QA",
+          "keeper_confirm": "QA",
+          "source_refs": [
+            "fixture:admin"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "mkt-off-intent",
+        "domain": "mkt-off",
+        "file": "templates/skills-domain/mkt-off/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "mkt-off.event-roi@1.0.0",
+          "mkt-off.material-review@1.0.0",
+          "mkt-off.event-plan@1.0.0",
+          "mkt-off.vendor-brief@1.0.0",
+          "mkt-off.booth-approve@1.0.0",
+          "mkt-off.lead-handoff@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "event-roi"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "mkt-on-intent",
+        "domain": "mkt-on",
+        "file": "templates/skills-domain/mkt-on/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "mkt-on.publish-approve@1.0.0",
+          "mkt-on.campaign-report@1.0.0",
+          "mkt-on.content-calendar@1.0.0",
+          "mkt-on.lead-funnel@1.0.0",
+          "mkt-on.seo-audit@1.0.0",
+          "mkt-on.ad-spend-review@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.publish-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "publish-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "offboarding-flow",
+        "domain": "er-eap",
+        "file": "templates/skills-domain/er-eap/SKILL-offboarding-flow.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "er-eap.offboard-approve@1.0.0",
+          "er-eap.exit-interview@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "employee_masked",
+            "last_day",
+            "handover_ok",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "employee_masked": {
+              "type": "string"
+            },
+            "last_day": {
+              "type": "string"
+            },
+            "handover_ok": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/er-eap.json#er-eap.offboard-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "employee_masked": "QA",
+          "last_day": "QA",
+          "handover_ok": "QA",
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:er-eap"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "offer-evaluation",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-offer-evaluation.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.offer-approve@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate_masked",
+            "position",
+            "feedback_summary",
+            "interview_scores",
+            "risk_flags",
+            "offer_band",
+            "proposed_range",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "candidate_masked": {
+              "type": "string"
+            },
+            "position": {
+              "type": "string"
+            },
+            "feedback_summary": {
+              "type": "string"
+            },
+            "interview_scores": {
+              "type": "string"
+            },
+            "risk_flags": {
+              "type": "string"
+            },
+            "offer_band": {
+              "type": "string"
+            },
+            "proposed_range": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.offer-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "candidate_masked": "QA",
+          "position": "QA",
+          "feedback_summary": "QA",
+          "interview_scores": 1,
+          "risk_flags": "QA",
+          "offer_band": "QA",
+          "proposed_range": "QA",
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "onboarding-plan",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-onboarding-plan.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.onboarding-check@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate_masked",
+            "start_date",
+            "item",
+            "owner",
+            "due",
+            "status",
+            "goals_30_60_90",
+            "retention_90d",
+            "source_refs"
+          ],
+          "properties": {
+            "candidate_masked": {
+              "type": "string"
+            },
+            "start_date": {
+              "type": "string"
+            },
+            "item": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "due": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "goals_30_60_90": {
+              "type": "string"
+            },
+            "retention_90d": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.onboarding-check@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "candidate_masked": "QA",
+          "start_date": "QA",
+          "item": "QA",
+          "owner": "QA",
+          "due": "QA",
+          "status": "QA",
+          "goals_30_60_90": "QA",
+          "retention_90d": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "payroll-recon",
+        "domain": "comp",
+        "file": "templates/skills-domain/comp/SKILL-payroll-recon.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "comp.payroll-recon@1.0.0",
+          "comp.cost-projection@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "period",
+            "headcount",
+            "gross_diff",
+            "items",
+            "source_refs"
+          ],
+          "properties": {
+            "period": {
+              "type": "string"
+            },
+            "headcount": {
+              "type": "string"
+            },
+            "gross_diff": {
+              "type": "string"
+            },
+            "items": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/comp.json#comp.payroll-recon@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "period": "QA",
+          "headcount": 1,
+          "gross_diff": "QA",
+          "items": "QA",
+          "source_refs": [
+            "fixture:comp"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "pipia-list",
+        "domain": "cmp",
+        "file": "templates/skills-domain/cmp/SKILL-pipia-list.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "cmp.pipia-review@1.0.0",
+          "cmp.training-check@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "process",
+            "risk_level",
+            "residual",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "process": {
+              "type": "string"
+            },
+            "risk_level": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.pipia-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "process": "QA",
+          "risk_level": "QA",
+          "residual": "QA",
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:cmp"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "plan-compare",
+        "domain": "ben",
+        "file": "templates/skills-domain/ben/SKILL-plan-compare.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "ben.vendor-compare@1.0.0",
+          "ben.plan-enroll@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "category",
+            "vendors",
+            "points",
+            "winner",
+            "source_refs"
+          ],
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "vendors": {
+              "type": "string"
+            },
+            "points": {
+              "type": "string"
+            },
+            "winner": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/ben.json#ben.vendor-compare@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "category": "QA",
+          "vendors": "QA",
+          "points": "QA",
+          "winner": "QA",
+          "source_refs": [
+            "fixture:ben"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "policy-checklist",
+        "domain": "cmp",
+        "file": "templates/skills-domain/cmp/SKILL-policy-checklist.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "cmp.policy-review@1.0.0",
+          "cmp.audit-trail@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "policy",
+            "items",
+            "pass_rate",
+            "gaps",
+            "source_refs"
+          ],
+          "properties": {
+            "policy": {
+              "type": "string"
+            },
+            "items": {
+              "type": "string"
+            },
+            "pass_rate": {
+              "type": "string"
+            },
+            "gaps": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/cmp.json#cmp.policy-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "policy": "QA",
+          "items": "QA",
+          "pass_rate": 1,
+          "gaps": "QA",
+          "source_refs": [
+            "fixture:cmp"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "prf-intent",
+        "domain": "prf",
+        "file": "templates/skills-domain/prf/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "prf.calibration-approve@1.0.0",
+          "prf.cascade-report@1.0.0",
+          "prf.kpi-tracking@1.0.0",
+          "prf.review-cycle@1.0.0",
+          "prf.one-on-one@1.0.0",
+          "prf.grade-distribution@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/prf.json#prf.calibration-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "calibration-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "purchase-compare",
+        "domain": "admin",
+        "file": "templates/skills-domain/admin/SKILL-purchase-compare.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "admin.purchase-approve@1.0.0",
+          "admin.vendor-price@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "item",
+            "qty",
+            "amount_wan",
+            "budget_ok",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "item": {
+              "type": "string"
+            },
+            "qty": {
+              "type": "string"
+            },
+            "amount_wan": {
+              "type": "string"
+            },
+            "budget_ok": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/admin.json#admin.purchase-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "item": "QA",
+          "qty": 1,
+          "amount_wan": 1,
+          "budget_ok": "QA",
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:admin"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "quota-dashboard",
+        "domain": "sales",
+        "file": "templates/skills-domain/sales/SKILL-quota-dashboard.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "sales.pipeline-report@1.0.0",
+          "sales.target-split@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stage",
+            "count",
+            "amount_k",
+            "week",
+            "source_refs"
+          ],
+          "properties": {
+            "stage": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            },
+            "amount_k": {
+              "type": "string"
+            },
+            "week": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.pipeline-report@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "stage": "QA",
+          "count": 1,
+          "amount_k": 1,
+          "week": "QA",
+          "source_refs": [
+            "fixture:sales"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "quote-calc",
+        "domain": "sales",
+        "file": "templates/skills-domain/sales/SKILL-quote-calc.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "sales.quote-approve@1.0.0",
+          "sales.quote-calc@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "quote_id",
+            "total_wan",
+            "discount_pct",
+            "approvals",
+            "source_refs"
+          ],
+          "properties": {
+            "quote_id": {
+              "type": "string"
+            },
+            "total_wan": {
+              "type": "string"
+            },
+            "discount_pct": {
+              "type": "string"
+            },
+            "approvals": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.quote-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "quote_id": "QA",
+          "total_wan": "QA",
+          "discount_pct": 1,
+          "approvals": "QA",
+          "source_refs": [
+            "fixture:sales"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "rec-intent",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "rec.funnel-weekly@1.0.0",
+          "rec.resume-forward@1.0.0",
+          "rec.jd-draft@1.0.0",
+          "rec.interview-schedule@1.0.0",
+          "rec.offer-approve@1.0.0",
+          "rec.onboarding-check@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.funnel-weekly@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "funnel-weekly"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "resume-screening",
+        "domain": "rec",
+        "file": "templates/skills-domain/rec/SKILL-resume-screening.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "rec.resume-forward@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "candidate_masked",
+            "position",
+            "target",
+            "resume_evidence",
+            "criteria_results",
+            "match_score",
+            "redact_fields",
+            "approver",
+            "source_refs"
+          ],
+          "properties": {
+            "candidate_masked": {
+              "type": "string"
+            },
+            "position": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            },
+            "resume_evidence": {
+              "type": "string"
+            },
+            "criteria_results": {
+              "type": "string"
+            },
+            "match_score": {
+              "type": "string"
+            },
+            "redact_fields": {
+              "type": "string"
+            },
+            "approver": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/rec.json#rec.resume-forward@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "candidate_masked": "QA",
+          "position": "QA",
+          "target": "QA",
+          "resume_evidence": "QA",
+          "criteria_results": "QA",
+          "match_score": 1,
+          "redact_fields": "QA",
+          "approver": "QA",
+          "source_refs": [
+            "fixture:rec"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "roi-review",
+        "domain": "mkt-off",
+        "file": "templates/skills-domain/mkt-off/SKILL-roi-review.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "mkt-off.event-roi@1.0.0",
+          "mkt-off.lead-handoff@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event",
+            "budget_wan",
+            "actual_wan",
+            "roi",
+            "lessons",
+            "source_refs"
+          ],
+          "properties": {
+            "event": {
+              "type": "string"
+            },
+            "budget_wan": {
+              "type": "string"
+            },
+            "actual_wan": {
+              "type": "string"
+            },
+            "roi": {
+              "type": "string"
+            },
+            "lessons": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-off.json#mkt-off.event-roi@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "event": "QA",
+          "budget_wan": "QA",
+          "actual_wan": "QA",
+          "roi": "QA",
+          "lessons": "QA",
+          "source_refs": [
+            "fixture:mkt-off"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "sales-intent",
+        "domain": "sales",
+        "file": "templates/skills-domain/sales/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "sales.quote-approve@1.0.0",
+          "sales.win-review@1.0.0",
+          "sales.quote-calc@1.0.0",
+          "sales.pipeline-report@1.0.0",
+          "sales.contract-review@1.0.0",
+          "sales.target-split@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.quote-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "quote-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "seo-audit",
+        "domain": "mkt-on",
+        "file": "templates/skills-domain/mkt-on/SKILL-seo-audit.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "mkt-on.lead-funnel@1.0.0",
+          "mkt-on.seo-audit@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stage",
+            "count",
+            "conversion_pct",
+            "week",
+            "source_refs"
+          ],
+          "properties": {
+            "stage": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            },
+            "conversion_pct": {
+              "type": "string"
+            },
+            "week": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/mkt-on.json#mkt-on.lead-funnel@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "stage": "QA",
+          "count": 1,
+          "conversion_pct": 1,
+          "week": "QA",
+          "source_refs": [
+            "fixture:mkt-on"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "strat-intent",
+        "domain": "strat",
+        "file": "templates/skills-domain/strat/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "strat.quarterly-review@1.0.0",
+          "strat.weekly-report@1.0.0",
+          "strat.okr-set@1.0.0",
+          "strat.competitor-brief@1.0.0",
+          "strat.org-inventory@1.0.0",
+          "strat.quarter-close@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.quarterly-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "quarterly-review"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "strategy-decode",
+        "domain": "strat",
+        "file": "templates/skills-domain/strat/SKILL-strategy-decode.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "strat.quarterly-review@1.0.0",
+          "strat.okr-set@1.0.0",
+          "strat.quarter-close@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "period",
+            "okr_reached",
+            "comp_review_flag",
+            "decision",
+            "source_refs"
+          ],
+          "properties": {
+            "period": {
+              "type": "string"
+            },
+            "okr_reached": {
+              "type": "string"
+            },
+            "comp_review_flag": {
+              "type": "string"
+            },
+            "decision": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/strat.json#strat.quarterly-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "period": "QA",
+          "okr_reached": "QA",
+          "comp_review_flag": "QA",
+          "decision": "QA",
+          "source_refs": [
+            "fixture:strat"
+          ]
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "trn-intent",
+        "domain": "trn",
+        "file": "templates/skills-domain/trn/SKILL-cockpit-intent.md",
+        "kind": "intent_router",
+        "workflow_ids": [
+          "trn.plan-approve@1.0.0",
+          "trn.hours-report@1.0.0",
+          "trn.course-schedule@1.0.0",
+          "trn.cert-expiry@1.0.0",
+          "trn.cert-renew@1.0.0",
+          "trn.enroll-approve@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intent_text"
+          ],
+          "properties": {
+            "intent_text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/trn.json#trn.plan-approve@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "intent_text": "plan-approve"
+        },
+        "status": "NOT_RUN"
+      },
+      {
+        "name": "win-review",
+        "domain": "sales",
+        "file": "templates/skills-domain/sales/SKILL-win-review.md",
+        "kind": "business_skill",
+        "workflow_ids": [
+          "sales.win-review@1.0.0",
+          "sales.contract-review@1.0.0"
+        ],
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "opportunity",
+            "amount_k",
+            "win_factors",
+            "playbook_update",
+            "source_refs"
+          ],
+          "properties": {
+            "opportunity": {
+              "type": "string"
+            },
+            "amount_k": {
+              "type": "string"
+            },
+            "win_factors": {
+              "type": "string"
+            },
+            "playbook_update": {
+              "type": "string"
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output_schema_ref": "manifests/workflow-contracts/sales.json#sales.win-review@1.0.0/output",
+        "security": {
+          "pii_allowed_in_prompt": false,
+          "source_refs_required": true,
+          "evidence_required": true
+        },
+        "fixture": {
+          "opportunity": "QA",
+          "amount_k": 1,
+          "win_factors": "QA",
+          "playbook_update": "QA",
+          "source_refs": [
+            "fixture:sales"
+          ]
+        },
+        "status": "NOT_RUN"
+      }
+    ]
+  },
+  "memory": {
+    "control_plane": {
+      "package": "dsh-mnemon",
+      "installed": true,
+      "tiers": [
+        "runtime",
+        "documents",
+        "memory_spaces"
+      ]
+    },
+    "providers": [
+      {
+        "id": "mnemon-native",
+        "package": "dsh-mnemon-provider-mnemon-native",
+        "installed": true,
+        "version": "0.5.5",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete",
+          "relationships"
+        ],
+        "requirements": [
+          "mnemon_cli"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "openviking",
+        "package": "dsh-mnemon-provider-openviking",
+        "installed": true,
+        "version": "0.5.6",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "list",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "user_or_account"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "honcho",
+        "package": "dsh-mnemon-provider-honcho",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "workspace",
+          "peer"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "mem0",
+        "package": "dsh-mnemon-provider-mem0",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "user_scope"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "hindsight",
+        "package": "dsh-mnemon-provider-hindsight",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "graph"
+        ],
+        "requirements": [
+          "endpoint",
+          "bank_scope",
+          "credentials_optional"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "holographic",
+        "package": "dsh-mnemon-provider-holographic",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "graph",
+          "delete"
+        ],
+        "requirements": [],
+        "external": false,
+        "expected_status": "PASS_LOCAL_REQUIRED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "retaindb",
+        "package": "dsh-mnemon-provider-retaindb",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "project",
+          "user"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "byterover",
+        "package": "dsh-mnemon-provider-byterover",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "status",
+          "query",
+          "curate"
+        ],
+        "requirements": [
+          "brv_cli",
+          "knowledge_directory"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "supermemory",
+        "package": "dsh-mnemon-provider-supermemory",
+        "installed": true,
+        "version": "0.5.4",
+        "capabilities": [
+          "create",
+          "read",
+          "search",
+          "delete"
+        ],
+        "requirements": [
+          "endpoint",
+          "credentials",
+          "container"
+        ],
+        "external": true,
+        "expected_status": "BLOCKED_EXTERNAL_WHEN_UNCONFIGURED",
+        "test_case": "create-read-update-delete-recall-restart-backup-and-pii-boundary",
+        "status": "NOT_RUN"
+      }
+    ]
+  }
+}
