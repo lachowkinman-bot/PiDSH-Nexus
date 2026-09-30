@@ -176,3 +176,62 @@
 - 使用系统 WebView2；固定版 WebView2 未打包。
 - 安装器未做商业代码签名。
 - 旧安装 profile 备份保留在 `%LOCALAPPDATA%\Programs\UniversalWorkbench\.dsh-home.pre-tauri-20260930-092001`。
+
+## 第八轮（2026-09-30 10:00- ）：品牌改名 / 主壳可达性 / 支持目录体检 / Git 归档
+
+### A. 交接与规则（用户三项要求之一）
+
+- 10:01 `AGENTS.md` 落地「上下文接近 90% 必须调用 `handoff` 技能（`C:\Users\Kinman\.agents\skills\handoff\SKILL.md`）」规则：交接文档写系统临时目录、不进仓库、剔除凭据、必含目标/已完成/运行中进程/下一步/风险/证据/建议 skills。
+- 10:15 追加「**验收即归档**」（用户 2026-09-30 指示）：任一改动通过门禁且证据落 `reports/` 后必须立即 `git commit`，未验证的中间状态不得提交。
+
+### B. 品牌与导航（用户三项要求之三 + 主驾驶舱投诉）
+
+- 品牌落点（前序工作已存在，本轮复核）：`assets/brand/pids-nexus.svg`（π 字形 + 数据波形 + 四色节点，表 Pi / DSH / 全能工作台）；`src-tauri/icons/*` 全套重生成；Tauri `productName=PiDSH Nexus`、窗口标题 `PiDSH Nexus · 全能工作台`；安装器 `setup.iss` / `setup-x.iss` 应用名与快捷方式名同步。
+- 10:10 导航修正（**主驾驶舱"消失"根因**）：`scripts/launch.ps1` 原先以 `--app=<…>/workbench/api/app-page` 打开——那是 13 域驾驶舱页；已改为打开主壳首页 `/`（会话/插件/技能/⟬工作台⟭面板所在处）。13 域页顶栏新增「⟵ 主壳 · 会话/插件/技能」回程按钮；壳内按钮文案由「打开完整主驾驶舱」改为「打开 13 域驾驶舱」（原文案本身就是误导）。
+- 10:13 `app.html` 重建（396 KB，品牌与回程按钮入产物；标题 `PiDSH Nexus · 全能工作台 — 13 域驾驶舱`）。
+- 10:14 Tauri release 重建（`src-tauri/target/release/universal-workbench.exe` 3,186,176 B）；用 `ExtractAssociatedIcon` 抽取 exe 图标实测=新 π+波形 logo（`reports/exe-icon-check.png`）。
+- 壳内 sidebar 品牌注入在 `workbench-ui-plugin/lib/client.js`（`sidebar.brand.mark` / `sidebar.brand.name` 槽位），主壳左上角由 DeepSeek Harness 换为 `PiDSH Nexus / 全能工作台`。
+
+### C. Git 归档（用户新增要求）
+
+- 10:15 `git init`（仓库根=`universal-workbench-3.0`，此前无版本控制）+ `.gitignore`：排除可重建大体积产物（`Pi_DSH_support/` 7.1 GB、`.dsh-home/` 5.6 GB、`.work/` 5.6 GB、`offline/` 2.8 GB、`src-tauri/target/` 1.2 GB、`offline-3.0/` 407 MB、`installer-output/` 206 MB、`node_modules/` 146 MB）。
+- 基线提交 `bba7cb2`（972 文件 / 55.3 MB，含 `reports/` 既有验收证据）。此后每通过一轮门禁即提交。
+
+### D. Pi_DSH_support 体检与选型（用户三项要求之二）
+
+- 10:18 新增 `scripts/scan-support-catalog.mjs`（只读扫描，687 个包）→ `reports/support-catalog-scan.{md,csv,json}`。
+- 结论：READY_DIST 93 + READY_SOURCE 33 = **126 个可离线装载**；BUILD_REQUIRED 130；NEEDS_SCRIPT_AUDIT 183；NEEDS_NATIVE_AUDIT 23；PI_PACKAGE 209；许可字段缺失 25。
+- 已进入 runtime 的 4 个（前序工作）：`@a9i5k4/dsh-auto-memory`、`@weibaohui/skills-management`、`@omdsh-dev/dsh-plugin-check`、`@weibaohui/dsh-kb`（均写入 `manifests/runtime-web.package.json`）。
+- 候选复核（零依赖 + 许可清晰，待隔离 profile 启动验证）：`dsh-context-doctor` 0.7.2（BSD-3，上下文注入审计，直接服务 90% handoff 规则）、`dsh-secure-audit` 0.2.10（MIT，注入检测/PII 脱敏/配置审计）。
+
+### E. 运行包刷新
+
+- 10:21 `offline-3.0/runtime-web.zip` 刷新（把品牌/按钮文案改动同步进交付 runtime）：427,014,795 B / SHA256 `80F02622557E52D7CCFC07DDEC4CDD040BDDF31363084A3F4A0A9C46278D003D`；`runtime-web.build-id` = `6f8cf6b444e5a8da95da8ffbd8fe5904c10a3852019a821b8eb832b5a44c85c7`。
+- 说明：本轮**未**跑 `npm install`（离线约束），采用「官方脚本同构的定向刷新」——robocopy 插件 → 重算 build-id → 重打包，npm 依赖树沿用 10:08 已验证版本。
+
+### F. ⚠️ 事故登记（未造成损失，但必须留痕）
+
+- 10:19 执行隔离验证时误用 PowerShell 保留变量 `$home`（赋值被拒后其值仍为 `C:\Users\Kinman`），触发对该目录的 `Remove-Item -Recurse -Force`。
+- 结果：**沙箱逐条拒绝（全部 "Access to the path … is denied"）**；抽查 6 个被拒路径（video-shotcraft 资源、augment 参考、adal 字体、handoff SKILL.md）全部完好；无实际删除。进程 PID 30820 已强制终止。
+- 纪律补丁（立即生效，写入本文件并遵守）：①任何 `Remove-Item -Recurse` 前必须先 `[IO.Path]::GetFullPath` 解析并断言目标在工作区内，否则中止；②禁止用 `$home/$profile/$env/$pshome` 等保留或敏感名作临时变量；③破坏性命令一律先打印目标路径。
+
+### G. 隔离 profile 验证与选型决定（10:22-10:30）
+
+- 隔离环境：`offline-3.0/runtime-web.zip` 解压到 `.work/verify-support-home`（46,284 文件，与 zip 内条目一致）——该步骤同时**复验了新 runtime 包可完整解压**。
+- 实测约束①：`dsh plugin --profile web add` 在离线环境不可用（`ERR_PNPM_NO_OFFLINE_META`，pnpm 需要 registry 元数据）。
+- 实测约束②：该命令会先把 npm 安装的既有包移入 `node_modules/.ignored`，离线机器上会把 profile 改成半损状态 → 再次证明「新增插件只能走构建期打包，不能走安装期」。
+- 变通验证：手工把 `dsh-context-doctor@0.7.2`、`dsh-secure-audit@0.2.10` 放入隔离 `node_modules` 并登记 `dsh.profile.bundles`（21 项）→ 冷启动 `--port 3096`：主壳起来、无 crash、无 failed-to-import；**但未取得功能级证据**（无 ready 日志，且一次性 token 已被前次请求消费，无法再拉壳 HTML 验证面板）。
+- 决定：**本轮不新增 runtime 依赖**（`AGENTS.md` 启动+功能双门禁未齐），报告 `reports/support-adoption-3.0.md` 记 4 个在用插件、2 个候选与下一轮最小验证清单。
+
+### H. 安装包重建（10:31）
+
+- `ISCC` 编译成功（20.2 s，经 `subst X:` 绕 MAX_PATH）；产物 `installer-output/UniversalWorkbench-Setup.exe`：**473,824,650 B / SHA256 `BF44A28085DEE3786DFB6C21C2DCA2B98001375490F64BC57DCFB99D00EF5444`**。
+- 输入同源核对：新 exe 3,186,176 B（图标实测=π+波形 logo，`reports/exe-icon-check.png`）、新 runtime 427,014,795 B、新 app.html 396 KB（品牌+回程按钮）；Setup 图标实测=新 logo（`reports/setup-icon-check.png`）。
+- 与 R7 对比：安装包 216.7 MB → **473.8 MB**（+257 MB）。原因：runtime 依赖树从 163 MB 膨胀到 427 MB（onnxruntime-node 208 MB、@deepseek-ai 238 MB、react-icons 84 MB、mermaid 80 MB、@huggingface 66 MB 等，来自记忆/知识库类插件的传递依赖）。**已登记为待优化项**（下一轮做依赖裁剪，不牺牲已验证能力）。
+
+### I. 本轮未完成（如实登记，下一轮第一件事）
+
+1. **安装级复验**：静默安装到隔离目录 → 启动 → `verify-app` 全矩阵 → UI 旅程。本轮只做到「产物同源 + 图标/内容核对」，**未**重跑安装态门禁。
+2. `dsh-context-doctor` / `dsh-secure-audit` 的功能级验证（工具实调 + 面板截图），以及联网重打 runtime。
+3. runtime 体积裁剪（目标回到 ≤260 MB 级别，且不丢已验证能力）。
+4. 上下文交接：本轮结束时按 `AGENTS.md` 规则生成 handoff（写入系统临时目录，剔除凭据）。
