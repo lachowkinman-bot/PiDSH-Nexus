@@ -1,0 +1,29 @@
+# 统一换行符：文本文件一律以 LF 存储并检出。
+# 动因（2026-10-02 实测）：Windows 全局 core.autocrlf=true 时克隆会得到 CRLF，
+# 导致 ① `scripts/*.sh` 在 bash 下因 \r 直接报错；② `npm run build:app` 产物字节漂移
+# （内联的 src/app.js、src/theme.css 行尾不同）。锁定 LF 后任意平台克隆均可复现同一产物。
+* text=auto eol=lf
+
+# 二进制类型显式声明，禁止任何换行符转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.otf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.zip binary
+*.tgz binary
+*.gz binary
+*.7z binary
+*.exe binary
+*.dll binary
+*.pdf binary
+*.xlsx binary
+*.docx binary
+*.pptx binary
