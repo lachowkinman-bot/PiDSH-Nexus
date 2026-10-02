@@ -393,3 +393,12 @@
 - `node scripts/verify-workflow-delivery-matrix.mjs`：`546/546 PASS`。
 - 上述门禁报告的时间戳与产物路径已刷新为本轮实测值，通过数与 R12 一致；`reports/delivery-matrix.json`、`reports/r12-*.json` 的差异仅来自本轮重新生成的交付物目录名、哈希与执行时间。
 - 环境提示：`verify-delivery-matrix.mjs` 运行期出现 `Could not find platform independent libraries <prefix>`（本机 Python 前缀告警），不影响判定，117/117 全通过。
+
+### D. 开源许可收口（2026-10-02 续）
+
+- 新增 `LICENSE`（Apache-2.0 逐字全文，取自本地可信副本并核对无篡改）、`NOTICE`（项目署名与保留要求）、`THIRD-PARTY-NOTICES.md`（全量第三方许可盘点、义务与再分发建议）。
+- 根 `package.json` 与 `src-tauri/Cargo.toml` 补 SPDX 声明 `Apache-2.0`；`workbench-ui-plugin/package.json` 此前已声明 Apache-2.0，三者现已一致（`cargo metadata` 校验通过，license 字段被正确识别）。
+- 盘点范围：仓库内随附资产、根 npm 依赖树（112 包）、`src-tauri/Cargo.lock`（455 个 crate）、`offline/npm` + `offline/catalog`（180 个 tarball）、Python 依赖。
+- 结论（宽松侧）：仓库自有代码无 copyleft 混入；随附第三方仅 dsh-ppt（MIT）与 Noto Sans CJK（OFL-1.1）；Rust 依赖全部为 MIT/Apache-2.0/Unicode-3.0 等宽松许可，含 5 个 MPL-2.0 弱 copyleft（cssparser、cssparser-macros、dtoa-short、option-ext、selectors，未修改）；构建期 npm 依赖树均宽松，`buffers@0.1.1` 未声明许可字段（仅构建期，不随仓库分发）。
+- **红线（必须处置后才可再分发运行时包/安装器）**：出厂 runtime 的 64 个插件中含 AGPL-3.0（`dsh-lark-bot@0.19.16`，包内附 AGPL v3 全文）、GPL-2.0（`dsh-pocket@2.10.6`，包内附 GPL v2 全文）、未声明许可（`@vectorize-io/hindsight-coding-agents@0.7.0`，无 license 字段且无 LICENSE 文件）。目录层另有 `pi-loop-mode`（AGPL-3.0-only）与 `context-mode`（Elastic-2.0，非 OSI 开源）及 6 个未声明许可包。
+- 处置选项（三选一，见 `THIRD-PARTY-NOTICES.md` §8）：从出厂集移除上述三项后重建；或改为可选外部安装项单独分发；或整体按 AGPL-3.0 发布（须注意与 GPL-2.0-only 组件的兼容性冲突）。

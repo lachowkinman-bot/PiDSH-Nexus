@@ -4,6 +4,7 @@ version = "3.0.0"
 description = "Universal Workbench native Windows shell"
 edition = "2021"
 build = "build.rs"
+license = "Apache-2.0"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

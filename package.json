@@ -1,5 +1,6 @@
 {
   "private": true,
+  "license": "Apache-2.0",
   "scripts": {
     "build:delivery": "node scripts/build-delivery.mjs",
     "verify:deliveries": "node scripts/verify-delivery-matrix.mjs",

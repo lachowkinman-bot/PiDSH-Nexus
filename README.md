@@ -134,4 +134,10 @@ lifecycle/                领域生命周期工具（Python）
 - `reports/` 中的安装态证据是本机快照，路径与哈希在重建后必然变化。
 - 真实 LLM 与第三方云服务在本轮以「显式阻塞 / 模型桩」方式验收，未宣称真实凭据联调通过。
 - 10-Runner 适配矩阵中部分 Runner（minimax / 豆包工作 / Trae Work / Kimi code）未公开核验，见 `runner-profile.json`。
-- 本仓库尚未附开源许可证（LICENSE）。公开可见不等于授权二次分发；如需他人自由迭代，建议先补充许可证。
+- 许可：本项目自有代码采用 Apache-2.0；随附第三方代码 / 资产与出厂运行时中 copyleft 插件的再分发注意事项见 §10。
+
+## 10. 许可
+
+- 本项目自有代码（`src/`、`src-tauri/`、`workbench-ui-plugin/`、`scripts/`、`manifests/`、`templates/`、`docs/`、`reports/`、`lifecycle/`）采用 **Apache License 2.0**，全文见 [`LICENSE`](LICENSE)，署名见 [`NOTICE`](NOTICE)。
+- 随附第三方代码与素材（dsh-ppt deck-core = MIT、Noto Sans CJK = SIL OFL 1.1）、构建期依赖、Rust crates（含 5 个 MPL-2.0）、以及离线插件层的完整许可清单与义务，见 [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md)。
+- 本仓库本身不分发 `offline/` 与 `Pi_DSH_support/` 内容，克隆本仓库不会触发第三方 copyleft 义务；但**由本仓库脚本生成的运行时包与安装器属于聚合分发物**，其中出厂集含 AGPL-3.0（`dsh-lark-bot`）、GPL-2.0（`dsh-pocket`）与一个未声明许可的插件，再分发前必须先按 `THIRD-PARTY-NOTICES.md` §7.1 / §8 处置。
