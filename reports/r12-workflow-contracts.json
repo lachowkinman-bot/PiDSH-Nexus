@@ -1,7 +1,7 @@
 {
   "schema": "pids-nexus/workflow-contract-verification/v2",
-  "generated_at": "2026-09-30T10:09:21.197Z",
-  "workspace_root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r12-contract-1790762645778",
+  "generated_at": "2026-10-02T11:42:11.140Z",
+  "workspace_root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r12-contract-1790941161615",
   "expected_cases": 546,
   "executed_cases": 546,
   "passed": 549,

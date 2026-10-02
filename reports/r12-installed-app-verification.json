@@ -1,0 +1,528 @@
+{
+ "at": "2026-09-30T10:28:37.658Z",
+ "base": "http://127.0.0.1:3080",
+ "total": 45,
+ "pass": 45,
+ "results": [
+  {
+   "area": "端点",
+   "item": "壳进程",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "场景端点",
+   "pass": 14,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "域端点",
+   "pass": {
+    "strat": [
+     "OKR 目标填写表单",
+     "季度 KR 追踪看板",
+     "竞品动态卡"
+    ],
+    "mkt-on": [
+     "内容日历看板",
+     "投放 ROI 卡",
+     "线索漏斗图（PII 脱敏列）"
+    ],
+    "mkt-off": [
+     "活动台账表",
+     "物料合规审查工作流卡片",
+     "经销商条款摘要卡"
+    ],
+    "sales": [
+     "CRM 管道看板",
+     "报价审批 DAG 视图",
+     "赢单复盘卡"
+    ],
+    "fin": [
+     "报销单表单（可提交）",
+     "预算执行图",
+     "月报分级出数开关"
+    ],
+    "rec": [
+     "候选人看板（脱敏列）",
+     "面试安排表",
+     "简历外发审批入口"
+    ],
+    "trn": [
+     "课程目录",
+     "学时统计图",
+     "证书到期拦截提醒卡"
+    ],
+    "prf": [
+     "OKR/KPI 填写表单",
+     "校准分布图（双审批入口）",
+     "目标分解树"
+    ],
+    "comp": [
+     "薪酬带宽偏离图（区间口径）",
+     "调薪双审批队列",
+     "redact_gate 状态条"
+    ],
+    "ben": [
+     "福利方案比选矩阵",
+     "体检脱敏聚合卡",
+     "弹性积分计算器"
+    ],
+    "admin": [
+     "采购比价表",
+     "资产台账",
+     "用印申请表（强制 HITL 按钮）"
+    ],
+    "cmp": [
+     "制度审查 checklist",
+     "PIPIA 清单",
+     "证据链五级视图"
+    ],
+    "er-eap": [
+     "离职流程步骤条",
+     "EAP 转介表单（匿名化+双审批+禁网指示）"
+    ],
+    "F7-offline": [
+     "离线模式指示页（公网禁用状态）"
+    ],
+    "F8-upgrade": [
+     "升级与回退入口（tools-versions 视图+回退按钮）"
+    ],
+    "F11-selfcheck": [
+     "安装自检报告页（哈希/版本/十要素骨架）"
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "当前 preset",
+   "pass": {
+    "current": "admin.procurement@1.0.0",
+    "applied_at": "2026-09-29T07:20:57.156Z"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "审计端点",
+   "pass": {
+    "stats": {
+     "plugin.apply": 5,
+     "tool.register": 5,
+     "deliverable.package.create": 1
+    },
+    "tail": [
+     {
+      "ts": "2026-09-30T07:14:30.848Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T07:14:35.717Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T07:16:42.831Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T07:16:46.402Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T07:18:44.922Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T07:18:51.327Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T07:36:36.801Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T07:36:39.221Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T10:27:31.798Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-09-30T10:27:34.497Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-09-30T10:28:27.455Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20260930-102827085-0ecb3f15",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20260930-102827085-0ecb3f15/manifest.json"
+     }
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "交付物端点",
+   "pass": {
+    "fin": []
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工作流库",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "按钮清零表",
+   "pass": [
+    {
+     "id": "preset-apply",
+     "label": "选/用（apply）",
+     "route": "POST /workbench/api/apply",
+     "audit": "preset.apply"
+    },
+    {
+     "id": "preset-save",
+     "label": "存（save）",
+     "route": "POST /workbench/api/save",
+     "audit": "preset.save"
+    },
+    {
+     "id": "preset-switch",
+     "label": "切（switch）",
+     "route": "POST /workbench/api/switch",
+     "audit": "preset.switch"
+    },
+    {
+     "id": "preset-new",
+     "label": "新建（派生 Scene）",
+     "route": "POST /workbench/api/preset-new",
+     "audit": "preset.new"
+    },
+    {
+     "id": "preset-edit",
+     "label": "编辑当前 preset",
+     "route": "POST /workbench/api/preset-edit",
+     "audit": "preset.edit"
+    },
+    {
+     "id": "gt-engine",
+     "label": "跑一次 GT（经引擎）",
+     "route": "POST /workbench/api/engine-run",
+     "audit": "engine.run"
+    },
+    {
+     "id": "wf-run",
+     "label": "工作流·发起",
+     "route": "POST /workbench/api/workflow-run",
+     "audit": "workflow.run + deliverable.create"
+    },
+    {
+     "id": "domain-submit",
+     "label": "域表单·提交",
+     "route": "POST /workbench/api/submit",
+     "audit": "deliverable.create"
+    },
+    {
+     "id": "f7-check",
+     "label": "F7 网络自检",
+     "route": "GET /workbench/api/scenes",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-tools",
+     "label": "F8 查看 tools-versions",
+     "route": "GET /workbench/api/tools-versions",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-rollback",
+     "label": "F8 回退演练（dry-run）",
+     "route": "POST /workbench/api/rollback-dryrun",
+     "audit": "rollback.dryrun"
+    },
+    {
+     "id": "f11-report",
+     "label": "F11 自检报告",
+     "route": "GET /workbench/api/audit",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "delivery-all",
+     "label": "生成全部交付格式",
+     "route": "POST /workbench/api/deliver",
+     "audit": "deliverable.package.create"
+    },
+    {
+     "id": "delivery-format",
+     "label": "生成单格式交付物",
+     "route": "POST /workbench/api/deliver",
+     "audit": "deliverable.package.create"
+    }
+   ],
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工具版本",
+   "pass": {
+    "content": "(missing)"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 表/行",
+   "pass": true,
+   "note": "tables=2 rows=30"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 表/行",
+   "pass": true,
+   "note": "tables=3 rows=42"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=4"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 表/行",
+   "pass": true,
+   "note": "tables=4 rows=75"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 表/行",
+   "pass": true,
+   "note": "tables=3 rows=50"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=28"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 表/行",
+   "pass": true,
+   "note": "tables=3 rows=44"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 表/行",
+   "pass": true,
+   "note": "tables=2 rows=29"
+  },
+  {
+   "area": "action",
+   "item": "buttons 清零表条目数",
+   "pass": true,
+   "note": "count=14"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景→技能→工作流一致性",
+   "pass": true,
+   "note": "LINT PASS gt_entries=42 gt_unique=39 domains=12 violations=0"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景引用工作流均存在",
+   "pass": true,
+   "note": "workflows=78"
+  },
+  {
+   "area": "勾稽",
+   "item": "数据字典↔落地表一致性",
+   "pass": true,
+   "note": "CHECK_DONE tables=46 issues=0 → reports/data-consistency.csv"
+  },
+  {
+   "area": "勾稽",
+   "item": "交付物↔审计(deliverable create)",
+   "pass": true,
+   "note": "deliverables=934 audit_create=7"
+  },
+  {
+   "area": "勾稽",
+   "item": "引擎调用可追溯(tokens/stop)",
+   "pass": true,
+   "note": "engine.run=0 deterministic_mode=true（聊天通道由 delivery-ui/chat 验收单独取证）"
+  },
+  {
+   "area": "交付",
+   "item": "驾驶舱交付中心入口",
+   "pass": true,
+   "note": "http=200 bytes=296617"
+  },
+  {
+   "area": "交付",
+   "item": "HTTP 生成 md+pdf",
+   "pass": true,
+   "note": "http=200 run=20260930-102837390-753194e0"
+  },
+  {
+   "area": "交付",
+   "item": "PDF 下载",
+   "pass": true,
+   "note": "http=200 bytes=84079"
+  },
+  {
+   "area": "交付",
+   "item": "交付包列表",
+   "pass": true,
+   "note": "http=200 count=2"
+  }
+ ]
+}

@@ -370,3 +370,26 @@
 - 安装器：589,954,910 B / SHA256 `4DBDCA8509B2D2D5FB7CF840320266093CB6C7E6887BDE0209F270BB15BF8E4A`。
 - 原地升级保留：sessions、storages、credential 哈希、session/workspace 哨兵、审批密钥、操作者注册表、既有实例均保留。
 - 条件阻塞：真实 LLM 与三方云服务未配置凭据，未宣称真实联调通过；T1 字标继续暂停。
+
+## 第十三轮（2026-10-02）：GitHub 公开发布与可复现性收口
+
+### A. 发布准备
+
+- 新增根 `README.md`：定位源码包边界（离线依赖层与安装包按设计不入库）、环境前置、完整复现链路、五道离线门禁、迭代指引、目录速览与已知边界。
+- 修正 `.npmrc`：移除失效且不可移植的项目级 `prefix`（npm 11 起禁止在项目级 .npmrc 改 prefix，实测不生效，全局安装实际落便携 Node 目录），消除每次 npm 调用的报错噪声。
+- 归档未提交的交接文档与最终验收证据：`handoff-pids-nexus-r8/r9/r11-*.md`、`reports/r11-final-*.json`、`reports/r12-*.json`。
+
+### B. 复现性问题与修复
+
+- 发现已提交的 `app.html` 内嵌的是旧版域模型（rec 域技能清单与工作流交付字段早于 `manifests/domain-model/*.json`）；重新执行 `npm run build:app` 重建，使产物与源一致。
+- 连续两次 `node scripts/build-app.mjs` 产物 SHA256 完全一致（`ac83e11907b5eb425890d77277abd0a33419595dfb888008c922e01e1806288a`），确认为字节级可复现构建。
+
+### C. 发布时复跑门禁（同一源码树）
+
+- `node scripts/verify-domain-work-design.mjs`：`21/21 PASS`。
+- `node scripts/verify-runtime-capabilities.mjs`：`PASS local=146 live=0 blocked=22 n/a=5 fail=0`。
+- `node scripts/verify-delivery-matrix.mjs`：`117/117 PASS`。
+- `node scripts/verify-workflow-contracts-v2.mjs`：`549/549 PASS`。
+- `node scripts/verify-workflow-delivery-matrix.mjs`：`546/546 PASS`。
+- 上述门禁报告的时间戳与产物路径已刷新为本轮实测值，通过数与 R12 一致；`reports/delivery-matrix.json`、`reports/r12-*.json` 的差异仅来自本轮重新生成的交付物目录名、哈希与执行时间。
+- 环境提示：`verify-delivery-matrix.mjs` 运行期出现 `Could not find platform independent libraries <prefix>`（本机 Python 前缀告警），不影响判定，117/117 全通过。

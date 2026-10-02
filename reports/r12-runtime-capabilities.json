@@ -1,7 +1,7 @@
 {
   "schema": "pids-nexus/runtime-capability-verification/v1",
-  "generated_at": "2026-09-30T10:03:59.837Z",
-  "duration_ms": 29823,
+  "generated_at": "2026-10-02T11:39:06.785Z",
+  "duration_ms": 17045,
   "profile_root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0\\.work\\r10-installed\\.dsh-home\\profiles\\web",
   "pass": true,
   "counts": {
