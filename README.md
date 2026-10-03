@@ -66,14 +66,19 @@ macOS / Linux 可用 `bash scripts/download-all.sh`、`bash scripts/workbench.sh
 
 ## 4. 复现校验（门禁）
 
-离线即可执行：
+`npm ci` 后无需 runtime profile，可直接执行：
 
 ```bash
 npm run design:verify              # 领域设计 21/21
 npm run verify:deliveries          # 交付矩阵
-npm run capabilities:verify        # 运行时能力矩阵
 npm run verify:workflow-contracts  # 工作流输入/输出契约
 npm run verify:workflow-delivery   # 工作流交付矩阵
+```
+
+需要先安装 runtime profile（§3 第 2 步 `pwsh -File scripts/workbench.ps1 -Cmd install`）后执行：
+
+```bash
+npm run capabilities:verify        # 运行时能力矩阵（读取 .dsh-home/profiles/web）
 ```
 
 需要先启动壳（拿到带 token 的 URL）后执行：

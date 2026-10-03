@@ -70,6 +70,16 @@ if (Test-Path $pnpmDest) {
   else { $sums += "$pnpmFile  $a" }
 }
 $sums | Set-Content -Encoding UTF8 'offline/npm/SHA256SUMS.txt'
+# —— pkgmeta.json：download-catalog.mjs / gen-manifest.mjs 的前置清单（file/base/ver/sha）——
+$meta = foreach($p in $PKGS){
+  $file = "$($p[0])-$($p[2]).tgz"
+  [ordered]@{ file = $file; base = $p[0]; ver = $p[2]; sha = (Get-Sha "offline/npm/$file") }
+}
+[IO.File]::WriteAllText(
+  (Join-Path (Get-Location) 'offline/npm/pkgmeta.json'),
+  ($meta | ConvertTo-Json -Depth 4),
+  (New-Object System.Text.UTF8Encoding($false))
+)
 # —— dsh 0.1.7-rc.2 引擎双落点：offline/npm 供 workbench.ps1，offline-3.0/engines 供 U1/运行时分发 ——
 $engineFile = 'deepseek-ai-dsh-0.1.7-rc.2.tgz'
 $engineSha = '5f2da7272d9485abc223e681075809a8d929697c5232ee445718e1b7e066bff8'

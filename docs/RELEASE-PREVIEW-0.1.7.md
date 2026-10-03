@@ -46,16 +46,17 @@ npm run build:app
 # 0) 构建期依赖（联网一次；之后可断网）
 npm ci
 
-# 1) 五道离线门禁
+# 1) 无需 runtime profile 的四道源码门禁
 npm run design:verify              # 21/21
 npm run verify:deliveries          # 117/117（Office 格式转换需本机 LibreOffice）
-npm run capabilities:verify        # local=146 live=0 blocked=22 n/a=5 fail=0
 npm run verify:workflow-contracts  # 549/549
 npm run verify:workflow-delivery   # 546/546
 
 # 2) 单文件工作台（应复现上面的 app.html 哈希）
 npm run build:app
 ```
+
+> `npm run capabilities:verify` 读取 `.dsh-home/profiles/web` 的已安装 runtime，全新源码包必须先完成 §5 第 1-2 步（下载层 + `workbench.ps1 -Cmd install`）才能通过；未安装时会如实报 `运行时 profile 缺少包`，不是源码缺陷。
 
 ## 5. 完整 runtime / 桌面壳重建
 
@@ -66,6 +67,7 @@ node scripts/download-catalog.mjs        # 完整 runtime 必需（155 个目录
 
 # 2) 安装引擎与插件到项目内隔离 profile（.dsh-home）
 pwsh -File scripts/workbench.ps1 -Cmd install
+npm run capabilities:verify        # local=146 live=0 blocked=22 n/a=5 fail=0
 
 # 3) 生成源码产物
 npm run design:build
@@ -90,7 +92,7 @@ macOS / Linux：`bash scripts/download-all.sh`、`bash scripts/workbench.sh inst
 |---|---|
 | 领域设计 | `21/21 PASS` |
 | 交付矩阵 | `117/117 PASS`（13 项 Office 转换在 LibreOffice 可用环境下通过） |
-| 运行时能力矩阵 | `PASS local=146 live=0 blocked=22 n/a=5 fail=0` |
+| 运行时能力矩阵 | `PASS local=146 live=0 blocked=22 n/a=5 fail=0`（需先完成离线安装链） |
 | 工作流契约 V2 | `549/549 PASS` |
 | 工作流交付矩阵 | `546/546 PASS` |
 | app.html 可复现性 | 重建哈希 `ac83e119…6288a`，与本标签产物逐字一致 |
@@ -100,6 +102,7 @@ macOS / Linux：`bash scripts/download-all.sh`、`bash scripts/workbench.sh inst
 ## 7. 已知限制
 
 - 真实 LLM 与三方云服务未配置凭据：相关能力按设计进入 `blocked_external`，未宣称真实联调通过。
+- 全新源码包中 `capabilities:verify` 依赖 `.dsh-home/profiles/web`；这是安装链的验收门禁，不属于免安装构建门禁。
 - 主壳左上角字标 T1 仍暂停（保留上游字标），窗口/安装器/工作台面板已使用 PiDSH Nexus 品牌。
 - 完整桌面 runtime 重建当前以 Windows 为验证路径；macOS/Linux 的 `download-all.sh` + `workbench.sh` 提供依赖层/安装层，但桌面壳与安装器未在本次预发布中实测。
 - dsh `0.1.7-rc.2` 为锁定预发布引擎：禁止跟随 latest，禁止降级到 <=0.1.5-rc.3。

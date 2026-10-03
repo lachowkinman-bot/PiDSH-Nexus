@@ -78,6 +78,19 @@ if [ -s "offline/npm/$PNPM_FILE" ]; then
   if [ "$ACTUAL" != "$PNPM_SHA" ]; then echo "PNPM-HASH-MISMATCH $PNPM_FILE expect=$PNPM_SHA actual=$ACTUAL" >&2
   else echo "$PNPM_FILE  $ACTUAL" >> offline/npm/SHA256SUMS.txt; fi
 fi
+# —— pkgmeta.json：download-catalog.mjs / gen-manifest.mjs 的前置清单（file/base/ver/sha）——
+{
+  printf '[\n'
+  FIRST=1
+  echo "$PKGS" | while IFS='|' read -r base npm ver; do
+    [ -n "$base" ] || continue
+    FILE="$base-$ver.tgz"; SHA="$(hash_file "offline/npm/$FILE")"
+    [ "$FIRST" = "1" ] || printf ',\n'
+    FIRST=0
+    printf ' {"file":"%s","base":"%s","ver":"%s","sha":"%s"}' "$FILE" "$base" "$ver" "$SHA"
+  done
+  printf '\n]\n'
+} > offline/npm/pkgmeta.json
 # —— dsh 0.1.7-rc.2 引擎双落点：offline/npm 供 workbench.sh，offline-3.0/engines 供 U1/运行时分发 ——
 ENGINE_FILE=deepseek-ai-dsh-0.1.7-rc.2.tgz
 ENGINE_SHA=5f2da7272d9485abc223e681075809a8d929697c5232ee445718e1b7e066bff8

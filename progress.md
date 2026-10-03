@@ -424,6 +424,8 @@
 - `npm run verify:workflow-delivery`：546/546 PASS。
 - `node scripts/u1-bundle-audit.mjs`：U1 PASS（offline/npm 25/25 + offline/catalog 155/155 + 引擎 0.1.7-rc.2 HASH_OK）。
 - `npm run build:app`：逐字节复现 `ac83e11907b5eb425890d77277abd0a33419595dfb888008c922e01e1806288a`。
+- 干净检出回归（worktree，仅 1332 个已跟踪文件）：`download-all.ps1 -SkipDshWeb` 全部 OK（24 包 + pnpm + 引擎双落点 + 便携 Node 24.21.0 解压）；`npm ci` 134 包装成功；`build:app` 复现同一 SHA256；`design:verify` 21/21、`verify:workflow-contracts` 549/549 通过。
+- 干净检出暴露并修正文档顺序缺陷：`capabilities:verify` 读取 `.dsh-home/profiles/web`，源码包必须先执行 `workbench.ps1 -Cmd install`；README §4 与预发布说明已拆分为「免 profile 门禁」与「安装后门禁」。
 
 ### D. 发布动作
 
