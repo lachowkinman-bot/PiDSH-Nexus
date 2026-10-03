@@ -427,6 +427,7 @@
 - 干净检出回归（worktree，仅 1332 个已跟踪文件）：`download-all.ps1 -SkipDshWeb` 全部 OK（24 包 + pnpm + 引擎双落点 + 便携 Node 24.21.0 解压）；`npm ci` 134 包装成功；`build:app` 复现同一 SHA256；`design:verify` 21/21、`verify:workflow-contracts` 549/549 通过。
 - 干净检出暴露并修正文档顺序缺陷：`capabilities:verify` 读取 `.dsh-home/profiles/web`，源码包必须先执行 `workbench.ps1 -Cmd install`；README §4 与预发布说明已拆分为「免 profile 门禁」与「安装后门禁」。
 - 干净检出继续暴露两处阻断并修复：`download-catalog.mjs` 依赖缺失的 `offline/npm/pkgmeta.json`（已由 `download-all.ps1|sh` 生成）；`build-runtime-bundle.ps1` 要求 `.work/runtime-web/package.json` 预先存在（已改为幂等创建目录后写入生成清单）。
+- 干净源码包端到端复现（仅 1332 个已跟踪文件）：目录层 155/155 → `npm ci` 134 包 → 离线安装 `INSTALL_DONE`（dsh 0.1.7-rc.2）→ runtime 组装 `RUNTIME_BUNDLE_OK`（548,446,769 B，build-id `9dd6dd8e…`）→ 刷新 profile → 五道门禁全绿（21/21、117/117、local=146 fail=0、549/549、546/546）。
 
 ### D. 发布动作
 

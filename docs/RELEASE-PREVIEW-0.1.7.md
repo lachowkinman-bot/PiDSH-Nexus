@@ -99,6 +99,22 @@ macOS / Linux：`bash scripts/download-all.sh`、`bash scripts/workbench.sh inst
 
 完整证据落盘：`reports/domain-work-design-validation.json`、`reports/delivery-matrix.json`、`reports/r12-runtime-capabilities.json`、`reports/r12-workflow-contracts.json`、`reports/r12-workflow-delivery-matrix.json`。
 
+### 干净源码包端到端复现（2026-10-03 实测）
+
+在只含 Git 跟踪文件的干净检出中（无 `offline/`、`node_modules/`、`.work/`、`.dsh-home/`），按 §5 顺序执行：
+
+| 步骤 | 结果 |
+|---|---|
+| `pwsh -File scripts/download-all.ps1 -SkipDshWeb` | 24 个 npm 包 + pnpm 10.32.1 + 引擎双落点 + 便携 Node 24.21.0 全部 OK |
+| `node scripts/download-catalog.mjs` | 155/155 tarballs（重叠核心 5，新增 150） |
+| `npm ci` | 134 包安装成功 |
+| `pwsh -File scripts/workbench.ps1 -Cmd install` | `INSTALL_DONE`；`dsh --version` = `0.1.7-rc.2`；24 包 + 工作台插件全部 exit 0 |
+| `pwsh -File scripts/build-runtime-bundle.ps1` | `RUNTIME_BUNDLE_OK`，该次构建 548,446,769 B，build-id `9dd6dd8e…` |
+| 再次 `install` 刷新完整 profile | `INSTALL_DONE` |
+| 五道门禁 | 与 §6 表一致：21/21、117/117、`local=146 … fail=0`、549/549、546/546 |
+
+`runtime-web.zip` 的字节数与 build-id 会随 tarball 集合/时间戳变化，不承诺固定哈希；可复现的是「同一源码包 + 同一下载清单 → 门禁全绿」。
+
 ## 7. 已知限制
 
 - 真实 LLM 与三方云服务未配置凭据：相关能力按设计进入 `blocked_external`，未宣称真实联调通过。
