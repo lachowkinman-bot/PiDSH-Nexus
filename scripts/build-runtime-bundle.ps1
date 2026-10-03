@@ -27,9 +27,7 @@ $runtime = Assert-UnderRoot (Join-Path $root '.work/runtime-web') 'runtime-web'
 $stage = Assert-UnderRoot (Join-Path $root '.work/runtime-stage') 'runtime-stage'
 $archive = Assert-UnderRoot (Join-Path $root 'offline-3.0/runtime-web.zip') 'runtime archive'
 
-if (-not (Test-Path (Join-Path $runtime 'package.json'))) {
-  throw "缺少 runtime package.json：$runtime"
-}
+New-Item -ItemType Directory -Force -Path $runtime | Out-Null
 Copy-Item -LiteralPath (Join-Path $root 'manifests/runtime-web.package.json') -Destination (Join-Path $runtime 'package.json') -Force
 
 Push-Location $runtime
