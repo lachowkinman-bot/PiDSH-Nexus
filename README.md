@@ -3,6 +3,8 @@
 13 个业务域的企业级工作台：**桌面壳（Tauri 2 / Rust）+ dsh 工作台插件 + 领域模型 / 工作流 / 数据契约 / 数据台账**。
 本仓库是**源码包**：不携带离线依赖与安装包（体积原因，见 §6），按下方步骤可在本机完整复现，并在此基础上继续迭代。
 
+> **Release Preview 0.1.7**：本源码包对应 PiDSH Nexus 0.1.7（Release Preview，底座 dsh 0.1.7-rc.2）· 发布边界、复现步骤与已验证门禁见 [`docs/RELEASE-PREVIEW-0.1.7.md`](docs/RELEASE-PREVIEW-0.1.7.md)。
+
 - 主工作面：dsh 壳内「⟡ 工作台」插件，13 域驾驶舱 + 模块 / 事项 / 工作流 / 审批 / 交付物 / 成效复盘
 - 桌面形态：`src-tauri/` 原生壳，启动后在本机 `127.0.0.1:3080` 拉起服务并以应用窗口打开（非浏览器标签页）
 - 轻量形态：仓库自带 `app.html`（单文件、数据内联），双击即用，不需要 Node，也不需要网络
@@ -39,9 +41,9 @@ npm run build:app        # 产物 app.html；构建内含域模型校验与表�
 # 0) 根目录依赖（esbuild 等构建期工具）
 npm ci
 
-# 1) 拉取离线依赖层：npm tarball 24 个 + 便携 Node 24 + 引擎 tarball（域名白名单 + SHA256 校验）
+# 1) 拉取离线依赖层：npm tarball 24 个 + pnpm + 便携 Node 24.21.0 + dsh 0.1.7-rc.2 引擎（域名白名单 + SHA256 校验）
 pwsh -File scripts/download-all.ps1
-node scripts/download-catalog.mjs        # 可选：目录层 155 包（文档/视频/知识图谱能力）
+node scripts/download-catalog.mjs        # 完整 runtime 必需（目录层 155 包）；只跑 app.html/离线门禁可跳过
 
 # 2) 安装引擎与插件（便携 Node 优先入 PATH，装 dsh + pnpm + 工作台插件到本项目 profile）
 pwsh -File scripts/workbench.ps1 -Cmd install

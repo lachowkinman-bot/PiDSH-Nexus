@@ -402,3 +402,30 @@
 - 结论（宽松侧）：仓库自有代码无 copyleft 混入；随附第三方仅 dsh-ppt（MIT）与 Noto Sans CJK（OFL-1.1）；Rust 依赖全部为 MIT/Apache-2.0/Unicode-3.0 等宽松许可，含 5 个 MPL-2.0 弱 copyleft（cssparser、cssparser-macros、dtoa-short、option-ext、selectors，未修改）；构建期 npm 依赖树均宽松，`buffers@0.1.1` 未声明许可字段（仅构建期，不随仓库分发）。
 - **红线（必须处置后才可再分发运行时包/安装器）**：出厂 runtime 的 64 个插件中含 AGPL-3.0（`dsh-lark-bot@0.19.16`，包内附 AGPL v3 全文）、GPL-2.0（`dsh-pocket@2.10.6`，包内附 GPL v2 全文）、未声明许可（`@vectorize-io/hindsight-coding-agents@0.7.0`，无 license 字段且无 LICENSE 文件）。目录层另有 `pi-loop-mode`（AGPL-3.0-only）与 `context-mode`（Elastic-2.0，非 OSI 开源）及 6 个未声明许可包。
 - 处置选项（三选一，见 `THIRD-PARTY-NOTICES.md` §8）：从出厂集移除上述三项后重建；或改为可选外部安装项单独分发；或整体按 AGPL-3.0 发布（须注意与 GPL-2.0-only 组件的兼容性冲突）。
+
+## 第十四轮（2026-10-03）：PiDSH Nexus 0.1.7 Release Preview
+
+### A. 目标
+
+- 将 `universal-workbench-3.0` 以 **PiDSH Nexus 0.1.7（Release Preview）** 推送到 `lachowkinman-bot/PiDSH-Nexus`，保证下载 GitHub 源码包的用户可复现并迭代。
+
+### B. 复现链修复
+
+- 发现 `scripts/download-all.ps1|sh` 仍下载 dsh `0.1.5-rc.3`，且不产出 `offline-3.0/engines/deepseek-ai-dsh-0.1.7-rc.2.tgz`、`offline/npm/pnpm-10.32.1.tgz` 与 `offline/node/node-v24.21.0-win-x64/`（`workbench.ps1` 安装链的硬前置）→ 源码包在干净机无法按 README §3 复现。
+- 修复：下载清单引擎行重锁 `0.1.7-rc.2`；补 pnpm 10.32.1；Node 固定 24.21.0 并下载/解压便携 zip；引擎 tarball 双落点并做 SHA256 断言；`manifests/versions-lock.txt` 同步为 dsh=0.1.7-rc.2 / node=24.21.0 / pnpm=10.32.1。
+- 新增 `docs/RELEASE-PREVIEW-0.1.7.md`：版本标识、仅源码边界、30 秒路径、五道门禁、完整 runtime 重建、已知限制与迭代入口；README 增加预发布指引。
+
+### C. 发布门禁（2026-10-03 实测）
+
+- `npm run design:verify`：21/21 PASS。
+- `npm run verify:deliveries`：117/117 PASS（需 LibreOffice，沙箱内 13 项 EPERM；提权后全绿）。
+- `npm run capabilities:verify`：local=146 live=0 blocked=22 n/a=5 fail=0。
+- `npm run verify:workflow-contracts`：549/549 PASS。
+- `npm run verify:workflow-delivery`：546/546 PASS。
+- `node scripts/u1-bundle-audit.mjs`：U1 PASS（offline/npm 25/25 + offline/catalog 155/155 + 引擎 0.1.7-rc.2 HASH_OK）。
+- `npm run build:app`：逐字节复现 `ac83e11907b5eb425890d77277abd0a33419595dfb888008c922e01e1806288a`。
+
+### D. 发布动作
+
+- 预发布 tag：`v0.1.7-preview`；同时推送 `release-preview` 分支，便于直接下载源码归档。
+- 不附带 runtime/安装器二进制（第三方许可红线，见 `THIRD-PARTY-NOTICES.md` §8）；GitHub Release 仅提供自动生成的 Source code zip/tar.gz。

@@ -1,8 +1,10 @@
-LOCK: pi=0.87.1 (@earendil-works/pi-coding-agent) | dsh=0.1.5-rc.3 (@deepseek-ai/dsh) | node>=24.19 LTS（2026-09-27 实测 nodejs.org latest-v24.x=v24.21.0，满足 pi-vault-mind engines>=24.19.0） | pnpm>=10 | 锁定日 2026-09-27
-4977d29233a5928a4ef1c16e44bdc19d77bbf38f16823d54ec87c5b0198830bf *offline/engines/deepseek-ai-dsh-0.1.5-rc.3.tgz
-1423ee3c61e7c96464e1cbf3c8dc24d3056cb3410995c3671a98c3ecc527540f *offline/engines/earendil-works-pi-coding-agent-0.87.1.tgz
+LOCK: dsh=0.1.7-rc.2 (@deepseek-ai/dsh，016 §2 重锁) | node=24.21.0（>=24.19 LTS 硬要求） | pnpm=10.32.1 | pi=0.87.1（历史可选层；3.0 runtime 不安装） | 锁定日 2026-10-02
+5f2da7272d9485abc223e681075809a8d929697c5232ee445718e1b7e066bff8 *offline-3.0/engines/deepseek-ai-dsh-0.1.7-rc.2.tgz
+9b943b94bc8f55efb993aad8e44b538e6b091e60a9e4a944dcde869855f233e3 *offline/npm/pnpm-10.32.1.tgz
+158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541 *offline/node/node-v24.21.0-win-x64.zip
 
-# 决策台账（2026-09-27 用户确认）
-# 1. U3/U4/U10-U14 六道执行期门禁由执行 Agent 实跑闭合（未跑即交付=V1）
-# 2. 10 Runner 中 9 个 UNVERIFIED：矩阵照发、实测回填，交付物不得宣称 10/10 支持
-# 3. Node 基线改锁 24.19 LTS（保住 KG 向量主力包 pi-vault-mind@0.16.36，engines node>=24.19.0；nodejs.org latest-v24.x=v24.21.0 实测满足）
+# 说明
+# 1. offline/npm/SHA256SUMS.txt 由 scripts/download-all.ps1|sh 按实际下载的 24 个 npm 包 + pnpm 重写；逐包哈希门禁见 scripts/u1-bundle-audit.mjs。
+# 2. dsh 禁降级到 <=0.1.5-rc.3（client-ui 插件契约要求 >=0.1.7-rc.2；CVE-2026-82533 红线为 >=0.1.2）；禁止跟随 latest。
+# 3. pi 0.87.1 仅保留为历史/可选层参考（早期 bundle 的基准 agent）；PiDSH Nexus 3.0 的 runtime-web 只依赖 dsh 0.1.7-rc.2 + 插件，不从 npm 安装 pi。
+# 4. Node 基线 24.19 LTS（pi-vault-mind engines>=24.19.0）；本文件锁定实际下载 24.21.0，供 workbench.ps1 / build-runtime-bundle.ps1 直接消费。

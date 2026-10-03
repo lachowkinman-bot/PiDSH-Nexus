@@ -30,9 +30,9 @@ fetch() { # $1=url $2=dest
   return 1
 }
 mkdir -p offline/npm offline/node offline/github
-# —— 24 个 npm 包（与 offline/npm/SHA256SUMS.txt 同名同版本；2026-09-27 锁定）——
+# —— 24 个 npm 包 + pnpm（与 offline/npm/SHA256SUMS.txt 同名同版本；dsh 按 016 §2 重锁）——
 # 格式：base|npm|version
-PKGS='deepseek-ai-dsh|@deepseek-ai/dsh|0.1.5-rc.3
+PKGS='deepseek-ai-dsh|@deepseek-ai/dsh|0.1.7-rc.2
 pi2dsh|pi2dsh|0.25.2
 dsh-better-sidebar|dsh-better-sidebar|0.21.1
 dsh-plugin|dsh-plugin|1.4.8
@@ -67,13 +67,50 @@ echo "$PKGS" | while IFS='|' read -r base npm ver; do
   fi
   echo "$file  $(hash_file "$dest")"
 done > offline/npm/SHA256SUMS.txt
-# —— Node 24 LTS 离线安装器（经 SHASUMS256.txt 解析文件名与哈希；latest-v24.x=v24.21.0）——
+# —— pnpm 10.32.1（dsh plugin add 的转发依赖；workbench.sh install 第 0 步离线自举）——
+PNPM_FILE=pnpm-10.32.1.tgz
+PNPM_SHA=9b943b94bc8f55efb993aad8e44b538e6b091e60a9e4a944dcde869855f233e3
+if [ -s "offline/npm/$PNPM_FILE" ]; then echo "SKIP(exists) $PNPM_FILE" >&2
+elif fetch "$REG/pnpm/-/$PNPM_FILE" "offline/npm/$PNPM_FILE"; then echo "OK $PNPM_FILE" >&2
+else echo "FAIL $PNPM_FILE" >&2; fi
+if [ -s "offline/npm/$PNPM_FILE" ]; then
+  ACTUAL="$(hash_file "offline/npm/$PNPM_FILE")"
+  if [ "$ACTUAL" != "$PNPM_SHA" ]; then echo "PNPM-HASH-MISMATCH $PNPM_FILE expect=$PNPM_SHA actual=$ACTUAL" >&2
+  else echo "$PNPM_FILE  $ACTUAL" >> offline/npm/SHA256SUMS.txt; fi
+fi
+# —— dsh 0.1.7-rc.2 引擎双落点：offline/npm 供 workbench.sh，offline-3.0/engines 供 U1/运行时分发 ——
+ENGINE_FILE=deepseek-ai-dsh-0.1.7-rc.2.tgz
+ENGINE_SHA=5f2da7272d9485abc223e681075809a8d929697c5232ee445718e1b7e066bff8
+if [ -s "offline/npm/$ENGINE_FILE" ]; then
+  ACTUAL="$(hash_file "offline/npm/$ENGINE_FILE")"
+  if [ "$ACTUAL" != "$ENGINE_SHA" ]; then echo "ENGINE-HASH-MISMATCH $ENGINE_FILE expect=$ENGINE_SHA actual=$ACTUAL" >&2
+  else
+    mkdir -p offline-3.0/engines
+    if [ ! -s "offline-3.0/engines/$ENGINE_FILE" ] || [ "$(hash_file "offline-3.0/engines/$ENGINE_FILE")" != "$ACTUAL" ]; then
+      cp "offline/npm/$ENGINE_FILE" "offline-3.0/engines/$ENGINE_FILE"
+    fi
+    echo "OK offline-3.0/engines/$ENGINE_FILE" >&2
+  fi
+fi
+# —— Node 24.21.0（tools-versions.txt 锁定；便携 zip 解压 + msi/pkg 同源校验）——
 if [ "${SKIP_NODE:-0}" != "1" ]; then
-  if fetch "https://nodejs.org/dist/latest-v24.x/SHASUMS256.txt" offline/node/SHASUMS256.txt; then
-    grep -E 'node-v[0-9.]+-(x64|arm64)\.msi$|node-v[0-9.]+\.pkg$' offline/node/SHASUMS256.txt | while read -r sha star file; do
+  NODE_BASE=https://nodejs.org/dist/v24.21.0
+  if fetch "$NODE_BASE/SHASUMS256.txt" offline/node/SHASUMS256.txt; then
+    PORTABLE_ZIP=node-v24.21.0-win-x64.zip
+    PORTABLE_SHA="$(awk -v f="$PORTABLE_ZIP" '$2==f || $2==("*" f) {print $1}' offline/node/SHASUMS256.txt | head -n 1)"
+    if [ ! -s "offline/node/$PORTABLE_ZIP" ]; then fetch "$NODE_BASE/$PORTABLE_ZIP" "offline/node/$PORTABLE_ZIP" || echo "FAIL $PORTABLE_ZIP" >&2; fi
+    if [ -s "offline/node/$PORTABLE_ZIP" ]; then
+      ACTUAL="$(hash_file "offline/node/$PORTABLE_ZIP")"
+      if [ -z "$PORTABLE_SHA" ] || [ "$ACTUAL" != "$PORTABLE_SHA" ]; then echo "NODE-HASH-MISMATCH $PORTABLE_ZIP expect=$PORTABLE_SHA actual=$ACTUAL" >&2
+      elif [ ! -f offline/node/node-v24.21.0-win-x64/node.exe ]; then
+        if command -v unzip >/dev/null 2>&1; then unzip -q -o "offline/node/$PORTABLE_ZIP" -d offline/node
+        else tar -xf "offline/node/$PORTABLE_ZIP" -C offline/node; fi
+      fi
+    fi
+    grep -E 'node-v[0-9.]+-(x64|arm64)\.msi$|node-v[0-9.]+\.pkg$' offline/node/SHASUMS256.txt | while read -r sha file; do
       dest="offline/node/$file"
       if [ -s "$dest" ]; then echo "SKIP(exists) $file"; continue; fi
-      if fetch "https://nodejs.org/dist/latest-v24.x/$file" "$dest"; then
+      if fetch "$NODE_BASE/$file" "$dest"; then
         actual="$(hash_file "$dest")"
         if [ "$actual" != "$sha" ]; then echo "NODE-HASH-MISMATCH $file"; else echo "OK $file"; fi
       else echo "FAIL $file"; fi

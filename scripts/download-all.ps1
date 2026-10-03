@@ -28,9 +28,9 @@ function Fetch([string]$url,[string]$dest){
   }
   return $false
 }
-# —— 24 个 npm 包（与 offline/npm/SHA256SUMS.txt 同名同版本；2026-09-27 锁定）——
+# —— 24 个 npm 包 + pnpm（与 offline/npm/SHA256SUMS.txt 同名同版本；dsh 按 016 §2 重锁）——
 $PKGS = @(
-  @('deepseek-ai-dsh','@deepseek-ai/dsh','0.1.5-rc.3'), @('pi2dsh','pi2dsh','0.25.2'),
+  @('deepseek-ai-dsh','@deepseek-ai/dsh','0.1.7-rc.2'), @('pi2dsh','pi2dsh','0.25.2'),
   @('dsh-better-sidebar','dsh-better-sidebar','0.21.1'), @('dsh-plugin','dsh-plugin','1.4.8'),
   @('pi-hermes-memory','pi-hermes-memory','0.9.9'), @('pi-approval-guardian','pi-approval-guardian','0.8.0'),
   @('pi-redact-all','pi-redact-all','0.2.1'), @('pi-mcp-adapter','pi-mcp-adapter','2.38.0'),
@@ -56,22 +56,71 @@ foreach($p in $PKGS){
   }
   $sums += "$file  $(Get-Sha $dest)"; Write-Host "OK $file"
 }
+# —— pnpm 10.32.1（dsh plugin add 的转发依赖；workbench.ps1 install 第 0 步离线自举）——
+$pnpmFile = 'pnpm-10.32.1.tgz'
+$pnpmDest = "offline/npm/$pnpmFile"
+$pnpmSha = '9b943b94bc8f55efb993aad8e44b538e6b091e60a9e4a944dcde869855f233e3'
+if (-not (Test-Path $pnpmDest)) {
+  if (Fetch "$($REG[$Mirror])/pnpm/-/$pnpmFile" $pnpmDest) { Write-Host "OK $pnpmFile" }
+  else { $fail += $pnpmFile; Write-Host "FAIL $pnpmFile" }
+} else { Write-Host "SKIP(exists) $pnpmFile" }
+if (Test-Path $pnpmDest) {
+  $a = Get-Sha $pnpmDest
+  if ($a -ne $pnpmSha) { Write-Host "PNPM-HASH-MISMATCH $pnpmFile`n  expect=$pnpmSha`n  actual=$a"; $fail += $pnpmFile }
+  else { $sums += "$pnpmFile  $a" }
+}
 $sums | Set-Content -Encoding UTF8 'offline/npm/SHA256SUMS.txt'
-# —— Node 24 LTS 离线安装器（文件名经 SHASUMS256.txt 解析，避免写死版本号；latest-v24.x=v24.21.0 满足 pi-vault-mind engines>=24.19）——
+# —— dsh 0.1.7-rc.2 引擎双落点：offline/npm 供 workbench.ps1，offline-3.0/engines 供 U1/运行时分发 ——
+$engineFile = 'deepseek-ai-dsh-0.1.7-rc.2.tgz'
+$engineSha = '5f2da7272d9485abc223e681075809a8d929697c5232ee445718e1b7e066bff8'
+$engineSrc = "offline/npm/$engineFile"
+$engineDst = "offline-3.0/engines/$engineFile"
+if (Test-Path $engineSrc) {
+  $a = Get-Sha $engineSrc
+  if ($a -ne $engineSha) { Write-Host "ENGINE-HASH-MISMATCH $engineFile`n  expect=$engineSha`n  actual=$a"; $fail += $engineFile }
+  else {
+    New-Item -ItemType Directory -Force -Path 'offline-3.0/engines' | Out-Null
+    if ((Test-Path $engineDst) -and ((Get-Sha $engineDst) -eq $a)) { Write-Host "SKIP(exists) $engineDst" }
+    else { Copy-Item -LiteralPath $engineSrc -Destination $engineDst -Force; Write-Host "OK $engineDst" }
+  }
+}
+# —— Node 24.21.0（tools-versions.txt 锁定；便携 zip 解压到 workbench.ps1 期望路径，另留 msi/pkg）——
 if (-not $SkipNode) {
+  $nodeVersion = '24.21.0'
+  $nodeBase = "https://nodejs.org/dist/v$nodeVersion"
   $shasums = 'offline/node/SHASUMS256.txt'
-  if (Fetch 'https://nodejs.org/dist/latest-v24.x/SHASUMS256.txt' $shasums) {
+  if (Fetch "$nodeBase/SHASUMS256.txt" $shasums) {
+    $nodeSums = @{}
     foreach($line in ([IO.File]::ReadAllLines((Resolve-Path $shasums)))){
-      if ($line -match '^(?<sha>[0-9a-f]{64})\s+\*(?<f>node-v\d+\.\d+\.\d+-(x64|arm64)\.msi)$' -or
-          $line -match '^(?<sha>[0-9a-f]{64})\s+\*(?<f>node-v\d+\.\d+\.\d+\.pkg)$') {
-        $f = $Matches.f; $dest = "offline/node/$f"
-        if (-not (Test-Path $dest)) {
-          if (Fetch "https://nodejs.org/dist/latest-v24.x/$f" $dest) {
-            $a = Get-Sha $dest; if ($a -ne $Matches.sha.ToLower()) { Write-Host "NODE-HASH-MISMATCH $f"; $fail += $f; continue }
-            Write-Host "OK $f"
-          } else { $fail += $f }
-        } else { Write-Host "SKIP(exists) $f" }
+      if ($line -match '^(?<sha>[0-9a-f]{64})\s+\*?(?<f>.+)$') { $nodeSums[$Matches.f] = $Matches.sha.ToLower() }
+    }
+    # 便携 zip：offline/node/node-v24.21.0-win-x64/ 是 workbench.ps1 与 build-runtime-bundle.ps1 的硬路径
+    $portableZip = "node-v$nodeVersion-win-x64.zip"
+    $portableDest = "offline/node/$portableZip"
+    if (-not (Test-Path $portableDest)) {
+      if (Fetch "$nodeBase/$portableZip" $portableDest) { Write-Host "OK $portableZip" }
+      else { $fail += $portableZip; Write-Host "FAIL $portableZip" }
+    } else { Write-Host "SKIP(exists) $portableZip" }
+    if (Test-Path $portableDest) {
+      $expect = $nodeSums[$portableZip]; $a = Get-Sha $portableDest
+      if (-not $expect -or $a -ne $expect) { Write-Host "NODE-HASH-MISMATCH $portableZip`n  expect=$expect`n  actual=$a"; $fail += $portableZip }
+      else {
+        $portableDir = "offline/node/node-v$nodeVersion-win-x64"
+        if (-not (Test-Path (Join-Path $portableDir 'node.exe'))) {
+          Expand-Archive -LiteralPath $portableDest -DestinationPath 'offline/node' -Force
+          Write-Host "EXTRACTED $portableDir"
+        } else { Write-Host "SKIP(exists) $portableDir/node.exe" }
       }
+    }
+    # 系统安装器（可选，macOS/Linux 或不使用便携 Node 的用户）
+    foreach($f in @("node-v$nodeVersion-x64.msi","node-v$nodeVersion.pkg")) {
+      if (-not $nodeSums.ContainsKey($f)) { continue }
+      $dest = "offline/node/$f"
+      if (Test-Path $dest) { Write-Host "SKIP(exists) $f"; continue }
+      if (Fetch "$nodeBase/$f" $dest) {
+        $a = Get-Sha $dest
+        if ($a -ne $nodeSums[$f]) { Write-Host "NODE-HASH-MISMATCH $f"; $fail += $f } else { Write-Host "OK $f" }
+      } else { $fail += $f }
     }
   } else { $fail += 'node-SHASUMS' }
 }

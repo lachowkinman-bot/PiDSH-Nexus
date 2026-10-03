@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T11:42:24.572Z",
+  "generated_at": "2026-10-03T00:10:53.464Z",
   "mode": "direct",
   "base": null,
   "domains": 13,
@@ -24,56 +24,56 @@
         "md": {
           "pass": true,
           "note": "3414 bytes",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.md",
-          "sha256": "44b3edf3cbdd9e6e4643aa24377206af0b04f5c41c04d5fec0425b579b15e469"
+          "file": "deliverables/strat/20261003-000832061-db90a28a/report.md",
+          "sha256": "87cc7b625df23ed4b69899def104f913938bf8b11f959d9ad8f7fa4374027e66"
         },
         "csv": {
           "pass": true,
           "note": "3164 bytes",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/data.csv",
+          "file": "deliverables/strat/20261003-000832061-db90a28a/data.csv",
           "sha256": "2c51ca7c80d09593a0cb04e52a61d44f9660167592da3ab196ce7a443166366b"
         },
         "html": {
           "pass": true,
           "note": "6533 bytes",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.html",
-          "sha256": "21de7c23fea9625dc239c7aa75b3e159dddeb7cb0feae76a097ebede17e3689f"
+          "file": "deliverables/strat/20261003-000832061-db90a28a/report.html",
+          "sha256": "466a32c33e1a43bb85a5ded6f2d091156b424efd7122ffdb2531ae0fe9f14b02"
         },
         "xlsx": {
           "pass": true,
-          "note": "12038 bytes",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/data.xlsx",
-          "sha256": "5610fbcb05a5a57b36c8ee35191aa806cbe1bba97ead8ce1a44b410ad09988c6"
+          "note": "12037 bytes",
+          "file": "deliverables/strat/20261003-000832061-db90a28a/data.xlsx",
+          "sha256": "ae262b9b5e40aa17a183e6377f1e227f8299917682113b8be12c84a09f011d10"
         },
         "docx": {
           "pass": true,
-          "note": "9673 bytes",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.docx",
-          "sha256": "e4b897a835c48235114471a5e13ee4973b1a47c11bef0d9b5be45137ff973e2c"
+          "note": "9671 bytes",
+          "file": "deliverables/strat/20261003-000832061-db90a28a/report.docx",
+          "sha256": "3fb89e380af2827a77f89155809e55c3eebbef97b6c467c312a8b28cd05163e0"
         },
         "pptx": {
           "pass": true,
           "note": "11786 bytes",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/deck.pptx",
+          "file": "deliverables/strat/20261003-000832061-db90a28a/deck.pptx",
           "sha256": "8558865466a276059e53a2a227e6ef3992576e861ba44f81df348582fc18f56d"
         },
         "pdf": {
           "pass": true,
-          "note": "87441 bytes pages=1",
-          "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.pdf",
-          "sha256": "32946bb0e5a78b52bf009fa4e78bee2f4d3ccf8c74ea474bf9eafe45d9aa8280"
+          "note": "87457 bytes pages=1",
+          "file": "deliverables/strat/20261003-000832061-db90a28a/report.pdf",
+          "sha256": "acb97594d05e8ac0c2f57d70154d437205139d39adff6fa32c8a17e3ad14cacd"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-113917473-fa9d21b5",
+        "runId": "20261003-000832061-db90a28a",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-113917473-fa9d21b5",
+        "run_id": "20261003-000832061-db90a28a",
         "domain": "strat",
         "label": "战略 STRAT",
         "title": "战略执行与季度复盘交付包",
         "workflow_id": "strat.quarterly-review@1.0.0",
-        "generated_at": "2026-10-02T11:39:17.473Z",
+        "generated_at": "2026-10-03T00:08:32.061Z",
         "formats": [
           "md",
           "csv",
@@ -100,74 +100,74 @@
             "sha256": "3a36983f47f28a5e07d45083077f3b0c5dddf74c8a983693ddbda95456423b0c"
           }
         ],
-        "content_digest": "44b3edf3cbdd9e6e4643aa24377206af0b04f5c41c04d5fec0425b579b15e469",
+        "content_digest": "87cc7b625df23ed4b69899def104f913938bf8b11f959d9ad8f7fa4374027e66",
         "artifacts": [
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/report.md",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/report.md",
             "format": "md",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.md",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/report.md",
             "bytes": 3414,
-            "sha256": "44b3edf3cbdd9e6e4643aa24377206af0b04f5c41c04d5fec0425b579b15e469",
+            "sha256": "87cc7b625df23ed4b69899def104f913938bf8b11f959d9ad8f7fa4374027e66",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Freport.md"
           },
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/data.csv",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/data.csv",
             "format": "csv",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/data.csv",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/data.csv",
             "bytes": 3164,
             "sha256": "2c51ca7c80d09593a0cb04e52a61d44f9660167592da3ab196ce7a443166366b",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Fdata.csv"
           },
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/report.html",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/report.html",
             "format": "html",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.html",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/report.html",
             "bytes": 6533,
-            "sha256": "21de7c23fea9625dc239c7aa75b3e159dddeb7cb0feae76a097ebede17e3689f",
+            "sha256": "466a32c33e1a43bb85a5ded6f2d091156b424efd7122ffdb2531ae0fe9f14b02",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Freport.html"
           },
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/data.xlsx",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/data.xlsx",
-            "bytes": 12038,
-            "sha256": "5610fbcb05a5a57b36c8ee35191aa806cbe1bba97ead8ce1a44b410ad09988c6",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/data.xlsx",
+            "bytes": 12037,
+            "sha256": "ae262b9b5e40aa17a183e6377f1e227f8299917682113b8be12c84a09f011d10",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/report.docx",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/report.docx",
             "format": "docx",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.docx",
-            "bytes": 9673,
-            "sha256": "e4b897a835c48235114471a5e13ee4973b1a47c11bef0d9b5be45137ff973e2c",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/report.docx",
+            "bytes": 9671,
+            "sha256": "3fb89e380af2827a77f89155809e55c3eebbef97b6c467c312a8b28cd05163e0",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Freport.docx"
           },
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/deck.pptx",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/deck.pptx",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/deck.pptx",
             "bytes": 11786,
             "sha256": "8558865466a276059e53a2a227e6ef3992576e861ba44f81df348582fc18f56d",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/strat/20261002-113917473-fa9d21b5/report.pdf",
+            "id": "deliverables/strat/20261003-000832061-db90a28a/report.pdf",
             "format": "pdf",
-            "file": "deliverables/strat/20261002-113917473-fa9d21b5/report.pdf",
-            "bytes": 87441,
-            "sha256": "32946bb0e5a78b52bf009fa4e78bee2f4d3ccf8c74ea474bf9eafe45d9aa8280",
+            "file": "deliverables/strat/20261003-000832061-db90a28a/report.pdf",
+            "bytes": 87457,
+            "sha256": "acb97594d05e8ac0c2f57d70154d437205139d39adff6fa32c8a17e3ad14cacd",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261002-113917473-fa9d21b5%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fstrat%2F20261003-000832061-db90a28a%2Freport.pdf"
           }
         ],
-        "path": "deliverables/strat/20261002-113917473-fa9d21b5",
-        "manifestPath": "deliverables/strat/20261002-113917473-fa9d21b5/manifest.json"
+        "path": "deliverables/strat/20261003-000832061-db90a28a",
+        "manifestPath": "deliverables/strat/20261003-000832061-db90a28a/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -184,56 +184,56 @@
         "md": {
           "pass": true,
           "note": "2338 bytes",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.md",
-          "sha256": "130e70b3063033c6db9a74e88d2a17ed1e57be8cb79f4b70a6c6964cb2fc9f79"
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.md",
+          "sha256": "d4bc44b6cfa18f9f593283465bb233306eed80e881e4f29e48f53a4ad3e577c3"
         },
         "csv": {
           "pass": true,
           "note": "826 bytes",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/data.csv",
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/data.csv",
           "sha256": "848fcf56dc0159c73ec4b2405e84b45e16fc71c25aa26dd0a79da17db932bc6b"
         },
         "html": {
           "pass": true,
           "note": "4933 bytes",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.html",
-          "sha256": "d46743d696615f90f57a3ae94e9dfd8d2212b99ed47715d8eec321f77b9ddd52"
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.html",
+          "sha256": "8385563dc250729c8523651d1f906ef54cfb8301bc2405e66ea5bf6004480e32"
         },
         "xlsx": {
           "pass": true,
           "note": "10698 bytes",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/data.xlsx",
-          "sha256": "67b9ada6127bc1959d3c2c4992d390bafbde166bf240790fb7f557f1d96ea1eb"
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/data.xlsx",
+          "sha256": "73d25794845262b4a50308f74ad636d6416335e5d75224748e855a9c44590372"
         },
         "docx": {
           "pass": true,
           "note": "9164 bytes",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.docx",
-          "sha256": "71fcdaef23292f99366878929290d980622d7a5c6078a1ac3924541545e161aa"
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.docx",
+          "sha256": "fc21762464accb92dcaf5c713e8b5d697eb2d273521c879c0522f6993c68f541"
         },
         "pptx": {
           "pass": true,
           "note": "11865 bytes",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/deck.pptx",
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/deck.pptx",
           "sha256": "ad72317719f00f0eb6d9e4a0d7a682c75b58324de3bce4e8c96896fba49b2c33"
         },
         "pdf": {
           "pass": true,
-          "note": "79049 bytes pages=1",
-          "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.pdf",
-          "sha256": "2ca1bdad9bcd345a1eefb56eba2040e4409132db10f7007c200054cfe020e391"
+          "note": "79050 bytes pages=1",
+          "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.pdf",
+          "sha256": "5aa55cbdab2ba1b681d0e39bac06c24311db794ce059d5124059d9c9ab094c2f"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-113931585-2671b2ef",
+        "runId": "20261003-000844306-bd0ca678",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-113931585-2671b2ef",
+        "run_id": "20261003-000844306-bd0ca678",
         "domain": "mkt-on",
         "label": "营销（线上）MKT-ON",
         "title": "线上营销投放与内容运营交付包",
         "workflow_id": "mkt-on.campaign-report@1.0.0",
-        "generated_at": "2026-10-02T11:39:31.585Z",
+        "generated_at": "2026-10-03T00:08:44.306Z",
         "formats": [
           "md",
           "csv",
@@ -260,74 +260,74 @@
             "sha256": "8f53359ca305b54d95df41a01480c42bd5b74022fd35da0687d0f16cd6acbaf0"
           }
         ],
-        "content_digest": "130e70b3063033c6db9a74e88d2a17ed1e57be8cb79f4b70a6c6964cb2fc9f79",
+        "content_digest": "d4bc44b6cfa18f9f593283465bb233306eed80e881e4f29e48f53a4ad3e577c3",
         "artifacts": [
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.md",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.md",
             "format": "md",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.md",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.md",
             "bytes": 2338,
-            "sha256": "130e70b3063033c6db9a74e88d2a17ed1e57be8cb79f4b70a6c6964cb2fc9f79",
+            "sha256": "d4bc44b6cfa18f9f593283465bb233306eed80e881e4f29e48f53a4ad3e577c3",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Freport.md"
           },
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/data.csv",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/data.csv",
             "format": "csv",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/data.csv",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/data.csv",
             "bytes": 826,
             "sha256": "848fcf56dc0159c73ec4b2405e84b45e16fc71c25aa26dd0a79da17db932bc6b",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Fdata.csv"
           },
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.html",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.html",
             "format": "html",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.html",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.html",
             "bytes": 4933,
-            "sha256": "d46743d696615f90f57a3ae94e9dfd8d2212b99ed47715d8eec321f77b9ddd52",
+            "sha256": "8385563dc250729c8523651d1f906ef54cfb8301bc2405e66ea5bf6004480e32",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Freport.html"
           },
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/data.xlsx",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/data.xlsx",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/data.xlsx",
             "bytes": 10698,
-            "sha256": "67b9ada6127bc1959d3c2c4992d390bafbde166bf240790fb7f557f1d96ea1eb",
+            "sha256": "73d25794845262b4a50308f74ad636d6416335e5d75224748e855a9c44590372",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.docx",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.docx",
             "format": "docx",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.docx",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.docx",
             "bytes": 9164,
-            "sha256": "71fcdaef23292f99366878929290d980622d7a5c6078a1ac3924541545e161aa",
+            "sha256": "fc21762464accb92dcaf5c713e8b5d697eb2d273521c879c0522f6993c68f541",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Freport.docx"
           },
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/deck.pptx",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/deck.pptx",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/deck.pptx",
             "bytes": 11865,
             "sha256": "ad72317719f00f0eb6d9e4a0d7a682c75b58324de3bce4e8c96896fba49b2c33",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.pdf",
+            "id": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.pdf",
             "format": "pdf",
-            "file": "deliverables/mkt-on/20261002-113931585-2671b2ef/report.pdf",
-            "bytes": 79049,
-            "sha256": "2ca1bdad9bcd345a1eefb56eba2040e4409132db10f7007c200054cfe020e391",
+            "file": "deliverables/mkt-on/20261003-000844306-bd0ca678/report.pdf",
+            "bytes": 79050,
+            "sha256": "5aa55cbdab2ba1b681d0e39bac06c24311db794ce059d5124059d9c9ab094c2f",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261002-113931585-2671b2ef%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-on%2F20261003-000844306-bd0ca678%2Freport.pdf"
           }
         ],
-        "path": "deliverables/mkt-on/20261002-113931585-2671b2ef",
-        "manifestPath": "deliverables/mkt-on/20261002-113931585-2671b2ef/manifest.json"
+        "path": "deliverables/mkt-on/20261003-000844306-bd0ca678",
+        "manifestPath": "deliverables/mkt-on/20261003-000844306-bd0ca678/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -344,56 +344,56 @@
         "md": {
           "pass": true,
           "note": "3746 bytes",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.md",
-          "sha256": "a9efb002f69de81deedb4ec01e88730ca2a7b174f02de5a87bf3107cbbc3339b"
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.md",
+          "sha256": "c859aa08b675a6dd444e6a731cbd0cf4f8af1f04f6192aa828689870f6c6044d"
         },
         "csv": {
           "pass": true,
           "note": "3374 bytes",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/data.csv",
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/data.csv",
           "sha256": "cb6ab8ead2e5c62400a65e77afd4b858111b730fdd1d1424bd4beac25d0c6161"
         },
         "html": {
           "pass": true,
           "note": "7109 bytes",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.html",
-          "sha256": "c3e1ebe8fc155194a6dadf3ff350514dba683219ec008a366f0eaa55fc60dfec"
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.html",
+          "sha256": "b4e35450dc295869c8d76bc0939d3ff7ac35683f1deeb4a853be616a3b8e3c00"
         },
         "xlsx": {
           "pass": true,
-          "note": "12220 bytes",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/data.xlsx",
-          "sha256": "b319ca6a0d4381f764edaa0d18915cdb95ffaa043f7ee87dbe7697e93606cd6f"
+          "note": "12219 bytes",
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/data.xlsx",
+          "sha256": "2b0d8657ce8e80630ebe888e8b6e5f259efba917ebf2a80209f3dae2fad2d653"
         },
         "docx": {
           "pass": true,
           "note": "9951 bytes",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.docx",
-          "sha256": "0e84d1847ac7e316cdce681cca031dd4b718ffcf1e39603dfb69803bb555afd2"
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.docx",
+          "sha256": "1ab6178c7583b37e6c0887db70147fc01d8e4ba6d498758c7cebcad25c73ca05"
         },
         "pptx": {
           "pass": true,
           "note": "11866 bytes",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/deck.pptx",
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/deck.pptx",
           "sha256": "8a74c167b5c78b6ea74679f2526680c68e0c4bf9d5643f4bc29f7d8bc4ed189f"
         },
         "pdf": {
           "pass": true,
-          "note": "90388 bytes pages=1",
-          "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.pdf",
-          "sha256": "1519e4b5e33d962ca15f70f5230f8a851926db48775c901beff6f6998ab611db"
+          "note": "90387 bytes pages=1",
+          "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.pdf",
+          "sha256": "9d932fc43d5556ac2af781401d2d9c65b363a2da5a950ecff62edf76a1c4cfd8"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-113943323-f5fe7100",
+        "runId": "20261003-000855128-1a09a1e4",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-113943323-f5fe7100",
+        "run_id": "20261003-000855128-1a09a1e4",
         "domain": "mkt-off",
         "label": "营销（线下）MKT-OFF",
         "title": "线下活动与经销商运营交付包",
         "workflow_id": "mkt-off.event-roi@1.0.0",
-        "generated_at": "2026-10-02T11:39:43.323Z",
+        "generated_at": "2026-10-03T00:08:55.128Z",
         "formats": [
           "md",
           "csv",
@@ -420,74 +420,74 @@
             "sha256": "6e2249699b6ab40ec1b99e52a2579a9f2d1dd339f45d013d5dd94ac63f501a2c"
           }
         ],
-        "content_digest": "a9efb002f69de81deedb4ec01e88730ca2a7b174f02de5a87bf3107cbbc3339b",
+        "content_digest": "c859aa08b675a6dd444e6a731cbd0cf4f8af1f04f6192aa828689870f6c6044d",
         "artifacts": [
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.md",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.md",
             "format": "md",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.md",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.md",
             "bytes": 3746,
-            "sha256": "a9efb002f69de81deedb4ec01e88730ca2a7b174f02de5a87bf3107cbbc3339b",
+            "sha256": "c859aa08b675a6dd444e6a731cbd0cf4f8af1f04f6192aa828689870f6c6044d",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Freport.md"
           },
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/data.csv",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/data.csv",
             "format": "csv",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/data.csv",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/data.csv",
             "bytes": 3374,
             "sha256": "cb6ab8ead2e5c62400a65e77afd4b858111b730fdd1d1424bd4beac25d0c6161",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Fdata.csv"
           },
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.html",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.html",
             "format": "html",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.html",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.html",
             "bytes": 7109,
-            "sha256": "c3e1ebe8fc155194a6dadf3ff350514dba683219ec008a366f0eaa55fc60dfec",
+            "sha256": "b4e35450dc295869c8d76bc0939d3ff7ac35683f1deeb4a853be616a3b8e3c00",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Freport.html"
           },
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/data.xlsx",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/data.xlsx",
-            "bytes": 12220,
-            "sha256": "b319ca6a0d4381f764edaa0d18915cdb95ffaa043f7ee87dbe7697e93606cd6f",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/data.xlsx",
+            "bytes": 12219,
+            "sha256": "2b0d8657ce8e80630ebe888e8b6e5f259efba917ebf2a80209f3dae2fad2d653",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.docx",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.docx",
             "format": "docx",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.docx",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.docx",
             "bytes": 9951,
-            "sha256": "0e84d1847ac7e316cdce681cca031dd4b718ffcf1e39603dfb69803bb555afd2",
+            "sha256": "1ab6178c7583b37e6c0887db70147fc01d8e4ba6d498758c7cebcad25c73ca05",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Freport.docx"
           },
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/deck.pptx",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/deck.pptx",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/deck.pptx",
             "bytes": 11866,
             "sha256": "8a74c167b5c78b6ea74679f2526680c68e0c4bf9d5643f4bc29f7d8bc4ed189f",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.pdf",
+            "id": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.pdf",
             "format": "pdf",
-            "file": "deliverables/mkt-off/20261002-113943323-f5fe7100/report.pdf",
-            "bytes": 90388,
-            "sha256": "1519e4b5e33d962ca15f70f5230f8a851926db48775c901beff6f6998ab611db",
+            "file": "deliverables/mkt-off/20261003-000855128-1a09a1e4/report.pdf",
+            "bytes": 90387,
+            "sha256": "9d932fc43d5556ac2af781401d2d9c65b363a2da5a950ecff62edf76a1c4cfd8",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261002-113943323-f5fe7100%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fmkt-off%2F20261003-000855128-1a09a1e4%2Freport.pdf"
           }
         ],
-        "path": "deliverables/mkt-off/20261002-113943323-f5fe7100",
-        "manifestPath": "deliverables/mkt-off/20261002-113943323-f5fe7100/manifest.json"
+        "path": "deliverables/mkt-off/20261003-000855128-1a09a1e4",
+        "manifestPath": "deliverables/mkt-off/20261003-000855128-1a09a1e4/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -504,56 +504,56 @@
         "md": {
           "pass": true,
           "note": "3827 bytes",
-          "file": "deliverables/sales/20261002-113955129-809e610e/report.md",
-          "sha256": "25701b682c24fd2f1d7391e51ad119609a8f9ce141b5ee40131c585fdf8d8742"
+          "file": "deliverables/sales/20261003-000906019-a13481ef/report.md",
+          "sha256": "c4e82748620de553f8235f65f5b4b0ad0161f65fec3cc1845f3215fb18e3ee31"
         },
         "csv": {
           "pass": true,
           "note": "4332 bytes",
-          "file": "deliverables/sales/20261002-113955129-809e610e/data.csv",
+          "file": "deliverables/sales/20261003-000906019-a13481ef/data.csv",
           "sha256": "5dd7d15a89e6382f2b3417bc170bd9da8580d32777c12a200affc24447c312e2"
         },
         "html": {
           "pass": true,
           "note": "7077 bytes",
-          "file": "deliverables/sales/20261002-113955129-809e610e/report.html",
-          "sha256": "c4234debecf8f3689f9d56003e201c81b06c71c82b7a576b76a710b2c633e356"
+          "file": "deliverables/sales/20261003-000906019-a13481ef/report.html",
+          "sha256": "3f0eb214f2c6d75a6fd3398dbe5a4b8212fe3e7386360f5a75f1c11c5932df9d"
         },
         "xlsx": {
           "pass": true,
-          "note": "13407 bytes",
-          "file": "deliverables/sales/20261002-113955129-809e610e/data.xlsx",
-          "sha256": "cb875c4f8d69ff15fb3a93af949891e797f993514fd033a9fb553005549c8f56"
+          "note": "13406 bytes",
+          "file": "deliverables/sales/20261003-000906019-a13481ef/data.xlsx",
+          "sha256": "588f094e43c276953f6944ad524dca6fdb59f6b635a893854715033f2749b360"
         },
         "docx": {
           "pass": true,
-          "note": "9962 bytes",
-          "file": "deliverables/sales/20261002-113955129-809e610e/report.docx",
-          "sha256": "d2119a4ed39775349c2fc39e8dd7c8bce263ca29edddcf0ab6f40ffd598b306b"
+          "note": "9959 bytes",
+          "file": "deliverables/sales/20261003-000906019-a13481ef/report.docx",
+          "sha256": "556f1a5d283f41353b3f14195258a93e2e3bd7d4095c4eb19b11c6b722a7ab77"
         },
         "pptx": {
           "pass": true,
           "note": "11819 bytes",
-          "file": "deliverables/sales/20261002-113955129-809e610e/deck.pptx",
+          "file": "deliverables/sales/20261003-000906019-a13481ef/deck.pptx",
           "sha256": "713145ec13e628d0e99bf611aeaaa35bcd153896d6db53e89b9f7fae0cb24e00"
         },
         "pdf": {
           "pass": true,
-          "note": "100427 bytes pages=1",
-          "file": "deliverables/sales/20261002-113955129-809e610e/report.pdf",
-          "sha256": "6f2cf61c1e4ab2519306c6fc8362a0dd14a465b4a8ce8bf7a0bd65588c5eea62"
+          "note": "100419 bytes pages=1",
+          "file": "deliverables/sales/20261003-000906019-a13481ef/report.pdf",
+          "sha256": "da00a677d6d9a6afd68fb2426f03edba00b14eab611c050c4e8fc489110d5a78"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-113955129-809e610e",
+        "runId": "20261003-000906019-a13481ef",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-113955129-809e610e",
+        "run_id": "20261003-000906019-a13481ef",
         "domain": "sales",
         "label": "销售 SALES",
         "title": "销售管道与报价审批交付包",
         "workflow_id": "sales.pipeline-report@1.0.0",
-        "generated_at": "2026-10-02T11:39:55.129Z",
+        "generated_at": "2026-10-03T00:09:06.019Z",
         "formats": [
           "md",
           "csv",
@@ -580,74 +580,74 @@
             "sha256": "d1ff2ad0e8d8c251b80e6110807e2a928156ad61e49791ad70d88a76ecb61428"
           }
         ],
-        "content_digest": "25701b682c24fd2f1d7391e51ad119609a8f9ce141b5ee40131c585fdf8d8742",
+        "content_digest": "c4e82748620de553f8235f65f5b4b0ad0161f65fec3cc1845f3215fb18e3ee31",
         "artifacts": [
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/report.md",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/report.md",
             "format": "md",
-            "file": "deliverables/sales/20261002-113955129-809e610e/report.md",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/report.md",
             "bytes": 3827,
-            "sha256": "25701b682c24fd2f1d7391e51ad119609a8f9ce141b5ee40131c585fdf8d8742",
+            "sha256": "c4e82748620de553f8235f65f5b4b0ad0161f65fec3cc1845f3215fb18e3ee31",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Freport.md"
           },
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/data.csv",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/data.csv",
             "format": "csv",
-            "file": "deliverables/sales/20261002-113955129-809e610e/data.csv",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/data.csv",
             "bytes": 4332,
             "sha256": "5dd7d15a89e6382f2b3417bc170bd9da8580d32777c12a200affc24447c312e2",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Fdata.csv"
           },
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/report.html",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/report.html",
             "format": "html",
-            "file": "deliverables/sales/20261002-113955129-809e610e/report.html",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/report.html",
             "bytes": 7077,
-            "sha256": "c4234debecf8f3689f9d56003e201c81b06c71c82b7a576b76a710b2c633e356",
+            "sha256": "3f0eb214f2c6d75a6fd3398dbe5a4b8212fe3e7386360f5a75f1c11c5932df9d",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Freport.html"
           },
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/data.xlsx",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/sales/20261002-113955129-809e610e/data.xlsx",
-            "bytes": 13407,
-            "sha256": "cb875c4f8d69ff15fb3a93af949891e797f993514fd033a9fb553005549c8f56",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/data.xlsx",
+            "bytes": 13406,
+            "sha256": "588f094e43c276953f6944ad524dca6fdb59f6b635a893854715033f2749b360",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/report.docx",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/report.docx",
             "format": "docx",
-            "file": "deliverables/sales/20261002-113955129-809e610e/report.docx",
-            "bytes": 9962,
-            "sha256": "d2119a4ed39775349c2fc39e8dd7c8bce263ca29edddcf0ab6f40ffd598b306b",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/report.docx",
+            "bytes": 9959,
+            "sha256": "556f1a5d283f41353b3f14195258a93e2e3bd7d4095c4eb19b11c6b722a7ab77",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Freport.docx"
           },
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/deck.pptx",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/sales/20261002-113955129-809e610e/deck.pptx",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/deck.pptx",
             "bytes": 11819,
             "sha256": "713145ec13e628d0e99bf611aeaaa35bcd153896d6db53e89b9f7fae0cb24e00",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/sales/20261002-113955129-809e610e/report.pdf",
+            "id": "deliverables/sales/20261003-000906019-a13481ef/report.pdf",
             "format": "pdf",
-            "file": "deliverables/sales/20261002-113955129-809e610e/report.pdf",
-            "bytes": 100427,
-            "sha256": "6f2cf61c1e4ab2519306c6fc8362a0dd14a465b4a8ce8bf7a0bd65588c5eea62",
+            "file": "deliverables/sales/20261003-000906019-a13481ef/report.pdf",
+            "bytes": 100419,
+            "sha256": "da00a677d6d9a6afd68fb2426f03edba00b14eab611c050c4e8fc489110d5a78",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261002-113955129-809e610e%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fsales%2F20261003-000906019-a13481ef%2Freport.pdf"
           }
         ],
-        "path": "deliverables/sales/20261002-113955129-809e610e",
-        "manifestPath": "deliverables/sales/20261002-113955129-809e610e/manifest.json"
+        "path": "deliverables/sales/20261003-000906019-a13481ef",
+        "manifestPath": "deliverables/sales/20261003-000906019-a13481ef/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -664,56 +664,56 @@
         "md": {
           "pass": true,
           "note": "3173 bytes",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.md",
-          "sha256": "bbca0b7e906f7388d4cfe0656ae4f95d818e4e3346f542cfe6524b02e47574fe"
+          "file": "deliverables/fin/20261003-000916757-41abecc1/report.md",
+          "sha256": "078044e01dfb2c996f7cd991280114c443b2d896e968930fe31f04717e842bea"
         },
         "csv": {
           "pass": true,
           "note": "4584 bytes",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/data.csv",
+          "file": "deliverables/fin/20261003-000916757-41abecc1/data.csv",
           "sha256": "3715808c76f9c06a0407f993e7acee204457718abbf5899a8c06d2208aacee6a"
         },
         "html": {
           "pass": true,
           "note": "6092 bytes",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.html",
-          "sha256": "2ea4cf2f03a6a5b3b1f3945742568999ac6b4c951e678e98b145961564a7019d"
+          "file": "deliverables/fin/20261003-000916757-41abecc1/report.html",
+          "sha256": "e16ce580e0b6b4bc306645aaf0fd39973ad8d756a937abca28cf33d5bfc1fa7a"
         },
         "xlsx": {
           "pass": true,
-          "note": "11984 bytes",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/data.xlsx",
-          "sha256": "34ca5c4dd2864d2743436204f89fe16ca11496febc93f749365aaa534684befd"
+          "note": "11983 bytes",
+          "file": "deliverables/fin/20261003-000916757-41abecc1/data.xlsx",
+          "sha256": "ac634a797d7e33064d759e457f1ecde396413267ccdccdb191a94f37a359015a"
         },
         "docx": {
           "pass": true,
-          "note": "9556 bytes",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.docx",
-          "sha256": "e17a07ae1f79f962e734216c000f1bc18a93467f5ea887021e2c8fb12335116c"
+          "note": "9558 bytes",
+          "file": "deliverables/fin/20261003-000916757-41abecc1/report.docx",
+          "sha256": "0259157d848f6ec3a875382e7e43876dc42791da892c7c4bdb7692a7536d0cad"
         },
         "pptx": {
           "pass": true,
           "note": "11804 bytes",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/deck.pptx",
+          "file": "deliverables/fin/20261003-000916757-41abecc1/deck.pptx",
           "sha256": "d46a701f9399e5640f937fb6e2f71931f0111c5102eb6da29a4e7fe33bc1c25b"
         },
         "pdf": {
           "pass": true,
-          "note": "88467 bytes pages=1",
-          "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.pdf",
-          "sha256": "2484a03b1eb40057db8e4de1d3ef85d10a8dacdb8205ea4aacfd3f0b7fb53a72"
+          "note": "88454 bytes pages=1",
+          "file": "deliverables/fin/20261003-000916757-41abecc1/report.pdf",
+          "sha256": "851298375fbdac8cd2b8371e0e0d027891591bc99445afebd81c1062de573458"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114007606-ed7f56ce",
+        "runId": "20261003-000916757-41abecc1",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114007606-ed7f56ce",
+        "run_id": "20261003-000916757-41abecc1",
         "domain": "fin",
         "label": "财务 FIN",
         "title": "预算、报销与收入核对交付包",
         "workflow_id": "fin.monthly-report@1.0.0",
-        "generated_at": "2026-10-02T11:40:07.606Z",
+        "generated_at": "2026-10-03T00:09:16.757Z",
         "formats": [
           "md",
           "csv",
@@ -740,74 +740,74 @@
             "sha256": "9f9e2df647bfc87fb7f9d28e2746bbb98428885e07abc03fd35a302dc84b4439"
           }
         ],
-        "content_digest": "bbca0b7e906f7388d4cfe0656ae4f95d818e4e3346f542cfe6524b02e47574fe",
+        "content_digest": "078044e01dfb2c996f7cd991280114c443b2d896e968930fe31f04717e842bea",
         "artifacts": [
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/report.md",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/report.md",
             "format": "md",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.md",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/report.md",
             "bytes": 3173,
-            "sha256": "bbca0b7e906f7388d4cfe0656ae4f95d818e4e3346f542cfe6524b02e47574fe",
+            "sha256": "078044e01dfb2c996f7cd991280114c443b2d896e968930fe31f04717e842bea",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Freport.md"
           },
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/data.csv",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/data.csv",
             "format": "csv",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/data.csv",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/data.csv",
             "bytes": 4584,
             "sha256": "3715808c76f9c06a0407f993e7acee204457718abbf5899a8c06d2208aacee6a",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Fdata.csv"
           },
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/report.html",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/report.html",
             "format": "html",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.html",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/report.html",
             "bytes": 6092,
-            "sha256": "2ea4cf2f03a6a5b3b1f3945742568999ac6b4c951e678e98b145961564a7019d",
+            "sha256": "e16ce580e0b6b4bc306645aaf0fd39973ad8d756a937abca28cf33d5bfc1fa7a",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Freport.html"
           },
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/data.xlsx",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/data.xlsx",
-            "bytes": 11984,
-            "sha256": "34ca5c4dd2864d2743436204f89fe16ca11496febc93f749365aaa534684befd",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/data.xlsx",
+            "bytes": 11983,
+            "sha256": "ac634a797d7e33064d759e457f1ecde396413267ccdccdb191a94f37a359015a",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/report.docx",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/report.docx",
             "format": "docx",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.docx",
-            "bytes": 9556,
-            "sha256": "e17a07ae1f79f962e734216c000f1bc18a93467f5ea887021e2c8fb12335116c",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/report.docx",
+            "bytes": 9558,
+            "sha256": "0259157d848f6ec3a875382e7e43876dc42791da892c7c4bdb7692a7536d0cad",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Freport.docx"
           },
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/deck.pptx",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/deck.pptx",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/deck.pptx",
             "bytes": 11804,
             "sha256": "d46a701f9399e5640f937fb6e2f71931f0111c5102eb6da29a4e7fe33bc1c25b",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/fin/20261002-114007606-ed7f56ce/report.pdf",
+            "id": "deliverables/fin/20261003-000916757-41abecc1/report.pdf",
             "format": "pdf",
-            "file": "deliverables/fin/20261002-114007606-ed7f56ce/report.pdf",
-            "bytes": 88467,
-            "sha256": "2484a03b1eb40057db8e4de1d3ef85d10a8dacdb8205ea4aacfd3f0b7fb53a72",
+            "file": "deliverables/fin/20261003-000916757-41abecc1/report.pdf",
+            "bytes": 88454,
+            "sha256": "851298375fbdac8cd2b8371e0e0d027891591bc99445afebd81c1062de573458",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261002-114007606-ed7f56ce%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ffin%2F20261003-000916757-41abecc1%2Freport.pdf"
           }
         ],
-        "path": "deliverables/fin/20261002-114007606-ed7f56ce",
-        "manifestPath": "deliverables/fin/20261002-114007606-ed7f56ce/manifest.json"
+        "path": "deliverables/fin/20261003-000916757-41abecc1",
+        "manifestPath": "deliverables/fin/20261003-000916757-41abecc1/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -824,56 +824,56 @@
         "md": {
           "pass": true,
           "note": "2005 bytes",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.md",
-          "sha256": "f3f6df7cd5ba5ff794cf042b7a67376a76b0b8bfad7d362934e5bef2abc1081f"
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/report.md",
+          "sha256": "7788f3864c95615a59a0a742635ee636a88e3fdf92e53ad15c1e121a82d063af"
         },
         "csv": {
           "pass": true,
           "note": "578 bytes",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/data.csv",
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/data.csv",
           "sha256": "d0b10343d2acec15d802e5dd9d03c0d3effef4200d7243abac75673f99347ffc"
         },
         "html": {
           "pass": true,
           "note": "4372 bytes",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.html",
-          "sha256": "04cf37f9a8034c06352505dadd9058e25c14a466abc5b382a2910b18af513d04"
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/report.html",
+          "sha256": "49791a1e46004864eb423d2a2c5dac5229fd6bde10521a566e82e781a7a1af7a"
         },
         "xlsx": {
           "pass": true,
           "note": "11020 bytes",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/data.xlsx",
-          "sha256": "a9c0763e1a166edb4e6e76f687acee1087897cefc9e8766410658debef2bd4b5"
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/data.xlsx",
+          "sha256": "943f2a3d97fbcf4d966a77c475099c8dab8fd08e01af80c6a2f2f31772fd75ff"
         },
         "docx": {
           "pass": true,
-          "note": "8981 bytes",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.docx",
-          "sha256": "26be728ae92a9cd256a4bb0a81b6af93ebd5be9827c4a13e956b77a647fc296f"
+          "note": "8984 bytes",
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/report.docx",
+          "sha256": "1111c9ba6f82668f40d16a6707c6008b5d933d162914f0001d4a06d2984c6ac6"
         },
         "pptx": {
           "pass": true,
           "note": "11814 bytes",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/deck.pptx",
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/deck.pptx",
           "sha256": "a5ed9fb6812756fcd767c62d269ee376300156edb57669ac9679885515634777"
         },
         "pdf": {
           "pass": true,
-          "note": "78090 bytes pages=1",
-          "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.pdf",
-          "sha256": "ba4eb1c87a7ec785fcb3d82793c0a0e17294d652ab2e6f96956038d1408d2f55"
+          "note": "78196 bytes pages=1",
+          "file": "deliverables/rec/20261003-000927426-7e1e8038/report.pdf",
+          "sha256": "60c2e828c279a87f27750542bf3152589d51b1a44b23312f5b9c25a1aeba4645"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114023016-0c65ebfe",
+        "runId": "20261003-000927426-7e1e8038",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114023016-0c65ebfe",
+        "run_id": "20261003-000927426-7e1e8038",
         "domain": "rec",
         "label": "招聘 REC",
         "title": "招聘漏斗与面试运营交付包",
         "workflow_id": "rec.funnel-weekly@1.0.0",
-        "generated_at": "2026-10-02T11:40:23.016Z",
+        "generated_at": "2026-10-03T00:09:27.426Z",
         "formats": [
           "md",
           "csv",
@@ -900,74 +900,74 @@
             "sha256": "4f9ea13cfe16aa20b60bc74ea41807e0d2be76079f4780ae1a2d29dba746b4b0"
           }
         ],
-        "content_digest": "f3f6df7cd5ba5ff794cf042b7a67376a76b0b8bfad7d362934e5bef2abc1081f",
+        "content_digest": "7788f3864c95615a59a0a742635ee636a88e3fdf92e53ad15c1e121a82d063af",
         "artifacts": [
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/report.md",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/report.md",
             "format": "md",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.md",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/report.md",
             "bytes": 2005,
-            "sha256": "f3f6df7cd5ba5ff794cf042b7a67376a76b0b8bfad7d362934e5bef2abc1081f",
+            "sha256": "7788f3864c95615a59a0a742635ee636a88e3fdf92e53ad15c1e121a82d063af",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Freport.md"
           },
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/data.csv",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/data.csv",
             "format": "csv",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/data.csv",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/data.csv",
             "bytes": 578,
             "sha256": "d0b10343d2acec15d802e5dd9d03c0d3effef4200d7243abac75673f99347ffc",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Fdata.csv"
           },
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/report.html",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/report.html",
             "format": "html",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.html",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/report.html",
             "bytes": 4372,
-            "sha256": "04cf37f9a8034c06352505dadd9058e25c14a466abc5b382a2910b18af513d04",
+            "sha256": "49791a1e46004864eb423d2a2c5dac5229fd6bde10521a566e82e781a7a1af7a",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Freport.html"
           },
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/data.xlsx",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/data.xlsx",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/data.xlsx",
             "bytes": 11020,
-            "sha256": "a9c0763e1a166edb4e6e76f687acee1087897cefc9e8766410658debef2bd4b5",
+            "sha256": "943f2a3d97fbcf4d966a77c475099c8dab8fd08e01af80c6a2f2f31772fd75ff",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/report.docx",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/report.docx",
             "format": "docx",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.docx",
-            "bytes": 8981,
-            "sha256": "26be728ae92a9cd256a4bb0a81b6af93ebd5be9827c4a13e956b77a647fc296f",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/report.docx",
+            "bytes": 8984,
+            "sha256": "1111c9ba6f82668f40d16a6707c6008b5d933d162914f0001d4a06d2984c6ac6",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Freport.docx"
           },
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/deck.pptx",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/deck.pptx",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/deck.pptx",
             "bytes": 11814,
             "sha256": "a5ed9fb6812756fcd767c62d269ee376300156edb57669ac9679885515634777",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/rec/20261002-114023016-0c65ebfe/report.pdf",
+            "id": "deliverables/rec/20261003-000927426-7e1e8038/report.pdf",
             "format": "pdf",
-            "file": "deliverables/rec/20261002-114023016-0c65ebfe/report.pdf",
-            "bytes": 78090,
-            "sha256": "ba4eb1c87a7ec785fcb3d82793c0a0e17294d652ab2e6f96956038d1408d2f55",
+            "file": "deliverables/rec/20261003-000927426-7e1e8038/report.pdf",
+            "bytes": 78196,
+            "sha256": "60c2e828c279a87f27750542bf3152589d51b1a44b23312f5b9c25a1aeba4645",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261002-114023016-0c65ebfe%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Frec%2F20261003-000927426-7e1e8038%2Freport.pdf"
           }
         ],
-        "path": "deliverables/rec/20261002-114023016-0c65ebfe",
-        "manifestPath": "deliverables/rec/20261002-114023016-0c65ebfe/manifest.json"
+        "path": "deliverables/rec/20261003-000927426-7e1e8038",
+        "manifestPath": "deliverables/rec/20261003-000927426-7e1e8038/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -984,56 +984,56 @@
         "md": {
           "pass": true,
           "note": "2984 bytes",
-          "file": "deliverables/trn/20261002-114038385-703bc880/report.md",
-          "sha256": "72b5e7ab71ef09832fd3c8b05db3d90f4bde59e74b39cf804db36b6818ae0213"
+          "file": "deliverables/trn/20261003-000938301-938df76c/report.md",
+          "sha256": "63f36198c4b728d2fe17043a0e1013a279792605eed162779689513cdac95f69"
         },
         "csv": {
           "pass": true,
           "note": "2688 bytes",
-          "file": "deliverables/trn/20261002-114038385-703bc880/data.csv",
+          "file": "deliverables/trn/20261003-000938301-938df76c/data.csv",
           "sha256": "c2ffe15ced4eb0d281b7e6f95917550e5ad6e11f31b73d9a01ecbd4225d1980b"
         },
         "html": {
           "pass": true,
           "note": "6023 bytes",
-          "file": "deliverables/trn/20261002-114038385-703bc880/report.html",
-          "sha256": "fe736e80a3349678c5d996035b78472810c195209646048d665ee29298c91c13"
+          "file": "deliverables/trn/20261003-000938301-938df76c/report.html",
+          "sha256": "2fe4bb15f7912cbde6f295324ccc2f3b7128e046016474b485c3293123b9c3e5"
         },
         "xlsx": {
           "pass": true,
           "note": "11963 bytes",
-          "file": "deliverables/trn/20261002-114038385-703bc880/data.xlsx",
-          "sha256": "fcc589a5ad550fb9258c76623c5abf7e0e2cb0a34a9418a6d5dd6c2c49be1fb7"
+          "file": "deliverables/trn/20261003-000938301-938df76c/data.xlsx",
+          "sha256": "61f5bd54814a8ecd0af2fdd8a45c686692d1bd3e1bfd1ba03def12c39e929fa7"
         },
         "docx": {
           "pass": true,
-          "note": "9705 bytes",
-          "file": "deliverables/trn/20261002-114038385-703bc880/report.docx",
-          "sha256": "889ee71e4c21f18b04db472432480c204f743255c7b1272f2bcaf844ce1a5604"
+          "note": "9703 bytes",
+          "file": "deliverables/trn/20261003-000938301-938df76c/report.docx",
+          "sha256": "4f9e1d42eac77dbfdf74f8f0a367eff78764746d8dfb3aa7837ba492ef044317"
         },
         "pptx": {
           "pass": true,
           "note": "11822 bytes",
-          "file": "deliverables/trn/20261002-114038385-703bc880/deck.pptx",
+          "file": "deliverables/trn/20261003-000938301-938df76c/deck.pptx",
           "sha256": "08b64864e0ea0ebdc8b2dd51757f177dc0530b9c77bfa4c9a57ce703a61f448c"
         },
         "pdf": {
           "pass": true,
-          "note": "88233 bytes pages=1",
-          "file": "deliverables/trn/20261002-114038385-703bc880/report.pdf",
-          "sha256": "296868c3abd5222c487ef7b921b0455997b53fd3693dd04c6dafd5a2077a4db0"
+          "note": "88230 bytes pages=1",
+          "file": "deliverables/trn/20261003-000938301-938df76c/report.pdf",
+          "sha256": "880ce63bea6f44c21eed7540f31de8533a0171031d69e01ecb349ca049f83b32"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114038385-703bc880",
+        "runId": "20261003-000938301-938df76c",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114038385-703bc880",
+        "run_id": "20261003-000938301-938df76c",
         "domain": "trn",
         "label": "培训 TRN",
         "title": "培训计划与证书到期交付包",
         "workflow_id": "trn.hours-report@1.0.0",
-        "generated_at": "2026-10-02T11:40:38.385Z",
+        "generated_at": "2026-10-03T00:09:38.301Z",
         "formats": [
           "md",
           "csv",
@@ -1060,74 +1060,74 @@
             "sha256": "7b5f5f01cfe6a47bde3c7136981cc754875c9330d1e9d18998aa03607b1c474b"
           }
         ],
-        "content_digest": "72b5e7ab71ef09832fd3c8b05db3d90f4bde59e74b39cf804db36b6818ae0213",
+        "content_digest": "63f36198c4b728d2fe17043a0e1013a279792605eed162779689513cdac95f69",
         "artifacts": [
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/report.md",
+            "id": "deliverables/trn/20261003-000938301-938df76c/report.md",
             "format": "md",
-            "file": "deliverables/trn/20261002-114038385-703bc880/report.md",
+            "file": "deliverables/trn/20261003-000938301-938df76c/report.md",
             "bytes": 2984,
-            "sha256": "72b5e7ab71ef09832fd3c8b05db3d90f4bde59e74b39cf804db36b6818ae0213",
+            "sha256": "63f36198c4b728d2fe17043a0e1013a279792605eed162779689513cdac95f69",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Freport.md"
           },
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/data.csv",
+            "id": "deliverables/trn/20261003-000938301-938df76c/data.csv",
             "format": "csv",
-            "file": "deliverables/trn/20261002-114038385-703bc880/data.csv",
+            "file": "deliverables/trn/20261003-000938301-938df76c/data.csv",
             "bytes": 2688,
             "sha256": "c2ffe15ced4eb0d281b7e6f95917550e5ad6e11f31b73d9a01ecbd4225d1980b",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Fdata.csv"
           },
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/report.html",
+            "id": "deliverables/trn/20261003-000938301-938df76c/report.html",
             "format": "html",
-            "file": "deliverables/trn/20261002-114038385-703bc880/report.html",
+            "file": "deliverables/trn/20261003-000938301-938df76c/report.html",
             "bytes": 6023,
-            "sha256": "fe736e80a3349678c5d996035b78472810c195209646048d665ee29298c91c13",
+            "sha256": "2fe4bb15f7912cbde6f295324ccc2f3b7128e046016474b485c3293123b9c3e5",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Freport.html"
           },
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/data.xlsx",
+            "id": "deliverables/trn/20261003-000938301-938df76c/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/trn/20261002-114038385-703bc880/data.xlsx",
+            "file": "deliverables/trn/20261003-000938301-938df76c/data.xlsx",
             "bytes": 11963,
-            "sha256": "fcc589a5ad550fb9258c76623c5abf7e0e2cb0a34a9418a6d5dd6c2c49be1fb7",
+            "sha256": "61f5bd54814a8ecd0af2fdd8a45c686692d1bd3e1bfd1ba03def12c39e929fa7",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/report.docx",
+            "id": "deliverables/trn/20261003-000938301-938df76c/report.docx",
             "format": "docx",
-            "file": "deliverables/trn/20261002-114038385-703bc880/report.docx",
-            "bytes": 9705,
-            "sha256": "889ee71e4c21f18b04db472432480c204f743255c7b1272f2bcaf844ce1a5604",
+            "file": "deliverables/trn/20261003-000938301-938df76c/report.docx",
+            "bytes": 9703,
+            "sha256": "4f9e1d42eac77dbfdf74f8f0a367eff78764746d8dfb3aa7837ba492ef044317",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Freport.docx"
           },
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/deck.pptx",
+            "id": "deliverables/trn/20261003-000938301-938df76c/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/trn/20261002-114038385-703bc880/deck.pptx",
+            "file": "deliverables/trn/20261003-000938301-938df76c/deck.pptx",
             "bytes": 11822,
             "sha256": "08b64864e0ea0ebdc8b2dd51757f177dc0530b9c77bfa4c9a57ce703a61f448c",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/trn/20261002-114038385-703bc880/report.pdf",
+            "id": "deliverables/trn/20261003-000938301-938df76c/report.pdf",
             "format": "pdf",
-            "file": "deliverables/trn/20261002-114038385-703bc880/report.pdf",
-            "bytes": 88233,
-            "sha256": "296868c3abd5222c487ef7b921b0455997b53fd3693dd04c6dafd5a2077a4db0",
+            "file": "deliverables/trn/20261003-000938301-938df76c/report.pdf",
+            "bytes": 88230,
+            "sha256": "880ce63bea6f44c21eed7540f31de8533a0171031d69e01ecb349ca049f83b32",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261002-114038385-703bc880%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Ftrn%2F20261003-000938301-938df76c%2Freport.pdf"
           }
         ],
-        "path": "deliverables/trn/20261002-114038385-703bc880",
-        "manifestPath": "deliverables/trn/20261002-114038385-703bc880/manifest.json"
+        "path": "deliverables/trn/20261003-000938301-938df76c",
+        "manifestPath": "deliverables/trn/20261003-000938301-938df76c/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -1144,56 +1144,56 @@
         "md": {
           "pass": true,
           "note": "2657 bytes",
-          "file": "deliverables/prf/20261002-114051124-183078f6/report.md",
-          "sha256": "176531bea1176ad18fddcc234ca5318e7019ddc7bef1b46abceb2444dd6362db"
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/report.md",
+          "sha256": "0a20a2f41a05a146cf4a1e4a6f6bffdd40f89ae633c2eb522c0d9b76dd86a400"
         },
         "csv": {
           "pass": true,
           "note": "1735 bytes",
-          "file": "deliverables/prf/20261002-114051124-183078f6/data.csv",
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/data.csv",
           "sha256": "8a831bbda594d5e2c4ff7df4ea3a46b154f3b6ef41a86b599874ca9f4460cf5e"
         },
         "html": {
           "pass": true,
           "note": "5407 bytes",
-          "file": "deliverables/prf/20261002-114051124-183078f6/report.html",
-          "sha256": "04e708e73be3d0b77ce77bba0990fcc6f4c495831b3b43e50e3309d1248c84b7"
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/report.html",
+          "sha256": "6dd9d7d6f649dd4cff0e5619ccb5e7f725520753ce1437001dab616ac5aed48c"
         },
         "xlsx": {
           "pass": true,
-          "note": "10740 bytes",
-          "file": "deliverables/prf/20261002-114051124-183078f6/data.xlsx",
-          "sha256": "abdcb59b4c556f0f25cb1e277de67206ade64316e7914bf0e927d1cb2d90a8e4"
+          "note": "10739 bytes",
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/data.xlsx",
+          "sha256": "e224a70b33c1bd1e589d53f4cb4688c2116ddb2e89458350506bab17d01c22e4"
         },
         "docx": {
           "pass": true,
-          "note": "9313 bytes",
-          "file": "deliverables/prf/20261002-114051124-183078f6/report.docx",
-          "sha256": "9f5631e2804fdee1e1c1f267a990c07ea9773af65c64fb5aaf99e027a1fe9901"
+          "note": "9314 bytes",
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/report.docx",
+          "sha256": "c729702c44bd923922b2f28d9a60a8b14bb9a3bdfffea61a798881441afe7756"
         },
         "pptx": {
           "pass": true,
           "note": "11758 bytes",
-          "file": "deliverables/prf/20261002-114051124-183078f6/deck.pptx",
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/deck.pptx",
           "sha256": "89c87ced3521ba47e80cd70a9bfcda329480735c414788a9d688e55bd7e13ab8"
         },
         "pdf": {
           "pass": true,
-          "note": "84374 bytes pages=1",
-          "file": "deliverables/prf/20261002-114051124-183078f6/report.pdf",
-          "sha256": "ae2a5f1a14ebf99f8c0dc98879d6a2e1654de012859729bdc68c9b6c9f375c64"
+          "note": "84373 bytes pages=1",
+          "file": "deliverables/prf/20261003-000949027-264c6ed7/report.pdf",
+          "sha256": "3bd7e73ae7d21e58ee5f9d2a61df76832db23baf627e79a796f8c6b54b75321a"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114051124-183078f6",
+        "runId": "20261003-000949027-264c6ed7",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114051124-183078f6",
+        "run_id": "20261003-000949027-264c6ed7",
         "domain": "prf",
         "label": "绩效 PRF",
         "title": "绩效目标与校准交付包",
         "workflow_id": "prf.cascade-report@1.0.0",
-        "generated_at": "2026-10-02T11:40:51.124Z",
+        "generated_at": "2026-10-03T00:09:49.027Z",
         "formats": [
           "md",
           "csv",
@@ -1220,74 +1220,74 @@
             "sha256": "ae064df792689c8db989120a682fc6515dfb70dd640745cd0883bb6e327d2271"
           }
         ],
-        "content_digest": "176531bea1176ad18fddcc234ca5318e7019ddc7bef1b46abceb2444dd6362db",
+        "content_digest": "0a20a2f41a05a146cf4a1e4a6f6bffdd40f89ae633c2eb522c0d9b76dd86a400",
         "artifacts": [
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/report.md",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/report.md",
             "format": "md",
-            "file": "deliverables/prf/20261002-114051124-183078f6/report.md",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/report.md",
             "bytes": 2657,
-            "sha256": "176531bea1176ad18fddcc234ca5318e7019ddc7bef1b46abceb2444dd6362db",
+            "sha256": "0a20a2f41a05a146cf4a1e4a6f6bffdd40f89ae633c2eb522c0d9b76dd86a400",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Freport.md"
           },
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/data.csv",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/data.csv",
             "format": "csv",
-            "file": "deliverables/prf/20261002-114051124-183078f6/data.csv",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/data.csv",
             "bytes": 1735,
             "sha256": "8a831bbda594d5e2c4ff7df4ea3a46b154f3b6ef41a86b599874ca9f4460cf5e",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Fdata.csv"
           },
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/report.html",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/report.html",
             "format": "html",
-            "file": "deliverables/prf/20261002-114051124-183078f6/report.html",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/report.html",
             "bytes": 5407,
-            "sha256": "04e708e73be3d0b77ce77bba0990fcc6f4c495831b3b43e50e3309d1248c84b7",
+            "sha256": "6dd9d7d6f649dd4cff0e5619ccb5e7f725520753ce1437001dab616ac5aed48c",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Freport.html"
           },
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/data.xlsx",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/prf/20261002-114051124-183078f6/data.xlsx",
-            "bytes": 10740,
-            "sha256": "abdcb59b4c556f0f25cb1e277de67206ade64316e7914bf0e927d1cb2d90a8e4",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/data.xlsx",
+            "bytes": 10739,
+            "sha256": "e224a70b33c1bd1e589d53f4cb4688c2116ddb2e89458350506bab17d01c22e4",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/report.docx",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/report.docx",
             "format": "docx",
-            "file": "deliverables/prf/20261002-114051124-183078f6/report.docx",
-            "bytes": 9313,
-            "sha256": "9f5631e2804fdee1e1c1f267a990c07ea9773af65c64fb5aaf99e027a1fe9901",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/report.docx",
+            "bytes": 9314,
+            "sha256": "c729702c44bd923922b2f28d9a60a8b14bb9a3bdfffea61a798881441afe7756",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Freport.docx"
           },
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/deck.pptx",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/prf/20261002-114051124-183078f6/deck.pptx",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/deck.pptx",
             "bytes": 11758,
             "sha256": "89c87ced3521ba47e80cd70a9bfcda329480735c414788a9d688e55bd7e13ab8",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/prf/20261002-114051124-183078f6/report.pdf",
+            "id": "deliverables/prf/20261003-000949027-264c6ed7/report.pdf",
             "format": "pdf",
-            "file": "deliverables/prf/20261002-114051124-183078f6/report.pdf",
-            "bytes": 84374,
-            "sha256": "ae2a5f1a14ebf99f8c0dc98879d6a2e1654de012859729bdc68c9b6c9f375c64",
+            "file": "deliverables/prf/20261003-000949027-264c6ed7/report.pdf",
+            "bytes": 84373,
+            "sha256": "3bd7e73ae7d21e58ee5f9d2a61df76832db23baf627e79a796f8c6b54b75321a",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261002-114051124-183078f6%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fprf%2F20261003-000949027-264c6ed7%2Freport.pdf"
           }
         ],
-        "path": "deliverables/prf/20261002-114051124-183078f6",
-        "manifestPath": "deliverables/prf/20261002-114051124-183078f6/manifest.json"
+        "path": "deliverables/prf/20261003-000949027-264c6ed7",
+        "manifestPath": "deliverables/prf/20261003-000949027-264c6ed7/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -1304,56 +1304,56 @@
         "md": {
           "pass": true,
           "note": "1948 bytes",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/report.md",
-          "sha256": "58074c25cae9955077ad3b772268ebe0e9e276545299aecbe1d895327234d83f"
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/report.md",
+          "sha256": "dc8f56e74adc62137c55f92edc8bdf6644857d015c7417a8666bd8ba7e992c20"
         },
         "csv": {
           "pass": true,
           "note": "424 bytes",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/data.csv",
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/data.csv",
           "sha256": "fd81c71f1f91b9550c71a07e02d35e55b1a899d51e65dd5e0b4e65d82abe18ac"
         },
         "html": {
           "pass": true,
           "note": "4371 bytes",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/report.html",
-          "sha256": "af665b4df10d9dcc922ec0da7072505a187aea06830f149a4b2f81613d95afb7"
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/report.html",
+          "sha256": "3fca397ad0e15a5e32be096a4ae137bb86714695c7c1307dc50adda62ed00952"
         },
         "xlsx": {
           "pass": true,
-          "note": "10590 bytes",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/data.xlsx",
-          "sha256": "4f3ce6b5e029b4cefede2d6997909f4d3e9975d1b66e077666b69a171860b664"
+          "note": "10589 bytes",
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/data.xlsx",
+          "sha256": "ed2fce2b01bad5bc06f02d978e0094173caaedbe25140b9364b017921d880051"
         },
         "docx": {
           "pass": true,
-          "note": "8996 bytes",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/report.docx",
-          "sha256": "f970fb88064081273806812210d8350516c055a1130cb79014b88ccdaba67ac5"
+          "note": "8997 bytes",
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/report.docx",
+          "sha256": "86ce8af2824c8c22b64eafb308d859425d7aa107e42b70a5ecd79c5df73e3eeb"
         },
         "pptx": {
           "pass": true,
           "note": "11825 bytes",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/deck.pptx",
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/deck.pptx",
           "sha256": "c4401abd82d3aa037b20418a7e367aea8f2c2d63cc895767e2af5362aae4af4a"
         },
         "pdf": {
           "pass": true,
-          "note": "75547 bytes pages=1",
-          "file": "deliverables/comp/20261002-114105779-f4b66442/report.pdf",
-          "sha256": "c49b95195f4cf070f40394d82cc2f99cc41d86c914bd26aa53e50ac7131a2a3b"
+          "note": "75546 bytes pages=1",
+          "file": "deliverables/comp/20261003-000959705-6425b7b8/report.pdf",
+          "sha256": "4128217b20d75b3da7637d03a8c65256f6fdede9f69c905b561b0bd58cd53e3b"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114105779-f4b66442",
+        "runId": "20261003-000959705-6425b7b8",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114105779-f4b66442",
+        "run_id": "20261003-000959705-6425b7b8",
         "domain": "comp",
         "label": "薪酬 COMP",
         "title": "薪酬带宽与调薪审批交付包",
         "workflow_id": "comp.band-report@1.0.0",
-        "generated_at": "2026-10-02T11:41:05.779Z",
+        "generated_at": "2026-10-03T00:09:59.705Z",
         "formats": [
           "md",
           "csv",
@@ -1380,74 +1380,74 @@
             "sha256": "df0bad242dbb412aba94860bc1d4365f70b844cd148d6c75d034f12ef2b58a00"
           }
         ],
-        "content_digest": "58074c25cae9955077ad3b772268ebe0e9e276545299aecbe1d895327234d83f",
+        "content_digest": "dc8f56e74adc62137c55f92edc8bdf6644857d015c7417a8666bd8ba7e992c20",
         "artifacts": [
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/report.md",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/report.md",
             "format": "md",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/report.md",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/report.md",
             "bytes": 1948,
-            "sha256": "58074c25cae9955077ad3b772268ebe0e9e276545299aecbe1d895327234d83f",
+            "sha256": "dc8f56e74adc62137c55f92edc8bdf6644857d015c7417a8666bd8ba7e992c20",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Freport.md"
           },
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/data.csv",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/data.csv",
             "format": "csv",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/data.csv",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/data.csv",
             "bytes": 424,
             "sha256": "fd81c71f1f91b9550c71a07e02d35e55b1a899d51e65dd5e0b4e65d82abe18ac",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Fdata.csv"
           },
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/report.html",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/report.html",
             "format": "html",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/report.html",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/report.html",
             "bytes": 4371,
-            "sha256": "af665b4df10d9dcc922ec0da7072505a187aea06830f149a4b2f81613d95afb7",
+            "sha256": "3fca397ad0e15a5e32be096a4ae137bb86714695c7c1307dc50adda62ed00952",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Freport.html"
           },
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/data.xlsx",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/data.xlsx",
-            "bytes": 10590,
-            "sha256": "4f3ce6b5e029b4cefede2d6997909f4d3e9975d1b66e077666b69a171860b664",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/data.xlsx",
+            "bytes": 10589,
+            "sha256": "ed2fce2b01bad5bc06f02d978e0094173caaedbe25140b9364b017921d880051",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/report.docx",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/report.docx",
             "format": "docx",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/report.docx",
-            "bytes": 8996,
-            "sha256": "f970fb88064081273806812210d8350516c055a1130cb79014b88ccdaba67ac5",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/report.docx",
+            "bytes": 8997,
+            "sha256": "86ce8af2824c8c22b64eafb308d859425d7aa107e42b70a5ecd79c5df73e3eeb",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Freport.docx"
           },
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/deck.pptx",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/deck.pptx",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/deck.pptx",
             "bytes": 11825,
             "sha256": "c4401abd82d3aa037b20418a7e367aea8f2c2d63cc895767e2af5362aae4af4a",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/comp/20261002-114105779-f4b66442/report.pdf",
+            "id": "deliverables/comp/20261003-000959705-6425b7b8/report.pdf",
             "format": "pdf",
-            "file": "deliverables/comp/20261002-114105779-f4b66442/report.pdf",
-            "bytes": 75547,
-            "sha256": "c49b95195f4cf070f40394d82cc2f99cc41d86c914bd26aa53e50ac7131a2a3b",
+            "file": "deliverables/comp/20261003-000959705-6425b7b8/report.pdf",
+            "bytes": 75546,
+            "sha256": "4128217b20d75b3da7637d03a8c65256f6fdede9f69c905b561b0bd58cd53e3b",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261002-114105779-f4b66442%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcomp%2F20261003-000959705-6425b7b8%2Freport.pdf"
           }
         ],
-        "path": "deliverables/comp/20261002-114105779-f4b66442",
-        "manifestPath": "deliverables/comp/20261002-114105779-f4b66442/manifest.json"
+        "path": "deliverables/comp/20261003-000959705-6425b7b8",
+        "manifestPath": "deliverables/comp/20261003-000959705-6425b7b8/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -1464,56 +1464,56 @@
         "md": {
           "pass": true,
           "note": "3696 bytes",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/report.md",
-          "sha256": "453e3e7ed681157cbc2e5ee11c457f8bc9ecb165c66de62db34ec39a2e7b1181"
+          "file": "deliverables/ben/20261003-001010439-b153d076/report.md",
+          "sha256": "ab181faefe3045238fe72655afcc56f46b905ad3802b96cf5fa89d28037a2497"
         },
         "csv": {
           "pass": true,
           "note": "2524 bytes",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/data.csv",
+          "file": "deliverables/ben/20261003-001010439-b153d076/data.csv",
           "sha256": "8b0d8d8779961b416e0dfffa44e6296367b6d3560adaabc507ce4c58072c19eb"
         },
         "html": {
           "pass": true,
           "note": "6892 bytes",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/report.html",
-          "sha256": "a2c19bebf7e67d91adbcce33157fb5333c117455591b104bc919b80c2e3cc57d"
+          "file": "deliverables/ben/20261003-001010439-b153d076/report.html",
+          "sha256": "d10751fac36ec280a5c0d2267ac408014333d5eabe3d033f172b058c4d654f92"
         },
         "xlsx": {
           "pass": true,
           "note": "11655 bytes",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/data.xlsx",
-          "sha256": "f1871168075f92a88d1e4eb27b0685603adc7cceb7e09e8e19808530b3f47b43"
+          "file": "deliverables/ben/20261003-001010439-b153d076/data.xlsx",
+          "sha256": "f7a4fabcf468f1b5da5dc46e0c1693eb0e277c8ed9403b2d3ca5adcb07252e0e"
         },
         "docx": {
           "pass": true,
           "note": "9711 bytes",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/report.docx",
-          "sha256": "321e30b6e29065cfa6fe46713c39a7e2e503df7c073cf435d562bd7ed84f06e3"
+          "file": "deliverables/ben/20261003-001010439-b153d076/report.docx",
+          "sha256": "640510665bb143b0d96c8eca46d47c0342a126467569a7a1a7e68c81d3f01fc3"
         },
         "pptx": {
           "pass": true,
           "note": "11849 bytes",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/deck.pptx",
+          "file": "deliverables/ben/20261003-001010439-b153d076/deck.pptx",
           "sha256": "754f01eb0608221833359802aeb12d0617d4345422fdfa2e8b1d82f3a0883745"
         },
         "pdf": {
           "pass": true,
-          "note": "88399 bytes pages=1",
-          "file": "deliverables/ben/20261002-114124213-871b2c0b/report.pdf",
-          "sha256": "7c02f5705f7d1c01111f00859507c4b688e193e2fc0cbe64edf3fc3a7bca3ddf"
+          "note": "88398 bytes pages=1",
+          "file": "deliverables/ben/20261003-001010439-b153d076/report.pdf",
+          "sha256": "a04a93258e4b0edb4b28d8e2a0a902ad768e5c09149904c64524461813dff17c"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114124213-871b2c0b",
+        "runId": "20261003-001010439-b153d076",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114124213-871b2c0b",
+        "run_id": "20261003-001010439-b153d076",
         "domain": "ben",
         "label": "福利 BEN",
         "title": "福利方案与积分使用交付包",
         "workflow_id": "ben.vendor-compare@1.0.0",
-        "generated_at": "2026-10-02T11:41:24.213Z",
+        "generated_at": "2026-10-03T00:10:10.439Z",
         "formats": [
           "md",
           "csv",
@@ -1540,74 +1540,74 @@
             "sha256": "6fca7355f9ce1a9efadf02fa62da2509b3b0984927be2e5ec377cd1f66823639"
           }
         ],
-        "content_digest": "453e3e7ed681157cbc2e5ee11c457f8bc9ecb165c66de62db34ec39a2e7b1181",
+        "content_digest": "ab181faefe3045238fe72655afcc56f46b905ad3802b96cf5fa89d28037a2497",
         "artifacts": [
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/report.md",
+            "id": "deliverables/ben/20261003-001010439-b153d076/report.md",
             "format": "md",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/report.md",
+            "file": "deliverables/ben/20261003-001010439-b153d076/report.md",
             "bytes": 3696,
-            "sha256": "453e3e7ed681157cbc2e5ee11c457f8bc9ecb165c66de62db34ec39a2e7b1181",
+            "sha256": "ab181faefe3045238fe72655afcc56f46b905ad3802b96cf5fa89d28037a2497",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Freport.md"
           },
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/data.csv",
+            "id": "deliverables/ben/20261003-001010439-b153d076/data.csv",
             "format": "csv",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/data.csv",
+            "file": "deliverables/ben/20261003-001010439-b153d076/data.csv",
             "bytes": 2524,
             "sha256": "8b0d8d8779961b416e0dfffa44e6296367b6d3560adaabc507ce4c58072c19eb",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Fdata.csv"
           },
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/report.html",
+            "id": "deliverables/ben/20261003-001010439-b153d076/report.html",
             "format": "html",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/report.html",
+            "file": "deliverables/ben/20261003-001010439-b153d076/report.html",
             "bytes": 6892,
-            "sha256": "a2c19bebf7e67d91adbcce33157fb5333c117455591b104bc919b80c2e3cc57d",
+            "sha256": "d10751fac36ec280a5c0d2267ac408014333d5eabe3d033f172b058c4d654f92",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Freport.html"
           },
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/data.xlsx",
+            "id": "deliverables/ben/20261003-001010439-b153d076/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/data.xlsx",
+            "file": "deliverables/ben/20261003-001010439-b153d076/data.xlsx",
             "bytes": 11655,
-            "sha256": "f1871168075f92a88d1e4eb27b0685603adc7cceb7e09e8e19808530b3f47b43",
+            "sha256": "f7a4fabcf468f1b5da5dc46e0c1693eb0e277c8ed9403b2d3ca5adcb07252e0e",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/report.docx",
+            "id": "deliverables/ben/20261003-001010439-b153d076/report.docx",
             "format": "docx",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/report.docx",
+            "file": "deliverables/ben/20261003-001010439-b153d076/report.docx",
             "bytes": 9711,
-            "sha256": "321e30b6e29065cfa6fe46713c39a7e2e503df7c073cf435d562bd7ed84f06e3",
+            "sha256": "640510665bb143b0d96c8eca46d47c0342a126467569a7a1a7e68c81d3f01fc3",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Freport.docx"
           },
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/deck.pptx",
+            "id": "deliverables/ben/20261003-001010439-b153d076/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/deck.pptx",
+            "file": "deliverables/ben/20261003-001010439-b153d076/deck.pptx",
             "bytes": 11849,
             "sha256": "754f01eb0608221833359802aeb12d0617d4345422fdfa2e8b1d82f3a0883745",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/ben/20261002-114124213-871b2c0b/report.pdf",
+            "id": "deliverables/ben/20261003-001010439-b153d076/report.pdf",
             "format": "pdf",
-            "file": "deliverables/ben/20261002-114124213-871b2c0b/report.pdf",
-            "bytes": 88399,
-            "sha256": "7c02f5705f7d1c01111f00859507c4b688e193e2fc0cbe64edf3fc3a7bca3ddf",
+            "file": "deliverables/ben/20261003-001010439-b153d076/report.pdf",
+            "bytes": 88398,
+            "sha256": "a04a93258e4b0edb4b28d8e2a0a902ad768e5c09149904c64524461813dff17c",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261002-114124213-871b2c0b%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fben%2F20261003-001010439-b153d076%2Freport.pdf"
           }
         ],
-        "path": "deliverables/ben/20261002-114124213-871b2c0b",
-        "manifestPath": "deliverables/ben/20261002-114124213-871b2c0b/manifest.json"
+        "path": "deliverables/ben/20261003-001010439-b153d076",
+        "manifestPath": "deliverables/ben/20261003-001010439-b153d076/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -1624,56 +1624,56 @@
         "md": {
           "pass": true,
           "note": "3492 bytes",
-          "file": "deliverables/admin/20261002-114140561-70034792/report.md",
-          "sha256": "a4c22e11a9323ce32241dbe87720efb73cfcc30d567dd97c44e4f1489622ee84"
+          "file": "deliverables/admin/20261003-001021098-c31d2560/report.md",
+          "sha256": "b7667cef9f163aa4cad9b3c5e3c66884746c584879ac6ad0e693e9a0cf4cc172"
         },
         "csv": {
           "pass": true,
           "note": "2842 bytes",
-          "file": "deliverables/admin/20261002-114140561-70034792/data.csv",
+          "file": "deliverables/admin/20261003-001021098-c31d2560/data.csv",
           "sha256": "57e89b13b027e7d8a9df0ac59a2165e7d8d9cd94aa7797a22715d79838f97d74"
         },
         "html": {
           "pass": true,
           "note": "6543 bytes",
-          "file": "deliverables/admin/20261002-114140561-70034792/report.html",
-          "sha256": "6a221a2a70d732516967f020494d3fa3d75fdf577ecee0fbea2d8fc4a29ad02f"
+          "file": "deliverables/admin/20261003-001021098-c31d2560/report.html",
+          "sha256": "0cfb8b5ab66ed69a5ac9470fb4bb54a642080029810e056750912ba92fd25ffa"
         },
         "xlsx": {
           "pass": true,
           "note": "11947 bytes",
-          "file": "deliverables/admin/20261002-114140561-70034792/data.xlsx",
-          "sha256": "a61bd6971efd3ee4d2baddfb78a04965ac3c1a8179a5cdb4676cf0ab9714be2d"
+          "file": "deliverables/admin/20261003-001021098-c31d2560/data.xlsx",
+          "sha256": "ecd7ba27707e98dafe9182e229986ea2d700aeb38947e18f3cdc1cf909fe33ca"
         },
         "docx": {
           "pass": true,
-          "note": "9624 bytes",
-          "file": "deliverables/admin/20261002-114140561-70034792/report.docx",
-          "sha256": "5dd37bee2ae43a3bb4c58053cda5df7d020da722f0985ce34b4b7d1abb14b55e"
+          "note": "9621 bytes",
+          "file": "deliverables/admin/20261003-001021098-c31d2560/report.docx",
+          "sha256": "c7b2b6757294efcebbd92ed7fe6df6c7ba6b6389ca295ef2e9c9b31859af83aa"
         },
         "pptx": {
           "pass": true,
           "note": "11838 bytes",
-          "file": "deliverables/admin/20261002-114140561-70034792/deck.pptx",
+          "file": "deliverables/admin/20261003-001021098-c31d2560/deck.pptx",
           "sha256": "4089d346d20156cd832e1e170062a0b64d4d294974df5df54221a83d102672cc"
         },
         "pdf": {
           "pass": true,
-          "note": "84047 bytes pages=1",
-          "file": "deliverables/admin/20261002-114140561-70034792/report.pdf",
-          "sha256": "efe003a6af22a9d77557fbecadb87561bdc812a38de8ad23de8dcd6fce71d891"
+          "note": "84052 bytes pages=1",
+          "file": "deliverables/admin/20261003-001021098-c31d2560/report.pdf",
+          "sha256": "56f23f5b6fbabf51317060bbeca68554b0385575cb79669f07248cd923ce02ed"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114140561-70034792",
+        "runId": "20261003-001021098-c31d2560",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114140561-70034792",
+        "run_id": "20261003-001021098-c31d2560",
         "domain": "admin",
         "label": "行政 ADMIN",
         "title": "采购比价与资产台账交付包",
         "workflow_id": "admin.purchase-approve@1.0.0",
-        "generated_at": "2026-10-02T11:41:40.561Z",
+        "generated_at": "2026-10-03T00:10:21.098Z",
         "formats": [
           "md",
           "csv",
@@ -1700,74 +1700,74 @@
             "sha256": "1218b06afd8fe5e109e12d24171309a32cc8f75e2cc58c4b032b7e57c374cad4"
           }
         ],
-        "content_digest": "a4c22e11a9323ce32241dbe87720efb73cfcc30d567dd97c44e4f1489622ee84",
+        "content_digest": "b7667cef9f163aa4cad9b3c5e3c66884746c584879ac6ad0e693e9a0cf4cc172",
         "artifacts": [
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/report.md",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/report.md",
             "format": "md",
-            "file": "deliverables/admin/20261002-114140561-70034792/report.md",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/report.md",
             "bytes": 3492,
-            "sha256": "a4c22e11a9323ce32241dbe87720efb73cfcc30d567dd97c44e4f1489622ee84",
+            "sha256": "b7667cef9f163aa4cad9b3c5e3c66884746c584879ac6ad0e693e9a0cf4cc172",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Freport.md"
           },
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/data.csv",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/data.csv",
             "format": "csv",
-            "file": "deliverables/admin/20261002-114140561-70034792/data.csv",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/data.csv",
             "bytes": 2842,
             "sha256": "57e89b13b027e7d8a9df0ac59a2165e7d8d9cd94aa7797a22715d79838f97d74",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Fdata.csv"
           },
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/report.html",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/report.html",
             "format": "html",
-            "file": "deliverables/admin/20261002-114140561-70034792/report.html",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/report.html",
             "bytes": 6543,
-            "sha256": "6a221a2a70d732516967f020494d3fa3d75fdf577ecee0fbea2d8fc4a29ad02f",
+            "sha256": "0cfb8b5ab66ed69a5ac9470fb4bb54a642080029810e056750912ba92fd25ffa",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Freport.html"
           },
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/data.xlsx",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/admin/20261002-114140561-70034792/data.xlsx",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/data.xlsx",
             "bytes": 11947,
-            "sha256": "a61bd6971efd3ee4d2baddfb78a04965ac3c1a8179a5cdb4676cf0ab9714be2d",
+            "sha256": "ecd7ba27707e98dafe9182e229986ea2d700aeb38947e18f3cdc1cf909fe33ca",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/report.docx",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/report.docx",
             "format": "docx",
-            "file": "deliverables/admin/20261002-114140561-70034792/report.docx",
-            "bytes": 9624,
-            "sha256": "5dd37bee2ae43a3bb4c58053cda5df7d020da722f0985ce34b4b7d1abb14b55e",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/report.docx",
+            "bytes": 9621,
+            "sha256": "c7b2b6757294efcebbd92ed7fe6df6c7ba6b6389ca295ef2e9c9b31859af83aa",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Freport.docx"
           },
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/deck.pptx",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/admin/20261002-114140561-70034792/deck.pptx",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/deck.pptx",
             "bytes": 11838,
             "sha256": "4089d346d20156cd832e1e170062a0b64d4d294974df5df54221a83d102672cc",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/admin/20261002-114140561-70034792/report.pdf",
+            "id": "deliverables/admin/20261003-001021098-c31d2560/report.pdf",
             "format": "pdf",
-            "file": "deliverables/admin/20261002-114140561-70034792/report.pdf",
-            "bytes": 84047,
-            "sha256": "efe003a6af22a9d77557fbecadb87561bdc812a38de8ad23de8dcd6fce71d891",
+            "file": "deliverables/admin/20261003-001021098-c31d2560/report.pdf",
+            "bytes": 84052,
+            "sha256": "56f23f5b6fbabf51317060bbeca68554b0385575cb79669f07248cd923ce02ed",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261002-114140561-70034792%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fadmin%2F20261003-001021098-c31d2560%2Freport.pdf"
           }
         ],
-        "path": "deliverables/admin/20261002-114140561-70034792",
-        "manifestPath": "deliverables/admin/20261002-114140561-70034792/manifest.json"
+        "path": "deliverables/admin/20261003-001021098-c31d2560",
+        "manifestPath": "deliverables/admin/20261003-001021098-c31d2560/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -1784,56 +1784,56 @@
         "md": {
           "pass": true,
           "note": "4012 bytes",
-          "file": "deliverables/cmp/20261002-114154600-84490550/report.md",
-          "sha256": "e8806f0a7ba0445b4eb639df6ef0cdc79526c1409f6b8f91d13301c6abe2842e"
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.md",
+          "sha256": "e05427c2c17f4f4e98c788d445cd91e5ae18e161a23aa72094b3cb15c138c404"
         },
         "csv": {
           "pass": true,
           "note": "5595 bytes",
-          "file": "deliverables/cmp/20261002-114154600-84490550/data.csv",
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/data.csv",
           "sha256": "84fc9a6163812904e6acb60bef1511da4f8d507fb3ecd011b731e2f943f7894a"
         },
         "html": {
           "pass": true,
           "note": "6886 bytes",
-          "file": "deliverables/cmp/20261002-114154600-84490550/report.html",
-          "sha256": "a9312b467217b5a76a8e9ba0620ef27897435d02ccaa5f93c68697c2c2093204"
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.html",
+          "sha256": "0d9085c162a6eafae1656d2458a5fc34cc2f13cefed1a787f12bf48ade5ac349"
         },
         "xlsx": {
           "pass": true,
-          "note": "14274 bytes",
-          "file": "deliverables/cmp/20261002-114154600-84490550/data.xlsx",
-          "sha256": "f4ae3faca9f00539ce42e2158c6b4cb55ac6776beb15da8fc8102220383091d3"
+          "note": "14273 bytes",
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/data.xlsx",
+          "sha256": "7c95e1baed963900b28bcbeaeb6ec3701e28512f681fabc4467d7daba61e8002"
         },
         "docx": {
           "pass": true,
-          "note": "10017 bytes",
-          "file": "deliverables/cmp/20261002-114154600-84490550/report.docx",
-          "sha256": "88caf7cd24da427de2a5bc0515291d19120b1cf14e0d65826723110ea408d196"
+          "note": "10015 bytes",
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.docx",
+          "sha256": "13f799a5eca3197d901ce3c64b6571310fdebfc8c82a4df4873b7a47ed5fd4f7"
         },
         "pptx": {
           "pass": true,
           "note": "11736 bytes",
-          "file": "deliverables/cmp/20261002-114154600-84490550/deck.pptx",
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/deck.pptx",
           "sha256": "98b1104bb47c3c928b2c0df0d959dc04a2356ca51402ce1e6f07a074b35c40ab"
         },
         "pdf": {
           "pass": true,
-          "note": "102422 bytes pages=1",
-          "file": "deliverables/cmp/20261002-114154600-84490550/report.pdf",
-          "sha256": "dbffe0082b7575e5f8ce91366a303987e8c639c713e7a4ab86eb67bdf0d91570"
+          "note": "102412 bytes pages=1",
+          "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.pdf",
+          "sha256": "71ed50ba9be3a0b3ef8133b9f334c76dd2238bd3d499234013939f457e5ac19d"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114154600-84490550",
+        "runId": "20261003-001031867-c5e3fab0",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114154600-84490550",
+        "run_id": "20261003-001031867-c5e3fab0",
         "domain": "cmp",
         "label": "合规 CMP",
         "title": "制度审查与 PIPIA 证据交付包",
         "workflow_id": "cmp.evidence-pack@1.0.0",
-        "generated_at": "2026-10-02T11:41:54.600Z",
+        "generated_at": "2026-10-03T00:10:31.867Z",
         "formats": [
           "md",
           "csv",
@@ -1860,74 +1860,74 @@
             "sha256": "f38cd288608544b5a2719d3b2881b464f33cc0cdeca09701b1f40eed66ff046b"
           }
         ],
-        "content_digest": "e8806f0a7ba0445b4eb639df6ef0cdc79526c1409f6b8f91d13301c6abe2842e",
+        "content_digest": "e05427c2c17f4f4e98c788d445cd91e5ae18e161a23aa72094b3cb15c138c404",
         "artifacts": [
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/report.md",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/report.md",
             "format": "md",
-            "file": "deliverables/cmp/20261002-114154600-84490550/report.md",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.md",
             "bytes": 4012,
-            "sha256": "e8806f0a7ba0445b4eb639df6ef0cdc79526c1409f6b8f91d13301c6abe2842e",
+            "sha256": "e05427c2c17f4f4e98c788d445cd91e5ae18e161a23aa72094b3cb15c138c404",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Freport.md"
           },
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/data.csv",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/data.csv",
             "format": "csv",
-            "file": "deliverables/cmp/20261002-114154600-84490550/data.csv",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/data.csv",
             "bytes": 5595,
             "sha256": "84fc9a6163812904e6acb60bef1511da4f8d507fb3ecd011b731e2f943f7894a",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Fdata.csv"
           },
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/report.html",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/report.html",
             "format": "html",
-            "file": "deliverables/cmp/20261002-114154600-84490550/report.html",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.html",
             "bytes": 6886,
-            "sha256": "a9312b467217b5a76a8e9ba0620ef27897435d02ccaa5f93c68697c2c2093204",
+            "sha256": "0d9085c162a6eafae1656d2458a5fc34cc2f13cefed1a787f12bf48ade5ac349",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Freport.html"
           },
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/data.xlsx",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/cmp/20261002-114154600-84490550/data.xlsx",
-            "bytes": 14274,
-            "sha256": "f4ae3faca9f00539ce42e2158c6b4cb55ac6776beb15da8fc8102220383091d3",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/data.xlsx",
+            "bytes": 14273,
+            "sha256": "7c95e1baed963900b28bcbeaeb6ec3701e28512f681fabc4467d7daba61e8002",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/report.docx",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/report.docx",
             "format": "docx",
-            "file": "deliverables/cmp/20261002-114154600-84490550/report.docx",
-            "bytes": 10017,
-            "sha256": "88caf7cd24da427de2a5bc0515291d19120b1cf14e0d65826723110ea408d196",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.docx",
+            "bytes": 10015,
+            "sha256": "13f799a5eca3197d901ce3c64b6571310fdebfc8c82a4df4873b7a47ed5fd4f7",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Freport.docx"
           },
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/deck.pptx",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/cmp/20261002-114154600-84490550/deck.pptx",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/deck.pptx",
             "bytes": 11736,
             "sha256": "98b1104bb47c3c928b2c0df0d959dc04a2356ca51402ce1e6f07a074b35c40ab",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/cmp/20261002-114154600-84490550/report.pdf",
+            "id": "deliverables/cmp/20261003-001031867-c5e3fab0/report.pdf",
             "format": "pdf",
-            "file": "deliverables/cmp/20261002-114154600-84490550/report.pdf",
-            "bytes": 102422,
-            "sha256": "dbffe0082b7575e5f8ce91366a303987e8c639c713e7a4ab86eb67bdf0d91570",
+            "file": "deliverables/cmp/20261003-001031867-c5e3fab0/report.pdf",
+            "bytes": 102412,
+            "sha256": "71ed50ba9be3a0b3ef8133b9f334c76dd2238bd3d499234013939f457e5ac19d",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261002-114154600-84490550%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fcmp%2F20261003-001031867-c5e3fab0%2Freport.pdf"
           }
         ],
-        "path": "deliverables/cmp/20261002-114154600-84490550",
-        "manifestPath": "deliverables/cmp/20261002-114154600-84490550/manifest.json"
+        "path": "deliverables/cmp/20261003-001031867-c5e3fab0",
+        "manifestPath": "deliverables/cmp/20261003-001031867-c5e3fab0/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
@@ -1944,56 +1944,56 @@
         "md": {
           "pass": true,
           "note": "2951 bytes",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.md",
-          "sha256": "c8fee4fe96028ff5f98aa06d71007b265241825dd57f7a7753f95864118acd0c"
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.md",
+          "sha256": "bcd99617ef1c8777a0adbb186940e6a6f2afa0af0a11d93c853cb8d31fe79ef7"
         },
         "csv": {
           "pass": true,
           "note": "2264 bytes",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/data.csv",
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/data.csv",
           "sha256": "58bc4176b7593712ab05a58dd71bfe85bf455cf1f7e9476ef385452eacb2f79c"
         },
         "html": {
           "pass": true,
           "note": "5649 bytes",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.html",
-          "sha256": "d138c0e22473d8d25202932112a593e293681fd146af4be22954f3589dc849f2"
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.html",
+          "sha256": "565704a073777e01eda7e32f835f1f62db17df3b2c123ece3b0bb925d0ca559f"
         },
         "xlsx": {
           "pass": true,
           "note": "11302 bytes",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/data.xlsx",
-          "sha256": "2ab8fa6accd1beaf71488561e7c27f6f21b7170bb7a41e97e22ff7af16be9ff1"
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/data.xlsx",
+          "sha256": "dd0458ea479722bc898bca12839c85a3a04d1bf96734652f46f5231bdba07931"
         },
         "docx": {
           "pass": true,
           "note": "9334 bytes",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.docx",
-          "sha256": "9e81c842f64452ab102b7384e8785da8206f4eacf2c6106e7b27efa30fb7958f"
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.docx",
+          "sha256": "35130eed9841a5a5b3a442308116177690630a9b6f1e2fdf8136acbbbae276c1"
         },
         "pptx": {
           "pass": true,
           "note": "11801 bytes",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/deck.pptx",
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/deck.pptx",
           "sha256": "e1fc9828a76b8be301d70bff9df2ab2b891e87de6dbe9096a94ec61128922368"
         },
         "pdf": {
           "pass": true,
-          "note": "80848 bytes pages=1",
-          "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.pdf",
-          "sha256": "91d1e64c63721a81201fea6deab675a6d6765930ffa50dcc61aa64aff521ab0a"
+          "note": "80853 bytes pages=1",
+          "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.pdf",
+          "sha256": "47fbcbd87a184739a1906a16e63858b39e6301e41c2000d7a0a4d7f03d8a8ec7"
         }
       },
       "package": {
         "ok": true,
-        "runId": "20261002-114210611-4ff18c49",
+        "runId": "20261003-001042681-885c12e8",
         "schema": "universal-workbench/delivery-package/v1",
-        "run_id": "20261002-114210611-4ff18c49",
+        "run_id": "20261003-001042681-885c12e8",
         "domain": "er-eap",
         "label": "员工关系/EAP",
         "title": "员工关系与 EAP 匿名转介交付包",
         "workflow_id": "er-eap.eap-referral@1.0.0",
-        "generated_at": "2026-10-02T11:42:10.611Z",
+        "generated_at": "2026-10-03T00:10:42.681Z",
         "formats": [
           "md",
           "csv",
@@ -2020,74 +2020,74 @@
             "sha256": "3d4ee17eabc64703de08294db10607cfed67a183cc2b6a3175487af2594d2095"
           }
         ],
-        "content_digest": "c8fee4fe96028ff5f98aa06d71007b265241825dd57f7a7753f95864118acd0c",
+        "content_digest": "bcd99617ef1c8777a0adbb186940e6a6f2afa0af0a11d93c853cb8d31fe79ef7",
         "artifacts": [
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/report.md",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/report.md",
             "format": "md",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.md",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.md",
             "bytes": 2951,
-            "sha256": "c8fee4fe96028ff5f98aa06d71007b265241825dd57f7a7753f95864118acd0c",
+            "sha256": "bcd99617ef1c8777a0adbb186940e6a6f2afa0af0a11d93c853cb8d31fe79ef7",
             "mime": "text/markdown; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Freport.md"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Freport.md"
           },
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/data.csv",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/data.csv",
             "format": "csv",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/data.csv",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/data.csv",
             "bytes": 2264,
             "sha256": "58bc4176b7593712ab05a58dd71bfe85bf455cf1f7e9476ef385452eacb2f79c",
             "mime": "text/csv; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Fdata.csv"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Fdata.csv"
           },
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/report.html",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/report.html",
             "format": "html",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.html",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.html",
             "bytes": 5649,
-            "sha256": "d138c0e22473d8d25202932112a593e293681fd146af4be22954f3589dc849f2",
+            "sha256": "565704a073777e01eda7e32f835f1f62db17df3b2c123ece3b0bb925d0ca559f",
             "mime": "text/html; charset=utf-8",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Freport.html"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Freport.html"
           },
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/data.xlsx",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/data.xlsx",
             "format": "xlsx",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/data.xlsx",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/data.xlsx",
             "bytes": 11302,
-            "sha256": "2ab8fa6accd1beaf71488561e7c27f6f21b7170bb7a41e97e22ff7af16be9ff1",
+            "sha256": "dd0458ea479722bc898bca12839c85a3a04d1bf96734652f46f5231bdba07931",
             "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Fdata.xlsx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Fdata.xlsx"
           },
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/report.docx",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/report.docx",
             "format": "docx",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.docx",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.docx",
             "bytes": 9334,
-            "sha256": "9e81c842f64452ab102b7384e8785da8206f4eacf2c6106e7b27efa30fb7958f",
+            "sha256": "35130eed9841a5a5b3a442308116177690630a9b6f1e2fdf8136acbbbae276c1",
             "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Freport.docx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Freport.docx"
           },
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/deck.pptx",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/deck.pptx",
             "format": "pptx",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/deck.pptx",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/deck.pptx",
             "bytes": 11801,
             "sha256": "e1fc9828a76b8be301d70bff9df2ab2b891e87de6dbe9096a94ec61128922368",
             "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Fdeck.pptx"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Fdeck.pptx"
           },
           {
-            "id": "deliverables/er-eap/20261002-114210611-4ff18c49/report.pdf",
+            "id": "deliverables/er-eap/20261003-001042681-885c12e8/report.pdf",
             "format": "pdf",
-            "file": "deliverables/er-eap/20261002-114210611-4ff18c49/report.pdf",
-            "bytes": 80848,
-            "sha256": "91d1e64c63721a81201fea6deab675a6d6765930ffa50dcc61aa64aff521ab0a",
+            "file": "deliverables/er-eap/20261003-001042681-885c12e8/report.pdf",
+            "bytes": 80853,
+            "sha256": "47fbcbd87a184739a1906a16e63858b39e6301e41c2000d7a0a4d7f03d8a8ec7",
             "mime": "application/pdf",
-            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261002-114210611-4ff18c49%2Freport.pdf"
+            "downloadUrl": "/workbench/api/artifact?id=deliverables%2Fer-eap%2F20261003-001042681-885c12e8%2Freport.pdf"
           }
         ],
-        "path": "deliverables/er-eap/20261002-114210611-4ff18c49",
-        "manifestPath": "deliverables/er-eap/20261002-114210611-4ff18c49/manifest.json"
+        "path": "deliverables/er-eap/20261003-001042681-885c12e8",
+        "manifestPath": "deliverables/er-eap/20261003-001042681-885c12e8/manifest.json"
       },
       "error": null,
       "officeRoundTrip": {
