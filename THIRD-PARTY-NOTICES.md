@@ -14,7 +14,6 @@
 | dsh-ppt deck-core（第三方插件代码） | `assets/dsh-ppt/deck-core.mjs` | MIT（Copyright © 2026 stardustlc） | 已随附 `assets/dsh-ppt/LICENSE`，再分发须保留版权与许可声明 |
 | Noto Sans CJK SC Regular 字体 | `assets/fonts/NotoSansCJKsc-Regular.otf` | SIL Open Font License 1.1 | 已随附 `assets/fonts/OFL.txt`；不得单独售卖字体；保留保留字体名称（RFN）约定 |
 | PiDSH Nexus 品牌字标 | `assets/brand/pids-nexus.svg` | 本项目原创，Apache-2.0 | 无 |
-| 宣传片配音 | `promo-video/assets/audio/s1–s6.mp3` | Microsoft Edge TTS（`zh-CN-XiaoxiaoNeural`）合成输出 | 使用与再分发时遵守 Microsoft 相关服务条款；不含第三方音乐素材 |
 
 ## 3. 构建期 npm 依赖（根 `package.json`，实测依赖树 112 个包）
 
