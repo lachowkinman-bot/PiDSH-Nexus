@@ -58,6 +58,11 @@ Source: "..\..\..\docs\*"; DestDir: "{app}\docs"; Flags: recursesubdirs ignoreve
 ; 此前安装包未含 app.html / workbench-ui-plugin / src：装出的产品既没有 ⟡ 工作台 面板
 ; （该插件一直是开发期手工 link 进 profile 的），launch.ps1 的 /app-page 也会落到"尚未构建"占位页。
 Source: "..\..\..\app.html"; DestDir: "{app}"; Flags: ignoreversion
+; 2026-10-11（0.2 升级修复）：随包提供模型配置示例（用户级 config\model-provider.json 由用户自建，
+; 密钥只引用环境变量）；并携带 tools/（工作台引擎运行器 tools/model-adapter/cli.mjs 与
+; tools/dsh-upgrade-skill 升级流程副本）——缺 tools 时安装态旅程门禁实测 MODEL_UNAVAILABLE。
+Source: "..\..\..\config\model-provider.example.json"; DestDir: "{app}\config"; Flags: ignoreversion
+Source: "..\..\..\tools\*"; DestDir: "{app}\tools"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\workbench-ui-plugin\*"; DestDir: "{app}\workbench-ui-plugin"; Excludes: "node_modules"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\src\*"; DestDir: "{app}\src"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\assets\*"; DestDir: "{app}\assets"; Flags: recursesubdirs ignoreversion

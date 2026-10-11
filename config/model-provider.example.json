@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0",
+  "provider": "openai-compatible",
+  "model": "replace-with-user-selected-model",
+  "baseUrl": "https://user-endpoint.example/v1",
+  "protocol": "openai-chat-completions",
+  "apiKeyEnv": "WORKBENCH_MODEL_API_KEY",
+  "timeoutMs": 120000,
+  "maxOutputTokens": 8192,
+  "capabilities": {
+    "l0": true,
+    "l1": true,
+    "l2": false
+  },
+  "probeTools": false,
+  "extraHeaders": {}
+}

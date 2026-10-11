@@ -10,10 +10,15 @@ $portable = Join-Path $root 'offline\node\node-v24.21.0-win-x64'
 if (Test-Path (Join-Path $portable 'dsh.cmd')) { $env:PATH = "$portable;$env:PATH" }
 if (-not $env:DSH_HOME) { $env:DSH_HOME = Join-Path $root '.dsh-home' }
 
+# 2026-10-11（0.2 升级）：优先使用 profile 内引擎（与 Tauri node_and_dsh 同一策略），
+# 避免机器上残留的旧全局引擎（如 0.1.7）引导新 profile。
+$nodeExe = Join-Path $portable 'node.exe'
+$profileDshBin = Join-Path $env:DSH_HOME 'profiles\web\node_modules\@deepseek-ai\dsh\lib\bin.js'
+
 # 1) 自愈（2026-09-29 补）：dsh 引擎或工作台插件缺失时，先静默跑一次离线安装。
 #    覆盖两种现实情形：①安装器 [Run] 带 skipifsilent，静默安装不会跑 postinstall；
 #    ②用户直接拷贝目录/升级安装。没有这步，双击图标只会看到"尚未构建"占位页或壳首页。
-$dshOk    = [bool](& dsh --version 2>$null)
+$dshOk    = (Test-Path $profileDshBin) -or [bool](& dsh --version 2>$null)
 $pluginOk = Test-Path (Join-Path $env:DSH_HOME 'profiles\web\node_modules\@workbench\client-ui\package.json')
 if (-not ($dshOk -and $pluginOk)) {
   Write-Host "[launch] 自愈：离线安装 DSH 引擎 / pnpm / 插件（含工作台插件）…"
@@ -26,9 +31,13 @@ $up = ($LASTEXITCODE -eq 0)
 
 if (-not $up) {
   Write-Host "[launch] 启动 DSH Web（仅绑定 127.0.0.1:3080）…"
-  $dshVer = & dsh --version 2>$null
-  if (-not $dshVer) { Write-Host "[launch] 未检测到 Node/DSH —— 请先完成安装（见 docs/README-学员版.md §安装）；错误码 ERR-INST-002"; exit 1 }
-  Start-Process -WindowStyle Hidden -FilePath "powershell.exe" -ArgumentList "-Command", "dsh --profile web --no-open --port 3080"
+  if (Test-Path $profileDshBin) {
+    Start-Process -WindowStyle Hidden -FilePath "powershell.exe" -ArgumentList "-Command", "& `"$nodeExe`" `"$profileDshBin`" --profile web --no-open --port 3080"
+  } else {
+    $dshVer = & dsh --version 2>$null
+    if (-not $dshVer) { Write-Host "[launch] 未检测到 Node/DSH —— 请先完成安装（见 docs/README-学员版.md §安装）；错误码 ERR-INST-002"; exit 1 }
+    Start-Process -WindowStyle Hidden -FilePath "powershell.exe" -ArgumentList "-Command", "dsh --profile web --no-open --port 3080"
+  }
   Start-Sleep -Seconds 8
 }
 
