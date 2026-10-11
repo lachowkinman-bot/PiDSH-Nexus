@@ -1,7 +1,9 @@
 # PiDSH Nexus 出厂 profile patch（随 runtime-web.zip 分发）
-# 作用：把「内测声明」确认状态预置为已确认，避免首启被弹窗阻塞（声明仍可在「设置」中查看）。
-# 升级时由 src-tauri 的 ensure_runtime 与本文件做「合并保留」，不会覆盖用户已有条目。
+# 作用：把「预览版说明 / 内测声明」确认状态预置为已确认，避免首启被弹窗阻塞（声明仍可在「设置」中查看）。
+# welcomeNoticeVersion 随 DSH 0.2 上游通知版本联动：0.2.0-rc.2 的期望值为 "2026-09-28.1"。
+# 升级时由 workbench.ps1 的 Invoke-RuntimeRefresh / src-tauri 的 ensure_runtime 做「upsert + 合并保留」：
+# 旧版本值会被行级更新为出厂值，其余用户条目保留。
 - id: ui-settings-general
   name: "@deepseek-ai/dsh-client-ui-settings-general"
   config:
-    welcomeNoticeVersion: "2026-08-13.1"
+    welcomeNoticeVersion: "2026-09-28.1"

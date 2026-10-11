@@ -20,9 +20,11 @@
 - 目的：`npm i -g` 只落本项目，不污染 %APPDATA%\npm，不影响 other projects
 - 注意：三源探测（U3/U16）必须在本项目 cwd 下执行才能读到本 .npmrc
 
-## 引擎（016 §2 重锁）
-- dsh 目标版本：0.1.7-rc.2（离线包 offline-3.0/engines/deepseek-ai-dsh-0.1.7-rc.2.tgz）
-- 期望 SHA256：5f2da7272d9485abc223e681075809a8d929697c523ee445718e1b7e066bff8（装前核验）
+## 引擎（2026-10-11 升级：0.1.7-rc.2 → 0.2.0-rc.2）
+- dsh 目标版本：0.2.0-rc.2（离线包 offline-3.0/engines/deepseek-ai-dsh-0.2.0-rc.2.tgz）
+- 期望 SHA256：bd27847c445cd68a565ac1f91c06bbbcc7639ef93071f678bb59c5ebaff38859（npm 官方 tarball；与 anywhere-labs vendor 副本内容等价、仅 2 条依赖行序不同）
+- 兼容约束：工作台插件 peer/engines = `>=0.1.7-rc.2 <0.3.0-0`（双世代）；产品集 23 条精确版本豁免见 templates/runtime/compatibility.json
+- 升级依据：`reports/upgrade-0.2.0-rc.2/`（4.0 目录证据）与本目录 `docs/retro/adr/ADR-0015-dsh-0.2.0-rc.2-引擎升级.md`
 
 ## pnpm（3.0 安装器补齐 · 2026-09-29）
 - 用途：`dsh plugin add` 是**转发给 pnpm** 的（engine lib/bin.js → execa('pnpm')）；此前离线包不含 pnpm，

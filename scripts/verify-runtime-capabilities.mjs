@@ -41,10 +41,15 @@ function activationLogFailures() {
 
 function verifyPlugins() {
   const failures = activationLogFailures();
-  if (manifest.plugin_scope.runtime_total !== 64 || manifest.plugins.length !== 64) {
-    throw new Error(`插件清单不完整：${manifest.plugins.length}/64`);
+  // 0.2 升级：清单数量以 manifests/runtime-capabilities.json 自身为准做自洽校验，
+  // 不再写死 64/59（dsh-artifacts 已按 0.2 适配转为 shipped-not-loaded，loaded 随清单变化）。
+  if (manifest.plugin_scope.runtime_total !== manifest.plugins.length) {
+    throw new Error(`插件清单不自洽：runtime_total=${manifest.plugin_scope.runtime_total} plugins=${manifest.plugins.length}`);
   }
-  if (manifest.plugin_scope.loaded !== 59) throw new Error(`加载插件数异常：${manifest.plugin_scope.loaded}`);
+  const expectedLoaded = manifest.plugins.filter((p) => p.loaded).length;
+  if (manifest.plugin_scope.loaded !== expectedLoaded) {
+    throw new Error(`加载插件数不自洽：声明 ${manifest.plugin_scope.loaded}，清单 ${expectedLoaded}`);
+  }
   const names = new Set();
   for (const entry of manifest.plugins) {
     if (names.has(entry.name)) throw new Error(`插件重复：${entry.name}`);

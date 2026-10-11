@@ -30,7 +30,7 @@ function Fetch([string]$url,[string]$dest){
 }
 # —— 24 个 npm 包 + pnpm（与 offline/npm/SHA256SUMS.txt 同名同版本；dsh 按 016 §2 重锁）——
 $PKGS = @(
-  @('deepseek-ai-dsh','@deepseek-ai/dsh','0.1.7-rc.2'), @('pi2dsh','pi2dsh','0.25.2'),
+  @('deepseek-ai-dsh','@deepseek-ai/dsh','0.2.0-rc.2'), @('pi2dsh','pi2dsh','0.25.2'),
   @('dsh-better-sidebar','dsh-better-sidebar','0.21.1'), @('dsh-plugin','dsh-plugin','1.4.8'),
   @('pi-hermes-memory','pi-hermes-memory','0.9.9'), @('pi-approval-guardian','pi-approval-guardian','0.8.0'),
   @('pi-redact-all','pi-redact-all','0.2.1'), @('pi-mcp-adapter','pi-mcp-adapter','2.38.0'),
@@ -81,8 +81,8 @@ $meta = foreach($p in $PKGS){
   (New-Object System.Text.UTF8Encoding($false))
 )
 # —— dsh 0.1.7-rc.2 引擎双落点：offline/npm 供 workbench.ps1，offline-3.0/engines 供 U1/运行时分发 ——
-$engineFile = 'deepseek-ai-dsh-0.1.7-rc.2.tgz'
-$engineSha = '5f2da7272d9485abc223e681075809a8d929697c5232ee445718e1b7e066bff8'
+$engineFile = 'deepseek-ai-dsh-0.2.0-rc.2.tgz'
+$engineSha = 'bd27847c445cd68a565ac1f91c06bbbcc7639ef93071f678bb59c5ebaff38859'
 $engineSrc = "offline/npm/$engineFile"
 $engineDst = "offline-3.0/engines/$engineFile"
 if (Test-Path $engineSrc) {

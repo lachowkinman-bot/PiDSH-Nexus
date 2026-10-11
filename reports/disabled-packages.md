@@ -68,3 +68,14 @@
 - 壳内插件中心 UI 显示 **已安装 63**（dsh web 官方计数，截图 u16-l3-dsh-plugin-market.png）——与 profile dependencies 数一致口径。
 - boot 装载：**74 条 `[pi2dsh] loaded` 装载行 + 79 Pi package prepared**（reports/boot-log-u16-v4.txt）。
 - 未达成可装状态的：1 上游破损 + 1 版本锁 SKIP + 1 P1 功能停用 + 11 冲突移出 = **14/155**，其余 **141/155 已装入 profile** 且壳健康。
+
+## D. 2026-10-11 引擎升级（0.2.0-rc.2）重评
+
+- 重评范围按用户选择执行：**只重评"等待 0.2.x 的包"**，其余冲突包维持停用。
+- `@anionex/dsh-vision-toolkit@0.1.45`：**维持停用（本轮重评结论）**。依据：
+  1. 升级走廊（0.1.6→0.1.7）已将设置迁移到 profile 插件 Config 并移除 `settings.register`，而该包 `lib/index.js` 仍调用 `ctx.settings.register(...)` —— 在 0.1.7-rc.2 上的 `TypeError` 会在 0.2.0-rc.2 同样复现；
+  2. 包内 `dsh.compatibility.dsh = ">=0.1.0-rc.8 <0.2.0"`，`dshReleases` 兼容表止于 `0.1.5-rc.1`；peer 范围同样不含 0.2.x。
+  重评条件：上游发布使用新设置契约且 peer/`compatibility` 声明 0.2.x 的版本。证据：4.0 `reports/upgrade-0.2.0-rc.2/vision-toolkit-reeval.md` 与 `peer-audit.json`。
+- 其余 11 个冲突包：维持停用；复评条件见 B2 表（需先在产品链路上重跑同名注册冲突测试）。
+- 新增"随包分发、默认不加载"（产品集）：`dsh-artifacts@0.1.1`——插件内 `assertPeerCompatible` 硬断言 `@deepseek-ai/dsh-tools ^0.1.0-rc.6`，上游无 0.2 兼容版本；证据：4.0 `reports/upgrade-0.2.0-rc.2/pluginload-report.json`。
+- 新增精确版本豁免（非停用）：产品集 23 个插件在 0.2.0-rc.2 上以 `templates/runtime/compatibility.json` 豁免运行（由 peer-audit 报告生成）；属"已运行验收、未证明契约"，外部凭据链路维持 `BLOCKED_EXTERNAL`。

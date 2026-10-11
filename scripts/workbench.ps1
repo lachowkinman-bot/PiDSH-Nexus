@@ -80,25 +80,43 @@ function Invoke-RuntimeRefresh([string]$Archive,[string]$BuildId,[string]$DshHom
     New-Item -ItemType Directory -Force -Path (Split-Path $profile) | Out-Null
     Move-Item -LiteralPath $staged -Destination $profile
     $live = Join-Path $profile 'cordis.patch.yml'
-    $presetText = if (Test-Path $live) { Get-Content -Raw $live } else { '' }
+    # 注：PS 5.1 的 Get-Content 对无 BOM UTF-8 中文会按 ANSI 读成乱码，Set-Content -Encoding UTF8 会写 BOM；
+    # 本块统一用显式 UTF-8 无 BOM 读写（2026-10-11 实测：乱码+bom 会让 loader 报 "must be a top-level YAML array"）。
+    $presetText = if (Test-Path $live) { [IO.File]::ReadAllText($live, (New-Object Text.UTF8Encoding($false))) } else { '' }
     if ($hadProfile) {
       $oldPatch = Join-Path $backup 'cordis.patch.yml'
       if (Test-Path -LiteralPath $oldPatch) { Copy-Item -LiteralPath $oldPatch -Destination $live -Force }
     }
-    $existing = if (Test-Path -LiteralPath $live) { Get-Content -Raw $live } else { '' }
+    $existing = if (Test-Path -LiteralPath $live) { [IO.File]::ReadAllText($live, (New-Object Text.UTF8Encoding($false))) } else { '' }
     if ($existing -notmatch 'welcomeNoticeVersion') {
       $merged = if ([string]::IsNullOrWhiteSpace($existing)) { $presetText } else { $existing.TrimEnd() + "`n" + $presetText }
-      Set-Content -LiteralPath $live -Value $merged -Encoding UTF8
+      Write-Utf8NoBom $live $merged
+    } else {
+      # 0.2 升级：出厂补丁的 welcomeNoticeVersion 需随上游通知版本更新；
+      # 旧值残留会让「预览版说明」弹窗在每次启动时重复出现。
+      # 只认 YAML 行（`^\s*welcomeNoticeVersion:`），避免命中注释中同名字样
+      $presetLine = ($presetText -split "`n" | Where-Object { $_ -match '^\s*welcomeNoticeVersion:' } | Select-Object -First 1)
+      $presetValue = if ($presetLine -and ($presetLine -match '^\s*welcomeNoticeVersion:\s*"?([^"\s]+)"?')) { $Matches[1] } else { '' }
+      if ($presetValue) {
+        $updated = [regex]::Replace($existing, 'welcomeNoticeVersion:\s*"?[^"\r\n]*"?', "welcomeNoticeVersion: `"$presetValue`"")
+        if ($updated -ne $existing) { Write-Utf8NoBom $live $updated }
+      }
     }
     # Version exemption table (compatibility.json): union of factory preset and user entries.
     $compatLive = Join-Path $profile 'compatibility.json'
-    $presetCompat = if (Test-Path -LiteralPath $compatLive) { Get-Content -Raw $compatLive | ConvertFrom-Json } else { $null }
-    $userCompat = if ($hadProfile -and (Test-Path -LiteralPath (Join-Path $backup 'compatibility.json'))) { Get-Content -Raw (Join-Path $backup 'compatibility.json') | ConvertFrom-Json } else { $null }
+    $presetCompat = if (Test-Path -LiteralPath $compatLive) { ([IO.File]::ReadAllText($compatLive, (New-Object Text.UTF8Encoding($false)))) | ConvertFrom-Json } else { $null }
+    $userCompat = if ($hadProfile -and (Test-Path -LiteralPath (Join-Path $backup 'compatibility.json'))) { ([IO.File]::ReadAllText((Join-Path $backup 'compatibility.json'), (New-Object Text.UTF8Encoding($false)))) | ConvertFrom-Json } else { $null }
     if ($null -ne $presetCompat -or $null -ne $userCompat) {
       $map = @{}
       foreach ($src in @($userCompat, $presetCompat)) {
         if ($null -eq $src) { continue }
-        foreach ($prop in $src.PSObject.Properties) { if (-not $map.ContainsKey($prop.Name)) { $map[$prop.Name] = $prop.Value } }
+        foreach ($prop in $src.PSObject.Properties) {
+          if (-not $map.ContainsKey($prop.Name)) { $map[$prop.Name] = @($prop.Value); continue }
+          # 豁免表按 key 做数组并集：用户已有条目保留，出厂新增的 dsh 版本并入（0.2 升级需要）
+          $values = @($map[$prop.Name])
+          foreach ($item in @($prop.Value)) { if ($values -notcontains $item) { $values += $item } }
+          $map[$prop.Name] = $values
+        }
       }
       Write-Utf8NoBom $compatLive ($map | ConvertTo-Json -Depth 8)
     }
@@ -219,11 +237,11 @@ switch ($Cmd) {
     $method = 'dsh-plugin-add-web'; $rc = 0
     if (-not (Test-Path $t)) { Write-Gap $p.npm $p.tier 'tarball 缺失' '—' '先跑 fetch'; $log += "$($p.name),GAP"; Add-Content -Encoding UTF8 $csv "$($p.name),$($p.npm),none,127,$(Get-Date -Format s)"; continue }
     if ($p.npm -eq '@deepseek-ai/dsh') {
-      # 016 §2 重锁：引擎只从离线 tarball 安装（禁 registry 降级）；装后断言 ≥0.1.2
+      # 016 §2 重锁（0.2 升级）：引擎只从离线 tarball 安装（禁 registry 降级）；装后断言 0.2.0-rc.2 起的 0.2 线
       $method = 'npm-i-g-offline-tgz'
       & cmd /c ("npm i -g " + "`"$t`"") 2>&1 | Out-Null; $rc = $LASTEXITCODE
       if ($rc -eq 0) { $v = (& dsh --version 2>$null | Select-Object -First 1)
-        $ok = ($v -match '^\d') -and ([version](([regex]::Match($v,'^\d+\.\d+\.\d+').Value))) -ge [version]'0.1.2'
+        $ok = ($v -match '^0\.2\.') -and ($v -notmatch '^0\.2\.0-rc\.(0|1)$')
         if (-not $ok) { $rc = 9 } }
     } else {
       Get-ChildItem $profileWeb -Filter 'package.json.lock' -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue

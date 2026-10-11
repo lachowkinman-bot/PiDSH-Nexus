@@ -14,7 +14,7 @@ const ROOT = process.cwd();
 const BUNDLES_FILE = path.join(ROOT, 'manifests/runtime-bundles.json');
 const OUT_FILE = path.join(ROOT, 'manifests/runtime-web.package.json');
 const PROFILE_PKG = path.join(ROOT, '.dsh-home/profiles/web/package.json');
-const DSH_VERSION = '0.1.7-rc.2';
+const DSH_VERSION = '0.2.0-rc.2';
 const BUILTIN = ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-web-app', '@workbench/client-ui'];
 // 同类插件对（首项为旧/被替换者）：去重时按版本较高者保留
 const DUPLICATE_PAIRS = [

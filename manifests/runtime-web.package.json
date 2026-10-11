@@ -4,7 +4,7 @@
   "version": "3.0.0",
   "type": "module",
   "dependencies": {
-    "@deepseek-ai/dsh": "0.1.7-rc.2",
+    "@deepseek-ai/dsh": "0.2.0-rc.2",
     "@workbench/client-ui": "file:../../workbench-ui-plugin",
     "dsh-excel-panel": "file:../../offline/npm/dsh-excel-panel-0.6.1.tgz",
     "dsh-docs-panel": "file:../../offline/npm/dsh-docs-panel-0.1.0.tgz",
@@ -69,8 +69,8 @@
     "dsh-plugin": "file:../../offline/npm/dsh-plugin-1.4.8.tgz"
   },
   "overrides": {
-    "@deepseek-ai/dsh-attachment": "0.1.7-rc.2",
-    "@deepseek-ai/dsh-sdk-protocol": "0.1.7-rc.2"
+    "@deepseek-ai/dsh-attachment": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-sdk-protocol": "0.2.0-rc.2"
   },
   "dsh": {
     "profile": {
@@ -94,7 +94,6 @@
         "@openviking/dsh-memory-plugin",
         "@vectorize-io/hindsight-coding-agents",
         "@wxg-prc-cpg/dsh-weknora",
-        "dsh-artifacts",
         "dsh-background-agents",
         "dsh-bridge",
         "dsh-browser",
@@ -123,10 +122,8 @@
         "dsh-ppt",
         "dsh-pr-board",
         "dsh-pocket",
-        "dsh-sentry",
         "dsh-smooth-stream",
         "dsh-skill-picker",
-        "dsh-sonarqube",
         "dsh-translate",
         "dsh-univer-office",
         "billion-context",

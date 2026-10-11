@@ -1,19 +1,19 @@
 {
   "generatedFrom": ".dsh-home/profiles/web/package.json",
-  "generatedAt": "2026-09-30T03:41:58.916Z",
+  "generatedAt": "2026-10-02T00:00:00.000Z",
   "dedupeRule": "同名同类插件保留版本较新者；版本相同保留 scope 包",
   "total": 64,
-  "loaded": 59,
+  "loaded": 56,
   "entries": [
     {
       "name": "@deepseek-ai/dsh-base",
-      "version": "0.1.7-rc.2",
+      "version": "0.2.0-rc.2",
       "source": "builtin",
       "load": true
     },
     {
       "name": "@deepseek-ai/dsh-web-app",
-      "version": "0.1.7-rc.2",
+      "version": "0.2.0-rc.2",
       "source": "builtin",
       "load": true
     },
@@ -144,7 +144,8 @@
       "name": "dsh-artifacts",
       "version": "0.1.1",
       "source": "offline/catalog/dsh-artifacts-0.1.1.tgz",
-      "load": true
+      "load": false,
+      "droppedBecause": "0.2 升级适配：插件内 assertPeerCompatible 硬断言 @deepseek-ai/dsh-tools ^0.1.0-rc.6，在 0.2.0-rc.2 宿主上抛错拒绝激活；上游无更新版本（最新 0.1.1）。随包分发、默认不加载，待上游发布 0.2 兼容版后重评（reports/upgrade-0.2.0-rc.2/pluginload-report.json 为证据）。"
     },
     {
       "name": "dsh-background-agents",
@@ -332,7 +333,8 @@
       "name": "dsh-sentry",
       "version": "0.1.0",
       "source": "offline/catalog/dsh-sentry-0.1.0.tgz",
-      "load": true
+      "load": false,
+      "droppedBecause": "未配置 SENTRY_AUTH_TOKEN 时阻塞离线启动；需要时可显式启用"
     },
     {
       "name": "dsh-smooth-stream",
@@ -350,7 +352,8 @@
       "name": "dsh-sonarqube",
       "version": "0.1.0",
       "source": "offline/catalog/dsh-sonarqube-0.1.0.tgz",
-      "load": true
+      "load": false,
+      "droppedBecause": "未配置 SONARQUBE_URL 时阻塞离线启动；需要时可显式启用"
     },
     {
       "name": "dsh-translate",

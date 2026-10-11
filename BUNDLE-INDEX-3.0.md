@@ -8,8 +8,8 @@
 | 资产 | 说明 | 位置 |
 |---|---|---|
 | **workbench-ui-plugin** | 双面 dsh client-ui 插件（结构逐字镜像范本）：Node 半面（Scene 装载/apply/switch/save/engine-run/audit 路由）+ 浏览器半面（13 域工作台 + F2/F4/F5/F6/F10/F12/F13 面板 + preset 生命周期按钮） | workbench-ui-plugin/ |
-| **016 增补任务书** | 插件化交付锁定 + dsh 重锁 0.1.7-rc.2 + U15 v3.0 机械判据（壳内 panel 截图制） | 016-插件化交付增补-v3.0.md |
-| **dsh 0.1.7-rc.2 锁定 tarball** | 范本 engines 逐字要求；SHA256 5f2da727…6bff8 | offline-3.0/engines/ |
+| **016 增补任务书** | 插件化交付锁定 + dsh 升级锁 0.2.0-rc.2（2026-10-11；原 0.1.7-rc.2 见 ADR-0015）+ U15 v3.0 机械判据（壳内 panel 截图制） | 016-插件化交付增补-v3.0.md |
+| **dsh 0.2.0-rc.2 锁定 tarball** | 2026-10-11 升级；npm 官方 SHA256 bd27847c…f38859 | offline-3.0/engines/ |
 | **范本源码参考** | task-board 完整 package.json + cordis.patch.yml（完整 src 在 offline/catalog/*.tgz 内，解包即得） | exemplar-reference/ |
 
 ## 继承资产（与 v2.2 bundle 相同，见 BUNDLE-INDEX.md）
@@ -20,11 +20,11 @@ manifests（55 行清单 + 51 能力 + 14 Scene + 26 工作流 + benchmark 任�
 
 ```bash
 # 1. 引擎（离线）
-npm i -g offline-3.0/engines/deepseek-ai-dsh-0.1.7-rc.2.tgz
+npm i -g offline-3.0/engines/deepseek-ai-dsh-0.2.0-rc.2.tgz
 # 2. 工作台插件
 dsh plugin --profile web add <universal-workbench-3.0 绝对路径>/workbench-ui-plugin
 # 3. 启动 + 壳内出现"⟡ 工作台"
-npx -y --package @deepseek-ai/dsh@0.1.7-rc.2 dsh web     # 127.0.0.1:3080
+npx -y --package @deepseek-ai/dsh@0.2.0-rc.2 dsh web     # 127.0.0.1:3080
 # 4. U15 证据：壳内截图 ≥13+12 张 + preset 四操作审计事件 + saved 产物
 ```
 

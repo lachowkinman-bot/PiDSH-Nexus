@@ -1,5 +1,72 @@
 {
+  "@changfenhuang/dsh-genui@0.11.1": [
+    "0.2.0-rc.2"
+  ],
+  "@nanmicoder/dsh-agent-teams@0.1.21": [
+    "0.2.0-rc.2"
+  ],
   "@shaoshi/dshscan@0.5.0": [
-    "0.1.7-rc.2"
+    "0.1.7-rc.2",
+    "0.2.0-rc.2"
+  ],
+  "@steven-wu/dsh-cost-meter@0.1.0-rc.3": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-artifacts@0.1.1": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-better-sidebar@0.21.1": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-builtin-browser@0.1.22": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-config-manager@0.1.64": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-cost-meter@1.7.39": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-excel-chat@0.38.0": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-find-plugin@0.4.0": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-genui@0.2.1": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-github-intelligence@2.9.0": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-im@1.0.5": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-mcp-lens@0.1.0-rc.9": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-mnemon@0.5.16": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-notifier@0.13.1": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-paperclip@0.2.5": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-sentry@0.1.0": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-skill-picker@0.5.11": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-sonarqube@0.1.0": [
+    "0.2.0-rc.2"
+  ],
+  "dsh-univer-office@0.3.5": [
+    "0.2.0-rc.2"
+  ],
+  "pi2dsh@0.25.2": [
+    "0.2.0-rc.2"
   ]
 }

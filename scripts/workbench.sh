@@ -96,12 +96,14 @@ install)
       T="$ROOT/$OUT/npm/$tar"   # 绝对路径：相对路径会被 pnpm 解析到 profiles/web/ 下 → ENOENT（3.0 实测根因）
       if [ ! -s "$T" ]; then write_gap "$npm" "$tier" "tarball 缺失" "—" "先跑 fetch"; echo "$name,$npm,none,127,$(date -Iseconds)" >> "$REPORTS/install-log.csv"; continue; fi
       if [ "$npm" = "@deepseek-ai/dsh" ]; then
-        # 016 §2 重锁：引擎只从离线 tarball 安装（禁 registry 按 resolved_version 降级）；装后断言 ≥0.1.2
+        # 016 §2 重锁（0.2 升级）：引擎只从离线 tarball 安装（禁 registry 按 resolved_version 降级）；装后断言 0.2 线
         npm i -g "$T" >/dev/null 2>&1; RC=$?
         if [ $RC -eq 0 ]; then
           V="$(dsh --version 2>/dev/null | head -1 | tr -d '\r')"
-          LOWEST="$(printf '%s\n' "0.1.2" "$V" | sort -V 2>/dev/null | head -1)"
-          { [ "$LOWEST" = "0.1.2" ] && [ -n "$V" ]; } || RC=9
+          RC=9
+          case "$V" in
+            0.2.*) if [ "$V" != "0.2.0-rc.0" ] && [ "$V" != "0.2.0-rc.1" ]; then RC=0; fi ;;
+          esac
         fi
         METHOD="npm-i-g-offline-tgz"
       else

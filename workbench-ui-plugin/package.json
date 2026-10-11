@@ -9,7 +9,7 @@
     "./client": "./lib/client-v4.js"
   },
   "dsh": {
-    "engines": { "dsh": ">=0.1.7-rc.2" },
+    "engines": { "dsh": ">=0.1.7-rc.2 <0.3.0-0" },
     "bundle": { "patch": "./cordis.patch.yml" },
     "client": {
       "inject": [
@@ -25,7 +25,7 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh": ">=0.1.7-rc.2",
+    "@deepseek-ai/dsh": ">=0.1.7-rc.2 <0.3.0-0",
     "react": "^18.2.0"
   },
   "files": ["lib/**/*.js", "lib/**/*.cjs", "lib/**/*.mjs", "cordis.patch.yml", "README.md"],
