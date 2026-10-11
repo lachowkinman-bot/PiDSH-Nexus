@@ -37,6 +37,15 @@
 
 > 4.0 目录承载本轮全部证据与 ADR-0017；本仓库为源码面回填（脚本/清单/模板/文档），运行数据（`.dsh-home/`、`offline*/`、`installer-output/`）依 `.gitignore` 不入库。
 
+### 安装态复验（本机就地升级，2026-10-11）
+
+- 安装器重建（新 exe `06B17DF8…`）→ 静默就地安装 → `{app}\.dsh-home` 刷新到 build `507f1c22` → 以 profile 内引擎按应用真实契约启动 → **安装态 UI 旅程 10/10**（两条真实模型旅程、产物链接各 9、1100×700、控制台无页面错误）；插件加载禁用/失败/挂起全为 0。
+- 安装态修复（本轮验收发现，均已入包与入本仓库）：
+  1. `tools/` 必须随包（缺 `tools/model-adapter/cli.mjs` 时引擎运行器缺失 → `MODEL_UNAVAILABLE`）；
+  2. `config/model-provider.example.json` 随包（用户级 `config/model-provider.json` 由用户自建，密钥仅引用环境变量）；
+  3. Tauri `node_and_dsh` 与 `scripts/launch.ps1` 一律优先使用 profile 内引擎，避免机器上残留的旧全局引擎（0.1.7）引导新 profile（实测 61 个插件 pending、启动失败）；
+  4. 运行新编译安装器须使用**唯一文件名**：同路径首跑可能执行上一枚旧二进制（实测 tools/ 未落盘，改名后 187 条落地记录）。
+
 ## 4. 源码复现（Windows，发布时实测）
 
 ```powershell
