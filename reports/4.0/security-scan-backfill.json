@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0",
+  "gate": "security-scan",
+  "root": "F:\\Pi_DSH_workplace\\universal-workbench-3.0",
+  "scannedFiles": 301,
+  "findings": [],
+  "secretFindings": 0,
+  "piiFindings": 0,
+  "ok": true,
+  "finishedAt": "2026-10-11T09:00:54.255Z"
+}
