@@ -5,7 +5,7 @@
 - 引擎 0.2.0-rc.2（npm 官方 tarball）；runtime build-id `507f1c223c9adbb54f0127f4eec0783f955af2356cd1b14ed3560c6ab4e9ba62`；安装器 `UniversalWorkbench-Setup.exe`（594,280,122 B，sha256 `09AFF1CD…F5659`；旧版保留为 `…-0.1.7-prev.exe`）。
 - 门禁：4.0-verify ok=true；UI v4 10/10（QA 与安装态各一轮，两条真实模型旅程）；壳 strict 102/102；capabilities FAIL=0；H6/H7 通过；cohort 扫描仅 1 条带因白名单；回滚演练（0.1.7 profile 自带引擎）通过。
 - 装机态四处修复已入包：tools/、config 示例、profile 内引擎优先、唯一文件名运行新安装器（详见 `reports/upgrade-0.2.0-rc.2/` 与 `docs/adr/ADR-0017…`）。
-- 已推送 GitHub（PiDSH-Nexus）：master / release-preview / tag `v0.2.0-preview`（3.0 仓库提交 `1339110`，源文件 backlog 见该仓库 `docs/RELEASE-PREVIEW-0.2.0.md`）。
+- 已推送 GitHub（PiDSH-Nexus）：master / release-preview / tag `v0.2.0-preview` / tag `v0.2.0-dev10`（2026-10-11 git 备份，快进至同一提交；发布说明见该仓库 `docs/RELEASE-PREVIEW-0.2.0.md`）。
 
 ## 已实测通过
 

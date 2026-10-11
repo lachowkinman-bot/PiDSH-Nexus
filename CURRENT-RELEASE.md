@@ -8,4 +8,4 @@
 - Status: 本机 QA + 安装态全绿候选（唯一例外：已证实的第三方槽位崩溃，见证据 README）；preview/stable 标记待 Windows 10/11 clean VM（H10）。
 - Verified（本机）: 4.0-verify ok；UI v4 **34/34**（开发壳）/ **33/34**（安装态，唯一失败为第三方 `conversation.input.left` React #130）；shell strict **107/107**；APP_VERIFY **45/45**（安装态）；目录 v2/包 v2/状态/双包/向导/工作台模式旅程全绿；静默安装 `exit=0`（`/LOG` 固化）。
 - Not run: Windows 10/11 clean VM 完整矩阵（H10）；目标机 development-rebuild 复验；独立驾驶舱"应用内新窗口"的真人点击确认（Rust 已接管 + 同窗口兜底，见证据 README）。
-- Evidence: `reports/workbench-market-dev10/`（安装态 UI/自检/壳严格/Inno 日志 + 未跑项登记）、`reports/workbench-runtime-dev9/`（运行时层）、`docs/adr/ADR-0018-integration-layer-and-custom-workbench.md`；GitHub 推送点仍为 3.0 仓库 master / release-preview / tag `v0.2.0-preview`（提交 `1339110`，本轮未提交/未推送）。
+- Evidence: `reports/workbench-market-dev10/`（安装态 UI/自检/壳严格/Inno 日志 + 未跑项登记）、`reports/workbench-runtime-dev9/`（运行时层）、`docs/adr/ADR-0018-integration-layer-and-custom-workbench.md`；GitHub 推送点：3.0 仓库 master / release-preview / tag `v0.2.0-preview` / tag `v0.2.0-dev10`（2026-10-11 git 备份，同一提交）；GitHub Pre-release「PiDSH Nexus 0.2.0 · Release Preview」发布说明源 = `docs/RELEASE-PREVIEW-0.2.0.md`（含 dev8→dev10 第 7 节增量）。
