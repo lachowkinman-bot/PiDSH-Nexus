@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "mkt-on",
  "label": "营销（线上）MKT-ON",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "mkt-on.content-publish@1.0.0"
  ],
@@ -15,7 +17,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.580Z",
+ "generated_at": "2026-10-11T06:01:43.173Z",
  "sources": {
   "scenes": [
    "manifests/scenes/mkt-on.content-publish.yaml"

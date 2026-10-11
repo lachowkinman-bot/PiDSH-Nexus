@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "strat",
  "label": "战略 STRAT",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "strat.quarterly-review@1.0.0"
  ],
@@ -15,7 +17,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.597Z",
+ "generated_at": "2026-10-11T06:01:43.181Z",
  "sources": {
   "scenes": [
    "manifests/scenes/strat.quarterly-review.yaml"

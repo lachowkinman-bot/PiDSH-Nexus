@@ -180,7 +180,10 @@ function build() {
 
     models.push({
       $schema: 'domain-model/v1',
-      domain: dom, label: LABELS[dom] || dom,
+      domain: dom,
+      label: primary.label || LABELS[dom] || primary.domain || dom,
+      color: primary.color || null,
+      origin: primary.origin || (LABELS[dom] ? 'builtin' : 'custom'),
       scene_ids: myScenes.map((s) => s.scene.scene_id),
       level: (pol.permission && pol.permission.min_level) || null,
       dual_approval: !!(pol.permission && pol.permission.dual_approval),

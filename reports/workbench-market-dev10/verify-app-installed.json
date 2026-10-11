@@ -1,0 +1,1964 @@
+{
+ "at": "2026-10-11T08:46:50.321Z",
+ "base": "http://127.0.0.1:3080",
+ "total": 45,
+ "pass": 45,
+ "results": [
+  {
+   "area": "端点",
+   "item": "壳进程",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "场景端点",
+   "pass": 14,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "域端点",
+   "pass": {
+    "strat": [
+     "OKR 目标填写表单",
+     "季度 KR 追踪看板",
+     "竞品动态卡"
+    ],
+    "mkt-on": [
+     "内容日历看板",
+     "投放 ROI 卡",
+     "线索漏斗图（PII 脱敏列）"
+    ],
+    "mkt-off": [
+     "活动台账表",
+     "物料合规审查工作流卡片",
+     "经销商条款摘要卡"
+    ],
+    "sales": [
+     "CRM 管道看板",
+     "报价审批 DAG 视图",
+     "赢单复盘卡"
+    ],
+    "fin": [
+     "报销单表单（可提交）",
+     "预算执行图",
+     "月报分级出数开关"
+    ],
+    "rec": [
+     "候选人看板（脱敏列）",
+     "面试安排表",
+     "简历外发审批入口"
+    ],
+    "trn": [
+     "课程目录",
+     "学时统计图",
+     "证书到期拦截提醒卡"
+    ],
+    "prf": [
+     "OKR/KPI 填写表单",
+     "校准分布图（双审批入口）",
+     "目标分解树"
+    ],
+    "comp": [
+     "薪酬带宽偏离图（区间口径）",
+     "调薪双审批队列",
+     "redact_gate 状态条"
+    ],
+    "ben": [
+     "福利方案比选矩阵",
+     "体检脱敏聚合卡",
+     "弹性积分计算器"
+    ],
+    "admin": [
+     "采购比价表",
+     "资产台账",
+     "用印申请表（强制 HITL 按钮）"
+    ],
+    "cmp": [
+     "制度审查 checklist",
+     "PIPIA 清单",
+     "证据链五级视图"
+    ],
+    "er-eap": [
+     "离职流程步骤条",
+     "EAP 转介表单（匿名化+双审批+禁网指示）"
+    ],
+    "F7-offline": [
+     "离线模式指示页（公网禁用状态）"
+    ],
+    "F8-upgrade": [
+     "升级与回退入口（tools-versions 视图+回退按钮）"
+    ],
+    "F11-selfcheck": [
+     "安装自检报告页（哈希/版本/十要素骨架）"
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "当前 preset",
+   "pass": {
+    "current": "admin.procurement@1.0.0",
+    "applied_at": "2026-09-29T07:20:57.156Z"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "审计端点",
+   "pass": {
+    "stats": {
+     "plugin.apply": 11,
+     "tool.register": 45,
+     "identity.operator.upsert": 24,
+     "workflow.instance.start": 20,
+     "engine.run": 12,
+     "workflow.instance.submit_input": 20,
+     "deliverable.package.create": 12,
+     "workflow.instance.approve": 16,
+     "draft.create": 3,
+     "draft.verify": 3,
+     "draft.preview": 3,
+     "draft.consolidate": 3,
+     "draft.verify.heavy.start": 3,
+     "skill.register": 5,
+     "workbench.install": 2,
+     "data.import": 4,
+     "workbench.session.binding": 2
+    },
+    "tail": [
+     {
+      "ts": "2026-10-11T04:58:48.893Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T04:58:49.534Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T04:59:37.247Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T04:59:37.249Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T04:59:37.258Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T04:59:37.260Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T04:59:40.741Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3CT8J0-FCAB9C",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-045940524-WI-MV3CT8J0-FCAB9C"
+     },
+     {
+      "ts": "2026-10-11T04:59:40.743Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3CT8J0-FCAB9C",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T04:59:40.966Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "skill": "funnel-analysis",
+      "ok": false,
+      "err": "4.0 model adapter missing"
+     },
+     {
+      "ts": "2026-10-11T04:59:40.967Z",
+      "action": "engine.run",
+      "engine": "local",
+      "skill": "funnel-analysis",
+      "fallback": "offline"
+     },
+     {
+      "ts": "2026-10-11T04:59:40.972Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3CT8J0-FCAB9C",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "blocked_model",
+      "backup": "20261011-045940749-WI-MV3CT8J0-FCAB9C"
+     },
+     {
+      "ts": "2026-10-11T04:59:40.974Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3CT8J0-FCAB9C",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "blocked_model"
+     },
+     {
+      "ts": "2026-10-11T05:02:08.351Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T05:02:08.990Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T05:02:56.872Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:02:56.874Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:02:56.883Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:02:56.885Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:03:00.336Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3CXIJ8-5147D7",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-050300116-WI-MV3CXIJ8-5147D7"
+     },
+     {
+      "ts": "2026-10-11T05:03:00.338Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3CXIJ8-5147D7",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T05:03:00.525Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "skill": "funnel-analysis",
+      "ok": false,
+      "err": "4.0 model adapter missing"
+     },
+     {
+      "ts": "2026-10-11T05:03:00.526Z",
+      "action": "engine.run",
+      "engine": "local",
+      "skill": "funnel-analysis",
+      "fallback": "offline"
+     },
+     {
+      "ts": "2026-10-11T05:03:00.531Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3CXIJ8-5147D7",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "blocked_model",
+      "backup": "20261011-050300343-WI-MV3CXIJ8-5147D7"
+     },
+     {
+      "ts": "2026-10-11T05:03:00.533Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3CXIJ8-5147D7",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "blocked_model"
+     },
+     {
+      "ts": "2026-10-11T05:04:32.018Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T05:04:32.684Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T05:05:44.110Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T05:05:44.736Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T05:08:11.506Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T05:08:12.104Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T05:08:52.958Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:08:52.961Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:08:52.976Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:08:52.978Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T05:08:56.415Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3D55BH-C90E92",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-050856237-WI-MV3D55BH-C90E92"
+     },
+     {
+      "ts": "2026-10-11T05:08:56.417Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3D55BH-C90E92",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T05:09:05.939Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 2229
+     },
+     {
+      "ts": "2026-10-11T05:09:06.357Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-050906065-3d58bce9",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-050906065-3d58bce9/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T05:09:06.382Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3D55BH-C90E92",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed",
+      "backup": "20261011-050856437-WI-MV3D55BH-C90E92"
+     },
+     {
+      "ts": "2026-10-11T05:09:06.384Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3D55BH-C90E92",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T05:09:07.167Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-050907004-WI-MV3D5DMK-0289EB"
+     },
+     {
+      "ts": "2026-10-11T05:09:07.169Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T05:09:15.506Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "offer-evaluation",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 1945
+     },
+     {
+      "ts": "2026-10-11T05:09:15.510Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-050907190-WI-MV3D5DMK-0289EB"
+     },
+     {
+      "ts": "2026-10-11T05:09:15.511Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T05:09:16.261Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-050916108-WI-MV3D5DMK-0289EB"
+     },
+     {
+      "ts": "2026-10-11T05:09:16.263Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T05:09:16.815Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-050916606-646ba6f5",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-050916606-646ba6f5/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T05:09:16.844Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed",
+      "backup": "20261011-050916457-WI-MV3D5DMK-0289EB"
+     },
+     {
+      "ts": "2026-10-11T05:09:16.846Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3D5DMK-0289EB",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T06:43:20.326Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T06:43:20.828Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T06:43:37.142Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20261011-064336995-d4c97d2c",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20261011-064336995-d4c97d2c/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T06:43:52.737Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T06:43:52.738Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T06:43:52.747Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T06:43:52.748Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T06:43:56.290Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3GJBE1-1FE9B9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-064356137-WI-MV3GJBE1-1FE9B9"
+     },
+     {
+      "ts": "2026-10-11T06:43:56.291Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3GJBE1-1FE9B9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T06:44:10.332Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 3074
+     },
+     {
+      "ts": "2026-10-11T06:44:12.133Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-064410341-8f0dd7ba",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-064410341-8f0dd7ba/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T06:44:12.159Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3GJBE1-1FE9B9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed",
+      "backup": "20261011-064356297-WI-MV3GJBE1-1FE9B9"
+     },
+     {
+      "ts": "2026-10-11T06:44:12.160Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3GJBE1-1FE9B9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T06:44:12.779Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-064412638-WI-MV3GJO4E-69FDE9"
+     },
+     {
+      "ts": "2026-10-11T06:44:12.780Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T06:44:22.227Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "offer-evaluation",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 1959
+     },
+     {
+      "ts": "2026-10-11T06:44:22.230Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-064412785-WI-MV3GJO4E-69FDE9"
+     },
+     {
+      "ts": "2026-10-11T06:44:22.231Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T06:44:22.905Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-064422775-WI-MV3GJO4E-69FDE9"
+     },
+     {
+      "ts": "2026-10-11T06:44:22.906Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T06:44:23.432Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-064423293-f2eeb303",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-064423293-f2eeb303/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T06:44:23.457Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed",
+      "backup": "20261011-064423158-WI-MV3GJO4E-69FDE9"
+     },
+     {
+      "ts": "2026-10-11T06:44:23.458Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3GJO4E-69FDE9",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T06:44:24.327Z",
+      "action": "draft.create",
+      "draft": "rev-rec-261011064424",
+      "kind": "revise",
+      "target": "rec"
+     },
+     {
+      "ts": "2026-10-11T06:44:27.052Z",
+      "action": "draft.verify",
+      "draft": "rev-rec-261011064424",
+      "ok": true,
+      "baseline": "pass",
+      "heavy": "not-run"
+     },
+     {
+      "ts": "2026-10-11T06:44:29.340Z",
+      "action": "draft.preview",
+      "draft": "rev-rec-261011064424",
+      "ok": true,
+      "bytes": 426888
+     },
+     {
+      "ts": "2026-10-11T06:44:29.758Z",
+      "action": "draft.consolidate",
+      "draft": "rev-rec-261011064424",
+      "ok": false,
+      "files": 0,
+      "baseline": null
+     },
+     {
+      "ts": "2026-10-11T06:44:30.035Z",
+      "action": "draft.verify.heavy.start",
+      "draft": "rev-rec-261011064424",
+      "pid": 39860
+     },
+     {
+      "ts": "2026-10-11T07:45:11.824Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T07:45:11.855Z",
+      "action": "skill.register",
+      "name": "workbench-designer",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:45:12.226Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:45:25.528Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20261011-074525402-ada65c47",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20261011-074525402-ada65c47/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:47:35.217Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T07:47:35.258Z",
+      "action": "skill.register",
+      "name": "workbench-designer",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:47:35.698Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:47:57.724Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20261011-074757588-ea15b248",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20261011-074757588-ea15b248/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:48:06.197Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:48:06.198Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:48:06.205Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:48:06.206Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:48:09.643Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3ITWOF-BC45C9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-074809519-WI-MV3ITWOF-BC45C9"
+     },
+     {
+      "ts": "2026-10-11T07:48:09.644Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3ITWOF-BC45C9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T07:48:22.041Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 3082
+     },
+     {
+      "ts": "2026-10-11T07:48:22.371Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-074822048-00839266",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-074822048-00839266/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:48:22.394Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3ITWOF-BC45C9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed",
+      "backup": "20261011-074809648-WI-MV3ITWOF-BC45C9"
+     },
+     {
+      "ts": "2026-10-11T07:48:22.395Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3ITWOF-BC45C9",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T07:48:23.034Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-074822908-WI-MV3IU70C-508E45"
+     },
+     {
+      "ts": "2026-10-11T07:48:23.034Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T07:48:31.865Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "offer-evaluation",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 1793
+     },
+     {
+      "ts": "2026-10-11T07:48:31.868Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-074823038-WI-MV3IU70C-508E45"
+     },
+     {
+      "ts": "2026-10-11T07:48:31.869Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T07:48:32.211Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-074832093-WI-MV3IU70C-508E45"
+     },
+     {
+      "ts": "2026-10-11T07:48:32.212Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T07:48:32.709Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-074832586-3110f5ec",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-074832586-3110f5ec/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:48:32.730Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed",
+      "backup": "20261011-074832462-WI-MV3IU70C-508E45"
+     },
+     {
+      "ts": "2026-10-11T07:48:32.731Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3IU70C-508E45",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T07:48:33.296Z",
+      "action": "draft.create",
+      "draft": "rev-rec-261011074833",
+      "kind": "revise",
+      "target": "rec"
+     },
+     {
+      "ts": "2026-10-11T07:48:35.218Z",
+      "action": "draft.verify",
+      "draft": "rev-rec-261011074833",
+      "ok": true,
+      "baseline": "pass",
+      "heavy": "not-run"
+     },
+     {
+      "ts": "2026-10-11T07:48:37.080Z",
+      "action": "draft.preview",
+      "draft": "rev-rec-261011074833",
+      "ok": true,
+      "bytes": 434642
+     },
+     {
+      "ts": "2026-10-11T07:48:37.477Z",
+      "action": "draft.consolidate",
+      "draft": "rev-rec-261011074833",
+      "ok": false,
+      "files": 0,
+      "baseline": null
+     },
+     {
+      "ts": "2026-10-11T07:48:37.769Z",
+      "action": "draft.verify.heavy.start",
+      "draft": "rev-rec-261011074833",
+      "pid": 44808
+     },
+     {
+      "ts": "2026-10-11T07:48:39.269Z",
+      "action": "workbench.install",
+      "id": "cust-learning",
+      "kind": "new-domain"
+     },
+     {
+      "ts": "2026-10-11T07:48:40.465Z",
+      "action": "data.import",
+      "domain": "cust-learning",
+      "table": "enrollments.csv",
+      "rows": 1,
+      "mode": "strict",
+      "backup": "20261011T074840-import-cust-learning-enrollments"
+     },
+     {
+      "ts": "2026-10-11T07:48:40.466Z",
+      "action": "data.import",
+      "domain": "cust-learning",
+      "table": "enrollments",
+      "rows": 1,
+      "mode": "strict"
+     },
+     {
+      "ts": "2026-10-11T07:57:45.664Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T07:57:45.725Z",
+      "action": "skill.register",
+      "name": "workbench-designer",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.274Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.276Z",
+      "action": "tool.register",
+      "name": "workbench_catalog",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.277Z",
+      "action": "tool.register",
+      "name": "workbench_draft_create",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.278Z",
+      "action": "tool.register",
+      "name": "workbench_draft_list",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.279Z",
+      "action": "tool.register",
+      "name": "workbench_draft_verify",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.280Z",
+      "action": "tool.register",
+      "name": "workbench_draft_preview",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.281Z",
+      "action": "tool.register",
+      "name": "workbench_draft_export",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.282Z",
+      "action": "tool.register",
+      "name": "workbench_verify_heavy",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.283Z",
+      "action": "tool.register",
+      "name": "workbench_install",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.284Z",
+      "action": "tool.register",
+      "name": "workbench_uninstall",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.286Z",
+      "action": "tool.register",
+      "name": "workbench_data_import",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:57:46.287Z",
+      "action": "tool.register",
+      "name": "workbench_datasources",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T07:58:20.633Z",
+      "action": "deliverable.package.create",
+      "domain": "fin",
+      "run_id": "20261011-075820298-e2dd95dc",
+      "formats": [
+       "md",
+       "pdf"
+      ],
+      "manifest": "deliverables/fin/20261011-075820298-e2dd95dc/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:58:30.383Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:58:30.384Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-BIZ",
+      "roles": [
+       "用人经理",
+       "业务负责人",
+       "部门负责人"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:58:30.396Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:58:30.397Z",
+      "action": "identity.operator.upsert",
+      "operator_id": "QA-RISK",
+      "roles": [
+       "风险负责人",
+       "HRD"
+      ],
+      "status": "active"
+     },
+     {
+      "ts": "2026-10-11T07:58:34.398Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3J7AGF-B07D7B",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-075833903-WI-MV3J7AGF-B07D7B"
+     },
+     {
+      "ts": "2026-10-11T07:58:34.403Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3J7AGF-B07D7B",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T07:58:46.424Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "funnel-analysis",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 2518
+     },
+     {
+      "ts": "2026-10-11T07:58:46.716Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-075846438-a808791e",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-075846438-a808791e/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:58:46.756Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3J7AGF-B07D7B",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed",
+      "backup": "20261011-075834489-WI-MV3J7AGF-B07D7B"
+     },
+     {
+      "ts": "2026-10-11T07:58:46.758Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3J7AGF-B07D7B",
+      "workflow_id": "rec.funnel-weekly@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T07:58:47.455Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec",
+      "backup": "20261011-075847265-WI-MV3J7KRK-F62105"
+     },
+     {
+      "ts": "2026-10-11T07:58:47.456Z",
+      "action": "workflow.instance.start",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "domain": "rec"
+     },
+     {
+      "ts": "2026-10-11T07:58:54.297Z",
+      "action": "engine.run",
+      "engine": "adapter",
+      "provider": "openai-compatible",
+      "skill": "offer-evaluation",
+      "ok": true,
+      "model": "deepseek-flash",
+      "tokens": 1449
+     },
+     {
+      "ts": "2026-10-11T07:58:54.304Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-075847464-WI-MV3J7KRK-F62105"
+     },
+     {
+      "ts": "2026-10-11T07:58:54.309Z",
+      "action": "workflow.instance.submit_input",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T07:58:55.428Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval",
+      "backup": "20261011-075855105-WI-MV3J7KRK-F62105"
+     },
+     {
+      "ts": "2026-10-11T07:58:55.432Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "awaiting_approval"
+     },
+     {
+      "ts": "2026-10-11T07:58:57.084Z",
+      "action": "deliverable.package.create",
+      "domain": "rec",
+      "run_id": "20261011-075856867-78d7cbd7",
+      "formats": [
+       "md",
+       "csv",
+       "html",
+       "xlsx",
+       "docx",
+       "pptx",
+       "pdf"
+      ],
+      "manifest": "deliverables/rec/20261011-075856867-78d7cbd7/manifest.json"
+     },
+     {
+      "ts": "2026-10-11T07:58:57.130Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed",
+      "backup": "20261011-075856503-WI-MV3J7KRK-F62105"
+     },
+     {
+      "ts": "2026-10-11T07:58:57.131Z",
+      "action": "workflow.instance.approve",
+      "instance_id": "WI-MV3J7KRK-F62105",
+      "workflow_id": "rec.offer-approve@1.0.0",
+      "status": "completed"
+     },
+     {
+      "ts": "2026-10-11T07:58:58.069Z",
+      "action": "draft.create",
+      "draft": "rev-rec-261011075858",
+      "kind": "revise",
+      "target": "rec"
+     },
+     {
+      "ts": "2026-10-11T07:59:01.661Z",
+      "action": "draft.verify",
+      "draft": "rev-rec-261011075858",
+      "ok": true,
+      "baseline": "pass",
+      "heavy": "not-run"
+     },
+     {
+      "ts": "2026-10-11T07:59:06.450Z",
+      "action": "draft.preview",
+      "draft": "rev-rec-261011075858",
+      "ok": true,
+      "bytes": 434642
+     },
+     {
+      "ts": "2026-10-11T07:59:07.584Z",
+      "action": "draft.consolidate",
+      "draft": "rev-rec-261011075858",
+      "ok": false,
+      "files": 0,
+      "baseline": null
+     },
+     {
+      "ts": "2026-10-11T07:59:09.024Z",
+      "action": "draft.verify.heavy.start",
+      "draft": "rev-rec-261011075858",
+      "pid": 43068
+     },
+     {
+      "ts": "2026-10-11T07:59:12.245Z",
+      "action": "workbench.install",
+      "id": "cust-learning",
+      "kind": "new-domain"
+     },
+     {
+      "ts": "2026-10-11T07:59:14.202Z",
+      "action": "data.import",
+      "domain": "cust-learning",
+      "table": "enrollments.csv",
+      "rows": 1,
+      "mode": "strict",
+      "backup": "20261011T075914-import-cust-learning-enrollments"
+     },
+     {
+      "ts": "2026-10-11T07:59:14.204Z",
+      "action": "data.import",
+      "domain": "cust-learning",
+      "table": "enrollments",
+      "rows": 1,
+      "mode": "strict"
+     },
+     {
+      "ts": "2026-10-11T08:45:03.963Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T08:45:04.000Z",
+      "action": "skill.register",
+      "name": "workbench-designer",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.433Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.434Z",
+      "action": "tool.register",
+      "name": "workbench_catalog",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.435Z",
+      "action": "tool.register",
+      "name": "workbench_draft_create",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.436Z",
+      "action": "tool.register",
+      "name": "workbench_draft_list",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.437Z",
+      "action": "tool.register",
+      "name": "workbench_draft_verify",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.438Z",
+      "action": "tool.register",
+      "name": "workbench_draft_preview",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.439Z",
+      "action": "tool.register",
+      "name": "workbench_draft_export",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.440Z",
+      "action": "tool.register",
+      "name": "workbench_verify_heavy",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.441Z",
+      "action": "tool.register",
+      "name": "workbench_install",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.441Z",
+      "action": "tool.register",
+      "name": "workbench_uninstall",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.442Z",
+      "action": "tool.register",
+      "name": "workbench_data_import",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:45:04.443Z",
+      "action": "tool.register",
+      "name": "workbench_datasources",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:31.703Z",
+      "action": "plugin.apply",
+      "ok": true,
+      "disposers": 0,
+      "mode": "service-deferred"
+     },
+     {
+      "ts": "2026-10-11T08:46:32.591Z",
+      "action": "tool.register",
+      "name": "workbench_deliver",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.592Z",
+      "action": "tool.register",
+      "name": "workbench_catalog",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.593Z",
+      "action": "tool.register",
+      "name": "workbench_draft_create",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.594Z",
+      "action": "tool.register",
+      "name": "workbench_draft_list",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.594Z",
+      "action": "tool.register",
+      "name": "workbench_draft_verify",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.595Z",
+      "action": "tool.register",
+      "name": "workbench_draft_preview",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.596Z",
+      "action": "tool.register",
+      "name": "workbench_draft_export",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.597Z",
+      "action": "tool.register",
+      "name": "workbench_verify_heavy",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.597Z",
+      "action": "tool.register",
+      "name": "workbench_install",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.598Z",
+      "action": "tool.register",
+      "name": "workbench_uninstall",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.599Z",
+      "action": "tool.register",
+      "name": "workbench_data_import",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.599Z",
+      "action": "tool.register",
+      "name": "workbench_datasources",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.600Z",
+      "action": "tool.register",
+      "name": "workbench_market",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:32.601Z",
+      "action": "skill.register",
+      "name": "workbench-designer",
+      "ok": true
+     },
+     {
+      "ts": "2026-10-11T08:46:47.042Z",
+      "action": "workbench.session.binding",
+      "workbench": "pids:cust-learning",
+      "session": null
+     },
+     {
+      "ts": "2026-10-11T08:46:48.257Z",
+      "action": "workbench.session.binding",
+      "workbench": null,
+      "session": null
+     }
+    ]
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "交付物端点",
+   "pass": {
+    "fin": [],
+    "rec": []
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工作流库",
+   "pass": true,
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "按钮清零表",
+   "pass": [
+    {
+     "id": "preset-apply",
+     "label": "选/用（apply）",
+     "route": "POST /workbench/api/apply",
+     "audit": "preset.apply"
+    },
+    {
+     "id": "preset-save",
+     "label": "存（save）",
+     "route": "POST /workbench/api/save",
+     "audit": "preset.save"
+    },
+    {
+     "id": "preset-switch",
+     "label": "切（switch）",
+     "route": "POST /workbench/api/switch",
+     "audit": "preset.switch"
+    },
+    {
+     "id": "preset-new",
+     "label": "新建（派生 Scene）",
+     "route": "POST /workbench/api/preset-new",
+     "audit": "preset.new"
+    },
+    {
+     "id": "preset-edit",
+     "label": "编辑当前 preset",
+     "route": "POST /workbench/api/preset-edit",
+     "audit": "preset.edit"
+    },
+    {
+     "id": "gt-engine",
+     "label": "跑一次 GT（经引擎）",
+     "route": "POST /workbench/api/engine-run",
+     "audit": "engine.run"
+    },
+    {
+     "id": "wf-run",
+     "label": "工作流·发起",
+     "route": "POST /workbench/api/workflow-run",
+     "audit": "workflow.run + deliverable.create"
+    },
+    {
+     "id": "domain-submit",
+     "label": "域表单·提交",
+     "route": "POST /workbench/api/submit",
+     "audit": "deliverable.create"
+    },
+    {
+     "id": "f7-check",
+     "label": "F7 网络自检",
+     "route": "GET /workbench/api/scenes",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-tools",
+     "label": "F8 查看 tools-versions",
+     "route": "GET /workbench/api/tools-versions",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "f8-rollback",
+     "label": "F8 回退演练（dry-run）",
+     "route": "POST /workbench/api/rollback-dryrun",
+     "audit": "rollback.dryrun"
+    },
+    {
+     "id": "f11-report",
+     "label": "F11 自检报告",
+     "route": "GET /workbench/api/audit",
+     "audit": "（读操作）"
+    },
+    {
+     "id": "delivery-all",
+     "label": "生成全部交付格式",
+     "route": "POST /workbench/api/deliver",
+     "audit": "deliverable.package.create"
+    },
+    {
+     "id": "delivery-format",
+     "label": "生成单格式交付物",
+     "route": "POST /workbench/api/deliver",
+     "audit": "deliverable.package.create"
+    }
+   ],
+   "note": "http=200"
+  },
+  {
+   "area": "端点",
+   "item": "工具版本",
+   "pass": {
+    "content": "(missing)"
+   },
+   "note": "http=200"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "strat 表/行",
+   "pass": true,
+   "note": "tables=2 rows=30"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-on 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "mkt-off 表/行",
+   "pass": true,
+   "note": "tables=3 rows=42"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "sales 表/行",
+   "pass": true,
+   "note": "tables=3 rows=47"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=4"
+  },
+  {
+   "area": "域数据",
+   "item": "fin 表/行",
+   "pass": true,
+   "note": "tables=4 rows=75"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "rec 表/行",
+   "pass": true,
+   "note": "tables=3 rows=50"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "trn 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "prf 表/行",
+   "pass": true,
+   "note": "tables=2 rows=32"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "comp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=28"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 数据资产",
+   "pass": true,
+   "note": "http=200 tables=3"
+  },
+  {
+   "area": "域数据",
+   "item": "ben 表/行",
+   "pass": true,
+   "note": "tables=3 rows=44"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "admin 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "cmp 表/行",
+   "pass": true,
+   "note": "tables=2 rows=34"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 数据资产",
+   "pass": true,
+   "note": "http=200 tables=2"
+  },
+  {
+   "area": "域数据",
+   "item": "er-eap 表/行",
+   "pass": true,
+   "note": "tables=2 rows=29"
+  },
+  {
+   "area": "action",
+   "item": "buttons 清零表条目数",
+   "pass": true,
+   "note": "count=14"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景→技能→工作流一致性",
+   "pass": true,
+   "note": "LINT PASS gt_entries=42 gt_unique=39 domains=12 violations=0"
+  },
+  {
+   "area": "勾稽",
+   "item": "场景引用工作流均存在",
+   "pass": true,
+   "note": "workflows=78"
+  },
+  {
+   "area": "勾稽",
+   "item": "数据字典↔落地表一致性",
+   "pass": true,
+   "note": "CHECK_DONE tables=46 issues=0 → reports/data-consistency.csv"
+  },
+  {
+   "area": "勾稽",
+   "item": "交付物↔审计(deliverable create)",
+   "pass": true,
+   "note": "deliverables=1363 audit_create=29"
+  },
+  {
+   "area": "勾稽",
+   "item": "引擎调用可追溯(tokens/stop)",
+   "pass": true,
+   "note": "engine.run=137 deterministic_mode=true（聊天通道由 delivery-ui/chat 验收单独取证）"
+  },
+  {
+   "area": "交付",
+   "item": "驾驶舱交付中心入口",
+   "pass": true,
+   "note": "http=200 bytes=332047"
+  },
+  {
+   "area": "交付",
+   "item": "HTTP 生成 md+pdf",
+   "pass": true,
+   "note": "http=200 run=20261011-084650141-8abe895b"
+  },
+  {
+   "area": "交付",
+   "item": "PDF 下载",
+   "pass": true,
+   "note": "http=200 bytes=84170"
+  },
+  {
+   "area": "交付",
+   "item": "交付包列表",
+   "pass": true,
+   "note": "http=200 count=8"
+  }
+ ]
+}

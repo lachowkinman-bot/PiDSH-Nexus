@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "mkt-off",
  "label": "营销（线下）MKT-OFF",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "mkt-off.event-roi@1.0.0"
  ],
@@ -14,7 +16,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.577Z",
+ "generated_at": "2026-10-11T06:01:43.171Z",
  "sources": {
   "scenes": [
    "manifests/scenes/mkt-off.event-roi.yaml"

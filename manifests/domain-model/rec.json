@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "rec",
  "label": "招聘 REC",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "rec.funnel-weekly@1.0.0"
  ],
@@ -15,7 +17,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.590Z",
+ "generated_at": "2026-10-11T06:01:43.177Z",
  "sources": {
   "scenes": [
    "manifests/scenes/rec.funnel-weekly.yaml"

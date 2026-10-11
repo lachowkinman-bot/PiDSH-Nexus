@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0",
+  "providers": [
+    "openai-compatible",
+    "dsh-native",
+    "offline"
+  ],
+  "requiredFields": [
+    "provider",
+    "model",
+    "protocol"
+  ],
+  "credentialRule": {
+    "mode": "environment-variable",
+    "field": "apiKeyEnv",
+    "forbidden": [
+      "apiKey",
+      "token",
+      "password",
+      "secret"
+    ]
+  },
+  "capabilities": {
+    "L0": {
+      "name": "text-generation",
+      "requiredEvidence": [
+        "non-empty output"
+      ]
+    },
+    "L1": {
+      "name": "usage-and-model-identity",
+      "requiredEvidence": [
+        "reported model",
+        "usage counter greater than zero"
+      ]
+    },
+    "L2": {
+      "name": "tools-and-controlled-file-io",
+      "requiredEvidence": [
+        "tool call or verifiable DSH tool execution",
+        "file writer remains inside approved workspace"
+      ]
+    }
+  },
+  "featurePolicy": {
+    "offlineBaseline": [],
+    "readOnlyModelWorkflow": [
+      "L0",
+      "L1"
+    ],
+    "writeOrActWorkflow": [
+      "L2"
+    ]
+  }
+}

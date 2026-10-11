@@ -1,0 +1,15 @@
+{
+  "name": "revise-rec-add-table",
+  "note": "正例①：rec 域新增一张台账表（requisitions.csv），并同步 Type-Dict 字段行；快检基线必须全绿。",
+  "draft": {
+    "kind": "revise",
+    "targetDomain": "rec",
+    "title": "招聘域新增岗位需求台账",
+    "requirements": "招聘团队需要在周会上核对岗位需求（requisition）的编制、状态与负责人。"
+  },
+  "expect": {
+    "ok": true,
+    "domainOk": true,
+    "baselineStatus": "pass"
+  }
+}

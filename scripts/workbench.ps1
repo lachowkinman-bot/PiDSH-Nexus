@@ -180,7 +180,10 @@ switch ($Cmd) {
   $ErrorActionPreference = 'Continue'
   $portable = Join-Path $Root 'offline/node/node-v24.21.0-win-x64'
   if (Test-Path (Join-Path $portable 'node.exe')) { $env:PATH = "$portable;$env:PATH" }   # 项目便携 Node（≥24.19）优先
-  if (-not $env:DSH_HOME) { $env:DSH_HOME = Join-Path $Root '.dsh-home' }                  # 项目内独立 DSH_HOME（隔离）
+  if (-not $env:UNIVERSAL_WORKBENCH_DATA_ROOT) {
+    $env:UNIVERSAL_WORKBENCH_DATA_ROOT = Join-Path $env:LOCALAPPDATA 'UniversalWorkbench\4.0'
+  }
+  if (-not $env:DSH_HOME) { $env:DSH_HOME = Join-Path $env:UNIVERSAL_WORKBENCH_DATA_ROOT 'dsh-home' }
   $profileWeb = Join-Path $env:DSH_HOME 'profiles/web'
   # 原生 3.0：优先解压构建期已解析的 runtime profile，目标机不再访问 npm/pnpm registry。
   $runtimeArchive = Join-Path $Root 'offline-3.0/runtime-web.zip'
@@ -259,12 +262,33 @@ switch ($Cmd) {
   # 随包目录 {app}\workbench-ui-plugin，以 link: 装载（改 lib/*.js 后重启壳即生效）。
   $wbPlugin = Join-Path $Root 'workbench-ui-plugin'
   if ($runtimeMode) {
-    $linked = Test-Path (Join-Path $profileWeb 'node_modules/@workbench/client-ui/package.json')
+    # 4.0.0-dev8 修复：runtime bundle 里的 @workbench/client-ui 是构建期快照副本；产品契约是
+    # {app}\workbench-ui-plugin 以 junction 装载（"改 lib/*.js 后重启壳即生效"）。此前 runtimeMode 直接接受副本，
+    # 导致升级后的安装态永远加载旧插件（实测：新入口/新路由不出现）。这里把非指向 {app} 的副本替换为 junction。
+    $linkedDir = Join-Path $profileWeb 'node_modules/@workbench/client-ui'
+    $linked = Test-Path (Join-Path $linkedDir 'package.json')
     $pkgJson = Join-Path $profileWeb 'package.json'
     $inBundles = (Test-Path $pkgJson) -and ((Get-Content -Raw $pkgJson) -match '@workbench/client-ui')
-    if ($linked -and $inBundles) {
+    $linkTarget = ''
+    if ($linked) { try { $linkTarget = "$((Get-Item -LiteralPath $linkedDir -Force).Target)" } catch { $linkTarget = '' } }
+    $pointsToApp = ($linkTarget -ne '') -and ($linkTarget.Replace('/', '\').TrimEnd('\') -ieq $wbPlugin.TrimEnd('\'))
+    if ($pointsToApp -and $inBundles) {
       $log += 'workbench-client-ui,RUNTIME_BUNDLE'
-      Add-Content -Encoding UTF8 $csv "@workbench/client-ui,runtime-bundle,offline-extract,0,$(Get-Date -Format s)"
+      Add-Content -Encoding UTF8 $csv "@workbench/client-ui,runtime-bundle-junction,link-ok,0,$(Get-Date -Format s)"
+    } elseif (Test-Path (Join-Path $wbPlugin 'package.json')) {
+      if ($linked) { Remove-Item -Recurse -Force -LiteralPath $linkedDir }
+      New-Item -ItemType Junction -Path $linkedDir -Target $wbPlugin | Out-Null
+      $relinked = Test-Path (Join-Path $linkedDir 'package.json')
+      $relinkTarget = ''
+      if ($relinked) { try { $relinkTarget = "$((Get-Item -LiteralPath $linkedDir -Force).Target)" } catch { $relinkTarget = '' } }
+      $relinkPointsToApp = ($relinkTarget.Replace('/', '\').TrimEnd('\') -ieq $wbPlugin.TrimEnd('\'))
+      if ($relinked -and $relinkPointsToApp -and $inBundles) {
+        $log += 'workbench-client-ui,RUNTIME_BUNDLE(relinked-to-app)'
+        Add-Content -Encoding UTF8 $csv "@workbench/client-ui,runtime-bundle-relink,junction-to-app,0,$(Get-Date -Format s)"
+      } else {
+        $log += "workbench-client-ui,FAIL(relinked=$relinked pointsToApp=$relinkPointsToApp bundles=$inBundles)"
+        Write-Gap '@workbench/client-ui' 'P0' "runtime bundle 插件副本无法替换为 {app} junction relinked=$relinked pointsToApp=$relinkPointsToApp bundles=$inBundles" 'F1/U15' '手工删除 profile 内 @workbench/client-ui 后重跑安装脚本'
+      }
     } else {
       $log += "workbench-client-ui,FAIL(runtime-linked=$linked bundles=$inBundles)"
       Write-Gap '@workbench/client-ui' 'P0' "runtime bundle 缺插件或激活清单 linked=$linked bundles=$inBundles" 'F1/U15' '重建 offline-3.0/runtime-web.zip'

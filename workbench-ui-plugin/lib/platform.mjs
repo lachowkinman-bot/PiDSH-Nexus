@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { runtimeDesign, runtimeDomainIds, runtimeDomainModel, runtimeWorkflowEntries } from './runtime-workbenches.mjs';
 
 export const DOMAIN_IDS = [
   'strat',
@@ -472,25 +473,44 @@ function createBackup(workspaceRoot, reason, traceId) {
   return { dir: backupDir, fileCount: manifest.files.length, bytes: manifest.files.reduce((sum, file) => sum + file.bytes, 0) };
 }
 
-function workflowIndex(bundleRoot) {
+function workflowIndex(bundleRoot, workspaceRoot = null) {
   const file = path.join(bundleRoot, 'manifests', 'workflows', 'index.json');
   const index = readJson(file, { count: 0, workflows: [] });
   if (!index || !Array.isArray(index.workflows)) throw new Error('工作流索引不可用');
+  // 运行时装订：合并新增域的工作流条目（先叠加层、后内置）
+  if (workspaceRoot) {
+    const runtime = runtimeWorkflowEntries(workspaceRoot);
+    if (runtime.length) {
+      const ids = new Set(runtime.map((entry) => entry.workflow_id));
+      const merged = index.workflows.filter((item) => !ids.has(item.workflow_id)).concat(runtime);
+      return { ...index, count: merged.length, workflows: merged };
+    }
+  }
   return index;
 }
 
-function domainModel(bundleRoot, domain) {
+function domainModel(bundleRoot, domain, workspaceRoot = null) {
+  if (workspaceRoot) {
+    const runtime = runtimeDomainModel(workspaceRoot, domain);
+    if (runtime) return runtime;
+  }
   const file = path.join(bundleRoot, 'manifests', 'domain-model', `${safeSegment(domain)}.json`);
   const model = readJson(file);
   if (!model) throw new Error(`域模型缺失：${domain}`);
   return model;
 }
 
-function findWorkflow(bundleRoot, workflowId) {
+function findWorkflow(bundleRoot, workflowId, workspaceRoot = null) {
   const id = safeId(workflowId, 'workflowId');
-  const workflow = workflowIndex(bundleRoot).workflows.find((item) => item.workflow_id === id);
+  const workflow = workflowIndex(bundleRoot, workspaceRoot).workflows.find((item) => item.workflow_id === id);
   if (!workflow) throw new Error(`工作流不存在：${id}`);
   return workflow;
+}
+
+// 已知域 = 内置 13 域 ∪ 运行时装订域（先叠加层、后内置）
+function knownDomains(workspaceRoot) {
+  const extra = workspaceRoot ? runtimeDomainIds(workspaceRoot) : [];
+  return new Set([...DOMAIN_IDS, ...extra]);
 }
 
 const DOMAIN_STAGE_COPY = {
@@ -523,9 +543,19 @@ function defaultStageCopy(domain) {
   };
 }
 
-function buildStages(workflow, bundleRoot) {
-  const designFile = path.join(bundleRoot, 'manifests', 'domain-work-design', `${workflow.domain}.json`);
+function workDesignFor(bundleRoot, domain, workspaceRoot = null) {
+  const designFile = path.join(bundleRoot, 'manifests', 'domain-work-design', `${safeSegment(domain, 'domain')}.json`);
   const design = readJson(designFile);
+  if (design && Array.isArray(design.modules) && design.modules.length) return design;
+  if (workspaceRoot) {
+    const runtime = runtimeDesign(workspaceRoot, domain);
+    if (runtime) return runtime;
+  }
+  return design || null;
+}
+
+function buildStages(workflow, bundleRoot, workspaceRoot = null) {
+  const design = workDesignFor(bundleRoot, workflow.domain, workspaceRoot);
   const designedItem = design?.modules
     ?.flatMap((module) => module.items)
     ?.find((item) => item.workflow?.id === workflow.workflow_id);
@@ -1068,10 +1098,10 @@ export function listBackups(context) {
 }
 
 export function listWorkflowDefinitions(context) {
-  const index = workflowIndex(context.bundleRoot);
+  const index = workflowIndex(context.bundleRoot, context.workspaceRoot);
   return index.workflows.map((workflow) => ({
     ...workflow,
-    stages: buildStages(workflow, context.bundleRoot),
+    stages: buildStages(workflow, context.bundleRoot, context.workspaceRoot),
   }));
 }
 
@@ -1080,7 +1110,7 @@ export function getDomainWorkDesign(context, domain = null) {
   const index = readJson(path.join(root, 'index.json'), null);
   if (!index) throw new Error('领域工作设计索引缺失，请先运行 design:build');
   if (!domain) return index;
-  const item = readJson(path.join(root, `${safeSegment(domain, 'domain')}.json`), null);
+  const item = workDesignFor(context.bundleRoot, domain, context.workspaceRoot);
   if (!item) throw new Error(`领域工作设计缺失：${domain}`);
   return item;
 }
@@ -1164,9 +1194,9 @@ export function resolveInstanceArtifact(context, id, relativeFile) {
 }
 
 export function startInstance(context, body = {}) {
-  const workflow = findWorkflow(context.bundleRoot, body.workflowId || body.id);
+  const workflow = findWorkflow(context.bundleRoot, body.workflowId || body.id, context.workspaceRoot);
   const domain = workflow.domain || body.domain;
-  if (!DOMAIN_IDS.includes(domain)) throw new Error(`未知域：${domain}`);
+  if (!knownDomains(context.workspaceRoot).has(domain)) throw new Error(`未知域：${domain}`);
   const id = `WI-${Date.now().toString(36).toUpperCase()}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
   const backup = createBackup(context.workspaceRoot, `start:${workflow.workflow_id}`, id);
   const instance = {
@@ -1185,7 +1215,7 @@ export function startInstance(context, body = {}) {
     quality: null,
     approvals: [],
     artifacts: [],
-    stages: buildStages(workflow, context.bundleRoot),
+    stages: buildStages(workflow, context.bundleRoot, context.workspaceRoot),
     backup: { id: path.basename(backup.dir), files: backup.fileCount, bytes: backup.bytes },
     last_error: null,
   };
@@ -1283,8 +1313,8 @@ export async function actInstance(context, body = {}) {
   const id = safeId(body.id || body.instanceId, 'instanceId');
   const instance = loadInstance(context.workspaceRoot, id);
   assertApprovalIntegrity(context.workspaceRoot, instance);
-  const workflow = findWorkflow(context.bundleRoot, instance.workflow_id);
-  const model = domainModel(context.bundleRoot, instance.domain);
+  const workflow = findWorkflow(context.bundleRoot, instance.workflow_id, context.workspaceRoot);
+  const model = domainModel(context.bundleRoot, instance.domain, context.workspaceRoot);
   const action = String(body.action || '').trim();
   if (!action) throw new Error('action 必填');
   const backup = createBackup(context.workspaceRoot, `${action}:${instance.workflow_id}`, instance.id);
@@ -1328,7 +1358,7 @@ export async function actInstance(context, body = {}) {
 
 export function importDomainTable(context, body = {}) {
   const domain = safeSegment(body.domain, 'domain');
-  if (!DOMAIN_IDS.includes(domain)) throw new Error(`未知域：${domain}`);
+  if (!knownDomains(context.workspaceRoot).has(domain)) throw new Error(`未知域：${domain}`);
   const table = safeSegment(String(body.table || '').replace(/\.csv$/i, ''), 'table');
   const csv = String(body.csv || '');
   if (!csv.trim()) throw new Error('CSV 内容不能为空');

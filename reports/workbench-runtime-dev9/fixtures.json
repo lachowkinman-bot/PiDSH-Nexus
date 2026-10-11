@@ -1,0 +1,166 @@
+{
+  "schema": "pids-nexus/custom-fixtures/v1",
+  "generated_at": "2026-10-11T07:23:20.800Z",
+  "workspace": "F:/Pi_DSH_workplace/universal-workbench-4.0/.work/custom-fixtures-1791703390910",
+  "passed": 10,
+  "total": 10,
+  "records": [
+    {
+      "fixture": "01-revise-rec-add-table",
+      "draft": "rev-rec-261011072310",
+      "problems": [],
+      "status": "verified",
+      "verify": {
+        "ok": true,
+        "domain_ok": true,
+        "baseline": "pass",
+        "baseline_pending": false,
+        "heavy": "not-run",
+        "gaps": []
+      },
+      "pass": true
+    },
+    {
+      "fixture": "02-new-domain-cust-learning",
+      "draft": "new-cust-learning-261011072312",
+      "problems": [],
+      "status": "verified",
+      "verify": {
+        "ok": true,
+        "domain_ok": true,
+        "baseline": "fail",
+        "baseline_pending": true,
+        "heavy": "not-run",
+        "gaps": [
+          "scripts/build-domain-work-design.mjs: if (missing.length) throw new Error(`有工作流未映射到事项：\\n${missing.join('\\n')}`);",
+          "scripts/build-domain-work-design.mjs: Error: 有工作流未映射到事项："
+        ]
+      },
+      "installed": "cust-learning",
+      "install": {
+        "ok": true,
+        "kind": "new-domain"
+      },
+      "definitions": 2,
+      "pass": true
+    },
+    {
+      "fixture": "03-negative-pii",
+      "draft": "rev-rec-261011072315",
+      "problems": [],
+      "status": "draft",
+      "verify": {
+        "ok": false,
+        "domain_ok": false,
+        "baseline": "skipped",
+        "baseline_pending": false,
+        "heavy": "not-run",
+        "gaps": [
+          "scripts/gen-domain-model.mjs: ✗ PII 未脱敏：rec/leads.csv → candidate_phone(2 行疑似未脱敏), candidate_idcard(2 行疑似未脱敏)",
+          "scripts/gen-domain-model.mjs: BUILD_GATE_FAIL：存在硬校验违规，未写文件",
+          "scripts/build-app.mjs: BUILD_GATE_FAIL：存在硬校验违规，未写文件",
+          "scripts/build-app.mjs: BUILD_ABORT 域模型校验失败：",
+          "scripts/build-app.mjs: ✗ PII 未脱敏：rec/leads.csv → candidate_phone(2 行疑似未脱敏), candidate_idcard(2 行疑似未脱敏)"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "fixture": "04-negative-skill-uncovered",
+      "draft": "new-cust-support-261011072316",
+      "problems": [],
+      "status": "draft",
+      "verify": {
+        "ok": false,
+        "domain_ok": false,
+        "baseline": "skipped",
+        "baseline_pending": false,
+        "heavy": "not-run",
+        "gaps": [
+          "scripts/gen-domain-model.mjs: ✗ 技能无工作流覆盖：cust-support/sla-review",
+          "scripts/gen-domain-model.mjs: BUILD_GATE_FAIL：存在硬校验违规，未写文件",
+          "scripts/build-app.mjs: BUILD_GATE_FAIL：存在硬校验违规，未写文件",
+          "scripts/build-app.mjs: BUILD_ABORT 域模型校验失败：",
+          "scripts/build-app.mjs: ✗ 技能无工作流覆盖：cust-support/sla-review"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "fixture": "05-negative-generated-override",
+      "draft": "rev-rec-261011072317",
+      "problems": [],
+      "status": "draft",
+      "verify": {
+        "ok": false,
+        "domain_ok": false,
+        "baseline": "skipped",
+        "baseline_pending": false,
+        "heavy": "not-run",
+        "gaps": [
+          "manifests/workflows/ 下的逐条 yaml 由生成器管理，禁止直接改写：manifests/workflows/rec.funnel-report.yaml（请改用 <域>.workflows.json 条目或修订场景/技能/台账）"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "fixture": "06-runtime-install-sample",
+      "draft": null,
+      "problems": [],
+      "installed": "cust-learning",
+      "install": {
+        "ok": true,
+        "kind": "new-domain",
+        "checks": 5
+      },
+      "definitions": 2,
+      "pass": true
+    },
+    {
+      "fixture": "07-import-strict-ok",
+      "draft": null,
+      "problems": [],
+      "import": {
+        "ok": true,
+        "preview": false,
+        "rows": 2,
+        "mode": "strict"
+      },
+      "pass": true
+    },
+    {
+      "fixture": "08-import-reject-headers",
+      "draft": null,
+      "problems": [],
+      "import": {
+        "ok": false,
+        "preview": false,
+        "rows": 0,
+        "mode": "strict"
+      },
+      "pass": true
+    },
+    {
+      "fixture": "09-import-mapping-ok",
+      "draft": null,
+      "problems": [],
+      "import": {
+        "ok": true,
+        "preview": false,
+        "rows": 1,
+        "mode": "mapping"
+      },
+      "pass": true
+    },
+    {
+      "fixture": "10-runtime-uninstall",
+      "draft": null,
+      "problems": [],
+      "uninstall": {
+        "ok": true,
+        "data_kept": true
+      },
+      "pass": true
+    }
+  ]
+}

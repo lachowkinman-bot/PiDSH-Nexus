@@ -1,0 +1,190 @@
+{
+  "schema": "pids-nexus/workbench-ui-verification/v4",
+  "generated_at": "2026-10-11T08:47:46.458Z",
+  "url": "http://127.0.0.1:3080/?token=***",
+  "pass": false,
+  "passed": 33,
+  "total": 34,
+  "records": [
+    {
+      "id": "ui.workbench.open",
+      "pass": true,
+      "note": "strategy dashboard opened"
+    },
+    {
+      "id": "ui.domain.modules-and-items",
+      "pass": true,
+      "note": "module hierarchy visible"
+    },
+    {
+      "id": "ui.domain.rec.open",
+      "pass": true,
+      "note": "REC domain opened"
+    },
+    {
+      "id": "ui.domain.stage-contracts",
+      "pass": true,
+      "note": "stage schema, TypeDict, and business rules visible"
+    },
+    {
+      "id": "ui.domain.tabs",
+      "pass": true,
+      "note": "all seven domain surfaces navigable"
+    },
+    {
+      "id": "ui.workflow.no-approval.complete",
+      "pass": true,
+      "note": "artifactLinks=9"
+    },
+    {
+      "id": "ui.workflow.approval.blocked-before-signature",
+      "pass": true,
+      "note": "awaiting approval rendered"
+    },
+    {
+      "id": "ui.workflow.approval.complete",
+      "pass": true,
+      "note": "artifactLinks=9"
+    },
+    {
+      "id": "ui.integration.standalone-link",
+      "pass": true,
+      "note": "url=http://127.0.0.1:3080/workbench/api/app-page#/"
+    },
+    {
+      "id": "ui.integration.standalone-nav",
+      "pass": true,
+      "note": "market + custom + upgrade entries visible in standalone app"
+    },
+    {
+      "id": "ui.integration.standalone-custom-page",
+      "pass": true,
+      "note": "standalone custom page rendered"
+    },
+    {
+      "id": "ui.integration.standalone-hub-page",
+      "pass": true,
+      "note": "standalone market page rendered with sources"
+    },
+    {
+      "id": "ui.market.open",
+      "pass": true,
+      "note": "market v2 rendered with catalog card"
+    },
+    {
+      "id": "ui.market.favorite",
+      "pass": true,
+      "note": "favorite toggled and visible in favorites tab"
+    },
+    {
+      "id": "ui.market.check-updates",
+      "pass": true,
+      "note": "update check executed"
+    },
+    {
+      "id": "ui.market.uninstall-confirm",
+      "pass": true,
+      "note": "uninstall confirm dialog shown and cancelled"
+    },
+    {
+      "id": "ui.market.import-preview",
+      "pass": true,
+      "note": "strict import validation preview"
+    },
+    {
+      "id": "ui.market.import-write",
+      "pass": true,
+      "note": "strict import written to workspace data root"
+    },
+    {
+      "id": "ui.wizard.steps",
+      "pass": true,
+      "note": "three-step wizard rendered"
+    },
+    {
+      "id": "ui.wizard.draft-create",
+      "pass": true,
+      "note": "UI 向导草稿 1791708444794"
+    },
+    {
+      "id": "ui.wizard.copy-instruction",
+      "pass": true,
+      "note": "development instruction copy feedback"
+    },
+    {
+      "id": "ui.wizard.verify",
+      "pass": true,
+      "note": "draft verify passed from wizard"
+    },
+    {
+      "id": "ui.wizard.preview-banner",
+      "pass": true,
+      "note": "staging preview built and banner rendered"
+    },
+    {
+      "id": "ui.wizard.heavy-background",
+      "pass": true,
+      "note": "heavy gates started in background"
+    },
+    {
+      "id": "ui.wizard.install-guard",
+      "pass": true,
+      "note": "install guard reported honestly (empty overlay cannot install)"
+    },
+    {
+      "id": "ui.mode.enter",
+      "pass": true,
+      "note": "workbench mode entered (active persisted)"
+    },
+    {
+      "id": "ui.market.sidebar-entry",
+      "pass": true,
+      "note": "installed workbench opened from its sidebar entry"
+    },
+    {
+      "id": "ui.mode.notes",
+      "pass": true,
+      "note": "workbench notes saved (local)"
+    },
+    {
+      "id": "ui.mode.exit",
+      "pass": true,
+      "note": "switched back to unbound session mode"
+    },
+    {
+      "id": "ui.upgrade.center",
+      "pass": true,
+      "note": "engine lock and exemptions visible"
+    },
+    {
+      "id": "ui.market.about-sources",
+      "pass": true,
+      "note": "three projects with adoption traces visible inside market about section"
+    },
+    {
+      "id": "ui.integration.standalone-fallback",
+      "pass": true,
+      "note": "same-window fallback navigates when popups are blocked"
+    },
+    {
+      "id": "ui.viewport.1100x700",
+      "pass": true,
+      "note": "{\"noHorizontalOverflow\":true,\"workbenchVisible\":true,\"keyButtons\":true}"
+    },
+    {
+      "id": "ui.console.no-page-errors",
+      "pass": false,
+      "note": "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by mf) — register at a different priority to shadow it (lowest renders) | Failed to load resource: the server responded with a status of 405 (Method Not Allowed) | Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at bi (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:49799)\n    at qe (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:11104)\n    at ft (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:1479)\n    at Hu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:46163)\n    at Au (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40082)\n    at xd (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40010)\n    at ji (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:39863)\n    at ia (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36178)\n    at Nu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36990)\n    at Tn (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:3273) | slot entry crashed in 'conversation.input.left': Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at bi (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:49799)\n    at qe (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:11104)\n    at ft (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:1479)\n    at Hu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:46163)\n    at Au (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40082)\n    at xd (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40010)\n    at ji (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:39863)\n    at ia (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36178)\n    at Nu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36990)\n    at Tn (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:3273)"
+    }
+  ],
+  "errors": [
+    "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by mf) — register at a different priority to shadow it (lowest renders)",
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)",
+    "Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at bi (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:49799)\n    at qe (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:11104)\n    at ft (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:1479)\n    at Hu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:46163)\n    at Au (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40082)\n    at xd (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40010)\n    at ji (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:39863)\n    at ia (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36178)\n    at Nu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36990)\n    at Tn (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:3273)",
+    "slot entry crashed in 'conversation.input.left': Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at bi (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:49799)\n    at qe (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:11104)\n    at ft (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:1479)\n    at Hu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:46163)\n    at Au (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40082)\n    at xd (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40010)\n    at ji (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:39863)\n    at ia (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36178)\n    at Nu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36990)\n    at Tn (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:3273)",
+    "single slot \"sidebar.brand.mark\" already has a registration at priority 0 (registered by mf) — register at a different priority to shadow it (lowest renders)",
+    "Failed to load resource: the server responded with a status of 405 (Method Not Allowed)",
+    "Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at bi (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:49799)\n    at qe (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:11104)\n    at ft (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:1479)\n    at Hu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:46163)\n    at Au (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40082)\n    at xd (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40010)\n    at ji (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:39863)\n    at ia (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36178)\n    at Nu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36990)\n    at Tn (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:3273)",
+    "slot entry crashed in 'conversation.input.left': Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at bi (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:49799)\n    at qe (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:11104)\n    at ft (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:1479)\n    at Hu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:46163)\n    at Au (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40082)\n    at xd (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:40010)\n    at ji (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:39863)\n    at ia (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36178)\n    at Nu (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:56:36990)\n    at Tn (http://127.0.0.1:3080/assets/index-5SrrfWpU.js:54:3273)"
+  ]
+}

@@ -1,15 +1,15 @@
 {
   "schema": "pids-nexus/runtime-capabilities/v1",
-  "generated_at": "2026-09-30T10:03:29.856Z",
+  "generated_at": "2026-10-11T04:13:01.749Z",
   "plugin_scope": {
     "runtime_total": 64,
-    "loaded": 59,
-    "shipped_not_loaded": 5
+    "loaded": 56,
+    "shipped_not_loaded": 8
   },
   "plugins": [
     {
       "name": "@deepseek-ai/dsh-base",
-      "version": "0.1.7-rc.2",
+      "version": "0.2.0-rc.2",
       "source": "builtin",
       "source_sha256": null,
       "license": "MIT",
@@ -29,7 +29,7 @@
     },
     {
       "name": "@deepseek-ai/dsh-web-app",
-      "version": "0.1.7-rc.2",
+      "version": "0.2.0-rc.2",
       "source": "builtin",
       "source_sha256": null,
       "license": "MIT",
@@ -473,16 +473,14 @@
       "license": null,
       "kind": "delivery",
       "capability": "artifact_registry",
-      "loaded": true,
-      "disabled_reason": null,
+      "loaded": false,
+      "disabled_reason": "0.2 升级适配：插件内 assertPeerCompatible 硬断言 @deepseek-ai/dsh-tools ^0.1.0-rc.6，在 0.2.0-rc.2 宿主上抛错拒绝激活；上游无更新版本（最新 0.1.1）。随包分发、默认不加载，待上游发布 0.2 兼容版后重评（reports/upgrade-0.2.0-rc.2/pluginload-report.json 为证据）。",
       "external_dependencies": [],
       "data_level": "L2",
       "expected_surfaces": [
         "installed",
-        "loaded",
-        "surface",
-        "invoke",
-        "restart"
+        "disabled_reason",
+        "replacement_or_isolation"
       ],
       "status_policy": "PASS_LOCAL_REQUIRED",
       "test_case": "ui-surface"
@@ -1127,16 +1125,16 @@
       "license": null,
       "kind": "security",
       "capability": "error_monitoring",
-      "loaded": true,
-      "disabled_reason": null,
+      "loaded": false,
+      "disabled_reason": "未配置 SENTRY_AUTH_TOKEN 时阻塞离线启动；需要时可显式启用",
       "external_dependencies": [
         "sentry_auth_token"
       ],
       "data_level": "L3",
       "expected_surfaces": [
         "installed",
-        "loaded",
-        "invoke"
+        "disabled_reason",
+        "replacement_or_isolation"
       ],
       "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
       "test_case": "load-and-probe"
@@ -1191,16 +1189,16 @@
       "license": null,
       "kind": "security",
       "capability": "code_quality",
-      "loaded": true,
-      "disabled_reason": null,
+      "loaded": false,
+      "disabled_reason": "未配置 SONARQUBE_URL 时阻塞离线启动；需要时可显式启用",
       "external_dependencies": [
         "sonarqube_url"
       ],
       "data_level": "L3",
       "expected_surfaces": [
         "installed",
-        "loaded",
-        "invoke"
+        "disabled_reason",
+        "replacement_or_isolation"
       ],
       "status_policy": "PASS_LIVE_OR_BLOCKED_EXTERNAL",
       "test_case": "load-and-probe"

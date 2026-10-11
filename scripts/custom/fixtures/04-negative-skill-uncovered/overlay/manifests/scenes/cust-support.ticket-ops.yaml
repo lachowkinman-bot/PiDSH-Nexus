@@ -1,0 +1,35 @@
+apiVersion: workbench.pi-dsh/v1
+scene_id: cust-support.ticket-ops@1.0.0
+domain: CUST-SUPPORT
+label: 支持运营 CUST-SUPPORT
+color: "#b45309"
+origin: custom
+required_capabilities:
+  - cap.excel.panel
+data_assets:
+  - name: tickets.csv
+    level: L2
+    pii_fields: []
+skills: [ticket-triage, sla-review]
+workflows: [workflows/cust-support.ticket-triage.json]
+policies:
+  permission:
+    min_level: L2
+    dual_approval: false
+  redact:
+    fields: []
+    gate: redact_gate
+  memory:
+    pii_allowed: false
+    exclude: []
+knowledge_seeds: []
+golden_tasks:
+  - id: GT-CS-01
+    input: "生成工单分流建议"
+    expected_plan: "见 docs/preset-design/cust-support.md"
+    expected_tools: [cap.excel.panel]
+    expected_permission: "L2"
+    expected_output: reports/cust-support/gt-01.md
+    expected_files: [data/cust-support/tickets.csv]
+    expected_audit: "读/算/写审计事件"
+    expected_quality: "建议可溯源"

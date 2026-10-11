@@ -1,0 +1,4 @@
+workflow_id: rec.funnel-report@1.0.0
+domain: rec
+kind: report
+# 负向夹具：内容无关紧要——该文件由 gen-workflows.mjs 管理，草稿预检必须拒绝直接改写。

@@ -1,0 +1,341 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-10-02T11:31:41.011Z",
+  "root": "F:\\Pi_DSH_workplace\\universal-workbench-4.0",
+  "sourceOfTruth": [
+    "docs/retro/RETRO-PRD.md",
+    "docs/retro/adr/",
+    "progress.md",
+    "reports/",
+    "manifests/"
+  ],
+  "originalSchemeFiles": [
+    {
+      "path": "inputs/original-scheme/001-Pi-DSH全流程工作台方案.html",
+      "bytes": 10464,
+      "sha256": "10b607a09a42b456604d8120a34efde75f515e95f5dd7dddb8d00e843641d6b4"
+    },
+    {
+      "path": "inputs/original-scheme/002-HR驾驶舱搭建教程.html",
+      "bytes": 31159,
+      "sha256": "0c75175d2e174eb4d6e00d113a1759ed0f9353eb3d14024280d0a923884c0f4d"
+    },
+    {
+      "path": "inputs/original-scheme/003-30天落地计划.md",
+      "bytes": 3985,
+      "sha256": "2143bbcf53077455664913c4d5d3912712e888b8a31c892e2c80c1e3c1468c70"
+    },
+    {
+      "path": "inputs/original-scheme/003-HR全能Agent驾驶舱-现场演示方案.html",
+      "bytes": 19811,
+      "sha256": "6ea9a58f2a9ddd8e4d675bca80de2ecccfdfc739e60a794a0d9f04c5c59a5b66"
+    },
+    {
+      "path": "inputs/original-scheme/003-交接文档规范.md",
+      "bytes": 3072,
+      "sha256": "b21a10980077276af1b1543ff0b38558f2735650834dffa1b260351a21da8351"
+    },
+    {
+      "path": "inputs/original-scheme/003-工作建模模板.md",
+      "bytes": 3242,
+      "sha256": "8c8e8f401e11996ab1fbb058c2c26d35a8de8c83940c368063096cc18e9d9507"
+    },
+    {
+      "path": "inputs/original-scheme/004-HR全能Agent两天工作坊-课程方案.html",
+      "bytes": 25733,
+      "sha256": "fd51392c78302e02c82fffb3a0c92ad28fc5f021dac89e96a23f02a7a06e4b56"
+    },
+    {
+      "path": "inputs/original-scheme/005-HR全能Agent两天工作坊-学员操作手册.html",
+      "bytes": 34613,
+      "sha256": "7d00e81b50b2c06053705228007ef2ac466821e2761e235e809712556ab04b94"
+    },
+    {
+      "path": "inputs/original-scheme/006-HR全能agent设计工作坊-学员操作指南.html",
+      "bytes": 121003,
+      "sha256": "2b7b01043cc22249a826d2a2841277f77f744795a9917e3ca0f497d16d4c8818"
+    },
+    {
+      "path": "inputs/original-scheme/007-HR全能agent设计工作坊-学员操作指南-v2.0.html",
+      "bytes": 200634,
+      "sha256": "e4ea2f20c7d958142b9afbf9d843c6397b10773206b6b96da9e6e4a6251de3fa"
+    },
+    {
+      "path": "inputs/original-scheme/008-HR全能agent工作台-Goal模式自动交付任务书.md",
+      "bytes": 23895,
+      "sha256": "8c8b5adf5ce36b8eed0d440c219ee469ee896bfd8ea96e3795d4f3f67b39e744"
+    },
+    {
+      "path": "inputs/original-scheme/009-HR全能agent工作台-离线包闭环交付任务书.md",
+      "bytes": 27538,
+      "sha256": "23b6980a240081b3d9615b4038486bf5f20fc657812e2288cce91186d5f27ea1"
+    },
+    {
+      "path": "inputs/original-scheme/010-01-HR全能agent工作台-离线包闭环交付任务书（补全版）.md",
+      "bytes": 41910,
+      "sha256": "a342371b537e514a7821336b20fd6fa682a11371e6480f9c3386e1ab2c413253"
+    },
+    {
+      "path": "inputs/original-scheme/010-02-HR全能Agent工作台-单人AI工作台十要素验收标准.md",
+      "bytes": 18228,
+      "sha256": "823bb85d6f70f9fd598f76290cacfd5069668bbf64c59e51cf8644b72dcf0875"
+    },
+    {
+      "path": "inputs/original-scheme/010-03-Solo-AI-Workbench-Pi-DSH-产品化架构升级与闭环验收任务书(v3).md",
+      "bytes": 30726,
+      "sha256": "0d1a29d1be1761913b6f02c41a57f3648a40d17cca985baf71e09b5111cc1e03"
+    },
+    {
+      "path": "inputs/original-scheme/010-04-Preset行业化架构与Preset质量交付标准(v1)-workbuddy.md",
+      "bytes": 38925,
+      "sha256": "4a2a5fca0bcad1686e0c93ee82bc74a03de3d4c3af7c5801fdc4bdefdce6e733"
+    },
+    {
+      "path": "inputs/original-scheme/010-04-跨行业Preset设计与验收标准-v1-qwenwork.md",
+      "bytes": 43042,
+      "sha256": "ed8e10d4e64abdec5278f1f0cf0ce2e70e669eb5b5f0754cb781674632ba4c7b"
+    },
+    {
+      "path": "inputs/original-scheme/010-04-跨行业Preset设计与验收标准-v1-traework.md",
+      "bytes": 41301,
+      "sha256": "24e1e5391df6bf0ab6436758e4a7bc3bd94c6aad0d1ab9c183f961f2809098e2"
+    },
+    {
+      "path": "inputs/original-scheme/011-01-跨行业Preset设计与验收标准v3（可直发Agent执行）-doubaowork.md",
+      "bytes": 75833,
+      "sha256": "59b063c26852c426a6a99e3a13af62e90107fddc21c23fe93c17bb684adeb65a"
+    },
+    {
+      "path": "inputs/original-scheme/011-02-执行进度记录 progress.md",
+      "bytes": 3849,
+      "sha256": "43e924694e56f715c76c15c1b0c05d58c916930c3d56596f1e6b042c3dc2a640"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance-final-traework.md",
+      "bytes": 40212,
+      "sha256": "fdf7a397bbfed5400b3935b51589e04497ac55ea4c402ce5d8d0230a355e3e16"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance-v1-minimax.md",
+      "bytes": 59676,
+      "sha256": "24ad71b9e16e7457fa3680922d86f65a7475cd1e4fc0f60fd58d41757608a900"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance-v2-claude.md",
+      "bytes": 48846,
+      "sha256": "308f9863d8b40d28bd0f53c1d2401db5da95015407ad3fa647b0a0d8ff98b8e1"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance-v2.1-grok.md",
+      "bytes": 33792,
+      "sha256": "e15ba7d68cb702a8a361641135fa3cdde249e8d062dac39b883132b6e98561be"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance-v3-merged-qwenwork.md",
+      "bytes": 76197,
+      "sha256": "41d08984bfd7b66861933be92973cfa35c54f1930048215344661de3ec92ca28"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance-workbuddy.md",
+      "bytes": 61994,
+      "sha256": "d921330036fca18c2bbae14996549112d8361b2dd2c6bb1187bc961465af45ef"
+    },
+    {
+      "path": "inputs/original-scheme/011-cross-industry-preset-design-and-acceptance.v1-doubaowork.md",
+      "bytes": 52683,
+      "sha256": "b749bacc1410e81c627ed558da296a58de676ec446e8de8757f87c2bf0a2cc75"
+    },
+    {
+      "path": "inputs/original-scheme/011-pi-dsh-preset-architecture.html",
+      "bytes": 35505,
+      "sha256": "35df1180dbe0db480f5ed7110d1b456d65d40773e2535b7b9a17155c751e6ef8"
+    },
+    {
+      "path": "inputs/original-scheme/011-pi-dsh-preset-architecture.md",
+      "bytes": 28890,
+      "sha256": "a0eaaf73132579a90b104dba5560071021dc71fca461c0a34c053e9b8b16addb"
+    },
+    {
+      "path": "inputs/original-scheme/011-README.md",
+      "bytes": 5004,
+      "sha256": "0bd60c93a3bc5da70a9c2fae55d8ef96659d3c47dcac168223929a996647f136"
+    },
+    {
+      "path": "inputs/original-scheme/013-五版横向评测与开工补丁.md",
+      "bytes": 10495,
+      "sha256": "e3460539e031b94c14736defb87c7187e4fea7621575b81d051f1a40792fd312"
+    },
+    {
+      "path": "inputs/original-scheme/014-跨行业Preset设计与验收标准-合并执行版-workbuddy.md",
+      "bytes": 41411,
+      "sha256": "7399348db9dd637d3d04b53fd604ced7f2d002bd64da97fe72cc610fccfa1d69"
+    },
+    {
+      "path": "inputs/original-scheme/015-Universal-Workbench-通用工作台交付任务书.md",
+      "bytes": 76796,
+      "sha256": "3eb9faaf09fd4b7f0d0331d88957884a81185d53452fb13bd89f46b440fb76ad"
+    },
+    {
+      "path": "inputs/original-scheme/HR智能体工作台-PRD.md",
+      "bytes": 25371,
+      "sha256": "c68ae67d5fb372f29d8cea0fe9c2985cf5e46e6d6ee15924dad03921a58ea786"
+    },
+    {
+      "path": "inputs/original-scheme/HR智能体工作台-Workbench设计文档.md",
+      "bytes": 53818,
+      "sha256": "34088e045e119940d9a2b9da9d347153517bb458c4d89e0abf75c3a8d2274ed0"
+    },
+    {
+      "path": "inputs/original-scheme/runner-profile.json",
+      "bytes": 310,
+      "sha256": "a97751cf782c5638ec4e4f751db41ed7395dd152408c551d24eb739c3a0c480c"
+    },
+    {
+      "path": "inputs/original-scheme/基于 Pi+DSH 的多行业 Preset 工程化设计标准（v1.0）.md",
+      "bytes": 15521,
+      "sha256": "c10a8a64bae739086aeb5eac8f5b5067d3abc742ac3db7e2ddc27cd4620d5bd8"
+    }
+  ],
+  "retrospectiveEvidence": [
+    {
+      "path": "docs/retro/RETRO-PRD.md",
+      "bytes": 27564,
+      "sha256": "2c182ae4aebe1df2517e6079d15a08a87aabe87f83ecd9a8b86b6f14b40a7e74"
+    },
+    {
+      "path": "docs/retro/README.md",
+      "bytes": 7921,
+      "sha256": "2fe31af411a7892a9e0155937bd09e265fb0965d343b8d077f8f4207f8a19350"
+    },
+    {
+      "path": "reports/desktop-acceptance.md",
+      "bytes": 11555,
+      "sha256": "d9f46e4d0ec29481c7be6c756efeaf3cf65a31b704debb7f915b30c6be00841a"
+    },
+    {
+      "path": "015-Universal-Workbench-通用工作台交付任务书.md",
+      "bytes": 76796,
+      "sha256": "3eb9faaf09fd4b7f0d0331d88957884a81185d53452fb13bd89f46b440fb76ad"
+    },
+    {
+      "path": "016-插件化交付增补-v3.0.md",
+      "bytes": 3675,
+      "sha256": "78e6ff2f97851c20af75119c46108098ef6b32183a2ed568f0b974ac28d97b5d"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0001-底座选型-pi-dsh.md",
+      "bytes": 2430,
+      "sha256": "7d98d2596f8500445a5528a8ba61b33127bad85491863afd95d0d23b3c366fbb"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0002-交付形态-插件化原生定制.md",
+      "bytes": 2485,
+      "sha256": "09c9baf73f3a9662fa86fe374a1c2c837dc82d99b826641e0affed2671a5e19f"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0003-引擎版本重锁.md",
+      "bytes": 2134,
+      "sha256": "359bdb3c05eebfdc1487db9a1721f19d5eb7dff8db27c7d21b7b613be85a9be0"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0004-资源三层边界.md",
+      "bytes": 2482,
+      "sha256": "b79f832abf35a20a1c955848e2f6caf8c1e865aa9b5030b4dd8cc3913d50c386"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0005-桌面形态-D1D2.md",
+      "bytes": 3471,
+      "sha256": "5ee6e530ab43f85cda0c806840eed8cf79404a2e0614822159748d44649cbabc"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0006-UI形态-独立单页应用.md",
+      "bytes": 3629,
+      "sha256": "5c4ca362c7070a39ea230bb5811594cdcebfdc69e6c2753ed6df6859bdf17da7"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0007-域模型唯一真相源.md",
+      "bytes": 2471,
+      "sha256": "097455391fd856643195123a8e51d3d4a7d5e4cfcb5a07d9f90da8545e2f228b"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0008-安全边界.md",
+      "bytes": 2774,
+      "sha256": "330d7e88a091f764fc2543bef574417c9704ae50257e5ac7c4cb0eea4eebebcf"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0009-判据体系.md",
+      "bytes": 3182,
+      "sha256": "50a6736a10443cd0aeef30ca5f14bc8f3f8837fb6319ac55edeb89f02d603964"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0010-U19交付阻断.md",
+      "bytes": 2184,
+      "sha256": "771260ad4b123ed278ef76aad603250df2adc6149893a68aeab54aeea584ab55"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0011-凭据治理.md",
+      "bytes": 2674,
+      "sha256": "3c4956917bbbf4592076d457758fe9417577f37c930656f7e69129343ea49ae2"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0012-安装模型与离线打包.md",
+      "bytes": 3811,
+      "sha256": "40cac6c00b2d2b1d240fbeb611b65103b6bfccc35f864a71a37c91e1354dc0b9"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0013-profile依赖治理.md",
+      "bytes": 3320,
+      "sha256": "2e234ccd5ecd1557d8ed53aa2f73b199f56c675ee360ac54cb5d001f467126cf"
+    },
+    {
+      "path": "docs/retro/adr/ADR-0014-引擎整合与降级标注.md",
+      "bytes": 2636,
+      "sha256": "ef3ee543a37aed1777718eda5f44869fd832dcc30a24d6d3115fe719ea4da3b5"
+    },
+    {
+      "path": "docs/retro/adr/README.md",
+      "bytes": 3669,
+      "sha256": "2ef3fcbb34324f453fae916b8f4586d97a8230c6a7bad5a13a61c28d3ba89636"
+    }
+  ],
+  "runtimeArtifacts": [
+    {
+      "id": "runtime-web",
+      "path": "offline-3.0/runtime-web.zip",
+      "bytes": 546182470,
+      "sha256": "3eb979ddb7eecdb1e60c8a28ea4de4f3b7bbfee52fd9b5f105c78e1dd303e452"
+    },
+    {
+      "id": "windows-installer",
+      "path": "installer-output/UniversalWorkbench-Setup.exe",
+      "bytes": 589954910,
+      "sha256": "4dbdca8509b2d2d5fb7cf840320266093cb6c7e6887bde0209f270bb15bf8e4a"
+    },
+    {
+      "id": "pnpm",
+      "path": "offline/npm/pnpm-10.32.1.tgz",
+      "bytes": 4534444,
+      "sha256": "9b943b94bc8f55efb993aad8e44b538e6b091e60a9e4a944dcde869855f233e3"
+    }
+  ],
+  "supportSource": {
+    "path": "packs/support-source-pack/Pi_DSH_support",
+    "exists": true,
+    "archivePath": "packs/support-source-pack/support-source-pack.7z",
+    "archiveExists": true,
+    "archiveBytes": 5251642717,
+    "archiveSha256": "b23b37a8306e0d02c66a4ff6b3d0f946e610724d45b460ca89515c8bcd7ea81a",
+    "catalogSource": "packs/support-source-pack/support-source-pack.7z",
+    "subdirectories": {
+      "dsh-plugins": {
+        "fileCount": 132912,
+        "bytes": 5388119128
+      },
+      "pi-packages": {
+        "fileCount": 49723,
+        "bytes": 2100599788
+      }
+    }
+  },
+  "hashMode": "sha256"
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0",
+  "targetPlatforms": [
+    "Windows 10 22H2 x64",
+    "Windows 11 x64 current supported"
+  ],
+  "layers": [
+    {
+      "id": "runtime-pack",
+      "requiredForRuntime": true,
+      "defaultInstall": true,
+      "include": [
+        "offline/**",
+        "offline-3.0/**",
+        "installer-output/**"
+      ],
+      "exclude": [
+        "**/*.log",
+        "**/*.tmp"
+      ]
+    },
+    {
+      "id": "source-pack",
+      "requiredForRuntime": false,
+      "requiredForDevelopment": true,
+      "defaultInstall": false,
+      "include": [
+        "app.html",
+        "assets/**",
+        "config/**",
+        "docs/**",
+        "lifecycle/**",
+        "manifests/**",
+        "scripts/**",
+        "src/**",
+        "src-tauri/**",
+        "templates/**",
+        "tools/**",
+        "workbench-ui-plugin/**",
+        "package.json",
+        "package-lock.json",
+        "AGENTS.md",
+        "README.md",
+        "GOAL-PACK-4.0.md"
+      ],
+      "exclude": [
+        "node_modules/**",
+        ".work/**",
+        ".dsh-home/**",
+        "src-tauri/target/**",
+        "src-tauri/gen/**",
+        "releases/**"
+      ]
+    },
+    {
+      "id": "agent-pack",
+      "requiredForRuntime": false,
+      "requiredForDevelopment": true,
+      "defaultInstall": false,
+      "include": [
+        "agent-pack/**",
+        "AGENTS.md",
+        "agent-task-pack.md",
+        "config/model-provider.*.example.json",
+        "config/workspace-paths.json"
+      ]
+    },
+    {
+      "id": "support-source-pack",
+      "requiredForRuntime": false,
+      "requiredForDevelopment": false,
+      "defaultInstall": false,
+      "include": [
+        "packs/support-source-pack/support-source-pack.7z",
+        "packs/support-source-pack/selection.example.json"
+      ],
+      "selectionFile": "selection.lock",
+      "installPolicy": "selected-only"
+    }
+  ]
+}

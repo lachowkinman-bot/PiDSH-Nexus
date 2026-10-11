@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "er-eap",
  "label": "员工关系/EAP",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "eap.referral@1.0.0",
   "er.offboarding@1.0.0"
@@ -20,7 +22,7 @@
    "pi-hermes-memory"
   ]
  },
- "generated_at": "2026-09-30T05:10:13.569Z",
+ "generated_at": "2026-10-11T06:01:43.167Z",
  "sources": {
   "scenes": [
    "manifests/scenes/eap.referral.yaml",

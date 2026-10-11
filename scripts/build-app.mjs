@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { buildUpgradeStatus } from '../workbench-ui-plugin/lib/integration-layer.mjs';
 
 const ROOT = process.cwd();
 const OUT = process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : 'app.html';
@@ -20,6 +21,19 @@ try {
 
 const MODEL_DIR = path.join(ROOT, 'manifests/domain-model');
 const DELIVERY = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifests/domain-delivery.json'), 'utf8'));
+// 4.0.0-dev8 集成层：集成中心（清单直读）与升级快照（离线可用），预览横幅由 --preview 注入
+const INTEGRATION = fs.existsSync(path.join(ROOT, 'manifests/integration-status.json'))
+  ? JSON.parse(fs.readFileSync(path.join(ROOT, 'manifests/integration-status.json'), 'utf8'))
+  : { schema: 'pids-nexus/integration-status/v1', projects: [] };
+let UPGRADE = null;
+try {
+  UPGRADE = buildUpgradeStatus({ bundleRoot: ROOT });
+  UPGRADE.tools_versions = String(UPGRADE.tools_versions || '').slice(0, 4000);
+} catch (error) {
+  UPGRADE = { error: String(error.message || error) };
+}
+const previewArgIndex = process.argv.indexOf('--preview');
+const PREVIEW = previewArgIndex >= 0 ? { id: process.argv[previewArgIndex + 1] || '', label: '草稿预览（未固化）' } : null;
 const ORDER = fs.readdirSync(MODEL_DIR).filter((f) => f.endsWith('.json')).map((f) => f.replace(/\.json$/, '')).sort();
 const MODELS = {}, DATA = {};
 // CSV 解析必须按逗号（含引号转义）——原先误用 markdown 表格的按 `|` 切分，
@@ -83,6 +97,9 @@ window.__DOMAIN_ORDER__ = ${esc(ORDER)};
 window.__DOMAIN_MODELS__ = ${esc(MODELS)};
 window.__DATA__ = ${esc(DATA)};
 window.__DELIVERY__ = ${esc(DELIVERY)};
+window.__INTEGRATION__ = ${esc(INTEGRATION)};
+window.__UPGRADE__ = ${esc(UPGRADE)};
+window.__PREVIEW__ = ${esc(PREVIEW)};
 </script>
 <script>
 ${js}
@@ -90,7 +107,8 @@ ${js}
 </body>
 </html>
 `;
+fs.mkdirSync(path.dirname(path.join(ROOT, OUT)), { recursive: true });
 fs.writeFileSync(path.join(ROOT, OUT), html, 'utf8');
 const kb = (fs.statSync(path.join(ROOT, OUT)).size / 1024).toFixed(0);
-console.log(`BUILD_OK ${OUT}  domains=${ORDER.length} pages=${pages + 3} size=${kb}KB（PRD 上限 1500KB）`);
+console.log(`BUILD_OK ${OUT}  domains=${ORDER.length} pages=${pages + 6} size=${kb}KB（PRD 上限 1500KB）${PREVIEW ? ' [预览构建]' : ''}`);
 console.log(`  双击 ${OUT} 即可离线运行（file:// 无需服务）`);

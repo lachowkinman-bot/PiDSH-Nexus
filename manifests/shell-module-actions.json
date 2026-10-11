@@ -1,6 +1,6 @@
 {
   "schema": "pids-nexus/shell-module-actions/v1",
-  "generated_at": "2026-09-30T00:00:00.000Z",
+  "generated_at": "2026-10-11T00:00:00.000Z",
   "scope": "DSH main shell modules visible in the PiDSH Nexus desktop application",
   "policy": {
     "t1_brand_renaming": "paused",
@@ -41,7 +41,10 @@
     "^📎$",
     "^(知道了|跳过|稍后|下一步|关闭提示|保留当前显示|开启简化显示|加载中)$",
     "^(审批中心|运行与回退|运行季度战略复盘)$",
-    "^(战略 STRAT|营销（线上）MKT-ON|营销（线下）MKT-OFF|销售 SALES|财务 FIN|招聘 REC|培训 TRN|绩效 PRF|薪酬 COMP|福利 BEN|行政 ADMIN|合规 CMP|员工关系/EAP).+$"
+    "^(战略 STRAT|营销（线上）MKT-ON|营销（线下）MKT-OFF|销售 SALES|财务 FIN|招聘 REC|培训 TRN|绩效 PRF|薪酬 COMP|福利 BEN|行政 ADMIN|合规 CMP|员工关系/EAP).+$",
+    "^⧉ .+$",
+    "^会话（未绑定）$",
+    "^工作台模式入口：.+$"
   ],
   "modules": [
     {
@@ -620,6 +623,51 @@
           "selectors": ["F11 自检"],
           "read": ["selfcheck_report"],
           "evidence": ["screenshot", "report_path"]
+        },
+        {
+          "id": "workbench.standalone",
+          "label": "打开独立驾驶舱",
+          "kind": "navigate",
+          "tier": "local",
+          "selectors": ["打开独立驾驶舱"],
+          "read": ["standalone_app_page"],
+          "evidence": ["app_page_url"]
+        },
+        {
+          "id": "workbench.custom",
+          "label": "打开制作我的工作台（三步向导）",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["制作我的工作台"],
+          "read": ["custom_drafts", "workbench_state"],
+          "evidence": ["screenshot", "draft_state"]
+        },
+        {
+          "id": "workbench.upgrade-center",
+          "label": "打开升级与兼容",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["升级与兼容"],
+          "read": ["upgrade_status"],
+          "evidence": ["screenshot", "upgrade_status"]
+        },
+        {
+          "id": "workbench.market",
+          "label": "打开工作台市场",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["工作台市场"],
+          "read": ["workbench_catalog", "installed_workbenches", "datasources"],
+          "evidence": ["screenshot", "catalog_state"]
+        },
+        {
+          "id": "workbench.local-entry",
+          "label": "打开已安装的本地工作台（侧边栏一级入口）",
+          "kind": "click",
+          "tier": "local",
+          "selectors": ["⧉"],
+          "read": ["installed_workbench"],
+          "evidence": ["screenshot", "domain_state"]
         }
       ]
     },

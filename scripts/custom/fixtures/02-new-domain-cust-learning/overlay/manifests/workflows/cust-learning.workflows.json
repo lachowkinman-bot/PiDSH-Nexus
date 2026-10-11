@@ -1,0 +1,46 @@
+[
+  {
+    "workflow_id": "cust-learning.course-plan@1.0.0",
+    "domain": "cust-learning",
+    "kind": "report",
+    "description": "课程计划与开课排期",
+    "skill": "course-plan",
+    "trigger": { "type": "command", "expr": "course-plan" },
+    "nodes": [
+      { "id": "n1", "type": "skill", "ref": "course-plan" },
+      { "id": "n2", "type": "tool", "ref": "cap.excel.panel.write" },
+      { "id": "n3", "type": "audit", "record": "课程计划：依据数据版本与产物哈希" }
+    ],
+    "deliverable": {
+      "file": "course-plan-<ts>.json",
+      "format": "json",
+      "fields": ["course", "start_at", "seats", "owner_masked"],
+      "acceptance": "课程、开课时间与席位可溯源到报名台账"
+    },
+    "hitl_nodes": [],
+    "dual": false,
+    "rollback": { "method": "savepoint", "tag": "pre-course-plan" }
+  },
+  {
+    "workflow_id": "cust-learning.enroll-report@1.0.0",
+    "domain": "cust-learning",
+    "kind": "report",
+    "description": "报名与完成率周报",
+    "skill": "enroll-track",
+    "trigger": { "type": "command", "expr": "enroll-report" },
+    "nodes": [
+      { "id": "n1", "type": "skill", "ref": "enroll-track" },
+      { "id": "n2", "type": "tool", "ref": "cap.excel.panel.write" },
+      { "id": "n3", "type": "audit", "record": "周报：报名/完成率口径与数据版本" }
+    ],
+    "deliverable": {
+      "file": "enroll-report-<ts>.json",
+      "format": "json",
+      "fields": ["week", "course", "enrolled", "completed", "completion_pct"],
+      "acceptance": "完成率以报名为基期，结论可下钻到行级证据"
+    },
+    "hitl_nodes": [],
+    "dual": false,
+    "rollback": { "method": "savepoint", "tag": "pre-enroll-report" }
+  }
+]

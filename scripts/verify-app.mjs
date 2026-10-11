@@ -95,8 +95,9 @@ try {
       .map((entry) => path.relative(root, path.join(entry.parentPath, entry.name)))
     : []);
   const auditDir = path.join(ROOT, 'templates/workspace/audit');
-  const auditFile = fs.readdirSync(auditDir).filter((f) => /^audit-.*\.jsonl$/.test(f)).sort().pop();   // 取最新，不硬编码日期
-  const audit = fs.readFileSync(path.join(auditDir, auditFile), 'utf8').split(/\r?\n/).filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+  // 取最近 3 个审计文件的并集：单个“最新文件”可能是别种动作写入的（2026-10-11 实测：当日文件只有 engine.run → 勾稽假失败）。
+  const auditFiles = fs.readdirSync(auditDir).filter((f) => /^audit-.*\.jsonl$/.test(f)).sort().slice(-3);
+  const audit = auditFiles.flatMap((file) => fs.readFileSync(path.join(auditDir, file), 'utf8').split(/\r?\n/).filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean));
   const creates = audit.filter((a) => a.action === 'deliverable.create' || a.action === 'deliverable.package.create');
   rec('勾稽', '交付物↔审计(deliverable create)', dl.length > 0 && creates.length > 0, `deliverables=${dl.length} audit_create=${creates.length}`);
   const runs = audit.filter((a) => a.action === 'engine.run');

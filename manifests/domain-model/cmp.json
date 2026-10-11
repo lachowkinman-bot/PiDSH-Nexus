@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "cmp",
  "label": "合规 CMP",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "cmp.policy-review@1.0.0"
  ],
@@ -14,7 +16,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.563Z",
+ "generated_at": "2026-10-11T06:01:43.163Z",
  "sources": {
   "scenes": [
    "manifests/scenes/cmp.policy-review.yaml"

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0",
+  "policy": "顶层作用域内的旧 cohort 包默认判失败；仅允许逐条、带原因、精确 name@version 的白名单豁免。插件私有嵌套副本不判失败但记录在案。",
+  "entries": [
+    {
+      "name": "@deepseek-ai/dsh-sdk-client",
+      "version": "0.1.0-rc.8",
+      "reason": "仅由 dsh-lark-bot@0.19.16 以普通依赖声明并被 npm 提升到顶层；0.2.0-rc.2 引擎闭包不消费该包（引擎 deps 无 dsh-sdk-client），故不构成引擎遮蔽。升级到 0.2.0-rc.2 会改变 lark-bot 自身依赖的 SDK 客户端协议，按最小变更原则保留原版；lark-bot 属 BLOCKED_EXTERNAL（需飞书凭据），真实链路未验证。重评条件：上游 lark-bot 发布声明 0.2 peer 的版本，或实证链路失败。"
+    }
+  ]
+}

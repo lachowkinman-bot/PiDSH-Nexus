@@ -1,0 +1,9 @@
+{
+  "name": "runtime-uninstall",
+  "note": "正例⑥：卸载运行时工作台（移除入口与生成物、保留数据）。",
+  "action": "uninstall",
+  "id": "cust-learning",
+  "expect": {
+    "ok": true
+  }
+}

@@ -8,7 +8,12 @@ Set-Location $root
 # 0) 项目内便携 Node 优先入 PATH（含随安装预置的 dsh 引擎）
 $portable = Join-Path $root 'offline\node\node-v24.21.0-win-x64'
 if (Test-Path (Join-Path $portable 'dsh.cmd')) { $env:PATH = "$portable;$env:PATH" }
-if (-not $env:DSH_HOME) { $env:DSH_HOME = Join-Path $root '.dsh-home' }
+if (-not $env:UNIVERSAL_WORKBENCH_DATA_ROOT) {
+  $env:UNIVERSAL_WORKBENCH_DATA_ROOT = Join-Path $env:LOCALAPPDATA 'UniversalWorkbench\4.0'
+}
+if (-not $env:DSH_HOME) { $env:DSH_HOME = Join-Path $env:UNIVERSAL_WORKBENCH_DATA_ROOT 'dsh-home' }
+$env:UNIVERSAL_WORKBENCH_ROOT = $root
+New-Item -ItemType Directory -Force -Path $env:DSH_HOME | Out-Null
 
 # 2026-10-11（0.2 升级）：优先使用 profile 内引擎（与 Tauri node_and_dsh 同一策略），
 # 避免机器上残留的旧全局引擎（如 0.1.7）引导新 profile。
@@ -23,6 +28,10 @@ $pluginOk = Test-Path (Join-Path $env:DSH_HOME 'profiles\web\node_modules\@workb
 if (-not ($dshOk -and $pluginOk)) {
   Write-Host "[launch] 自愈：离线安装 DSH 引擎 / pnpm / 插件（含工作台插件）…"
   & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $root 'scripts\workbench.ps1') -Cmd install
+}
+$applyManifest = Join-Path $root 'scripts\4.0-apply-runtime-manifest.mjs'
+if ((Test-Path $applyManifest) -and (Test-Path (Join-Path $env:DSH_HOME 'profiles\web\package.json'))) {
+  & node $applyManifest --root $root --data-root $env:UNIVERSAL_WORKBENCH_DATA_ROOT | Out-Null
 }
 
 # 2) DSH 是否已在 3080 端口

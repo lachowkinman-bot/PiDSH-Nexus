@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "trn",
  "label": "培训 TRN",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "trn.plan-approve@1.0.0"
  ],
@@ -14,7 +16,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.600Z",
+ "generated_at": "2026-10-11T06:01:43.182Z",
  "sources": {
   "scenes": [
    "manifests/scenes/trn.plan-approve.yaml"

@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "ben",
  "label": "福利 BEN",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "ben.plan-compare@1.0.0"
  ],
@@ -15,7 +17,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.559Z",
+ "generated_at": "2026-10-11T06:01:43.161Z",
  "sources": {
   "scenes": [
    "manifests/scenes/ben.plan-compare.yaml"

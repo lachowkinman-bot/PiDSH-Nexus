@@ -1,0 +1,18 @@
+[
+  {
+    "workflow_id": "cust-support.ticket-triage@1.0.0",
+    "domain": "cust-support",
+    "kind": "report",
+    "description": "工单分流建议",
+    "skill": "ticket-triage",
+    "trigger": { "type": "command", "expr": "ticket-triage" },
+    "nodes": [
+      { "id": "n1", "type": "skill", "ref": "ticket-triage" },
+      { "id": "n2", "type": "audit", "record": "分流：依据数据版本" }
+    ],
+    "deliverable": { "file": "triage-<ts>.json", "format": "json", "fields": ["ticket", "queue"], "acceptance": "可溯源" },
+    "hitl_nodes": [],
+    "dual": false,
+    "rollback": { "method": "savepoint", "tag": "pre-triage" }
+  }
+]

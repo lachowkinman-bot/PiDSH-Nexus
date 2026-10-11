@@ -1,0 +1,16 @@
+{
+  "name": "import-reject-headers",
+  "note": "反例④：严格模式表头不符 → 拒绝写入并给出缺失/多余列清单。",
+  "action": "import",
+  "import": {
+    "domain": "cust-learning",
+    "table": "enrollments",
+    "mode": "strict",
+    "csv": "wrong_a,wrong_b\n1,2"
+  },
+  "expect": {
+    "ok": false,
+    "missingLike": "learner_masked",
+    "extraLike": "wrong_a"
+  }
+}

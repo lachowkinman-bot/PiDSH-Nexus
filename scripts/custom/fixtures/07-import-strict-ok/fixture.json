@@ -1,0 +1,14 @@
+{
+  "name": "import-strict-ok",
+  "note": "正例④：严格模式导入真实台账（表头与域模型逐字一致）→ 落库成功。",
+  "action": "import",
+  "import": {
+    "domain": "cust-learning",
+    "table": "enrollments",
+    "mode": "strict",
+    "csv": "learner_masked,course,status,hours,updated_at\n学**,课程A,completed,6,2026-10-11\n员**,课程B,enrolled,-,2026-10-11"
+  },
+  "expect": {
+    "ok": true
+  }
+}

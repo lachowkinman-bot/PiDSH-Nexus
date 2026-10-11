@@ -241275,7 +241275,12 @@ function findPptCore(root) {
   }
   return null;
 }
-function loadDomainModel(root, domain) {
+function loadDomainModel(root, domain, runtimeRoot = null) {
+  if (runtimeRoot) {
+    const runtimeFile = import_node_path.default.join(runtimeRoot, domain, "generated", "domain-model.json");
+    const runtimeModel = readJson(runtimeFile);
+    if (runtimeModel) return runtimeModel;
+  }
   const file = import_node_path.default.join(root, "manifests", "domain-model", `${domain}.json`);
   if (!import_node_fs.default.existsSync(file)) throw new DeliveryError("DOMAIN_MODEL_MISSING", `\u7F3A\u5C11\u57DF\u6A21\u578B\uFF1A${domain}`, 503);
   const model = readJson(file);
@@ -241288,9 +241293,23 @@ function loadProfiles(root) {
   if (!doc?.domains) throw new DeliveryError("DELIVERY_PROFILE_MISSING", "\u7F3A\u5C11 manifests/domain-delivery.json", 503);
   return doc;
 }
-function loadWorkflow(root, workflowId) {
+function loadWorkflowIndex(root, runtimeRoot = null) {
   const index = readJson(import_node_path.default.join(root, "manifests", "workflows", "index.json"), { workflows: [] });
-  const workflow = (index.workflows || []).find((item) => item.workflow_id === workflowId);
+  const workflows = [...index.workflows || []];
+  if (runtimeRoot && import_node_fs.default.existsSync(runtimeRoot)) {
+    for (const entry of import_node_fs.default.readdirSync(runtimeRoot, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const file = import_node_path.default.join(runtimeRoot, entry.name, "generated", "workflow-entries.json");
+      const entries = readJson(file, []);
+      for (const item of Array.isArray(entries) ? entries : []) {
+        if (!workflows.some((candidate) => candidate.workflow_id === item.workflow_id)) workflows.push(item);
+      }
+    }
+  }
+  return workflows;
+}
+function loadWorkflow(root, workflowId, runtimeRoot = null) {
+  const workflow = loadWorkflowIndex(root, runtimeRoot).find((item) => item.workflow_id === workflowId);
   if (!workflow) throw new DeliveryError("WORKFLOW_MISSING", `\u627E\u4E0D\u5230\u5DE5\u4F5C\u6D41\uFF1A${workflowId}`, 503);
   return workflow;
 }
@@ -241619,6 +241638,7 @@ function createDeliveryService({ root, workspaceRoot, audit = () => {
   const workspaceDir = explicitWorkspace || bundleDir;
   const deliverablesDir = explicitWorkspace ? import_node_path.default.join(explicitWorkspace, "deliverables") : import_node_path.default.join(bundleDir, "deliverables");
   const dataDir = explicitWorkspace ? import_node_path.default.join(explicitWorkspace, "data") : import_node_path.default.join(bundleDir, "templates", "workspace", "data");
+  const runtimeRoot = import_node_path.default.join(workspaceDir, "custom", "installed");
   const fontFile = import_node_path.default.join(bundleDir, "assets", "fonts", "NotoSansCJKsc-Regular.otf");
   function profiles() {
     return loadProfiles(bundleDir);
@@ -241634,14 +241654,28 @@ function createDeliveryService({ root, workspaceRoot, audit = () => {
   async function deliverDomain(options2 = {}) {
     const domain = safeSegment(options2.domain, "domain");
     const profileDoc = profiles();
-    const profile = profileDoc.domains[domain];
-    if (!profile) throw new DeliveryError("DOMAIN_NOT_FOUND", `\u672A\u77E5\u57DF\uFF1A${domain}`, 400);
+    let profile = profileDoc.domains[domain];
+    let runtimeProfile = false;
+    if (!profile) {
+      const model2 = loadDomainModel(bundleDir, domain, runtimeRoot);
+      const workflow2 = loadWorkflowIndex(bundleDir, runtimeRoot).find((item) => item.domain === domain);
+      if (!workflow2) throw new DeliveryError("DOMAIN_NOT_FOUND", `\u672A\u77E5\u57DF\uFF1A${domain}`, 400);
+      runtimeProfile = true;
+      profile = {
+        title: `${model2.label || domain} \u4EA4\u4ED8\u5305`,
+        workflow_id: workflow2.workflow_id,
+        primary_table: model2.tables && model2.tables[0] ? model2.tables[0].file : null,
+        secondary_table: null,
+        notes: "\u8FD0\u884C\u65F6\u5DE5\u4F5C\u53F0\u9ED8\u8BA4\u4EA4\u4ED8 profile\uFF08\u672A\u56FA\u5316\uFF09"
+      };
+    }
     const requestedFormats = normalizeFormats(options2.formats);
     if (requestedFormats.length === 0) throw new DeliveryError("FORMAT_REQUIRED", "\u81F3\u5C11\u9009\u62E9\u4E00\u79CD\u683C\u5F0F", 400);
     const workflowId = options2.workflowId || profile.workflow_id;
-    const model = loadDomainModel(bundleDir, domain);
-    const workflow = loadWorkflow(bundleDir, workflowId);
+    const model = loadDomainModel(bundleDir, domain, runtimeRoot);
+    const workflow = loadWorkflow(bundleDir, workflowId, runtimeRoot);
     const deliveryProfile = { ...profile, workflow_id: workflow.workflow_id };
+    void runtimeProfile;
     const tables = readSourceTables(dataDir, domain, profile);
     const generatedAt = (/* @__PURE__ */ new Date()).toISOString();
     const stamp = generatedAt.replace(/[-:.]/g, "").replace("T", "-").replace("Z", "");

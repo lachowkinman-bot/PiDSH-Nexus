@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 2,
+  "kind": "catalog",
+  "generatedAt": "2026-10-11T00:00:00.000Z",
+  "categories": [
+    { "id": "hr-learning", "name": "人力资源 · 学习运营" },
+    { "id": "local", "name": "本地工作台" }
+  ],
+  "workbenches": [
+    {
+      "id": "pids:cust-learning",
+      "name": "学习运营工作台（样例）",
+      "category": "hr-learning",
+      "description": {
+        "zh": "课程计划与报名/完成率报告：演示自定义工作台的完整资产契约（场景 / 技能 / 台账 / §9 规则 + 工作流条目）。",
+        "en": "Course planning plus enrollment/completion reporting: a full custom-workbench sample (scene, skills, ledger data, rules, workflow entries)."
+      },
+      "version": "1.0.0",
+      "license": "Apache-2.0",
+      "url": "https://github.com/lachowkinman-bot/PiDSH-Nexus",
+      "audience": "学习运营 / 培训团队",
+      "requirements": "PiDSH Nexus 4.0.0-dev10+（运行时装订管线）",
+      "metrics": { "stars": null, "downloads": null },
+      "screenshots": [
+        {
+          "file": "screenshots/01.png",
+          "alt": "学习运营工作台（样例）界面",
+          "sha256": "1e667b217c11cd67cd902050f1d83bba2724c895943b27fdbd323a7632dde0bd",
+          "width": 1280,
+          "height": 800,
+          "bytes": 82888
+        }
+      ],
+      "distribution": {
+        "type": "pids-runtime",
+        "version": "1.0.0",
+        "path": "samples/workbenches/cust-learning"
+      }
+    }
+  ]
+}

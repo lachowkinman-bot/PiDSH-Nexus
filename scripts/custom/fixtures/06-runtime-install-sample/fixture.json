@@ -1,0 +1,9 @@
+{
+  "name": "runtime-install-sample",
+  "note": "正例③：从随包样例运行时安装工作台（装上即用），断言安装清单与工作流定义可加载。",
+  "action": "sample-install",
+  "sampleId": "cust-learning",
+  "expect": {
+    "definitionsFor": "cust-learning"
+  }
+}

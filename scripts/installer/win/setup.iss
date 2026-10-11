@@ -43,6 +43,10 @@ Source: "..\..\..\offline\node\node-v24.21.0-win-x64\npm*"; DestDir: "{app}\offl
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\npx*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64"; Flags: ignoreversion
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\corepack*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64"; Flags: ignoreversion
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\pnpm*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64"; Flags: ignoreversion
+; 2026-10-11（0.2 升级修复说明）：便携 Node 的全局 DSH 闭包仍不入包——ISCC 对 @aws-sdk 等
+;   深层路径触发 Windows 长路径限制（编译中止，实测）。改为：Tauri `node_and_dsh` 与
+;   `scripts/launch.ps1` 都优先使用 profile 内引擎（.dsh-home/profiles/web/node_modules/@deepseek-ai/dsh），
+;   机器上残留的旧全局引擎不再参与启动，避免"旧引擎引导新 profile"。
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\node_modules\npm\*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64\node_modules\npm"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\node_modules\corepack\*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64\node_modules\corepack"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\offline\node\node-v24.21.0-win-x64\node_modules\pnpm\*"; DestDir: "{app}\offline\node\node-v24.21.0-win-x64\node_modules\pnpm"; Flags: recursesubdirs ignoreversion
@@ -58,14 +62,17 @@ Source: "..\..\..\docs\*"; DestDir: "{app}\docs"; Flags: recursesubdirs ignoreve
 ; 此前安装包未含 app.html / workbench-ui-plugin / src：装出的产品既没有 ⟡ 工作台 面板
 ; （该插件一直是开发期手工 link 进 profile 的），launch.ps1 的 /app-page 也会落到"尚未构建"占位页。
 Source: "..\..\..\app.html"; DestDir: "{app}"; Flags: ignoreversion
-; 2026-10-11（0.2 升级修复）：随包提供模型配置示例（用户级 config\model-provider.json 由用户自建，
-; 密钥只引用环境变量）；并携带 tools/（工作台引擎运行器 tools/model-adapter/cli.mjs 与
-; tools/dsh-upgrade-skill 升级流程副本）——缺 tools 时安装态旅程门禁实测 MODEL_UNAVAILABLE。
+; 2026-10-11（0.2 升级修复）：随包提供模型配置示例（用户级配置 config\model-provider.json 仍由用户自建，
+; 密钥只引用环境变量；工作台引擎运行器按 {app}\config\model-provider.json 读取）。
 Source: "..\..\..\config\model-provider.example.json"; DestDir: "{app}\config"; Flags: ignoreversion
+; 2026-10-11（0.2 升级修复）：tools/ 未入包时，工作台引擎运行器（tools/model-adapter/cli.mjs）
+; 缺失 → 每次 engine.run 回退离线 → 旅程门禁 MODEL_UNAVAILABLE（安装态实测）。
+; 一并携带 tools/dsh-upgrade-skill（MIT 固定副本，升级流程离线可用）。
 Source: "..\..\..\tools\*"; DestDir: "{app}\tools"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\workbench-ui-plugin\*"; DestDir: "{app}\workbench-ui-plugin"; Excludes: "node_modules"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\src\*"; DestDir: "{app}\src"; Flags: recursesubdirs ignoreversion
 Source: "..\..\..\assets\*"; DestDir: "{app}\assets"; Flags: recursesubdirs ignoreversion
+Source: "..\..\..\samples\*"; DestDir: "{app}\samples"; Flags: recursesubdirs ignoreversion
 ; .dsh-home profile 不入安装包：目标机由 postinstall 的 workbench.ps1 install 从 runtime-web.zip 解压刷新
 
 [InstallDelete]

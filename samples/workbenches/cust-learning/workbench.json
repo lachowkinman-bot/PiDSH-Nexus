@@ -1,0 +1,56 @@
+{
+  "schema": "pids-nexus/workbench-package/v2",
+  "id": "pids:cust-learning",
+  "name": "学习运营工作台（样例）",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "category": "hr-learning",
+  "description": {
+    "zh": "课程计划与报名/完成率报告：演示自定义工作台的完整资产契约（场景/技能/台账/§9 规则 + 工作流条目）。",
+    "en": "Course planning plus enrollment/completion reporting: a full custom-workbench sample (scene, skills, ledger data, §9 rules, workflow entries)."
+  },
+  "audience": "学习运营 / 培训团队",
+  "assets": "assets",
+  "files": [
+    {
+      "path": "docs/preset-design/cust-learning.md",
+      "sha256": "f8fade5582fb36967714cfb421dc8146ef0bf4972dc698ac5150cbc81945d786",
+      "bytes": 1121
+    },
+    {
+      "path": "manifests/scenes/cust-learning.course-ops.yaml",
+      "sha256": "58cfdb0055c2fc5d7c98953139594090a0b265a8185d0885bce6483b26a6415f",
+      "bytes": 1135
+    },
+    {
+      "path": "manifests/workflows/cust-learning.workflows.json",
+      "sha256": "c24efd20eade4451904b6d72ef2c93d2e480bde822e495b24a2373af6b56bb16",
+      "bytes": 1728
+    },
+    {
+      "path": "templates/skills-domain/cust-learning/SKILL-course-plan.md",
+      "sha256": "f3eb654420ba980995d8cd4d68defa29be7e0e0aef20ed7c29a099b62bd0e920",
+      "bytes": 281
+    },
+    {
+      "path": "templates/skills-domain/cust-learning/SKILL-enroll-track.md",
+      "sha256": "41a6e1dba792837ae482f0beb12eefdbc07167d830e93e76b4fdb5790590def6",
+      "bytes": 265
+    },
+    {
+      "path": "templates/workspace/data/cust-learning/enrollments.csv",
+      "sha256": "57a5bad7ea13faa71d42db086726e94a29627014b8e8e2b6696496f9b3c45094",
+      "bytes": 294
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "screenshots/01.png",
+      "alt": "学习运营工作台（样例） 01.png",
+      "sha256": "1e667b217c11cd67cd902050f1d83bba2724c895943b27fdbd323a7632dde0bd",
+      "width": 1280,
+      "height": 800,
+      "bytes": 82888
+    }
+  ]
+}

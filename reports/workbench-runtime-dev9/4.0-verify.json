@@ -1,0 +1,228 @@
+{
+    "schemaVersion":  "1.0",
+    "gate":  "verify",
+    "root":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0",
+    "dataRoot":  "C:\\Users\\Kinman\\.codex\\visualizations\\2026\\10\\11\\01a12969-6e90-7d30-ab51-abc0a05e7e70\\uw4-4.0-verify-dev9",
+    "requireOnline":  false,
+    "checks":  [
+                   {
+                       "id":  "required:GOAL-PACK-4.0.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\GOAL-PACK-4.0.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.5944508Z"
+                   },
+                   {
+                       "id":  "required:AGENTS.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\AGENTS.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.5999645Z"
+                   },
+                   {
+                       "id":  "required:agent-task-pack.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\agent-task-pack.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.5999645Z"
+                   },
+                   {
+                       "id":  "required:RESOURCE_CHECKLIST.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\RESOURCE_CHECKLIST.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.5999645Z"
+                   },
+                   {
+                       "id":  "required:manifests\\pack-layers.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\pack-layers.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6009645Z"
+                   },
+                   {
+                       "id":  "required:manifests\\release-gates.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\release-gates.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6009645Z"
+                   },
+                   {
+                       "id":  "required:manifests\\model-provider-contract.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\model-provider-contract.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6009645Z"
+                   },
+                   {
+                       "id":  "required:manifests\\runtime-bundles.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\runtime-bundles.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6019641Z"
+                   },
+                   {
+                       "id":  "required:manifests\\runtime-web.package.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\runtime-web.package.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6019641Z"
+                   },
+                   {
+                       "id":  "required:manifests\\plugin-catalog.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\plugin-catalog.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6019641Z"
+                   },
+                   {
+                       "id":  "required:manifests\\evidence-summary.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\evidence-summary.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6029712Z"
+                   },
+                   {
+                       "id":  "required:config\\workspace-paths.json",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\config\\workspace-paths.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6029712Z"
+                   },
+                   {
+                       "id":  "required:packs\\runtime-pack\\README.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\packs\\runtime-pack\\README.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6039693Z"
+                   },
+                   {
+                       "id":  "required:packs\\source-pack\\README.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\packs\\source-pack\\README.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6039693Z"
+                   },
+                   {
+                       "id":  "required:packs\\agent-pack\\README.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\packs\\agent-pack\\README.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6039693Z"
+                   },
+                   {
+                       "id":  "required:packs\\support-source-pack\\README.md",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\packs\\support-source-pack\\README.md",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6049679Z"
+                   },
+                   {
+                       "id":  "required:packs\\support-source-pack\\support-source-pack.7z",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\packs\\support-source-pack\\support-source-pack.7z",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6049679Z"
+                   },
+                   {
+                       "id":  "required:scripts\\4.0-init.ps1",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\scripts\\4.0-init.ps1",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6059711Z"
+                   },
+                   {
+                       "id":  "required:scripts\\4.0-pack.ps1",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\scripts\\4.0-pack.ps1",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6059711Z"
+                   },
+                   {
+                       "id":  "required:scripts\\4.0-restore.ps1",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\scripts\\4.0-restore.ps1",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6059711Z"
+                   },
+                   {
+                       "id":  "required:tools\\model-adapter\\cli.mjs",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\tools\\model-adapter\\cli.mjs",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6069687Z"
+                   },
+                   {
+                       "id":  "required:tools\\model-adapter\\index.mjs",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\tools\\model-adapter\\index.mjs",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6069687Z"
+                   },
+                   {
+                       "id":  "runtime:runtime-web.zip",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\offline-3.0\\runtime-web.zip",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6079678Z"
+                   },
+                   {
+                       "id":  "runtime:installer",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\installer-output\\UniversalWorkbench-Setup.exe",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6079678Z"
+                   },
+                   {
+                       "id":  "support:available",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\packs\\support-source-pack\\support-source-pack.7z",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6099679Z"
+                   },
+                   {
+                       "id":  "path:program-data-separated",
+                       "status":  "PASS",
+                       "evidence":  "C:\\Users\\Kinman\\.codex\\visualizations\\2026\\10\\11\\01a12969-6e90-7d30-ab51-abc0a05e7e70\\uw4-4.0-verify-dev9",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:49:49.6149701Z"
+                   },
+                   {
+                       "id":  "runtime:init-exit",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\init.json",
+                       "detail":  "exit=0",
+                       "timestamp":  "2026-10-11T07:50:51.1840750Z"
+                   },
+                   {
+                       "id":  "model:config-optional",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\config\\model-provider.json",
+                       "detail":  "offline baseline",
+                       "timestamp":  "2026-10-11T07:50:51.1850825Z"
+                   },
+                   {
+                       "id":  "security:scan-exit",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\security-scan.json",
+                       "detail":  "exit=0",
+                       "timestamp":  "2026-10-11T07:50:51.3762136Z"
+                   },
+                   {
+                       "id":  "plugins:selection-exit",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\plugin-selection-verification.json",
+                       "detail":  "exit=0",
+                       "timestamp":  "2026-10-11T07:50:51.4504093Z"
+                   },
+                   {
+                       "id":  "input:bom-present",
+                       "status":  "PASS",
+                       "evidence":  "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\manifests\\input-bom.json",
+                       "detail":  "",
+                       "timestamp":  "2026-10-11T07:50:51.4504093Z"
+                   }
+               ],
+    "ok":  true,
+    "finishedAt":  "2026-10-11T07:50:51.4534122Z"
+}

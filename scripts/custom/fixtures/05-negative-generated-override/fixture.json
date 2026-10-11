@@ -1,0 +1,15 @@
+{
+  "name": "negative-generated-override",
+  "note": "反例③：直接改写生成器管理的 manifests/workflows/*.yaml → 预检必须拒绝（生成物守卫）。",
+  "draft": {
+    "kind": "revise",
+    "targetDomain": "rec",
+    "title": "反例：改写生成物",
+    "requirements": "负向夹具：验证生成物守卫。"
+  },
+  "expect": {
+    "ok": false,
+    "domainOk": false,
+    "gapsLike": ["由生成器管理"]
+  }
+}

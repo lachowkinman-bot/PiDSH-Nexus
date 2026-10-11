@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0",
+  "gate": "evidence-summary",
+  "generatedAt": "2026-10-02T11:39:53.106Z",
+  "gates": [
+    {
+      "id": "H1",
+      "name": "input-integrity",
+      "status": "PASS",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\input-bom.json"
+    },
+    {
+      "id": "H2",
+      "name": "runtime-offline-install",
+      "status": "PASS",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\init.json"
+    },
+    {
+      "id": "H3",
+      "name": "runtime-offline-launch-and-navigation",
+      "status": "PASS",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\runtime-ui.json"
+    },
+    {
+      "id": "H4",
+      "name": "path-boundary",
+      "status": "PASS",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\path-boundary.json"
+    },
+    {
+      "id": "H5",
+      "name": "secret-and-pii-scan",
+      "status": "PASS",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\security-scan.json"
+    },
+    {
+      "id": "H6",
+      "name": "model-capability-probe",
+      "status": "NOT_RUN",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\model-capability.json"
+    },
+    {
+      "id": "H7",
+      "name": "live-workflow",
+      "status": "NOT_RUN",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\workflow-live.json"
+    },
+    {
+      "id": "H8",
+      "name": "plugin-selection",
+      "status": "PASS",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\plugin-selection-verification.json"
+    },
+    {
+      "id": "H9",
+      "name": "upgrade-and-rollback",
+      "status": "NOT_RUN",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\upgrade-rollback.json"
+    },
+    {
+      "id": "H10",
+      "name": "development-rebuild",
+      "status": "NOT_RUN",
+      "evidence": "F:\\Pi_DSH_workplace\\universal-workbench-4.0\\reports\\4.0\\dev-rebuild.json"
+    }
+  ],
+  "allHardGatesPass": false,
+  "missing": [
+    "H6",
+    "H7",
+    "H9",
+    "H10"
+  ],
+  "releaseRecommendation": "stage-report-only",
+  "ok": false
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0",
+  "hardGates": [
+    {
+      "id": "H1",
+      "name": "input-integrity",
+      "required": true,
+      "evidence": "reports/4.0/input-bom.json",
+      "failurePolicy": "block-preview-and-stable"
+    },
+    {
+      "id": "H2",
+      "name": "runtime-offline-install",
+      "required": true,
+      "evidence": "reports/4.0/runtime-offline.json",
+      "failurePolicy": "block-preview-and-stable"
+    },
+    {
+      "id": "H3",
+      "name": "runtime-offline-launch-and-navigation",
+      "required": true,
+      "evidence": "reports/4.0/runtime-ui.json",
+      "failurePolicy": "block-preview-and-stable"
+    },
+    {
+      "id": "H4",
+      "name": "data-and-program-separation",
+      "required": true,
+      "evidence": "reports/4.0/path-boundary.json",
+      "failurePolicy": "block-preview-and-stable"
+    },
+    {
+      "id": "H5",
+      "name": "secret-and-pii-scan",
+      "required": true,
+      "evidence": "reports/4.0/security-scan.json",
+      "failurePolicy": "block-preview-and-stable"
+    },
+    {
+      "id": "H6",
+      "name": "model-capability-probe",
+      "required": true,
+      "evidence": "reports/4.0/model-capability.json",
+      "failurePolicy": "block-online-model-features"
+    },
+    {
+      "id": "H7",
+      "name": "live-workflow",
+      "required": true,
+      "evidence": "reports/4.0/workflow-live.json",
+      "failurePolicy": "block-stable"
+    },
+    {
+      "id": "H8",
+      "name": "plugin-selection-dependency-check",
+      "required": true,
+      "evidence": "manifests/plugin-selection-verification.json",
+      "failurePolicy": "block-selected-plugin-install"
+    },
+    {
+      "id": "H9",
+      "name": "upgrade-and-rollback",
+      "required": true,
+      "evidence": "reports/4.0/upgrade-rollback.json",
+      "failurePolicy": "block-stable"
+    },
+    {
+      "id": "H10",
+      "name": "development-rebuild",
+      "required": true,
+      "evidence": "reports/4.0/dev-rebuild.json",
+      "failurePolicy": "block-stable"
+    }
+  ],
+  "releasePolicy": {
+    "preview": {
+      "requiresHardGates": true,
+      "windows11": "full",
+      "windows10": "install-start-core-rollback-smoke"
+    },
+    "stable": {
+      "requiresHardGates": true,
+      "windows11": "full",
+      "windows10": "full",
+      "userQualityDecision": true
+    }
+  }
+}

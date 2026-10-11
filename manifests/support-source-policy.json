@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0",
+  "sourceDirectory": "packs/support-source-pack/Pi_DSH_support",
+  "defaultInstall": false,
+  "selectionMode": "selected-only",
+  "selectionFile": "selection.lock",
+  "catalogFile": "manifests/plugin-catalog.json",
+  "requiredFields": [
+    "id",
+    "source",
+    "version",
+    "dependencies",
+    "peerDependencies",
+    "license",
+    "size",
+    "sha256"
+  ],
+  "rules": [
+    "never install every plugin by default",
+    "resolve dependencies before changing the base profile",
+    "fail on unresolved peer conflicts",
+    "record selected and skipped items",
+    "keep selection reproducible across machines"
+  ]
+}

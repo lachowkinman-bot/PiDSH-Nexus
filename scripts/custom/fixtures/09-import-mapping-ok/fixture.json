@@ -1,0 +1,21 @@
+{
+  "name": "import-mapping-ok",
+  "note": "正例⑤：列映射导入（现实列名不一致）→ 映射后落库成功。",
+  "action": "import",
+  "import": {
+    "domain": "cust-learning",
+    "table": "enrollments",
+    "mode": "mapping",
+    "mapping": {
+      "Learner": "learner_masked",
+      "Course": "course",
+      "Status": "status",
+      "Hours": "hours",
+      "Updated": "updated_at"
+    },
+    "csv": "Learner,Course,Status,Hours,Updated\n学**,课程C,enrolled,-,2026-10-11"
+  },
+  "expect": {
+    "ok": true
+  }
+}

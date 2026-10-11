@@ -1,0 +1,11 @@
+{
+  "templates/Type-Dict/field-type-dict.csv": [
+    "\"rec\",\"requisitions.csv\",\"dept\",\"csv\",\"string\",\"\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"用人部门（业务归属）；原始列\"",
+    "\"rec\",\"requisitions.csv\",\"headcount\",\"csv\",\"number\",\"\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"编制人数（正整数）；原始列\"",
+    "\"rec\",\"requisitions.csv\",\"opened_at\",\"csv\",\"string\",\"date\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"需求开放日期（YYYY-MM-DD）；原始列\"",
+    "\"rec\",\"requisitions.csv\",\"owner_masked\",\"csv\",\"string\",\"\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"负责招聘的掩码标识；原始列\"",
+    "\"rec\",\"requisitions.csv\",\"position\",\"csv\",\"string\",\"\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"招聘岗位名称；原始列\"",
+    "\"rec\",\"requisitions.csv\",\"requisition_id\",\"csv\",\"string\",\"\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"需求编号，唯一；原始列\"",
+    "\"rec\",\"requisitions.csv\",\"status\",\"csv\",\"string\",\"\",\"true\",\"rec/requisitions.csv\",\"L3\",\"false\",\"\",\"需求状态（open/paused/closed）；原始列\""
+  ]
+}

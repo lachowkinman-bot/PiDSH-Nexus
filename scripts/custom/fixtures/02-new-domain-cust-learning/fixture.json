@@ -1,0 +1,19 @@
+{
+  "name": "new-domain-cust-learning",
+  "note": "正例②：全新自定义域（完整资产契约）。域级校验必须通过；13 域闭集基线门禁必然不覆盖新增域，失败摘要登记为基线扩展缺口（baseline_pending）。",
+  "draft": {
+    "kind": "new-domain",
+    "newDomain": "cust-learning",
+    "title": "新增学习运营域",
+    "requirements": "学习运营岗位需要按课程跟踪报名与完成率，并按周出报告。"
+  },
+  "expect": {
+    "ok": true,
+    "domainOk": true,
+    "baselinePending": true
+  },
+  "runtime": {
+    "install": true,
+    "definitionsFor": "cust-learning"
+  }
+}

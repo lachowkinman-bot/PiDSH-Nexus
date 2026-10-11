@@ -1,0 +1,15 @@
+{
+  "name": "negative-pii",
+  "note": "反例①：台账新增列出现未脱敏手机号 → 域级校验必须失败并给出 PII 缺口。",
+  "draft": {
+    "kind": "revise",
+    "targetDomain": "rec",
+    "title": "反例：未脱敏手机号",
+    "requirements": "负向夹具：验证 PII 硬校验。"
+  },
+  "expect": {
+    "ok": false,
+    "domainOk": false,
+    "gapsLike": ["PII 未脱敏"]
+  }
+}

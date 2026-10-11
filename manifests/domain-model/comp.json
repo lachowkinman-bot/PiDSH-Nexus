@@ -2,6 +2,8 @@
  "$schema": "domain-model/v1",
  "domain": "comp",
  "label": "薪酬 COMP",
+ "color": null,
+ "origin": "builtin",
  "scene_ids": [
   "comp.salary-review@1.0.0"
  ],
@@ -16,7 +18,7 @@
   "pii_allowed": false,
   "exclude": []
  },
- "generated_at": "2026-09-30T05:10:13.566Z",
+ "generated_at": "2026-10-11T06:01:43.165Z",
  "sources": {
   "scenes": [
    "manifests/scenes/comp.salary-review.yaml"

@@ -5,6 +5,11 @@
   const SEED = window.__DATA__;
   const ORDER = window.__DOMAIN_ORDER__;
   const DELIVERY = window.__DELIVERY__ || { domains: {}, formats: [] };
+  // 4.0.0-dev8 集成层：集成中心 / 升级与兼容 / 自定义工作台（http 下走实时 API，file:// 用烘焙快照）
+  const INTEGRATION = window.__INTEGRATION__ || { projects: [] };
+  const UPGRADE_SNAPSHOT = window.__UPGRADE__ || null;
+  const PREVIEW = window.__PREVIEW__ || null;
+  const LIVE = location.protocol === 'http:' || location.protocol === 'https:';
   const $ = (s, r) => (r || document).querySelector(s);
 
   // ———— hyperscript ————
@@ -29,6 +34,24 @@
     try { body = text ? JSON.parse(text) : null; } catch { body = { error: text }; }
     if (!r.ok) throw new Error((body && (body.error || body.message)) || `HTTP ${r.status}`);
     return body;
+  }
+
+  async function copyToClipboard(text) {
+    const value = String(text || '');
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(value); return true; }
+    } catch { /* 退化为 execCommand */ }
+    try {
+      const area = document.createElement('textarea');
+      area.value = value;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.append(area);
+      area.select();
+      const ok = document.execCommand('copy');
+      area.remove();
+      return ok;
+    } catch { return false; }
   }
 
   function openArtifact(file) {
@@ -99,7 +122,28 @@
   const K_DATA = (d) => 'hr_workbench_data_' + d, K_AUDIT = 'hr_workbench_audit', K_UI = 'hr_workbench_ui', K_FLOW = 'hr_workbench_flows';
   const read = (k, dflt) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : dflt; } catch { return dflt; } };
   const write = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-  const dataOf = (d) => read(K_DATA(d), null) || SEED[d] || {};
+  // 实时数据（http 下读服务端；file:// 用内联种子回退）
+  const LIVE_CACHE = {};
+  const LIVE_META = {};
+  async function ensureLiveData(domain) {
+    if (!LIVE || LIVE_META[domain]) return;
+    LIVE_META[domain] = 'loading';
+    try {
+      const payload = await api('/workbench/api/data?domain=' + encodeURIComponent(domain));
+      const data = { __header: {} };
+      for (const table of payload.tables || []) {
+        const file = table.name.endsWith('.csv') ? table.name : table.name + '.csv';
+        data.__header[file] = table.head || [];
+        data[file] = table.rows || [];
+      }
+      LIVE_CACHE[domain] = data;
+      LIVE_META[domain] = 'live';
+      if (parse().dom === domain) render();
+    } catch {
+      LIVE_META[domain] = 'seed';
+    }
+  }
+  const dataOf = (d) => (LIVE && LIVE_CACHE[d]) || read(K_DATA(d), null) || SEED[d] || {};
   const saveData = (d, v) => write(K_DATA(d), v);
   const flows = () => read(K_FLOW, {});
   const saveFlows = (v) => write(K_FLOW, v);
@@ -118,6 +162,10 @@
     const raw = location.hash.replace(/^#\/?/, '');
     if (!raw) return { name: 'dash' };
     const p = raw.split('/');
+    if (p[0] === 'custom') return { name: 'custom' };
+    if (p[0] === 'upgrade') return { name: 'upgrade' };
+    if (p[0] === 'market') return { name: 'market' };
+    if (p[0] === 'integration') return { name: 'market' };
     if (p[0] === 'audit') return { name: 'audit' };
     if (p[0] === 'deliverables') return { name: 'delivs' };
     const dom = p[0];
@@ -152,6 +200,10 @@
         items.push(h('button', { class: 'nav-sub' + (r.name === 'settings' ? ' active' : ''), onclick: () => go(`#/${d}/settings`) }, '域设置'));
       }
     }
+    items.push(h('div', { class: 'nav-group' }, h('div', { class: 'nav-sec' }, '集成'),
+      h('button', { class: 'nav-item' + (r.name === 'market' ? ' active' : ''), onclick: () => go('#/market') }, '工作台市场'),
+      h('button', { class: 'nav-item' + (r.name === 'custom' ? ' active' : ''), onclick: () => go('#/custom') }, '自定义工作台'),
+      h('button', { class: 'nav-item' + (r.name === 'upgrade' ? ' active' : ''), onclick: () => go('#/upgrade') }, '升级与兼容')));
     items.push(h('div', { class: 'nav-group' }, h('div', { class: 'nav-sec' }, '全过程'),
       h('button', { class: 'nav-item' + (r.name === 'audit' ? ' active' : ''), onclick: () => go('#/audit') }, '审计事件流'),
       h('button', { class: 'nav-item' + (r.name === 'delivs' ? ' active' : ''), onclick: () => go('#/deliverables') }, '交付物')));
@@ -222,6 +274,7 @@
 
   // ———— 页：域概览 ————
   function pageOverview(d) {
+    ensureLiveData(d);
     const m = MODELS[d], data = dataOf(d);
     const delivery = DELIVERY.domains[d] || {};
     const rows = m.tables.reduce((s, t) => s + ((data[t.file] || []).length || t.rows), 0);
@@ -253,6 +306,7 @@
   // ———— 页：台账（每表一页）————
   const PAGE = 15;
   function pageTable(d, fileStem) {
+    ensureLiveData(d);
     const m = MODELS[d];
     const tb = m.tables.find((t) => t.file.replace(/\.csv$/, '') === fileStem);
     if (!tb) return h('div', { class: 'wrap' }, h('div', { class: 'empty' }, '未找到该表'));
@@ -268,12 +322,43 @@
       const pages = Math.max(1, Math.ceil(rows.length / PAGE));
       if (page > pages) page = pages;
       const slice = rows.slice((page - 1) * PAGE, page * PAGE);
+      const importButton = () => {
+        const input = h('input', {
+          type: 'file',
+          accept: '.csv,text/csv',
+          style: 'display:none',
+          onchange: async (event) => {
+            const picked = event.target.files && event.target.files[0];
+            if (!picked) return;
+            try {
+              const text = await picked.text();
+              const result = await api('/workbench/api/data/import', { method: 'POST', body: JSON.stringify({ domain: d, table: file, csv: text, mode: 'strict' }) });
+              if (result.ok) {
+                audit('table.import', { domain: d, table: file, rows: result.rows });
+                delete LIVE_CACHE[d];
+                delete LIVE_META[d];
+                ensureLiveData(d);
+                draw();
+              } else {
+                const validation = result.validation || {};
+                alert(`导入未通过：${result.message || ''}\n缺失列：${(validation.missing || []).join('、') || '—'}\n多余列：${(validation.extra || []).join('、') || '—'}`);
+              }
+            } catch (error) {
+              alert('导入失败：' + error.message);
+            }
+          },
+        });
+        document.body.append(input);
+        input.click();
+        input.remove();
+      };
       box.replaceChildren(
         h('div', { class: 'toolbar' },
           h('input', { placeholder: '搜索（跨列）', value: q, oninput: (e) => { q = e.target.value; page = 1; draw(); }, style: 'width:260px' }),
           h('span', { class: 'tag' }, rows.length + ' 行'),
+          h('span', { class: 'tag ' + (LIVE_META[d] === 'live' ? 'ok' : '') }, LIVE ? (LIVE_META[d] === 'live' ? '实时数据（服务端）' : '种子数据（离线回退）') : '本地数据'),
           h('div', { class: 'spacer' }),
-          h('button', { class: 'btn sm p', onclick: () => editRow(null) }, '新增'),
+          LIVE ? h('button', { class: 'btn sm p', onclick: importButton }, '导入 CSV（严格校验）') : h('button', { class: 'btn sm p', onclick: () => editRow(null) }, '新增'),
           h('button', { class: 'btn sm', onclick: () => exportCsv(file, header, all) }, '导出 CSV')),
         h('div', { class: 'tbl-wrap' }, rows.length ? h('table', { class: 'tbl' },
           h('thead', null, h('tr', null, ...header.map((c) => h('th', null, c)))),
@@ -292,8 +377,10 @@
       const r = all[i];
       drawer(file + ' · 行 ' + (i + 1),
         [h('dl', { class: 'kv' }, ...header.flatMap((c, ci) => [h('dt', null, c), h('dd', null, r[ci] == null ? '—' : String(r[ci]))]))],
-        [h('button', { class: 'btn p', onclick: () => editRow(i) }, '编辑'),
-         h('button', { class: 'btn', onclick: () => { if (confirm('删除该行？')) { all.splice(i, 1); data[file] = all; saveData(d, data); audit('table.delete', { domain: d, table: file, row: i }); $('.drawer')?.remove(); $('.scrim')?.remove(); draw(); } } }, '删除')]);
+        LIVE
+          ? [h('span', { class: 'tag' }, '实时数据只读；修改请用「导入 CSV」或桌面应用')]
+          : [h('button', { class: 'btn p', onclick: () => editRow(i) }, '编辑'),
+             h('button', { class: 'btn', onclick: () => { if (confirm('删除该行？')) { all.splice(i, 1); data[file] = all; saveData(d, data); audit('table.delete', { domain: d, table: file, row: i }); $('.drawer')?.remove(); $('.scrim')?.remove(); draw(); } } }, '删除')]);
     };
     const editRow = (i) => {
       const data = dataOf(d);
@@ -421,10 +508,263 @@
   }
 
   // ———— 渲染 ————
+  // ———— 页：自定义工作台 ————
+  const DRAFT_STATUS = { draft: '草稿', verified: '校验通过', 'preview-ready': '预览就绪', exported: '已导出合入包', consolidated: '已固化' };
+  function pageCustom() {
+    const note = h('div', { class: 'muted' }, LIVE ? '读取草稿…' : '离线模式（file://）：草稿管理需在桌面应用的「自定义工作台」里操作；本页为流程说明。');
+    const listBox = h('div');
+    const kindSel = h('select', { class: 'btn sm' },
+      h('option', { value: 'revise' }, '修订现有工作域'), h('option', { value: 'new-domain' }, '新增自定义域'));
+    const domSel = h('select', { class: 'btn sm' }, ...ORDER.map((d) => h('option', { value: d }, MODELS[d].label)));
+    const newDomain = h('input', { placeholder: '新域 id（小写字母/数字/连字符）', style: 'width:240px' });
+    const title = h('input', { placeholder: '标题', style: 'width:240px' });
+    const req = h('textarea', { rows: 3, placeholder: '需求原文：服务谁、什么场景、核心流程', style: 'width:100%' });
+    const domField = h('div', { class: 'field' }, h('label', null, '目标域'), domSel);
+    const newField = h('div', { class: 'field' }, h('label', null, '新域 id'), newDomain);
+    let kindState = 'revise';
+    const syncKind = () => {
+      domField.style.display = kindState === 'revise' ? '' : 'none';
+      newField.style.display = kindState === 'revise' ? 'none' : '';
+    };
+    syncKind();
+    kindSel.addEventListener('change', (e) => { kindState = e.target.value; });
+    const refresh = async () => {
+      if (!LIVE) { listBox.replaceChildren(h('div', { class: 'empty' }, '离线模式：打开桌面应用后可用。')); return; }
+      try {
+        const data = await api('/workbench/api/custom/drafts');
+        const drafts = data.drafts || [];
+        note.textContent = drafts.length ? `共 ${drafts.length} 个草稿（规范：${data.guide_path}）` : '尚无草稿：按下面三步创建第一个草稿。';
+        listBox.replaceChildren(...drafts.map((draft) => {
+          const verify = draft.verify;
+          const target = draft.kind === 'new-domain' ? draft.newDomain : draft.targetDomain;
+          const act = async (path, label) => {
+            try {
+              const r = await api(path, { method: 'POST', body: JSON.stringify({ id: draft.id }) });
+              note.textContent = `${label}：${r.ok === false ? '未通过' : '完成'}`;
+              await refresh();
+            } catch (e) { note.textContent = `${label}失败：${e.message}`; }
+          };
+          return h('section', { class: 'card' },
+            h('h3', null, draft.title || draft.id),
+            h('div', { class: 'toolbar' },
+              h('span', { class: 'tag p' }, draft.kind === 'new-domain' ? '新增域' : '修订'),
+              h('span', { class: 'tag' }, String(target || '')),
+              h('span', { class: 'tag ok' }, DRAFT_STATUS[draft.status] || draft.status),
+              draft.verify_running ? h('span', { class: 'tag warn' }, '完整门禁运行中…') : null),
+            h('div', { class: 'muted', style: 'margin:6px 0' }, (draft.requirements || '（未填写需求原文）').slice(0, 200)),
+            verify ? h('div', { class: 'muted', style: 'font-size:.86em' },
+              `域级：${verify.ok ? '通过' : '未通过'} ｜ 基线：${verify.baseline_status} ｜ 完整门禁：${verify.heavy_status}`,
+              verify.gaps && verify.gaps.length ? h('div', { style: 'color:#b54708' }, '缺口：' + verify.gaps.slice(0, 3).join('；')) : null) : null,
+            h('div', { class: 'toolbar', style: 'margin-top:8px' },
+              h('button', { class: 'btn sm', onclick: async () => { const ok = await copyToClipboard(draft.instruction); note.textContent = ok ? '定制指令已复制' : '复制失败'; } }, '复制指令'),
+              h('button', { class: 'btn sm p', onclick: () => act('/workbench/api/custom/verify', '校验') }, '运行校验'),
+              h('button', { class: 'btn sm', onclick: () => act('/workbench/api/custom/verify-heavy', '完整门禁（后台）') }, '完整门禁（后台）'),
+              h('button', { class: 'btn sm', onclick: () => act('/workbench/api/custom/preview-build', '构建预览') }, '构建预览'),
+              draft.preview_available ? h('button', { class: 'btn sm', onclick: () => window.open('/workbench/api/app-page?draft=' + encodeURIComponent(draft.id), '_blank') }, '打开预览 ↗') : null,
+              h('button', { class: 'btn sm', onclick: () => act('/workbench/api/custom/consolidate', '导出合入包') }, '导出合入包')));
+        }));
+      } catch (e) {
+        note.textContent = '草稿接口不可用：' + e.message;
+        listBox.replaceChildren(h('div', { class: 'empty' }, '请在桌面应用内打开本页。'));
+      }
+    };
+    const create = async () => {
+      try {
+        await api('/workbench/api/custom/draft-create', {
+          method: 'POST',
+          body: JSON.stringify({ kind: kindState, targetDomain: domSel.value, newDomain: newDomain.value, title: title.value, requirements: req.value }),
+        });
+        note.textContent = '草稿已创建：先「复制指令」交给 Agent，回来再「运行校验」。';
+        await refresh();
+      } catch (e) { note.textContent = '创建失败：' + e.message; }
+    };
+    queueMicrotask(refresh);
+    return h('div', { class: 'wrap' },
+      h('h1', { style: 'font-size:24px;margin:0 0 4px;color:var(--head)' }, '自定义工作台'),
+      h('div', { class: 'muted', style: 'margin-bottom:12px' }, '与 13 域工作台分开管理：草稿可校验与预览，正式生效必须过门禁并重打包。'),
+      card('第一步 · 新建草稿',
+        h('div', { class: 'grid k3' },
+          h('div', { class: 'field' }, h('label', null, '类型'), kindSel), domField, newField),
+        h('div', { class: 'field' }, h('label', null, '标题'), title),
+        h('div', { class: 'field' }, h('label', null, '需求原文'), req),
+        h('div', { class: 'toolbar' },
+          h('button', { class: 'btn p', onclick: create }, '创建草稿'),
+          h('a', { class: 'btn sm', href: '/workbench/api/custom/development-guide', target: '_blank' }, '打开定制规范'))),
+      card('第二步 · 草稿与状态', note, listBox));
+  }
+
+  // ———— 页：升级与兼容 ————
+  function pageUpgrade() {
+    const box = h('div', { class: 'wrap' });
+    const draw = (data) => {
+      const engine = data.engine || {};
+      const compat = data.compatibility || {};
+      const corridor = (data.corridor && data.corridor.references) || [];
+      box.replaceChildren(
+        h('h1', { style: 'font-size:24px;margin:0 0 4px;color:var(--head)' }, '升级与兼容'),
+        h('div', { class: 'muted', style: 'margin-bottom:12px' }, '只读中心：版本基线、兼容豁免、升级证据与走廊覆盖；不提供在线升级执行。'),
+        h('div', { class: 'grid k4' },
+          kpi('DSH 引擎', engine.dsh || '—'), kpi('runtime 依赖', engine.dependency_count == null ? '—' : engine.dependency_count),
+          kpi('精确豁免', compat.exempt_packages == null ? '—' : compat.exempt_packages), kpi('引擎工件', (engine.tarballs || []).length)),
+        card('升证审计证据', h('div', { class: 'muted' }, (data.evidence && data.evidence.adrs || []).join('、') || '—'),
+          h('div', { class: 'tbl-wrap', style: 'margin-top:8px' }, h('table', { class: 'tbl' },
+            h('thead', null, h('tr', null, h('th', null, '证据文件'), h('th', null, '字节'))),
+            h('tbody', null, ...((data.evidence && data.evidence.files) || []).slice(0, 12).map((item) => h('tr', null, h('td', null, item.file), h('td', null, String(item.bytes)))))))),
+        card('走廊覆盖（vendor 技能 vs 当前版本）', corridor.length
+          ? h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
+            h('thead', null, h('tr', null, h('th', null, '边'), h('th', null, 'from'), h('th', null, 'to'), h('th', null, '状态'), h('th', null, '卡片数'))),
+            h('tbody', null, ...corridor.map((item) => h('tr', null, h('td', null, item.file), h('td', null, item.from), h('td', null, item.to), h('td', null, item.status), h('td', null, String(item.cardCount)))))))
+          : h('div', { class: 'muted' }, '走廊数据不可用（需 tools/dsh-upgrade-skill）。')),
+        card('工具版本', h('pre', { style: 'max-height:200px;overflow:auto;background:var(--panel);padding:8px;border-radius:8px' }, (data.tools_versions || '—').slice(0, 1500))));
+    };
+    if (LIVE) {
+      api('/workbench/api/upgrade-status').then(draw).catch(() => draw(UPGRADE_SNAPSHOT || { note: 'upgrade-status 不可用' }));
+    } else {
+      draw(UPGRADE_SNAPSHOT || { note: '离线快照不可用' });
+    }
+    return box;
+  }
+
+  // ———— 页：集成中心 ————
+  const ADOPTION_TONE = { adopted: 'ok', 'in-progress': 'p', planned: 'warn', 'not-adopted': 'bad' };
+  // ———— 页：工作台市场（dev9：已安装管理 / 样例 / 数据源 / 关于）————
+  function pageMarket() {
+    const box = h('div', { class: 'wrap' });
+    const note = h('div', { class: 'muted' }, LIVE ? '读取工作台市场…' : '离线模式（file://）：安装/卸载需在桌面应用内操作；下方为来源说明。');
+    const sections = h('div');
+    const act = async (path, body, label) => {
+      try {
+        await api(path, { method: 'POST', body: JSON.stringify(body || {}) });
+        note.textContent = `${label}：完成`;
+        await draw();
+      } catch (error) {
+        note.textContent = `${label}失败：${error.message}`;
+      }
+    };
+    const draw = async () => {
+      let catalog = { catalog: { categories: [], workbenches: [] } };
+      let installed = [];
+      let datasources = { sources: [] };
+      let integration = INTEGRATION;
+      let updates = { records: [] };
+      let wbState = { favorites: [], enabled: true, added: [] };
+      if (LIVE) {
+        try {
+          const [nextCatalog, nextInstalled, nextSources, nextIntegration, nextUpdates, nextState] = await Promise.all([
+            api('/workbench/api/custom/catalog'),
+            api('/workbench/api/custom/installed'),
+            api('/workbench/api/datasources'),
+            api('/workbench/api/integration-status').catch(() => INTEGRATION),
+            api('/workbench/api/custom/check-updates').catch(() => ({ records: [] })),
+            api('/workbench/api/custom/state').catch(() => null),
+          ]);
+          catalog = nextCatalog;
+          installed = nextInstalled.installed || [];
+          datasources = nextSources;
+          integration = nextIntegration;
+          updates = nextUpdates || { records: [] };
+          wbState = (nextState && nextState.state) || wbState;
+          const entries = ((nextCatalog.catalog && nextCatalog.catalog.workbenches) || []);
+          note.textContent = `目录 ${entries.length} 个条目；已安装 ${installed.length} 个；${(updates.records || []).filter((item) => item.status === 'update-available').length} 个可更新。`;
+        } catch (error) {
+          note.textContent = '市场接口不可用：' + error.message;
+        }
+      }
+      const entries = ((catalog.catalog && catalog.catalog.workbenches) || []);
+      const installedByCatalog = new Map(installed.map((item) => [item.catalog_id || ('pids:' + item.id), item]));
+      const updateById = new Map((updates.records || []).map((item) => [item.identity, item]));
+      const favorites = new Set(wbState.favorites || []);
+      const toggleFavorite = async (entry) => {
+        try {
+          const current = await api('/workbench/api/custom/state');
+          const next = new Set(favorites);
+          if (next.has(entry.id)) next.delete(entry.id); else next.add(entry.id);
+          await api('/workbench/api/custom/state', { method: 'POST', body: JSON.stringify({ revision: current.revision, state: { ...current.state, favorites: [...next] } }) });
+          await draw();
+        } catch (error) { note.textContent = '收藏失败：' + error.message; }
+      };
+      sections.replaceChildren(
+        card('已安装工作台', installed.length
+          ? h('div', null, ...installed.map((item) => h('div', { class: 'toolbar' },
+            h('b', null, item.title || item.name || item.label || item.id),
+            h('span', { class: 'tag p' }, 'v' + (item.version || '—')),
+            h('span', { class: 'tag ' + (item.status === 'installed' ? 'ok' : '') }, item.status === 'installed' ? '已启用' : '已停用'),
+            h('span', { class: 'tag p' }, item.kind === 'revision' ? '修订内置域' : '自定义域'),
+            item.kind === 'revision' ? h('button', { class: 'btn sm', onclick: () => go('#/' + item.id) }, '打开域页面') : null,
+            h('button', { class: 'btn sm', onclick: () => act('/workbench/api/custom/market-uninstall', { id: item.catalog_id || ('pids:' + item.id) }, '卸载') }, '卸载'))))
+          : h('div', { class: 'empty' }, '尚未安装工作台。'),
+          h('div', { class: 'muted', style: 'font-size:.85em' }, '本地工作台的完整页面在桌面壳左侧边栏的「⧉ 名称」入口打开（含工作流向导/审批/交付）。')),
+        card('工作台市场（目录 v2）', entries.length
+          ? h('div', { class: 'grid k2' }, ...entries.map((entry) => {
+            const shot = (entry.screenshots || [])[0];
+            const imgUrl = shot && shot.url ? shot.url : ('/workbench/api/custom/catalog/asset?id=' + encodeURIComponent(entry.id) + '&file=' + encodeURIComponent((shot && shot.file) || ''));
+            const installedEntry = installedByCatalog.get(entry.id);
+            const record = updateById.get(entry.id);
+            return h('div', { class: 'card', style: 'margin:0' },
+              shot ? h('img', { src: imgUrl, alt: shot.alt || entry.name, style: 'width:100%;height:120px;object-fit:cover;border-radius:8px' }) : null,
+              h('h3', null, entry.name, ' ', h('span', { class: 'tag' }, 'v' + entry.version)),
+              h('div', { class: 'muted' }, (entry.description && entry.description.zh) || ''),
+              h('div', { class: 'toolbar', style: 'margin-top:8px' },
+                h('span', { class: 'tag p' }, entry.category),
+                installedEntry ? h('span', { class: 'tag ok' }, '已安装') : null,
+                record && record.status === 'update-available' ? h('span', { class: 'tag warn' }, '可更新 → ' + record.latest) : null,
+                h('button', { class: 'btn sm', title: favorites.has(entry.id) ? '取消收藏' : '收藏工作台', onclick: () => toggleFavorite(entry) }, favorites.has(entry.id) ? '★' : '☆'),
+                LIVE && !installedEntry && entry.distribution && entry.distribution.type === 'pids-runtime'
+                  ? h('button', { class: 'btn sm p', onclick: () => act('/workbench/api/custom/market-install', { id: entry.id }, '安装') }, '安装')
+                  : null));
+          }))
+          : h('div', { class: 'muted' }, '目录为空（manifests/workbench-catalog.json 或 workspace/config/market-sources.json）。'),
+          h('div', { class: 'muted', style: 'font-size:.85em' }, '远程目录源与联网安装默认关闭；插件式工作台（.tgz）在桌面应用内安装并重启生效。')),
+        card('数据源（只读外部源骨架）', ((datasources.sources) || []).length
+          ? h('div', null, ...datasources.sources.map((source) => h('div', { class: 'toolbar' },
+            h('b', null, source.id), h('span', { class: 'tag' }, source.type),
+            h('span', { class: 'muted' }, `${source.domain || '—'}/${source.table || '—'}`),
+            h('span', { class: 'tag' }, source.supported ? (source.enabled ? '可刷新' : '已登记·未启用') : 'not-implemented'))))
+          : h('div', { class: 'muted' }, '未登记数据源；配置 workspace/config/datasources.json（凭据只引用环境变量名）。')),
+        card('关于 / 来源追溯', h('div', null, ...((integration.projects) || []).map((project) => h('div', { style: 'padding:4px 0' },
+          h('a', { href: project.url, target: '_blank', rel: 'noreferrer' }, project.name),
+          h('span', { class: 'muted' }, ' · ' + (project.license || '—')))))));
+    };
+    queueMicrotask(draw);
+    return h('div', { class: 'wrap' },
+      h('h1', { style: 'font-size:24px;margin:0 0 4px;color:var(--head)' }, '工作台市场'),
+      h('div', { class: 'muted', style: 'margin-bottom:12px' }, '本地目录为主（离线可用）；安装后工作台立即出现在桌面壳左侧边栏。远程目录源为预留接口（默认关闭）。'),
+      note, sections);
+  }
+
+  function pageIntegration() {
+    const box = h('div', { class: 'wrap' });
+    const draw = (data) => {
+      const projects = (data.projects || []);
+      box.replaceChildren(
+        h('h1', { style: 'font-size:24px;margin:0 0 4px;color:var(--head)' }, '集成中心'),
+        h('div', { class: 'muted', style: 'margin-bottom:12px' }, '三个参考项目的采纳痕迹：已采纳 / 进行中 / 待办 / 明确不采纳（附原因与证据路径）。'),
+        ...projects.map((project) => card(`${project.name} · ${project.kind || ''}`,
+          h('div', { class: 'toolbar' }, h('span', { class: 'tag p' }, project.license || '—'), h('a', { href: project.url, target: '_blank', rel: 'noreferrer' }, project.url),
+            project.role ? h('span', { class: 'muted' }, project.role) : null),
+          h('div', { class: 'tbl-wrap', style: 'margin-top:8px' }, h('table', { class: 'tbl' },
+            h('thead', null, h('tr', null, h('th', null, '采纳项'), h('th', null, '状态'), h('th', null, '证据'))),
+            h('tbody', null, ...(project.adoptions || []).map((item) => h('tr', null,
+              h('td', null, item.item, item.reason ? h('div', { class: 'muted', style: 'font-size:.85em' }, '不采纳原因：' + item.reason) : null),
+              h('td', null, h('span', { class: 'tag ' + (ADOPTION_TONE[item.status] || '') }, item.status)),
+              h('td', { class: 'muted' }, (item.evidence || []).join('、') || '—')))))),
+          h('div', { class: 'muted', style: 'font-size:.85em;margin-top:6px' }, project.attribution || ''))));
+    };
+    if (LIVE) {
+      api('/workbench/api/integration-status').then(draw).catch(() => draw(INTEGRATION));
+    } else {
+      draw(INTEGRATION);
+    }
+    return box;
+  }
+
   function render() {
     const r = parse();
     let page, crumb;
     if (r.name === 'dash') { page = pageDash(); crumb = h('span', null, '主驾驶舱'); }
+    else if (r.name === 'custom') { page = pageCustom(); crumb = h('span', null, '自定义工作台'); }
+    else if (r.name === 'upgrade') { page = pageUpgrade(); crumb = h('span', null, '升级与兼容'); }
+    else if (r.name === 'market') { page = pageMarket(); crumb = h('span', null, '工作台市场'); }
     else if (r.name === 'audit') { page = pageAudit(); crumb = h('span', null, '审计事件流'); }
     else if (r.name === 'delivs') { page = pageDelivs(); crumb = h('span', null, '交付物'); }
     else {
@@ -436,7 +776,11 @@
           : r.name === 'workflow' ? pageWorkflow(r.dom, r.wf)
             : pageSettings(r.dom);
     }
-    $('#app').replaceChildren(h('div', { class: 'layout' }, sidebar(r), h('main', { class: 'main' }, topbar(r, crumb), h('div', { class: 'content' }, page))));
+    const banner = PREVIEW
+      ? h('div', { style: 'background:#fffaeb;border-bottom:1px solid #fedf89;color:#b54708;padding:8px 16px;font-weight:600' },
+        `草稿预览（未固化）：${PREVIEW.id || ''} — 预览不代表已生效，正式生效需过门禁并重打包。`)
+      : null;
+    $('#app').replaceChildren(h('div', { class: 'layout' }, sidebar(r), h('main', { class: 'main' }, banner, topbar(r, crumb), h('div', { class: 'content' }, page))));
   }
 
   applyUI();

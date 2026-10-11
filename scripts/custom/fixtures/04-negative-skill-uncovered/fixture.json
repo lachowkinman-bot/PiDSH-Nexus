@@ -1,0 +1,15 @@
+{
+  "name": "negative-skill-uncovered",
+  "note": "反例②：场景声明的技能没有任何工作流覆盖 → 域级校验必须失败并给出缺口。",
+  "draft": {
+    "kind": "new-domain",
+    "newDomain": "cust-support",
+    "title": "反例：技能无覆盖",
+    "requirements": "负向夹具：验证技能覆盖硬校验。"
+  },
+  "expect": {
+    "ok": false,
+    "domainOk": false,
+    "gapsLike": ["技能无工作流覆盖"]
+  }
+}

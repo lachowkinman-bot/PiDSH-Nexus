@@ -1,0 +1,165 @@
+{
+  "schema": "pids-nexus/integration-status/v1",
+  "updated_at": "2026-10-11",
+  "note": "三个参考项目的采纳痕迹与来源登记：adopted=已落地；in-progress=本轮落地中；planned=已登记待办；not-adopted=明确不采纳（附原因）。证据路径相对仓库根。",
+  "projects": [
+    {
+      "id": "dsh-plugin-upgrade-skill",
+      "name": "oh-my-dsh/dsh-plugin-upgrade-skill",
+      "url": "https://github.com/oh-my-dsh/dsh-plugin-upgrade-skill",
+      "license": "MIT",
+      "citation": "arXiv 2609.30120",
+      "kind": "agent 技能集合（升级抗破坏工程体系：迁移/审计/巡检/发布 SOP + 195 张升级卡）",
+      "role": "升级与兼容：把「检查→迁移→验证→发布→巡检」做成可执行标准作业程序",
+      "entry": {
+        "nav": "upgrade",
+        "label": "升级与兼容",
+        "route": "GET /workbench/api/upgrade-status"
+      },
+      "adoptions": [
+        {
+          "item": "vendor 全量技能到 tools/dsh-upgrade-skill/（保留 PROVENANCE 与 LICENSE）",
+          "status": "adopted",
+          "evidence": [
+            "tools/dsh-upgrade-skill/PROVENANCE.md",
+            "tools/dsh-upgrade-skill/LICENSE",
+            "progress.md"
+          ]
+        },
+        {
+          "item": "DSH 0.2.0-rc.2 引擎升级按走廊纪律执行（peer 审计 / cohort 扫描 / 触点扫描 / 豁免表）",
+          "status": "adopted",
+          "evidence": [
+            "reports/upgrade-0.2.0-rc.2/",
+            "docs/adr/ADR-0017-dsh-0.2.0-rc.2-engine-upgrade.md",
+            "templates/runtime/compatibility.json"
+          ]
+        },
+        {
+          "item": "应用内「升级与兼容」只读中心（版本基线 / 豁免表 / 升级证据 / 走廊覆盖 / 回退演练动作）",
+          "status": "in-progress",
+          "evidence": [
+            "manifests/shell-module-actions.json",
+            "workbench-ui-plugin/lib/integration-layer.mjs"
+          ]
+        },
+        {
+          "item": "走廊缺口回填（0.1.7-rc.1→rc.2 与 0.2.0-rc.1 之后未成卡边）",
+          "status": "planned",
+          "evidence": []
+        }
+      ],
+      "attribution": "技能内容按 MIT 许可 vendor；升级审计证据（r12-peer-audit、touchpoint-scan 等）由本仓生成，方法论来自该技能集。"
+    },
+    {
+      "id": "dataelement/dsh-desktop",
+      "name": "dataelement/dsh-desktop",
+      "url": "https://github.com/dataelement/dsh-desktop",
+      "license": "MIT",
+      "kind": "Electron 薄宿主 + 工作台系统（市场目录协议 v2 / 工作台标准 zh / PPT 与离线 Office 运行时）",
+      "role": "自定义工作台：自然语言自定义与「制作我的工作台」产品化创作闭环",
+      "entry": {
+        "nav": "custom",
+        "label": "自定义工作台",
+        "route": "GET /workbench/api/custom/drafts"
+      },
+      "adoptions": [
+        {
+          "item": "「制作我的工作台」三步流程本地化为「自定义工作台」：定制指令 → Agent 生成 → 本机校验/预览 →（可选）合入固化",
+          "status": "in-progress",
+          "evidence": [
+            "docs/custom-workbench-standard.zh.md",
+            "workbench-ui-plugin/lib/custom-drafts.mjs"
+          ]
+        },
+        {
+          "item": "需求确认闸门 / 空目录守卫 / 失败交付规则（不得虚构成功）写入定制指令与草稿状态机",
+          "status": "in-progress",
+          "evidence": [
+            "docs/custom-workbench-standard.zh.md"
+          ]
+        },
+        {
+          "item": "用户数据与产品资产分离：草稿只落数据根，正式生效必须过门禁并重打包（草稿/已固化状态）",
+          "status": "in-progress",
+          "evidence": [
+            "workbench-ui-plugin/lib/custom-drafts.mjs",
+            "scripts/custom/apply-draft.mjs"
+          ]
+        },
+        {
+          "item": "工作台市场（目录协议 v2 / 三分支安装 / 投稿 PR 跟踪）",
+          "status": "not-adopted",
+          "reason": "依赖 Electron 专有 desktopWorkbenches 服务与官方市场仓库，PiDSH 为 Tauri + DSH web 插件形态；本轮只搬协议与指令，不搬宿主实现。",
+          "evidence": [
+            "recon/DSH-DESKTOP-CANDIDATE-COMPARISON.md"
+          ]
+        },
+        {
+          "item": "PPT 运行时与离线 Office 打包（PPTD 两级闸门）",
+          "status": "not-adopted",
+          "reason": "需要额外的 PPT/Office 运行时与 Python 轮子锁定，属于独立工程；本轮交付物链路维持既有 7 格式交付服务。",
+          "evidence": [
+            "recon/DSH-DESKTOP-CANDIDATE-COMPARISON.md"
+          ]
+        }
+      ],
+      "attribution": "定制指令与工作台标准为本地化改写（MIT）；未复制其源码实现。"
+    },
+    {
+      "id": "anywhere-labs/dsh-desktop",
+      "name": "anywhere-labs/dsh-desktop",
+      "url": "https://github.com/anywhere-labs/dsh-desktop",
+      "license": "MIT",
+      "kind": "Yarn monorepo 桌面壳路线（稳定/贝塔双通道 + 多源市场 + Fabric 互操作 RFC）",
+      "role": "壳工程与生态纪律：方法层采纳（不引入运行时实现）",
+      "entry": {
+        "nav": "integration",
+        "label": "集成中心",
+        "route": "GET /workbench/api/integration-status"
+      },
+      "adoptions": [
+        {
+          "item": "上游锁定纪律：引擎 tgz 固定版本 + SHA256 + upstream 记录 + 通道隔离（PiDSH 既有做法与该仓一致的复核）",
+          "status": "adopted",
+          "evidence": [
+            "offline/engines/",
+            "manifests/runtime-web.package.json",
+            "docs/adr/ADR-0017-dsh-0.2.0-rc.2-engine-upgrade.md"
+          ]
+        },
+        {
+          "item": "generation 生命周期纪律（切换/重建时 dispose 旧代、不跨代缓存）作为设计输入写入 ADR",
+          "status": "adopted",
+          "evidence": [
+            "docs/adr/ADR-0018-integration-layer-and-custom-workbench.md"
+          ]
+        },
+        {
+          "item": "网络边界纪律（来源请求仅 HTTPS、不带凭据、禁私有网段）作为后续市场类功能的前置约束登记",
+          "status": "planned",
+          "evidence": [
+            "recon/DSH-DESKTOP-CANDIDATE-COMPARISON.md"
+          ]
+        },
+        {
+          "item": "多源插件市场 / dsh-community-fabric RFC（Draft）",
+          "status": "not-adopted",
+          "reason": "RFC 仅有文档、无运行时与 schema 落地；PiDSH 离线优先且市场不在本轮范围。",
+          "evidence": [
+            "recon/DSH-DESKTOP-CANDIDATE-COMPARISON.md"
+          ]
+        },
+        {
+          "item": "稳定/贝塔双通道桌面壳与恢复助手",
+          "status": "not-adopted",
+          "reason": "需要 Tauri 壳级改造；本轮只做可见入口与来源登记。",
+          "evidence": [
+            "recon/DSH-DESKTOP-CANDIDATE-COMPARISON.md"
+          ]
+        }
+      ],
+      "attribution": "仅引用其公开文档与源码分析结论（recon 报告），未复制代码；方法层纪律已按 MIT 署名原则登记。"
+    }
+  ]
+}

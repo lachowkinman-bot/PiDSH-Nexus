@@ -44,9 +44,11 @@ fn node_and_dsh(root: &Path) -> Result<(PathBuf, PathBuf), String> {
     if !node.is_file() {
         return Err(format!("缺少便携 Node：{}", node.display()));
     }
+    // 2026-10-11（0.2 升级）：profile 内引擎优先——机器上可能残留旧版全局引擎（如 0.1.7），
+    // 若先命中全局路径，会用旧引擎引导新 profile（实测 61 个插件 pending、启动失败）。
     let candidates = [
-        node_root.join("node_modules/@deepseek-ai/dsh/lib/bin.js"),
         root.join(".dsh-home/profiles/web/node_modules/@deepseek-ai/dsh/lib/bin.js"),
+        node_root.join("node_modules/@deepseek-ai/dsh/lib/bin.js"),
     ];
     for dsh in candidates {
         if dsh.is_file() {
@@ -94,10 +96,37 @@ fn utc_stamp() -> String {
     )
 }
 
-/// 把出厂 patch（内测声明预置确认）合并进用户已有 patch：用户已确认过则原样保留。
+/// 把出厂 patch（预览版说明预置确认）合并进用户已有 patch：
+/// - 用户没有该条目：追加出厂条目；
+/// - 用户已有旧版本值：按出厂值做行级 upsert（上游通知版本升级后旧值会让弹窗重复出现）。
 fn merge_preset_patch(live: &Path, preset_text: &str) -> Result<(), String> {
     let existing = fs::read_to_string(live).unwrap_or_default();
+    let preset_line = preset_text
+        .lines()
+        .find(|line| line.trim_start().starts_with("welcomeNoticeVersion:"))
+        .map(|line| line.trim().to_string());
     if existing.contains("welcomeNoticeVersion") {
+        if let Some(line) = preset_line {
+            let mut changed = false;
+            let updated: Vec<String> = existing
+                .lines()
+                .map(|current| {
+                    if current.contains("welcomeNoticeVersion") {
+                        changed = true;
+                        line.clone()
+                    } else {
+                        current.to_string()
+                    }
+                })
+                .collect();
+            if changed {
+                let mut text = updated.join("\n");
+                if existing.ends_with('\n') {
+                    text.push('\n');
+                }
+                fs::write(live, text).map_err(|e| format!("无法写入 profile patch：{e}"))?;
+            }
+        }
         return Ok(());
     }
     let merged = if existing.trim().is_empty() {
@@ -119,7 +148,25 @@ fn merge_compatibility(live: &Path, preset_text: &str) -> Result<(), String> {
         .map_err(|e| format!("出厂豁免表非法：{e}"))?;
     if let Some(entries) = preset.as_object() {
         for (key, value) in entries {
-            merged.entry(key.clone()).or_insert_with(|| value.clone());
+            match merged.get_mut(key) {
+                None => {
+                    merged.insert(key.clone(), value.clone());
+                }
+                Some(existing) => {
+                    // 豁免表做数组并集：用户已有条目保留，出厂新增的 dsh 版本并入（0.2 升级需要）
+                    if let (Some(existing_values), Some(preset_values)) =
+                        (existing.as_array().cloned(), value.as_array())
+                    {
+                        let mut out = existing_values;
+                        for item in preset_values {
+                            if !out.contains(item) {
+                                out.push(item.clone());
+                            }
+                        }
+                        *existing = serde_json::Value::Array(out);
+                    }
+                }
+            }
         }
     }
     let text = serde_json::to_string_pretty(&serde_json::Value::Object(merged))
@@ -345,6 +392,10 @@ fn start_workbench(app: &tauri::App) -> Result<(), String> {
     let url = shell_url
         .parse()
         .map_err(|e| format!("工作台 URL 非法：{e}"))?;
+    // dev9：WebView2 默认丢弃 window.open（wry 无处理器时 SetHandled(true)）→ 独立驾驶舱点不动。
+    // 接管新窗口请求：在应用内新开一个窗口承载请求的 URL（独立驾驶舱 / 草稿预览等）。
+    let standalone_counter = std::sync::Arc::new(std::sync::atomic::AtomicUsize::new(1));
+    let app_handle = app.handle().clone();
     WebviewWindowBuilder::new(app, "main", WebviewUrl::External(url))
         .title("PiDSH Nexus · 全能工作台")
         .inner_size(1440.0, 900.0)
@@ -353,6 +404,28 @@ fn start_workbench(app: &tauri::App) -> Result<(), String> {
         .center()
         .visible(true)
         .focused(true)
+        .on_new_window(move |url, features| {
+            let label = format!(
+                "standalone-{}",
+                standalone_counter.fetch_add(1, std::sync::atomic::Ordering::SeqCst)
+            );
+            let builder = WebviewWindowBuilder::new(&app_handle, &label, WebviewUrl::External(url.clone()))
+                .title("PiDSH Nexus · 独立驾驶舱")
+                .inner_size(1280.0, 840.0)
+                .min_inner_size(1000.0, 640.0)
+                .resizable(true)
+                .window_features(features);
+            match builder.build() {
+                Ok(window) => {
+                    eprintln!("[universal-workbench] 独立驾驶舱窗口已创建：{url}");
+                    tauri::webview::NewWindowResponse::Create { window }
+                }
+                Err(error) => {
+                    eprintln!("[universal-workbench] 独立驾驶舱窗口创建失败：{error}");
+                    tauri::webview::NewWindowResponse::Deny
+                }
+            }
+        })
         .build()
         .map_err(|e| format!("无法创建原生窗口：{e}"))?;
     Ok(())

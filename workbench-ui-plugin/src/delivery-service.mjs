@@ -204,7 +204,12 @@ function findPptCore(root) {
   return null;
 }
 
-function loadDomainModel(root, domain) {
+function loadDomainModel(root, domain, runtimeRoot = null) {
+  if (runtimeRoot) {
+    const runtimeFile = path.join(runtimeRoot, domain, 'generated', 'domain-model.json');
+    const runtimeModel = readJson(runtimeFile);
+    if (runtimeModel) return runtimeModel;
+  }
   const file = path.join(root, 'manifests', 'domain-model', `${domain}.json`);
   if (!fs.existsSync(file)) throw new DeliveryError('DOMAIN_MODEL_MISSING', `缺少域模型：${domain}`, 503);
   const model = readJson(file);
@@ -219,9 +224,25 @@ function loadProfiles(root) {
   return doc;
 }
 
-function loadWorkflow(root, workflowId) {
+function loadWorkflowIndex(root, runtimeRoot = null) {
   const index = readJson(path.join(root, 'manifests', 'workflows', 'index.json'), { workflows: [] });
-  const workflow = (index.workflows || []).find((item) => item.workflow_id === workflowId);
+  const workflows = [...(index.workflows || [])];
+  // 运行时装订：合并新增域的工作流条目（先叠加层、后内置）
+  if (runtimeRoot && fs.existsSync(runtimeRoot)) {
+    for (const entry of fs.readdirSync(runtimeRoot, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const file = path.join(runtimeRoot, entry.name, 'generated', 'workflow-entries.json');
+      const entries = readJson(file, []);
+      for (const item of Array.isArray(entries) ? entries : []) {
+        if (!workflows.some((candidate) => candidate.workflow_id === item.workflow_id)) workflows.push(item);
+      }
+    }
+  }
+  return workflows;
+}
+
+function loadWorkflow(root, workflowId, runtimeRoot = null) {
+  const workflow = loadWorkflowIndex(root, runtimeRoot).find((item) => item.workflow_id === workflowId);
   if (!workflow) throw new DeliveryError('WORKFLOW_MISSING', `找不到工作流：${workflowId}`, 503);
   return workflow;
 }
@@ -567,6 +588,7 @@ export function createDeliveryService({ root, workspaceRoot, audit = () => {} })
   const dataDir = explicitWorkspace
     ? path.join(explicitWorkspace, 'data')
     : path.join(bundleDir, 'templates', 'workspace', 'data');
+  const runtimeRoot = path.join(workspaceDir, 'custom', 'installed');
   const fontFile = path.join(bundleDir, 'assets', 'fonts', 'NotoSansCJKsc-Regular.otf');
 
   function profiles() {
@@ -585,14 +607,29 @@ export function createDeliveryService({ root, workspaceRoot, audit = () => {} })
   async function deliverDomain(options = {}) {
     const domain = safeSegment(options.domain, 'domain');
     const profileDoc = profiles();
-    const profile = profileDoc.domains[domain];
-    if (!profile) throw new DeliveryError('DOMAIN_NOT_FOUND', `未知域：${domain}`, 400);
+    let profile = profileDoc.domains[domain];
+    let runtimeProfile = false;
+    if (!profile) {
+      // 运行时装订域：以内置清单之外的自定义域回退默认交付 profile
+      const model = loadDomainModel(bundleDir, domain, runtimeRoot);
+      const workflow = loadWorkflowIndex(bundleDir, runtimeRoot).find((item) => item.domain === domain);
+      if (!workflow) throw new DeliveryError('DOMAIN_NOT_FOUND', `未知域：${domain}`, 400);
+      runtimeProfile = true;
+      profile = {
+        title: `${model.label || domain} 交付包`,
+        workflow_id: workflow.workflow_id,
+        primary_table: model.tables && model.tables[0] ? model.tables[0].file : null,
+        secondary_table: null,
+        notes: '运行时工作台默认交付 profile（未固化）',
+      };
+    }
     const requestedFormats = normalizeFormats(options.formats);
     if (requestedFormats.length === 0) throw new DeliveryError('FORMAT_REQUIRED', '至少选择一种格式', 400);
     const workflowId = options.workflowId || profile.workflow_id;
-    const model = loadDomainModel(bundleDir, domain);
-    const workflow = loadWorkflow(bundleDir, workflowId);
+    const model = loadDomainModel(bundleDir, domain, runtimeRoot);
+    const workflow = loadWorkflow(bundleDir, workflowId, runtimeRoot);
     const deliveryProfile = { ...profile, workflow_id: workflow.workflow_id };
+    void runtimeProfile;
     const tables = readSourceTables(dataDir, domain, profile);
     const generatedAt = new Date().toISOString();
     const stamp = generatedAt.replace(/[-:.]/g, '').replace('T', '-').replace('Z', '');

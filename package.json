@@ -1,7 +1,19 @@
 {
   "private": true,
-  "license": "Apache-2.0",
+  "version": "4.0.0",
   "scripts": {
+    "4.0:init": "powershell -ExecutionPolicy Bypass -File scripts/4.0-init.ps1",
+    "4.0:verify": "powershell -ExecutionPolicy Bypass -File scripts/4.0-verify.ps1",
+    "4.0:pack": "powershell -ExecutionPolicy Bypass -File scripts/4.0-pack.ps1",
+    "4.0:materialize-support": "powershell -ExecutionPolicy Bypass -File scripts/4.0-materialize-support.ps1",
+    "4.0:verify-selection": "node scripts/4.0-verify-selection.mjs",
+    "4.0:install-agent-skill": "powershell -ExecutionPolicy Bypass -File scripts/4.0-install-agent-skill.ps1",
+    "4.0:live-workflow": "node scripts/4.0-live-workflow.mjs",
+    "4.0:smoke-runtime": "powershell -ExecutionPolicy Bypass -File scripts/4.0-smoke-runtime.ps1",
+    "4.0:evidence": "node scripts/4.0-evidence-summary.mjs",
+    "model:probe": "node tools/model-adapter/cli.mjs --probe",
+    "4.0:manifests": "node scripts/4.0-generate-manifests.mjs",
+    "4.0:sbom": "node scripts/4.0-generate-sbom.mjs",
     "build:delivery": "node scripts/build-delivery.mjs",
     "verify:deliveries": "node scripts/verify-delivery-matrix.mjs",
     "verify:delivery-ui": "node scripts/verify-delivery-ui.mjs",
@@ -17,7 +29,15 @@
     "capabilities:verify": "node scripts/verify-runtime-capabilities.mjs",
     "verify:workflow-contracts": "node scripts/verify-workflow-contracts-v2.mjs",
     "verify:workflow-delivery": "node scripts/verify-workflow-delivery-matrix.mjs",
-    "build:app": "node scripts/build-app.mjs"
+    "build:app": "node scripts/build-app.mjs",
+    "custom:verify-draft": "node scripts/custom/verify-draft.mjs",
+    "custom:apply-draft": "node scripts/custom/apply-draft.mjs",
+    "custom:verify-fixtures": "node scripts/custom/verify-fixtures.mjs",
+    "upgrade:peer-audit": "node scripts/upgrade/peer-audit.mjs",
+    "upgrade:cohort-scan": "node scripts/upgrade/cohort-scan.mjs",
+    "upgrade:touchpoint-scan": "node scripts/upgrade/touchpoint-scan.mjs",
+    "upgrade:pluginload-report": "node scripts/upgrade/pluginload-report.mjs",
+    "upgrade:exemptions": "node scripts/upgrade/build-compatibility-exemptions.mjs"
   },
   "dependencies": {
     "docx": "9.5.1",
